@@ -7,7 +7,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.api.message.MessageRunner;
 import chylex.hee.api.message.element.base.Optional;
 import chylex.hee.api.message.element.base.PreconditionComposite;
-import com.google.common.base.Function;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemStackValue extends PreconditionComposite<ItemStack>{
@@ -15,12 +14,7 @@ public class ItemStackValue extends PreconditionComposite<ItemStack>{
 		return new ItemStackValue();
 	}
 	
-	public static final StringValue itemString = StringValue.function(new Function<String,Boolean>(){
-		@Override
-		public Boolean apply(String input){
-			return Boolean.valueOf(getItemFromString(input) != null);
-		}
-	});
+	public static final StringValue itemString = StringValue.function(input -> getItemFromString(input) != null);
 	
 	public static final Pair<String,String> parseItemName(String fullName){
 		String modid = "minecraft", name = "";

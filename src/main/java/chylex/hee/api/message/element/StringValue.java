@@ -1,11 +1,11 @@
 package chylex.hee.api.message.element;
 import java.util.Arrays;
+import java.util.function.Predicate;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.common.util.Constants.NBT;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.api.message.element.base.Precondition;
-import com.google.common.base.Function;
 
 public abstract class StringValue extends Precondition<String>{
 	public static StringValue any(){
@@ -16,7 +16,7 @@ public abstract class StringValue extends Precondition<String>{
 		return new StringValueArray(validValues);
 	}
 	
-	public static StringValue function(Function<String,Boolean> checkFunction){
+	public static StringValue function(Predicate<String> checkFunction){
 		return new StringValueFunction(checkFunction);
 	}
 	
@@ -55,15 +55,15 @@ public abstract class StringValue extends Precondition<String>{
 	}
 	
 	private static class StringValueFunction extends StringValue{
-		private final Function<String,Boolean> checkFunction;
+		private final Predicate<String> checkFunction;
 		
-		private StringValueFunction(Function<String,Boolean> checkFunction){
+		private StringValueFunction(Predicate<String> checkFunction){
 			this.checkFunction = checkFunction;
 		}
 		
 		@Override
 		public boolean checkValue(NBTBase tag){
-			return checkFunction.apply(getValue(tag)).booleanValue();
+			return checkFunction.test(getValue(tag));
 		}
 	}
 }

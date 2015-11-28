@@ -2,8 +2,7 @@ package chylex.hee.api.message.handlers;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
-import chylex.hee.api.message.MessageHandler;
-import chylex.hee.api.message.MessageRunner;
+import chylex.hee.api.message.IMessageHandler;
 import chylex.hee.api.message.element.IntValue;
 import chylex.hee.api.message.element.ItemPatternValue;
 import chylex.hee.api.message.element.SpawnEntryValue;
@@ -16,7 +15,6 @@ import chylex.hee.world.structure.island.biome.IslandBiomeEnchantedIsland;
 import chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.util.SpawnEntry;
-import com.google.common.base.Function;
 
 public final class ImcWorldHandlers extends ImcHandler{
 	// TODO private static final Map<String,WeightedLootList> lootNames = new HashMap<>();
@@ -45,74 +43,55 @@ public final class ImcWorldHandlers extends ImcHandler{
 		biomeNames.put("EnchantedIsland.Laboratory",Pair.of(IslandBiomeBase.enchantedIsland,IslandBiomeEnchantedIsland.LABORATORY));
 	}
 	
-	private static final StringValue lootName = StringValue.function(new Function<String,Boolean>(){
-		@Override
-		public Boolean apply(String input){
-			return Boolean.valueOf(false);// TODO lootNames.containsKey(input));
-		}
-	});
+	private static final StringValue lootName = StringValue.function(input -> false); // TODO lootNames.containsKey(input));
 	
-	private static final StringValue biomeName = StringValue.function(new Function<String,Boolean>(){
-		@Override
-		public Boolean apply(String input){
-			return Boolean.valueOf(biomeNames.containsKey(input));
-		}
-	});
+	private static final StringValue biomeName = StringValue.function(biomeNames::containsKey);
 	
-	private static final MessageHandler lootAdd = new MessageHandler(){
-		@Override
-		public void call(MessageRunner runner){
-			// TODO
-			/*WeightedLootList list = lootNames.get(runner.getString("list"));
-			LootItemStack toAdd = runner.<LootItemStack>getValue("item");
-			
-			for(LootItemStack item:list){
-				if (item.getItem() == toAdd.getItem()){
-					MessageLogger.logFail("The item was already in the list.");
-					return;
-				}
+	/*private static final IMessageHandler lootAdd = runner -> {
+		// TODO
+		/*WeightedLootList list = lootNames.get(runner.getString("list"));
+		LootItemStack toAdd = runner.<LootItemStack>getValue("item");
+		
+		for(LootItemStack item:list){
+			if (item.getItem() == toAdd.getItem()){
+				MessageLogger.logFail("The item was already in the list.");
+				return;
 			}
-			
-			list.add(toAdd);
-			MessageLogger.logOk("Added 1 item to the list.");*/
 		}
+		
+		list.add(toAdd);
+		MessageLogger.logOk("Added 1 item to the list.");*/
+	//};
+	
+	private static final IMessageHandler lootRemove = runner -> {
+		// TODO
+		/*WeightedLootList list = lootNames.get(runner.getString("list"));
+		int limit = runner.getInt("limit");
+		
+		ItemPattern pattern = runner.<ItemPattern>getValue("search");
+		pattern.setDamageValues(ArrayUtils.EMPTY_INT_ARRAY);
+		pattern.setNBT(null);
+		// reset search
+		
+		int size = list.size();
+		
+		for(Iterator<LootItemStack> iter = list.iterator(); iter.hasNext();){
+			if (pattern.matches(new ItemStack(iter.next().getItem()))){
+				iter.remove();
+				if (limit > 0 && --limit == 0)break;
+			}
+		}
+		
+		size = size-list.size();
+		
+		if (size == 0)MessageLogger.logWarn("Did not find any items to remove.");
+		else MessageLogger.logOk("Removed $0 item(s).",size);*/
 	};
 	
-	private static final MessageHandler lootRemove = new MessageHandler(){
-		@Override
-		public void call(MessageRunner runner){
-			// TODO
-			/*WeightedLootList list = lootNames.get(runner.getString("list"));
-			int limit = runner.getInt("limit");
-			
-			ItemPattern pattern = runner.<ItemPattern>getValue("search");
-			pattern.setDamageValues(ArrayUtils.EMPTY_INT_ARRAY);
-			pattern.setNBT(null);
-			// reset search
-			
-			int size = list.size();
-			
-			for(Iterator<LootItemStack> iter = list.iterator(); iter.hasNext();){
-				if (pattern.matches(new ItemStack(iter.next().getItem()))){
-					iter.remove();
-					if (limit > 0 && --limit == 0)break;
-				}
-			}
-			
-			size = size-list.size();
-			
-			if (size == 0)MessageLogger.logWarn("Did not find any items to remove.");
-			else MessageLogger.logOk("Removed $0 item(s).",size);*/
-		}
-	};
-	
-	private static final MessageHandler biomeMobAdd = new MessageHandler(){
-		@Override
-		public void call(MessageRunner runner){
-			Pair<IslandBiomeBase,BiomeContentVariation> pair = biomeNames.get(runner.getString("biome"));
-			pair.getLeft().getSpawnEntries(pair.getRight()).add(runner.<SpawnEntry>getValue("mob"));
-			MessageLogger.logOk("Added 1 entry to the list.");
-		}
+	private static final IMessageHandler biomeMobAdd = runner -> {
+		Pair<IslandBiomeBase,BiomeContentVariation> pair = biomeNames.get(runner.getString("biome"));
+		pair.getLeft().getSpawnEntries(pair.getRight()).add(runner.<SpawnEntry>getValue("mob"));
+		MessageLogger.logOk("Added 1 entry to the list.");
 	};
 	
 	@Override

@@ -1,6 +1,5 @@
 package chylex.hee.api.message.handlers;
-import chylex.hee.api.message.MessageHandler;
-import chylex.hee.api.message.MessageRunner;
+import chylex.hee.api.message.IMessageHandler;
 import chylex.hee.api.message.element.DecimalValue;
 import chylex.hee.api.message.element.IntValue;
 import chylex.hee.api.message.element.ItemDamagePairValue;
@@ -14,28 +13,19 @@ import chylex.hee.system.util.ItemPattern;
 import chylex.hee.tileentity.TileEntityExperienceTable;
 
 public final class ImcTableHandlers extends ImcHandler{
-	private static final MessageHandler decompositionBlacklist = new MessageHandler(){
-		@Override
-		public void call(MessageRunner runner){
-			StardustDecomposition.addToBlacklist(runner.<ItemPattern>getValue("pattern"));
-			MessageLogger.logOk("Added 1 pattern to the list.");
-		}
+	private static final IMessageHandler decompositionBlacklist = runner -> {
+		StardustDecomposition.addToBlacklist(runner.<ItemPattern>getValue("pattern"));
+		MessageLogger.logOk("Added 1 pattern to the list.");
 	};
 	
-	private static final MessageHandler energySet = new MessageHandler(){
-		@Override
-		public void call(MessageRunner runner){
-			if (EnergyValues.setItemEnergy(runner.<ItemDamagePair>getValue("item"),(float)runner.getDouble("units")))MessageLogger.logOk("Added 1 item to the list.");
-			else MessageLogger.logFail("The item was already in the list.");
-		}
+	private static final IMessageHandler energySet = runner -> {
+		if (EnergyValues.setItemEnergy(runner.<ItemDamagePair>getValue("item"),(float)runner.getDouble("units")))MessageLogger.logOk("Added 1 item to the list.");
+		else MessageLogger.logFail("The item was already in the list.");
 	};
 	
-	private static final MessageHandler expTableAdd = new MessageHandler(){
-		@Override
-		public void call(MessageRunner runner){
-			if (TileEntityExperienceTable.addDirectConversion(runner.<ItemDamagePair>getValue("item"),(byte)runner.getInt("bottles")))MessageLogger.logOk("Added 1 item to the list.");
-			else MessageLogger.logFail("The item was already in the list.");
-		}
+	private static final IMessageHandler expTableAdd = runner -> {
+		if (TileEntityExperienceTable.addDirectConversion(runner.<ItemDamagePair>getValue("item"),(byte)runner.getInt("bottles")))MessageLogger.logOk("Added 1 item to the list.");
+		else MessageLogger.logFail("The item was already in the list.");
 	};
 	
 	@Override

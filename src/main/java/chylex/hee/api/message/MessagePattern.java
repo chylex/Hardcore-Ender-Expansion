@@ -6,9 +6,9 @@ import chylex.hee.api.message.utils.MessageLogger;
 
 public final class MessagePattern{
 	private final PreconditionComposite<?> conditions = PreconditionComposite.noValue();
-	private final MessageHandler handler;
+	private final IMessageHandler handler;
 	
-	MessagePattern(MessageHandler handler){
+	MessagePattern(IMessageHandler handler){
 		this.handler = handler;
 	}
 	
