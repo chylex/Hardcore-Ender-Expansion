@@ -7,6 +7,7 @@ import net.minecraft.world.WorldProviderEnd;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.client.IRenderHandler;
 import chylex.hee.render.environment.RenderEnvironmentSky;
+import chylex.hee.render.environment.RenderEnvironmentWeather;
 import chylex.hee.world.TeleportHandler;
 import chylex.hee.world.end.EndTerritory;
 import chylex.hee.world.end.TerritoryEnvironment;
@@ -15,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	@SideOnly(Side.CLIENT)
-	private IRenderHandler skyRenderer;
+	private IRenderHandler skyRenderer, weatherRenderer;
 	
 	@Override
 	public IChunkProvider createChunkGenerator(){
@@ -65,6 +66,13 @@ public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	public IRenderHandler getSkyRenderer(){
 		if (skyRenderer == null)skyRenderer = new RenderEnvironmentSky();
 		return skyRenderer;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IRenderHandler getWeatherRenderer(){
+		if (weatherRenderer == null)weatherRenderer = new RenderEnvironmentWeather();
+		return weatherRenderer;
 	}
 	
 	// OVERRIDES FOR TESTING AND MESSING AROUND
