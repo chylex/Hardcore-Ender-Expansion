@@ -1,13 +1,5 @@
 package chylex.hee.block;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
-import chylex.hee.tileentity.TileEntitySanctuaryBrain;
-
+/*
 public class BlockSanctuaryBrain extends BlockContainer{
 	public BlockSanctuaryBrain(){
 		super(Material.rock);
@@ -24,3 +16,4 @@ public class BlockSanctuaryBrain extends BlockContainer{
 		return null;
 	}
 }
+*/

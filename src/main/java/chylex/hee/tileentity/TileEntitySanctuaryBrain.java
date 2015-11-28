@@ -1,21 +1,5 @@
 package chylex.hee.tileentity;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import chylex.hee.entity.mob.EntityMobSanctuaryOverseer;
-import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.util.NBTUtil;
-
+/*
 public class TileEntitySanctuaryBrain extends TileEntity{
 	private BlockPosM point1, point2;
 	private List<ConquerPointHandler> conquerPts = new ArrayList<>();
@@ -161,7 +145,7 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 						worldObj.playAuxSFX(x,y,z,2001,Block.getIdFromBlock(BlockList.sanctuary_barrier));
 					}
 				}
-			}*/
+			}*//*
 		}
 		
 		NBTTagCompound writeToNBT(){
@@ -182,4 +166,5 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 			isConquered = tag.hasKey("done") ? tag.getBoolean("done") : isConquered;
 		}
 	}
-}
+}*/
+
