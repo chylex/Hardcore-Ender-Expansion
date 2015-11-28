@@ -95,7 +95,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 			
 			Vec3 vec = Vec3.createVectorHelper(0D,0D,0D);
 			super.velocityToAddToEntity(world,x,y,z,entity,vec); // UPD breaks with removed vec mutability in 1.8
-			vec.normalize();
+			vec.normalize(); // TODO SHOULD THIS ASSIGN TO VEC WHAT IS THIS
 			
 			entity.addVelocity(vec.xCoord*0.0075D,vec.yCoord*0.005D,vec.zCoord*0.0075D);
 			entity.motionX *= 0.25D;

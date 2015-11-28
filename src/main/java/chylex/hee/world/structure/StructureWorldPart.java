@@ -9,7 +9,7 @@ import chylex.hee.system.abstractions.Pos.PosMutable;
  * Represents a Structure World that can be inserted into another one.
  */
 public class StructureWorldPart extends StructureWorld{
-	public static IWorldPositionPredicate requireAir = (targetWorld, rand, x, y, z) -> targetWorld.isAir(x,y,z) && targetWorld.isInside(x,y,z);
+	public static final IWorldPositionPredicate requireAir = (targetWorld, rand, x, y, z) -> targetWorld.isAir(x,y,z) && targetWorld.isInside(x,y,z);
 	
 	public StructureWorldPart(World world, int radX, int sizeY, int radZ){
 		super(world,radX,sizeY,radZ);

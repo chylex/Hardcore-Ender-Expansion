@@ -75,8 +75,8 @@ public class ModelEnderEye extends ModelBase{
 		head.rotateAngleY = yawRad;
 		head.rotateAngleX = pitchRad;
 		leftArm.rotateAngleY = yawRad;
-		leftArm.rotateAngleX = pitchRad+1.570796F-animationAngle+wakeupAngle;
+		leftArm.rotateAngleX = pitchRad+MathUtil.HALF_PI-animationAngle+wakeupAngle;
 		rightArm.rotateAngleY = yawRad;
-		rightArm.rotateAngleX = pitchRad+1.570796F-animationAngle+wakeupAngle;
+		rightArm.rotateAngleX = pitchRad+MathUtil.HALF_PI-animationAngle+wakeupAngle;
 	}
 }
