@@ -70,6 +70,10 @@ public class TerritoryTheHub extends TerritoryGenerator{
 	}
 	
 	public static class Environment extends TerritoryEnvironment{
-		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public float getFogDensity(){
+			return 0.005F+0.025F*getRenderDistanceMp();
+		}
 	}
 }
