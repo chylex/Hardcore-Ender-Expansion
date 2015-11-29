@@ -6,16 +6,25 @@ import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.world.end.TerritoryEnvironment;
 import chylex.hee.world.end.TerritoryGenerator;
+import chylex.hee.world.feature.blobs.BlobPattern;
+import chylex.hee.world.feature.blobs.GenerateBlobs;
+import chylex.hee.world.feature.blobs.generators.BlobGenerator;
+import chylex.hee.world.feature.blobs.generators.BlobGeneratorFromCenter;
+import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingle;
 import chylex.hee.world.feature.noise.GenerateIslandNoise;
 import chylex.hee.world.feature.ores.GenerateOres;
 import chylex.hee.world.feature.ores.IOreGenerator;
 import chylex.hee.world.structure.StructureWorld;
+import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 import chylex.hee.world.util.RandomAmount;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TerritoryTheHub extends TerritoryGenerator{
 	private final GenerateIslandNoise island;
 	private final GenerateOres endPowderOreMain;
 	private final GenerateOres endPowderOreSurface;
+	private final GenerateBlobs blobs;
 	
 	public TerritoryTheHub(StructureWorld world, Random rand){
 		super(world,rand);
@@ -41,6 +50,21 @@ public class TerritoryTheHub extends TerritoryGenerator{
 		this.endPowderOreSurface.setGeneratedPerChunk(6,9);
 		this.endPowderOreSurface.setOresPerCluster(3,9,RandomAmount.preferSmaller);
 		this.endPowderOreSurface.setOreGenerator(new IOreGenerator.AdjacentSpread(true));
+		
+		this.blobs = new GenerateBlobs();
+		this.blobs.setBlobWorldRad(12);
+		this.blobs.setY(0,76);
+		this.blobs.setChunkSize(24);
+		this.blobs.setGeneratedPerChunk(0,5,RandomAmount.preferSmaller);
+		this.blobs.setAttemptsPerChunk(7);
+		this.blobs.setPredicate(GenerateBlobs.inDistanceFromCenter(this.blobs,88D,164D));
+		
+		this.blobs.addPattern(new BlobPattern(1)
+			.addGenerators(new BlobGenerator[]{
+				new BlobGeneratorSingle(3).setRadius(3.25D,6D),
+				new BlobGeneratorFromCenter(7).setAmount(new RangeGenerator(2,4,RandomAmount.preferSmaller)).setRadiusFirst(3D,4.5D).setRadiusOther(1.75D,2.25D).setDistanceMp(0.5D,0.85D)
+			})
+		);
 	}
 	
 	@Override
@@ -65,6 +89,7 @@ public class TerritoryTheHub extends TerritoryGenerator{
 			}
 		}
 		
+		blobs.generateSplit(world,rand);
 		endPowderOreMain.generateSplit(world,rand);
 		endPowderOreSurface.generateSplit(world,rand);
 	}
