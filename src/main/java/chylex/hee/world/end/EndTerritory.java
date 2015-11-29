@@ -90,8 +90,16 @@ public enum EndTerritory{
 	public static final int chunkOffset = -THE_HUB.chunkSize/2;
 	public static final EndTerritory[] values = values();
 	
-	public static @Nullable EndTerritory fromPosition(double posX){ // TODO figure this out
-		return EndTerritory.THE_HUB;
+	public static @Nullable EndTerritory fromPosition(double posX){
+		int middlePoint = 0;
+		
+		for(EndTerritory territory:values){
+			if (Math.abs(Math.abs(posX)-middlePoint) < (territory.chunkSize+chunksBetween)*8){
+				return territory;
+			}
+		}
+		
+		return null;
 	}
 	
 	private static boolean $debugging = false;
