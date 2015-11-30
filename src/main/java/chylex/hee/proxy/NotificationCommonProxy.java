@@ -10,7 +10,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C09SimpleEvent;
 import chylex.hee.packets.client.C09SimpleEvent.EventType;
 import chylex.hee.system.abstractions.entity.EntitySelector;
-import cpw.mods.fml.common.FMLCommonHandler;
+import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
@@ -19,7 +19,7 @@ public class NotificationCommonProxy{
 	protected List<String> notifications = Collections.synchronizedList(new ArrayList<String>());
 	
 	public final void register(){
-		FMLCommonHandler.instance().bus().register(this);
+		GameRegistryUtil.registerEventHandler(this);
 	}
 	
 	@SubscribeEvent

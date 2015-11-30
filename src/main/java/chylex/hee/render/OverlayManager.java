@@ -11,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.init.BlockList;
@@ -20,6 +19,7 @@ import chylex.hee.mechanics.compendium.elements.KnowledgeNotification;
 import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -27,7 +27,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class OverlayManager{
-	private static OverlayManager instance;
+	private static OverlayManager instance = new OverlayManager();
 	private static final ResourceLocation texGoo = new ResourceLocation("hardcoreenderexpansion:textures/overlay/endergoo.png");
 	private static final PosMutable tmpPos = new PosMutable();
 	
@@ -37,7 +37,6 @@ public class OverlayManager{
 	private TileEntityEnergyCluster clusterLookedAt;
 	
 	public static void addNotification(final KnowledgeObject<?> obj){
-		if (instance == null)register();
 		hasNotification = true;
 		
 		IntStream.range(0,notifications.length).filter(index -> notifications[index] == null).findFirst().ifPresent(index -> {
@@ -46,7 +45,7 @@ public class OverlayManager{
 	}
 	
 	public static void register(){
-		if (instance == null)MinecraftForge.EVENT_BUS.register(instance = new OverlayManager());
+		GameRegistryUtil.registerEventHandler(instance);
 	}
 	
 	private OverlayManager(){}

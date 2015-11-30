@@ -11,7 +11,6 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.block.*;
@@ -285,8 +284,8 @@ public final class BlockList{
 		OreDictionary.registerOre("oreHeeIgneousRock", BlockList.igneous_rock_ore);
 		OreDictionary.registerOre("oreHeeInstabilityOrb", BlockList.instability_orb_ore);
 		
-		MinecraftForge.EVENT_BUS.register(BlockList.ender_goo);
-		MinecraftForge.EVENT_BUS.register(BlockList.ancient_web);
+		GameRegistryUtil.registerEventHandler(BlockList.ender_goo);
+		GameRegistryUtil.registerEventHandler(BlockList.ancient_web);
 	}
 	
 	public static void registerTileEntities(){

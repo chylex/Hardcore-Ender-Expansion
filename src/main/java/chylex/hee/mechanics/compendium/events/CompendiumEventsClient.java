@@ -22,8 +22,8 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S03SimpleEvent;
 import chylex.hee.packets.server.S03SimpleEvent.EventType;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -37,7 +37,7 @@ public class CompendiumEventsClient{
 	private static CompendiumEventsClient instance;
 	
 	public static void register(){
-		if (instance == null)FMLCommonHandler.instance().bus().register(instance = new CompendiumEventsClient());
+		GameRegistryUtil.registerEventHandler(instance = new CompendiumEventsClient());
 	}
 	
 	public static void loadClientData(CompendiumFile file){

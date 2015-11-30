@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
+import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -16,10 +17,10 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 
 public final class CharmPouchHandler{
-	private static CharmPouchHandler instance;
+	private static final CharmPouchHandler instance = new CharmPouchHandler();
 	
 	public static void register(){
-		FMLCommonHandler.instance().bus().register(instance = new CharmPouchHandler());
+		GameRegistryUtil.registerEventHandler(instance);
 	}
 	
 	public static void setActivePouch(EntityPlayer player, ItemStack is){

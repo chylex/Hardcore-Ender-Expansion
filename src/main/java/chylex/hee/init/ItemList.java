@@ -7,7 +7,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.block.BlockEnderGoo;
@@ -15,7 +14,6 @@ import chylex.hee.game.creativetab.ModCreativeTab;
 import chylex.hee.item.*;
 import chylex.hee.item.block.ItemBlockEnhancedBrewingStand;
 import chylex.hee.system.util.GameRegistryUtil;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -178,10 +176,10 @@ public final class ItemList{
 	public static void configureItems(){
 		OreDictionary.registerOre("ingotHeeEndium", ItemList.endium_ingot);
 		
-		MinecraftForge.EVENT_BUS.register(Item.getItemFromBlock(BlockList.enderman_head));
-		MinecraftForge.EVENT_BUS.register(ItemList.amulet_of_recovery);
-		FMLCommonHandler.instance().bus().register(ItemList.amulet_of_recovery);
-		MinecraftForge.EVENT_BUS.register(ItemList.scorching_pickaxe);
+		GameRegistryUtil.registerEventHandler(Item.getItemFromBlock(BlockList.enderman_head));
+		GameRegistryUtil.registerEventHandler(ItemList.amulet_of_recovery);
+		GameRegistryUtil.registerEventHandler(ItemList.amulet_of_recovery);
+		GameRegistryUtil.registerEventHandler(ItemList.scorching_pickaxe);
 		GameRegistry.registerFuelHandler((IFuelHandler)ItemList.igneous_rock);
 		
 		FluidContainerRegistry.registerFluidContainer(BlockEnderGoo.fluid, new ItemStack(ItemList.bucket_ender_goo), FluidContainerRegistry.EMPTY_BUCKET);

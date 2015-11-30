@@ -7,7 +7,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.HardcoreEnderExpansion;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
@@ -45,6 +47,13 @@ public final class GameRegistryUtil{
 	
 	public static void addSmeltingRecipe(ItemStack input, ItemStack output, float experience){
 		FurnaceRecipes.smelting().func_151394_a(input,output,experience);
+	}
+	
+	// might not fit, but eh
+	
+	public static void registerEventHandler(Object o){
+		MinecraftForge.EVENT_BUS.register(o);
+		FMLCommonHandler.instance().bus().register(o);
 	}
 	
 	// protection against idiots who can't register their shit properly

@@ -8,11 +8,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import chylex.hee.game.save.ISaveDataHandler;
 import chylex.hee.game.save.types.PlayerFile;
+import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class PlayerDataHandler implements ISaveDataHandler{
@@ -29,7 +29,7 @@ public class PlayerDataHandler implements ISaveDataHandler{
 	
 	@Override
 	public void register(){
-		MinecraftForge.EVENT_BUS.register(this);
+		GameRegistryUtil.registerEventHandler(this);
 	}
 
 	@Override

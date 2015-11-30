@@ -3,23 +3,20 @@ import java.util.UUID;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
-import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.system.util.GameRegistryUtil;
 import com.google.common.collect.ArrayListMultimap;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public final class AchievementEvents{
-	private static AchievementEvents instance;
+	private static final AchievementEvents instance = new AchievementEvents();
 	
 	public static void register(){
-		instance = new AchievementEvents();
-		MinecraftForge.EVENT_BUS.register(instance);
-		FMLCommonHandler.instance().bus().register(instance);
+		GameRegistryUtil.registerEventHandler(instance);
 	}
 	
 	public static void addDelayedAchievement(UUID id, Achievement achievement){

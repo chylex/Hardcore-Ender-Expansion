@@ -3,14 +3,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import chylex.hee.init.ItemList;
+import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class CurseEvents{
 	public static void register(){
-		MinecraftForge.EVENT_BUS.register(new CurseEvents());
+		GameRegistryUtil.registerEventHandler(new CurseEvents());
 	}
 	
 	public static boolean hasAmulet(EntityLivingBase entity){

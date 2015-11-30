@@ -4,16 +4,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
-import cpw.mods.fml.common.FMLCommonHandler;
+import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 
 public final class CharmPouchHandlerClient{
-	private static CharmPouchHandlerClient instance;
+	private static final CharmPouchHandlerClient instance = new CharmPouchHandlerClient();
 	
 	public static void register(){
-		FMLCommonHandler.instance().bus().register(instance = new CharmPouchHandlerClient());
+		GameRegistryUtil.registerEventHandler(instance);
 	}
 	
 	public static void onActivePouchUpdate(EntityPlayer player, ItemStack is){

@@ -3,15 +3,14 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemScorchingPickaxe;
+import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.end.EndTerritory;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -23,8 +22,7 @@ public class FXEvents{
 	private static final FXEvents instance = new FXEvents();
 	
 	public static void register(){
-		MinecraftForge.EVENT_BUS.register(instance);
-		FMLCommonHandler.instance().bus().register(instance);
+		GameRegistryUtil.registerEventHandler(instance);
 	}
 	
 	private final Minecraft mc = Minecraft.getMinecraft();

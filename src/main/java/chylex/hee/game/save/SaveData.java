@@ -7,19 +7,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import chylex.hee.game.save.handlers.GlobalDataHandler;
 import chylex.hee.game.save.handlers.PlayerDataHandler;
 import chylex.hee.game.save.types.PlayerFile;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class SaveData{
 	private static final SaveData instance = new SaveData();
 	
 	public static void register(){
-		MinecraftForge.EVENT_BUS.register(instance);
+		GameRegistryUtil.registerEventHandler(instance);
 		for(ISaveDataHandler handler:instance.handlers)handler.register();
 	}
 	

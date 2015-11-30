@@ -5,7 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerOpenContainerEvent;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.player.CompendiumFile;
@@ -14,7 +13,7 @@ import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.collections.ExpiringSet;
-import cpw.mods.fml.common.FMLCommonHandler;
+import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -26,9 +25,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public final class CompendiumEvents{
 	public static void register(){
-		CompendiumEvents instance = new CompendiumEvents();
-		MinecraftForge.EVENT_BUS.register(instance);
-		FMLCommonHandler.instance().bus().register(instance);
+		GameRegistryUtil.registerEventHandler(new CompendiumEvents());
 	}
 	
 	public static CompendiumFile getPlayerData(EntityPlayer player){

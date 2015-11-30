@@ -11,16 +11,16 @@ import chylex.hee.mechanics.causatum.events.CausatumEventInstance;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventState;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventTypes;
 import chylex.hee.system.abstractions.entity.EntitySelector;
-import cpw.mods.fml.common.FMLCommonHandler;
+import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 
 public final class CausatumEventHandler{
-	private static CausatumEventHandler instance;
+	private static final CausatumEventHandler instance = new CausatumEventHandler();
 	
 	public static void register(){
-		if (instance == null)FMLCommonHandler.instance().bus().register(instance = new CausatumEventHandler());
+		GameRegistryUtil.registerEventHandler(instance);
 	}
 	
 	public static boolean hasActiveEvent(EntityPlayer player){
