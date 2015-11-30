@@ -4,6 +4,7 @@ import net.minecraft.init.Blocks;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.end.TerritoryEnvironment;
 import chylex.hee.world.end.TerritoryGenerator;
 import chylex.hee.world.feature.blobs.BlobPattern;
@@ -73,18 +74,21 @@ public class TerritoryTheHub extends TerritoryGenerator{
 		
 		int lowest = height;
 		
-		for(int x = -1; x <= 1; x++){
-			for(int z = -1; z <= 1; z++){
+		for(int x = -2; x <= 2; x++){
+			for(int z = -2; z <= 2; z++){
 				lowest = Math.min(lowest,world.getTopY(x,z,Blocks.end_stone));
 			}
 		}
 		
-		for(int x = -2; x <= 2; x++){
-			for(int z = -2; z <= 2; z++){
+		for(int x = -3; x <= 3; x++){
+			for(int z = -3; z <= 3; z++){
 				if (Math.abs(x) <= 1 && Math.abs(z) <= 1)world.setAttentionWhore(x,lowest,z,new BlockInfo(Blocks.end_portal,Meta.endPortalActive));
+				else if (MathUtil.distance(x,z) <= 2.32D)world.setAttentionWhore(x,lowest,z,new BlockInfo(BlockList.end_portal_frame,Meta.endPortalFramePlain));
 				
-				for(int y = lowest+1; y < height; y++){
-					if (!world.isAir(x,y,z))world.setAir(x,y,z);
+				if (MathUtil.distance(x,z) <= 3.61D){
+					for(int y = lowest+1; y < height; y++){
+						if (!world.isAir(x,y,z))world.setAir(x,y,z);
+					}
 				}
 			}
 		}

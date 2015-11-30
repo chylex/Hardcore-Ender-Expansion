@@ -22,7 +22,17 @@ public class RenderTileEndPortal extends RenderTilePortalBase{
 	
 	@Override
 	protected void generateColors(int layer){
-		super.generateColors(layer);
+		if (layer == 0)red = green = blue = 0F;
+		else if (rand.nextInt(3) != 0){
+			red = rand.nextFloat()*0.15F+0.75F;
+			green = rand.nextFloat()*0.15F+0.75F;
+			blue = rand.nextFloat()*0.15F+0.45F;
+		}
+		else{
+			red = rand.nextFloat()*0.1F+0.35F;
+			green = rand.nextFloat()*0.1F+0.35F;
+			blue = rand.nextFloat()*0.15F+0.85F;
+		}
 		
 		if (progress < 1F && layer > 1){
 			// this is cubic easing out with adjustment to kick off new layers just before the old one has full color
