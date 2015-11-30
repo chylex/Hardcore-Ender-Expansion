@@ -30,6 +30,7 @@ import chylex.hee.entity.technical.EntityTechnicalBase;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.game.ConfigHandler;
 import chylex.hee.game.commands.HeeClientCommand;
+import chylex.hee.game.creativetab.ModCreativeTab;
 import chylex.hee.gui.GuiItemViewer;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
@@ -170,6 +171,8 @@ public class ModClientProxy extends ModCommonProxy{
 	@Override
 	public void registerSidedEvents(){
 		Stopwatch.time("ModClientProxy - events");
+		
+		ModCreativeTab.setupTabsClient();
 		
 		OverlayManager.register();
 		CompendiumEventsClient.register();

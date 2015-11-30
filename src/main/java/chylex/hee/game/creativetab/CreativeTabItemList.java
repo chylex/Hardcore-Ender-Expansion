@@ -7,6 +7,8 @@ import net.minecraft.item.ItemStack;
 import chylex.hee.init.ModInitHandler;
 import com.google.common.collect.ImmutableList;
 import cpw.mods.fml.common.registry.RegistryDelegate;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class CreativeTabItemList{
 	private final ModCreativeTab tab;
@@ -15,7 +17,6 @@ public class CreativeTabItemList{
 	
 	public CreativeTabItemList(ModCreativeTab tab){
 		this.tab = tab;
-		ModInitHandler.afterPreInit(this::resolveItems);
 	}
 	
 	public void add(Object...objects){
@@ -26,7 +27,13 @@ public class CreativeTabItemList{
 		}
 	}
 	
-	public void resolveItems(){
+	@SideOnly(Side.CLIENT)
+	public void setupClient(){
+		ModInitHandler.afterPreInit(this::resolveItems);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private void resolveItems(){
 		List<ItemStack> items = new ArrayList<>(delegates.size());
 		
 		for(RegistryDelegate<?> delegate:delegates){
@@ -45,7 +52,8 @@ public class CreativeTabItemList{
 		
 		resolvedItems = ImmutableList.copyOf(items);
 	}
-	
+
+	@SideOnly(Side.CLIENT)
 	public List<ItemStack> getAllItems(){
 		return resolvedItems;
 	}

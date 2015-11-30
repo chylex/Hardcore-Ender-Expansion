@@ -10,7 +10,6 @@ import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.game.commands.HeeAdminCommand;
 import chylex.hee.game.commands.HeeBaconCommand;
 import chylex.hee.game.commands.HeeDebugCommand;
-import chylex.hee.game.creativetab.ModCreativeTab;
 import chylex.hee.game.integration.ModIntegrationManager;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.gui.core.GuiHandler;
@@ -98,7 +97,6 @@ public class HardcoreEnderExpansion{
 		
 		Stopwatch.time("PreInitEvent - data");
 		
-		ModCreativeTab.registerTabs();
 		BlockList.registerBlocks();
 		ItemList.registerItems();
 		BlockList.configureBlocks();

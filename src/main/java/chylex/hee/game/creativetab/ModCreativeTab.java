@@ -8,11 +8,13 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ModCreativeTab extends CreativeTabs{
-	public static ModCreativeTab tabMain, tabCharms;
-	
-	public static void registerTabs(){
-		tabMain = new ModCreativeTab(0);
-		tabCharms = new ModCreativeTab(1);
+	public static final ModCreativeTab tabMain = new ModCreativeTab(0);
+	public static final ModCreativeTab tabCharms = new ModCreativeTab(1);
+
+	@SideOnly(Side.CLIENT)
+	public static void setupTabsClient(){
+		tabMain.list.setupClient();
+		tabCharms.list.setupClient();
 	}
 	
 	private final byte type;
