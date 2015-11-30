@@ -60,11 +60,13 @@ public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	public boolean doesXZShowFog(int x, int z){
 		return getEnvironment(Minecraft.getMinecraft()).setupFog();
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean getWorldHasVoidParticles(){
-		return false;
+	public Vec3 getFogColor(float celestialAngle, float partialTickTime){
+		TerritoryEnvironment environment = getEnvironment(Minecraft.getMinecraft());
+		environment.updateFogColor();
+		return environment.getFogColor();
 	}
 	
 	@Override
@@ -80,32 +82,16 @@ public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 		if (weatherRenderer == null)weatherRenderer = new RenderEnvironmentWeather();
 		return weatherRenderer;
 	}
-	
-	// OVERRIDES FOR TESTING AND MESSING AROUND
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public float[] calcSunriseSunsetColors(float celestialAngle, float partialTickTime){
-		return null;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public Vec3 getFogColor(float celestialAngle, float partialTickTime){
-		TerritoryEnvironment environment = getEnvironment(Minecraft.getMinecraft());
-		environment.updateFogColor();
-		return environment.getFogColor();
-	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean isSkyColored(){
 		return false;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getVoidFogYFactor(){
-		return 0.03125D;
+	public boolean getWorldHasVoidParticles(){
+		return false;
 	}
 }
