@@ -109,6 +109,7 @@ public class FXClientProxy extends FXCommonProxy{
 			case "explosion": spawn(new EntityExplodeFX(world(),x,y,z,motionX,motionY,motionZ)); break;
 			case "largeexplosion": spawn(new EntityLargeExplodeFX(Minecraft.getMinecraft().renderEngine,world(),x,y,z,motionX,motionY,motionZ)); break;
 			case "hugeexplosion": spawn(new EntityHugeExplodeFX(world(),x,y,z,motionX,motionY,motionZ)); break;
+			case "aura": spawn(new EntityAuraFX(world(),x,y,z,motionX,motionY,motionZ)); break;
 			case "lava": spawn(new EntityLavaFX(world(),x,y,z)); break;
 			
 			case "magiccrit":

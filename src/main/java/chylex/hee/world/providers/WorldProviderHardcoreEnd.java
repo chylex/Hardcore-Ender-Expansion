@@ -60,6 +60,12 @@ public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	public boolean doesXZShowFog(int x, int z){
 		return getEnvironment(Minecraft.getMinecraft()).setupFog();
 	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean getWorldHasVoidParticles(){
+		return false;
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -95,12 +101,6 @@ public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	@SideOnly(Side.CLIENT)
 	public boolean isSkyColored(){
 		return false;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean getWorldHasVoidParticles(){
-		return true;
 	}
 	
 	@Override

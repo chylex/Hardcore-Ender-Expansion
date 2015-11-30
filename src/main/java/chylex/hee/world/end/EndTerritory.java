@@ -150,8 +150,10 @@ public enum EndTerritory{
 		double diffX = Math.abs(info.getKey().getX()-entity.posX);
 		double diffZ = Math.abs(info.getKey().getZ()-entity.posZ);
 		
-		double dist = Math.pow(Math.pow(diffX,2.5D)+Math.pow(diffZ,2.5D),0.4D)/((info.getValue().chunkSize+2)*8);
-		return Math.max(0D,dist*3.5D-3D);
+		double distXZ = Math.pow(Math.pow(diffX,2.5D)+Math.pow(diffZ,2.5D),0.4D)/((info.getValue().chunkSize+2)*8);
+		double offY = Math.pow(Math.abs(128D-entity.posY)/142D,8D);
+		
+		return Math.max(0D,distXZ*3.5D-3D)+Math.max(0D,offY);
 	}
 	
 	private static boolean $debugging = false;
