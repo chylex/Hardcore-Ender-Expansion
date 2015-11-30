@@ -64,7 +64,7 @@ public class EntityBlockTokenHolder extends Entity{
 			
 			if (isRestoring && getChargeProgress() < 1F){
 				float newValue = Math.min(1F,getChargeProgress()+0.05F);
-				if (newValue == 1F)isRestoring = false;
+				if (MathUtil.floatEquals(newValue,1F))isRestoring = false;
 				setChargeProgress(newValue);
 			}
 		}
@@ -73,6 +73,12 @@ public class EntityBlockTokenHolder extends Entity{
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
 		if (isEntityInvulnerable() || !(source.getSourceOfDamage() instanceof EntityPlayer))return false; // no indirect player damage
+		
+		if (source.getSourceOfDamage().isSneaking() && ((EntityPlayer)source.getSourceOfDamage()).capabilities.isCreativeMode){
+			if (worldObj.isRemote)worldObj.playSound(posX,posY,posZ,"dig.glass",1F,rand.nextFloat()*0.1F+0.92F,false);
+			setDead();
+			return true;
+		}
 		
 		if (!isDead && MathUtil.floatEquals(getChargeProgress(),1F)){
 			if (EndTerritory.fromPosition(posX) == EndTerritory.THE_HUB)setChargeProgress(0F);
@@ -93,6 +99,7 @@ public class EntityBlockTokenHolder extends Entity{
 	public void setChargeProgress(float progress){
 		entityData.setFloat(Data.CHARGE_PROGRESS,progress);
 		restoreTimer = 0;
+		isRestoring = false;
 	}
 	
 	public float getChargeProgress(){
