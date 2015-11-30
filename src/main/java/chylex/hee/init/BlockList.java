@@ -244,6 +244,7 @@ public final class BlockList{
 		ModCreativeTab.tabMain.list.add(
 			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
 			ethereal_lantern,gloomrock,gloomrock_smooth_slab,gloomrock_smooth_stairs,gloomrock_brick_slab,gloomrock_brick_stairs,gloomtorch,
+			end_portal_frame,
 			essence_altar,decomposition_table,experience_table,accumulation_table,extraction_table,loot_chest,
 			end_powder_ore,endium_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
 			endium_block,
