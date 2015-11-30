@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IRenderHandler;
 import org.lwjgl.opengl.GL11;
+import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.end.EndTerritory;
 import chylex.hee.world.end.TerritoryEnvironment;
 import chylex.hee.world.providers.WorldProviderHardcoreEnd;
 import cpw.mods.fml.relauncher.Side;
@@ -18,7 +20,8 @@ public class RenderEnvironmentSky extends IRenderHandler{
 	
 	@Override
 	public void render(float partialTickTime, WorldClient world, Minecraft mc){
-		TerritoryEnvironment environment = ((WorldProviderHardcoreEnd)world.provider).getEnvironment(mc);
+		final TerritoryEnvironment environment = ((WorldProviderHardcoreEnd)world.provider).getEnvironment(mc);
+		final double voidFactor = EndTerritory.getVoidFactor(mc.thePlayer);
 		
 		GL11.glDisable(GL11.GL_FOG);
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -32,6 +35,7 @@ public class RenderEnvironmentSky extends IRenderHandler{
 		
 		Tessellator tessellator = Tessellator.instance;
 		int color = environment.getSkyColor();
+		int alpha = MathUtil.floor(255F-255F*MathUtil.clamp(voidFactor,0F,1F));
 
 		for(int side = 0; side < 6; side++){
 			GL11.glPushMatrix();
@@ -45,7 +49,7 @@ public class RenderEnvironmentSky extends IRenderHandler{
 			}
 			
 			tessellator.startDrawingQuads();
-			tessellator.setColorOpaque_I(color);
+			tessellator.setColorRGBA_I(color,alpha);
 			tessellator.addVertexWithUV(-100D,-100D,-100D,0D,0D);
 			tessellator.addVertexWithUV(-100D,-100D,100D,0D,16D);
 			tessellator.addVertexWithUV(100D,-100D,100D,16D,16D);

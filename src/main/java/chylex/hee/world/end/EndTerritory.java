@@ -140,16 +140,18 @@ public enum EndTerritory{
 	}
 	
 	/**
-	 * Returns how close the entity is to the void, where values between 0-1 mean the entity is getting close and should start showing special effects, and values
-	 * equal to or above 1 should start damaging the entity.
+	 * Returns how close the entity is to the void, where values between 0.5-1 mean the entity is getting too close and should start getting negative special effects,
+	 * and values equal to or above 1 should start damaging the entity.
 	 */
 	public static double getVoidFactor(Entity entity){
 		Pair<Pos,EndTerritory> info = findTerritoryCenter(entity.posX,entity.posZ);
 		if (info == null)return 0D;
 		
+		double diffX = Math.abs(info.getKey().getX()-entity.posX);
+		double diffZ = Math.abs(info.getKey().getZ()-entity.posZ);
 		
-		
-		return 0D;
+		double dist = Math.pow(Math.pow(diffX,2.5D)+Math.pow(diffZ,2.5D),0.4D)/((info.getValue().chunkSize+2)*8);
+		return Math.max(0D,dist*3.5D-3D);
 	}
 	
 	private static boolean $debugging = false;
