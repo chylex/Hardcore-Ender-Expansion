@@ -2,9 +2,16 @@ package chylex.hee.world.end;
 import java.util.Random;
 import java.util.stream.IntStream;
 import javax.annotation.Nullable;
+import net.minecraft.entity.Entity;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.tuple.Pair;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.end.TerritoryGenerator.ITerritoryGeneratorConstructor;
 import chylex.hee.world.end.gen.TerritoryTheHub;
 import chylex.hee.world.structure.StructureWorld;
@@ -13,6 +20,8 @@ import chylex.hee.world.util.BoundingBox;
 
 public enum EndTerritory{
 	THE_HUB(24, new TerritorySpawnInfo(128,0), new TerritoryTheHub.Environment(), TerritoryTheHub::new), // 384 blocks
+	DEBUG_TEST(7, new TerritorySpawnInfo(128,0), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
+	DEBUG_TEST_2(20, new TerritorySpawnInfo(128,0), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
 	;
 	
 	private final int chunkSize;
@@ -90,18 +99,57 @@ public enum EndTerritory{
 	public static final int chunkOffset = -THE_HUB.chunkSize/2;
 	public static final EndTerritory[] values = values();
 	
-	public static @Nullable EndTerritory fromPosition(double posX){
-		int middlePoint = 0;
+	/**
+	 * If you touch this, your pet fish will die.
+	 */
+	private static @Nullable Pair<Pos,EndTerritory> findTerritoryCenter(double posX, double posZ){
+		int middleX = chunkOffset*16;
 		
 		for(EndTerritory territory:values){
-			if (Math.abs(Math.abs(posX)-middlePoint) < (territory.chunkSize+chunksBetween)*8){
-				return territory;
+			if (Math.abs(Math.abs(posX)-(middleX+territory.chunkSize*8)) < (territory.chunkSize+chunksBetween)*8){
+				final int gridSize = (territory.chunkSize+chunksBetween)*16;
+				final int offset = chunkOffset*16+territory.chunkSize*8;
+				
+				int zStart = posZ >= chunkOffset*16 ? gridSize*((MathUtil.floor(posZ)+gridSize/2-offset)/gridSize)+offset :
+				                                      gridSize*((MathUtil.floor(posZ)-gridSize/2-offset)/gridSize)+offset;
+				
+				return Pair.of(Pos.at(middleX+territory.chunkSize*8,0,zStart),territory);
 			}
 			
-			middlePoint += territory.chunkSize*8+chunksBetween*16; // TODO test
+			middleX += (territory.chunkSize+chunksBetween)*16;
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Do you wanna have a bad time? No? Then don't touch this.
+	 */
+	public static @Nullable EndTerritory fromPosition(double posX){
+		int middlePoint = chunkOffset*16;
+		
+		for(EndTerritory territory:values){
+			if (Math.abs(Math.abs(posX)-(middlePoint+territory.chunkSize*8)) < (territory.chunkSize+chunksBetween)*8){
+				return territory;
+			}
+			
+			middlePoint += (territory.chunkSize+chunksBetween)*16;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Returns how close the entity is to the void, where values between 0-1 mean the entity is getting close and should start showing special effects, and values
+	 * equal to or above 1 should start damaging the entity.
+	 */
+	public static double getVoidFactor(Entity entity){
+		Pair<Pos,EndTerritory> info = findTerritoryCenter(entity.posX,entity.posZ);
+		if (info == null)return 0D;
+		
+		
+		
+		return 0D;
 	}
 	
 	private static boolean $debugging = false;
@@ -110,7 +158,23 @@ public enum EndTerritory{
 		@Override
 		public void run(String...args){
 			$debugging = true;
-			THE_HUB.generateTerritory(THE_HUB.getStartPoint(0),world,new Random(world.getSeed()));
+			
+			if (args.length == 0){
+				THE_HUB.generateTerritory(0,world,new Random(world.getSeed()));
+			}
+			else if (args[0].equals("spawn") && args.length >= 3){
+				values[DragonUtil.tryParse(args[1],0)].generateTerritory(DragonUtil.tryParse(args[2],0),world,new Random(world.getSeed()));
+			}
+			else if (args[0].equals("loc") && args.length >= 3){
+				EndTerritory territory = values[DragonUtil.tryParse(args[1],0)];
+				ChunkCoordIntPair coords = territory.getStartPoint(DragonUtil.tryParse(args[2],0));
+				HardcoreEnderExpansion.notifications.report("Start: "+(coords.chunkXPos*16)+", "+(coords.chunkZPos*16));
+				HardcoreEnderExpansion.notifications.report("Center: "+(coords.chunkXPos*16+territory.chunkSize*8)+", "+(coords.chunkZPos*16+territory.chunkSize*8));
+			}
+			else if (args[0].equals("find") && args.length >= 3){
+				int x = DragonUtil.tryParse(args[1],0), z = DragonUtil.tryParse(args[2],0);
+				Log.reportedDebug("Found: $0",findTerritoryCenter(x,z));
+			}
 		}
 	};
 }
