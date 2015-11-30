@@ -21,6 +21,8 @@ public class EntityBlockTokenHolder extends Entity{
 	private boolean isRestoring;
 	private short restoreTimer;
 	
+	private NBTTagCompound cunts;
+	
 	public EntityBlockTokenHolder(World world){
 		super(world);
 		setSize(0.75F,1.05F);
@@ -37,6 +39,12 @@ public class EntityBlockTokenHolder extends Entity{
 	
 	@Override
 	public void onUpdate(){
+		if (cunts != null){
+			setChargeProgress(cunts.getFloat("charge"));
+			setRare(cunts.getBoolean("isRare"));
+			cunts = null;
+		}
+		
 		if (ticksExisted < thisIsHorseShit)return;
 		
 		prevPosX = posX;
@@ -109,8 +117,7 @@ public class EntityBlockTokenHolder extends Entity{
 	
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt){
-		setChargeProgress(nbt.getFloat("charge"));
-		setRare(nbt.getBoolean("isRare"));
+		cunts = nbt;
 		restoreTimer = nbt.getShort("restoreTim");
 		isRestoring = nbt.getBoolean("isRestoring");
 	}
