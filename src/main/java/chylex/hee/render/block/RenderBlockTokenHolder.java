@@ -24,6 +24,7 @@ public class RenderBlockTokenHolder extends Render{
 		GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_SRC_ALPHA);
 		bindTexture(texture);
 		model.setRotation(e.prevRotation+(e.rotation-e.prevRotation)*partialTickTime);
+		model.setCharge(e.prevCharge+(e.getChargeProgress()-e.prevCharge)*partialTickTime);
 		model.render(entity,0F,0F,0F,0F,0F,0.0625F);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();

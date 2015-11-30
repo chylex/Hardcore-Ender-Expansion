@@ -12,6 +12,7 @@ import net.minecraft.stats.AchievementList;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
+import chylex.hee.entity.block.EntityBlockTokenHolder;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.game.save.SaveData;
@@ -117,7 +118,7 @@ public class HeeAdminCommand extends BaseCommand{
 			}
 		});
 		
-		sub.add(new SubCommand("spawn-entity","<endercrystal|homelandcache>",1,true){
+		sub.add(new SubCommand("spawn-entity","<endercrystal|tokenholder>",1,true){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				EntityPlayer player = (EntityPlayer)sender;
@@ -125,7 +126,7 @@ public class HeeAdminCommand extends BaseCommand{
 				
 				switch(args[0]){
 					case "endercrystal": e = new EntityBlockEnderCrystal(player.worldObj); break;
-					// TODO token holder
+					case "tokenholder": e = new EntityBlockTokenHolder(player.worldObj); break;
 				}
 				
 				if (e == null)sendMessage(sender,pre+"Unknown entity.");

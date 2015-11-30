@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ModelTokenHolder extends ModelBase{
 	private final ModelRenderer outside;
-	private float tempRotation;
+	private float tempRotation, tempCharge;
 	
 	public ModelTokenHolder(){
 		textureWidth = 64;
@@ -23,14 +23,18 @@ public class ModelTokenHolder extends ModelBase{
 		this.tempRotation = rotation;
 	}
 	
+	public void setCharge(float charge){
+		this.tempCharge = charge;
+	}
+	
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
 		GL11.glTranslatef(0F,0.65F,0F);
 		GL11.glPushMatrix();
-		GL11.glScalef(0.5F,0.5F,0.5F);
+		GL11.glScalef(0.25F+0.25F*tempCharge,0.25F+0.25F*tempCharge,0.25F+0.25F*tempCharge);
 		GL11.glRotatef(tempRotation,0F,1F,0F);
-		GL11.glRotatef(60F,1F,0F,1F);
-		GL11.glColor4f(1F,1F,1F,0.5F);
+		GL11.glRotatef(55F,1F,0F,1F);
+		GL11.glColor4f(1F,1F,1F,0.75F-0.25F*tempCharge);
 		outside.render(unitPixel);
 		GL11.glPopMatrix();
 	}
