@@ -97,6 +97,8 @@ public enum EndTerritory{
 			if (Math.abs(Math.abs(posX)-middlePoint) < (territory.chunkSize+chunksBetween)*8){
 				return territory;
 			}
+			
+			middlePoint += territory.chunkSize*8+chunksBetween*16; // TODO test
 		}
 		
 		return null;
