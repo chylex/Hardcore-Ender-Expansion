@@ -22,8 +22,11 @@ public abstract class TerritoryEnvironment{
 	 */
 	@SideOnly(Side.CLIENT)
 	public boolean setupFog(){
+		float voidFactor = (float)EndTerritory.getVoidFactor(Minecraft.getMinecraft().thePlayer);
+		float fogMultiplier = Math.max(1F,MathUtil.square(voidFactor*0.8F+0.8F));
+		
 		GL11.glFogi(GL11.GL_FOG_MODE,GL11.GL_EXP2);
-		GL11.glFogf(GL11.GL_FOG_DENSITY,getFogDensity());
+		GL11.glFogf(GL11.GL_FOG_DENSITY,getFogDensity()*fogMultiplier);
 		GL11.glHint(GL11.GL_FOG_HINT,GL11.GL_DONT_CARE);
 		return true;
 	}
