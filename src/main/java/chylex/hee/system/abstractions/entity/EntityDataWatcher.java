@@ -15,13 +15,13 @@ public final class EntityDataWatcher{
 	}
 	
 	private void addObject(Enum<?> linkedEnum, Object obj){
-		int internalId = 31-idMap.size();
+		int internalId = 30-idMap.size();
 		watcher.addObject(internalId,obj);
 		idMap.put(linkedEnum,(byte)internalId);
 	}
 	
 	private void addObjectByType(Enum<?> linkedEnum, int type){
-		int internalId = 31-idMap.size();
+		int internalId = 30-idMap.size();
 		watcher.addObjectByDataType(internalId,type);
 		idMap.put(linkedEnum,(byte)internalId);
 	}
