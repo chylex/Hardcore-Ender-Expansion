@@ -16,6 +16,7 @@ import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingle;
 import chylex.hee.world.feature.noise.GenerateIslandNoise;
 import chylex.hee.world.feature.ores.GenerateOres;
 import chylex.hee.world.feature.ores.IOreGenerator;
+import chylex.hee.world.feature.territory.GenerateHubTokenHolder;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 import chylex.hee.world.util.RandomAmount;
@@ -27,12 +28,13 @@ public class TerritoryTheHub extends TerritoryGenerator{
 	private final GenerateOres endPowderOreMain;
 	private final GenerateOres endPowderOreSurface;
 	private final GenerateBlobs blobs;
+	private final GenerateHubTokenHolder tokenHolders;
 	
 	public TerritoryTheHub(EndTerritory territory, StructureWorld world, Random rand){
 		super(territory,world,rand);
 		
 		this.island = new GenerateIslandNoise(Blocks.end_stone,rand);
-		this.island.terrainSize = 56;
+		this.island.terrainSize = 64;
 		this.island.noiseHeight = 20;
 		this.island.peakSmoothness = 50D;
 		this.island.sideSmoothness = 200D;
@@ -68,6 +70,11 @@ public class TerritoryTheHub extends TerritoryGenerator{
 				new BlobGeneratorFromCenter(7).setAmount(new RangeGenerator(2,4,RandomAmount.preferSmaller)).setRadiusFirst(3D,4.5D).setRadiusOther(1.75D,2.25D).setDistanceMp(0.5D,0.85D)
 			})
 		);
+		
+		this.tokenHolders = new GenerateHubTokenHolder();
+		this.tokenHolders.setAttempts(15000);
+		this.tokenHolders.setAmount(new RangeGenerator(3,4,RandomAmount.linear));
+		this.tokenHolders.setMinDistance(48D);
 	}
 	
 	@Override
@@ -76,11 +83,13 @@ public class TerritoryTheHub extends TerritoryGenerator{
 		
 		int lowest = height;
 		
-		for(int x = -2; x <= 2; x++){
-			for(int z = -2; z <= 2; z++){
+		for(int x = -3; x <= 3; x++){
+			for(int z = -3; z <= 3; z++){
 				lowest = Math.min(lowest,world.getTopY(x,z,Blocks.end_stone));
 			}
 		}
+		
+		tokenHolders.generate(territory,world,rand);
 		
 		blobs.generateSplit(world,rand);
 		endPowderOreMain.generateSplit(world,rand);
@@ -109,6 +118,12 @@ public class TerritoryTheHub extends TerritoryGenerator{
 		@SideOnly(Side.CLIENT)
 		public float getFogDensity(){
 			return 0.005F+0.025F*getRenderDistanceMp();
+		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public int getSkyColor(){
+			return (22<<16)|(22<<8)|22;
 		}
 	}
 }

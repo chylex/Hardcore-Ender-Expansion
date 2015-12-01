@@ -34,7 +34,7 @@ public class ModelTokenHolder extends ModelBase{
 		GL11.glScalef(0.25F+0.25F*tempCharge,0.25F+0.25F*tempCharge,0.25F+0.25F*tempCharge);
 		GL11.glRotatef(tempRotation,0F,1F,0F);
 		GL11.glRotatef(55F,1F,0F,1F);
-		GL11.glColor4f(1F,1F,1F,0.75F-0.25F*tempCharge);
+		GL11.glColor4f(1F,1F,1F,0.95F-0.25F*tempCharge);
 		outside.render(unitPixel);
 		GL11.glPopMatrix();
 	}
