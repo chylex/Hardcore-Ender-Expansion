@@ -87,7 +87,7 @@ public enum EndTerritory{
 		}
 		
 		StructureWorld structureWorld = createWorld(world);
-		constructor.construct(structureWorld,rand).generate();
+		constructor.construct(this,structureWorld,rand).generate();
 		structureWorld.generateInWorld(world,rand,16*startPoint.chunkXPos+structureWorld.getArea().x2,info.getBottomY(rand),16*startPoint.chunkZPos+structureWorld.getArea().z2);
 	}
 	

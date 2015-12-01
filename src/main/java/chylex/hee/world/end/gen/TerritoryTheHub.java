@@ -5,6 +5,7 @@ import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.end.EndTerritory;
 import chylex.hee.world.end.TerritoryEnvironment;
 import chylex.hee.world.end.TerritoryGenerator;
 import chylex.hee.world.feature.blobs.BlobPattern;
@@ -27,8 +28,8 @@ public class TerritoryTheHub extends TerritoryGenerator{
 	private final GenerateOres endPowderOreSurface;
 	private final GenerateBlobs blobs;
 	
-	public TerritoryTheHub(StructureWorld world, Random rand){
-		super(world,rand);
+	public TerritoryTheHub(EndTerritory territory, StructureWorld world, Random rand){
+		super(territory,world,rand);
 		
 		this.island = new GenerateIslandNoise(Blocks.end_stone,rand);
 		this.island.terrainSize = 56;
