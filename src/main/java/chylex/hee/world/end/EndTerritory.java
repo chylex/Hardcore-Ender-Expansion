@@ -3,12 +3,14 @@ import java.util.Random;
 import java.util.stream.IntStream;
 import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -51,6 +53,10 @@ public enum EndTerritory{
 						structureWorld.setAir(x,y,z);
 					}
 				}
+			}
+			
+			for(Entity entity:EntitySelector.any(world,box.toAABB())){
+				if (!(entity instanceof EntityPlayer))entity.setDead();
 			}
 		}
 		
@@ -168,6 +174,9 @@ public enum EndTerritory{
 			}
 			else if (args[0].equals("spawn") && args.length >= 3){
 				values[DragonUtil.tryParse(args[1],0)].generateTerritory(DragonUtil.tryParse(args[2],0),world,new Random(world.getSeed()));
+			}
+			else if (args[0].equals("seed") && args.length >= 4){
+				values[DragonUtil.tryParse(args[1],0)].generateTerritory(DragonUtil.tryParse(args[2],0),world,new Random(DragonUtil.tryParse(args[3],0)));
 			}
 			else if (args[0].equals("loc") && args.length >= 3){
 				EndTerritory territory = values[DragonUtil.tryParse(args[1],0)];
