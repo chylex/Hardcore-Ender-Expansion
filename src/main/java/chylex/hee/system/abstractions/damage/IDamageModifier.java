@@ -116,6 +116,11 @@ public interface IDamageModifier{
 		
 		thorns = (amount, target, source, postProcessors) -> {
 			return amount; // TODO
+		},
+		
+		dealCreative = (amount, target, source, postProcessors) -> {
+			source.setDamageAllowedInCreativeMode();
+			return amount;
 		};
 	
 	public static IDamageModifier rapidDamage(final int decreaseBy){
