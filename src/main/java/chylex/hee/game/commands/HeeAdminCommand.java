@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import org.apache.commons.lang3.ArrayUtils;
@@ -29,6 +30,7 @@ import chylex.hee.system.logging.Log;
 import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.TeleportHandler;
 
 public class HeeAdminCommand extends BaseCommand{
 	private static final String pre = DARK_PURPLE+"[HEE] "+RESET;
@@ -197,6 +199,14 @@ public class HeeAdminCommand extends BaseCommand{
 				}
 				
 				sendMessage(sender,pre+"Purified "+counter+" curse"+(counter == 1 ? "." : "es."));
+			}
+		});
+		
+		sub.add(new SubCommand("tp-overworld",0,true){
+			@Override
+			void run(ICommandSender sender, String[] args){
+				((EntityPlayerMP)sender).timeUntilPortal = 10;
+				TeleportHandler.toOverworld((EntityPlayerMP)sender);
 			}
 		});
 		
