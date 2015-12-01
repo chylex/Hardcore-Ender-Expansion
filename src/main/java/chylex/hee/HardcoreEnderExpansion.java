@@ -23,6 +23,7 @@ import chylex.hee.mechanics.causatum.CausatumEventHandler;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
+import chylex.hee.mechanics.environment.EnvironmentEvents;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.proxy.FXCommonProxy;
 import chylex.hee.proxy.ModCommonProxy;
@@ -122,6 +123,7 @@ public class HardcoreEnderExpansion{
 		MiscEvents.register();
 		CompendiumEvents.register();
 		// TODO CharmPouchHandler.register();
+		EnvironmentEvents.register();
 		SaveData.register();
 		CausatumEventHandler.register();
 		// TODO CurseEvents.register();
