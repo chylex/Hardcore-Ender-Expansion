@@ -68,6 +68,7 @@ public final class BlockList{
 	public static Block gloomrock_brick_stairs;
 	public static Block gloomtorch;
 	public static Block dark_loam;
+	public static Block ravish_brick;
 	public static Block obsidian_falling;
 	public static Block obsidian_stairs;
 	public static Block obsidian_special;
@@ -149,7 +150,8 @@ public final class BlockList{
 		register("gloomrock_brick_slab", gloomrock_brick_slab = new BlockBasicSlab(gloomrock,BlockGloomrock.State.BRICK.value).setBlockName("gloomrockBrickSlab"));
 		register("gloomrock_brick_stairs", gloomrock_brick_stairs = new BlockBasicStairs(gloomrock,BlockGloomrock.State.BRICK.value).setBlockName("gloomrockBrickStairs"));
 		register("gloomtorch", gloomtorch = new BlockGloomtorch().setLightLevel(0.875F).setBlockName("gloomtorch").setBlockTextureName("hardcoreenderexpansion:gloomtorch"));
-		register("dark_loam", dark_loam = new BlockBasic(Material.sand).setHardness(0.5F).setResistance(0F).setStepSound(Block.soundTypeGravel).setBlockName("darkLoam").setBlockTextureName("hardcoreenderexpansion:darkloam"));
+		register("dark_loam", dark_loam = new BlockBasic(Material.sand).setHardness(0.5F).setResistance(0F).setStepSound(Block.soundTypeGravel).setBlockName("darkLoam").setBlockTextureName("hardcoreenderexpansion:dark_loam"));
+		register("ravish_brick", ravish_brick = new BlockBasic(Material.rock).setHardness(3F).setResistance(24F).setStepSound(Block.soundTypePiston).setBlockName("ravishBrick").setBlockTextureName("hardcoreenderexpansion:ravish_brick"));
 		register("obsidian_end", obsidian_falling = new BlockObsidianEnd().setHardness(50F).setResistance(2000F).setStepSound(Block.soundTypeStone).setBlockName("obsidianEnd").setBlockTextureName("obsidian"));
 		register("obsidian_stairs", obsidian_stairs = new BlockBasicStairs(Blocks.obsidian,0).setBlockName("obsidianStairs"));
 		register("obsidian_special", obsidian_special = new BlockObsidianSpecial(false).setHardness(28F).setResistance(2000F).setStepSound(Block.soundTypeStone).setBlockName("obsidianSpecial").setBlockTextureName("hardcoreenderexpansion:obsidian_smooth"));
@@ -245,7 +247,7 @@ public final class BlockList{
 		ModCreativeTab.tabMain.list.add(
 			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
 			ethereal_lantern,gloomrock,gloomrock_smooth_slab,gloomrock_smooth_stairs,gloomrock_brick_slab,gloomrock_brick_stairs,gloomtorch,
-			end_portal_frame,Blocks.end_stone,dark_loam,
+			end_portal_frame,Blocks.end_stone,dark_loam,ravish_brick,
 			essence_altar,decomposition_table,experience_table,accumulation_table,extraction_table,loot_chest,
 			end_powder_ore,endium_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
 			endium_block,
