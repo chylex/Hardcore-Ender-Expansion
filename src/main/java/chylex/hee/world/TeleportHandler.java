@@ -41,8 +41,12 @@ public class TeleportHandler extends Teleporter{
 		if (end.chunkProvider instanceof ChunkProviderHardcoreEndServer)((ChunkProviderHardcoreEndServer)end.chunkProvider).prepareSpawn();
 		else throw new IllegalStateException("End Dimension server chunk provider was not replaced correctly, cannot prepare spawn!");
 		
-		player.playerNetServerHandler.setPlayerLocation(endSpawn.posX+0.5D,DragonUtil.getTopBlockY(end,Blocks.end_stone,endSpawn.posX,endSpawn.posZ,70)+1D,endSpawn.posZ+0.5D,player.rotationYaw,0F);
+		movePlayerToSpawn(player,end);
 		player.mcServer.getConfigurationManager().transferPlayerToDimension(player,1,new TeleportHandler(player.getServerForPlayer()));
+	}
+	
+	public static void movePlayerToSpawn(EntityPlayerMP player, World end){
+		player.playerNetServerHandler.setPlayerLocation(endSpawn.posX+0.5D,DragonUtil.getTopBlockY(end,Blocks.end_stone,endSpawn.posX,endSpawn.posZ,70)+1D,endSpawn.posZ+0.5D,player.rotationYaw,0F);
 	}
 	
 	private TeleportHandler(WorldServer world){
