@@ -11,8 +11,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityBlockTokenHolder extends Entity{
-	private static final int thisIsHorseShit = 2;
-	
 	private enum Data{ CHARGE_PROGRESS, IS_RARE }
 	
 	protected EntityDataWatcher entityData;
@@ -20,8 +18,6 @@ public class EntityBlockTokenHolder extends Entity{
 	public float rotation, prevRotation, prevCharge;
 	private boolean isRestoring;
 	private short restoreTimer;
-	
-	private NBTTagCompound cunts;
 	
 	public EntityBlockTokenHolder(World world){
 		super(world);
@@ -39,14 +35,6 @@ public class EntityBlockTokenHolder extends Entity{
 	
 	@Override
 	public void onUpdate(){
-		if (ticksExisted < thisIsHorseShit)return;
-		
-		if (cunts != null){
-			setChargeProgress(cunts.getFloat("charge"));
-			setRare(cunts.getBoolean("isRare"));
-			cunts = null;
-		}
-		
 		prevPosX = posX;
 		prevPosY = posY;
 		prevPosZ = posZ;
@@ -126,7 +114,8 @@ public class EntityBlockTokenHolder extends Entity{
 	
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt){
-		cunts = nbt;
+		setChargeProgress(nbt.getFloat("charge"));
+		setRare(nbt.getBoolean("isRare"));
 		restoreTimer = nbt.getShort("restoreTim");
 		isRestoring = nbt.getBoolean("isRestoring");
 	}
