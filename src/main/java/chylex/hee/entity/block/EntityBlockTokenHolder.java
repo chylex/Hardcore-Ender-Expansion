@@ -39,13 +39,13 @@ public class EntityBlockTokenHolder extends Entity{
 	
 	@Override
 	public void onUpdate(){
+		if (ticksExisted < thisIsHorseShit)return;
+		
 		if (cunts != null){
 			setChargeProgress(cunts.getFloat("charge"));
 			setRare(cunts.getBoolean("isRare"));
 			cunts = null;
 		}
-		
-		if (ticksExisted < thisIsHorseShit)return;
 		
 		prevPosX = posX;
 		prevPosY = posY;
@@ -81,7 +81,10 @@ public class EntityBlockTokenHolder extends Entity{
 		}
 		
 		if (!isDead && MathUtil.floatEquals(getChargeProgress(),1F)){
-			if (EndTerritory.fromPosition(posX) == EndTerritory.THE_HUB)setChargeProgress(0F);
+			if (EndTerritory.fromPosition(posX) == EndTerritory.THE_HUB){
+				setChargeProgress(0F);
+				isRestoring = false;
+			}
 			else setDead();
 			
 			if (worldObj.isRemote){
@@ -99,7 +102,6 @@ public class EntityBlockTokenHolder extends Entity{
 	public void setChargeProgress(float progress){
 		entityData.setFloat(Data.CHARGE_PROGRESS,progress);
 		restoreTimer = 0;
-		isRestoring = false;
 	}
 	
 	public float getChargeProgress(){
