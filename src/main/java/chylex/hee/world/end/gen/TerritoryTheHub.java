@@ -34,6 +34,7 @@ public class TerritoryTheHub extends TerritoryGenerator{
 		this.island.terrainSize = 56;
 		this.island.noiseHeight = 20;
 		this.island.peakSmoothness = 50D;
+		this.island.sideSmoothness = 200D;
 		this.island.surfaceHillScale = 92F;
 		
 		this.endPowderOreMain = new GenerateOres(Blocks.end_stone,BlockList.end_powder_ore);
