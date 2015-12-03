@@ -109,6 +109,8 @@ item.ancientDust.name=Ancient Dust
 item.alterationNexus.name=Alteration Nexus
 item.energyOracle.name=Energy Oracle
 item.amuletOfRecovery.name=Amulet of Recovery
+item.portalToken.name=Portal Token
+item.portalToken.rare.name=Portal Token (Rare)
 item.essence.dragon.name=Dragon Essence
 item.essence.dragon.bacon.name=Bacon Essence
 item.essence.fiery.name=Fiery Essence
@@ -277,6 +279,8 @@ energy.status.weakened=WEAKENED
 energy.status.tired=TIRED
 energy.status.damaged=DAMAGED
 energy.status.unstable=UNSTABLE
+
+territory.0=The Hub
 
 namegenerator.middle=, the 
 

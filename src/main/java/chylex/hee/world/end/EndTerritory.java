@@ -12,6 +12,7 @@ import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.end.TerritoryGenerator.ITerritoryGeneratorConstructor;
@@ -21,9 +22,9 @@ import chylex.hee.world.structure.StructureWorldLazy;
 import chylex.hee.world.util.BoundingBox;
 
 public enum EndTerritory{
-	THE_HUB(24, new TerritorySpawnInfo(128,0), new TerritoryTheHub.Environment(), TerritoryTheHub::new), // 384 blocks
-	DEBUG_TEST(7, new TerritorySpawnInfo(128,0), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
-	DEBUG_TEST_2(20, new TerritorySpawnInfo(128,0), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
+	THE_HUB(24, color(253), new TerritorySpawnInfo(128,0), new TerritoryTheHub.Environment(), TerritoryTheHub::new), // 384 blocks
+	DEBUG_TEST(7, color(253), new TerritorySpawnInfo(128,0), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
+	DEBUG_TEST_2(20, color(253), new TerritorySpawnInfo(128,0), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
 	;
 	
 	private final int chunkSize;
@@ -31,9 +32,11 @@ public enum EndTerritory{
 	private final ITerritoryGeneratorConstructor constructor;
 
 	public final TerritoryEnvironment environment;
+	public final int tokenColor;
 	
-	private EndTerritory(int chunkSize, TerritorySpawnInfo info, TerritoryEnvironment environment, ITerritoryGeneratorConstructor constructor){
+	private EndTerritory(int chunkSize, int tokenColor, TerritorySpawnInfo info, TerritoryEnvironment environment, ITerritoryGeneratorConstructor constructor){
 		this.chunkSize = chunkSize;
+		this.tokenColor = tokenColor;
 		this.info = info;
 		this.environment = environment;
 		this.constructor = constructor;
@@ -160,6 +163,15 @@ public enum EndTerritory{
 		double offY = Math.pow(Math.abs(128D-entity.posY)/164D,6D);
 		
 		return Math.max(0D,distXZ*3.5D-3D)+Math.max(0D,offY);
+	}
+	
+	private static int color(int hue){
+		float[] rgb = ColorUtil.hsvToRgb(hue/360F,0.32F,0.76F);
+		return (MathUtil.floor(rgb[0]*255F)<<16)|(MathUtil.floor(rgb[1]*255F)<<8)|MathUtil.floor(rgb[2]*255F);
+	}
+	
+	private static int color(int red, int green, int blue){
+		return (red<<16)|(green<<8)|blue;
 	}
 	
 	private static boolean $debugging = false;

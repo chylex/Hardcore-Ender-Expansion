@@ -84,6 +84,7 @@ public final class ItemList{
 	// WORLD
 
 	public static Item knowledge_note;
+	public static Item portal_token;
 	public static Item bucket_ender_goo;
 	public static Item music_disk;
 	
@@ -141,6 +142,7 @@ public final class ItemList{
 		// TODO SANCTUARY register("sacred_wand", sacred_wand = new ItemSacredWand().setMaxStackSize(1).setMaxDamage(860).setNoRepair().setUnlocalizedName("sacredWand").setTextureName("hardcoreenderexpansion:sacred_wand"));
 		
 		register("knowledge_note", knowledge_note = new ItemKnowledgeNote().setMaxStackSize(1).setUnlocalizedName("knowledgeNote").setTextureName("hardcoreenderexpansion:knowledge_fragment"));
+		register("portal_token", portal_token = new ItemPortalToken().setMaxStackSize(1).setUnlocalizedName("portalToken").setTextureName("hardcoreenderexpansion:portal_token"));
 		register("bucket_ender_goo", bucket_ender_goo = new ItemBucket(BlockList.ender_goo).setContainerItem(Items.bucket).setUnlocalizedName("bucketEnderGoo").setTextureName("hardcoreenderexpansion:bucket_ender_goo"));
 		register("music_disk", music_disk = new ItemMusicDisk().setUnlocalizedName("record").setTextureName("hardcoreenderexpansion:music_disk"));
 		
@@ -165,7 +167,7 @@ public final class ItemList{
 			infernium,scorching_pickaxe,arcane_shard,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,
 			BlockList.enderman_head,bucket_ender_goo,knowledge_note,
 			// TODO SANCTUARY sacred_wand,sacred_wand_cores,
-			music_disk,exp_bottle,spawn_eggs
+			exp_bottle,music_disk,portal_token,spawn_eggs
 		);
 		
 		ModCreativeTab.tabCharms.list.add(
