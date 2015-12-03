@@ -1,10 +1,14 @@
 package chylex.hee.entity.block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import chylex.hee.item.ItemPortalToken;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.end.EndTerritory;
 import cpw.mods.fml.relauncher.Side;
@@ -18,6 +22,8 @@ public class EntityBlockTokenHolder extends Entity{
 	public float rotation, prevRotation, prevCharge;
 	private boolean isRestoring;
 	private short restoreTimer;
+	
+	private EndTerritory tokenTerritory;
 	
 	public EntityBlockTokenHolder(World world){
 		super(world);
@@ -80,11 +86,21 @@ public class EntityBlockTokenHolder extends Entity{
 				for(int a = 0; a < 20; a++)worldObj.spawnParticle("largesmoke",posX+(rand.nextDouble()-0.5D)*0.8D,posY+0.05D+rand.nextDouble()*1D,posZ+(rand.nextDouble()-0.5D)*0.8D,0D,0D,0D);
 			}
 			else{
-				// TODO spawn token
+				EntityItem item = entityDropItem(ItemPortalToken.forTerritory(tokenTerritory,isRare()),0.5F);
+				
+				if (item != null){
+					Vec target = Vec.between(item,source.getSourceOfDamage()).normalized().multiplied(0.225D);
+					item.motionX = target.x+(rand.nextDouble()-0.5D)*0.1D;
+					item.motionZ = target.z+(rand.nextDouble()-0.5D)*0.1D;
+				}
 			}
 		}
 		
 		return true;
+	}
+	
+	public void setTerritory(EndTerritory territory){
+		this.tokenTerritory = territory;
 	}
 	
 	public void setChargeProgress(float progress){
@@ -106,8 +122,11 @@ public class EntityBlockTokenHolder extends Entity{
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt){
+		if (tokenTerritory == null)return;
+		
 		nbt.setFloat("charge",getChargeProgress());
 		nbt.setBoolean("isRare",isRare());
+		nbt.setByte("territory",(byte)tokenTerritory.ordinal());
 		if (restoreTimer > 0)nbt.setShort("restoreTim",restoreTimer);
 		if (isRestoring)nbt.setBoolean("isRestoring",isRestoring);
 	}
@@ -116,8 +135,11 @@ public class EntityBlockTokenHolder extends Entity{
 	protected void readEntityFromNBT(NBTTagCompound nbt){
 		setChargeProgress(nbt.getFloat("charge"));
 		setRare(nbt.getBoolean("isRare"));
+		tokenTerritory = CollectionUtil.get(EndTerritory.values,nbt.getByte("territory")).orElse(null);
 		restoreTimer = nbt.getShort("restoreTim");
 		isRestoring = nbt.getBoolean("isRestoring");
+		
+		if (tokenTerritory == null)setDead();
 	}
 	
 	@Override
