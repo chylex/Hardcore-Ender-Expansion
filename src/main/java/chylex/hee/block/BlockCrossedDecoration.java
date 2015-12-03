@@ -30,14 +30,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCrossedDecoration extends BlockFlower implements IShearable, IBlockSubtypes{
 	private static final String[] decorTypes = new String[]{
-		"decor_bullrush_bottom", "decor_bullrush_top", "decor_thorn_bush", "decor_infested_grass", "decor_infested_fern", "decor_infested_tallgrass",
+		"decor_ravish_bell", "decor_ravish_bell", "decor_thorn_bush", "decor_infested_grass", "decor_infested_fern", "decor_infested_tallgrass",
 		"decor_lily_fire", "decor_violet_moss_tall", "decor_violet_moss_moderate", "decor_violet_moss_short",
 		"decor_flameweed_1", "decor_flameweed_2", "decor_flameweed_3", "decor_shadow_orchid"
 	};
 	
-	public static final byte dataThornBush = 2, dataInfestedGrass = 3, dataInfestedFern = 4, dataInfestedTallgrass = 5,
-					   		 dataLilyFire = 6, dataVioletMossTall = 7, dataVioletMossModerate = 8, dataVioletMossShort = 9,
-					   		 dataFlameweed1 = 10, dataFlameweed2 = 11, dataFlameweed3 = 12, dataShadowOrchid = 13;
+	public static final byte dataRavishBell = 1,
+	                         dataThornBush = 2, dataInfestedGrass = 3, dataInfestedFern = 4, dataInfestedTallgrass = 5,
+	                         dataLilyFire = 6, dataVioletMossTall = 7, dataVioletMossModerate = 8, dataVioletMossShort = 9,
+	                         dataFlameweed1 = 10, dataFlameweed2 = 11, dataFlameweed3 = 12, dataShadowOrchid = 13;
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
@@ -98,6 +99,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		switch(is.getItemDamage()){
+			case dataRavishBell: return "tile.crossedDecoration.ravishBell";
 			case dataThornBush: return "tile.crossedDecoration.thornyBush";
 			case dataInfestedFern: return "tile.crossedDecoration.infestedFern";
 			case dataInfestedGrass: return "tile.crossedDecoration.infestedBush";
@@ -126,13 +128,13 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 2; a < decorTypes.length; a++)list.add(new ItemStack(item,1,a));
+		for(int a = 1; a < decorTypes.length; a++)list.add(new ItemStack(item,1,a));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister){
 		iconArray = new IIcon[decorTypes.length];
-		for(int a = 2; a < decorTypes.length; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:"+decorTypes[a]);
+		for(int a = 1; a < decorTypes.length; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:"+decorTypes[a]);
 	}
 }
