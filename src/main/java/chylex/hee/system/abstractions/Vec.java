@@ -32,7 +32,7 @@ public class Vec{
 	}
 	
 	public static Vec between(Entity source, Entity target){
-		return new Vec(target.posX-source.posX,target.posY-source.posY,target.posZ-source.posX);
+		return new Vec(target.posX-source.posX,target.posY-source.posY,target.posZ-source.posZ);
 	}
 	
 	public static Vec look(EntityLivingBase entity){
