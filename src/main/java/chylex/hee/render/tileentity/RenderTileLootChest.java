@@ -5,6 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityLootChest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -30,7 +31,7 @@ public class RenderTileLootChest extends TileEntitySpecialRenderer{
 		GL11.glRotatef(meta == 2 ? 180 : meta == 4 ? 90 : meta == 5 ? -90 : 0,0F,1F,0F);
 		GL11.glTranslatef(-0.5F,-0.5F,-0.5F);
 		
-		model.chestLid.rotateAngleX = -((1F-(float)Math.pow(1F-chest.lidAnim+(chest.prevLidAnim-chest.lidAnim)*partialTickTime,3))*(float)Math.PI*0.5F);
+		model.chestLid.rotateAngleX = Math.min(0F,-((1F-(float)Math.pow(1F-chest.lidAnim+(chest.prevLidAnim-chest.lidAnim)*partialTickTime,3))*MathUtil.HALF_PI));
 		model.renderAll();
 		
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
