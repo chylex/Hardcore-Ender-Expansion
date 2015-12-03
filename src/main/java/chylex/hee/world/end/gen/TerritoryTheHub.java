@@ -73,7 +73,7 @@ public class TerritoryTheHub extends TerritoryGenerator{
 		
 		this.tokenHolders = new GenerateHubTokenHolder();
 		this.tokenHolders.setAttempts(15000);
-		this.tokenHolders.setAmount(new RangeGenerator(3,4,RandomAmount.linear));
+		this.tokenHolders.setAmount(new RangeGenerator(3,3,RandomAmount.linear));
 		this.tokenHolders.setMinDistance(48D);
 	}
 	

@@ -58,7 +58,7 @@ public final class GenerateHubTokenHolder implements ITerritoryFeature{
 	
 	private boolean generateTokenHolder(EndTerritory territory, StructureWorld world, Random rand, boolean ignorePosChecks){
 		final double angle = rand.nextDouble()*Math.PI*2D;
-		final double dist = 20D+rand.nextDouble()*45D;
+		final double dist = 30D+rand.nextDouble()*40D;
 		
 		final int x = MathUtil.floor(Math.cos(angle)*dist);
 		final int z = MathUtil.floor(Math.sin(angle)*dist);
@@ -122,6 +122,7 @@ public final class GenerateHubTokenHolder implements ITerritoryFeature{
 		// token holder
 		EntityBlockTokenHolder tokenHolder = new EntityBlockTokenHolder(world.getParentWorld());
 		tokenHolder.setPosition(x+0.5D,y+1D,z+0.5D);
+		tokenHolder.setTerritory(EndTerritory.DEBUG_TEST); // TODO
 		world.addEntity(tokenHolder);
 		
 		tempGenerated.add(Pos.at(x,y,z));
