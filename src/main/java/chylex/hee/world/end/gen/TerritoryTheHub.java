@@ -13,6 +13,7 @@ import chylex.hee.world.feature.blobs.GenerateBlobs;
 import chylex.hee.world.feature.blobs.generators.BlobGenerator;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorFromCenter;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingle;
+import chylex.hee.world.feature.blobs.populators.BlobPopulatorCover;
 import chylex.hee.world.feature.noise.GenerateIslandNoise;
 import chylex.hee.world.feature.ores.GenerateOres;
 import chylex.hee.world.feature.ores.IOreGenerator;
@@ -69,6 +70,8 @@ public class TerritoryTheHub extends TerritoryGenerator{
 				new BlobGeneratorSingle(3).setRadius(3.25D,6D),
 				new BlobGeneratorFromCenter(7).setAmount(new RangeGenerator(2,4,RandomAmount.preferSmaller)).setRadiusFirst(3D,4.5D).setRadiusOther(1.75D,2.25D).setDistanceMp(0.5D,0.85D)
 			})
+			.addPopulator(new BlobPopulatorCover(1).setBlock(BlockList.ravish_bell).setChance(0.1D))
+			.setPopulatorAmount(random -> random.nextInt(4) == 0 ? 1 : 0)
 		);
 		
 		this.tokenHolders = new GenerateHubTokenHolder();
