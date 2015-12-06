@@ -2,6 +2,7 @@ package chylex.hee.world.end.gen;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.init.BlockList;
+import chylex.hee.render.environment.RenderEnvironmentSky.SkyTexture;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.util.MathUtil;
@@ -18,6 +19,7 @@ import chylex.hee.world.feature.noise.GenerateIslandNoise;
 import chylex.hee.world.feature.ores.GenerateOres;
 import chylex.hee.world.feature.ores.IOreGenerator;
 import chylex.hee.world.feature.territory.GenerateHubTokenHolder;
+import chylex.hee.world.feature.territory.GenerateHubVoidPortal;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 import chylex.hee.world.util.RandomAmount;
@@ -126,7 +128,13 @@ public class TerritoryTheHub extends TerritoryGenerator{
 		@Override
 		@SideOnly(Side.CLIENT)
 		public int getSkyColor(){
-			return (22<<16)|(22<<8)|22;
+			return (50<<16)|(50<<8)|50;
+		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public SkyTexture getSkyTexture(){
+			return SkyTexture.BLUR;
 		}
 	}
 }

@@ -17,7 +17,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderEnvironmentSky extends IRenderHandler{
 	public enum SkyTexture{
-		DEFAULT("end_default");
+		DEFAULT("end_default"),
+		BLUR("end_blur");
 		
 		final ResourceLocation resource;
 		
