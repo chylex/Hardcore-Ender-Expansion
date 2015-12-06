@@ -5,6 +5,8 @@ import net.minecraft.util.AxisAlignedBB;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityEndPortalCustom extends TileEntityEndPortal{
 	private int activationTimer = -1;
@@ -42,6 +44,7 @@ public class TileEntityEndPortalCustom extends TileEntityEndPortal{
 	}
 	
 	@Override
+    @SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox(){
 		return AxisAlignedBB.getBoundingBox(xCoord,yCoord,zCoord,xCoord+1D,yCoord+1D,zCoord+1D);
 	}

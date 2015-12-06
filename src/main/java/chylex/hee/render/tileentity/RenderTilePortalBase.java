@@ -43,6 +43,10 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 		return 31100L;
 	}
 	
+	protected float getTranslation(){
+		return (Minecraft.getSystemTime()%700000L)/700000F;
+	}
+	
 	protected void generateColors(int layer){
 		red = rand.nextFloat()*0.5F+0.1F;
 		green = rand.nextFloat()*0.5F+0.4F;
@@ -102,7 +106,7 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 			GL11.glMatrixMode(GL11.GL_TEXTURE);
 			GL11.glPushMatrix();
 			GL11.glLoadIdentity();
-			GL11.glTranslatef(0F,(Minecraft.getSystemTime()%700000L)/700000F,0F);
+			GL11.glTranslatef(0F,getTranslation(),0F);
 			GL11.glScalef(scale,scale,scale);
 			GL11.glTranslatef(0.5F,0.5F,0F);
 			GL11.glRotatef((layer*layer*4321+layer*9)*2F,0F,0F,1F);
