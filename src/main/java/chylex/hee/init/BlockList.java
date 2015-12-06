@@ -244,6 +244,8 @@ public final class BlockList{
 		BlockReplaceHelper.replaceBlock(Blocks.end_portal,new BlockEndPortalCustom());
 		BlockReplaceHelper.replaceBlock(Blocks.end_portal_frame,new BlockEndPortalFrameCustom());
 		
+		Blocks.end_portal.setBlockName("endPortal");
+		
 		for(Entry<String,Block> entry:BlockList.blocks.entrySet()){
 			GameRegistryUtil.registerBlock(entry.getValue(),entry.getKey(),itemBlocks.getOrDefault(entry.getKey(),ItemBlock.class));
 		}
