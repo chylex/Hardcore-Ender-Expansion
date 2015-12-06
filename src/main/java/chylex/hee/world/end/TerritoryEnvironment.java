@@ -2,6 +2,7 @@ package chylex.hee.world.end;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
+import chylex.hee.render.environment.RenderEnvironmentSky.SkyTexture;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -61,5 +62,10 @@ public abstract class TerritoryEnvironment{
 	@SideOnly(Side.CLIENT)
 	public int getSkyColor(){
 		return (40<<16)|(40<<8)|40;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public SkyTexture getSkyTexture(){
+		return SkyTexture.DEFAULT;
 	}
 }

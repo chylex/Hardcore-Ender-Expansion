@@ -16,7 +16,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderEnvironmentSky extends IRenderHandler{
-	private static final ResourceLocation texSky = new ResourceLocation("textures/environment/end_sky.png");
+	public enum SkyTexture{
+		DEFAULT("end_default");
+		
+		final ResourceLocation resource;
+		
+		SkyTexture(String name){
+			resource = new ResourceLocation("hardcoreenderexpansion:textures/environment/"+name+".png");
+		}
+	}
 	
 	@Override
 	public void render(float partialTickTime, WorldClient world, Minecraft mc){
@@ -31,7 +39,7 @@ public class RenderEnvironmentSky extends IRenderHandler{
 		RenderHelper.disableStandardItemLighting();
 		GL11.glDepthMask(false);
 		
-		mc.renderEngine.bindTexture(texSky);
+		mc.renderEngine.bindTexture(environment.getSkyTexture().resource);
 		
 		Tessellator tessellator = Tessellator.instance;
 		int color = environment.getSkyColor();
