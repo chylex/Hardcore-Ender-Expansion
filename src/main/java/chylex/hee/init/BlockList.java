@@ -132,6 +132,8 @@ public final class BlockList{
 	// TECHNICAL
 	
 	public static Block end_portal_frame;
+	public static Block void_portal_frame;
+	public static Block void_portal;
 	public static Block death_flower_pot;
 	public static Block laser_beam;
 	public static Block custom_spawner;
@@ -207,6 +209,8 @@ public final class BlockList{
 		register("laboratory_glass", laboratory_glass = new BlockLaboratoryGlass().setHardness(5F).setResistance(50F).setLightOpacity(5).setBlockName("laboratoryGlass").setBlockTextureName("hardcoreenderexpansion:laboratory_glass"));
 		
 		register("end_portal_frame", end_portal_frame = new BlockEndPortalFrame().setBlockUnbreakable().setResistance(6000000F).setLightLevel(0.125F).setStepSound(Block.soundTypeGlass).setBlockName("endPortalFrame"));
+		register("void_portal_frame", void_portal_frame = new BlockVoidPortalFrame().setBlockUnbreakable().setResistance(6000000F).setLightLevel(0.125F).setStepSound(Block.soundTypeGlass).setBlockName("voidPortalFrame"));
+		register("void_portal", void_portal = new BlockVoidPortal().setBlockUnbreakable().setResistance(6000000F).setBlockName("voidPortal"));
 		register("death_flower_pot", death_flower_pot = new BlockDeathFlowerPot().setHardness(0F).setStepSound(Block.soundTypeStone).setBlockName("flowerPot").setBlockTextureName("flower_pot"));
 		register("laser_beam", laser_beam = new BlockLaserBeam().setBlockUnbreakable().setResistance(6000000F).setLightLevel(1F).setBlockName("laserBeam").setBlockTextureName("hardcoreenderexpansion:laser_beam"));
 		register("custom_spawner", custom_spawner = new BlockCustomSpawner().setHardness(5F).setStepSound(Block.soundTypeMetal).setBlockName("mobSpawner").setBlockTextureName("mob_spawner"));
@@ -237,6 +241,7 @@ public final class BlockList{
 		setItemClass("persegrit", ItemBlockWithSubtypes.class);
 		// TODO setItemClass("sacred_stone", ItemBlockWithSubtypes.class);
 		setItemClass("end_portal_frame", ItemBlockWithSubtypes.class);
+		setItemClass("void_portal_frame", ItemBlockWithSubtypes.class);
 	}
 	
 	public static void registerBlocks(){
@@ -253,7 +258,7 @@ public final class BlockList{
 		ModCreativeTab.tabMain.list.add(
 			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
 			ethereal_lantern,gloomrock,gloomrock_smooth_slab,gloomrock_smooth_stairs,gloomrock_brick_slab,gloomrock_brick_stairs,gloomtorch,
-			end_portal_frame,Blocks.end_stone,dark_loam,dark_loam_slab,ravish_brick,
+			end_portal_frame,Blocks.end_portal,void_portal_frame,void_portal,Blocks.end_stone,dark_loam,dark_loam_slab,ravish_brick,
 			essence_altar,decomposition_table,experience_table,accumulation_table,extraction_table,loot_chest,
 			end_powder_ore,endium_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
 			endium_block,
@@ -314,6 +319,8 @@ public final class BlockList{
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
 		GameRegistryUtil.registerTileEntity(TileEntityEndPortalCustom.class, "EndPortal");
 		GameRegistryUtil.registerTileEntity(TileEntityEndPortalFrame.class, "EndPortalFrame");
+		GameRegistryUtil.registerTileEntity(TileEntityVoidPortal.class, "VoidPortal");
+		GameRegistryUtil.registerTileEntity(TileEntityVoidPortalFrame.class, "VoidPortalFrame");
 		// TODO SANCTUARY GameRegistryUtil.registerTileEntity(TileEntitySanctuaryBrain.class, "SanctuaryBrain");
 	}
 	

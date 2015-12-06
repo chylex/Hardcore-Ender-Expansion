@@ -73,6 +73,7 @@ import chylex.hee.render.tileentity.RenderTileEndermanHead;
 import chylex.hee.render.tileentity.RenderTileEssenceAltar;
 import chylex.hee.render.tileentity.RenderTileLaserBeam;
 import chylex.hee.render.tileentity.RenderTileLootChest;
+import chylex.hee.render.tileentity.RenderTileVoidPortal;
 import chylex.hee.sound.MusicManager;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
@@ -81,6 +82,7 @@ import chylex.hee.tileentity.TileEntityEndermanHead;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 import chylex.hee.tileentity.TileEntityLootChest;
+import chylex.hee.tileentity.TileEntityVoidPortal;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
@@ -124,6 +126,7 @@ public class ModClientProxy extends ModCommonProxy{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCustomSpawner.class, new RenderTileCustomSpawner());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserBeam.class, new RenderTileLaserBeam());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndPortal.class, new RenderTileEndPortal());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidPortal.class, new RenderTileVoidPortal());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLootChest.class, new RenderTileLootChest());
 		
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.loot_chest), new RenderItemLootChest());
