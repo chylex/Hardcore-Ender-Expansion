@@ -32,6 +32,7 @@ public class TerritoryTheHub extends TerritoryGenerator{
 	private final GenerateOres endPowderOreSurface;
 	private final GenerateBlobs blobs;
 	private final GenerateHubTokenHolder tokenHolders;
+	private final GenerateHubVoidPortal voidPortal;
 	
 	public TerritoryTheHub(EndTerritory territory, StructureWorld world, Random rand){
 		super(territory,world,rand);
@@ -80,6 +81,9 @@ public class TerritoryTheHub extends TerritoryGenerator{
 		this.tokenHolders.setAttempts(15000);
 		this.tokenHolders.setAmount(new RangeGenerator(3,3,RandomAmount.linear));
 		this.tokenHolders.setMinDistance(48D);
+		
+		this.voidPortal = new GenerateHubVoidPortal();
+		this.voidPortal.setAttempts(50000);
 	}
 	
 	@Override
@@ -116,6 +120,8 @@ public class TerritoryTheHub extends TerritoryGenerator{
 				}
 			}
 		}
+		
+		voidPortal.generate(territory,world,rand);
 	}
 	
 	public static class Environment extends TerritoryEnvironment{
