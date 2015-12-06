@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.tileentity.TileEntityVoidPortal;
 import chylex.hee.world.util.EntityPortalStatus;
@@ -33,8 +34,13 @@ public class BlockVoidPortal extends BlockEndPortal{
 			int meta = pos.getMetadata(world);
 			EntityPlayerMP player = (EntityPlayerMP)entity;
 			
-			if (portalStatus.onTouch(player)){
-				// TODO
+			if (portalStatus.onTouch(player)){ // TODO
+				if (pos.getMetadata(world) == Meta.voidPortalReturn){
+					
+				}
+				else{
+					
+				}
 			}
 		}
 	}

@@ -63,12 +63,17 @@ public class GenerateHubVoidPortal implements ITerritoryFeature{
 					for(int offY = 0; offY <= topY-y; offY++){
 						world.setAir(x+offX,y+offY,z+offZ);
 					}
+					
+					world.setBlock(x+offX,y-2,z+offZ,Blocks.end_stone); // End Powder Ore might be under it, which makes random particles
 				}
 				
-				if (offDist < 2D)world.setAir(x+offX,y-1,z+offZ); // TODO
-				else if (offDist < 2.5D)world.setBlock(x+offX,y-1,z+offZ,BlockList.end_portal_frame); // TODO
+				if (offDist < 3D)world.setBlock(x+offX,y-1,z+offZ,BlockList.void_portal,Meta.voidPortalTravel);
+				else if (offDist < 4D)world.setBlock(x+offX,y-1,z+offZ,BlockList.void_portal_frame);
 				else if (offDist < 6D)world.setBlock(x+offX,y-1,z+offZ,BlockList.dark_loam);
-				else if (offDist < 7D)world.setBlock(x+offX,y,z+offZ,BlockList.dark_loam_slab);
+				else if (offDist < 7D){
+					world.setBlock(x+offX,y-1,z+offZ,Blocks.end_stone); // same reason as above
+					world.setBlock(x+offX,y,z+offZ,BlockList.dark_loam_slab);
+				}
 				else if (offDist < 8D){
 					world.setBlock(x+offX,y,z+offZ,Blocks.end_stone);
 					world.setAir(x+offX,y+1,z+offZ);

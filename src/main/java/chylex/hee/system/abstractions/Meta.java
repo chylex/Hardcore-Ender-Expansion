@@ -53,7 +53,9 @@ public final class Meta{
 		endPortalFramePlain = 0,
 		endPortalFrameAcceptor = 1,
 		voidPortalFramePlain = 0,
-		voidPortalFrameStorage = 1;
+		voidPortalFrameStorage = 1,
+		voidPortalTravel = 0,
+		voidPortalReturn = 1;
 	
 	/* === TORCHES === */
 	

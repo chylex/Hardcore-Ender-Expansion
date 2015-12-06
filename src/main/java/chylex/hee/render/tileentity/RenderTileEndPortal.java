@@ -7,6 +7,20 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderTileEndPortal extends RenderTilePortalBase{
+	public static void setEndPortalColor(RenderTilePortalBase portalRenderer, int layer){
+		if (layer == 0)portalRenderer.red = portalRenderer.green = portalRenderer.blue = 0F;
+		else if (rand.nextInt(3) != 0){
+			portalRenderer.red = rand.nextFloat()*0.15F+0.75F;
+			portalRenderer.green = rand.nextFloat()*0.15F+0.75F;
+			portalRenderer.blue = rand.nextFloat()*0.15F+0.45F;
+		}
+		else{
+			portalRenderer.red = rand.nextFloat()*0.1F+0.35F;
+			portalRenderer.green = rand.nextFloat()*0.1F+0.35F;
+			portalRenderer.blue = rand.nextFloat()*0.15F+0.85F;
+		}
+	}
+	
 	private float progress;
 	
 	@Override
@@ -22,17 +36,7 @@ public class RenderTileEndPortal extends RenderTilePortalBase{
 	
 	@Override
 	protected void generateColors(int layer){
-		if (layer == 0)red = green = blue = 0F;
-		else if (rand.nextInt(3) != 0){
-			red = rand.nextFloat()*0.15F+0.75F;
-			green = rand.nextFloat()*0.15F+0.75F;
-			blue = rand.nextFloat()*0.15F+0.45F;
-		}
-		else{
-			red = rand.nextFloat()*0.1F+0.35F;
-			green = rand.nextFloat()*0.1F+0.35F;
-			blue = rand.nextFloat()*0.15F+0.85F;
-		}
+		setEndPortalColor(this,layer);
 		
 		if (progress < 1F && layer > 1){
 			// this is cubic easing out with adjustment to kick off new layers just before the old one has full color
