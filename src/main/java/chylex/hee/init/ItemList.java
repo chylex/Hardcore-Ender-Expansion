@@ -3,6 +3,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
@@ -167,7 +168,8 @@ public final class ItemList{
 			infernium,scorching_pickaxe,arcane_shard,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,
 			BlockList.enderman_head,bucket_ender_goo,knowledge_note,
 			// TODO SANCTUARY sacred_wand,sacred_wand_cores,
-			exp_bottle,music_disk,portal_token,spawn_eggs
+			exp_bottle,music_disk,portal_token,spawn_eggs,
+			Blocks.end_portal,BlockList.void_portal
 		);
 		
 		ModCreativeTab.tabCharms.list.add(

@@ -1,6 +1,7 @@
 package chylex.hee.block;
 import java.util.List;
-import net.minecraft.block.BlockContainer;
+import java.util.Random;
+import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -10,8 +11,10 @@ import net.minecraft.world.World;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.tileentity.TileEntityVoidPortal;
 import chylex.hee.world.util.EntityPortalStatus;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockVoidPortal extends BlockContainer{
+public class BlockVoidPortal extends BlockEndPortal{
 	private final EntityPortalStatus portalStatus = new EntityPortalStatus();
 	
 	public BlockVoidPortal(){
@@ -41,4 +44,11 @@ public class BlockVoidPortal extends BlockContainer{
 		AxisAlignedBB collisionBox = AxisAlignedBB.getBoundingBox(x,y,z,x+1D,y+0.025D,z+1D);
 		if (checkAABB.intersectsWith(collisionBox))list.add(collisionBox);
 	}
+
+	@Override
+	public void onBlockAdded(World world, int x, int y, int z){}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand){}
 }
