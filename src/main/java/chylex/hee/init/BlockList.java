@@ -221,6 +221,7 @@ public final class BlockList{
 		setItemClass("gloomrock", ItemBlockWithSubtypes.class);
 		setItemClass("gloomrock_smooth_slab", ItemBlockSlab.class);
 		setItemClass("gloomrock_brick_slab", ItemBlockSlab.class);
+		setItemClass("dark_loam_slab", ItemBlockSlab.class);
 		setItemClass("obsidian_special", ItemBlockWithSubtypes.class);
 		setItemClass("obsidian_special_glow", ItemBlockWithSubtypes.class);
 		setItemClass("essence_altar", ItemBlockEssenceAltar.class);

@@ -140,7 +140,14 @@ public final class RecipeList{
 			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.State.SMOOTH.value)
 		);
 		
-		// Decorations
+		// Opaque Decorations
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.dark_loam_slab,6),
+			"LLL",
+			'L', BlockList.dark_loam
+		);
+		
+		// Transparent Decorations
 		
 		GameRegistryUtil.addSmeltingRecipe(
 			new ItemStack(Blocks.vine),
