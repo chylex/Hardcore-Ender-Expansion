@@ -1,5 +1,6 @@
 package chylex.hee.block;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.material.Material;
@@ -8,14 +9,21 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import chylex.hee.entity.technical.EntityTechnicalVoidPortal;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.entity.EntitySelector;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.tileentity.TileEntityVoidPortal;
 import chylex.hee.world.util.EntityPortalStatus;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockVoidPortal extends BlockEndPortal{
+	public static Optional<EntityTechnicalVoidPortal> getData(World world, int x, int y, int z){
+		return CollectionUtil.get(EntitySelector.type(world,EntityTechnicalVoidPortal.class,AxisAlignedBB.getBoundingBox(x-4.5D,y-1D,z-4.5D,x+5.5D,y+1D,z+5.5D)),0);
+	}
+	
 	private final EntityPortalStatus portalStatus = new EntityPortalStatus();
 	
 	public BlockVoidPortal(){

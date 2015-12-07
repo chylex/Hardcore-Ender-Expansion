@@ -1,6 +1,7 @@
 package chylex.hee.world.feature.territory;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import chylex.hee.entity.technical.EntityTechnicalVoidPortal;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.util.MathUtil;
@@ -83,6 +84,10 @@ public class GenerateHubVoidPortal implements ITerritoryFeature{
 				else if (offDist < 7D)world.setBlock(x+offX,y+height,z+offZ,BlockList.dark_loam);
 			}
 		}
+		
+		EntityTechnicalVoidPortal portalEntity = new EntityTechnicalVoidPortal(world.getParentWorld());
+		portalEntity.setPosition(x+0.5D,y-1D,z+0.5D);
+		world.addEntity(portalEntity);
 		
 		for(int cornerX = -1; cornerX <= 1; cornerX += 2){
 			for(int cornerZ = -1; cornerZ <= 1; cornerZ += 2){
