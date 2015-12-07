@@ -1,12 +1,17 @@
 package chylex.hee.item;
 import java.util.List;
+import java.util.OptionalInt;
+import javax.annotation.Nullable;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.global.WorldFile;
 import chylex.hee.init.ItemList;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.ItemUtil;
@@ -21,6 +26,26 @@ public class ItemPortalToken extends Item{
 		return is;
 	}
 	
+	public static final @Nullable EndTerritory getTerritory(ItemStack is){
+		return CollectionUtil.get(EndTerritory.values,ItemUtil.getTagRoot(is,false).getByte("territory")).orElse(null);
+	}
+	
+	public static final boolean isRare(ItemStack is){
+		return is.getItemDamage() == 1;
+	}
+	
+	public static final OptionalInt getIndex(ItemStack is){
+		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
+		if (nbt.hasKey("tindex"))return OptionalInt.of(nbt.getInteger("tindex"));
+		
+		EndTerritory territory = getTerritory(is);
+		if (territory == null)return OptionalInt.empty();
+		
+		int index = SaveData.global(WorldFile.class).increment(territory);
+		nbt.setInteger("tindex",index);
+		return OptionalInt.of(index);
+	}
+	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconInscription, iconRareOverlay;
 	
@@ -30,7 +55,7 @@ public class ItemPortalToken extends Item{
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		return is.getItemDamage() == 1 ? getUnlocalizedName()+".rare" : getUnlocalizedName();
+		return isRare(is) ? getUnlocalizedName()+".rare" : getUnlocalizedName();
 	}
 	
 	@Override
@@ -58,7 +83,7 @@ public class ItemPortalToken extends Item{
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack is, int pass){
 		if (pass == 0){
-			EndTerritory territory = CollectionUtil.get(EndTerritory.values,ItemUtil.getTagRoot(is,false).getByte("territory")).orElse(null);
+			EndTerritory territory = getTerritory(is);
 			if (territory != null)return territory.tokenColor;
 		}
 		
