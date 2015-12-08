@@ -13,19 +13,36 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
-import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.ai.EntityAIRangedEnergyAttack;
+import chylex.hee.entity.mob.teleport.ITeleportPredicate;
+import chylex.hee.entity.mob.teleport.MobTeleporter;
+import chylex.hee.entity.mob.teleport.TeleportLocation.ITeleportXZ;
+import chylex.hee.entity.mob.teleport.TeleportLocation.ITeleportY;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.misc.Baconizer;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IRangedAttackMob{
+	private static final MobTeleporter<EntityMobEndermage> teleportAround = new MobTeleporter<>();
+	
+	static{
+		teleportAround.setLocationSelector(
+			ITeleportXZ.inSquare(15D),
+			ITeleportY.findSolidBottom((entity, startPos, rand) -> MathUtil.floor(entity.posY)+7,14)
+		);
+		
+		teleportAround.setAttempts(15);
+		teleportAround.addLocationPredicate(ITeleportPredicate.noCollision);
+		teleportAround.addLocationPredicate((entity, startPos, rand) -> MathUtil.distance(entity.posX-entity.lastSource.posX,entity.posZ-entity.lastSource.posZ) > entity.lastSourceDist*4D);
+		teleportAround.addLocationPredicate((entity, startPos, rand) -> entity.canEntityBeSeen(entity.lastSource));
+		// TODO PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,tmpPos.x+0.5D,tmpPos.y,tmpPos.z+0.5D));
+	}
+	
 	private short lastAttacked;
+	private Entity lastSource;
+	private double lastSourceDist;
 	
 	public EntityMobEndermage(World world){
 		super(world);
@@ -70,36 +87,14 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 		if (super.attackEntityFrom(source,amount)){
 			if ((lastAttacked == 0 || (rand.nextInt(3) != 0 && getHealth()-amount*2D <= 0D)) && source.getEntity() != null){
 				lastAttacked = (short)(130+rand.nextInt(160));
-				double prevPosX = posX, prevPosY = posY, prevPosZ = posZ;
+				lastSource = source.getEntity();
+				lastSourceDist = MathUtil.distance(lastSource.posX-posX,lastSource.posZ-posZ);
 				
-				Entity sourceEntity = source.getEntity();
-				double dist = MathUtil.distance(sourceEntity.posX-posX,sourceEntity.posZ-posZ);
-				BlockPosM tmpPos = BlockPosM.tmp(), testPos = new BlockPosM();
-				
-				for(int attempt = 0; attempt < 15; attempt++){
-					tmpPos.set(posX+rand.nextInt(31)-15,-1,posZ+rand.nextInt(31)-15);
-					
-					if (MathUtil.distance(tmpPos.x+0.5D-sourceEntity.posX,tmpPos.z+0.5D-sourceEntity.posZ) > dist*4D){
-						tmpPos.y = MathUtil.floor(posY)+7;
-						
-						for(int yAttempt = 0; yAttempt < 14; yAttempt++){
-							if (!testPos.set(tmpPos).moveDown().isAir(worldObj) && tmpPos.isAir(worldObj) && testPos.set(tmpPos).moveUp().isAir(worldObj)){
-								setPosition(tmpPos.x+0.5D,tmpPos.y,tmpPos.z+0.5D);
-								
-								if (canEntityBeSeen(sourceEntity)){
-									PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,tmpPos.x+0.5D,tmpPos.y,tmpPos.z+0.5D));
-									return true;
-								}
-							}
-							else --tmpPos.y;
-						}
-					}
-				}
-				
-				setPosition(prevPosX,prevPosY,prevPosZ);
+				boolean result = teleportAround.teleport(this,rand);
+				lastSource = null;
+				return result;
 			}
 			
-			// TODO CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount);
 			return true;
 		}
 		else return false;
