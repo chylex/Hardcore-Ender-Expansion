@@ -21,6 +21,10 @@ import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.fx.FXHelper.Axis;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.mob.teleport.ITeleportListener;
+import chylex.hee.entity.mob.teleport.ITeleportPredicate;
+import chylex.hee.entity.mob.teleport.MobTeleporter;
+import chylex.hee.entity.mob.teleport.TeleportLocation.ITeleportY;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.charms.RuneType;
 import chylex.hee.packets.PacketPipeline;
@@ -30,13 +34,30 @@ import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.abstractions.entity.EntitySelector;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
 
 public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
+	private static final MobTeleporter<EntityMobLouse> teleportAround = new MobTeleporter<>();
+	
+	static{
+		teleportAround.setLocationSelector(
+			(entity, startPos, rand) -> {
+				final int dist = 3+entity.louseData.attribute(EnumLouseAttribute.TELEPORT);
+				return startPos.offset((rand.nextDouble()-0.5D)*2D*dist,0D,(rand.nextDouble()-0.5D)*2D*dist);
+			},
+			ITeleportY.findSolidBottom((entity, startPos, rand) -> MathUtil.floor(startPos.y+1D),3)
+		);
+
+		teleportAround.setAttempts(32);
+		teleportAround.addLocationPredicate(ITeleportPredicate.minDistance(3D));
+		teleportAround.addLocationPredicate(ITeleportPredicate.airAboveSolid(1));
+		teleportAround.onTeleport((entity, startPos, rand) -> entity.setPosition(entity.posX,entity.posY+0.1D,entity.posZ));
+		teleportAround.onTeleport(ITeleportListener.playSound);
+	}
+	
 	private enum Data{ LOUSE_DATA }
 	
 	private EntityDataWatcher entityData;
@@ -191,7 +212,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		int teleportLevel = louseData.attribute(EnumLouseAttribute.TELEPORT);
 		
 		if (teleportLevel > 0 && teleportTimer == 0){
-			teleport(teleportLevel);
+			teleport();
 			return false;
 		}
 		
@@ -217,8 +238,8 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		else return false;
 	}
 	
-	private void teleport(int level){
-		teleportTimer = (byte)(80-level*10);
+	private void teleport(){
+		teleportTimer = (byte)(80-louseData.attribute(EnumLouseAttribute.TELEPORT)*10);
 		
 		if (worldObj.isRemote){
 			FXHelper.create("portal")
@@ -226,45 +247,8 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 			.fluctuatePos((rand, axis) -> axis == Axis.Y ? rand.nextDouble()*height : (rand.nextDouble()-0.5D)*2D*width)
 			.fluctuateMotion(0.1D)
 			.spawn(rand,64);
-			
-			return;
 		}
-		
-		double oldPosX = posX;
-		double oldPosY = posY;
-		double oldPosZ = posZ;
-		int maxDist = 3+level;
-		
-		boolean hasTeleported = false;
-		BlockPosM tmpPos = BlockPosM.tmp(), testPos = new BlockPosM();
-		
-		for(int attempt = 0; attempt < 32 && !hasTeleported; attempt++){
-			posX = oldPosX+rand.nextInt(maxDist)-rand.nextInt(maxDist);
-			posY = oldPosY+1;
-			posZ = oldPosZ+rand.nextInt(maxDist)-rand.nextInt(maxDist);
-			
-			if (MathUtil.distance(posX-oldPosX,posZ-oldPosZ) < 2D)continue;
-			
-			tmpPos.set(this);
-			
-			for(int py = 0; py < 3; py++){
-				if (tmpPos.isAir(worldObj) && !testPos.set(tmpPos).moveDown().isAir(worldObj)){
-					setPosition(posX,posY+0.1D,posZ);
-					hasTeleported = true;
-					break;
-				}
-				else tmpPos.y = MathUtil.floor(--posY);
-			}
-		}
-		
-		if (!hasTeleported)return;
-		
-		for(int a = 0; a < 64; a++){
-			worldObj.spawnParticle("portal",oldPosX+(rand.nextDouble()-rand.nextDouble())*width,oldPosY+rand.nextDouble()*height,oldPosZ+(rand.nextDouble()-rand.nextDouble())*width,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
-		}
-
-		worldObj.playSoundEffect(oldPosX,oldPosY,oldPosZ,"mob.endermen.portal",1F,1F);
-		playSound("mob.endermen.portal",1F,1F);
+		else teleportAround.teleport(this,rand);
 	}
 	
 	@Override
