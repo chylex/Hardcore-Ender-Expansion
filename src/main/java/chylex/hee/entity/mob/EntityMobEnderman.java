@@ -19,6 +19,11 @@ import chylex.hee.entity.mob.ai.AIUtil;
 import chylex.hee.entity.mob.ai.EntityAIMoveBlocksRandomly;
 import chylex.hee.entity.mob.ai.target.EntityAIDirectLookTarget;
 import chylex.hee.entity.mob.ai.target.EntityAIDirectLookTarget.ITargetOnDirectLook;
+import chylex.hee.entity.mob.teleport.ITeleportListener;
+import chylex.hee.entity.mob.teleport.ITeleportPredicate;
+import chylex.hee.entity.mob.teleport.MobTeleporter;
+import chylex.hee.entity.mob.teleport.TeleportLocation.ITeleportXZ;
+import chylex.hee.entity.mob.teleport.TeleportLocation.ITeleportY;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.causatum.Causatum;
@@ -40,6 +45,7 @@ import chylex.hee.world.loot.info.LootMobInfo;
 public class EntityMobEnderman extends EntityAbstractEndermanCustom implements ITargetOnDirectLook{
 	private static final double lookDistance = 64D;
 	private static final PercentageLootTable drops = new PercentageLootTable();
+	private static final MobTeleporter<EntityMobEnderman> teleportAround = new MobTeleporter<>();
 	
 	static{
 		drops.addLoot(Items.ender_pearl).<LootMobInfo>setChances(obj -> {
@@ -63,6 +69,16 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		drops.addLoot(BlockList.enderman_head).setChances(obj -> {
 			return new float[]{ 0.03F };
 		});
+		
+		teleportAround.setLocationSelector(
+			ITeleportXZ.inCircle(64),
+			ITeleportY.findSolidBottom(ITeleportY.around(16),8)
+		);
+
+		teleportAround.setAttempts(128);
+		teleportAround.addLocationPredicate(ITeleportPredicate.noCollision);
+		teleportAround.addLocationPredicate(ITeleportPredicate.noLiquid);
+		teleportAround.onTeleport(ITeleportListener.playSound);
 		
 		ReflectionPublicizer.f__carriable__EntityEnderman(new IdentityHashMap<Block,Boolean>(){
 			@Override
