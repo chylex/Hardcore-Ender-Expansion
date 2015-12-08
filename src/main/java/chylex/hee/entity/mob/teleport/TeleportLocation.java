@@ -11,13 +11,13 @@ public final class TeleportLocation<T extends Entity> implements ITeleportLocati
 		Vec findXZ(T entity, Vec startPos, Random rand);
 		
 		public static <T extends Entity> ITeleportXZ<T> inSquare(final double maxDist){
-			return (entity, startPos, rand) -> startPos.offset((rand.nextDouble()-0.5D)*maxDist,0D,(rand.nextDouble()-0.5D)*maxDist);
+			return (entity, startPos, rand) -> startPos.offset((rand.nextDouble()-0.5D)*2D*maxDist,0D,(rand.nextDouble()-0.5D)*2D*maxDist);
 		}
 		
-		public static <T extends Entity> ITeleportXZ<T> inCircle(final double maxRad){
+		public static <T extends Entity> ITeleportXZ<T> inCircle(final double maxDist){
 			return (entity, startPos, rand) -> {
 				Vec offXZ = Vec.xzRandom(rand);
-				double dist = rand.nextDouble()*maxRad;
+				double dist = rand.nextDouble()*maxDist;
 				
 				return startPos.offset(offXZ.x*dist,0D,offXZ.z*dist);
 			};
@@ -29,11 +29,11 @@ public final class TeleportLocation<T extends Entity> implements ITeleportLocati
 		int findY(T entity, Vec startPos, Random rand);
 		
 		public static <T extends Entity> ITeleportY<T> around(final double maxDist){
-			return (entity, startPos, rand) -> MathUtil.floor(startPos.y+(rand.nextDouble()-0.5D)*maxDist);
+			return (entity, startPos, rand) -> MathUtil.floor(startPos.y+(rand.nextDouble()-0.5D)*2D*maxDist);
 		}
 		
 		public static <T extends Entity> ITeleportY<T> around(final double maxDist, int offset){
-			return (entity, startPos, rand) -> MathUtil.floor(startPos.y+offset+(rand.nextDouble()-0.5D)*maxDist);
+			return (entity, startPos, rand) -> MathUtil.floor(startPos.y+offset+(rand.nextDouble()-0.5D)*2D*maxDist);
 		}
 		
 		public static <T extends Entity> ITeleportY<T> findSolidBottom(final ITeleportY<T> provider, final int maxOffset){
