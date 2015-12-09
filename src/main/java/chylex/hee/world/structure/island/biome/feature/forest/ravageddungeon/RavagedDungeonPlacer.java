@@ -4,7 +4,7 @@ package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
 public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 	//private static final byte radEntrance = 2, radHallway = 2, radRoom = 7;
 	
-	private final byte hallHeight;
+	/*private final byte hallHeight;
 	private byte level;
 	
 	public RavagedDungeonPlacer(int hallHeight){
@@ -13,7 +13,7 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 	
 	public void setDungeonLevel(int level){
 		this.level = (byte)level;
-	}
+	}*/
 	
 	/*
 	 * ENTRANCE

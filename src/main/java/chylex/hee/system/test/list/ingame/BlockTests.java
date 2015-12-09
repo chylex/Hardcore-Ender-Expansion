@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
@@ -491,9 +490,9 @@ public class BlockTests{
 		pos.setBlock(world,block);
 	}
 	
-	private void set(Block block, int meta){
+	/*private void set(Block block, int meta){
 		pos.setBlock(world,block,meta);
-	}
+	}*/
 	
 	private void move(){
 		pos.move(1,0,0);
@@ -517,7 +516,7 @@ public class BlockTests{
 	
 	/* TEST METHODS */
 	
-	private void runEntity(Entity entity, int ticks){
+	/*private void runEntity(Entity entity, int ticks){
 		Assert.notNull(entity,"Unexpected argument, entity is null.");
 		
 		for(int a = 0; a < ticks; a++){
@@ -537,5 +536,5 @@ public class BlockTests{
 		Assert.notNull(tile,"Unexpected argument, tile entity is null.");
 		
 		for(int a = 0; a < ticks; a++)tile.updateEntity();
-	}
+	}*/
 }

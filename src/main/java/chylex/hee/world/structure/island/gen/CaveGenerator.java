@@ -1,7 +1,4 @@
 package chylex.hee.world.structure.island.gen;
-import java.util.HashSet;
-import java.util.Set;
-import chylex.hee.system.util.BlockPosM;
 
 public class CaveGenerator{
 	private static double[] distanceValues = new double[64];
@@ -14,19 +11,6 @@ public class CaveGenerator{
 				}
 			}
 		}
-	}
-	
-	private final int centerX,centerY,centerZ,radX,radY,radZ;
-	private final Set<BlockPosM> airList = new HashSet<>();
-	private final Set<BlockPosM> clusterList = new HashSet<>();
-	
-	public CaveGenerator(int centerX, int centerY, int centerZ, int radX, int radY, int radZ){
-		this.centerX = centerX;
-		this.centerY = centerY;
-		this.centerZ = centerZ;
-		this.radX = radX;
-		this.radY = radY;
-		this.radZ = radZ;
 	}
 	
 	/*public void setup(Random rand, IslandBiomeBase biome){

@@ -19,6 +19,10 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.mob.teleport.ITeleportPredicate;
+import chylex.hee.entity.mob.teleport.MobTeleporter;
+import chylex.hee.entity.mob.teleport.TeleportLocation.ITeleportXZ;
+import chylex.hee.entity.mob.teleport.TeleportLocation.ITeleportY;
 import chylex.hee.init.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
@@ -26,7 +30,6 @@ import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntityAttributes.Operation;
 import chylex.hee.system.abstractions.entity.EntitySelector;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -46,43 +49,7 @@ public enum CurseType{
 			if (timer == 0){
 				Random rand = entity.getRNG();
 				timer = (byte)(20+rand.nextInt(60));
-				
-				double prevX = entity.posX, prevY = entity.posY, prevZ = entity.posZ, tpX, tpY, tpZ;
-				
-				for(int attempt = 0; attempt < 200; attempt++){
-					tpX = prevX+(rand.nextDouble()-0.5D)*64D;
-					tpY = prevY+rand.nextInt(64)-32;
-					tpZ = prevZ+(rand.nextDouble()-0.5D)*64D;
-					
-					BlockPosM pos = BlockPosM.tmp(tpX,tpY,tpZ);
-
-					if (entity.worldObj.blockExists(pos.x,pos.y,pos.z)){
-						boolean foundTopBlock = false;
-
-						while(!foundTopBlock && pos.y > 0){
-							if (pos.moveDown().getMaterial(entity.worldObj).blocksMovement())foundTopBlock = true;
-							else --tpY;
-						}
-
-						if (foundTopBlock){
-							entity.setPositionAndUpdate(tpX,tpY,tpZ);
-
-							if ((entity.worldObj.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty() && !entity.worldObj.isAnyLiquid(entity.boundingBox))){
-								hasTeleported = true;
-							}
-						}
-					}
-
-					if (!hasTeleported)entity.setPosition(prevX,prevY,prevZ);
-					else{
-						if (!entity.worldObj.isRemote){
-							PacketPipeline.sendToAllAround(entity,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,prevX,prevY,prevZ,tpX,tpY,tpZ));
-							PacketPipeline.sendToAllAround(entity,256D,new C21EffectEntity(FXType.Entity.SIMPLE_TELEPORT_NOSOUND,prevX,prevY,prevZ,entity.width,entity.height));
-						}
-						
-						break;
-					}
-				}
+				curseTeleporter.teleport(entity,rand);
 			}
 			else --timer;
 			
@@ -464,6 +431,24 @@ public enum CurseType{
 		.setRecipe(ItemList.instability_orb,Items.book,Items.redstone,Items.emerald)
 		.setUses(EnumCurseUse.BLOCK,14,19).setUses(EnumCurseUse.ENTITY,10,12).setUses(EnumCurseUse.PLAYER,8,11)
 		.setColor1h(300).setColor2g(50);
+	}
+	
+	private static final MobTeleporter<EntityLivingBase> curseTeleporter = new MobTeleporter<>();
+	
+	static{
+		curseTeleporter.setLocationSelector(
+			ITeleportXZ.inSquare(32),
+			ITeleportY.around(32)
+		);
+		
+		curseTeleporter.setAttempts(200);
+		curseTeleporter.addLocationPredicate(ITeleportPredicate.noCollision);
+		curseTeleporter.addLocationPredicate(ITeleportPredicate.noLiquid);
+		
+		curseTeleporter.onTeleport((entity, startPos, rand) -> {
+			PacketPipeline.sendToAllAround(entity,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,startPos.x,startPos.y,startPos.z,entity.posX,entity.posY,entity.posZ));
+			PacketPipeline.sendToAllAround(entity,256D,new C21EffectEntity(FXType.Entity.SIMPLE_TELEPORT_NOSOUND,startPos.x,startPos.y,startPos.z,entity.width,entity.height));
+		});
 	}
 	
 	public static CurseType getFromDamage(int damage){

@@ -15,14 +15,14 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockDeathFlower extends BlockFlower{
-	private static int[] yOffsets = new int[]{
+	/*private static int[] yOffsets = new int[]{
 		0, 1, 2, 3, -2, -1
-	};
+	};*/
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconDeadFlower;
@@ -129,11 +129,11 @@ public class BlockDeathFlower extends BlockFlower{
 		ItemStack is = player.inventory.getCurrentItem();
 		if (is == null || is.getItem() != ItemList.end_powder)return false;
 		
-		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
+		int meta = Pos.at(x,y,z).getMetadata(world);
 		
 		if (meta > 0 && meta < 15){
 			if (!world.isRemote){
-				BlockPosM.tmp(x,y,z).setMetadata(world,meta-1,2);
+				Pos.at(x,y,z).setMetadata(world,meta-1,2);
 				if (!player.capabilities.isCreativeMode)--is.stackSize;
 				world.playAuxSFX(2005,x,y,z,0);
 			}
@@ -156,13 +156,13 @@ public class BlockDeathFlower extends BlockFlower{
 	
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z){
-		return canPlaceBlockOn(BlockPosM.tmp(x,y-1,z).getBlock(world));
+		return canPlaceBlockOn(Pos.at(x,y-1,z).getBlock(world));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
+		int meta = Pos.at(x,y,z).getMetadata(world);
 		
 		if (meta > 0 && meta < 15 && (rand.nextInt(50) < meta*Math.sqrt(meta) || rand.nextInt(18-meta) == 0)){
 			double speedMp = 0.003D*meta;

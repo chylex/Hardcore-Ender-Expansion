@@ -7,6 +7,7 @@ import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXHelper;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -143,6 +144,10 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	@Override
 	public final int getSpawnerZ(){
 		return spawnerTile.zCoord;
+	}
+	
+	public final Pos getSpawnerPos(){
+		return Pos.at(spawnerTile);
 	}
 	
 	@Override

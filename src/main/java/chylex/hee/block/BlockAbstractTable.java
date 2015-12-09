@@ -7,9 +7,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.energy.EnergyValues;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.tileentity.TileEntityAbstractTable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,13 +43,13 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 				
 				if (amount >= EnergyValues.min){
 					int energyMeta = Math.min(15,3+(int)(amount*0.8F));
-					BlockPosM tmpPos = BlockPosM.tmp();
+					PosMutable mpos = new PosMutable();
 					
 					for(int attempt = 0, placed = 0; attempt < 20 && placed < 3; attempt++){
-						tmpPos.set(x+world.rand.nextInt(9)-4,y+world.rand.nextInt(9)-4,z+world.rand.nextInt(9)-4);
+						mpos.set(x,y,z).move(world.rand.nextInt(9)-4,world.rand.nextInt(9)-4,world.rand.nextInt(9)-4);
 						
-						if (tmpPos.isAir(world)){
-							tmpPos.setBlock(world,BlockList.corrupted_energy_low,energyMeta);
+						if (mpos.isAir(world)){
+							mpos.setBlock(world,BlockCorruptedEnergy.getCorruptedEnergy(energyMeta));
 							++placed;
 						}
 					}

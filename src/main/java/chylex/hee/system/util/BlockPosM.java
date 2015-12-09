@@ -3,17 +3,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockPosM{
-	@Deprecated
-	public static AxisAlignedBB getBoundingBox(BlockPosM loc1, BlockPosM loc2){
-		return AxisAlignedBB.getBoundingBox(Math.min(loc1.x,loc2.x),loc1.y,Math.min(loc1.z,loc2.z),Math.max(loc1.x,loc2.x),loc2.y,Math.max(loc1.z,loc2.z));
-	}
-	
 	/* === TEMPORARY BLOCKPOS === */
 	
 	private static final ThreadLocal<BlockPosM> temporary = new ThreadLocal<BlockPosM>(){
@@ -54,11 +48,6 @@ public class BlockPosM{
 	}
 
 	@Deprecated
-	public static BlockPosM tmp(long serialized){
-		return temporary.get().set(serialized);
-	}
-
-	@Deprecated
 	public int x, y, z;
 	
 	/* === CONSTRUCTORS === */
@@ -84,11 +73,6 @@ public class BlockPosM{
 	@Deprecated
 	public BlockPosM(Entity entity){
 		set(entity);
-	}
-
-	@Deprecated
-	public BlockPosM(long serialized){
-		set(serialized);
 	}
 	
 	/* === POSITION SETTING === */
@@ -139,11 +123,6 @@ public class BlockPosM{
 	public BlockPosM set(Entity entity){
 		return set(MathUtil.floor(entity.posX),MathUtil.floor(entity.posY),MathUtil.floor(entity.posZ));
 	}
-
-	@Deprecated
-	public BlockPosM set(long serialized){
-		return set((int)(serialized>>38),(int)(serialized<<26>>52),(int)(serialized<<38>>38));
-	}
 	
 	/* === POSITION ALTERING === */
 
@@ -183,26 +162,6 @@ public class BlockPosM{
 	@Deprecated
 	public BlockPosM moveDown(){
 		return move(EnumFacing.DOWN);
-	}
-
-	@Deprecated
-	public BlockPosM moveNorth(){
-		return move(EnumFacing.NORTH);
-	}
-
-	@Deprecated
-	public BlockPosM moveSouth(){
-		return move(EnumFacing.SOUTH);
-	}
-
-	@Deprecated
-	public BlockPosM moveEast(){
-		return move(EnumFacing.EAST);
-	}
-
-	@Deprecated
-	public BlockPosM moveWest(){
-		return move(EnumFacing.WEST);
 	}
 	
 	/* === WORLD === */
@@ -272,29 +231,5 @@ public class BlockPosM{
 	@Deprecated
 	public BlockPosM copy(){
 		return new BlockPosM(x,y,z);
-	}
-
-	@Deprecated
-	public long toLong(){
-		return (x&(1L<<26)-1L)<<38|(y&(1L<<12)-1L)<<26|(z&(1L<<26)-1L);
-	}
-	
-	@Override
-	public boolean equals(Object obj){
-		if (obj instanceof BlockPosM){
-			BlockPosM pos = (BlockPosM)obj;
-			return pos.x == x && pos.y == y && pos.z == z;
-		}
-		else return super.equals(obj);
-	}
-	
-	@Override
-	public int hashCode(){
-		return (y+z*31)*31+x;
-	}
-	
-	@Override
-	public String toString(){
-		return new StringBuilder().append("{ ").append(x).append(", ").append(y).append(", ").append(z).append(" }").toString();
 	}
 }
