@@ -69,7 +69,7 @@ public class GenerateHubVoidPortal implements ITerritoryFeature{
 				}
 				
 				if (offDist < 3D)world.setBlock(x+offX,y-1,z+offZ,BlockList.void_portal,Meta.voidPortalTravel);
-				else if (offDist < 4D)world.setBlock(x+offX,y-1,z+offZ,BlockList.void_portal_frame);
+				else if (offDist < 4D)world.setBlock(x+offX,y-1,z+offZ,BlockList.void_portal_frame,offDist == 3D ? Meta.voidPortalFrameStorage : Meta.voidPortalFramePlain);
 				else if (offDist < 6D)world.setBlock(x+offX,y-1,z+offZ,BlockList.dark_loam);
 				else if (offDist < 7D){
 					world.setBlock(x+offX,y-1,z+offZ,Blocks.end_stone); // same reason as above

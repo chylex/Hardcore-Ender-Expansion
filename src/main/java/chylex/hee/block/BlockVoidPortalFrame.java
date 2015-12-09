@@ -67,9 +67,9 @@ public class BlockVoidPortalFrame extends BlockContainer{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){ // TODO
-		blockIcon = iconRegister.registerIcon("hardcoreenderexpansion:end_portal_frame_side");
-		iconTopPlain = iconRegister.registerIcon("hardcoreenderexpansion:end_portal_frame_top_plain");
-		iconTopStorage = iconRegister.registerIcon("hardcoreenderexpansion:end_portal_frame_top_acceptor");
+	public void registerBlockIcons(IIconRegister iconRegister){
+		blockIcon = iconRegister.registerIcon("hardcoreenderexpansion:void_portal_frame_side");
+		iconTopPlain = iconRegister.registerIcon("hardcoreenderexpansion:void_portal_frame_top_plain");
+		iconTopStorage = iconRegister.registerIcon("hardcoreenderexpansion:void_portal_frame_top_storage");
 	}
 }

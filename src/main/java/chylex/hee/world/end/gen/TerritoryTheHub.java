@@ -104,16 +104,18 @@ public class TerritoryTheHub extends TerritoryGenerator{
 		endPowderOreMain.generateSplit(world,rand);
 		endPowderOreSurface.generateSplit(world,rand);
 		
-		for(int x = -3; x <= 3; x++){
-			for(int z = -3; z <= 3; z++){
+		for(int x = -4; x <= 4; x++){
+			for(int z = -4; z <= 4; z++){
+				double dist = MathUtil.distance(x,z);
 				if (Math.abs(x) <= 1 && Math.abs(z) <= 1)world.setAttentionWhore(x,lowest,z,new BlockInfo(Blocks.end_portal,Meta.endPortalActive));
-				else if (MathUtil.distance(x,z) <= 2.32D)world.setAttentionWhore(x,lowest,z,new BlockInfo(BlockList.end_portal_frame,Meta.endPortalFramePlain));
+				else if (dist <= 2.32D)world.setAttentionWhore(x,lowest,z,new BlockInfo(BlockList.end_portal_frame,Meta.endPortalFramePlain));
+				else if (dist < 4D)world.setBlock(x,lowest,z,Blocks.end_stone);
 				
 				if (Math.abs(x) <= 2 && Math.abs(z) <= 2){
 					world.setBlock(x,lowest-1,z,Blocks.end_stone); // sometimes End Powder Ore spawns under the portal and it makes particle effects
 				}
 				
-				if (MathUtil.distance(x,z) <= 3.61D){
+				if (dist <= 3.61D){
 					for(int y = lowest+1; y < height; y++){
 						if (!world.isAir(x,y,z))world.setAir(x,y,z);
 					}
