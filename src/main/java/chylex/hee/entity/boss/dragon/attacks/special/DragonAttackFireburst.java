@@ -10,7 +10,6 @@ import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackFireburst extends DragonSpecialAttackBase{
 	private Entity target;
-	private double targetY;
 	private byte shootTimer;
 	private byte shotAmount;
 	private byte runCounter;
@@ -25,7 +24,6 @@ public class DragonAttackFireburst extends DragonSpecialAttackBase{
 	public void init(){
 		super.init();
 		target = null;
-		targetY = 0D;
 		shootTimer = shotAmount = runCounter = waitTimer = 0;
 		ended = false;
 		dragon.target = null;

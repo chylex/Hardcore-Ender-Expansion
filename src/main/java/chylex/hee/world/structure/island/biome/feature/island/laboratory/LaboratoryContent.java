@@ -1,12 +1,11 @@
 package chylex.hee.world.structure.island.biome.feature.island.laboratory;
-import chylex.hee.system.collections.weight.WeightedMap;
 
 public final class LaboratoryContent{
-	private enum SmallRoom{
+	/*private enum SmallRoom{
 		EMPTY, CLUSTER, ENDER_CHEST, FLOWER_POTS, LOOT_CHEST, FLOOR_DESIGN
-	}
+	}*/
 	
-	private static final WeightedMap<SmallRoom> smallRoomList = new WeightedMap<>(SmallRoom.values().length,map -> {
+	/*private static final WeightedMap<SmallRoom> smallRoomList = new WeightedMap<>(SmallRoom.values().length,map -> {
 		map.add(SmallRoom.LOOT_CHEST, 18);
 		map.add(SmallRoom.FLOOR_DESIGN, 16);
 		map.add(SmallRoom.CLUSTER, 15);

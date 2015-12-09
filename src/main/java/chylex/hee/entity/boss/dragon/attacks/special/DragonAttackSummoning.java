@@ -9,7 +9,7 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -54,15 +54,8 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 				}*/
 				
 				if (aggro < getDifficulty() && total < 6+getDifficulty()){
-					boolean flying = true;
-					BlockPosM tmpPos = BlockPosM.tmp(player);
-					
-					for(int a = 0, testY = MathUtil.floor(player.posY)-1; a < 5; a++){
-						if (!tmpPos.setY(testY-a).isAir(dragon.worldObj)){
-							flying = false;
-							break;
-						}
-					}
+					Pos playerPos = Pos.at(player);
+					boolean flying = !Pos.allBlocksMatch(playerPos,playerPos.offset(-5),pos -> pos.isAir(dragon.worldObj));
 					
 					if (flying){
 						if (lastStriked.adjustOrPutValue(player.getPersistentID(),(byte)-1,(byte)0) <= 0){

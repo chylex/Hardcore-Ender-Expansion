@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.stats.Achievement;
 import net.minecraft.world.World;
 import chylex.hee.init.BlockList;
@@ -198,13 +196,13 @@ public abstract class IslandBiomeBase{
 		}*/
 	}
 	
-	private static final boolean hasEntitySpace(World world, Entity entity){
+	/*private static final boolean hasEntitySpace(World world, Entity entity){
 		return world.checkNoEntityCollision(entity.boundingBox) && world.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty() && !world.isAnyLiquid(entity.boundingBox);
 	}
 	
 	private static final boolean isPlayerMoving(EntityPlayer player){
 		return Math.abs(player.lastTickPosX-player.posX) > 0.0001D || Math.abs(player.lastTickPosZ-player.posZ) > 0.0001D;
-	}
+	}*/
 	
 	public float getIslandSurfaceHeightMultiplier(){
 		return 1F;

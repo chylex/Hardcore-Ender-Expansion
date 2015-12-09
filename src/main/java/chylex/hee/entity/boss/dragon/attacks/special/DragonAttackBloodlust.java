@@ -1,7 +1,6 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.MathHelper;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
@@ -10,8 +9,8 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
+import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.entity.EntitySelector;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -44,25 +43,22 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 				EntityEnderman enderman = DragonUtil.getClosestEntity(player,EntitySelector.type(dragon.worldObj,EntityEnderman.class,player.boundingBox.expand(18D,8D,18D)));
 				
 				if (enderman == null){
-					BlockPosM tmpPos = BlockPosM.tmp();
+					PosMutable mpos = new PosMutable();
 					
 					for(int attempt = 0; attempt < 40; attempt++){
 						float rad = rand.nextFloat()*(float)Math.PI*2F;
 						double len = 10D+rand.nextDouble()*8D;
 						
-						tmpPos.x = (int)Math.round(player.posX+MathHelper.sin(rad)*len);
-						tmpPos.y = (int)Math.round(player.posY-(rand.nextDouble()-0.5D)*6D);
-						tmpPos.z = (int)Math.round(player.posZ+MathHelper.cos(rad)*len);
-						
-						if (tmpPos.isAir(dragon.worldObj))break;
+						mpos.set(player.posX+Math.sin(rad)*len,player.posY-(rand.nextDouble()-0.5D)*6D,player.posZ+Math.cos(rad)*len);
+						if (mpos.isAir(dragon.worldObj))break;
 					}
 					
 					for(int a = 0; a < 2+rand.nextInt(3)+(getDifficulty()>>1); a++){
 						for(int attempt = 0; attempt < 6; attempt++){
-							if (tmpPos.move(rand.nextInt(3)-1,rand.nextInt(3)-1,rand.nextInt(3)-1).isAir(dragon.worldObj))break;
+							if (mpos.move(rand.nextInt(3)-1,rand.nextInt(3)-1,rand.nextInt(3)-1).isAir(dragon.worldObj))break;
 						}
 						
-						spawnBatAt(tmpPos.x,tmpPos.y,tmpPos.z,player);
+						spawnBatAt(mpos.x,mpos.y,mpos.z,player);
 					}
 				}
 				else{

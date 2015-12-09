@@ -22,6 +22,13 @@ public final class TeleportLocation<T extends Entity> implements ITeleportLocati
 				return startPos.offset(offXZ.x*dist,0D,offXZ.z*dist);
 			};
 		}
+		
+		public static <T extends Entity> ITeleportXZ<T> exactDistance(final double dist){
+			return (entity, startPos, rand) -> {
+				Vec offXZ = Vec.xzRandom(rand);
+				return startPos.offset(offXZ.x*dist,0D,offXZ.z*dist);
+			};
+		}
 	}
 
 	@FunctionalInterface
@@ -36,11 +43,14 @@ public final class TeleportLocation<T extends Entity> implements ITeleportLocati
 			return (entity, startPos, rand) -> MathUtil.floor(startPos.y+offset+(rand.nextDouble()-0.5D)*2D*maxDist);
 		}
 		
+		/**
+		 * Keeps going down (or up if {@code maxOffset} is negative) {@code maxOffset} blocks until it hits a solid block.
+		 */
 		public static <T extends Entity> ITeleportY<T> findSolidBottom(final ITeleportY<T> provider, final int maxOffset){
 			return (entity, startPos, rand) -> {
 				final int startY = provider.findY(entity,startPos,rand);
 				
-				for(int y = startY; y >= startY-maxOffset; y--){
+				for(int y = startY; y != startY-maxOffset; y -= (int)Math.signum(maxOffset)){
 					if (Pos.at(entity.posX,y-1,entity.posZ).getMaterial(entity.worldObj).blocksMovement())return y;
 				}
 				
@@ -60,6 +70,7 @@ public final class TeleportLocation<T extends Entity> implements ITeleportLocati
 	@Override
 	public Vec findPosition(T entity, Vec startPos, Random rand){
 		Vec vec = findXZ.findXZ(entity,startPos,rand);
+		entity.setPosition(vec.x,entity.posY,vec.z);
 		vec.y = findY.findY(entity,startPos,rand);
 		return vec;
 	}

@@ -1,7 +1,5 @@
 package chylex.hee.mechanics.energy;
 import gnu.trove.map.hash.TObjectFloatHashMap;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.MathUtil;
@@ -45,13 +43,13 @@ public final class EnergyValues{
 		setItemEnergy(ItemList.living_matter, 10.50F);*/
 	}
 	
-	private static void setItemEnergy(Block block, float energyUnits){
+	/*private static void setItemEnergy(Block block, float energyUnits){
 		items.put(new ItemDamagePair(Item.getItemFromBlock(block),-1),unit*energyUnits);
 	}
 	
 	private static void setItemEnergy(Item item, float energyUnits){
 		items.put(new ItemDamagePair(item,-1),unit*energyUnits);
-	}
+	}*/
 	
 	public static boolean setItemEnergy(ItemDamagePair pair, float energyUnits){
 		if (!MathUtil.floatEquals(getItemEnergy(new ItemStack(pair.item,1,pair.damage == -1 ? 0 : pair.damage)),0F))return false;

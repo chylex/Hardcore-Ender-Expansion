@@ -31,6 +31,10 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.mob.teleport.ITeleportPredicate;
+import chylex.hee.entity.mob.teleport.MobTeleporter;
+import chylex.hee.entity.mob.teleport.TeleportLocation.ITeleportXZ;
+import chylex.hee.entity.mob.teleport.TeleportLocation.ITeleportY;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
 import chylex.hee.mechanics.charms.CharmRecipe;
 import chylex.hee.mechanics.charms.CharmType;
@@ -45,7 +49,6 @@ import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntityAttributes.Operation;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -98,8 +101,17 @@ public final class CharmEvents{
 	private final TObjectByteHashMap<UUID> playerLastResortCooldown = new TObjectByteHashMap<>();
 	
 	private final AttributeModifier speedModifier = EntityAttributes.createModifier("Charm speed",Operation.MULTIPLY,1.15D);
+	private final MobTeleporter<EntityPlayer> lastResortTeleporter = new MobTeleporter<>();
 	
-	CharmEvents(){}
+	CharmEvents(){
+		lastResortTeleporter.setAttempts(128);
+		lastResortTeleporter.addLocationPredicate(ITeleportPredicate.airAboveSolid(2));
+		
+		lastResortTeleporter.onTeleport((entity, startPos, rand) -> {
+			PacketPipeline.sendToAllAround(entity.dimension,startPos.x,startPos.y,startPos.z,64D,new C21EffectEntity(FXType.Entity.CHARM_LAST_RESORT,startPos.x,startPos.y,startPos.z,entity.width,entity.height));
+			entity.setPositionAndUpdate(entity.posX,entity.posY+0.01D,entity.posZ);
+		});
+	}
 	
 	public void onDisabled(){
 		if (!playerSpeed.isEmpty()){
@@ -350,26 +362,15 @@ public final class CharmEvents{
 			float[] lastResortCooldown = getProp(targetPlayer,"lastresortcooldown");
 			
 			if (lastResortCooldown.length > 0 && !playerLastResortCooldown.containsKey(targetPlayer.getGameProfile().getId())){
-				float[] lastResortDist = getProp(targetPlayer,"lastresortblocks");
-				int randIndex = targetPlayer.worldObj.rand.nextInt(lastResortCooldown.length);
-				BlockPosM tmpPos = BlockPosM.tmp();
+				final float[] lastResortDist = getProp(targetPlayer,"lastresortblocks");
+				final int randIndex = targetPlayer.worldObj.rand.nextInt(lastResortCooldown.length);
 				
-				for(int attempt = 0; attempt < 128; attempt++){
-					float ang = targetPlayer.worldObj.rand.nextFloat()*2F*(float)Math.PI;
-					
-					tmpPos.x = MathUtil.floor(targetPlayer.posX+MathHelper.cos(ang)*lastResortDist[randIndex]);
-					tmpPos.y = MathUtil.floor(targetPlayer.posY)-2;
-					tmpPos.z = MathUtil.floor(targetPlayer.posZ+MathHelper.sin(ang)*lastResortDist[randIndex]);
-					
-					for(int yAttempt = 0, origY = tmpPos.y; yAttempt <= 6; yAttempt++){
-						if (!tmpPos.setY(origY-1).isAir(targetPlayer.worldObj) && tmpPos.setY(origY).isAir(targetPlayer.worldObj) && tmpPos.setY(origY+1).isAir(targetPlayer.worldObj)){
-							PacketPipeline.sendToAllAround(targetPlayer,64D,new C21EffectEntity(FXType.Entity.CHARM_LAST_RESORT,targetPlayer));
-							targetPlayer.setPositionAndUpdate(tmpPos.x+0.5D,tmpPos.y+0.01D,tmpPos.z+0.5D);
-							attempt = 129;
-							break;
-						}
-					}
-				}
+				lastResortTeleporter.setLocationSelector(
+					ITeleportXZ.exactDistance(lastResortDist[randIndex]),
+					ITeleportY.findSolidBottom((entity, startPos, rand) -> MathUtil.floor(startPos.y)-2,-6)
+				);
+				
+				lastResortTeleporter.teleport(targetPlayer,targetPlayer.worldObj.rand);
 				
 				targetPlayer.setHealth(targetPlayer.prevHealth);
 				targetPlayer.motionX = targetPlayer.motionY = targetPlayer.motionZ = 0D;
