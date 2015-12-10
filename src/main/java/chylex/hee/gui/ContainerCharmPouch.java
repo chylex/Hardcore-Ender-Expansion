@@ -5,7 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.gui.helpers.ContainerHelper;
@@ -102,31 +101,7 @@ public class ContainerCharmPouch extends Container{
 	
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotId){
-		ItemStack is = null;
-		Slot slot = (Slot)inventorySlots.get(slotId);
-
-		if (slot != null && slot.getHasStack()){
-			ItemStack is2 = slot.getStack();
-			is = is2.copy();
-
-			if (slotId < 9){
-				if (!mergeItemStack(is2,9,inventorySlots.size(),true))return null;
-			}
-			else{
-				if (is2.getItem() == ItemList.charm){
-					if (!mergeItemStack(is2,0,3,false))return null;
-				}
-				else if (is2.getItem() == ItemList.rune){
-					if (!mergeItemStack(is2,3,8,false))return null;
-				}
-				else return null;
-			}
-
-			if (is2.stackSize == 0)slot.putStack(null);
-			else slot.onSlotChanged();
-		}
-
-		return is;
+		return ContainerHelper.transferStack(this,this::mergeItemStack,9,slotId); // TODO test
 	}
 
 	@Override

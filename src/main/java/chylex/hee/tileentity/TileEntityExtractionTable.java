@@ -6,7 +6,11 @@ import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.energy.EnergyValues;
 
 public class TileEntityExtractionTable extends TileEntityAbstractTable{
-	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1, 2 };
+	public static final int slotStardust = 0, slotOrb = 1, slotSubject = 2;
+	
+	private static final int[] slotsTop = new int[]{ slotSubject },
+	                           slotsSides = new int[]{ slotStardust, slotOrb };
+	
 	private static final float maxStoredEnergy = EnergyValues.unit*15F;
 
 	private byte leakTimer = 100;
@@ -15,7 +19,7 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	public void updateEntity(){
 		super.updateEntity();
 		
-		if (!worldObj.isRemote && leakTimer < 0 || (leakTimer -= (items[2] == null || items[2].getItem() != ItemList.instability_orb ? 16 : Math.max(0,16-items[2].stackSize))) < 0){
+		if (!worldObj.isRemote && leakTimer < 0 || (leakTimer -= (items[slotOrb] == null || items[slotOrb].getItem() != ItemList.instability_orb ? 16 : Math.max(0,16-items[slotOrb].stackSize))) < 0){
 			leakTimer = 100;
 			
 			/* TODO if (storedEnergy >= EnergyValues.min){
@@ -66,10 +70,10 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	@Override
 	public void invalidateInventory(){
 		if (worldObj != null && worldObj.isRemote)return;
-		if (requiredStardust == 0 || items[0] == null)resetTable();
+		if (requiredStardust == 0 || items[slotSubject] == null)resetTable();
 		
-		if (items[0] != null){
-			float energy = EnergyValues.getItemEnergy(items[0]);
+		if (items[slotSubject] != null){
+			float energy = EnergyValues.getItemEnergy(items[slotSubject]);
 			
 			if (energy > 0F){
 				requiredStardust = (byte)(1+1.5F*Math.sqrt(energy*4F/EnergyValues.unit));
@@ -81,12 +85,12 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 
 	@Override
 	protected boolean onWorkFinished(){
-		float energy = EnergyValues.getItemEnergy(items[0]);
+		float energy = EnergyValues.getItemEnergy(items[slotSubject]);
 		if (storedEnergy+energy > maxStoredEnergy)return false;
 		
 		storedEnergy += energy;
-		if ((items[0].stackSize -= 1) <= 0)items[0] = null;
-		if ((items[1].stackSize -= requiredStardust) <= 0)items[1] = null;
+		if ((items[slotSubject].stackSize -= 1) <= 0)items[slotSubject] = null;
+		if ((items[slotStardust].stackSize -= requiredStardust) <= 0)items[slotStardust] = null;
 		
 		return true;
 	}
@@ -98,7 +102,7 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	
 	@Override
 	public int getHoldingStardust(){
-		return items[1] == null ? 0 : items[1].stackSize;
+		return items[slotStardust] == null ? 0 : items[slotStardust].stackSize;
 	}
 	
 	@Override
@@ -122,12 +126,12 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack is){
 		super.setInventorySlotContents(slot,is);
-		if (slot == 0)invalidateInventory();
+		if (slot == slotSubject)invalidateInventory();
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack is){
-		return slot == 1 ? is.getItem() == ItemList.stardust : slot == 2 ? is.getItem() == ItemList.instability_orb : true;
+		return slot == slotStardust ? is.getItem() == ItemList.stardust : slot == slotOrb ? is.getItem() == ItemList.instability_orb : true;
 	}
 
 	@Override

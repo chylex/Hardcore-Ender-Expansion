@@ -4,6 +4,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import chylex.hee.gui.helpers.ContainerHelper;
 import chylex.hee.gui.slots.SlotReadOnly;
 
 public class ContainerLootChest extends ContainerChest{
@@ -24,25 +25,6 @@ public class ContainerLootChest extends ContainerChest{
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotId){
 		if (player.capabilities.isCreativeMode)return super.transferStackInSlot(player,slotId);
-		
-		ItemStack isCopy = null;
-		Slot slot = (Slot)inventorySlots.get(slotId);
-
-		if (slot != null && slot.getHasStack()){
-			ItemStack is = slot.getStack();
-			isCopy = is.copy();
-
-			if (slotId < chestSlots){
-				if (!mergeItemStack(is,chestSlots,inventorySlots.size(),true)){
-					return null;
-				}
-			}
-			else return null;
-
-			if (is.stackSize == 0)slot.putStack(null);
-			else slot.onSlotChanged();
-		}
-
-		return isCopy;
+		else return ContainerHelper.transferStack(this,this::mergeItemStack,chestSlots,slotId);
 	}
 }

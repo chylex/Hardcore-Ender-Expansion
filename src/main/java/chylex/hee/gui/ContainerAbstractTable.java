@@ -3,6 +3,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
+import net.minecraft.item.ItemStack;
 import chylex.hee.gui.helpers.ContainerHelper;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityAbstractTable;
@@ -10,18 +11,17 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class ContainerAbstractTable extends Container{
-	private final TileEntityAbstractTable table;
+	protected final TileEntityAbstractTable table;
 	private int prevReqStardust, prevTime;
 	private float prevStoredEnergy;
 	
 	public ContainerAbstractTable(InventoryPlayer inv, TileEntityAbstractTable table){
 		this.table = table;
-		
-		registerSlots(table);
+		registerSlots();
 		ContainerHelper.addPlayerInventorySlots(this,inv,0,0);
 	}
 	
-	protected abstract void registerSlots(TileEntityAbstractTable table);
+	protected abstract void registerSlots();
 	
 	@Override
 	public void addCraftingToCrafters(ICrafting crafter){
@@ -45,6 +45,11 @@ public abstract class ContainerAbstractTable extends Container{
 		prevReqStardust = table.getRequiredStardust();
 		prevTime = table.getTime();
 		prevStoredEnergy = table.getStoredEnergy();
+	}
+	
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotId){
+		return ContainerHelper.transferStack(this,this::mergeItemStack,table.getSizeInventory(),slotId); // TODO test
 	}
 
 	@Override

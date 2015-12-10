@@ -9,7 +9,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import chylex.hee.gui.helpers.ContainerHelper;
 import chylex.hee.gui.helpers.IContainerEventHandler;
@@ -50,24 +49,7 @@ public class ContainerEndPowderEnhancements extends Container implements IContai
 	
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotId){
-		Slot slot = (Slot)inventorySlots.get(slotId);
-
-		if (slot != null && slot.getHasStack()){
-			ItemStack is2 = slot.getStack();
-			
-			if (slotId < 1){
-				if (!mergeItemStack(is2,1,inventorySlots.size(),true))return null;
-			}
-			else if (EnhancementRegistry.canEnhanceItem(is2.getItem()) && !isEnhancingTile()){
-				if (!mergeItemStack(is2,0,1,false))return null;
-			}
-			else return null;
-
-			if (is2.stackSize == 0)slot.putStack(null);
-			else slot.onSlotChanged();
-		}
-		
-		return null;
+		return ContainerHelper.transferStack(this,this::mergeItemStack,containerInv.getSizeInventory(),slotId); // TODO test
 	}
 	
 	@Override

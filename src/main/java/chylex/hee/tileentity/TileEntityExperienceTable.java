@@ -13,7 +13,11 @@ import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.MathUtil;
 
 public class TileEntityExperienceTable extends TileEntityAbstractTable{
-	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1 }, slotsBottom = new int[]{ 2 };
+	public static final int slotStardust = 0, slotSubject = 1, slotOutput = 2;
+	
+	private static final int[] slotsTop = new int[]{ slotSubject },
+	                           slotsSides = new int[]{ slotStardust },
+	                           slotsBottom = new int[]{ slotOutput };
 	
 	private static final TObjectByteHashMap<ItemDamagePair> direct = new TObjectByteHashMap<>();
 	
@@ -92,8 +96,8 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 		if (worldObj != null && worldObj.isRemote)return;
 		expAmount = 0;
 		
-		if (items[0] != null){
-			if (canConvertItem(items[0],worldObj)){
+		if (items[slotSubject] != null){
+			if (canConvertItem(items[slotSubject],worldObj)){
 				expAmount = -1;
 				timeStep = 12;
 				requiredStardust = 4;
@@ -105,16 +109,16 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 
 	@Override
 	protected boolean onWorkFinished(){
-		if (expAmount == -1)expAmount = Math.min(64,getExperience(items[0],worldObj));
+		if (expAmount == -1)expAmount = Math.min(64,getExperience(items[slotSubject],worldObj));
 		
-		if (items[2] == null)items[2] = new ItemStack(ItemList.exp_bottle,expAmount);
-		else if (items[2].stackSize+expAmount <= items[2].getMaxStackSize())items[2].stackSize += expAmount;
+		if (items[slotOutput] == null)items[slotOutput] = new ItemStack(ItemList.exp_bottle,expAmount);
+		else if (items[slotOutput].stackSize+expAmount <= items[slotOutput].getMaxStackSize())items[slotOutput].stackSize += expAmount;
 		else return false;
 		
-		if ((items[1].stackSize -= requiredStardust) <= 0)items[1] = null;
+		if ((items[slotStardust].stackSize -= requiredStardust) <= 0)items[slotStardust] = null;
 		
-		if (--items[0].stackSize <= 0){
-			items[0] = null;
+		if (--items[slotSubject].stackSize <= 0){
+			items[slotSubject] = null;
 			expAmount = 0;
 		}
 		
@@ -123,7 +127,7 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 	
 	@Override
 	public int getHoldingStardust(){
-		return items[1] == null ? 0 : items[1].stackSize;
+		return items[slotStardust] == null ? 0 : items[slotStardust].stackSize;
 	}
 	
 	@Override
@@ -134,12 +138,12 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack is){
 		super.setInventorySlotContents(slot,is);
-		if (slot == 0)invalidateInventory();
+		if (slot == slotSubject)invalidateInventory();
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack is){
-		return slot == 1 ? is.getItem() == ItemList.stardust : slot == 0;
+		return slot == slotStardust ? is.getItem() == ItemList.stardust : slot == 0;
 	}
 
 	@Override

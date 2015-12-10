@@ -76,7 +76,7 @@ public class ContainerEnhancedBrewingStand extends Container{
 			ItemStack slotIS = slot.getStack();
 			is = slotIS.copy();
 
-			if ((slotId < 0 || slotId > 2) && slotId != 3 && slotId != 4){
+			if ((slotId < 0 || slotId > 2) && slotId != 3 && slotId != 4){ // TODO WHAT THE FUCK IS ALL THIS
 				if (!ingredientSlot.getHasStack() && ingredientSlot.isItemValid(slotIS)){
 					if (!mergeItemStack(slotIS,3,4,false))return null;
 				}
