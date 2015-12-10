@@ -10,7 +10,7 @@ import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import chylex.hee.game.save.SaveData;
-import chylex.hee.game.save.types.player.StrongholdPortalFile;
+import chylex.hee.game.save.types.player.PortalFile;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.providers.ChunkProviderHardcoreEndServer;
@@ -19,7 +19,7 @@ public class TeleportHandler extends Teleporter{
 	public static final ChunkCoordinates endSpawn = new ChunkCoordinates(0,256,0);
 	
 	public static void toOverworld(EntityPlayerMP player){
-		Optional<Pos> lastPortal = SaveData.player(player,StrongholdPortalFile.class).getPortalPos();
+		Optional<Pos> lastPortal = SaveData.player(player,PortalFile.class).getStrongholdPos();
 		
 		if (lastPortal.isPresent()){
 			Pos portalPos = lastPortal.get();
