@@ -321,7 +321,6 @@ public final class BlockList{
 		GameRegistryUtil.registerTileEntity(TileEntityEndPortalCustom.class, "EndPortal");
 		GameRegistryUtil.registerTileEntity(TileEntityEndPortalFrame.class, "EndPortalFrame");
 		GameRegistryUtil.registerTileEntity(TileEntityVoidPortal.class, "VoidPortal");
-		GameRegistryUtil.registerTileEntity(TileEntityVoidPortalFrame.class, "VoidPortalFrame");
 		// TODO SANCTUARY GameRegistryUtil.registerTileEntity(TileEntitySanctuaryBrain.class, "SanctuaryBrain");
 	}
 	
