@@ -32,5 +32,47 @@ public final class ContainerHelper{
 		container.inventoryItemStacks.add(null);
 	}
 	
+	public static void copySlotInfo(Slot targetSlot, Slot sourceSlot){
+		targetSlot.xDisplayPosition = sourceSlot.xDisplayPosition;
+		targetSlot.yDisplayPosition = sourceSlot.yDisplayPosition;
+		targetSlot.slotNumber = sourceSlot.slotNumber;
+	}
+	
+	public static Slot getSlot(Container container, int slotId){
+		return (Slot)container.inventorySlots.get(slotId);
+	}
+	
+	public static ItemStack transferStack(Container container, IMergeItemStack merge, int slotsBase, int slotId){
+		ItemStack isCopy = null;
+		Slot slot = getSlot(container,slotId);
+		
+		if (slot != null && slot.getHasStack()){			
+			ItemStack is = slot.getStack();
+			isCopy = is.copy();
+
+			if (slotId < slotsBase){
+				if (!merge.call(is,slotsBase,container.inventorySlots.size(),true))return null;
+			}
+			else{
+				boolean merged = false;
+				
+				for(int testSlot = 0; testSlot < slotsBase && is.stackSize > 0; testSlot++){
+					merged |= getSlot(container,testSlot).isItemValid(is) && merge.call(is,testSlot,testSlot+1,false);
+				}
+				
+				if (!merged)return null;
+			}
+
+			if (is.stackSize == 0)slot.putStack(null);
+			else slot.onSlotChanged();
+		}
+
+		return isCopy;
+	}
+	
+	public static interface IMergeItemStack{
+		boolean call(ItemStack is, int startSlot, int endSlot, boolean ascending);
+	}
+	
 	private ContainerHelper(){}
 }
