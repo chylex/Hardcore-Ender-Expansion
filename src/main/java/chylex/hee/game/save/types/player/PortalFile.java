@@ -1,7 +1,6 @@
 package chylex.hee.game.save.types.player;
 import java.util.Optional;
 import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.game.save.types.PlayerFile;
@@ -25,13 +24,12 @@ public class PortalFile extends PlayerFile{
 		return Optional.ofNullable(strongholdPos);
 	}
 	
-	public void setInventoryItem(int slot, ItemStack is){
-		inventory.setInventorySlotContents(slot,is);
+	public void onTokenInventoryUpdated(){
 		setModified();
 	}
 	
-	public ItemStack getInventoryItem(int slot){
-		return inventory.getStackInSlot(slot);
+	public InventoryBasic getTokenInventory(){
+		return inventory;
 	}
 
 	@Override

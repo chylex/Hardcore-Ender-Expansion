@@ -42,6 +42,12 @@ public class BlockVoidPortalFrame extends Block{
 	}
 	
 	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
+		if (!world.isRemote)player.openGui(HardcoreEnderExpansion.instance,8,world,x,y,z);
+		return true;
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
 		return side == 0 ? Blocks.end_stone.getIcon(0,0) :
