@@ -16,6 +16,7 @@ import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.end.TerritoryGenerator.ITerritoryGeneratorConstructor;
+import chylex.hee.world.end.gen.TerritoryTest;
 import chylex.hee.world.end.gen.TerritoryTheHub;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.StructureWorldLazy;
@@ -23,8 +24,8 @@ import chylex.hee.world.util.BoundingBox;
 
 public enum EndTerritory{
 	THE_HUB(24, color(0,0,0), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Empty(), new TerritoryTheHub.Environment(), TerritoryTheHub::new), // 384 blocks
-	DEBUG_TEST(7, color(253), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Test(), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
-	DEBUG_TEST_2(20, color(253), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Test(), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
+	DEBUG_TEST(7, color(253), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Test(), TerritoryEnvironment.defaultEnvironment, TerritoryTest::new),
+	DEBUG_TEST_2(20, color(253), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Test(), TerritoryEnvironment.defaultEnvironment, TerritoryTest::new),
 	;
 	
 	private final int chunkSize;
