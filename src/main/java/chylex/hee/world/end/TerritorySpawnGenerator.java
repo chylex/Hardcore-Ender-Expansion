@@ -2,9 +2,11 @@ package chylex.hee.world.end;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.init.BlockList;
+import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.StructureWorld;
 
 public class TerritorySpawnGenerator{
@@ -23,6 +25,7 @@ public class TerritorySpawnGenerator{
 	
 	public Pos createSpawnPoint(StructureWorld world, Random rand, EndTerritory territory){
 		PosMutable pos = new PosMutable();
+		if (attempts == 0)pointFinder.findSpawnPoint(world,rand,territory,pos);
 		
 		for(int attempt = 0; attempt < attempts; attempt++){
 			pointFinder.findSpawnPoint(world,rand,territory,pos);
@@ -42,7 +45,12 @@ public class TerritorySpawnGenerator{
 	}
 	
 	void generatePortalAt(StructureWorld world, Random rand, Pos pos){
-		Pos.forEachBlock(pos.offset(-1,0,-1),pos.offset(1,0,1),testPos -> world.setBlock(testPos,BlockList.void_portal,Meta.voidPortalReturn));
+		for(int offX = -2; offX <= 2; offX++){
+			for(int offZ = -2; offZ <= 2; offZ++){
+				if (Math.abs(offX) <= 1 && Math.abs(offZ) <= 1)world.setAttentionWhore(pos.getX()+offX,pos.getY(),pos.getZ()+offZ,new BlockInfo(BlockList.void_portal,Meta.voidPortalReturn));
+				else if (MathUtil.distance(offX,offZ) <= 2.32D)world.setAttentionWhore(pos.getX()+offX,pos.getY(),pos.getZ()+offZ,new BlockInfo(BlockList.void_portal_frame,Meta.voidPortalFramePlain));
+			}
+		}
 	}
 	
 	@FunctionalInterface
@@ -66,5 +74,11 @@ public class TerritorySpawnGenerator{
 		
 		@Override
 		void generatePortalAt(StructureWorld world, Random rand, Pos pos){}
+	}
+	
+	public static final class Test extends TerritorySpawnGenerator{
+		Test(){
+			super((world, rand, territory, pos) -> pos.set(0,world.getTopY(0,0),0),1);
+		}
 	}
 }

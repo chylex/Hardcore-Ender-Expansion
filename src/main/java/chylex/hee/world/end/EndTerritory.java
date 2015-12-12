@@ -23,8 +23,8 @@ import chylex.hee.world.util.BoundingBox;
 
 public enum EndTerritory{
 	THE_HUB(24, color(0,0,0), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Empty(), new TerritoryTheHub.Environment(), TerritoryTheHub::new), // 384 blocks
-	DEBUG_TEST(7, color(253), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Empty(), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
-	DEBUG_TEST_2(20, color(253), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Empty(), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
+	DEBUG_TEST(7, color(253), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Test(), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
+	DEBUG_TEST_2(20, color(253), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Test(), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
 	;
 	
 	private final int chunkSize;
@@ -108,15 +108,15 @@ public enum EndTerritory{
 		}
 		
 		StructureWorld structureWorld = createWorld(world);
+		constructor.construct(this,structureWorld,rand).generate();
 		
 		int startX = 16*startPoint.chunkXPos+structureWorld.getArea().x2;
 		int startZ = 16*startPoint.chunkZPos+structureWorld.getArea().z2;
 		int bottomY = info.getBottomY(rand);
 		
-		constructor.construct(this,structureWorld,rand).generate();
+		Pos spawnPos = spawn.createSpawnPoint(structureWorld,rand,this).offset(startX,bottomY,startZ);
 		structureWorld.generateInWorld(world,rand,startX,bottomY,startZ);
-		
-		return spawn.createSpawnPoint(structureWorld,rand,this).offset(startX,bottomY,startZ);
+		return spawnPos;
 	}
 	
 	public Pos generateTerritory(int index, World world, Random rand){
@@ -138,10 +138,11 @@ public enum EndTerritory{
 				final int gridSize = (territory.chunkSize+chunksBetween)*16;
 				final int offset = chunkOffset*16+territory.chunkSize*8;
 				
+				int xStart = (posX >= 0D ? 1 : -1)*(middleX+territory.chunkSize*8);
 				int zStart = posZ >= chunkOffset*16 ? gridSize*((MathUtil.floor(posZ)+gridSize/2-offset)/gridSize)+offset :
 				                                      gridSize*((MathUtil.floor(posZ)-gridSize/2-offset)/gridSize)+offset;
 				
-				return Pair.of(Pos.at(middleX+territory.chunkSize*8,0,zStart),territory);
+				return Pair.of(Pos.at(xStart,0,zStart),territory);
 			}
 			
 			middleX += (territory.chunkSize+chunksBetween)*16;

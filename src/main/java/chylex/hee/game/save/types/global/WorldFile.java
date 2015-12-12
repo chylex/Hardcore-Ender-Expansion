@@ -35,7 +35,7 @@ public class WorldFile extends SaveFile{
 		if (voidPortalPos != null)nbt.setLong("voidPortal",voidPortalPos.toLong());
 		
 		NBTTagCompound territoryTag = new NBTTagCompound();
-		for(EndTerritory territory:territories.keySet())nbt.setInteger(territory.toString(),territories.get(territory));
+		for(EndTerritory territory:territories.keySet())territoryTag.setInteger(territory.toString(),territories.get(territory));
 		nbt.setTag("territories",territoryTag);
 	}
 
@@ -49,7 +49,7 @@ public class WorldFile extends SaveFile{
 			EndTerritory territory = EnumUtils.getEnum(EndTerritory.class,key);
 			
 			if (territory == null)Log.reportedError("Unknown territory $0 in WorldFile.",key);
-			else territories.put(territory,nbt.getInteger(key));
+			else territories.put(territory,territoryTag.getInteger(key));
 		}
 	}
 }

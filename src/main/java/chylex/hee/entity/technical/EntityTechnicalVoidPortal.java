@@ -1,5 +1,6 @@
 package chylex.hee.entity.technical;
 import javax.annotation.Nullable;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -7,6 +8,7 @@ import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.global.WorldFile;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 
 public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
 	private enum Data{ TOKEN }
@@ -44,6 +46,10 @@ public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
 		
 		if (!worldObj.isRemote && ticksExisted == 1){
 			SaveData.global(WorldFile.class).setVoidPortalPos(Pos.at(this));
+			
+			for(Entity entity:EntitySelector.type(worldObj,getClass(),boundingBox.expand(8D,8D,8D))){
+				if (entity != this)entity.setDead();
+			}
 		}
 		
 		prevRenderTranslation = renderTranslation;
