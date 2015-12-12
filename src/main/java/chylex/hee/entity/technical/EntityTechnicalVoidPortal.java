@@ -9,8 +9,10 @@ public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
 	
 	private EntityDataWatcher entityData;
 	
+	private ItemStack prevTokenIS;
 	private int timer;
 	private float speed = 1F;
+	
 	public float renderAlpha, prevRenderAlpha;
 	public float renderTranslation, prevRenderTranslation;
 	
@@ -20,7 +22,6 @@ public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
 	
 	public void activate(ItemStack tokenIS){
 		entityData.setItemStack(Data.TOKEN,tokenIS.copy());
-		timer = 280;
 	}
 
 	@Override
@@ -36,14 +37,24 @@ public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
 		prevRenderTranslation = renderTranslation;
 		prevRenderAlpha = renderAlpha;
 		
+		ItemStack tokenIS = entityData.getItemStack(Data.TOKEN);
+		
+		if (tokenIS != null && (timer == 0 || prevTokenIS != tokenIS)){
+			prevTokenIS = tokenIS;
+			timer = 280;
+			speed = 1F;
+		}
+		
 		if (timer > 0){
 			--timer;
 			
-			if (timer >= 240)renderAlpha = Math.min(1F,renderAlpha+0.025F);
-			else if (timer <= 80)speed = Math.max(0F,speed-0.025F);
-			else if (timer <= 40)renderAlpha = Math.max(0F,renderAlpha-0.025F);
+			renderTranslation += speed*0.0015F;
 			
-			if (timer == 0)speed = 1F;
+			if (timer >= 240)renderAlpha = Math.min(1F,renderAlpha+0.05F);
+			if (timer <= 80)speed = Math.max(0F,speed-0.025F);
+			if (timer <= 45)renderAlpha = Math.max(0F,renderAlpha-0.025F);
+			
+			if (timer == 10)entityData.setItemStack(Data.TOKEN,null);
 		}
 	}
 

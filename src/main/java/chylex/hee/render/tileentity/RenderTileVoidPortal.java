@@ -29,10 +29,11 @@ public class RenderTileVoidPortal extends RenderTilePortalBase{
 		}
 		
 		if (layer == 0){
-			red = green = blue = 1F;
+			red = green = blue = 0F;
 			return;
 		}
 		
+		red = green = blue = 1F;
 		colorMp *= alpha;
 	}
 }

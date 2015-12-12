@@ -43,7 +43,7 @@ public class BlockVoidPortalFrame extends Block{
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
-		if (!world.isRemote)player.openGui(HardcoreEnderExpansion.instance,8,world,x,y,z);
+		if (!world.isRemote && Pos.at(x,y,z).getMetadata(world) == Meta.voidPortalFrameStorage)player.openGui(HardcoreEnderExpansion.instance,8,world,x,y,z);
 		return true;
 	}
 	
