@@ -299,6 +299,7 @@ container.lootChest.editing=Loot Chest (Editing)
 container.charmPouch=Charm Pouch
 container.runeCrafting=Rune Crafting
 container.amuletOfRecovery=Amulet of Recovery
+container.voidPortal=Void Portal
 
 enhancements.none=No Enhancements
 
