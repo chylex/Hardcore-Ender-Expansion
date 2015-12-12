@@ -34,7 +34,7 @@ public class PortalFile extends PlayerFile{
 
 	@Override
 	protected void onSave(NBTTagCompound nbt){
-		nbt.setLong("stronghold",strongholdPos.toLong());
+		if (strongholdPos != null)nbt.setLong("stronghold",strongholdPos.toLong());
 		nbt.setTag("inv",NBTUtil.writeInventory(inventory));
 	}
 
