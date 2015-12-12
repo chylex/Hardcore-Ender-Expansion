@@ -11,6 +11,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.entity.technical.EntityTechnicalVoidPortal;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.global.WorldFile;
 import chylex.hee.item.ItemPortalToken;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
@@ -47,7 +49,11 @@ public class BlockVoidPortal extends BlockEndPortal{
 			
 			if (portalStatus.onTouch(player)){
 				if (pos.getMetadata(world) == Meta.voidPortalReturn){
-					// TODO
+					Pos voidPortal = SaveData.global(WorldFile.class).getVoidPortalPos();
+					if (voidPortal == null)return;
+					
+					player.mountEntity(null);
+					player.setPositionAndUpdate(voidPortal.getX()+0.5D,voidPortal.getY()+0.01D,voidPortal.getZ()+0.5D);
 				}
 				else{
 					ItemStack tokenIS = getData(world,x,y,z).map(data -> data.getActiveToken()).orElse(null);
@@ -57,8 +63,8 @@ public class BlockVoidPortal extends BlockEndPortal{
 					if (territory == null || !territory.canGenerate())return;
 					
 					ItemPortalToken.generateTerritory(tokenIS,world).ifPresent(targetPos -> {
-						entity.mountEntity(null);
-						((EntityPlayerMP)entity).setPositionAndUpdate(targetPos.getX()+0.5D,targetPos.getY()+0.01D,targetPos.getZ()+0.5D);
+						player.mountEntity(null);
+						player.setPositionAndUpdate(targetPos.getX()+0.5D,targetPos.getY()+0.01D,targetPos.getZ()+0.5D);
 					});
 				}
 			}

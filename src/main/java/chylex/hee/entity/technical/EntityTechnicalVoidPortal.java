@@ -3,6 +3,9 @@ import javax.annotation.Nullable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.global.WorldFile;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 
 public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
@@ -38,6 +41,10 @@ public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
+		
+		if (!worldObj.isRemote && ticksExisted == 1){
+			SaveData.global(WorldFile.class).setVoidPortalPos(Pos.at(this));
+		}
 		
 		prevRenderTranslation = renderTranslation;
 		prevRenderAlpha = renderAlpha;
