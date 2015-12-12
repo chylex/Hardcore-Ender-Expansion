@@ -45,7 +45,7 @@ public enum EndTerritory{
 	}
 	
 	public boolean canGenerate(){
-		return ordinal() == 0;
+		return ordinal() != 0;
 	}
 	
 	public Random createRandom(long seed, int index){
@@ -108,10 +108,15 @@ public enum EndTerritory{
 		}
 		
 		StructureWorld structureWorld = createWorld(world);
-		constructor.construct(this,structureWorld,rand).generate();
-		structureWorld.generateInWorld(world,rand,16*startPoint.chunkXPos+structureWorld.getArea().x2,info.getBottomY(rand),16*startPoint.chunkZPos+structureWorld.getArea().z2);
 		
-		return spawn.createSpawnPoint(structureWorld,rand,this);
+		int startX = 16*startPoint.chunkXPos+structureWorld.getArea().x2;
+		int startZ = 16*startPoint.chunkZPos+structureWorld.getArea().z2;
+		int bottomY = info.getBottomY(rand);
+		
+		constructor.construct(this,structureWorld,rand).generate();
+		structureWorld.generateInWorld(world,rand,startX,bottomY,startZ);
+		
+		return spawn.createSpawnPoint(structureWorld,rand,this).offset(startX,bottomY,startZ);
 	}
 	
 	public Pos generateTerritory(int index, World world, Random rand){

@@ -51,15 +51,15 @@ public class GuiVoidPortalTokens extends GuiContainer{
 	}
 	
 	@Override
-	protected void renderToolTip(ItemStack is, int screenX, int screenY){
-		isHoveringToken = is.getItem() == ItemList.portal_token && screenY*height/mc.displayHeight < 52; // converts screen Y to mouse Y
-		super.renderToolTip(is,screenX,screenY);
+	protected void renderToolTip(ItemStack is, int mouseX, int mouseY){
+		isHoveringToken = is.getItem() == ItemList.portal_token && mouseY-guiTop < 72;
+		super.renderToolTip(is,mouseX,mouseY);
 		isHoveringToken = false;
 	}
 	
 	@Override
-	protected void drawHoveringText(List textLines, int screenX, int screenY, FontRenderer fontRenderer){
+	protected void drawHoveringText(List textLines, int mouseX, int mouseY, FontRenderer fontRenderer){
 		if (isHoveringToken)textLines.add(EnumChatFormatting.GREEN+"Right-click to activate");
-		super.drawHoveringText(textLines,screenX,screenY,fontRenderer);
+		super.drawHoveringText(textLines,mouseX,mouseY,fontRenderer);
 	}
 }
