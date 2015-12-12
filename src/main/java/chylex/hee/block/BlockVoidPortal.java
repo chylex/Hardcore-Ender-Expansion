@@ -53,7 +53,7 @@ public class BlockVoidPortal extends BlockEndPortal{
 					if (voidPortal == null)return;
 					
 					player.mountEntity(null);
-					player.setPositionAndUpdate(voidPortal.getX()+0.5D,voidPortal.getY()+0.01D,voidPortal.getZ()+0.5D);
+					player.setPositionAndUpdate(voidPortal.getX()+0.5D,voidPortal.getY()+1D,voidPortal.getZ()+0.5D);
 				}
 				else{
 					ItemStack tokenIS = getData(world,x,y,z).map(data -> data.getActiveToken()).orElse(null);
@@ -64,7 +64,7 @@ public class BlockVoidPortal extends BlockEndPortal{
 					
 					ItemPortalToken.generateTerritory(tokenIS,world).ifPresent(targetPos -> {
 						player.mountEntity(null);
-						player.setPositionAndUpdate(targetPos.getX()+0.5D,targetPos.getY()+0.01D,targetPos.getZ()+0.5D);
+						player.setPositionAndUpdate(targetPos.getX()+0.5D,targetPos.getY()+1D,targetPos.getZ()+0.5D);
 					});
 				}
 			}
