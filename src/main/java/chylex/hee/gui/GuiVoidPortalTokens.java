@@ -1,9 +1,17 @@
 package chylex.hee.gui;
+import java.util.List;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import chylex.hee.gui.helpers.IContainerEventHandler;
+import chylex.hee.init.ItemList;
+import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -12,9 +20,10 @@ public class GuiVoidPortalTokens extends GuiContainer{
 	private static final ResourceLocation texture = new ResourceLocation("hardcoreenderexpansion:textures/gui/void_portal_tokens.png");
 
 	private final EntityPlayer player;
+	private boolean isHoveringToken;
 	
-	public GuiVoidPortalTokens(EntityPlayer player){
-		super(new ContainerVoidPortalTokens(player));
+	public GuiVoidPortalTokens(EntityPlayer player, Pos voidPortalPos){
+		super(new ContainerVoidPortalTokens(player,voidPortalPos));
 		this.player = player;
 	}
 	
@@ -29,5 +38,28 @@ public class GuiVoidPortalTokens extends GuiContainer{
 		GL11.glColor4f(1F,1F,1F,1F);
 		mc.getTextureManager().bindTexture(texture);
 		drawTexturedModalRect((width-xSize)/2,(height-ySize)/2,0,0,xSize,174);
+	}
+	
+	@Override
+	protected void handleMouseClick(Slot slot, int slotNumber, int buttonId, int sourceType){
+		if (buttonId == 1 && slot != null && slot.getHasStack() && slot.getStack().getItem() == ItemList.portal_token && slotNumber < 27){
+			IContainerEventHandler.sendEvent(slotNumber);
+			return;
+		}
+		
+		super.handleMouseClick(slot,slotNumber,buttonId,sourceType);
+	}
+	
+	@Override
+	protected void renderToolTip(ItemStack is, int screenX, int screenY){
+		isHoveringToken = is.getItem() == ItemList.portal_token && screenY*height/mc.displayHeight < 52; // converts screen Y to mouse Y
+		super.renderToolTip(is,screenX,screenY);
+		isHoveringToken = false;
+	}
+	
+	@Override
+	protected void drawHoveringText(List textLines, int screenX, int screenY, FontRenderer fontRenderer){
+		if (isHoveringToken)textLines.add(EnumChatFormatting.GREEN+"Right-click to activate");
+		super.drawHoveringText(textLines,screenX,screenY,fontRenderer);
 	}
 }

@@ -28,7 +28,7 @@ public final class GuiHandler implements IGuiHandler{
 			case 5: return new ContainerCharmPouch(player);
 			case 6: return pos.castTileEntity(world,TileEntityLootChest.class).map(tile -> new ContainerLootChest(player.inventory,tile.getInventoryFor(player))).orElse(null);
 			case 7: return pos.castTileEntity(world,TileEntityExperienceTable.class).map(tile -> new ContainerExperienceTable(player.inventory,tile)).orElse(null);
-			case 8: return new ContainerVoidPortalTokens(player);
+			case 8: return new ContainerVoidPortalTokens(player,Pos.at(x,y,z));
 			case 9: return pos.castTileEntity(world,TileEntityAccumulationTable.class).map(tile -> new ContainerAccumulationTable(player.inventory,tile)).orElse(null);
 		}
 		
@@ -48,7 +48,7 @@ public final class GuiHandler implements IGuiHandler{
 			case 5: return new GuiCharmPouch(player);
 			case 6: return pos.castTileEntity(world,TileEntityLootChest.class).map(tile -> new GuiLootChest(player.inventory,tile.getInventoryFor(player))).orElse(null);
 			case 7: return pos.castTileEntity(world,TileEntityExperienceTable.class).map(tile -> new GuiExperienceTable(player.inventory,tile)).orElse(null);
-			case 8: return new GuiVoidPortalTokens(player);
+			case 8: return new GuiVoidPortalTokens(player,Pos.at(x,y,z));
 			case 9: return pos.castTileEntity(world,TileEntityAccumulationTable.class).map(tile -> new GuiAccumulationTable(player.inventory,tile)).orElse(null);
 		}
 		

@@ -3,19 +3,24 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import chylex.hee.block.BlockVoidPortal;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.player.PortalFile;
 import chylex.hee.gui.helpers.ContainerHelper;
+import chylex.hee.gui.helpers.IContainerEventHandler;
 import chylex.hee.gui.slots.SlotBasicItem;
 import chylex.hee.init.ItemList;
+import chylex.hee.system.abstractions.Pos;
 
-public class ContainerVoidPortalTokens extends Container{
+public class ContainerVoidPortalTokens extends Container implements IContainerEventHandler{
 	private final EntityPlayer player;
 	private final IInventory tokenInv;
+	private final Pos voidPortalPos;
 	
-	public ContainerVoidPortalTokens(EntityPlayer player){
+	public ContainerVoidPortalTokens(EntityPlayer player, Pos voidPortalPos){
 		this.player = player;
 		this.tokenInv = SaveData.player(player,PortalFile.class).getTokenInventory();
+		this.voidPortalPos = voidPortalPos;
 		
 		for(int a = 0, numRows = tokenInv.getSizeInventory()/9; a < numRows; a++){
 			for(int b = 0; b < 9; b++){
@@ -43,5 +48,13 @@ public class ContainerVoidPortalTokens extends Container{
 	@Override
 	public boolean canInteractWith(EntityPlayer player){
 		return true;
+	}
+
+	@Override
+	public void onEvent(EntityPlayer player, int eventID){
+		if (eventID >= 0 && eventID < tokenInv.getSizeInventory() && tokenInv.getStackInSlot(eventID) != null){
+			BlockVoidPortal.getData(player.worldObj,voidPortalPos.getX(),voidPortalPos.getY(),voidPortalPos.getZ()).ifPresent(data -> data.activate(tokenInv.getStackInSlot(eventID)));
+			player.closeScreen();
+		}
 	}
 }
