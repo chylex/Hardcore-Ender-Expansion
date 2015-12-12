@@ -41,8 +41,8 @@ public class GuiAmuletOfRecovery extends GuiContainer{
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-		fontRendererObj.drawString(I18n.format("container.amuletOfRecovery"),8,6,4210752);
-		fontRendererObj.drawString(I18n.format(player.inventory.getInventoryName()),8,ySize-96+2,4210752);
+		fontRendererObj.drawString(I18n.format("container.amuletOfRecovery"),8,6,(64<<16)|(64<<8)|64);
+		fontRendererObj.drawString(I18n.format(player.inventory.getInventoryName()),8,ySize-96+2,(64<<16)|(64<<8)|64);
 		
 		GuiButtonArrow arrow = (GuiButtonArrow)buttonList.get(0);
 		
