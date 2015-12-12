@@ -32,12 +32,6 @@ public final class ContainerHelper{
 		container.inventoryItemStacks.add(null);
 	}
 	
-	public static void copySlotInfo(Slot targetSlot, Slot sourceSlot){
-		targetSlot.xDisplayPosition = sourceSlot.xDisplayPosition;
-		targetSlot.yDisplayPosition = sourceSlot.yDisplayPosition;
-		targetSlot.slotNumber = sourceSlot.slotNumber;
-	}
-	
 	public static Slot getSlot(Container container, int slotId){
 		return (Slot)container.inventorySlots.get(slotId);
 	}
