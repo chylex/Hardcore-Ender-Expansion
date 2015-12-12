@@ -1,6 +1,6 @@
 package chylex.hee.item;
 import java.util.List;
-import java.util.OptionalInt;
+import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.I18n;
@@ -10,9 +10,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.global.WorldFile;
 import chylex.hee.init.ItemList;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.world.end.EndTerritory;
@@ -34,16 +36,18 @@ public class ItemPortalToken extends Item{
 		return is.getItemDamage() == 1;
 	}
 	
-	public static final OptionalInt getIndex(ItemStack is){
+	public static final Optional<Pos> generateTerritory(ItemStack is, World world){
 		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
-		if (nbt.hasKey("tindex"))return OptionalInt.of(nbt.getInteger("tindex"));
+		if (nbt.hasKey("tpos"))return Optional.of(Pos.at(nbt.getLong("tpos")));
 		
 		EndTerritory territory = getTerritory(is);
-		if (territory == null)return OptionalInt.empty();
+		if (territory == null)return Optional.empty();
 		
-		int index = SaveData.global(WorldFile.class).increment(territory);
-		nbt.setInteger("tindex",index);
-		return OptionalInt.of(index);
+		final int index = SaveData.global(WorldFile.class).increment(territory);
+		
+		Pos spawnPos = territory.generateTerritory(index,world,territory.createRandom(world.getSeed(),index));
+		nbt.setLong("tpos",spawnPos.toLong());
+		return Optional.of(spawnPos);
 	}
 	
 	@SideOnly(Side.CLIENT)

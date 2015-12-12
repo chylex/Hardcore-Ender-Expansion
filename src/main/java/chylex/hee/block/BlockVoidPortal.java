@@ -56,7 +56,10 @@ public class BlockVoidPortal extends BlockEndPortal{
 					EndTerritory territory = ItemPortalToken.getTerritory(tokenIS);
 					if (territory == null || !territory.canGenerate())return;
 					
-					// TODO
+					ItemPortalToken.generateTerritory(tokenIS,world).ifPresent(targetPos -> {
+						entity.mountEntity(null);
+						((EntityPlayerMP)entity).setPositionAndUpdate(targetPos.getX()+0.5D,targetPos.getY()+0.01D,targetPos.getZ()+0.5D);
+					});
 				}
 			}
 		}

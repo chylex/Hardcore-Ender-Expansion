@@ -22,28 +22,36 @@ import chylex.hee.world.structure.StructureWorldLazy;
 import chylex.hee.world.util.BoundingBox;
 
 public enum EndTerritory{
-	THE_HUB(24, color(253), new TerritorySpawnInfo(128,0), new TerritoryTheHub.Environment(), TerritoryTheHub::new), // 384 blocks
-	DEBUG_TEST(7, color(253), new TerritorySpawnInfo(128,0), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
-	DEBUG_TEST_2(20, color(253), new TerritorySpawnInfo(128,0), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
+	THE_HUB(24, color(0,0,0), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Empty(), new TerritoryTheHub.Environment(), TerritoryTheHub::new), // 384 blocks
+	DEBUG_TEST(7, color(253), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Empty(), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
+	DEBUG_TEST_2(20, color(253), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Empty(), new TerritoryTheHub.Environment(), TerritoryTheHub::new),
 	;
 	
 	private final int chunkSize;
 	private final TerritorySpawnInfo info;
+	private final TerritorySpawnGenerator spawn;
 	private final ITerritoryGeneratorConstructor constructor;
 
 	public final TerritoryEnvironment environment;
 	public final int tokenColor;
 	
-	private EndTerritory(int chunkSize, int tokenColor, TerritorySpawnInfo info, TerritoryEnvironment environment, ITerritoryGeneratorConstructor constructor){
+	private EndTerritory(int chunkSize, int tokenColor, TerritorySpawnInfo info, TerritorySpawnGenerator spawn, TerritoryEnvironment environment, ITerritoryGeneratorConstructor constructor){
 		this.chunkSize = chunkSize;
 		this.tokenColor = tokenColor;
 		this.info = info;
+		this.spawn = spawn;
 		this.environment = environment;
 		this.constructor = constructor;
 	}
 	
 	public boolean canGenerate(){
 		return ordinal() == 0;
+	}
+	
+	public Random createRandom(long seed, int index){
+		Random rand = new Random(seed);
+		rand.setSeed(rand.nextLong()^(66L*index)+ordinal()*rand.nextInt());
+		return rand;
 	}
 	
 	public StructureWorld createWorld(World world){
@@ -92,7 +100,7 @@ public enum EndTerritory{
 		return new ChunkCoordIntPair(chunkOffX+chunkOffset,chunkOffZ+chunkOffset);
 	}
 	
-	public void generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand){
+	public Pos generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand){
 		for(int chunkX = 0; chunkX < chunkSize; chunkX++){
 			for(int chunkZ = 0; chunkZ < chunkSize; chunkZ++){
 				world.getChunkFromChunkCoords(startPoint.chunkXPos+chunkX,startPoint.chunkZPos+chunkZ);
@@ -102,10 +110,12 @@ public enum EndTerritory{
 		StructureWorld structureWorld = createWorld(world);
 		constructor.construct(this,structureWorld,rand).generate();
 		structureWorld.generateInWorld(world,rand,16*startPoint.chunkXPos+structureWorld.getArea().x2,info.getBottomY(rand),16*startPoint.chunkZPos+structureWorld.getArea().z2);
+		
+		return spawn.createSpawnPoint(structureWorld,rand,this);
 	}
 	
-	public void generateTerritory(int index, World world, Random rand){
-		generateTerritory(getStartPoint(index),world,rand);
+	public Pos generateTerritory(int index, World world, Random rand){
+		return generateTerritory(getStartPoint(index),world,rand);
 	}
 	
 	public static final int chunksBetween = 64; // 1024 blocks
