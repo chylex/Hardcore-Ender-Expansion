@@ -1,4 +1,5 @@
 package chylex.hee.world.end;
+import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
@@ -67,5 +68,12 @@ public abstract class TerritoryEnvironment{
 	@SideOnly(Side.CLIENT)
 	public SkyTexture getSkyTexture(){
 		return SkyTexture.DEFAULT;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void generatePortalColor(float[] color, int layer, Random rand){
+		color[0] = 1F;
+		color[1] = 1F;
+		color[2] = 1F;
 	}
 }

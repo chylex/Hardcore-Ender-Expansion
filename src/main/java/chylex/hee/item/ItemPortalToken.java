@@ -68,10 +68,10 @@ public class ItemPortalToken extends Item{
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list){
 		for(EndTerritory territory:EndTerritory.values){
-			if (territory == EndTerritory.THE_HUB)continue;
-			
-			list.add(forTerritory(territory,false));
-			list.add(forTerritory(territory,true));
+			if (territory.canGenerate()){
+				list.add(forTerritory(territory,false));
+				list.add(forTerritory(territory,true));
+			}
 		}
 	}
 	

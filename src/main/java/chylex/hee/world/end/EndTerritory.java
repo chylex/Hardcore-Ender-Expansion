@@ -42,6 +42,10 @@ public enum EndTerritory{
 		this.constructor = constructor;
 	}
 	
+	public boolean canGenerate(){
+		return ordinal() == 0;
+	}
+	
 	public StructureWorld createWorld(World world){
 		StructureWorldLazy structureWorld = new StructureWorldLazy(world,8*chunkSize,info.getHeight(),8*chunkSize);
 		

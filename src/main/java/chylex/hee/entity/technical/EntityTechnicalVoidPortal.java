@@ -1,4 +1,5 @@
 package chylex.hee.entity.technical;
+import javax.annotation.Nullable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -22,6 +23,10 @@ public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
 	
 	public void activate(ItemStack tokenIS){
 		entityData.setItemStack(Data.TOKEN,tokenIS.copy());
+	}
+	
+	public @Nullable ItemStack getActiveToken(){
+		return entityData.getItemStack(Data.TOKEN);
 	}
 
 	@Override

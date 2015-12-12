@@ -6,15 +6,18 @@ import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.entity.technical.EntityTechnicalVoidPortal;
+import chylex.hee.item.ItemPortalToken;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.tileentity.TileEntityVoidPortal;
+import chylex.hee.world.end.EndTerritory;
 import chylex.hee.world.util.EntityPortalStatus;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,12 +45,18 @@ public class BlockVoidPortal extends BlockEndPortal{
 			int meta = pos.getMetadata(world);
 			EntityPlayerMP player = (EntityPlayerMP)entity;
 			
-			if (portalStatus.onTouch(player)){ // TODO
+			if (portalStatus.onTouch(player)){
 				if (pos.getMetadata(world) == Meta.voidPortalReturn){
-					
+					// TODO
 				}
 				else{
+					ItemStack tokenIS = getData(world,x,y,z).map(data -> data.getActiveToken()).orElse(null);
+					if (tokenIS == null)return;
 					
+					EndTerritory territory = ItemPortalToken.getTerritory(tokenIS);
+					if (territory == null || !territory.canGenerate())return;
+					
+					// TODO
 				}
 			}
 		}
