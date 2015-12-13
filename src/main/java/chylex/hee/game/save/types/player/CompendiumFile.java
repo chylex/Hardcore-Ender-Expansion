@@ -73,14 +73,19 @@ public class CompendiumFile extends PlayerFile{
 		return discoveredObjects.contains(obj);
 	}
 	
-	public int getDiscoveryDistance(KnowledgeObject<? extends IObjectHolder<?>> obj){
+	private int getDiscoveryDistanceInner(KnowledgeObject<? extends IObjectHolder<?>> obj, int currentLevel){
 		if (obj.isCategoryObject())return 0;
+		if (currentLevel == distanceLimit || discoveredObjects.contains(obj))return currentLevel;
 		
-		for(int level = 0; level < distanceLimit; level++){
-			if (discoveredObjects.contains(obj) || (obj = obj.getParent()) == null)return level;
+		for(KnowledgeObject<? extends IObjectHolder<?>> parent:obj.getParents()){
+			return getDiscoveryDistanceInner(parent,currentLevel+1);
 		}
 		
 		return distanceLimit;
+	}
+	
+	public int getDiscoveryDistance(KnowledgeObject<? extends IObjectHolder<?>> obj){
+		return getDiscoveryDistanceInner(obj,0);
 	}
 	
 	// Fragments

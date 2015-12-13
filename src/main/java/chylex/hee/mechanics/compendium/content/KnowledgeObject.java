@@ -40,7 +40,7 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	public final T holder;
 	private final String tooltip;
 	
-	private KnowledgeObject<?> parent;
+	private final List<KnowledgeObject<?>> parents;
 	private final List<KnowledgeObject<?>> children;
 	private final Set<KnowledgeFragment> fragments;
 	
@@ -59,6 +59,7 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		this.globalID = ++prevID;
 		this.holder = holder;
 		this.tooltip = unlocalizedTooltip;
+		this.parents = new ArrayList<>(1);
 		this.children = new ArrayList<>(4);
 		this.fragments = new LinkedHashSet<>(6);
 		this.parentLineNodes = CollectionUtil.newList(new byte[]{ 0, 0 });
@@ -93,13 +94,19 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	public KnowledgeObject<T> setParent(KnowledgeObject<?> obj, int offX, int offY){
 		this.x = obj.x+offX*12;
 		this.y = obj.y+offY*12;
-		this.parent = obj;
-		this.parent.children.add(this);
+		this.parents.add(obj);
+		obj.children.add(this);
 		return this;
 	}
 	
-	public KnowledgeObject<?> getParent(){
-		return parent;
+	public KnowledgeObject<T> addParent(KnowledgeObject<?> obj){
+		this.parents.add(obj);
+		obj.children.add(this);
+		return this;
+	}
+	
+	public List<KnowledgeObject<?>> getParents(){
+		return parents;
 	}
 	
 	public List<KnowledgeObject<?>> getChildren(){
@@ -208,7 +215,7 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	
 	public void reset(){
 		x = y = price = reward = 0;
-		parent = null;
+		parents.clear();
 		children.clear();
 		fragments.clear();
 		parentLineNodes.clear();
