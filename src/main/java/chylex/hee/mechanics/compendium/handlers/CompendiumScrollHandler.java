@@ -148,7 +148,7 @@ public class CompendiumScrollHandler{
 	
 	private float clampOffset(float newValue){
 		if (newValue > extraHeight)return extraHeight;
-		else if (newValue < -totalHeight+gui.height-extraHeight)return totalHeight+extraHeight > gui.height ? -totalHeight+gui.height-extraHeight : extraHeight;
+		else if (newValue < -totalHeight+gui.height-extraHeight)return totalHeight+extraHeight > gui.height ? -totalHeight+gui.height-extraHeight : 0;
 		else return newValue;
 	}
 	

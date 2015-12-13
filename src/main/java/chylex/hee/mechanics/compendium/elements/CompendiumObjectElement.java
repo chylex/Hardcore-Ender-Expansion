@@ -69,7 +69,6 @@ public final class CompendiumObjectElement{
 	}
 	
 	public void renderLine(GuiScreen gui, CompendiumFile file, int yLowerBound, int yUpperBound){
-		if (file.getDiscoveryDistance(object) == CompendiumFile.distanceLimit)return;
 		if (object.getChildren().stream().allMatch(obj -> file.getDiscoveryDistance(obj) == CompendiumFile.distanceLimit))return;
 		
 		final int offX = gui.width/2;
@@ -81,8 +80,6 @@ public final class CompendiumObjectElement{
 	}
 	
 	public void renderObject(GuiScreen gui, CompendiumFile file, int yLowerBound, int yUpperBound){
-		if (file.getDiscoveryDistance(object) == CompendiumFile.distanceLimit)return;
-		
 		int x = gui.width/2+object.getX(), y = object.getY();
 		if (y < yLowerBound || y > yUpperBound)return;
 		
@@ -98,6 +95,10 @@ public final class CompendiumObjectElement{
 		}
 		
 		renderObject(object,x,y,file,gui,blinkState);
+	}
+	
+	public boolean isVisible(CompendiumFile file){
+		return !object.isHidden() && file.getDiscoveryDistance(object) != CompendiumFile.distanceLimit;
 	}
 	
 	public boolean isMouseOver(int mouseX, int mouseY, int centerX, int offsetY){

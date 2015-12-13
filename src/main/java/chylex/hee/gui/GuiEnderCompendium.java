@@ -128,7 +128,7 @@ public class GuiEnderCompendium extends GuiScreen{
 					int offY = (int)scrollHandler.getOffset(1F);
 					
 					for(CompendiumObjectElement element:objectElements){
-						if (element.isMouseOver(mouseX,mouseY,width/2,offY)){
+						if (element.isMouseOver(mouseX,mouseY,width/2,offY) && element.isVisible(compendiumFile)){
 							showObject(element.object);
 							return;
 						}
@@ -246,11 +246,11 @@ public class GuiEnderCompendium extends GuiScreen{
 		GL11.glTranslatef(0F,offY,0F);
 		
 		for(CompendiumObjectElement element:objectElements){
-			if (!element.object.isHidden())element.renderLine(this,compendiumFile,yLowerBound,yUpperBound);
+			if (element.isVisible(compendiumFile))element.renderLine(this,compendiumFile,yLowerBound,yUpperBound);
 		}
 		
 		for(CompendiumObjectElement element:objectElements){
-			if (!element.object.isHidden()){
+			if (element.isVisible(compendiumFile)){
 				element.renderObject(this,compendiumFile,yLowerBound,yUpperBound);
 				if (currentObject == null && element.isMouseOver(mouseX,mouseY,width/2,(int)offY))GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.getTooltip(compendiumFile));
 			}
