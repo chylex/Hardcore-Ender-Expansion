@@ -14,7 +14,7 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.IBlockPicker;
 import chylex.hee.world.util.Size;
 
-public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add stairs to upper level
+public class StrongholdRoomEndPortal extends StrongholdPiece{
 	public StrongholdRoomEndPortal(){
 		super(Type.ROOM,new Size(19,13,19));
 		

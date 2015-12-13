@@ -96,8 +96,6 @@ public class StrongholdRoomRelicDungeon extends StrongholdRoomRelic{
 			mpos.move(entranceFrom,3);
 		}
 		
-		// TODO play around with those, maybe some smoke particles
-		
 		// wall behind chest area
 		mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,17);
 		placeLine(world,rand,placeStoneBrick,mpos.x+4*left.getX(),y+1,mpos.z+4*left.getZ(),mpos.x+4*right.getX(),y+maxY-1,mpos.z+4*right.getZ());
