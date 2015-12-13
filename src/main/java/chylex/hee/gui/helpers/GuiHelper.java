@@ -30,12 +30,12 @@ public final class GuiHelper{
 		if (x1 == x2 || y1 == y2){
 			Gui.drawRect(x1-1,y1-1,x2+1,y2+1,color);
 		}
-		else{ // TODO um... improve?
+		else{
 			Vec vec = Vec.xz(x2-x1,y2-y1);
 			int len = MathUtil.ceil(vec.length());
 			vec = vec.normalized();
 			
-			float x = x1, y = y1;
+			float x = x1+0.5F, y = y1+0.5F;
 			
 			for(int a = 0; a < len; a++){
 				Gui.drawRect((int)x-1,(int)y-1,(int)x+1,(int)y+1,color);
