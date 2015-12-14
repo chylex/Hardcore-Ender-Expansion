@@ -6,20 +6,22 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.ai.AIUtil;
 import chylex.hee.entity.mob.ai.EntityAIMoveBlocksRandomly;
+import chylex.hee.entity.mob.ai.EntityAIWanderRandomly;
 import chylex.hee.entity.mob.ai.target.EntityAIDirectLookTarget;
 import chylex.hee.entity.mob.ai.target.EntityAIDirectLookTarget.ITargetOnDirectLook;
 import chylex.hee.entity.mob.ai.target.EntityAIHurtByTargetConsecutively;
@@ -118,10 +120,10 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		
 		tasks.addTask(1,new EntityAISwimming(this));
 		tasks.addTask(2,new EntityAIAttackOnCollide(this,1D,false));
-		tasks.addTask(3,new EntityAIWander(this,1D));
+		tasks.addTask(3,new EntityAIWanderRandomly(this,1D).setChancePerTick(1F/70F));
 		tasks.addTask(4,new EntityAIWatchClosest(this,EntityPlayer.class,8F));
 		tasks.addTask(4,new EntityAILookIdle(this));
-		tasks.addTask(5,new EntityAIMoveBlocksRandomly(this,this,new Block[0]));
+		tasks.addTask(5,new EntityAIMoveBlocksRandomly(this,this,new Block[]{ Blocks.grass }));
 		
 		targetTasks.addTask(1,new EntityAIHurtByTargetConsecutively(this).setCounter(n -> n >= 2+rand.nextInt(3)).setTimer(300));
 		targetTasks.addTask(2,new EntityAIDirectLookTarget(this,this).setMaxDistance(lookDistance));
@@ -162,10 +164,17 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 					EntityAttributes.applyModifier(this,EntityAttributes.attackDamage,waterModifier);
 				}
 				
+				if (waterTimer%3 == 0 && isInRainOrSnow() && rand.nextInt(17) == 0){
+					teleportDespawn();
+				}
+				
 				if (waterTimer > 80){
 					attackEntityFrom(DamageSource.drown,2F);
 					setAttackTarget(null);
-					teleportAround(true);
+					
+					if (isInRainOrSnow() || (!teleportAround(true) && rand.nextInt(5) == 0)){
+						teleportDespawn();
+					}
 				}
 			}
 			else if (waterTimer > 0 && ++waterResetCooldown > 10){
@@ -182,9 +191,10 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			
 			if (ticksExisted%15 == 0){
 				int despawnChance = 300;
-				despawnChance -= (11-worldObj.skylightSubtracted)*8; // skylightSubtracted goes from 0 (day) to 11 (night)
-				despawnChance -= isCarrying() ? 50 : 0;
+				despawnChance -= (11-worldObj.skylightSubtracted)*15; // skylightSubtracted goes from 0 (day) to 11 (night)
+				despawnChance -= isCarrying() ? 120 : 0;
 				despawnChance -= extraDespawnOffset;
+				despawnChance /= isInRainOrSnow() ? 8 : 1;
 				
 				if (rand.nextInt(Math.max(10,despawnChance)) == 0){
 					teleportDespawn();
@@ -226,7 +236,10 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		
 		if (sourceEntity != null){
 			if (sourceEntity instanceof EntityPlayer && !Causatum.hasReached((EntityPlayer)sourceEntity,Progress.ENDERMAN_KILLED) && teleportAround(false)){
-				if (sourceEntity != source.getSourceOfDamage() && rand.nextInt(4) == 0)setAttackTarget((EntityPlayer)sourceEntity);
+				if (sourceEntity != source.getSourceOfDamage() && rand.nextInt(4) == 0 && canEntityBeSeen(sourceEntity) && MathUtil.distance(posX-sourceEntity.posX,posZ-sourceEntity.posZ) <= 32D){
+					setAttackTarget((EntityPlayer)sourceEntity);
+				}
+				
 				return true;
 			}
 			
@@ -315,6 +328,14 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	}
 	
 	// SPAWNING AND DESPAWNING
+	
+	private boolean isInRainOrSnow(){
+		if (worldObj.isRaining() && worldObj.canBlockSeeTheSky(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ))){
+			BiomeGenBase biome = worldObj.getBiomeGenForCoords(MathUtil.floor(posX),MathUtil.floor(posZ));
+			return biome.canSpawnLightningBolt() || biome.getEnableSnow();
+		}
+		else return false;
+	}
 	
 	@Override
 	public float getBlockPathWeight(int x, int y, int z){
