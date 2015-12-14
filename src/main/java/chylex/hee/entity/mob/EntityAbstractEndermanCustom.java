@@ -17,6 +17,8 @@ import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 public abstract class EntityAbstractEndermanCustom extends EntityEnderman implements IIgnoreEnderGoo, IEndermanRenderer, IMoveBlocks{
 	private enum Data{ AGGRESSIVE, HELD_BLOCK_ID, HELD_BLOCK_META }
 	
+	private static final int airBlockID = Block.getIdFromBlock(Blocks.air);
+	
 	protected EntityDataWatcher entityData;
 	
 	public EntityAbstractEndermanCustom(World world){
@@ -28,7 +30,7 @@ public abstract class EntityAbstractEndermanCustom extends EntityEnderman implem
 		super.entityInit();
 		entityData = new EntityDataWatcher(this);
 		entityData.addBoolean(Data.AGGRESSIVE);
-		entityData.addShort(Data.HELD_BLOCK_ID);
+		entityData.addShort(Data.HELD_BLOCK_ID,airBlockID);
 		entityData.addByte(Data.HELD_BLOCK_META);
 	}
 	
@@ -41,7 +43,7 @@ public abstract class EntityAbstractEndermanCustom extends EntityEnderman implem
 	
 	@Override
 	public boolean isCarrying(){
-		return entityData.getShort(Data.HELD_BLOCK_ID) != 0;
+		return entityData.getShort(Data.HELD_BLOCK_ID) != airBlockID;
 	}
 	
 	@Override
@@ -64,7 +66,7 @@ public abstract class EntityAbstractEndermanCustom extends EntityEnderman implem
 	 */
 	@Override
 	public void setCarryingBlock(@Nullable BlockInfo info){
-		entityData.setShort(Data.HELD_BLOCK_ID,info == null ? Block.getIdFromBlock(Blocks.air) : Block.getIdFromBlock(info.block));
+		entityData.setShort(Data.HELD_BLOCK_ID,info == null ? airBlockID : Block.getIdFromBlock(info.block));
 		entityData.setByte(Data.HELD_BLOCK_META,info == null ? 0 : info.meta);
 	}
 	
@@ -73,7 +75,7 @@ public abstract class EntityAbstractEndermanCustom extends EntityEnderman implem
 	 */
 	@Override
 	public @Nonnull BlockInfo getCarryingBlock(){
-		return new BlockInfo(Block.getBlockById(entityData.getShort(Data.HELD_BLOCK_ID)),entityData.getShort(Data.HELD_BLOCK_META));
+		return new BlockInfo(Block.getBlockById(entityData.getShort(Data.HELD_BLOCK_ID)),entityData.getByte(Data.HELD_BLOCK_META));
 	}
 	
 	/**
