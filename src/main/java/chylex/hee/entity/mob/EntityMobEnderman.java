@@ -357,6 +357,8 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	@Override
 	protected void despawnEntity(){
+		if (ticksExisted < 32)return;
+		
 		if (isNoDespawnRequired()){
 			entityAge = 0;
 			return;
@@ -364,7 +366,14 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		
 		EntityPlayer closest = worldObj.getClosestPlayerToEntity(this,-1D);
 		
-		if (closest == null || MathUtil.distanceSquared(closest.posX-posX,closest.posY-posY,closest.posZ-posZ) > 25600D){ // 160 blocks
+		if (closest == null){
+			setDead();
+			return;
+		}
+		
+		double distSq = MathUtil.distanceSquared(closest.posX-posX,closest.posY-posY,closest.posZ-posZ);
+		
+		if (distSq > 25600D || (distSq > 10000D && rand.nextInt(200) == 0)){ // 160 & 100 blocks
 			setDead();
 			return;
 		}
