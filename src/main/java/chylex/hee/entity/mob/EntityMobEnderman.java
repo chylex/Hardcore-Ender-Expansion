@@ -17,6 +17,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.ai.AIUtil;
 import chylex.hee.entity.mob.ai.EntityAIMoveBlocksRandomly;
 import chylex.hee.entity.mob.ai.target.EntityAIDirectLookTarget;
@@ -35,6 +36,8 @@ import chylex.hee.mechanics.causatum.Causatum.Progress;
 import chylex.hee.mechanics.causatum.CausatumEventHandler;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventTypes;
 import chylex.hee.mechanics.misc.Baconizer;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.abstractions.Pos;
@@ -281,11 +284,12 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	}
 	
 	public boolean teleportDespawn(){
-		if (!canTeleport())return false;
-		
-		// TODO fx
-		setDead();
-		return true;
+		if (canTeleport()){
+			PacketPipeline.sendToAllAround(this,96D,new C21EffectEntity(FXType.Entity.ENDERMAN_DESPAWN,this));
+			setDead();
+			return true;
+		}
+		else return false;
 	}
 	
 	// FX AND DISPLAY

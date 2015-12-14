@@ -195,6 +195,11 @@ public final class FXHandler{
 				FXHelper.create("glitter").pos(x,y,z).fluctuatePos(0.1D).motion(0D,0D,0D).fluctuateMotion(0.03D).paramColor(0.4F+rand.nextFloat()*0.2F,0.25F+rand.nextFloat()*0.05F,0.6F+rand.nextFloat()*0.25F).spawn(slowRand,20);
 				world.playSound(x,y,z,"dig.glass",1.25F,1.1F,false);
 				break;
+				
+			case ENDERMAN_DESPAWN:
+				for(int a = 0; a < 12; a++)fx.portalFlyOff(x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),0.2F+rand.nextFloat()*0.1F,0.15D+rand.nextDouble()*0.05D);
+				world.playSound(x,y,z,"mob.endermen.portal",2F,0.5F,false);
+				break;
 		}
 	}
 	
