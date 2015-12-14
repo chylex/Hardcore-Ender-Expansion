@@ -23,6 +23,11 @@ public class ObjectItem implements IObjectHolder<ItemStack>{
 		this.displayIS = new ItemStack(item,1,displayDamage);
 	}
 	
+	public ObjectItem(Item item, ItemStack displayIS){
+		this.item = new ItemStack(item,1,wildcard);
+		this.displayIS = displayIS;
+	}
+	
 	@Override
 	public ItemStack getDisplayItemStack(){
 		return displayIS;
