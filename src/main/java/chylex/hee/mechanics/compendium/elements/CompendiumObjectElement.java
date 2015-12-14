@@ -69,7 +69,7 @@ public final class CompendiumObjectElement{
 	}
 	
 	public void renderLine(GuiScreen gui, CompendiumFile file, int yLowerBound, int yUpperBound){
-		if (object.getChildren().stream().allMatch(obj -> file.getDiscoveryDistance(obj) >= CompendiumFile.distanceLimit-1))return;
+		if (object.getChildren().stream().allMatch(obj -> file.getDiscoveryDistance(obj) == CompendiumFile.distanceLimit))return;
 		
 		final int offX = gui.width/2;
 		final int color = (255<<24)|(224<<16)|(224<<8)|224;

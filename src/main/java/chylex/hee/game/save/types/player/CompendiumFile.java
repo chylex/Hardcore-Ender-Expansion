@@ -24,7 +24,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class CompendiumFile extends PlayerFile{
-	public static final byte distanceLimit = 4; // 0 = discovered, 4 = unavailable
+	public static final byte distanceLimit = 2; // 0 = discovered, 2 = unavailable
 	
 	private int points;
 	private final TIntHashSet extraFragments = new TIntHashSet();
@@ -73,15 +73,14 @@ public class CompendiumFile extends PlayerFile{
 		return discoveredObjects.contains(obj);
 	}
 	
-	private int getDiscoveryDistanceInner(KnowledgeObject<? extends IObjectHolder<?>> obj, int currentLevel){
-		if (obj.isCategoryObject())return 0;
-		if (currentLevel == distanceLimit || discoveredObjects.contains(obj))return currentLevel;
+	private int getDiscoveryDistanceInner(KnowledgeObject<? extends IObjectHolder<?>> obj, int currentDistance){
+		if (currentDistance == distanceLimit+1 || discoveredObjects.contains(obj))return currentDistance-1;
+		if (obj.isCategoryObject())return currentDistance;
 		
 		int lowest = distanceLimit;
 		
 		for(KnowledgeObject<? extends IObjectHolder<?>> parent:obj.getParents()){
-			int dist = getDiscoveryDistanceInner(parent,currentLevel+1);
-			if (dist < lowest)lowest = dist;
+			lowest = Math.min(lowest,getDiscoveryDistanceInner(parent,currentDistance+1));
 		}
 		
 		return lowest;
