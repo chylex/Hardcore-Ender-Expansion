@@ -34,12 +34,12 @@ public class EntityAIMoveBlocksRandomly extends EntityAIAbstractContinuous{
 	
 	@Override
 	protected void tick(){
-		if (entity.getAttackTarget() != null || entity.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))return;
+		if (entity.getAttackTarget() != null || !entity.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))return;
 		
 		Random rand = entity.getRNG();
 		BlockInfo holding = moveHandler.getCarryingBlock();
 		
-		if (holding.block == Blocks.air && rand.nextFloat() > stealChance){
+		if (holding.block == Blocks.air && rand.nextFloat() < stealChance){
 			for(int attempt = 0; attempt < 5; attempt++){
 				Pos pos = moveHandler.findBlockStealPosition(entity);
 				
@@ -50,7 +50,7 @@ public class EntityAIMoveBlocksRandomly extends EntityAIAbstractContinuous{
 				}
 			}
 		}
-		else if (holding.block != Blocks.air && rand.nextFloat() > placeChance){
+		else if (holding.block != Blocks.air && rand.nextFloat() < placeChance){
 			for(int attempt = 0; attempt < 5; attempt++){
 				Pos pos = moveHandler.findBlockPlacePosition(entity);
 				Pos below = pos.getDown();
