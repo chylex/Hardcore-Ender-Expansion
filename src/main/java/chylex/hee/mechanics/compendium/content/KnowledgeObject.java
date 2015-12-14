@@ -44,8 +44,8 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	private final List<KnowledgeObject<?>> children;
 	private final Set<KnowledgeFragment> fragments;
 	
-	private final List<byte[]> parentLineNodes;
-	private final List<byte[]> childLineNodes;
+	private final List<short[]> parentLineNodes;
+	private final List<short[]> childLineNodes;
 	
 	private int x, y, price, reward;
 	private ObjectShape shape = ObjectShape.PLAIN;
@@ -62,8 +62,8 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		this.parents = new ArrayList<>(1);
 		this.children = new ArrayList<>(4);
 		this.fragments = new LinkedHashSet<>(6);
-		this.parentLineNodes = CollectionUtil.newList(new byte[]{ 0, 0 });
-		this.childLineNodes = CollectionUtil.newList(new byte[]{ 0, 0 });
+		this.parentLineNodes = CollectionUtil.newList(new short[]{ 0, 0 });
+		this.childLineNodes = CollectionUtil.newList(new short[]{ 0, 0 });
 		allObjects.put(globalID,this);
 	}
 	
@@ -157,17 +157,17 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	// Line Nodes
 	
 	public KnowledgeObject<T> addParentLine(int offsetX, int offsetY){
-		parentLineNodes.add(new byte[]{ (byte)(offsetX*12), (byte)(offsetY*12) });
+		parentLineNodes.add(new short[]{ (short)(offsetX*12), (short)(offsetY*12) });
 		return this;
 	}
 	
 	public KnowledgeObject<T> addChildLine(int offsetX, int offsetY){
-		childLineNodes.add(new byte[]{ (byte)(offsetX*12), (byte)(offsetY*12) });
+		childLineNodes.add(new short[]{ (short)(offsetX*12), (short)(offsetY*12) });
 		return this;
 	}
 	
 	public void connectToChildren(ILineCallback callback){
-		byte[] node, lastChildNode;
+		short[] node, lastChildNode;
 		
 		for(int childIndex = 0; childIndex < childLineNodes.size()-1; childIndex++){
 			lastChildNode = childLineNodes.get(childIndex);
@@ -181,7 +181,7 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 			node = child.parentLineNodes.get(child.parentLineNodes.size()-1);
 			callback.call(x+lastChildNode[0],y+lastChildNode[1],child.x+node[0],child.y+node[1]);
 			
-			byte[] prevParentNode = node;
+			short[] prevParentNode = node;
 			
 			for(int parentIndex = child.parentLineNodes.size()-2; parentIndex >= 0; parentIndex--){
 				node = child.parentLineNodes.get(parentIndex);
@@ -219,9 +219,9 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		children.clear();
 		fragments.clear();
 		parentLineNodes.clear();
-		parentLineNodes.add(new byte[]{ 0, 0 });
+		parentLineNodes.add(new short[]{ 0, 0 });
 		childLineNodes.clear();
-		childLineNodes.add(new byte[]{ 0, 0 });
+		childLineNodes.add(new short[]{ 0, 0 });
 	}
 	
 	@SideOnly(Side.CLIENT)

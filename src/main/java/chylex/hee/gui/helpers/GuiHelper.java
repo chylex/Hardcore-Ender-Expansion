@@ -37,7 +37,7 @@ public final class GuiHelper{
 			
 			float x = x1+0.5F, y = y1+0.5F;
 			
-			for(int a = 0; a < len; a++){
+			for(int a = 0; a <= len; a++){
 				Gui.drawRect((int)x-1,(int)y-1,(int)x+1,(int)y+1,color);
 				x += vec.x;
 				y += vec.z;
