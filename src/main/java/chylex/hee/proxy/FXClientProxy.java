@@ -37,11 +37,11 @@ public class FXClientProxy extends FXCommonProxy{
 		return Minecraft.getMinecraft().theWorld;
 	}
 	
-	public static void spawn(EntityFX fx){
+	public static final void spawn(EntityFX fx){
 		Minecraft mc = Minecraft.getMinecraft();
 		if (mc.renderViewEntity == null)return;
 		
-		if (renderDist == -1 || MathUtil.distanceSquared(mc.renderViewEntity.posX-fx.posX,mc.renderViewEntity.posY-fx.posY,mc.renderViewEntity.posZ-fx.posZ) <= renderDist*renderDist){
+		if (renderDist == -1 || isInRange(fx,renderDist)){
 			if (enableLimiter){
 				if (++amountCheck >= 100){
 					amountCheck = 0;
@@ -57,6 +57,11 @@ public class FXClientProxy extends FXCommonProxy{
 			if (noClip)fx.noClip = true;
 			mc.effectRenderer.addEffect(fx);
 		}
+	}
+	
+	public static final boolean isInRange(EntityFX fx, double dist){ // TODO optimize distant particles
+		Minecraft mc = Minecraft.getMinecraft();
+		return mc.renderViewEntity != null && MathUtil.distanceSquared(mc.renderViewEntity.posX-fx.posX,mc.renderViewEntity.posY-fx.posY,mc.renderViewEntity.posZ-fx.posZ) <= dist*dist;
 	}
 	
 	/*
@@ -236,7 +241,10 @@ public class FXClientProxy extends FXCommonProxy{
 			public void onUpdate(){
 				for(int cycle = 0; cycle < 9; cycle++){
 					moveBehavior.update(this);
-					spawn(new EntityBigPortalFX(worldObj,posX,posY,posZ,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,scale));
+					
+					if (isInRange(this,24D) || rand.nextBoolean()){
+						spawn(new EntityBigPortalFX(worldObj,posX,posY,posZ,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,scale));
+					}
 					
 					if (!Pos.at(this).isAir(worldObj)){
 						setDead();
