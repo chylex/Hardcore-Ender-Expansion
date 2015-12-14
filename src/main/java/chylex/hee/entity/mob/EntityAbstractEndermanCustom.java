@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.mob.ai.EntityAIMoveBlocksRandomly.IMoveBlocks;
@@ -32,7 +33,10 @@ public abstract class EntityAbstractEndermanCustom extends EntityEnderman implem
 	}
 	
 	public void dropCarrying(){
-		if (isCarrying())entityDropItem(getCarrying(),0F);
+		if (isCarrying()){
+			entityDropItem(getCarrying(),0F);
+			setCarryingBlock(null);
+		}
 	}
 	
 	@Override
@@ -77,6 +81,10 @@ public abstract class EntityAbstractEndermanCustom extends EntityEnderman implem
 	 */
 	public boolean isEndermanWet(){
 		return super.isWet();
+	}
+	
+	public boolean onEndermanAttackedFrom(DamageSource source, float amount){
+		return super.attackEntityFrom(source,amount);
 	}
 	
 	// Disabled methods

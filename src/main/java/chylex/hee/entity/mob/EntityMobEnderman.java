@@ -2,23 +2,26 @@ package chylex.hee.entity.mob;
 import java.util.IdentityHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.ai.AIUtil;
 import chylex.hee.entity.mob.ai.EntityAIMoveBlocksRandomly;
 import chylex.hee.entity.mob.ai.target.EntityAIDirectLookTarget;
 import chylex.hee.entity.mob.ai.target.EntityAIDirectLookTarget.ITargetOnDirectLook;
+import chylex.hee.entity.mob.ai.target.EntityAIHurtByTargetConsecutively;
 import chylex.hee.entity.mob.teleport.ITeleportListener;
 import chylex.hee.entity.mob.teleport.ITeleportPredicate;
 import chylex.hee.entity.mob.teleport.MobTeleporter;
@@ -34,9 +37,11 @@ import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventTypes;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.ReflectionPublicizer;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.damage.Damage;
 import chylex.hee.system.abstractions.damage.IDamageModifier;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
+import chylex.hee.system.abstractions.entity.EntityAttributes.Operation;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.loot.PercentageLootTable;
@@ -45,7 +50,10 @@ import chylex.hee.world.loot.info.LootMobInfo;
 public class EntityMobEnderman extends EntityAbstractEndermanCustom implements ITargetOnDirectLook{
 	private static final double lookDistance = 64D;
 	private static final PercentageLootTable drops = new PercentageLootTable();
-	private static final MobTeleporter<EntityMobEnderman> teleportAround = new MobTeleporter<>();
+	private static final MobTeleporter<EntityMobEnderman> teleportAroundClose = new MobTeleporter<>();
+	private static final MobTeleporter<EntityMobEnderman> teleportAroundFull = new MobTeleporter<>();
+	
+	public static final AttributeModifier waterModifier = EntityAttributes.createModifier("Enderman water",Operation.MULTIPLY,0.6D);
 	
 	static{
 		drops.addLoot(Items.ender_pearl).<LootMobInfo>setChances(obj -> {
@@ -70,15 +78,22 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			return new float[]{ 0.03F };
 		});
 		
-		teleportAround.setLocationSelector(
+		teleportAroundClose.setLocationSelector(
+			ITeleportXZ.inCircle(32),
+			ITeleportY.findSolidBottom(ITeleportY.around(16),8)
+		);
+		
+		teleportAroundFull.setLocationSelector(
 			ITeleportXZ.inCircle(64),
 			ITeleportY.findSolidBottom(ITeleportY.around(16),8)
 		);
-
-		teleportAround.setAttempts(128);
-		teleportAround.addLocationPredicate(ITeleportPredicate.noCollision);
-		teleportAround.addLocationPredicate(ITeleportPredicate.noLiquid);
-		teleportAround.onTeleport(ITeleportListener.playSound);
+		
+		for(MobTeleporter teleporter:new MobTeleporter[]{ teleportAroundClose, teleportAroundFull }){
+			teleporter.setAttempts(128);
+			teleporter.addLocationPredicate(ITeleportPredicate.noCollision);
+			teleporter.addLocationPredicate(ITeleportPredicate.noLiquid);
+			teleporter.onTeleport(ITeleportListener.playSound);
+		}
 		
 		ReflectionPublicizer.f__carriable__EntityEnderman(new IdentityHashMap<Block,Boolean>(){
 			@Override
@@ -88,7 +103,11 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		});
 	}
 	
-	private int waterTimer;
+	// ENTITY
+	
+	private int waterTimer, waterResetCooldown, waterModifierCooldown;
+	private int timeSinceLastTeleport;
+	private int extraDespawnOffset;
 	
 	public EntityMobEnderman(World world){
 		super(world);
@@ -101,7 +120,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		tasks.addTask(4,new EntityAILookIdle(this));
 		tasks.addTask(5,new EntityAIMoveBlocksRandomly(this,this,new Block[0]));
 		
-		targetTasks.addTask(1,new EntityAIHurtByTarget(this,false));
+		targetTasks.addTask(1,new EntityAIHurtByTargetConsecutively(this).setCounter(n -> n >= 2+rand.nextInt(3)).setTimer(300));
 		targetTasks.addTask(2,new EntityAIDirectLookTarget(this,this).setMaxDistance(lookDistance));
 		
 		experienceValue = 10;
@@ -120,25 +139,54 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		return true;
 	}
 	
+	// BEHAVIOR
+	
 	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
 		
-		if (isEndermanWet()){
-			++waterTimer;
+		if (!worldObj.isRemote){
+			++timeSinceLastTeleport;
 			
-			if (waterTimer == 1){
-				setAggressive(true);
+			if (isEndermanWet()){
+				++waterTimer;
+				waterResetCooldown = 0;
+				
+				if (waterTimer == 1){
+					setAggressive(true);
+					
+					waterModifierCooldown = 120+rand.nextInt(40);
+					EntityAttributes.applyModifier(this,EntityAttributes.attackDamage,waterModifier);
+				}
+				
+				if (waterTimer > 80){
+					attackEntityFrom(DamageSource.drown,2F);
+					setAttackTarget(null);
+					teleportAround(true);
+				}
+			}
+			else if (waterTimer > 0 && ++waterResetCooldown > 10){
+				waterTimer = 0;
+				setAggressive(getAttackTarget() != null);
+			}
+			else if (waterTimer == 0 && waterModifierCooldown > 0 && --waterModifierCooldown == 0){
+				EntityAttributes.removeModifier(this,EntityAttributes.attackDamage,waterModifier);
 			}
 			
-			if (waterTimer > 80){
-				attackEntityFrom(DamageSource.drown,2F);
-				setAttackTarget(null);
+			if (extraDespawnOffset > 0 && ticksExisted%4 == 0 && rand.nextBoolean()){
+				--extraDespawnOffset;
 			}
-		}
-		else if (waterTimer > 0){
-			waterTimer = 0;
-			setAggressive(getAttackTarget() != null);
+			
+			if (ticksExisted%15 == 0){
+				int despawnChance = 300;
+				despawnChance -= (11-worldObj.skylightSubtracted)*8; // skylightSubtracted goes from 0 (day) to 11 (night)
+				despawnChance -= isCarrying() ? 50 : 0;
+				despawnChance -= extraDespawnOffset;
+				
+				if (rand.nextInt(Math.max(10,despawnChance)) == 0){
+					teleportDespawn();
+				}
+			}
 		}
 	}
 	
@@ -168,7 +216,33 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	}
 	
 	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount){
+		if (isEntityInvulnerable())return false;
+		
+		Entity sourceEntity = source.getEntity();
+		
+		if (sourceEntity != null){
+			if (sourceEntity instanceof EntityPlayer && !Causatum.hasReached((EntityPlayer)sourceEntity,Progress.ENDERMAN_KILLED) && teleportAround(false)){
+				if (sourceEntity != source.getSourceOfDamage() && rand.nextInt(4) == 0)setAttackTarget((EntityPlayer)sourceEntity);
+				return true;
+			}
+			
+			if (sourceEntity != source.getSourceOfDamage() && teleportAround(false))return true;
+		}
+		else{
+			if (source == DamageSource.cactus || source == DamageSource.inFire || source == DamageSource.lava || source == DamageSource.inWall){
+				if (teleportAround(false))return true;
+			}
+			
+			if (getAttackTarget() == null)extraDespawnOffset += MathUtil.ceil(amount*4F);
+		}
+		
+		return onEndermanAttackedFrom(source,amount);
+	}
+	
+	@Override
 	public boolean attackEntityAsMob(Entity target){
+		dropCarrying();
 		return Damage.vanillaMob(this).addModifier(IDamageModifier.nudityDanger).deal(target);
 	}
 	
@@ -176,6 +250,45 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	public boolean canTargetOnDirectLook(EntityPlayer target, double distance){
 		return distance <= (Causatum.hasReached(target,Progress.ENDERMAN_KILLED) ? lookDistance : lookDistance*0.5D);
 	}
+	
+	@Override
+	public void setAttackTarget(EntityLivingBase target){
+		if (target instanceof EntityPlayer && !Causatum.hasReached((EntityPlayer)target,Progress.ENDERMAN_KILLED))return;
+		super.setAttackTarget(target);
+	}
+	
+	// ABILITIES
+	
+	private boolean canTeleport(){
+		if (getAttackTarget() instanceof EntityPlayer){
+			if (Causatum.hasReached((EntityPlayer)getAttackTarget(),Progress.ENDERMAN_KILLED)){
+				return timeSinceLastTeleport >= 140+rand.nextInt(20); // 7-8 seconds
+			}
+			else{
+				return timeSinceLastTeleport >= 80+rand.nextInt(20); // 4-5 seconds
+			}
+		}
+		
+		return timeSinceLastTeleport >= 200-rand.nextInt(100)*rand.nextDouble(); // 5-10 seconds, little hacky solution to make it appear linear when called repeatedly
+	}
+	
+	public boolean teleportAround(boolean fullDistance){
+		if (canTeleport() && (fullDistance ? teleportAroundFull : teleportAroundClose).teleport(this,rand)){
+			timeSinceLastTeleport = 0;
+			return true;
+		}
+		else return false;
+	}
+	
+	public boolean teleportDespawn(){
+		if (!canTeleport())return false;
+		
+		// TODO fx
+		setDead();
+		return true;
+	}
+	
+	// FX AND DISPLAY
 
 	@Override
 	protected String getLivingSound(){
@@ -197,9 +310,24 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		return ModCommonProxy.hardcoreEnderbacon ? StatCollector.translateToLocal("entity.enderman.bacon.name") : super.getCommandSenderName();
 	}
 	
+	// SPAWNING AND DESPAWNING
+	
+	@Override
+	public float getBlockPathWeight(int x, int y, int z){
+		return 1F; // in Endermen code and AI, it is only used when checking light on spawn
+	}
+	
+	@Override
+	protected boolean isValidLightLevel(){
+		Pos pos = Pos.at(this);
+		return worldObj.getSavedLightValue(EnumSkyBlock.Block,pos.getX(),pos.getY(),pos.getZ())+rand.nextInt(6) < 8;
+	}
+	
 	@Override
 	public boolean getCanSpawnHere(){
-		return super.getCanSpawnHere() && (worldObj.provider.dimensionId != 0 || worldObj.skylightSubtracted <= 5);
+		// skylightSubtracted goes from 0 (day) to 11 (night)
+		// Endermen start appearing sooner than other monsters, but with smaller chance at first to avoid filling up the spawn limits
+		return super.getCanSpawnHere() && (worldObj.provider.dimensionId != 0 || worldObj.skylightSubtracted >= 9-rand.nextInt(7)*rand.nextDouble());
 	}
 	
 	@Override
