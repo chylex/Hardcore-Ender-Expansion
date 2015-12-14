@@ -1,181 +1,6 @@
 package chylex.hee.mechanics.compendium_old;
 
 public final class KnowledgeRegistrations{/*
-	public static final KnowledgeObject<? extends IKnowledgeObjectInstance<?>>
-		HELP = new KnowledgeObject<>(new ObjectDummy("HalpPlz")),
-		
-		// ===
-		
-		STRONGHOLD = dummy("Stronghold",new ItemStack(Blocks.stonebrick),"ec.title.stronghold"),
-		// TODO ADVENTURERS_DIARY = create(ItemList.adventurers_diary),
-		ENDERMAN_HEAD = create(BlockList.enderman_head),
-		MUSIC_DISKS = create(ItemList.music_disk),
-		END_PORTAL = create(Blocks.end_portal_frame,"ec.title.portal"),
-		// TODO ALTAR_NEXUS = create(ItemList.altar_nexus),
-		BASIC_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.INVALID.id),
-		ENDERMAN = create(EntityMobEnderman.class),
-		SILVERFISH = create(EntitySilverfish.class),
-		
-		ESSENCE = create(ItemList.essence),
-		
-		// ===
-		
-		DRAGON_LAIR = dummy("DragonLair",new ItemStack(Blocks.dragon_egg),"ec.title.dragonLair"),
-		END_STONE = create(Blocks.end_stone),
-		FALLING_OBSIDIAN = create(BlockList.obsidian_falling),
-		DRAGON_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.DRAGON.id),
-		END_POWDER_ORE = create(BlockList.end_powder_ore),
-		ENHANCED_BREWING_STAND = create(ItemList.enhanced_brewing_stand),
-		DRAGON_EGG = create(Blocks.dragon_egg),
-		DRAGON_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,EssenceType.DRAGON.getItemDamage()),"ec.title.essence"),
-		END_POWDER = create(ItemList.end_powder),
-		// TODO TEMPLE_CALLER = create(ItemList.temple_caller),
-		ENDER_DRAGON = new KnowledgeObject<>(new ObjectMob(EntityBossDragon.class),new ItemStack(Blocks.dragon_egg),"ec.title.enderDragon"),
-		ANGRY_ENDERMAN = create(EntityMobAngryEnderman.class),
-		VAMPIRE_BAT = create(EntityMobVampiricBat.class),
-		
-		ENDER_PEARL_ENHANCEMENTS = dummy("Enhancements.EnderPearl",new ItemStack(Items.ender_pearl),"ec.title.enh.enderPearl"),
-		ESSENCE_ALTAR_ENHANCEMENTS = dummy("Enhancements.EssenceAltar",new ItemStack(BlockList.essence_altar),"ec.title.enh.essenceAltar"),
-		ENHANCED_BREWING_STAND_ENHANCEMENTS = dummy("Enhancements.EnhancedBrewingStand",new ItemStack(ItemList.enhanced_brewing_stand),"ec.title.enh.enhancedBrewingStand"),
-		TNT_ENHANCEMENTS = dummy("Enhancements.TNT",new ItemStack(Blocks.tnt),"ec.title.enh.tnt"),
-		SPATIAL_DASH_GEM_ENHANCEMENTS = dummy("Enhancements.SpatialDashGem",new ItemStack(ItemList.spatial_dash_gem),"ec.title.enh.spatialDashGem"),
-		TRANSFERENCE_GEM_ENHANCEMENTS = dummy("Enhancements.TransferenceGem",new ItemStack(ItemList.transference_gem),"ec.title.enh.transferenceGem"),
-		
-		// ===
-		
-		ENDSTONE_BLOB = dummy("EndstoneBlob",new ItemStack(Blocks.end_stone),"ec.title.endstoneBlob"),
-		IGNEOUS_ROCK_ORE = create(BlockList.igneous_rock_ore),
-		DEATH_FLOWER = create(BlockList.death_flower),
-		ENDER_GOO = create(ItemList.bucket_ender_goo),
-		IGNEOUS_ROCK = create(ItemList.igneous_rock),
-		// TODO TRANSPORT_BEACON = create(BlockList.transport_beacon),
-		
-		// ===
-		
-		DUNGEON_TOWER = dummy("DungeonTower",new ItemStack(BlockList.obsidian_special,1),"ec.title.dungeonTower"),
-		OBSIDIAN_STAIRS = create(BlockList.obsidian_stairs),
-		OBSIDIAN_SMOOTH = create(BlockList.obsidian_special,0),
-		OBSIDIAN_CHISELED = create(BlockList.obsidian_special,1),
-		OBSIDIAN_PILLAR = create(BlockList.obsidian_special,2),
-		OBSIDIAN_SMOOTH_GLOWING = create(BlockList.obsidian_special_glow,0),
-		OBSIDIAN_CHISELED_GLOWING = create(BlockList.obsidian_special_glow,1),
-		OBSIDIAN_PILLAR_GLOWING = create(BlockList.obsidian_special_glow,2),
-		ENERGY = create(BlockList.energy_cluster,"Energy"),
-		ENDIUM_ORE = create(BlockList.endium_ore),
-		ENDIUM_BLOCK = create(BlockList.endium_block),
-		// TODO VOID_CHEST = create(BlockList.void_chest),
-		SPATIAL_DASH_GEM = create(ItemList.spatial_dash_gem),
-		ENDIUM_INGOT = create(ItemList.endium_ingot),
-		// TODO BIOME_COMPASS = create(ItemList.biome_compass),
-		ENDER_EYE = create(EntityMiniBossEnderEye.class),
-		ANGRY_ENDERMAN_LINKED = new LinkedKnowledgeObject<>(ANGRY_ENDERMAN),
-		
-		// ===
-		
-		METEOROID = dummy("Meteoroid",new ItemStack(BlockList.sphalerite),"ec.title.meteoroid"),
-		SPHALERITE = create(BlockList.sphalerite,0),
-		SPHALERITE_WITH_STARDUST = create(BlockList.sphalerite,1),
-		STARDUST = create(ItemList.stardust),
-		
-		// ===
-		
-		BIOME_ISLANDS = dummy("BiomeIslands",new ItemStack(BlockList.special_effects,1,BlockSpecialEffects.metaBiomeIslandIcon),"ec.title.biomeIslands"),
-		INSTABILITY_ORB_ORE = create(BlockList.instability_orb_ore),
-		STARDUST_ORE = create(BlockList.stardust_ore),
-		INSTABILITY_ORB = create(ItemList.instability_orb),
-		POTION_OF_INSTABILITY = create(ItemList.potion_of_instability),
-		STARDUST_LINKED = link(STARDUST),
-		DECOMPOSITION_TABLE = create(BlockList.decomposition_table),
-		EXPERIENCE_TABLE = create(BlockList.experience_table),
-		ACCUMULATION_TABLE = create(BlockList.accumulation_table),
-		EXTRACTION_TABLE = create(BlockList.extraction_table),
-		
-		// ===
-		
-		INFESTED_FOREST_BIOME = dummy("InfestedForest",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.metaInfested),"ec.title.biome.infestedForest"),
-		INFESTED_END_STONE = create(BlockList.end_terrain,0),
-		INFESTED_GRASS = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedGrass),
-		INFESTED_TALL_GRASS = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedTallgrass),
-		INFESTED_FERN = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedFern),
-		INFESTATION_REMEDY = create(ItemList.infestation_remedy),
-		INFESTED_BAT = create(EntityMobInfestedBat.class),
-		SILVERFISH_LINKED = link(SILVERFISH),
-		
-		THORNY_BUSH = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataThornBush),
-		SPOOKY_LOG = create(BlockList.spooky_log),
-		SPOOKY_LEAVES = create(BlockList.spooky_leaves),
-		DRY_SPLINTER = create(ItemList.dry_splinter),
-		GHOST_AMULET = create(ItemList.ghost_amulet,"ec.title.ghostAmulet"),
-		ECTOPLASM = create(ItemList.ectoplasm),
-		SPECTRAL_TEAR = create(ItemList.spectral_tear),
-		LIVING_MATTER = create(ItemList.living_matter),
-		CURSE = create(ItemList.curse,"ec.title.curses"),
-		POTION_OF_PURITY = create(ItemList.potion_of_purity),
-		CURSE_AMULET = create(ItemList.curse_amulet),
-		
-		RAVAGED_DUNGEON = dummy("RavagedDungeon",new ItemStack(BlockList.ravaged_brick),"ec.title.ravagedDungeon"),
-		RAVAGED_BRICK = create(BlockList.ravaged_brick),
-		RAVAGED_BRICK_GLOWING = create(BlockList.ravaged_brick_glow),
-		RAVAGED_BRICK_STAIRS = create(BlockList.ravaged_brick_stairs),
-		RAVAGED_BRICK_SLAB = create(BlockList.ravaged_brick_slab),
-		RAVAGED_BRICK_FENCE = create(BlockList.ravaged_brick_fence),
-		CHARM_POUCH = create(ItemList.charm_pouch),
-		RUNES = create(ItemList.rune,"Runes"),
-		CHARMS = create(ItemList.charm,"Charms"),
-		LOUSE = create(EntityMobLouse.class),
-		
-		// ===
-		
-		BURNING_MOUNTAINS_BIOME = dummy("BurningMountains",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.metaBurned),"ec.title.biome.burningMountains"),
-		BURNED_END_STONE = create(BlockList.end_terrain,1),
-		FLAMEWEED_1 = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataFlameweed1),
-		FLAMEWEED_2 = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataFlameweed2),
-		FLAMEWEED_3 = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataFlameweed3),
-		IGNEOUS_ROCK_ORE_LINKED = link(IGNEOUS_ROCK_ORE),
-		IGNEOUS_ROCK_LINKED = link(IGNEOUS_ROCK),
-		
-		CINDER = create(BlockList.cinder),
-		LILYFIRE = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire),
-		DUNGEON_PUZZLE = create(BlockList.dungeon_puzzle,"ec.title.dungeonPuzzle"),
-		FIERY_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.FIERY.id),
-		FIERY_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,1,EssenceType.FIERY.getItemDamage()),"ec.title.essence"),
-		FIRE_GOLEM = create(EntityMobFireGolem.class),
-		SCORCHING_LENS = create(EntityMobScorchingLens.class),
-		FIRE_FIEND = create(EntityMiniBossFireFiend.class),
-		
-		INFERNIUM = create(ItemList.infernium),
-		SCORCHING_PICKAXE = create(ItemList.scorching_pickaxe),
-		HAUNTED_MINER = create(EntityMobHauntedMiner.class),
-		
-		// ===
-		
-		ENCHANTED_ISLAND_BIOME = dummy("EnchantedIsland",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.metaEnchanted),"ec.title.biome.enchantedIsland"),
-		ENCHANTED_END_STONE = create(BlockList.end_terrain,2),
-		
-		FALLING_OBSIDIAN_LINKED = link(FALLING_OBSIDIAN),
-		PERSEGRIT = create(BlockList.persegrit),
-		ENDERMAN_LINKED = link(ENDERMAN),
-		
-		ARCANE_SHARD = create(ItemList.arcane_shard),
-		BLANK_GEM = create(ItemList.blank_gem),
-		SPATIAL_DASH_GEM_LINKED = link(SPATIAL_DASH_GEM),
-		TRANSFERENCE_GEM = create(ItemList.transference_gem),
-		BABY_ENDERMAN = create(EntityMobBabyEnderman.class),
-		HOMELAND_ENDERMAN = create(EntityMobHomelandEnderman.class),
-		
-		LABORATORY = dummy("Laboratory",new ItemStack(BlockList.laboratory_floor),"ec.title.laboratory"),
-		LABORATORY_OBSIDIAN = create(BlockList.laboratory_obsidian),
-		LABORATORY_GLASS = create(BlockList.laboratory_glass),
-		LABORATORY_FLOOR = create(BlockList.laboratory_floor),
-		LABORATORY_STAIRS = create(BlockList.laboratory_stairs),
-		OBSIDIAN_FRAGMENT = create(ItemList.obsidian_fragment),
-		OBSIDIAN_ROD = create(ItemList.obsidian_rod),
-		AURICION = create(ItemList.auricion),
-		ENERGY_WAND_CORE = create(ItemList.energy_wand_core),
-		ENERGY_WAND = create(ItemList.energy_receptacle),
-		ENDER_GUARDIAN = create(EntityMobEnderGuardian.class),
-		ENDERMAGE = create(EntityMobEndermage.class);
-	
 	public static void initialize(){
 		Stopwatch.time("KnowledgeRegistrations");
 		
@@ -257,11 +82,6 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(713).setPrice(3).setUnlockRequirements(712)
 			}),
 			
-			/* TODO ADVENTURERS_DIARY.setPos(0,0).setUnlockPrice(5).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(10).setPrice(2).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(11).setPrice(2).setUnlockOnDiscovery()
-			}),*//*
-			
 			ENDERMAN_HEAD.setPos(2,0).setUnlockPrice(5).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(20).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(21).setPrice(2).setUnlockRequirements(20)
@@ -277,12 +97,6 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(1412).setNonBuyable().setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(1413).setNonBuyable().setUnlockOnDiscovery()
 			}),
-			
-			/* TODO ALTAR_NEXUS.setPos(1,9).setUnlockPrice(10).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(40).setPrice(8),
-				new KnowledgeFragmentCrafting(41).setRecipeFromRegistry(new ItemStack(ItemList.altar_nexus)).setPrice(5).setUnlockRequirements(40),
-				new KnowledgeFragmentCrafting(42).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(8).setUnlockCascade(50)
-			}),*//*
 			
 			BASIC_ESSENCE_ALTAR.setPos(3,9).setNonBuyable().setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentCrafting(50).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(8).setUnlockCascade(42),
@@ -335,7 +149,7 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(113).setPrice(5).setUnlockRequirements(110),
 				new KnowledgeFragmentText(114).setPrice(2).setUnlockRequirements(110),
 				new KnowledgeFragmentItemConversion(115).setItems(new ItemStack(Items.brewing_stand),new ItemStack(ItemList.enhanced_brewing_stand)).setPrice(3).setUnlockRequirements(114).setUnlockCascade(130),
-				// TODO new KnowledgeFragmentItemConversion(116).setItems(new ItemStack(Items.ender_eye),new ItemStack(ItemList.temple_caller)).setNonBuyableRedirect(TEMPLE_CALLER), // 180
+				// new KnowledgeFragmentItemConversion(116).setItems(new ItemStack(Items.ender_eye),new ItemStack(ItemList.temple_caller)).setNonBuyableRedirect(TEMPLE_CALLER), // 180
 				new KnowledgeFragmentItemConversion(117).setItems(new ItemStack(ItemList.ghost_amulet),new ItemStack(ItemList.ghost_amulet,1,1)).setNonBuyableRedirect(GHOST_AMULET), // 463
 			}),
 			
@@ -377,14 +191,6 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(167).setPrice(3).setUnlockCascade(244)
 			}),
 			
-			/* TODO TEMPLE_CALLER.setPos(2,12).setUnlockPrice(18).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(180).setPrice(5).setUnlockCascade(116),
-				new KnowledgeFragmentText(181).setPrice(2),
-				new KnowledgeFragmentText(182).setPrice(8),
-				new KnowledgeFragmentText(183).setPrice(3).setUnlockRequirements(182),
-				new KnowledgeFragmentText(184).setPrice(3).setUnlockRequirements(183)
-			}),*//*
-			
 			ENDER_DRAGON.setPos(1,3).setUnlockPrice(20).setDiscoveryReward(55).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(190).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(191).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(190).setUnlockCascade(751),
@@ -411,19 +217,7 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(210).setPrice(5).setUnlockOnDiscovery().setUnlockCascade(703),
 				new KnowledgeFragmentText(211).setPrice(2).setUnlockRequirements(210),
 				new KnowledgeFragmentText(212).setPrice(3).setUnlockRequirements(210)
-			}),
-			
-			// TODO ENDER_PEARL_ENHANCEMENTS.setPos(11,0).setUnlockPrice(8).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EnderPearlEnhancements.class,170,3,10,new int[]{ 160 })),
-			
-			// TODO ESSENCE_ALTAR_ENHANCEMENTS.setPos(11,2).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EssenceAltarEnhancements.class,1470,5,10,new int[]{ 160, 51 })),
-			
-			// TODO ENHANCED_BREWING_STAND_ENHANCEMENTS.setPos(11,4).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(BrewingStandEnhancements.class,1500,4,10,new int[]{ 160, 130 })),
-			
-			// TODO TNT_ENHANCEMENTS.setPos(13,0).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TNTEnhancements.class,140,3,10,new int[]{ 160 })),
-			
-			// TODO SPATIAL_DASH_GEM_ENHANCEMENTS.setPos(13,2).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(SpatialDashGemEnhancements.class,1480,4,10,new int[]{ 160, 290 })),
-			
-			// TODO TRANSFERENCE_GEM_ENHANCEMENTS.setPos(13,4).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TransferenceGemEnhancements.class,1490,4,10,new int[]{ 160, 1440 }))
+			})
 		});
 		
 		// ===
@@ -465,14 +259,7 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(261).setPrice(2).setUnlockRequirements(260),
 				new KnowledgeFragmentText(262).setPrice(3).setUnlockRequirements(260),
 				new KnowledgeFragmentText(263).setPrice(3).setUnlockRequirements(260)
-			}),
-			
-			/* TODO TRANSPORT_BEACON.setPos(9,0).setUnlockPrice(20).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(960).setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(961).setPrice(5).setUnlockRequirements(960),
-				new KnowledgeFragmentText(962).setPrice(5).setUnlockRequirements(960),
-				new KnowledgeFragmentText(963).setPrice(3).setUnlockRequirements(960),
-			})*//*
+			})
 		});
 		
 		// ===
@@ -537,15 +324,9 @@ public final class KnowledgeRegistrations{/*
 			ENDIUM_BLOCK.setPos(4,11).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(770).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(771).setRecipeFromRegistry(new ItemStack(BlockList.endium_block)).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(770).setUnlockCascade(781),
-				// TODO new KnowledgeFragmentCrafting(772).setRecipeFromRegistry(new ItemStack(BlockList.void_chest)).setNonBuyableRedirect(VOID_CHEST), // 801
+				// new KnowledgeFragmentCrafting(772).setRecipeFromRegistry(new ItemStack(BlockList.void_chest)).setNonBuyableRedirect(VOID_CHEST), // 801
 				new KnowledgeFragmentCrafting(773).setRecipeFromRegistry(new ItemStack(ItemList.blank_gem)).setNonBuyableRedirect(BLANK_GEM), // 1422
 			}),
-			
-			/* TODO VOID_CHEST.setPos(6,11).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(800).setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(801).setRecipeFromRegistry(new ItemStack(BlockList.void_chest)).setPrice(8).setUnlockRequirements(800).setUnlockCascade(772),
-				new KnowledgeFragmentText(802).setPrice(3).setUnlockRequirements(800)
-			}),*//*
 			
 			SPATIAL_DASH_GEM.setPos(6,7).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(290).setPrice(5).setUnlockOnDiscovery().setUnlockCascade(319),
@@ -559,15 +340,8 @@ public final class KnowledgeRegistrations{/*
 			ENDIUM_INGOT.setPos(2,12).setUnlockPrice(30).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(780).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(781).setRecipeFromRegistry(new ItemStack(BlockList.endium_block)).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(780).setUnlockCascade(771),
-				// TODO new KnowledgeFragmentCrafting(782).setRecipeFromRegistry(new ItemStack(ItemList.biome_compass)).setNonBuyableRedirect(BIOME_COMPASS) // 303
+				// new KnowledgeFragmentCrafting(782).setRecipeFromRegistry(new ItemStack(ItemList.biome_compass)).setNonBuyableRedirect(BIOME_COMPASS) // 303
 			}),
-			
-			/* TODO BIOME_COMPASS.setPos(4,13).setUnlockPrice(25).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(300).setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(301).setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(300),
-				new KnowledgeFragmentText(302).setPrice(3).setUnlockRequirements(301),
-				new KnowledgeFragmentCrafting(303).setRecipeFromRegistry(new ItemStack(ItemList.biome_compass)).setPrice(8).setUnlockRequirements(300).setUnlockCascade(782)
-			}),*//*
 			
 			ENDER_EYE.setPos(3,7).setUnlockPrice(20).setDiscoveryReward(32).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(310).setPrice(5).setUnlockOnDiscovery(),
@@ -1118,7 +892,6 @@ public final class KnowledgeRegistrations{/*
 			int amtObjects = 0, amtFragments = 0, totalObjPrice = 0, totalFragPrice = 0, totalFragPriceExcCascaded = 0, totalFragPriceExcDiscovery = 0, totalReward = 0;
 			TIntHashSet cascaded = new TIntHashSet();
 			
-			/* TODO
 			for(KnowledgeObject<?> obj:KnowledgeObject.getAllObjects()){
 				if (obj == HELP)continue;
 				else if (obj.getDiscoveryReward() == 0 || obj.getUnlockPrice() == 0)throw new IllegalStateException("Knowledge Object "+obj.globalID+"/"+obj.getUnlocalizedTooltip()+" has illegal reward ("+obj.getDiscoveryReward()+") or unlock price ("+obj.getUnlockPrice()+").");
@@ -1146,10 +919,6 @@ public final class KnowledgeRegistrations{/*
 				totalObjPrice += obj.getUnlockPrice();
 				totalReward += obj.getDiscoveryReward();
 			}
-			
-			for(IEnhancementEnum enhancement:EnhancementHandler.getAllEnhancements()){
-				if (KnowledgeFragmentEnhancement.getEnhancementFragment(enhancement) == null)throw new IllegalStateException("Enhancement is missing a fragment: "+enhancement);
-			}*//*
 			
 			Log.debug("Knowledge Object amount: $0",amtObjects);
 			Log.debug("Knowledge Fragment amount: $0",amtFragments);
