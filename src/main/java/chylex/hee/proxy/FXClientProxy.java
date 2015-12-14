@@ -13,6 +13,7 @@ import chylex.hee.entity.fx.EntityEnderGooFX;
 import chylex.hee.entity.fx.EntityEnergyFX;
 import chylex.hee.entity.fx.EntityGlitterFX;
 import chylex.hee.entity.fx.EntityOrbitingPortalFX;
+import chylex.hee.entity.fx.behavior.ParticleBehaviorFlyOff;
 import chylex.hee.entity.fx.behavior.ParticleBehaviorMoveTo;
 import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.entity.item.EntityItemIgneousRock;
@@ -21,6 +22,7 @@ import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.curse.CurseType;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 
@@ -221,6 +223,31 @@ public class FXClientProxy extends FXCommonProxy{
 	public void portalOrbiting(double x, double y, double z, double motionY){
 		spawn(new EntityOrbitingPortalFX(world(),x,y,z,motionY));
 	}
+	
+	@Override
+	public void portalFlyOff(double x, double y, double z, final float scale, final double speedMp){
+		spawn(new EntityBigPortalFX(world(),x,y,z,0D,0D,0D,scale){
+			final ParticleBehaviorFlyOff moveBehavior = new ParticleBehaviorFlyOff(this,speedMp);
+			int age;
+			
+			{ noClip = true; }
+			
+			@Override
+			public void onUpdate(){
+				for(int cycle = 0; cycle < 9; cycle++){
+					moveBehavior.update(this);
+					spawn(new EntityBigPortalFX(worldObj,posX,posY,posZ,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,scale));
+					
+					if (!Pos.at(this).isAir(worldObj)){
+						setDead();
+						return;
+					}
+				}
+				
+				if (++age > 4+rand.nextInt(10))setDead();
+			}
+		});
+	}
 
 	@Override
 	public void energy(double x, double y, double z, final double targetX, final double targetY, final double targetZ, float red, float green, float blue, float scale, float speed){
@@ -230,8 +257,7 @@ public class FXClientProxy extends FXCommonProxy{
 			{ noClip = true; }
 			
 			@Override
-			public void onUpdate(){
-				super.onUpdate();
+			public void onUpdate(){ // TODO re-test End Portal Frame animation
 				moveBehavior.update(this);
 			}
 			

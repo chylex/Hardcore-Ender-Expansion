@@ -32,7 +32,7 @@ public class EntityBigPortalFX extends EntityFX{
 	
 	public EntityBigPortalFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float particleScaleMp){
 		this(world,x,y,z,motionX,motionY,motionZ);
-		particleScale = portalParticleScale*= particleScaleMp;
+		particleScale = portalParticleScale *= particleScaleMp;
 	}
 	
 	@Override

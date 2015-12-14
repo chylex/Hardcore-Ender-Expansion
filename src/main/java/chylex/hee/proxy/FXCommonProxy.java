@@ -26,6 +26,7 @@ public class FXCommonProxy{
 	public void flame(double x, double y, double z, double motionX, double motionY, double motionZ, int maxAge){}
 	public void portalBig(double x, double y, double z, double motionX, double motionY, double motionZ, float scaleMp, float red, float green, float blue){}
 	public void portalOrbiting(double x, double y, double z, double motionY){}
+	public void portalFlyOff(double x, double y, double z, final float scale, final double speedMp){}
 	public void energy(double x, double y, double z, final double targetX, final double targetY, final double targetZ, float red, float green, float blue, float scale, float speed){}
 	public void aura(double x, double y, double z, float red, float green, float blue, int maxAge){}
 	public void curse(double x, double y, double z, CurseType type){}
