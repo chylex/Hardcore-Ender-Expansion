@@ -1,7 +1,9 @@
 package chylex.hee.entity.mob;
 import java.util.IdentityHashMap;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -93,11 +95,15 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			ITeleportY.findSolidBottom(ITeleportY.around(16),8)
 		);
 		
-		for(MobTeleporter teleporter:new MobTeleporter[]{ teleportAroundClose, teleportAroundFull }){
+		for(MobTeleporter<EntityMobEnderman> teleporter:new MobTeleporter[]{ teleportAroundClose, teleportAroundFull }){
 			teleporter.setAttempts(128);
 			teleporter.addLocationPredicate(ITeleportPredicate.noCollision);
 			teleporter.addLocationPredicate(ITeleportPredicate.noLiquid);
 			teleporter.onTeleport(ITeleportListener.playSound);
+			
+			teleporter.onTeleport((entity, startPos, rand) -> {
+				if (rand.nextInt(5) <= 2)entity.dropCarrying();
+			});
 		}
 		
 		ReflectionPublicizer.f__carriable__EntityEnderman(new IdentityHashMap<Block,Boolean>(){
@@ -250,7 +256,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 				if (teleportAround(false))return true;
 			}
 			
-			if (getAttackTarget() == null)extraDespawnOffset += MathUtil.ceil(amount*4F);
+			if (getAttackTarget() == null)extraDespawnOffset += MathUtil.ceil(amount*9F);
 		}
 		
 		return onEndermanAttackedFrom(source,amount);
@@ -265,6 +271,16 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	@Override
 	public boolean canTargetOnDirectLook(EntityPlayer target, double distance){
 		return distance <= (Causatum.hasReached(target,Progress.ENDERMAN_KILLED) ? lookDistance : lookDistance*0.5D);
+	}
+	
+	@Override
+	public @Nullable Pos findBlockStealPosition(EntityCreature entity){
+		return worldObj.getClosestPlayerToEntity(this,16D) != null ? null : super.findBlockStealPosition(entity);
+	}
+	
+	@Override
+	public @Nullable Pos findBlockPlacePosition(EntityCreature entity){
+		return worldObj.getClosestPlayerToEntity(this,16D) != null ? null : super.findBlockPlacePosition(entity);
 	}
 	
 	@Override

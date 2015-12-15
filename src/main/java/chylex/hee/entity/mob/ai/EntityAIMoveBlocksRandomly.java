@@ -42,6 +42,7 @@ public class EntityAIMoveBlocksRandomly extends EntityAIAbstractContinuous{
 		if (holding.block == Blocks.air && rand.nextFloat() < stealChance){
 			for(int attempt = 0; attempt < 5; attempt++){
 				Pos pos = moveHandler.findBlockStealPosition(entity);
+				if (pos == null)return;
 				
 				if (ArrayUtils.contains(validBlocks,pos.getBlock(entity.worldObj))){
 					moveHandler.setCarryingBlock(pos.getInfo(entity.worldObj));
@@ -53,6 +54,8 @@ public class EntityAIMoveBlocksRandomly extends EntityAIAbstractContinuous{
 		else if (holding.block != Blocks.air && rand.nextFloat() < placeChance){
 			for(int attempt = 0; attempt < 5; attempt++){
 				Pos pos = moveHandler.findBlockPlacePosition(entity);
+				if (pos == null)return;
+				
 				Pos below = pos.getDown();
 				
 				if (pos.isAir(entity.worldObj) && !below.isAir(entity.worldObj) && below.getBlock(entity.worldObj).renderAsNormalBlock()){
@@ -68,13 +71,13 @@ public class EntityAIMoveBlocksRandomly extends EntityAIAbstractContinuous{
 		void setCarryingBlock(@Nullable BlockInfo info);
 		@Nonnull BlockInfo getCarryingBlock();
 		
-		default Pos findBlockStealPosition(EntityCreature entity){
+		default @Nullable Pos findBlockStealPosition(EntityCreature entity){
 			return Pos.at(entity.posX+(entity.getRNG().nextDouble()-0.5D)*4D,
 						  entity.posY+entity.getRNG().nextDouble()*3D,
 						  entity.posZ+(entity.getRNG().nextDouble()-0.5D)*4D);
 		}
 		
-		default Pos findBlockPlacePosition(EntityCreature entity){
+		default @Nullable Pos findBlockPlacePosition(EntityCreature entity){
 			return Pos.at(entity.posX+(entity.getRNG().nextDouble()-0.5D)*3D,
 						  entity.posY+entity.getRNG().nextDouble()*2D,
 						  entity.posZ+(entity.getRNG().nextDouble()-0.5D)*3D);
