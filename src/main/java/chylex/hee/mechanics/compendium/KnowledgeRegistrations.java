@@ -61,7 +61,11 @@ public final class KnowledgeRegistrations{
 		END_POWDER_ORE = $(new ObjectBlock(BlockList.end_powder_ore)),
 		END_POWDER = $(new ObjectItem(ItemList.end_powder)),
 		VOID_PORTAL = $(new ObjectBlock(BlockList.void_portal_frame),"tile.voidPortal.name"),
-		PORTAL_TOKEN = $(new ObjectItem(ItemList.portal_token,ItemPortalToken.forTerritory(EndTerritory.DEBUG_TEST,false)))
+		PORTAL_TOKEN = $(new ObjectItem(ItemList.portal_token,ItemPortalToken.forTerritory(EndTerritory.DEBUG_TEST,false))),
+		RAVISH_BRICK = $(new ObjectBlock(BlockList.ravish_brick)),
+		RAVISH_BELL = $(new ObjectBlock(BlockList.ravish_bell)),
+		DARK_LOAM = $(new ObjectBlock(BlockList.dark_loam)),
+		DARK_LOAM_SLAB = $(new ObjectBlock(BlockList.dark_loam_slab))
 		;
 	
 	public static void initialize(){
@@ -139,15 +143,23 @@ public final class KnowledgeRegistrations{
 		
 		THE_HUB.setCategoryObject().setParent(END_PORTAL,-3,27).addParentLine(0,-5).addParentLine(1,-6).addParentLine(8,-6).addParentLine(9,-7).addParentLine(9,-25).addParentLine(7,-27).addChildLine(0,3).setSpecial();
 		
-		END_STONE.setParent(THE_HUB,-3,6).addParentLine(0,-2).addParentLine(1,-3);
+		END_STONE.setParent(THE_HUB,3,6).addParentLine(0,-2).addParentLine(-1,-3);
 		
-		END_POWDER_ORE.setParent(END_STONE,-3,3).addParentLine(2,0).addParentLine(3,-1);
+		END_POWDER_ORE.setParent(END_STONE,3,3).addParentLine(-2,0).addParentLine(-3,-1);
 		
 		END_POWDER.setParent(END_POWDER_ORE,0,3).setImportant();
 		
-		VOID_PORTAL.setParent(THE_HUB,3,6).addParentLine(0,-2).addParentLine(-1,-3).setImportant();
+		VOID_PORTAL.setParent(THE_HUB,-3,6).addParentLine(0,-2).addParentLine(1,-3).setImportant();
 		
-		PORTAL_TOKEN.setParent(THE_HUB,6,6).addParentLine(0,-2).addParentLine(-1,-2).addParentLine(-3,-2).addParentLine(-4,-3);
+		PORTAL_TOKEN.setParent(THE_HUB,-6,6).addParentLine(0,-2).addParentLine(3,-2).addParentLine(4,-3);
+		
+		RAVISH_BRICK.setParent(THE_HUB,12,6).addParentLine(-2,0).addParentLine(-2,-1).addParentLine(-3,-2).addParentLine(-9,-2).addParentLine(-10,-3);
+		
+		RAVISH_BELL.setParent(THE_HUB,12,8).addParentLine(-2,0).addParentLine(-2,-3).addParentLine(-3,-4).addParentLine(-9,-4).addParentLine(-10,-5);
+		
+		DARK_LOAM.setParent(THE_HUB,12,11).addParentLine(-2,0).addParentLine(-2,-6).addParentLine(-3,-7).addParentLine(-9,-7).addParentLine(-10,-8);
+		
+		DARK_LOAM_SLAB.setParent(THE_HUB,12,13).addParentLine(-2,0).addParentLine(-2,-8).addParentLine(-3,-9).addParentLine(-9,-9).addParentLine(-10,-10);
 	}
 	
 	private static <T extends IObjectHolder<?>> KnowledgeObject<T> $(T holder){
