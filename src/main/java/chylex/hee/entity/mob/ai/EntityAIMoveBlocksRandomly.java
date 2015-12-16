@@ -1,22 +1,22 @@
 package chylex.hee.entity.mob.ai;
 import java.util.Random;
+import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.init.Blocks;
-import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
 
 public class EntityAIMoveBlocksRandomly extends EntityAIAbstractContinuous{
 	private final EntityCreature entity;
 	private final IMoveBlocks moveHandler;
-	private final Block[] validBlocks;
+	private final Set<Block> validBlocks;
 	private float stealChance = 1F/200F;
 	private float placeChance = 1F/400F;
 	
-	public EntityAIMoveBlocksRandomly(EntityCreature owner, IMoveBlocks moveHandler, Block[] validBlocks){
+	public EntityAIMoveBlocksRandomly(EntityCreature owner, IMoveBlocks moveHandler, Set<Block> validBlocks){
 		this.entity = owner;
 		this.moveHandler = moveHandler;
 		this.validBlocks = validBlocks;
@@ -44,7 +44,7 @@ public class EntityAIMoveBlocksRandomly extends EntityAIAbstractContinuous{
 				Pos pos = moveHandler.findBlockStealPosition(entity);
 				if (pos == null)return;
 				
-				if (ArrayUtils.contains(validBlocks,pos.getBlock(entity.worldObj))){
+				if (validBlocks.contains(pos.getBlock(entity.worldObj))){
 					moveHandler.setCarryingBlock(pos.getInfo(entity.worldObj));
 					pos.setAir(entity.worldObj);
 					break;

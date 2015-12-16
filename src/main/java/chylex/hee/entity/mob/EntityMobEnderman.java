@@ -1,7 +1,11 @@
 package chylex.hee.entity.mob;
+import java.util.HashSet;
 import java.util.IdentityHashMap;
+import java.util.Set;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
+import net.minecraft.block.Block.SoundType;
+import net.minecraft.block.IGrowable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,6 +24,8 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenEnd;
+import net.minecraftforge.common.IPlantable;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.ai.AIUtil;
 import chylex.hee.entity.mob.ai.EntityAIMoveBlocksRandomly;
@@ -50,6 +56,7 @@ import chylex.hee.system.abstractions.damage.IDamageModifier;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntityAttributes.Operation;
 import chylex.hee.system.abstractions.entity.EntitySelector;
+import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.loot.PercentageLootTable;
 import chylex.hee.world.loot.info.LootMobInfo;
@@ -60,6 +67,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	private static final MobTeleporter<EntityMobEnderman> teleportAroundClose = new MobTeleporter<>();
 	private static final MobTeleporter<EntityMobEnderman> teleportAroundFull = new MobTeleporter<>();
 	
+	public static final Set<Block> carriableBlocks = new HashSet<>();
 	public static final AttributeModifier waterModifier = EntityAttributes.createModifier("Enderman water",Operation.MULTIPLY,0.6D);
 	
 	static{
@@ -106,6 +114,27 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			});
 		}
 		
+		carriableBlocks.add(Blocks.gravel);
+		carriableBlocks.add(Blocks.clay);
+		carriableBlocks.add(Blocks.pumpkin);
+		carriableBlocks.add(Blocks.melon_block);
+		
+		for(Block block:GameRegistryUtil.getBlocks()){
+			if (block instanceof IGrowable || block instanceof IPlantable){
+				carriableBlocks.add(block);
+			}
+		}
+		
+		for(BiomeGenBase biome:BiomeGenBase.getBiomeGenArray()){
+			if (biome == null || biome instanceof BiomeGenEnd || biome.topBlock == null)continue;
+			
+			SoundType sound = biome.topBlock.stepSound;
+			
+			if (sound == Block.soundTypeGrass || sound == Block.soundTypeGravel || sound == Block.soundTypeSand){
+				carriableBlocks.add(biome.topBlock);
+			}
+		}
+		
 		ReflectionPublicizer.f__carriable__EntityEnderman(new IdentityHashMap<Block,Boolean>(){
 			@Override
 			public Boolean get(Object key){
@@ -129,7 +158,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		tasks.addTask(3,new EntityAIWanderRandomly(this,1D).setChancePerTick(1F/70F));
 		tasks.addTask(4,new EntityAIWatchClosest(this,EntityPlayer.class,8F));
 		tasks.addTask(4,new EntityAILookIdle(this));
-		tasks.addTask(5,new EntityAIMoveBlocksRandomly(this,this,new Block[]{ Blocks.grass }));
+		tasks.addTask(5,new EntityAIMoveBlocksRandomly(this,this,carriableBlocks));
 		
 		targetTasks.addTask(1,new EntityAIHurtByTargetConsecutively(this).setCounter(n -> n >= 2+rand.nextInt(3)).setTimer(300));
 		targetTasks.addTask(2,new EntityAIDirectLookTarget(this,this).setMaxDistance(lookDistance));
@@ -275,7 +304,12 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	@Override
 	public @Nullable Pos findBlockStealPosition(EntityCreature entity){
-		return worldObj.getClosestPlayerToEntity(this,16D) != null ? null : super.findBlockStealPosition(entity);
+		if (dimension == 1 || worldObj.getClosestPlayerToEntity(this,16D) != null)return null;
+		
+		Pos pos = super.findBlockStealPosition(entity);
+		if (worldObj.getSavedLightValue(EnumSkyBlock.Block,pos.getX(),pos.getY(),pos.getZ()) > 1)return null;
+		
+		return pos;
 	}
 	
 	@Override
