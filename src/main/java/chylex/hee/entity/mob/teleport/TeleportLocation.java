@@ -54,7 +54,7 @@ public final class TeleportLocation<T extends Entity> implements ITeleportLocati
 					if (Pos.at(entity.posX,y-1,entity.posZ).getMaterial(entity.worldObj).blocksMovement())return y;
 				}
 				
-				return startY;
+				return maxOffset <= 0 ? startY : startY-maxOffset;
 			};
 		}
 	}
