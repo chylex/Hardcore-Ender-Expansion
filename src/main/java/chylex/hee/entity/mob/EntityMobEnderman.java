@@ -49,6 +49,7 @@ import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.damage.Damage;
 import chylex.hee.system.abstractions.damage.IDamageModifier;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
@@ -61,8 +62,11 @@ import chylex.hee.world.loot.info.LootMobInfo;
 public class EntityMobEnderman extends EntityAbstractEndermanCustom implements ITargetOnDirectLook{
 	private static final double lookDistance = 64D;
 	private static final PercentageLootTable drops = new PercentageLootTable();
+	
 	private static final MobTeleporter<EntityMobEnderman> teleportAroundClose = new MobTeleporter<>();
 	private static final MobTeleporter<EntityMobEnderman> teleportAroundFull = new MobTeleporter<>();
+	private static final MobTeleporter<EntityMobEnderman> teleportAvoid = new MobTeleporter<>();
+	private static final MobTeleporter<EntityMobEnderman> teleportToEntity = new MobTeleporter<>();
 	
 	public static final Set<Block> carriableBlocks = new HashSet<>();
 	public static final AttributeModifier waterModifier = EntityAttributes.createModifier("Enderman water",Operation.MULTIPLY,0.6D);
@@ -100,8 +104,12 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			ITeleportY.findSolidBottom(ITeleportY.around(16),8)
 		);
 		
-		for(MobTeleporter<EntityMobEnderman> teleporter:new MobTeleporter[]{ teleportAroundClose, teleportAroundFull }){
-			teleporter.setAttempts(128);
+		teleportAroundClose.setAttempts(128);
+		teleportAroundFull.setAttempts(128);
+		teleportAvoid.setAttempts(24);
+		teleportToEntity.setAttempts(64);
+		
+		for(MobTeleporter<EntityMobEnderman> teleporter:new MobTeleporter[]{ teleportAroundClose, teleportAroundFull, teleportAvoid, teleportToEntity }){
 			teleporter.addLocationPredicate(ITeleportPredicate.noCollision);
 			teleporter.addLocationPredicate(ITeleportPredicate.noLiquid);
 			teleporter.onTeleport(ITeleportListener.playSound);
@@ -145,7 +153,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	// ENTITY
 	
 	private int waterTimer, waterResetCooldown, waterModifierCooldown;
-	private int timeSinceLastTeleport;
+	private int timeSinceLastTeleport, teleportFailTimer;
 	private int extraDespawnOffset;
 	
 	public EntityMobEnderman(World world){
@@ -186,6 +194,8 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		
 		if (!worldObj.isRemote){
 			++timeSinceLastTeleport;
+			
+			if (teleportFailTimer > 0)--teleportFailTimer;
 			
 			if (isEndermanWet()){
 				++waterTimer;
@@ -269,15 +279,19 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		Entity sourceEntity = source.getEntity();
 		
 		if (sourceEntity != null){
-			if (sourceEntity instanceof EntityPlayer && !Causatum.hasReached((EntityPlayer)sourceEntity,Progress.ENDERMAN_KILLED) && teleportAround(false)){
-				if (sourceEntity != source.getSourceOfDamage() && rand.nextInt(4) == 0 && canEntityBeSeen(sourceEntity) && MathUtil.distance(posX-sourceEntity.posX,posZ-sourceEntity.posZ) <= 32D){
-					setAttackTarget((EntityPlayer)sourceEntity);
+			boolean isProjectile = sourceEntity != source.getSourceOfDamage();
+			
+			if (sourceEntity instanceof EntityPlayer && !canAttackPlayer((EntityPlayer)sourceEntity)){
+				if ((isProjectile && teleportAvoid(source.getSourceOfDamage()) || (!isProjectile && teleportAround(false)))){
+					if (isProjectile && rand.nextInt(4) == 0 && canEntityBeSeen(sourceEntity) && MathUtil.distance(posX-sourceEntity.posX,posZ-sourceEntity.posZ) <= 32D){
+						setAttackTarget((EntityPlayer)sourceEntity);
+					}
+					
+					return true;
 				}
-				
-				return true;
 			}
 			
-			if (sourceEntity != source.getSourceOfDamage() && teleportAround(false))return true;
+			if (isProjectile && teleportAvoid(source.getSourceOfDamage()))return true;
 		}
 		else{
 			if (source == DamageSource.cactus || source == DamageSource.inFire || source == DamageSource.lava || source == DamageSource.inWall){
@@ -318,23 +332,34 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	@Override
 	public void setAttackTarget(EntityLivingBase target){
-		if (target instanceof EntityPlayer && !Causatum.hasReached((EntityPlayer)target,Progress.ENDERMAN_KILLED))return;
+		if (target instanceof EntityPlayer && !canAttackPlayer((EntityPlayer)target))return;
 		super.setAttackTarget(target);
 	}
 	
 	// ABILITIES
 	
+	private boolean canAttackPlayer(EntityPlayer player){
+		return Causatum.hasReached(player,Progress.ENDERMAN_KILLED);
+	}
+	
 	private boolean canTeleport(){
 		if (getAttackTarget() instanceof EntityPlayer){
 			if (Causatum.hasReached((EntityPlayer)getAttackTarget(),Progress.ENDERMAN_KILLED)){
-				return timeSinceLastTeleport >= 140+rand.nextInt(20); // 7-8 seconds
+				return timeSinceLastTeleport >= 80+rand.nextInt(20); // 4-5 seconds
 			}
 			else{
-				return timeSinceLastTeleport >= 80+rand.nextInt(20); // 4-5 seconds
+				return timeSinceLastTeleport >= 140+rand.nextInt(20); // 7-8 seconds
 			}
 		}
 		
 		return timeSinceLastTeleport >= 200-rand.nextInt(100)*rand.nextDouble(); // 5-10 seconds, little hacky solution to make it appear linear when called repeatedly
+	}
+	
+	private void onTeleportFail(){
+		if (teleportFailTimer == 0){
+			teleportFailTimer = 30;
+			PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ENDERMAN_TP_FAIL,this));
+		}
 	}
 	
 	public boolean teleportAround(boolean fullDistance){
@@ -342,7 +367,26 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			timeSinceLastTeleport = 0;
 			return true;
 		}
-		else return false;
+		else{
+			onTeleportFail();
+			return false;
+		}
+	}
+	
+	public boolean teleportAvoid(Entity projectile){ // ignores teleportation timer since it's just a small "step aside"
+		final Vec perpendicular = Vec.xz(-projectile.motionZ,projectile.motionX);
+		final Vec offset = Vec.xzRandom(rand).multiplied(rand.nextDouble());
+		
+		teleportAvoid.setLocationSelector(
+			(entity, startPos, rand) -> startPos.offset(perpendicular,(2D+rand.nextDouble())*(rand.nextBoolean() ? -1 : 1)).offset(offset),
+			ITeleportY.findSolidBottom(ITeleportY.around(3),6)
+		);
+		
+		if (teleportAvoid.teleport(this,rand))return true;
+		else{
+			onTeleportFail();
+			return false;
+		}
 	}
 	
 	public boolean teleportDespawn(){
@@ -351,7 +395,10 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			setDead();
 			return true;
 		}
-		else return false;
+		else{
+			onTeleportFail();
+			return false;
+		}
 	}
 	
 	// FX AND DISPLAY

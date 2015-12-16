@@ -200,6 +200,11 @@ public final class FXHandler{
 				for(int a = 0; a < 12; a++)fx.portalFlyOff(x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),0.2F+rand.nextFloat()*0.1F,0.15D+rand.nextDouble()*0.05D);
 				world.playSound(x,y,z,"mob.endermen.portal",2F,0.5F,false);
 				break;
+				
+			case ENDERMAN_TP_FAIL:
+				for(int a = 0; a < 8; a++)fx.global("smoke",x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),randCenter(0.05D),randCenter(0.05D),randCenter(0.05D));
+				// TODO sound
+				break;
 		}
 	}
 	

@@ -37,7 +37,8 @@ public final class FXType{
 		SIMPLE_TELEPORT_NOSOUND,
 		ENTITY_EXPLOSION_PARTICLE,
 		ENDER_EYE_BREAK,
-		ENDERMAN_DESPAWN;
+		ENDERMAN_DESPAWN,
+		ENDERMAN_TP_FAIL;
 		
 		public static FXType.Entity[] values = values();
 	}
