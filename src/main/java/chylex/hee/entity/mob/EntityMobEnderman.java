@@ -18,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.EnumSkyBlock;
@@ -46,6 +47,7 @@ import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventTypes;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
+import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.abstractions.Pos;
@@ -96,12 +98,12 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		
 		teleportAroundClose.setLocationSelector(
 			ITeleportXZ.inCircle(32),
-			ITeleportY.findSolidBottom(ITeleportY.around(16),8)
+			ITeleportY.findSolidBottom(ITeleportY.around(16),32)
 		);
 		
 		teleportAroundFull.setLocationSelector(
 			ITeleportXZ.inCircle(64),
-			ITeleportY.findSolidBottom(ITeleportY.around(16),8)
+			ITeleportY.findSolidBottom(ITeleportY.around(16),32)
 		);
 		
 		teleportAroundClose.setAttempts(128);
@@ -112,7 +114,8 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		for(MobTeleporter<EntityMobEnderman> teleporter:new MobTeleporter[]{ teleportAroundClose, teleportAroundFull, teleportAvoid, teleportToEntity }){
 			teleporter.addLocationPredicate(ITeleportPredicate.noCollision);
 			teleporter.addLocationPredicate(ITeleportPredicate.noLiquid);
-			teleporter.onTeleport(ITeleportListener.playSound);
+			teleporter.onTeleport(ITeleportListener.sendPacket((startPos, endPos) -> new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT_SEPARATE,startPos.x,startPos.y,startPos.z,endPos.x,endPos.y,endPos.z)));
+			teleporter.onTeleport(ITeleportListener.skipRenderLerp);
 			
 			teleporter.onTeleport((entity, startPos, rand) -> {
 				if (rand.nextInt(5) <= 2)entity.dropCarrying();
@@ -374,6 +377,8 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	}
 	
 	public boolean teleportAvoid(Entity projectile){ // ignores teleportation timer since it's just a small "step aside"
+		if (worldObj.isRemote)return true;
+		
 		final Vec perpendicular = Vec.xz(-projectile.motionZ,projectile.motionX);
 		final Vec offset = Vec.xzRandom(rand).multiplied(rand.nextDouble());
 		
@@ -473,5 +478,11 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			setDead();
 			return;
 		}
+	}
+	
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt){
+		super.readEntityFromNBT(nbt);
+		timeSinceLastTeleport = 80+rand.nextInt(100);
 	}
 }

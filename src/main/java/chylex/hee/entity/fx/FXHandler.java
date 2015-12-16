@@ -312,6 +312,16 @@ public final class FXHandler{
 				world.playSound(x2,y2,z2,"mob.endermen.portal",1F,1F,false);
 				break;
 				
+			case ENDERMAN_TELEPORT_SEPARATE:
+				for(int a = 0; a < 30; a++){
+					fx.global("portal",x1+randCenter(0.6F),y1+rand.nextDouble()*2.9F,z1+randCenter(0.6F),randCenter(0.15D),randCenter(0.15D),randCenter(0.15D));
+					fx.global("portal",x2+randCenter(0.6F),y2+rand.nextDouble()*2.9F,z2+randCenter(0.6F),randCenter(0.15D),randCenter(0.15D),randCenter(0.15D));
+				}
+				
+				world.playSound(x1,y1,z1,"mob.endermen.portal",1F,1F,false);
+				world.playSound(x2,y2,z2,"mob.endermen.portal",1F,1F,false);
+				break;
+				
 			case FIRE_FIEND_GOLEM_CALL:
 				addX = lineVec.x*0.5D;
 				addY = lineVec.y*0.5D;
