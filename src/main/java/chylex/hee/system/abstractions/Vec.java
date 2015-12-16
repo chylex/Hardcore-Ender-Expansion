@@ -82,6 +82,10 @@ public class Vec{
 		return Vec.xyz(x+byVec.x*factor,y+byVec.y*factor,z+byVec.z*factor);
 	}
 	
+	public Vec interpolated(Vec toVec, double progress){
+		return Vec.xyz(x+(toVec.x-x)*progress,y+(toVec.y-y)*progress,z+(toVec.z-z)*progress);
+	}
+	
 	public Vec multiplied(double factor){
 		return Vec.xyz(x*factor,y*factor,z*factor);
 	}
