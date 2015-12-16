@@ -5,7 +5,6 @@ import java.util.Set;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.Block.SoundType;
-import net.minecraft.block.IGrowable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,7 +24,6 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenEnd;
-import net.minecraftforge.common.IPlantable;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.ai.AIUtil;
 import chylex.hee.entity.mob.ai.EntityAIMoveBlocksRandomly;
@@ -56,7 +54,6 @@ import chylex.hee.system.abstractions.damage.IDamageModifier;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntityAttributes.Operation;
 import chylex.hee.system.abstractions.entity.EntitySelector;
-import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.loot.PercentageLootTable;
 import chylex.hee.world.loot.info.LootMobInfo;
@@ -119,19 +116,21 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		carriableBlocks.add(Blocks.pumpkin);
 		carriableBlocks.add(Blocks.melon_block);
 		
-		for(Block block:GameRegistryUtil.getBlocks()){
+		/* TODO make this work somehow? for(Block block:GameRegistryUtil.getBlocks()){
 			if (block instanceof IGrowable || block instanceof IPlantable){
 				carriableBlocks.add(block);
 			}
-		}
+		}*/
 		
 		for(BiomeGenBase biome:BiomeGenBase.getBiomeGenArray()){
 			if (biome == null || biome instanceof BiomeGenEnd || biome.topBlock == null)continue;
 			
-			SoundType sound = biome.topBlock.stepSound;
-			
-			if (sound == Block.soundTypeGrass || sound == Block.soundTypeGravel || sound == Block.soundTypeSand){
-				carriableBlocks.add(biome.topBlock);
+			for(Block block:new Block[]{ biome.topBlock, biome.fillerBlock }){
+				SoundType sound = block.stepSound;
+				
+				if (sound == Block.soundTypeGrass || sound == Block.soundTypeGravel || sound == Block.soundTypeSand){
+					carriableBlocks.add(block);
+				}
 			}
 		}
 		
@@ -304,7 +303,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	@Override
 	public @Nullable Pos findBlockStealPosition(EntityCreature entity){
-		if (dimension == 1 || worldObj.getClosestPlayerToEntity(this,16D) != null)return null;
+		if (dimension == 1 || worldObj.getClosestPlayerToEntity(this,14D) != null)return null;
 		
 		Pos pos = super.findBlockStealPosition(entity);
 		if (worldObj.getSavedLightValue(EnumSkyBlock.Block,pos.getX(),pos.getY(),pos.getZ()) > 1)return null;
