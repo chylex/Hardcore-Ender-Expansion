@@ -15,7 +15,7 @@ public class EntityAIDirectLookTarget extends EntityAITarget{
 	private double maxDistance = 32D;
 	
 	private EntityLivingBase currentTarget;
-	private int tickLimiter;
+	private int tickLimiter, lookTimer;
 	
 	public EntityAIDirectLookTarget(EntityCreature owner, ITargetOnDirectLook lookHandler){
 		super(owner,true,false);
@@ -36,11 +36,15 @@ public class EntityAIDirectLookTarget extends EntityAITarget{
 			double dist = MathUtil.distance(player.posX-taskOwner.posX,player.posY-taskOwner.posY,player.posZ-taskOwner.posZ);
 			
 			if (dist <= maxDistance && isPlayerLookingIntoEyes(player) && lookHandler.canTargetOnDirectLook(player,dist)){
-				currentTarget = player;
-				return true;
+				if (++lookTimer == 5){
+					currentTarget = player;
+					return true;
+				}
+				else return false;
 			}
 		}
 		
+		lookTimer = 0;
 		return false;
 	}
 	
