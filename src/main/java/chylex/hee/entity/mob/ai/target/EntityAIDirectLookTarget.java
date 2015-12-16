@@ -36,7 +36,7 @@ public class EntityAIDirectLookTarget extends EntityAITarget{
 			double dist = MathUtil.distance(player.posX-taskOwner.posX,player.posY-taskOwner.posY,player.posZ-taskOwner.posZ);
 			
 			if (dist <= maxDistance && isPlayerLookingIntoEyes(player) && lookHandler.canTargetOnDirectLook(player,dist)){
-				if (++lookTimer == 5){
+				if (++lookTimer == 4){
 					currentTarget = player;
 					return true;
 				}
@@ -58,14 +58,13 @@ public class EntityAIDirectLookTarget extends EntityAITarget{
 		ItemStack headIS = target.inventory.armorInventory[3];
 		if (headIS != null && headIS.getItem() == Item.getItemFromBlock(Blocks.pumpkin))return false;
 		
-		Vec look = Vec.look(target).normalized();
-		Vec posDiff = Vec.between(taskOwner,target);
-		posDiff.y += taskOwner.height*0.5F-target.getEyeHeight();
+		Vec posDiff = Vec.between(target,taskOwner);
+		posDiff.y += taskOwner.height*0.9D-target.getEyeHeight();
 		
 		double dist = posDiff.length();
-		double dot = look.dotProduct(posDiff.normalized());
+		double dot = Vec.look(target).normalized().dotProduct(posDiff.normalized());
 		
-		return dot > 1D-0.025D/dist && target.canEntityBeSeen(taskOwner);
+		return Math.abs(dot-1D) < 0.05D/MathUtil.square(dist) && target.canEntityBeSeen(taskOwner);
 	}
 	
 	@FunctionalInterface
