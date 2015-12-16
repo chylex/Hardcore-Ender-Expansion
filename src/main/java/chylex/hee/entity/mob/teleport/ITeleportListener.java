@@ -1,6 +1,7 @@
 package chylex.hee.entity.mob.teleport;
 import java.util.Random;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C12TeleportEntity;
@@ -22,6 +23,10 @@ public interface ITeleportListener<T extends Entity>{
 	
 	public static final ITeleportListener skipRenderLerp = (entity, startPos, rand) -> {
 		PacketPipeline.sendToAllAround(entity,128D,new C12TeleportEntity(entity));
+	};
+	
+	public static final ITeleportListener updatePlayerPosition = (entity, startPos, rand) -> {
+		if (entity instanceof EntityPlayer)((EntityPlayer)entity).setPositionAndUpdate(entity.posX,entity.posY,entity.posZ);
 	};
 	
 	// TODO fx and packets

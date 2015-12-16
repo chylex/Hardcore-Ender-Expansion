@@ -19,6 +19,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.mob.teleport.ITeleportListener;
 import chylex.hee.entity.mob.teleport.ITeleportPredicate;
 import chylex.hee.entity.mob.teleport.MobTeleporter;
 import chylex.hee.entity.mob.teleport.TeleportLocation.ITeleportXZ;
@@ -444,6 +445,7 @@ public enum CurseType{
 		curseTeleporter.setAttempts(200);
 		curseTeleporter.addLocationPredicate(ITeleportPredicate.noCollision);
 		curseTeleporter.addLocationPredicate(ITeleportPredicate.noLiquid);
+		curseTeleporter.onTeleport(ITeleportListener.updatePlayerPosition);
 		
 		curseTeleporter.onTeleport((entity, startPos, rand) -> {
 			PacketPipeline.sendToAllAround(entity,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,startPos.x,startPos.y,startPos.z,entity.posX,entity.posY,entity.posZ));
