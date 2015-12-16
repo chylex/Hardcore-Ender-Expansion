@@ -3,6 +3,7 @@ import java.util.Random;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C12TeleportEntity;
 import chylex.hee.packets.client.C21EffectEntity;
@@ -29,5 +30,15 @@ public interface ITeleportListener<T extends Entity>{
 		if (entity instanceof EntityPlayer)((EntityPlayer)entity).setPositionAndUpdate(entity.posX,entity.posY,entity.posZ);
 	};
 	
-	// TODO fx and packets
+	public static ITeleportListener sendPacket(final IOnTeleportPacketProvider packet){
+		return (entity, startPos, rand) -> {
+			Vec endPos = Vec.pos(entity);
+			Vec middlePos = startPos.interpolated(endPos,0.5D);
+			PacketPipeline.sendToAllAround(entity.dimension,middlePos.x,middlePos.y,middlePos.z,startPos.distance(endPos),packet.create(startPos,Vec.pos(entity)));
+		};
+	}
+	
+	public static interface IOnTeleportPacketProvider{
+		AbstractClientPacket create(Vec startPos, Vec endPos);
+	}
 }
