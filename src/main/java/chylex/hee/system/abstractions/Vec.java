@@ -35,6 +35,10 @@ public class Vec{
 		return new Vec(target.posX-source.posX,target.posY-source.posY,target.posZ-source.posZ);
 	}
 	
+	public static Vec pos(Entity entity){
+		return new Vec(entity.posX,entity.posY,entity.posZ);
+	}
+	
 	public static Vec look(EntityLivingBase entity){
 		return from(entity.getLookVec());
 	}
