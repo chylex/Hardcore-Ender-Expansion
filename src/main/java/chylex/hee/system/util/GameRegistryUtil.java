@@ -1,4 +1,5 @@
 package chylex.hee.system.util;
+import java.util.Iterator;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -47,6 +48,24 @@ public final class GameRegistryUtil{
 	
 	public static void addSmeltingRecipe(ItemStack input, ItemStack output, float experience){
 		FurnaceRecipes.smelting().func_151394_a(input,output,experience);
+	}
+	
+	public static Iterable<Block> getBlocks(){
+		return new Iterable<Block>(){
+			@Override
+			public Iterator<Block> iterator(){
+				return Block.blockRegistry.iterator();
+			}
+		};
+	}
+	
+	public static Iterable<Item> getItems(){
+		return new Iterable<Item>(){
+			@Override
+			public Iterator<Item> iterator(){
+				return Item.itemRegistry.iterator();
+			}
+		};
 	}
 	
 	// might not fit, but eh
