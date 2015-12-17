@@ -232,7 +232,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 				EntityAttributes.removeModifier(this,EntityAttributes.attackDamage,waterModifier);
 			}
 			
-			if (extraDespawnOffset > 0 && ticksExisted%4 == 0 && rand.nextBoolean()){
+			if (extraDespawnOffset > 0 && ticksExisted%3 == 0 && rand.nextBoolean()){
 				--extraDespawnOffset;
 			}
 			
@@ -247,6 +247,14 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 					teleportDespawn();
 				}
 			}
+			
+			if (getAttackTarget() == null && timeSinceLastTeleport > 1800-rand.nextInt(1600)*rand.nextDouble()){
+				teleportAround(true);
+			}
+		}
+		
+		if (getAttackTarget() != null){
+			faceEntity(getAttackTarget(),100F,100F);
 		}
 	}
 	
@@ -301,7 +309,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 				if (teleportAround(false))return true;
 			}
 			
-			if (getAttackTarget() == null)extraDespawnOffset += MathUtil.ceil(amount*9F);
+			if (getAttackTarget() == null)extraDespawnOffset += MathUtil.ceil(amount*10F);
 		}
 		
 		return onEndermanAttackedFrom(source,amount);
