@@ -1,5 +1,4 @@
 package chylex.hee.tileentity;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,7 +27,6 @@ import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.packets.client.C17AltarRuneItemEffect;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.util.NBTUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -158,11 +156,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	 */
 	
 	private void createActionHandler(){
-		try{
-			actionHandler = essenceType.actionHandlerClass.getConstructor(TileEntityEssenceAltar.class).newInstance(this);
-		}catch(NoSuchMethodException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException e){
-			Log.throwable(e,"Unable to create AltarActionHandler!");
-		}
+		actionHandler = essenceType.actionHandler.apply(this);
 	}
 	
 	private void addOrRenewCache(EntityPlayer player, ItemStack is){

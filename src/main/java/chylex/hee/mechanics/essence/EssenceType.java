@@ -1,5 +1,6 @@
 package chylex.hee.mechanics.essence;
 import java.util.Locale;
+import java.util.function.Function;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -8,11 +9,12 @@ import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.handler.AltarActionHandler;
 import chylex.hee.mechanics.essence.handler.DragonEssenceHandler;
 import chylex.hee.mechanics.essence.handler.FieryEssenceHandler;
+import chylex.hee.tileentity.TileEntityEssenceAltar;
 
 public enum EssenceType{
-	INVALID(0, "Basic", AltarActionHandler.class, new RuneItem[]{}, new float[]{ 1F, 1F, 1F }),
+	INVALID(0, "Basic", AltarActionHandler::new, new RuneItem[]{}, new float[]{ 1F, 1F, 1F }),
 	
-	DRAGON(1, "Dragon", DragonEssenceHandler.class, new RuneItem[]{
+	DRAGON(1, "Dragon", DragonEssenceHandler::new, new RuneItem[]{
 		new RuneItem(Items.ender_pearl, "random.glass"),
 		new RuneItem(Items.ender_eye, "random.glass"),
 		new RuneItem(BlockList.enderman_head, "dig.stone"),
@@ -25,7 +27,7 @@ public enum EssenceType{
 		new RuneItem(Blocks.stonebrick, "dig.stone")
 	}, new float[]{ 0.4648F,0.1914F,0.5195F }),
 
-	FIERY(2, "Fiery", FieryEssenceHandler.class, new RuneItem[]{
+	FIERY(2, "Fiery", FieryEssenceHandler::new, new RuneItem[]{
 		new RuneItem(ItemList.igneous_rock, "mob.ghast.fireball"),
 		new RuneItem(Blocks.furnace, "dig.stone"),
 		new RuneItem(Items.blaze_powder, "mob.blaze.hit"),
@@ -38,7 +40,7 @@ public enum EssenceType{
 		new RuneItem(Blocks.coal_block, "dig.stone")
 	}, new float[]{ 0.5898F,0.4023F,0.125F }),
 	
-	SPECTRAL(3, "Spectral", AltarActionHandler.class, new RuneItem[]{
+	SPECTRAL(3, "Spectral", AltarActionHandler::new, new RuneItem[]{
 		new RuneItem(Items.fish, "random.burp"),
 		new RuneItem(Items.chicken, "random.burp"),
 		new RuneItem(Blocks.red_flower, "dig.dirt"),
@@ -52,15 +54,15 @@ public enum EssenceType{
 	public final byte id;
 	public final String essenceName;
 	public final String essenceNameLowercase;
-	public final Class<? extends AltarActionHandler> actionHandlerClass;
+	public final Function<TileEntityEssenceAltar,? extends AltarActionHandler> actionHandler;
 	public final RuneItem[] itemsNeeded;
 	public final float[] glyphColors;
 	
-	private EssenceType(int id, String essenceName, Class<? extends AltarActionHandler> actionHandlerClass, RuneItem[] itemsNeeded, float[] glyphColors){
+	private EssenceType(int id, String essenceName, Function<TileEntityEssenceAltar,? extends AltarActionHandler> actionHandler, RuneItem[] itemsNeeded, float[] glyphColors){
 		this.id = (byte)id;
 		this.essenceName = essenceName;
 		this.essenceNameLowercase = essenceName.toLowerCase(Locale.ENGLISH);
-		this.actionHandlerClass = actionHandlerClass;
+		this.actionHandler = actionHandler;
 		this.itemsNeeded = itemsNeeded;
 		this.glyphColors = glyphColors;
 		
