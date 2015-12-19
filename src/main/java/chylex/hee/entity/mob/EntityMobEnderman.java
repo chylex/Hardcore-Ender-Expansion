@@ -122,6 +122,9 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			});
 		}
 		
+		teleportAroundClose.onTeleport((entity, startPos, rand) -> entity.timeSinceLastTeleport = 0);
+		teleportAroundFull.onTeleport((entity, startPos, rand) -> entity.timeSinceLastTeleport = 0);
+		
 		carriableBlocks.add(Blocks.gravel);
 		carriableBlocks.add(Blocks.clay);
 		carriableBlocks.add(Blocks.pumpkin);
@@ -354,6 +357,8 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	}
 	
 	private boolean canTeleport(){
+		if (worldObj.isRemote)return false;
+		
 		if (getAttackTarget() instanceof EntityPlayer){
 			if (Causatum.hasReached((EntityPlayer)getAttackTarget(),Progress.ENDERMAN_KILLED)){
 				return timeSinceLastTeleport >= 80+rand.nextInt(20); // 4-5 seconds
@@ -373,15 +378,16 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		}
 	}
 	
-	public boolean teleportAround(boolean fullDistance){
-		if (canTeleport() && (fullDistance ? teleportAroundFull : teleportAroundClose).teleport(this,rand)){
-			timeSinceLastTeleport = 0;
-			return true;
-		}
+	private boolean tryTeleport(MobTeleporter<EntityMobEnderman> teleporter, boolean checkCanTeleport){
+		if ((!checkCanTeleport || canTeleport()) && teleporter.teleport(this,rand))return true;
 		else{
 			onTeleportFail();
 			return false;
 		}
+	}
+	
+	public boolean teleportAround(boolean fullDistance){
+		return tryTeleport(fullDistance ? teleportAroundFull : teleportAroundClose,true);
 	}
 	
 	public boolean teleportAvoid(Entity projectile){ // ignores teleportation timer since it's just a small "step aside"
@@ -395,11 +401,20 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			ITeleportY.findSolidBottom(ITeleportY.around(3),6)
 		);
 		
-		if (teleportAvoid.teleport(this,rand))return true;
-		else{
-			onTeleportFail();
-			return false;
-		}
+		return tryTeleport(teleportAvoid,false);
+	}
+	
+	public boolean teleportBehind(EntityLivingBase target){ // TODO test location selectors
+		if (worldObj.isRemote)return true;
+		
+		final Vec look = Vec.look(target);
+		
+		teleportToEntity.setLocationSelector(
+			(entity, startPos, rand) -> startPos.offset(look,-(3D+2D*rand.nextDouble())).offset(look.offset(Vec.xzRandom(rand),0.25D),6D*rand.nextDouble()),
+			ITeleportY.findSolidBottom(ITeleportY.around(3,1),7)
+		);
+		
+		return tryTeleport(teleportToEntity,true);
 	}
 	
 	public boolean teleportDespawn(){
