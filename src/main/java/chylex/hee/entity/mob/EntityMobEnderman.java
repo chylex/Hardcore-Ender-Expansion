@@ -476,7 +476,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	public boolean getCanSpawnHere(){
 		// skylightSubtracted goes from 0 (day) to 11 (night)
 		// Endermen start appearing sooner than other monsters, but with smaller chance at first to avoid filling up the spawn limits
-		return super.getCanSpawnHere() && (worldObj.provider.dimensionId != 0 || worldObj.skylightSubtracted >= 9-rand.nextInt(7)*rand.nextDouble());
+		return super.getCanSpawnHere() && (worldObj.provider.dimensionId != 0 || worldObj.skylightSubtracted >= 9-rand.nextInt(7)*(0.5D+rand.nextDouble()*0.5D));
 	}
 	
 	@Override
