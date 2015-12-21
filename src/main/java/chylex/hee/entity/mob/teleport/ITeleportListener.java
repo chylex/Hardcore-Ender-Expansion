@@ -34,7 +34,7 @@ public interface ITeleportListener<T extends Entity>{
 		return (entity, startPos, rand) -> {
 			Vec endPos = Vec.pos(entity);
 			Vec middlePos = startPos.interpolated(endPos,0.5D);
-			PacketPipeline.sendToAllAround(entity.dimension,middlePos.x,middlePos.y,middlePos.z,startPos.distance(endPos),packet.create(startPos,Vec.pos(entity)));
+			PacketPipeline.sendToAllAround(entity.dimension,middlePos.x,middlePos.y,middlePos.z,32D+startPos.distance(endPos),packet.create(startPos,Vec.pos(entity)));
 		};
 	}
 	
