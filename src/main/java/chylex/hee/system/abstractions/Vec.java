@@ -39,8 +39,13 @@ public class Vec{
 		return new Vec(entity.posX,entity.posY,entity.posZ);
 	}
 	
-	public static Vec look(EntityLivingBase entity){
+	public static Vec xyzLook(EntityLivingBase entity){
 		return from(entity.getLookVec());
+	}
+	
+	public static Vec xzLook(EntityLivingBase entity){
+		float angle = -MathUtil.toRad(entity.rotationYaw)-MathUtil.PI;
+		return new Vec(-Math.sin(angle),0D,-Math.cos(angle));
 	}
 	
 	public double x, y, z;
@@ -88,6 +93,10 @@ public class Vec{
 	
 	public Vec multiplied(double factor){
 		return Vec.xyz(x*factor,y*factor,z*factor);
+	}
+	
+	public Vec multiplied(double facX, double facY, double facZ){
+		return Vec.xyz(x*facX,y*facY,z*facZ);
 	}
 	
 	// Calculations

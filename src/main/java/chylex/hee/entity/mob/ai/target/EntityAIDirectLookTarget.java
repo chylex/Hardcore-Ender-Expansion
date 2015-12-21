@@ -62,7 +62,7 @@ public class EntityAIDirectLookTarget extends EntityAITarget{
 		posDiff.y += taskOwner.height*0.9D-target.getEyeHeight();
 		
 		double dist = posDiff.length();
-		double dot = Vec.look(target).normalized().dotProduct(posDiff.normalized());
+		double dot = Vec.xyzLook(target).dotProduct(posDiff.normalized());
 		
 		return Math.abs(dot-1D) < 0.05D/MathUtil.square(dist) && target.canEntityBeSeen(taskOwner);
 	}
