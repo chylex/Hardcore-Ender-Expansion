@@ -111,19 +111,21 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		teleportAvoid.setAttempts(24);
 		teleportToEntity.setAttempts(64);
 		
+		final ITeleportListener<EntityMobEnderman> tpParticle = ITeleportListener.sendPacket((startPos, endPos) -> new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT_SEPARATE,startPos.x,startPos.y,startPos.z,endPos.x,endPos.y,endPos.z));
+		final ITeleportListener<EntityMobEnderman> tpDropCarrying = (entity, startPos, rand) -> { if (rand.nextInt(5) <= 2)entity.dropCarrying(); };
+		final ITeleportListener<EntityMobEnderman> tpResetTimer = (entity, startPos, rand) -> entity.timeSinceLastTeleport = 0;
+		
 		for(MobTeleporter<EntityMobEnderman> teleporter:new MobTeleporter[]{ teleportAroundClose, teleportAroundFull, teleportAvoid, teleportToEntity }){
 			teleporter.addLocationPredicate(ITeleportPredicate.noCollision);
 			teleporter.addLocationPredicate(ITeleportPredicate.noLiquid);
-			teleporter.onTeleport(ITeleportListener.sendPacket((startPos, endPos) -> new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT_SEPARATE,startPos.x,startPos.y,startPos.z,endPos.x,endPos.y,endPos.z)));
+			teleporter.onTeleport(tpParticle);
 			teleporter.onTeleport(ITeleportListener.skipRenderLerp);
-			
-			teleporter.onTeleport((entity, startPos, rand) -> {
-				if (rand.nextInt(5) <= 2)entity.dropCarrying();
-			});
+			teleporter.onTeleport(tpDropCarrying);
 		}
 		
-		teleportAroundClose.onTeleport((entity, startPos, rand) -> entity.timeSinceLastTeleport = 0);
-		teleportAroundFull.onTeleport((entity, startPos, rand) -> entity.timeSinceLastTeleport = 0);
+		teleportAroundClose.onTeleport(tpResetTimer);
+		teleportAroundFull.onTeleport(tpResetTimer);
+		teleportToEntity.onTeleport(tpResetTimer);
 		
 		carriableBlocks.add(Blocks.gravel);
 		carriableBlocks.add(Blocks.clay);
@@ -404,13 +406,14 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		return tryTeleport(teleportAvoid,false);
 	}
 	
-	public boolean teleportBehind(EntityLivingBase target){ // TODO test location selectors
+	public boolean teleportBehind(EntityLivingBase target){
 		if (worldObj.isRemote)return true;
 		
-		final Vec look = Vec.look(target);
+		final Vec look = Vec.xzLook(target);
+		final Vec targetPos = Vec.pos(target);
 		
 		teleportToEntity.setLocationSelector(
-			(entity, startPos, rand) -> startPos.offset(look,-(3D+2D*rand.nextDouble())).offset(look.offset(Vec.xzRandom(rand),0.25D),6D*rand.nextDouble()),
+			(entity, startPos, rand) -> targetPos.offset(look,-2D).offset(look.offset(Vec.xzRandom(rand),0.5D).normalized(),-(4D+3D*rand.nextDouble())),
 			ITeleportY.findSolidBottom(ITeleportY.around(3,1),7)
 		);
 		
