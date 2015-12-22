@@ -72,6 +72,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	public static final Set<Block> carriableBlocks = new HashSet<>();
 	public static final AttributeModifier waterModifier = EntityAttributes.createModifier("Enderman water",Operation.MULTIPLY,0.6D);
+	public static final AttributeModifier backStabModifier = EntityAttributes.createModifier("Enderman backstab",Operation.MULTIPLY,1.5D);
 	
 	static{
 		drops.addLoot(Items.ender_pearl).<LootMobInfo>setChances(obj -> {
@@ -114,6 +115,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		final ITeleportListener<EntityMobEnderman> tpParticle = ITeleportListener.sendPacket((startPos, endPos) -> new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT_SEPARATE,startPos.x,startPos.y,startPos.z,endPos.x,endPos.y,endPos.z));
 		final ITeleportListener<EntityMobEnderman> tpDropCarrying = (entity, startPos, rand) -> { if (rand.nextInt(5) <= 2)entity.dropCarrying(); };
 		final ITeleportListener<EntityMobEnderman> tpResetTimer = (entity, startPos, rand) -> entity.timeSinceLastTeleport = 0;
+		final ITeleportListener<EntityMobEnderman> tpBackStab = (entity, startPos, rand) -> entity.backStabCooldown = 80;
 		
 		for(MobTeleporter<EntityMobEnderman> teleporter:new MobTeleporter[]{ teleportAroundClose, teleportAroundFull, teleportAvoid, teleportToEntity }){
 			teleporter.addLocationPredicate(ITeleportPredicate.noCollision);
@@ -126,6 +128,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		teleportAroundClose.onTeleport(tpResetTimer);
 		teleportAroundFull.onTeleport(tpResetTimer);
 		teleportToEntity.onTeleport(tpResetTimer);
+		teleportToEntity.onTeleport(tpBackStab);
 		
 		carriableBlocks.add(Blocks.gravel);
 		carriableBlocks.add(Blocks.clay);
@@ -162,6 +165,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	private int waterTimer, waterResetCooldown, waterModifierCooldown;
 	private int timeSinceLastTeleport, teleportFailTimer;
+	private int backStabCooldown;
 	private int extraDespawnOffset;
 	
 	public EntityMobEnderman(World world){
@@ -204,6 +208,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			++timeSinceLastTeleport;
 			
 			if (teleportFailTimer > 0)--teleportFailTimer;
+			if (backStabCooldown > 0)--backStabCooldown;
 			
 			if (isEndermanWet()){
 				++waterTimer;
@@ -323,7 +328,19 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	@Override
 	public boolean attackEntityAsMob(Entity target){
 		dropCarrying();
-		return Damage.vanillaMob(this).addModifier(IDamageModifier.nudityDanger).deal(target);
+		
+		if (backStabCooldown > 0 && target instanceof EntityLivingBase && canBackStab((EntityLivingBase)target)){
+			EntityAttributes.applyModifier(this,EntityAttributes.attackDamage,backStabModifier);
+		}
+		
+		boolean result = Damage.vanillaMob(this).addModifier(IDamageModifier.nudityDanger).deal(target);
+		
+		if (backStabCooldown > 0){
+			backStabCooldown = 0;
+			EntityAttributes.removeModifier(this,EntityAttributes.attackDamage,backStabModifier);
+		}
+		
+		return result;
 	}
 	
 	@Override
@@ -430,6 +447,19 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			onTeleportFail();
 			return false;
 		}
+	}
+	
+	private boolean canBackStab(EntityLivingBase target){
+		double px = target.posX,
+			   pz = target.posZ,
+			   ry = -target.rotationYaw;
+		
+		int t1x = (int)(px+MathUtil.lendirx(40,ry-120));
+		int t1z = (int)(pz+MathUtil.lendiry(40,ry-120));
+		int t2x = (int)(px+MathUtil.lendirx(40,ry+120));
+		int t2z = (int)(pz+MathUtil.lendiry(40,ry+120));
+		
+		return MathUtil.triangle((int)posX,(int)posZ,(int)px,(int)pz,t1x,t1z,t2x,t2z); // "reverse frustum" that checks behind the target instead of the front
 	}
 	
 	// FX AND DISPLAY
