@@ -11,7 +11,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -29,9 +28,14 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.ai.AIUtil;
 import chylex.hee.entity.mob.ai.EntityAIMoveBlocksRandomly;
 import chylex.hee.entity.mob.ai.EntityAIWanderRandomly;
+import chylex.hee.entity.mob.ai.EntityAIWatchClosest;
+import chylex.hee.entity.mob.ai.EntityAIWatchSuspicious;
+import chylex.hee.entity.mob.ai.EntityAIWatchSuspicious.IWatchSuspiciousEntities;
+import chylex.hee.entity.mob.ai.EntityAIWatchTarget;
 import chylex.hee.entity.mob.ai.target.EntityAIDirectLookTarget;
 import chylex.hee.entity.mob.ai.target.EntityAIDirectLookTarget.ITargetOnDirectLook;
 import chylex.hee.entity.mob.ai.target.EntityAIHurtByTargetConsecutively;
+import chylex.hee.entity.mob.ai.target.EntityAIResetTarget;
 import chylex.hee.entity.mob.teleport.ITeleportListener;
 import chylex.hee.entity.mob.teleport.ITeleportPredicate;
 import chylex.hee.entity.mob.teleport.MobTeleporter;
@@ -61,7 +65,7 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.loot.PercentageLootTable;
 import chylex.hee.world.loot.info.LootMobInfo;
 
-public class EntityMobEnderman extends EntityAbstractEndermanCustom implements ITargetOnDirectLook{
+public class EntityMobEnderman extends EntityAbstractEndermanCustom implements ITargetOnDirectLook, IWatchSuspiciousEntities{
 	private static final double lookDistance = 64D;
 	private static final PercentageLootTable drops = new PercentageLootTable();
 	
@@ -73,6 +77,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	public static final Set<Block> carriableBlocks = new HashSet<>();
 	public static final AttributeModifier waterModifier = EntityAttributes.createModifier("Enderman water",Operation.MULTIPLY,0.6D);
 	public static final AttributeModifier backStabModifier = EntityAttributes.createModifier("Enderman backstab",Operation.MULTIPLY,1.5D);
+	public static final AttributeModifier noMovementModifier = EntityAttributes.createModifier("Enderman stop",Operation.MULTIPLY,0D);
 	
 	static{
 		drops.addLoot(Items.ender_pearl).<LootMobInfo>setChances(obj -> {
@@ -130,6 +135,14 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		teleportToEntity.onTeleport(tpResetTimer);
 		teleportToEntity.onTeleport(tpBackStab);
 		
+		teleportAroundClose.onTeleport((entity, startPos, rand) -> {
+			if (entity.suspiciousEntity != null){
+				EntityLivingBase suspicious = entity.suspiciousEntity;
+				entity.getLookHelper().setLookPosition(suspicious.posX,suspicious.posY+suspicious.getEyeHeight(),suspicious.posZ,360F,180F);
+				entity.getLookHelper().onUpdateLook();
+			}
+		});
+		
 		carriableBlocks.add(Blocks.gravel);
 		carriableBlocks.add(Blocks.clay);
 		carriableBlocks.add(Blocks.pumpkin);
@@ -168,6 +181,9 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	private int backStabCooldown;
 	private int extraDespawnOffset;
 	
+	private EntityLivingBase suspiciousEntity;
+	private int suspiciousTimer;
+	
 	public EntityMobEnderman(World world){
 		super(world);
 		AIUtil.clearEntityTasks(this);
@@ -175,9 +191,11 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		tasks.addTask(1,new EntityAISwimming(this));
 		tasks.addTask(2,new EntityAIAttackOnCollide(this,1D,false));
 		tasks.addTask(3,new EntityAIWanderRandomly(this,1D).setChancePerTick(1F/70F));
-		tasks.addTask(4,new EntityAIWatchClosest(this,EntityPlayer.class,8F));
-		tasks.addTask(4,new EntityAILookIdle(this));
-		tasks.addTask(5,new EntityAIMoveBlocksRandomly(this,this,carriableBlocks));
+		tasks.addTask(4,new EntityAIWatchTarget(this));
+		tasks.addTask(5,new EntityAIWatchSuspicious(this,this));
+		tasks.addTask(6,new EntityAIWatchClosest<>(this,EntityPlayer.class).setChancePerTick(1F/25F).setWatchTime(target -> canAttackPlayer(target) ? 120+rand.nextInt(160) : 0));
+		tasks.addTask(7,new EntityAILookIdle(this));
+		tasks.addTask(8,new EntityAIMoveBlocksRandomly(this,this,carriableBlocks));
 		
 		targetTasks.addTask(1,new EntityAIResetTarget(this));
 		targetTasks.addTask(2,new EntityAIHurtByTargetConsecutively(this).setCounter(n -> n >= 2+rand.nextInt(3)).setTimer(300));
@@ -259,8 +277,29 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 				}
 			}
 			
-			if (getAttackTarget() == null && timeSinceLastTeleport > 1800-rand.nextInt(1600)*rand.nextDouble()){
+			if (suspiciousTimer > 0){
+				if (suspiciousEntity == null){
+					suspiciousTimer = 0;
+					EntityAttributes.removeModifier(this,EntityAttributes.movementSpeed,noMovementModifier);
+				}
+				else if (--suspiciousTimer == 0){
+					if (suspiciousEntity == getAttackTarget()){
+						dropCarrying();
+						
+						timeSinceLastTeleport = Integer.MAX_VALUE;
+						teleportBehind(getAttackTarget());
+					}
+					
+					suspiciousEntity = null;
+					EntityAttributes.removeModifier(this,EntityAttributes.movementSpeed,noMovementModifier);
+				}
+			}
+			
+			if (getAttackTarget() == null && timeSinceLastTeleport > 1800-rand.nextInt(1600)*rand.nextDouble()){ // 10-90 seconds
 				teleportAround(true);
+			}
+			else if (getAttackTarget() != null && (timeSinceLastTeleport > 400-rand.nextInt(280)*rand.nextDouble() || rand.nextInt(1000) == 0)){ // 6-20 seconds
+				teleportBehind(getAttackTarget());
 			}
 		}
 		
@@ -346,7 +385,12 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	@Override
 	public boolean canTargetOnDirectLook(EntityPlayer target, double distance){
-		return distance <= (Causatum.hasReached(target,Progress.ENDERMAN_KILLED) ? lookDistance : lookDistance*0.5D);
+		if (distance <= (Causatum.hasReached(target,Progress.ENDERMAN_KILLED) ? lookDistance : lookDistance*0.5D)){
+			suspiciousEntity = target;
+			suspiciousTimer = 180+rand.nextInt(200);
+			return true;
+		}
+		else return false;
 	}
 	
 	@Override
@@ -365,8 +409,22 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	}
 	
 	@Override
+	public @Nullable EntityLivingBase getSuspiciousEntity(){
+		if (suspiciousEntity != null && (suspiciousEntity.isDead || getDistanceSqToEntity(suspiciousEntity) > 400D))suspiciousEntity = null; // 20 blocks
+		return suspiciousEntity;
+	}
+	
+	@Override
 	public void setAttackTarget(EntityLivingBase target){
-		if (target instanceof EntityPlayer && !canAttackPlayer((EntityPlayer)target))return;
+		if (target instanceof EntityPlayer && !canAttackPlayer((EntityPlayer)target)){
+			teleportAround(false);
+			return;
+		}
+		
+		if (target == suspiciousEntity){
+			EntityAttributes.applyModifier(this,EntityAttributes.movementSpeed,noMovementModifier);
+		}
+		
 		super.setAttackTarget(target);
 	}
 	
@@ -378,6 +436,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	private boolean canTeleport(){
 		if (worldObj.isRemote)return false;
+		if (EntityAttributes.hasModifier(this,EntityAttributes.movementSpeed,noMovementModifier))return false;
 		
 		if (getAttackTarget() instanceof EntityPlayer){
 			if (Causatum.hasReached((EntityPlayer)getAttackTarget(),Progress.ENDERMAN_KILLED)){
@@ -392,7 +451,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	}
 	
 	private void onTeleportFail(){
-		if (teleportFailTimer == 0){
+		if (teleportFailTimer == 0 && !EntityAttributes.hasModifier(this,EntityAttributes.movementSpeed,noMovementModifier)){
 			teleportFailTimer = 30;
 			PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ENDERMAN_TP_FAIL,this));
 		}
