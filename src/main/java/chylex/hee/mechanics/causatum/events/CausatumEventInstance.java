@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.causatum.events;
+import java.util.Random;
 import java.util.function.BiFunction;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -53,10 +54,17 @@ public abstract class CausatumEventInstance{
 	private @Nullable EntityPlayerMP player;
 	private @Nonnull EventState state = EventState.WAITING;
 	
-	CausatumEventInstance(EventTypes eventType, EntityPlayerMP player){
+	protected Random rand;
+	
+	CausatumEventInstance(EventTypes eventType, @Nonnull EntityPlayerMP player){
 		this.eventType = eventType;
 		this.playerID = PlayerDataHandler.getID(player);
 		this.player = player;
+		this.rand = player.getRNG();
+	}
+	
+	protected final boolean hasPlayer(){
+		return player != null;
 	}
 	
 	protected final @Nullable EntityPlayerMP getPlayer(){
@@ -87,6 +95,8 @@ public abstract class CausatumEventInstance{
 		}
 		
 		if (player == null)player = EntitySelector.players().stream().filter(entity -> playerID.equals(PlayerDataHandler.getID(entity))).findAny().orElse(null);
+		
+		onUpdate();
 	}
 	
 	public final EventState getState(){
