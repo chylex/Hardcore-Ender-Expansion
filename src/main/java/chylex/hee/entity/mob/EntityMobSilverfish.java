@@ -22,6 +22,7 @@ import chylex.hee.entity.mob.ai.EntityAIHideInBlock;
 import chylex.hee.entity.mob.ai.EntityAISummonFromBlock;
 import chylex.hee.entity.mob.ai.EntityAIWanderConstantly;
 import chylex.hee.entity.mob.ai.target.EntityAIRandomTarget;
+import chylex.hee.entity.mob.ai.target.EntityAIResetTarget;
 import chylex.hee.init.ItemList;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.damage.Damage;
@@ -61,8 +62,9 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 		setCanSummonSilverfish(true);
 		setCanHideInBlocks(true);
 		
-		targetTasks.addTask(1,new EntityAIHurtByTarget(this,false));
-		targetTasks.addTask(2,new EntityAIRandomTarget(this,EntityPlayer.class,true).setPredicate(EntityAIRandomTarget.noCreativeMode));
+		targetTasks.addTask(1,new EntityAIResetTarget(this));
+		targetTasks.addTask(2,new EntityAIHurtByTarget(this,false));
+		targetTasks.addTask(3,new EntityAIRandomTarget(this,EntityPlayer.class,true).setPredicate(EntityAIRandomTarget.noCreativeMode));
 		
 		experienceValue = 3;
 	}
