@@ -28,6 +28,10 @@ public final class EntityAttributes{
 		else return false;
 	}
 	
+	public static boolean hasModifier(EntityLivingBase entity, IAttribute attribute, AttributeModifier modifier){
+		return entity.getEntityAttribute(attribute).getModifier(modifier.getID()) != null;
+	}
+	
 	public static boolean removeModifier(EntityLivingBase entity, IAttribute attribute, AttributeModifier modifier){
 		if (entity.getEntityAttribute(attribute).getModifier(modifier.getID()) != null){
 			entity.getEntityAttribute(attribute).removeModifier(modifier);
