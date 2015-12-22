@@ -423,6 +423,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		
 		if (target == suspiciousEntity){
 			EntityAttributes.applyModifier(this,EntityAttributes.movementSpeed,noMovementModifier);
+			suspiciousTimer = 25+rand.nextInt(20);
 		}
 		
 		super.setAttackTarget(target);
