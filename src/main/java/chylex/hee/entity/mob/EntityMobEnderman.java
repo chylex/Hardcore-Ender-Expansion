@@ -197,7 +197,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		tasks.addTask(7,new EntityAILookIdle(this));
 		tasks.addTask(8,new EntityAIMoveBlocksRandomly(this,this,carriableBlocks));
 		
-		targetTasks.addTask(1,new EntityAIResetTarget(this));
+		targetTasks.addTask(1,new EntityAIResetTarget(this).stopIfTooFar(64D).stopIfCreative());
 		targetTasks.addTask(2,new EntityAIHurtByTargetConsecutively(this).setCounter(n -> n >= 2+rand.nextInt(3)).setTimer(300));
 		targetTasks.addTask(3,new EntityAIDirectLookTarget(this,this).setMaxDistance(lookDistance));
 		

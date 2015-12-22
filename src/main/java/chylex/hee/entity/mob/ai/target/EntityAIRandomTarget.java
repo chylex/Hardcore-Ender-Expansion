@@ -18,8 +18,8 @@ public class EntityAIRandomTarget<T extends EntityLivingBase> extends EntityAIAb
 	private final Class<T> targetClass;
 	private Predicate<T> predicate;
 	
-	public EntityAIRandomTarget(EntityCreature owner, Class<T> targetClass, boolean checkSight){
-		super(owner,checkSight,false);
+	public EntityAIRandomTarget(EntityCreature owner, Class<T> targetClass){
+		super(owner,false,false);
 		this.targetClass = targetClass;
 		this.setMutexBits(AIUtil.mutexTarget);
 	}
