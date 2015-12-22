@@ -3,14 +3,14 @@ import java.util.UUID;
 import java.util.function.IntPredicate;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAITarget;
 import chylex.hee.entity.mob.ai.AIUtil;
+import chylex.hee.entity.mob.ai.base.EntityAIAbstractTarget;
 
 /**
  * Attacks the last attacker the entity was hurt by.
  * If the entity already has a target, it will only switch if the new attacker damages the entity consecutively a set amount of times within a set time period.
  */
-public class EntityAIHurtByTargetConsecutively extends EntityAITarget{
+public class EntityAIHurtByTargetConsecutively extends EntityAIAbstractTarget{
 	private UUID lastAttackingEntity;
 	private int lastAttackingEntityCounter;
 	private int lastAttackingEntityTick;
@@ -19,7 +19,7 @@ public class EntityAIHurtByTargetConsecutively extends EntityAITarget{
 	private int counterTimer = 100;
 	
 	public EntityAIHurtByTargetConsecutively(EntityCreature owner){
-		super(owner,false);
+		super(owner,false,false);
 		setMutexBits(AIUtil.mutexTarget);
 	}
 	
@@ -32,19 +32,19 @@ public class EntityAIHurtByTargetConsecutively extends EntityAITarget{
 		this.counterTimer = timer;
 		return this;
 	}
-
+	
 	@Override
-	public boolean shouldExecute(){
+	protected EntityLivingBase findNewTarget(){
 		EntityLivingBase revengeTarget = taskOwner.getAITarget();
-		if (revengeTarget == null)return false;
+		if (revengeTarget == null)return null;
 		
-		if (taskOwner.getAttackTarget() == null)return true;
+		if (taskOwner.getAttackTarget() == null)return revengeTarget;
 		
 		if ((lastAttackingEntityTick == 0 || taskOwner.ticksExisted-lastAttackingEntityTick <= counterTimer) && revengeTarget.getUniqueID().equals(lastAttackingEntity)){
 			if (counterPredicate.test(++lastAttackingEntityCounter)){
 				lastAttackingEntityCounter = 0;
 				lastAttackingEntityTick = 0;
-				return true;
+				return revengeTarget;
 			}
 		}
 		else{
@@ -54,12 +54,6 @@ public class EntityAIHurtByTargetConsecutively extends EntityAITarget{
 		
 		lastAttackingEntityTick = taskOwner.ticksExisted;
 		taskOwner.setRevengeTarget(null);
-		return false;
-	}
-	
-	@Override
-	public void startExecuting(){
-		taskOwner.setAttackTarget(taskOwner.getAITarget());
-		super.startExecuting();
+		return null;
 	}
 }

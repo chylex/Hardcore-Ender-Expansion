@@ -1,20 +1,19 @@
 package chylex.hee.entity.mob.ai.target;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import chylex.hee.entity.mob.ai.base.EntityAIAbstractTarget;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.MathUtil;
 
-public class EntityAIDirectLookTarget extends EntityAITarget{
+public class EntityAIDirectLookTarget extends EntityAIAbstractTarget{
 	private final ITargetOnDirectLook lookHandler;
 	private double maxDistance = 32D;
 	
-	private EntityLivingBase currentTarget;
 	private int tickLimiter, lookTimer;
 	
 	public EntityAIDirectLookTarget(EntityCreature owner, ITargetOnDirectLook lookHandler){
@@ -28,8 +27,8 @@ public class EntityAIDirectLookTarget extends EntityAITarget{
 	}
 	
 	@Override
-	public boolean shouldExecute(){
-		if (++tickLimiter < 2)return false;
+	protected EntityLivingBase findNewTarget(){
+		if (++tickLimiter < 2)return null;
 		tickLimiter = 0;
 		
 		for(EntityPlayer player:EntitySelector.players(taskOwner.worldObj,taskOwner.boundingBox.expand(maxDistance,maxDistance,maxDistance))){
@@ -37,21 +36,15 @@ public class EntityAIDirectLookTarget extends EntityAITarget{
 			
 			if (dist <= maxDistance && isPlayerLookingIntoEyes(player) && lookHandler.canTargetOnDirectLook(player,dist)){
 				if (++lookTimer == 4){
-					currentTarget = player;
-					return true;
+					lookTimer = 0;
+					return player;
 				}
-				else return false;
+				else return null;
 			}
 		}
 		
 		lookTimer = 0;
-		return false;
-	}
-	
-	@Override
-	public void startExecuting(){
-		taskOwner.setAttackTarget(currentTarget);
-		super.startExecuting();
+		return null;
 	}
 	
 	private boolean isPlayerLookingIntoEyes(EntityPlayer target){
