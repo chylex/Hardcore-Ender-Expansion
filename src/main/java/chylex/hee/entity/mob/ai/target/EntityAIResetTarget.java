@@ -29,13 +29,13 @@ public class EntityAIResetTarget extends EntityAITarget{
 	public EntityAIResetTarget stopIfTooFar(){
 		return addCondition(target -> {
 			double maxDist = getTargetDistance();
-			return taskOwner.getDistanceSqToEntity(target) > maxDist*maxDist;
+			return taskOwner.getDistanceSqToEntity(target) <= maxDist*maxDist;
 		});
 	}
 	
 	public EntityAIResetTarget stopIfTooFar(final double maxDistance){
 		final double maxDistSq = maxDistance*maxDistance;
-		return addCondition(target -> taskOwner.getDistanceSqToEntity(target) > maxDistSq);
+		return addCondition(target -> taskOwner.getDistanceSqToEntity(target) <= maxDistSq);
 	}
 	
 	public EntityAIResetTarget stopIfLostSight(final int ticks){
