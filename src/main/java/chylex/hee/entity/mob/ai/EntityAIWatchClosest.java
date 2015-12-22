@@ -1,9 +1,10 @@
 package chylex.hee.entity.mob.ai;
+import chylex.hee.entity.mob.ai.base.EntityAIAbstractWatching;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class EntityAIWatchClosest<T extends EntityLivingBase> extends EntityAbstractAIWatching{
+public class EntityAIWatchClosest<T extends EntityLivingBase> extends EntityAIAbstractWatching{
 	private final Class<T> targetClass;
 	private float checkChance = 1F/50F;
 	private double checkDistance = 8D;

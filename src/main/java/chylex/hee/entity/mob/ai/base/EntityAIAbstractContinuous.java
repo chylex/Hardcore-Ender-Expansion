@@ -1,4 +1,4 @@
-package chylex.hee.entity.mob.ai;
+package chylex.hee.entity.mob.ai.base;
 import net.minecraft.entity.ai.EntityAIBase;
 
 public abstract class EntityAIAbstractContinuous extends EntityAIBase{

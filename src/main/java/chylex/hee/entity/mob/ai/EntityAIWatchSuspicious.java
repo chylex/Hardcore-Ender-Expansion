@@ -1,9 +1,10 @@
 package chylex.hee.entity.mob.ai;
 import javax.annotation.Nullable;
+import chylex.hee.entity.mob.ai.base.EntityAIAbstractWatching;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 
-public class EntityAIWatchSuspicious extends EntityAbstractAIWatching{
+public class EntityAIWatchSuspicious extends EntityAIAbstractWatching{
 	private final IWatchSuspiciousEntities entityHandler;
 	
 	public EntityAIWatchSuspicious(EntityCreature owner, IWatchSuspiciousEntities entityHandler){

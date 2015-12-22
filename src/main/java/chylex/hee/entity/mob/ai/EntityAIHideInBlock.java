@@ -3,6 +3,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.mob.ai.base.EntityAIAbstractContinuous;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.abstractions.BlockInfo;

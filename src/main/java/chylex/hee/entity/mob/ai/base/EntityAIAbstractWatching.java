@@ -1,13 +1,14 @@
-package chylex.hee.entity.mob.ai;
+package chylex.hee.entity.mob.ai.base;
+import chylex.hee.entity.mob.ai.AIUtil;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 
-public abstract class EntityAbstractAIWatching extends EntityAIBase{
+public abstract class EntityAIAbstractWatching extends EntityAIBase{
 	protected final EntityCreature entity;
 	protected EntityLivingBase watchedEntity;
 	
-	public EntityAbstractAIWatching(EntityCreature owner){
+	public EntityAIAbstractWatching(EntityCreature owner){
 		this.entity = owner;
 		setMutexBits(AIUtil.mutexOverrideWatching);
 	}
