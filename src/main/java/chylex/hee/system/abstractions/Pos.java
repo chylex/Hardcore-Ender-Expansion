@@ -463,5 +463,10 @@ public class Pos{
 			++y;
 			return this;
 		}
+		
+		public PosMutable moveDown(){
+			--y;
+			return this;
+		}
 	}
 }
