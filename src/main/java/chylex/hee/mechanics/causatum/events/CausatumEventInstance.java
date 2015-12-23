@@ -43,6 +43,12 @@ public abstract class CausatumEventInstance{
 		public CausatumEventInstance createEvent(EntityPlayerMP player){
 			return eventConstructor.apply(this,player);
 		}
+		
+		public CausatumEventInstance createEvent(EntityPlayerMP player, Object[] params){
+			CausatumEventInstance inst = createEvent(player);
+			inst.onParams(params);
+			return inst;
+		}
 	}
 	
 	public enum EventState{
@@ -102,6 +108,8 @@ public abstract class CausatumEventInstance{
 	public final EventState getState(){
 		return state;
 	}
+	
+	protected void onParams(Object...params){}
 	
 	protected abstract void onUpdate();
 	protected abstract void onPlayerDisconnected();

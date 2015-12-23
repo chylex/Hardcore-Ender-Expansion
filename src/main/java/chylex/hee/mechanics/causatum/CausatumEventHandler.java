@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.handlers.PlayerDataHandler;
 import chylex.hee.game.save.types.player.CausatumFile;
@@ -28,11 +29,15 @@ public final class CausatumEventHandler{
 		return inst != null && inst.getState() == EventState.WAITING;
 	}
 	
-	public static boolean tryStartEvent(EntityPlayerMP player, EventTypes type){
+	public static boolean tryStartEvent(EntityPlayerMP player, EventTypes type, Object[] params){
 		if (hasActiveEvent(player))return false;
 		
-		instance.activeEvents.put(PlayerDataHandler.getID(player),type.createEvent(player));
+		instance.activeEvents.put(PlayerDataHandler.getID(player),type.createEvent(player,params));
 		return true;
+	}
+	
+	public static boolean tryStartEvent(EntityPlayerMP player, EventTypes type){
+		return tryStartEvent(player,type,ArrayUtils.EMPTY_OBJECT_ARRAY);
 	}
 	
 	private Map<String,CausatumEventInstance> activeEvents = new HashMap<>(4);
