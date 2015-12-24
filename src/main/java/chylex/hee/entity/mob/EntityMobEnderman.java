@@ -103,12 +103,12 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		});
 		
 		teleportAroundClose.setLocationSelector(
-			ITeleportXZ.inCircle(32),
-			ITeleportY.findSolidBottom(ITeleportY.around(16),32)
+			ITeleportXZ.inCircle(7,24),
+			ITeleportY.findSolidBottom(ITeleportY.around(12),24)
 		);
 		
 		teleportAroundFull.setLocationSelector(
-			ITeleportXZ.inCircle(64),
+			ITeleportXZ.inCircle(7,64),
 			ITeleportY.findSolidBottom(ITeleportY.around(16),32)
 		);
 		
@@ -184,6 +184,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	private EntityLivingBase suspiciousEntity;
 	private int suspiciousTimer;
+	private boolean waitingForVulnerability;
 	
 	public EntityMobEnderman(World world){
 		super(world);
@@ -203,6 +204,8 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		targetTasks.addTask(3,new EntityAIDirectLookTarget(this,this).setMaxDistance(lookDistance));
 		
 		experienceValue = 10;
+
+		timeSinceLastTeleport = 80+rand.nextInt(100);
 	}
 	
 	@Override
@@ -230,6 +233,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			if (teleportFailTimer > 0)--teleportFailTimer;
 			if (backStabCooldown > 0)--backStabCooldown;
 			
+			// water handling
 			if (isEndermanWet()){
 				++waterTimer;
 				waterResetCooldown = 0;
@@ -262,6 +266,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 				EntityAttributes.removeModifier(this,EntityAttributes.attackDamage,waterModifier);
 			}
 			
+			// despawning
 			if (extraDespawnOffset > 0 && ticksExisted%3 == 0 && rand.nextBoolean()){
 				--extraDespawnOffset;
 			}
@@ -278,6 +283,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 				}
 			}
 			
+			// suspicious entity
 			if (suspiciousTimer > 0){
 				if (suspiciousEntity == null){
 					suspiciousTimer = 0;
@@ -287,20 +293,45 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 					if (suspiciousEntity == getAttackTarget()){
 						dropCarrying();
 						
+						int prevTime = timeSinceLastTeleport;
 						timeSinceLastTeleport = Integer.MAX_VALUE;
-						teleportBehind(getAttackTarget());
+						if (!teleportBehind(getAttackTarget()))timeSinceLastTeleport = prevTime;
 					}
 					
 					suspiciousEntity = null;
-					EntityAttributes.removeModifier(this,EntityAttributes.movementSpeed,noMovementModifier);
+					if (!waitingForVulnerability)EntityAttributes.removeModifier(this,EntityAttributes.movementSpeed,noMovementModifier);
 				}
 			}
 			
+			// teleportation
 			if (getAttackTarget() == null && timeSinceLastTeleport > 1800-rand.nextInt(1600)*rand.nextDouble()){ // 10-90 seconds
 				teleportAround(true);
 			}
-			else if (getAttackTarget() != null && (timeSinceLastTeleport > 400-rand.nextInt(280)*rand.nextDouble() || rand.nextInt(1000) == 0)){ // 6-20 seconds
+			else if (getAttackTarget() != null && !waitingForVulnerability && (timeSinceLastTeleport > 400-rand.nextInt(260)*rand.nextDouble() || rand.nextInt(1000) == 0)){ // 7-20 seconds
 				teleportBehind(getAttackTarget());
+			}
+			
+			if (ticksExisted%12 == 0 && rand.nextInt(3) == 0){
+				for(EntityPlayer player:EntitySelector.players(worldObj,boundingBox.expand(4D,4D,4D))){
+					if (!canAttackPlayer(player)){
+						teleportAround(false);
+						break;
+					}
+				}
+			}
+			
+			// vulnerable player
+			if (waitingForVulnerability){
+				if (getAttackTarget() == null || !isTargetProtected(getAttackTarget())){
+					EntityAttributes.removeModifier(this,EntityAttributes.movementSpeed,noMovementModifier);
+					waitingForVulnerability = false;
+					
+					if (getAttackTarget() != null)teleportInFront(getAttackTarget());
+				}
+			}
+			else if (getAttackTarget() != null && rand.nextInt(4) == 0 && isTargetProtected(getAttackTarget())){
+				waitingForVulnerability = true;
+				EntityAttributes.applyModifier(this,EntityAttributes.movementSpeed,noMovementModifier);
 			}
 		}
 		else if (ticksExisted == 1){
@@ -432,11 +463,17 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			return;
 		}
 		
+		if (waitingForVulnerability){
+			waitingForVulnerability = false;
+			EntityAttributes.removeModifier(this,EntityAttributes.movementSpeed,noMovementModifier);
+		}
+		
 		if (target == suspiciousEntity){
 			EntityAttributes.applyModifier(this,EntityAttributes.movementSpeed,noMovementModifier);
 			suspiciousTimer = 25+rand.nextInt(20);
 		}
 		
+		setAggressive(target != null);
 		super.setAttackTarget(target);
 	}
 	
@@ -492,11 +529,20 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		final Vec offset = Vec.xzRandom(rand).multiplied(rand.nextDouble());
 		
 		teleportAvoid.setLocationSelector(
-			(entity, startPos, rand) -> startPos.offset(perpendicular,(2D+rand.nextDouble())*(rand.nextBoolean() ? -1 : 1)).offset(offset),
+			(entity, startPos, rand) -> startPos.offset(perpendicular,(1D+0.5D*rand.nextDouble())*(rand.nextBoolean() ? -1 : 1)).offset(offset),
 			ITeleportY.findSolidBottom(ITeleportY.around(3),6)
 		);
 		
 		return tryTeleport(teleportAvoid,false);
+	}
+	
+	public boolean teleportInFront(EntityLivingBase target){
+		if (worldObj.isRemote || isControlledExternally)return true;
+		
+		final Vec look = Vec.xzLook(target);
+		final Vec targetPos = Vec.pos(target);
+		
+		return teleportNearEntity(target,(entity, startPos, rand) -> targetPos.offset(look,1.25D+0.5D*rand.nextDouble()));
 	}
 	
 	public boolean teleportBehind(EntityLivingBase target){
@@ -505,11 +551,11 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		final Vec look = Vec.xzLook(target);
 		final Vec targetPos = Vec.pos(target);
 		
-		teleportToEntity.setLocationSelector(
-			(entity, startPos, rand) -> targetPos.offset(look,-2D).offset(look.offset(Vec.xzRandom(rand),0.5D).normalized(),-(4D+3D*rand.nextDouble())),
-			ITeleportY.findSolidBottom(ITeleportY.around(3,1),7)
-		);
-		
+		return teleportNearEntity(target,(entity, startPos, rand) -> targetPos.offset(look,-2D).offset(look.offset(Vec.xzRandom(rand),0.5D).normalized(),-(4D+3D*rand.nextDouble())));
+	}
+	
+	private boolean teleportNearEntity(EntityLivingBase target, final ITeleportXZ<EntityMobEnderman> xz){
+		teleportToEntity.setLocationSelector(xz,ITeleportY.findSolidBottom(ITeleportY.around(3,1),7));
 		return tryTeleport(teleportToEntity,true);
 	}
 	
@@ -536,6 +582,10 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		int t2z = (int)(pz+MathUtil.lendiry(40,ry+120));
 		
 		return MathUtil.triangle((int)posX,(int)posZ,(int)px,(int)pz,t1x,t1z,t2x,t2z); // "reverse frustum" that checks behind the target instead of the front
+	}
+	
+	private boolean isTargetProtected(EntityLivingBase target){
+		return Pos.at(target).offset(0,2,0).getMaterial(worldObj).blocksMovement();
 	}
 	
 	// FX AND DISPLAY
@@ -622,7 +672,5 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
 		if (nbt.getBoolean("preventLoad"))setDead();
-		
-		timeSinceLastTeleport = 80+rand.nextInt(100);
 	}
 }

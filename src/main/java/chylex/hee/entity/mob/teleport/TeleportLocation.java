@@ -14,10 +14,10 @@ public final class TeleportLocation<T extends Entity> implements ITeleportLocati
 			return (entity, startPos, rand) -> startPos.offset((rand.nextDouble()-0.5D)*2D*maxDist,0D,(rand.nextDouble()-0.5D)*2D*maxDist);
 		}
 		
-		public static <T extends Entity> ITeleportXZ<T> inCircle(final double maxDist){
+		public static <T extends Entity> ITeleportXZ<T> inCircle(final double minDist, final double maxDist){
 			return (entity, startPos, rand) -> {
 				Vec offXZ = Vec.xzRandom(rand);
-				double dist = rand.nextDouble()*maxDist;
+				double dist = minDist+rand.nextDouble()*(maxDist-minDist);
 				
 				return startPos.offset(offXZ.x*dist,0D,offXZ.z*dist);
 			};
