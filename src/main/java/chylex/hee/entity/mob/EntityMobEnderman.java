@@ -140,6 +140,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 				EntityLivingBase suspicious = entity.suspiciousEntity;
 				entity.getLookHelper().setLookPosition(suspicious.posX,suspicious.posY+suspicious.getEyeHeight(),suspicious.posZ,360F,180F);
 				entity.getLookHelper().onUpdateLook();
+				entity.rotationYaw = entity.rotationYawHead;
 			}
 		});
 		
