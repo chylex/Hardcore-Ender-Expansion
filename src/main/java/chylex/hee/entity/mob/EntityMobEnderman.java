@@ -180,6 +180,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	private int timeSinceLastTeleport, teleportFailTimer;
 	private int backStabCooldown;
 	private int extraDespawnOffset;
+	private boolean isControlledExternally;
 	
 	private EntityLivingBase suspiciousEntity;
 	private int suspiciousTimer;
@@ -241,7 +242,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 				}
 				
 				if (waterTimer%3 == 0 && isInRainOrSnow() && rand.nextInt(17) == 0){
-					teleportDespawn();
+					teleportDespawn(false);
 				}
 				
 				if (waterTimer > 80){
@@ -249,7 +250,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 					setAttackTarget(null);
 					
 					if (isInRainOrSnow() || (!teleportAround(true) && rand.nextInt(5) == 0)){
-						teleportDespawn();
+						teleportDespawn(false);
 					}
 				}
 			}
@@ -273,7 +274,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 				despawnChance /= isInRainOrSnow() ? 8 : 1;
 				
 				if (rand.nextInt(Math.max(10,despawnChance)) == 0){
-					teleportDespawn();
+					teleportDespawn(false);
 				}
 			}
 			
@@ -302,6 +303,9 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 				teleportBehind(getAttackTarget());
 			}
 		}
+		else if (ticksExisted == 1){
+			prevRenderYawOffset = renderYawOffset = rotationYaw;
+		}
 		
 		if (getAttackTarget() != null){
 			faceEntity(getAttackTarget(),100F,100F);
@@ -325,7 +329,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 				}
 				
 				entityDropItem(new ItemStack(Items.ender_pearl),0F);
-				CausatumEventHandler.tryStartEvent(attacker,EventTypes.STAGE_ADVANCE_TO_ENDERMAN_KILLED);
+				CausatumEventHandler.tryStartEvent(attacker,EventTypes.STAGE_ADVANCE_TO_ENDERMAN_KILLED,new Object[]{ this });
 				return;
 			}
 		}
@@ -336,6 +340,11 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
 		if (isEntityInvulnerable())return false;
+		
+		if (isControlledExternally){
+			teleportDespawn(true);
+			return false;
+		}
 		
 		Entity sourceEntity = source.getEntity();
 		
@@ -416,6 +425,8 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	@Override
 	public void setAttackTarget(EntityLivingBase target){
+		if (isControlledExternally)return;
+		
 		if (target instanceof EntityPlayer && !canAttackPlayer((EntityPlayer)target)){
 			teleportAround(false);
 			return;
@@ -429,6 +440,10 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		super.setAttackTarget(target);
 	}
 	
+	public void setControlledExternally(){
+		this.isControlledExternally = true;
+	}
+	
 	// ABILITIES
 	
 	private boolean canAttackPlayer(EntityPlayer player){
@@ -436,7 +451,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	}
 	
 	private boolean canTeleport(){
-		if (worldObj.isRemote)return false;
+		if (worldObj.isRemote || isControlledExternally)return false;
 		if (EntityAttributes.hasModifier(this,EntityAttributes.movementSpeed,noMovementModifier))return false;
 		
 		if (getAttackTarget() instanceof EntityPlayer){
@@ -452,7 +467,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	}
 	
 	private void onTeleportFail(){
-		if (teleportFailTimer == 0 && !EntityAttributes.hasModifier(this,EntityAttributes.movementSpeed,noMovementModifier)){
+		if (teleportFailTimer == 0 && !EntityAttributes.hasModifier(this,EntityAttributes.movementSpeed,noMovementModifier) && !isControlledExternally){
 			teleportFailTimer = 30;
 			PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ENDERMAN_TP_FAIL,this));
 		}
@@ -485,7 +500,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	}
 	
 	public boolean teleportBehind(EntityLivingBase target){
-		if (worldObj.isRemote)return true;
+		if (worldObj.isRemote || isControlledExternally)return true;
 		
 		final Vec look = Vec.xzLook(target);
 		final Vec targetPos = Vec.pos(target);
@@ -498,8 +513,8 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		return tryTeleport(teleportToEntity,true);
 	}
 	
-	public boolean teleportDespawn(){
-		if (canTeleport()){
+	public boolean teleportDespawn(boolean force){
+		if (force || canTeleport()){
 			PacketPipeline.sendToAllAround(this,96D,new C21EffectEntity(FXType.Entity.ENDERMAN_DESPAWN,this));
 			setDead();
 			return true;
@@ -575,7 +590,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	@Override
 	protected void despawnEntity(){
-		if (ticksExisted < 32)return;
+		if (ticksExisted < 32 || isControlledExternally)return;
 		
 		if (isNoDespawnRequired()){
 			entityAge = 0;
@@ -598,8 +613,16 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	}
 	
 	@Override
+	public void writeEntityToNBT(NBTTagCompound nbt){
+		super.writeEntityToNBT(nbt);
+		if (isControlledExternally)nbt.setBoolean("preventLoad",true);
+	}
+	
+	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
+		if (nbt.getBoolean("preventLoad"))setDead();
+		
 		timeSinceLastTeleport = 80+rand.nextInt(100);
 	}
 }

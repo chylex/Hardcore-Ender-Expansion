@@ -40,7 +40,8 @@ public class C08PlaySound extends AbstractClientPacket{
 							 SKELETON_HURT = 29,
 							 SKELETON_DIE = 30,
 							 HAUNTEDMINER_ATTACK_BLAST = 31,
-							 POP = 32;
+							 POP = 32,
+							 ENDERMAN_STARE = 33;
 	
 	private static final String[] soundNames = new String[]{
 		/*  0 */ "hardcoreenderexpansion:mob.endereye.attack.poof",
@@ -75,7 +76,8 @@ public class C08PlaySound extends AbstractClientPacket{
 		/* 29 */ "mob.skeleton.hurt",
 		/* 30 */ "mob.skeleton.death",
 		/* 31 */ "hardcoreenderexpansion:mob.hauntedminer.attack.blast",
-		/* 32 */ "random.pop"
+		/* 32 */ "random.pop",
+		/* 33 */ "mob.endermen.stare"
 	};
 	
 	private byte soundId;
