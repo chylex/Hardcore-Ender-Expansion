@@ -225,6 +225,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	@Override
 	public void onLivingUpdate(){
+		entityToAttack = null;
 		super.onLivingUpdate();
 		
 		if (!worldObj.isRemote){
