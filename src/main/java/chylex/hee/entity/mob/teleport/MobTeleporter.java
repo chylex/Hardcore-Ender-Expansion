@@ -43,6 +43,11 @@ public class MobTeleporter<T extends Entity>{
 			entity.setPosition(newPos.x,newPos.y,newPos.z);
 			
 			if (locationPredicates.stream().allMatch(predicate -> predicate.isValid(entity,oldPos,rand))){
+				if (entity.ridingEntity != null){
+					entity.mountEntity(null);
+					entity.setPosition(newPos.x,newPos.y,newPos.z);
+				}
+				
 				for(ITeleportListener<T> listener:onTeleport)listener.onTeleport(entity,oldPos,rand);
 				return true;
 			}
