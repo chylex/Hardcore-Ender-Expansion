@@ -92,7 +92,10 @@ public abstract class EntityAbstractEndermanCustom extends EntityEnderman implem
 	// Disabled methods
 	
 	@Override
-	public boolean isWet(){ return false; }
+	public boolean isWet(){
+		if (isEntityAlive())extinguish(); // from EntityLivingBase.onEntityUpdate
+		return false;
+	}
 	
 	@Override
 	public void setScreaming(boolean isScreaming){}
