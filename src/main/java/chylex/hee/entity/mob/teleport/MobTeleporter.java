@@ -36,7 +36,7 @@ public class MobTeleporter<T extends Entity>{
 	public boolean teleport(T entity, Random rand){
 		if (entity.worldObj.isRemote)return false;
 		
-		Vec oldPos = Vec.xyz(entity.posX,entity.posY,entity.posZ), oldPosCopy = oldPos.copy();
+		Vec oldPos = Vec.pos(entity), oldPosCopy = oldPos.copy();
 		
 		for(int attempt = 0; attempt < attempts; attempt++){
 			Vec newPos = locationSelector.findPosition(entity,oldPosCopy,rand);

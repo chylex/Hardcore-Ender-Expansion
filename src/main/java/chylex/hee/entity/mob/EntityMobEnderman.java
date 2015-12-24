@@ -473,7 +473,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			suspiciousTimer = 25+rand.nextInt(20);
 		}
 		
-		setAggressive(target != null);
+		setAggressive(target != null || isEndermanWet());
 		super.setAttackTarget(target);
 	}
 	
