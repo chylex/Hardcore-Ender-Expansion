@@ -184,7 +184,9 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	private EntityLivingBase suspiciousEntity;
 	private int suspiciousTimer;
+	
 	private boolean waitingForVulnerability;
+	private int vulnerabilityTimer;
 	
 	public EntityMobEnderman(World world){
 		super(world);
@@ -330,7 +332,8 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 					if (getAttackTarget() != null)teleportInFront(getAttackTarget());
 				}
 			}
-			else if (getAttackTarget() != null && rand.nextInt(4) == 0 && isTargetProtected(getAttackTarget())){
+			else if (getAttackTarget() != null && rand.nextInt(4) == 0 && isTargetProtected(getAttackTarget()) && ++vulnerabilityTimer == 4){
+				vulnerabilityTimer = 0;
 				waitingForVulnerability = true;
 				EntityAttributes.applyModifier(this,EntityAttributes.movementSpeed,noMovementModifier);
 			}
