@@ -384,15 +384,17 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			
 			if (sourceEntity instanceof EntityPlayer && !canAttackPlayer((EntityPlayer)sourceEntity)){
 				if ((isProjectile && teleportAvoid(source.getSourceOfDamage()) || (!isProjectile && teleportAround(false)))){
-					if (isProjectile && rand.nextInt(4) == 0 && canEntityBeSeen(sourceEntity) && MathUtil.distance(posX-sourceEntity.posX,posZ-sourceEntity.posZ) <= 32D){
-						setAttackTarget((EntityPlayer)sourceEntity);
-					}
-					
 					return true;
 				}
 			}
 			
-			if (isProjectile && teleportAvoid(source.getSourceOfDamage()))return true;
+			if (isProjectile && teleportAvoid(source.getSourceOfDamage())){
+				if (rand.nextInt(4) == 0 && canEntityBeSeen(sourceEntity) && MathUtil.distance(posX-sourceEntity.posX,posZ-sourceEntity.posZ) <= 32D){
+					setAttackTarget((EntityPlayer)sourceEntity);
+				}
+				
+				return true;
+			}
 		}
 		
 		return onEndermanAttackedFrom(source,amount);
