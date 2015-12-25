@@ -29,12 +29,13 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobHauntedMiner extends EntityFlying implements IMob{
@@ -49,7 +50,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	private double targetX, targetY, targetZ;
 	private byte wanderResetTimer = -120, nextAttackTimer = ATTACK_TIMER, currentAttack = ATTACK_NONE, currentAttackTime;
 	
-	private int attackLavaCurrentX, attackLavaCurrentY, attackLavaCurrentZ;
+	private Pos attackLavaCurrent;
 	private byte attackLavaCounter, attackLavaDone;
 	
 	public EntityMobHauntedMiner(World world){
@@ -82,23 +83,23 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 		if (target == null){
 			if (--wanderResetTimer < -120 || rand.nextInt(300) == 0 || (motionX == 0D && motionZ == 0D && rand.nextInt(20) == 0)){
 				wanderResetTimer = 0;
-				BlockPosM tmpPos = BlockPosM.tmp();
+				PosMutable mpos = new PosMutable();
 				
 				for(int attempt = 0; attempt < 32; attempt++){
-					tmpPos.set(this).move(rand.nextInt(14)-rand.nextInt(14),0,rand.nextInt(14)-rand.nextInt(14));
+					mpos.set(this).move(rand.nextInt(14)-rand.nextInt(14),0,rand.nextInt(14)-rand.nextInt(14));
 					
-					if (tmpPos.isAir(worldObj)){
-						while(tmpPos.moveDown().isAir(worldObj) && Math.abs(posY-tmpPos.y) < 10);
-						if (Math.abs(posY-tmpPos.y) >= 10)continue;
+					if (mpos.isAir(worldObj)){
+						while(mpos.moveDown().isAir(worldObj) && Math.abs(posY-mpos.y) < 10);
+						if (Math.abs(posY-mpos.y) >= 10)continue;
 					}
 					else{
-						while(!tmpPos.moveUp().isAir(worldObj) && Math.abs(posY-tmpPos.y) < 10);
-						if (Math.abs(posY-tmpPos.y) >= 10)continue;
+						while(!mpos.moveUp().isAir(worldObj) && Math.abs(posY-mpos.y) < 10);
+						if (Math.abs(posY-mpos.y) >= 10)continue;
 					}
 					
-					targetX = tmpPos.x+rand.nextDouble();
-					targetY = tmpPos.y+rand.nextDouble()*0.2D+3D;
-					targetZ = tmpPos.z+rand.nextDouble();
+					targetX = mpos.x+rand.nextDouble();
+					targetY = mpos.y+rand.nextDouble()*0.2D+3D;
+					targetZ = mpos.z+rand.nextDouble();
 					wanderResetTimer += 40;
 					break;
 				}
@@ -169,46 +170,43 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 								currentAttackTime -= 8;
 								
 								if (attackLavaCounter == 0){
-									attackLavaCounter = 1;
-									BlockPosM testPos = new BlockPosM(), tmpPos = BlockPosM.tmp();
+									PosMutable mpos = new PosMutable();
 									
 									for(int attempt = 0; attempt < 64; attempt++){
-										tmpPos.set(this).move(rand.nextInt(5)-rand.nextInt(5),4,rand.nextInt(5)-rand.nextInt(5));
+										mpos.set(this).move(rand.nextInt(5)-rand.nextInt(5),4,rand.nextInt(5)-rand.nextInt(5));
 										
 										for(int yAttempt = 0; yAttempt < 7; yAttempt++){
-											if (tmpPos.isAir(worldObj) && testPos.set(tmpPos).moveDown().getBlock(worldObj).isOpaqueCube()){
-												attackLavaCurrentX = tmpPos.x;
-												attackLavaCurrentY = tmpPos.y-2;
-												attackLavaCurrentZ = tmpPos.z;
+											if (mpos.isAir(worldObj) && mpos.getDown().getBlock(worldObj).isOpaqueCube()){
+												attackLavaCurrent = mpos.offset(0,-2,0);
+												attackLavaCounter = 1;
 												attempt = 65;
 												break;
 											}
-											else tmpPos.moveDown();
+											else mpos.moveDown();
 										}
 									}
 								}
 								else{
-									BlockPosM tmpPos = BlockPosM.tmp();
+									PosMutable mpos = new PosMutable();
 									
 									for(int px = -1; px <= 1; px++){
 										for(int pz = -1; pz <= 1; pz++){
 											if (px == 0 && pz == 0)continue;
-											tmpPos.set(attackLavaCurrentX+px,attackLavaCurrentY-1+attackLavaCounter,attackLavaCurrentZ+pz);
+											mpos.set(attackLavaCurrent).move(px,attackLavaCounter-1,pz);
 											
-											Block block = tmpPos.getBlock(worldObj);
+											Block block = mpos.getBlock(worldObj);
 											
 											if (block == Blocks.flowing_lava || block == Blocks.lava)continue;
-											else if (!MathUtil.floatEquals(block.getBlockHardness(worldObj,tmpPos.x,tmpPos.y,tmpPos.z),-1F)){
-												tmpPos.setAir(worldObj);
-												worldObj.playAuxSFX(2001,tmpPos.x,tmpPos.y,tmpPos.z,Block.getIdFromBlock(block));
+											else if (!MathUtil.floatEquals(block.getBlockHardness(worldObj,mpos.x,mpos.y,mpos.z),-1F)){
+												mpos.breakBlock(worldObj,false);
 											}
 										}
 									}
 									
-									tmpPos.set(attackLavaCurrentX,attackLavaCurrentY-1+attackLavaCounter,attackLavaCurrentZ);
+									mpos.set(attackLavaCurrent).move(0,attackLavaCounter-1,0);
 									
-									tmpPos.setBlock(worldObj,Blocks.flowing_lava);
-									for(int a = 0; a < 5; a++)Blocks.flowing_lava.updateTick(worldObj,tmpPos.x,tmpPos.y,tmpPos.z,rand);
+									mpos.setBlock(worldObj,Blocks.flowing_lava);
+									for(int a = 0; a < 5; a++)Blocks.flowing_lava.updateTick(worldObj,mpos.x,mpos.y,mpos.z,rand);
 									
 									if (++attackLavaCounter == 6){
 										if (++attackLavaDone >= 4){
@@ -217,7 +215,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 										}
 										
 										attackLavaCounter = 0;
-										attackLavaCurrentX = attackLavaCurrentY = attackLavaCurrentZ = 0;
+										attackLavaCurrent = null;
 									}
 								}
 							}
@@ -241,18 +239,18 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 								}
 								
 								PacketPipeline.sendToAllAround(this,24D,new C08PlaySound(C08PlaySound.HAUNTEDMINER_ATTACK_BLAST,posX,posY,posZ,1.5F,1F));
-								BlockPosM testPos = new BlockPosM(), tmpPos = BlockPosM.tmp();
+								PosMutable mpos = new PosMutable();
 								
 								for(int attempt = 0; attempt < 90; attempt++){
-									tmpPos.set(this).move(rand.nextInt(21)-10,-1,rand.nextInt(21)-10);
-									if (MathUtil.distance(tmpPos.x-posX,tmpPos.z-posZ) > 10D)continue;
+									mpos.set(this).move(rand.nextInt(21)-10,-1,rand.nextInt(21)-10);
+									if (MathUtil.distance(mpos.x-posX,mpos.z-posZ) > 10D)continue;
 									
 									for(int yAttempt = 0; yAttempt < 4; yAttempt++){
-										if (tmpPos.isAir(worldObj) && !testPos.set(tmpPos).moveDown().isAir(worldObj)){
-											tmpPos.setBlock(worldObj,Blocks.fire);
+										if (mpos.isAir(worldObj) && !mpos.getDown().isAir(worldObj)){
+											mpos.setBlock(worldObj,Blocks.fire);
 											break;
 										}
-										else --tmpPos.y;
+										else mpos.moveDown();
 									}
 								}
 								

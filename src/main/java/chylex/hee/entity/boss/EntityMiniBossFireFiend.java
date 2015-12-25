@@ -27,12 +27,12 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMiniBossFireFiend extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
@@ -108,10 +108,10 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		rotationPitch = MathUtil.toDeg((float)Math.atan2(posY-(closest.posY+closest.getEyeHeight()),MathUtil.distance(posX-closest.posX,posZ-closest.posZ)));
 		
 		double targetYDiff = posY-(closest.posY+9D);
-		BlockPosM tmpPos = BlockPosM.tmp(this);
+		PosMutable mpos = new PosMutable().set(this);
 		
 		for(int a = 1; a <= 7; a += 2){
-			if (!tmpPos.moveDown().moveDown().isAir(worldObj)){
+			if (!mpos.moveDown().moveDown().isAir(worldObj)){
 				targetYDiff = -1.5D;
 				break;
 			}

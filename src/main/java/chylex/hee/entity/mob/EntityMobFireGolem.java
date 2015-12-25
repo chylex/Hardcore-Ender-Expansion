@@ -23,7 +23,6 @@ import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntityAttributes.Operation;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobFireGolem extends EntityMob{
@@ -134,8 +133,8 @@ public class EntityMobFireGolem extends EntityMob{
 			teleportCooldown = 45;
 
 			Vec3 look = getLookVec();
-			double xx, yy, zz;
-			BlockPosM tmpPos = BlockPosM.tmp();
+			double xx, yy, zz; // TODO convert to MobTeleporter
+			/*BlockPosM tmpPos = BlockPosM.tmp();
 			
 			for(int attempt = 0; attempt < 300; attempt++){
 				xx = posX+look.xCoord*3F+rand.nextDouble()*18D-9D;
@@ -152,7 +151,7 @@ public class EntityMobFireGolem extends EntityMob{
 					playSound("mob.endermen.portal",1F,1.1F);
 					return false;
 				}
-			}
+			}*/
 		}
 		
 		if (super.attackEntityFrom(source,amount)){
