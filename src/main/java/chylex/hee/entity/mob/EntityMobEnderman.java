@@ -103,7 +103,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		});
 		
 		teleportAroundClose.setLocationSelector(
-			ITeleportXZ.inCircle(7,24),
+			ITeleportXZ.inCircle(7,24), // TODO change to 16?
 			ITeleportY.findSolidBottom(ITeleportY.around(12),24)
 		);
 		
@@ -375,12 +375,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		if (isEntityInvulnerable())return false;
-		
-		if (isControlledExternally){
-			teleportDespawn(true);
-			return false;
-		}
+		if (isEntityInvulnerable() || !handleDamageSource(source))return false;
 		
 		Entity sourceEntity = source.getEntity();
 		
@@ -399,15 +394,27 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			
 			if (isProjectile && teleportAvoid(source.getSourceOfDamage()))return true;
 		}
-		else{
-			if (source == DamageSource.cactus || source == DamageSource.inFire || source == DamageSource.lava || source == DamageSource.inWall){
-				if (teleportAround(false))return true;
-			}
-			
-			if (getAttackTarget() == null)extraDespawnOffset += MathUtil.ceil(amount*10F);
-		}
 		
 		return onEndermanAttackedFrom(source,amount);
+	}
+	
+	@Override
+	protected void damageEntity(DamageSource source, float amount){
+		if (handleDamageSource(source))super.damageEntity(source,amount);
+		if (getAttackTarget() == null)extraDespawnOffset += MathUtil.ceil(amount*10F);
+	}
+	
+	private boolean handleDamageSource(DamageSource source){
+		if (isControlledExternally){
+			teleportDespawn(true);
+			return false;
+		}
+		
+		if (source == DamageSource.cactus || source == DamageSource.inFire || source == DamageSource.lava || source == DamageSource.inWall){
+			if (teleportAround(false))return false;
+		}
+		
+		return true;
 	}
 	
 	@Override
