@@ -42,6 +42,8 @@ import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.IItemSelector;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.util.NBTUtil;
+import chylex.hee.system.util.WorldUtil;
+import chylex.hee.system.util.WorldUtil.GameRule;
 
 public class EntityMobBabyEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
 	private enum Data{ HELD_ITEM }
@@ -114,7 +116,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		
 		if (!worldObj.isRemote){
 			if (target == null){
-				if (!hasIS && !isScared && rand.nextInt(550) == 0 && worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing")){ // set target
+				if (!hasIS && !isScared && rand.nextInt(550) == 0 && WorldUtil.getRuleBool(worldObj,GameRule.MOB_GRIEFING)){ // set target
 					CollectionUtil.random(EntitySelector.players(worldObj,boundingBox.expand(6D,3D,6D)),rand).ifPresent(player -> {
 						target = player;
 						ItemStack headArmor = target.getCurrentArmor(3);

@@ -9,6 +9,8 @@ import net.minecraft.init.Blocks;
 import chylex.hee.entity.mob.ai.base.EntityAIAbstractContinuous;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.util.WorldUtil;
+import chylex.hee.system.util.WorldUtil.GameRule;
 
 public class EntityAIMoveBlocksRandomly extends EntityAIAbstractContinuous{
 	private final EntityCreature entity;
@@ -35,7 +37,7 @@ public class EntityAIMoveBlocksRandomly extends EntityAIAbstractContinuous{
 	
 	@Override
 	protected void tick(){
-		if (entity.getAttackTarget() != null || !entity.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))return;
+		if (entity.getAttackTarget() != null || !WorldUtil.getRuleBool(entity.worldObj,GameRule.MOB_GRIEFING))return;
 		
 		Random rand = entity.getRNG();
 		BlockInfo holding = moveHandler.getCarryingBlock();

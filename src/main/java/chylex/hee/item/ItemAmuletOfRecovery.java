@@ -26,6 +26,8 @@ import chylex.hee.game.save.types.player.RespawnFile;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.util.NBTUtil;
+import chylex.hee.system.util.WorldUtil;
+import chylex.hee.system.util.WorldUtil.GameRule;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -111,7 +113,7 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLivingDeath(LivingDeathEvent e){
-		if (e.entity.worldObj.isRemote || !(e.entity instanceof EntityPlayer) || e.entity.worldObj.getGameRules().getGameRuleBooleanValue("keepInventory"))return;
+		if (e.entity.worldObj.isRemote || !(e.entity instanceof EntityPlayer) || WorldUtil.getRuleBool(e.entity.worldObj,GameRule.KEEP_INVENTORY))return;
 		
 		EntityPlayer player = (EntityPlayer)e.entity;
 		InventoryPlayer inv = player.inventory;

@@ -31,6 +31,8 @@ import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.WorldUtil;
+import chylex.hee.system.util.WorldUtil.GameRule;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 
 public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
@@ -140,7 +142,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					 */
 					if (attackType == AttackType.Poof){
 						if (attackAnim == 34){
-							if (worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing")){
+							if (WorldUtil.getRuleBool(worldObj,GameRule.MOB_GRIEFING)){
 								BlockPosM tmpPos = BlockPosM.tmp();
 								
 								for(int a = 0, hits = 0; a < 200 && hits < 16+worldObj.difficultySetting.getDifficultyId(); a++){

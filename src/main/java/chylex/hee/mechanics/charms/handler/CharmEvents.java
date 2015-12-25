@@ -51,6 +51,8 @@ import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.WorldUtil;
+import chylex.hee.system.util.WorldUtil.GameRule;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -413,7 +415,7 @@ public final class CharmEvents{
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLivingDrops(LivingDropsEvent e){
 		if (e.recentlyHit && e.source.getEntity() instanceof EntityPlayer && e.entityLiving instanceof EntityLiving &&
-			!e.entityLiving.isChild() && e.entity.worldObj.getGameRules().getGameRuleBooleanValue("doMobLoot")){
+			!e.entityLiving.isChild() && WorldUtil.getRuleBool(e.entity.worldObj,GameRule.DO_MOB_LOOT)){
 			// BASIC_MAGIC / EQUALITY
 			int xp = ReflectionPublicizer.m__getExperiencePoints__EntityLivingBase(e.entityLiving,(EntityPlayer)e.source.getEntity());
 			xp = MathUtil.ceil(getPropPercentIncrease((EntityPlayer)e.source.getEntity(),"exp",xp)); // extra xp only

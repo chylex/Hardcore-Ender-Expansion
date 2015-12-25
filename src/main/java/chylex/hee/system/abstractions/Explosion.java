@@ -26,6 +26,8 @@ import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.util.BooleanByte;
 import chylex.hee.system.util.FastRandom;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.WorldUtil;
+import chylex.hee.system.util.WorldUtil.GameRule;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -123,7 +125,7 @@ public class Explosion{
 	
 	public void trigger(){
 		if (!world.isRemote){
-			if (honorMobGriefingRule && !world.getGameRules().getGameRuleBooleanValue("mobGriefing"))damageBlocks = false;
+			if (honorMobGriefingRule && !WorldUtil.getRuleBool(world,GameRule.MOB_GRIEFING))damageBlocks = false;
 			
 			PacketPipeline.sendToAllAround(world.provider.dimensionId,x,y,z,256D,new C01Explosion(this));
 			explode(false);

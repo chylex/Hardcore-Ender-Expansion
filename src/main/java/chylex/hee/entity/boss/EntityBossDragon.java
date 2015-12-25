@@ -60,6 +60,8 @@ import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.WorldUtil;
+import chylex.hee.system.util.WorldUtil.GameRule;
 
 public class EntityBossDragon extends EntityLiving implements IBossDisplayData, IEntityMultiPart, IMob, IIgnoreEnderGoo{
 	private enum Data{ ANGRY, WING_SPEED }
@@ -556,7 +558,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	}
 
 	private boolean destroyBlocksInAABB(AxisAlignedBB aabb){
-		if (!worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))return false;
+		if (!WorldUtil.getRuleBool(worldObj,GameRule.MOB_GRIEFING))return false;
 
 		boolean wasBlocked = false;
 		boolean spawnParticles = false;
