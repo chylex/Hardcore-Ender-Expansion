@@ -9,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,6 +28,7 @@ import chylex.hee.entity.mob.ai.AIUtil;
 import chylex.hee.entity.mob.ai.EntityAIMoveBlocksRandomly;
 import chylex.hee.entity.mob.ai.EntityAIWanderRandomly;
 import chylex.hee.entity.mob.ai.EntityAIWatchClosest;
+import chylex.hee.entity.mob.ai.EntityAIWatchRandom;
 import chylex.hee.entity.mob.ai.EntityAIWatchSuspicious;
 import chylex.hee.entity.mob.ai.EntityAIWatchSuspicious.IWatchSuspiciousEntities;
 import chylex.hee.entity.mob.ai.EntityAIWatchTarget;
@@ -199,7 +199,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		tasks.addTask(4,new EntityAIWatchTarget(this));
 		tasks.addTask(5,new EntityAIWatchSuspicious(this,this));
 		tasks.addTask(6,new EntityAIWatchClosest<>(this,EntityPlayer.class).setChancePerTick(1F/25F).setWatchTime(target -> canAttackPlayer(target) ? 120+rand.nextInt(160) : 0));
-		tasks.addTask(7,new EntityAILookIdle(this));
+		tasks.addTask(7,new EntityAIWatchRandom(this));
 		tasks.addTask(8,new EntityAIMoveBlocksRandomly(this,this,carriableBlocks));
 		
 		targetTasks.addTask(1,new EntityAIResetTarget(this).stopIfTooFar(64D).stopIfCreative());
