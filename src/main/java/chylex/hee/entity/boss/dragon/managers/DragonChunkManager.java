@@ -21,11 +21,9 @@ import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class DragonChunkManager implements LoadingCallback{
-	private static DragonChunkManager instance;
+	private static final DragonChunkManager instance = new DragonChunkManager();
 	
 	public static void register(){
-		if (instance != null)throw new RuntimeException("Cannot register DragonChunkManager twice!");
-		instance = new DragonChunkManager();
 		MinecraftForge.EVENT_BUS.register(instance);
 		ForgeChunkManager.setForcedChunkLoadingCallback(HardcoreEnderExpansion.instance,instance);
 	}

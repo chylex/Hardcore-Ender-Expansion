@@ -13,7 +13,7 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.LoaderState;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 
-public class HeeIMC{
+public final class HeeIMC{
 	private static final Pattern patternKey = Pattern.compile("[^A-Za-z:]");
 	private static final Pattern patternFixJson = Pattern.compile("(?:\"(\\w+)?\":)");
 	private static final List<HeeMessage> cachedMessages = new ArrayList<>();
@@ -118,4 +118,6 @@ public class HeeIMC{
 		
 		return nbt;
 	}
+	
+	private HeeIMC(){}
 }

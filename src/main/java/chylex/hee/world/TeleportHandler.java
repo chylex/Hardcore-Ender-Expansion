@@ -15,7 +15,7 @@ import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.providers.ChunkProviderHardcoreEndServer;
 
-public class TeleportHandler extends Teleporter{
+public final class TeleportHandler extends Teleporter{
 	public static final ChunkCoordinates endSpawn = new ChunkCoordinates(0,256,0);
 	
 	public static void toOverworld(EntityPlayerMP player){

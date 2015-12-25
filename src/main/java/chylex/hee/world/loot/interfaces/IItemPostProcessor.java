@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 
 @FunctionalInterface
 public interface IItemPostProcessor{
-	public static final IItemPostProcessor genericPostProcessor = (is, rand) -> is;
+	IItemPostProcessor genericPostProcessor = (is, rand) -> is;
 	
-	public ItemStack processItem(ItemStack is, Random rand);
+	ItemStack processItem(ItemStack is, Random rand);
 }

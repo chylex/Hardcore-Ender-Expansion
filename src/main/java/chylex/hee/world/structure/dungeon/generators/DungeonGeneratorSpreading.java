@@ -153,7 +153,7 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 				
 				Pair<StructureDungeonPiece,Connection> nextPiece = findSuitablePiece(nextArray,targetConnection.facing,targetPieceInst.piece.type,rand);
 				
-				if (nextPiece != null && attempt < 50){
+				if (nextPiece != null){
 					final Pos aligned = alignConnections(targetPieceInst,targetConnection,nextPiece.getRight());
 					final Size pieceSize = nextPiece.getLeft().size;
 					

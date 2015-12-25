@@ -111,4 +111,10 @@ public class ExpiringSet<E> extends AbstractSet<E>{
 		refresh();
 		return obj instanceof ExpiringSet && ((ExpiringSet)obj).internal.keySet().equals(internal.keySet());
 	}
+
+	@Override
+	public int hashCode(){
+		refresh();
+		return super.hashCode();
+	}
 }

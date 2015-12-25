@@ -7,7 +7,7 @@ import chylex.hee.world.feature.blobs.StructureWorldBlob;
 public interface IBlobGeneratorPass{
 	void run(StructureWorldBlob world);
 	
-	public static final IBlobGeneratorPass passSmoothing = world -> {
+	static final IBlobGeneratorPass passSmoothing = world -> {
 		runSmoothingPass(world,4);
 		runSmoothingPass(world,5);
 	};

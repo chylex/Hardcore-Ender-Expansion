@@ -5,11 +5,11 @@ import chylex.hee.system.abstractions.BlockInfo;
 
 @FunctionalInterface
 public interface IBlockPicker{
-	public static IBlockPicker basic(final Block block){
+	static IBlockPicker basic(final Block block){
 		return new BlockInfo(block);
 	}
 	
-	public static IBlockPicker basic(final Block block, final int meta){
+	static IBlockPicker basic(final Block block, final int meta){
 		return new BlockInfo(block,meta);
 	}
 	

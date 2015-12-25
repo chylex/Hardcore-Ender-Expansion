@@ -2,6 +2,7 @@ package chylex.hee.system.test.list.ingame;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -40,7 +41,6 @@ import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityExperienceTable;
 import chylex.hee.tileentity.TileEntityExtractionTable;
-import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -429,10 +429,8 @@ public class BlockTests{
 			Assert.equal(getTile(TileEntityDecompositionTable.class).getStackInSlot(1).stackSize,stardust[a],"Unexpected stardust amount, expected $2, got $1.");
 		}
 		
-		Function<Integer,TileEntityChest> get = new Function<Integer,TileEntityChest>(){
-			@Override public TileEntityChest apply(Integer input){
-				return (TileEntityChest)pos.set(decomposition.get(input)).move(0,-2,0).getTileEntity(world);
-			}
+		Function<Integer,TileEntityChest> get = input -> {
+			return (TileEntityChest)pos.set(decomposition.get(input)).move(0,-2,0).getTileEntity(world);
 		};
 		
 		Assert.equal(get.apply(0).getStackInSlot(0).getItem(),Items.diamond,"Unexpected item, expected $2, got $1.");

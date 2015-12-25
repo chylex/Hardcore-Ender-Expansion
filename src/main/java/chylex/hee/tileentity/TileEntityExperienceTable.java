@@ -143,7 +143,7 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack is){
-		return slot == slotStardust ? is.getItem() == ItemList.stardust : slot == 0;
+		return slot == slotStardust ? is.getItem() == ItemList.stardust : slot == slotSubject;
 	}
 
 	@Override
