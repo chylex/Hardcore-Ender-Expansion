@@ -18,10 +18,8 @@ import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.server.S03SimpleEvent;
-import chylex.hee.packets.server.S03SimpleEvent.EventType;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.render.OverlayManager;
 import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -65,13 +63,23 @@ public class CompendiumEventsClient{
 		Minecraft.getMinecraft().displayGuiScreen(compendium);
 		
 		if (obj != null){
-			compendium.showObject(obj);
+			compendium.showObject(obj); // TODO show most recent fragment
 			compendium.moveToCurrentObject(false);
 		}
+		
+		if (Minecraft.getSystemTime()-instance.displayedHintTime <= 9000L){
+			OverlayManager.getAchievementOverlay().hide();
+		}
+	}
+	
+	public static void displayCompendiumHint(){
+		OverlayManager.getAchievementOverlay().display("ec.overlay.hint.title","ec.overlay.hint.desc",9000L);
+		instance.displayedHintTime = Minecraft.getSystemTime();
 	}
 	
 	private final KeyBinding keyOpenCompendium;
 	private CompendiumFile data;
+	private long displayedHintTime;
 	
 	private CompendiumEventsClient(){
 		keyOpenCompendium = new KeyBinding(ModCommonProxy.hardcoreEnderbacon ? "key.openCompendium.bacon" : "key.openCompendium",25,"Hardcore Ender Expansion");
@@ -97,8 +105,6 @@ public class CompendiumEventsClient{
 	@SubscribeEvent
 	public void onClientTick(ClientTickEvent e){
 		if (e.phase != Phase.START)return;
-		
-		// TODO if (achievementTimer > Byte.MIN_VALUE && --achievementTimer == Byte.MIN_VALUE)Minecraft.getMinecraft().guiAchievement.func_146257_b();
 		
 		if ((keyOpenCompendium.isPressed() || Keyboard.getEventKeyState() && Keyboard.getEventKey() == keyOpenCompendium.getKeyCode()) && (mc.inGameHasFocus || mc.currentScreen instanceof GuiContainer)){
 			if (canOpenCompendium()){
@@ -137,10 +143,10 @@ public class CompendiumEventsClient{
 				
 				openCompendium(obj);
 				
-				if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.ENDER_COMPENDIUM)){
+				/*if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.ENDER_COMPENDIUM)){
 					PacketPipeline.sendToServer(new S03SimpleEvent(EventType.OPEN_COMPENDIUM));
 					// TODO achievementTimer = Byte.MIN_VALUE;
-				}
+				}*/
 			} 
 		}
 	}
