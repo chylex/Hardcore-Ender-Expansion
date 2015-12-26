@@ -13,7 +13,6 @@ import net.minecraftforge.common.AchievementPage;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
-import chylex.hee.proxy.ModCommonProxy;
 
 public final class AchievementManager{
 	public static final String achievementScreenName = "HEE Achievements";
@@ -90,13 +89,13 @@ public final class AchievementManager{
 	}
 
 	private static HeeAchievement addAchievement(int id, String stringId, int x, int y, ItemStack is, Achievement parentAchievement){
-		HeeAchievement achievement = (HeeAchievement)new HeeAchievement("achievement.hee."+(ModCommonProxy.achievementStartId+40+id),stringId,x,y,is,parentAchievement).registerStat();
+		HeeAchievement achievement = (HeeAchievement)new HeeAchievement("achievement.hee2."+id,stringId,x,y,is,parentAchievement).registerStat();
 		achievements.add(achievement);
 		return achievement;
 	}
 	
 	private static HeeAchievement addChallenge(int id, String stringId, String difficultyLevel){
-		HeeChallenge challenge = (HeeChallenge)new HeeChallenge("achievement.hee."+(ModCommonProxy.achievementStartId+120+id),stringId,-1+(id%2 == 0 ? 0 : 1),-2+id,new ItemStack(Items.diamond_sword)).registerStat();
+		HeeChallenge challenge = (HeeChallenge)new HeeChallenge("achievement.hee2.ch."+id,stringId,-1+(id%2 == 0 ? 0 : 1),-2+id,new ItemStack(Items.diamond_sword)).registerStat();
 		challenges.add(challenge);
 		challengeStrings.put(stringId,difficultyLevel);
 		return challenge;

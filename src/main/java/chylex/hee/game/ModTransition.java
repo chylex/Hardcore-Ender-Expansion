@@ -63,6 +63,7 @@ public final class ModTransition{
 		config.getCategory("general").remove("overrideWorldGen");
 		config.getCategory("general").remove("overrideBiomeMobs");
 		config.getCategory("general").remove("decompositionBlacklist");
+		config.getCategory("general").remove("achievementStartId");
 	}
 	
 	public static boolean shouldConvertWorld(File root){

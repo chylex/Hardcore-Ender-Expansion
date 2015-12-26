@@ -108,7 +108,6 @@ public final class ConfigHandler{
 		if (firstTimeGeneral){
 			BiomeGenHardcoreEnd.overworldEndermanMultiplier = (float)getDecimal("overworldEndermanMultiplier", 1F, "Multiplies spawn weight of Endermen for each overworld biome (the weight is adjusted automatically).").setRequiresMcRestart(true).getDouble();
 			OrbAcquirableItems.overrideRemoveBrokenRecipes = getBool("overrideRemoveBrokenRecipes", false, "This will remove broken recipes that would normally crash the game. ALWAYS REPORT THE RECIPES TO THE AUTHORS OF THE BROKEN MODS FIRST!").setShowInGui(false).getBoolean();
-			ModCommonProxy.achievementStartId = getInt("achievementStartId", 3500, "Starting ID of achievements, only change this if there is a conflict.").setShowInGui(false).getInt();
 			
 			StardustDecomposition.addToBlacklist(new ItemPattern().setItemName("minecraft","fire"));
 			StardustDecomposition.addToBlacklist(new ItemPattern().setItemName("ExtraUtilities","unstableingot"));
