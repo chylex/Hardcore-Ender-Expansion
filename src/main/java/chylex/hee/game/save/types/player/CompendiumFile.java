@@ -54,8 +54,8 @@ public class CompendiumFile extends PlayerFile{
 	
 	// Discovery
 	
-	public boolean tryDiscoverObject(EntityPlayer player, KnowledgeObject<? extends IObjectHolder<?>> obj){
-		if (unlockObject(obj)){
+	public boolean tryDiscoverObject(EntityPlayer player, KnowledgeObject<? extends IObjectHolder<?>> obj, boolean forceManual){
+		if ((obj.canBeDiscovered() || forceManual) && unlockObject(obj)){
 			points += obj.getReward();
 			PacketPipeline.sendToPlayer(player,new C19CompendiumData(this,obj));
 			return true;

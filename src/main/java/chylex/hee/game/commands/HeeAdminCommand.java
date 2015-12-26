@@ -101,7 +101,7 @@ public class HeeAdminCommand extends BaseCommand{
 				EntityPlayer player = (EntityPlayer)sender;
 				CompendiumFile file = CompendiumEvents.getPlayerData(player);
 				
-				for(KnowledgeObject<?> object:KnowledgeObject.getAllObjects())file.tryDiscoverObject(player,object);
+				for(KnowledgeObject<?> object:KnowledgeObject.getAllObjects())file.tryDiscoverObject(player,object,true);
 				for(KnowledgeFragment fragment:KnowledgeFragment.getUnlockableFragments())file.unlockFragment(fragment);
 				
 				PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));

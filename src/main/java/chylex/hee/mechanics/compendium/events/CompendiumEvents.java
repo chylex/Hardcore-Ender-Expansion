@@ -34,12 +34,12 @@ public final class CompendiumEvents{
 	
 	public static boolean tryDiscover(EntityPlayer player, Object obj){
 		KnowledgeObject knowledgeObj = KnowledgeObject.fromObject(obj);
-		return knowledgeObj != null && getPlayerData(player).tryDiscoverObject(player,knowledgeObj);
+		return knowledgeObj != null && getPlayerData(player).tryDiscoverObject(player,knowledgeObj,false);
 	}
 	
 	public static boolean tryDiscover(EntityPlayer player, ItemStack is){
 		KnowledgeObject knowledgeObj = KnowledgeObject.fromObject(is);
-		return knowledgeObj != null && getPlayerData(player).tryDiscoverObject(player,knowledgeObj);
+		return knowledgeObj != null && getPlayerData(player).tryDiscoverObject(player,knowledgeObj,false);
 	}
 
 	private final ExpiringSet<UUID> playerLivingTicks = new ExpiringSet<>();
@@ -75,7 +75,7 @@ public final class CompendiumEvents{
 		if (e.phase != Phase.START || e.player.worldObj.isRemote || !playerLivingTicks.update(e.player.getGameProfile().getId()))return;
 		
 		KnowledgeObject<?> obj = KnowledgeUtils.getObservedObject(e.player);
-		if (obj != null)getPlayerData(e.player).tryDiscoverObject(e.player,obj);
+		if (obj != null)getPlayerData(e.player).tryDiscoverObject(e.player,obj,false);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)

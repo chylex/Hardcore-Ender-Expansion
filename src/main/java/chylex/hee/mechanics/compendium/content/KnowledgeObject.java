@@ -49,6 +49,7 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	
 	private int x, y, price, reward;
 	private ObjectShape shape = ObjectShape.PLAIN;
+	private boolean canBeDiscovered = true;
 	private boolean isCategoryObject;
 	
 	public KnowledgeObject(T holder){
@@ -111,6 +112,17 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	
 	public List<KnowledgeObject<?>> getChildren(){
 		return children;
+	}
+	
+	// Discovery
+	
+	public KnowledgeObject<T> setNoDiscovery(){
+		this.canBeDiscovered = false;
+		return this;
+	}
+	
+	public boolean canBeDiscovered(){
+		return canBeDiscovered;
 	}
 	
 	// Position
