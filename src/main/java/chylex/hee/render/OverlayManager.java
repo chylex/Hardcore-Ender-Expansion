@@ -13,6 +13,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.block.BlockEnderGoo;
+import chylex.hee.gui.helpers.GuiAchievementOverlay;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.elements.KnowledgeNotification;
@@ -26,13 +27,15 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class OverlayManager{
-	private static OverlayManager instance = new OverlayManager();
+public final class OverlayManager{
+	private static final OverlayManager instance = new OverlayManager();
 	private static final ResourceLocation texGoo = new ResourceLocation("hardcoreenderexpansion:textures/overlay/endergoo.png");
 	private static final PosMutable tmpPos = new PosMutable();
 	
 	private static final KnowledgeNotification[] notifications = new KnowledgeNotification[8];
 	private static boolean hasNotification;
+	
+	private static final GuiAchievementOverlay achievementOverlay = new GuiAchievementOverlay();
 	
 	private TileEntityEnergyCluster clusterLookedAt;
 	
@@ -42,6 +45,10 @@ public class OverlayManager{
 		IntStream.range(0,notifications.length).filter(index -> notifications[index] == null).findFirst().ifPresent(index -> {
 			notifications[index] = new KnowledgeNotification(obj);
 		});
+	}
+	
+	public static GuiAchievementOverlay getAchievementOverlay(){
+		return achievementOverlay;
 	}
 	
 	public static void register(){
@@ -86,6 +93,8 @@ public class OverlayManager{
 		if (mc.thePlayer == null)return;
 		
 		if (e.type == ElementType.HOTBAR){
+			achievementOverlay.update();
+			
 			if (hasNotification){
 				GL11.glColor4f(1F,1F,1F,1F);
 				GL11.glDisable(GL11.GL_DEPTH_TEST);
