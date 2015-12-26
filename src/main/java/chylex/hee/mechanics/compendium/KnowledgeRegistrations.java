@@ -10,6 +10,8 @@ import chylex.hee.item.ItemPortalToken;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.content.fragments.FragmentText;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentType;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 import chylex.hee.mechanics.compendium.content.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.content.objects.ObjectDummy;
@@ -75,7 +77,9 @@ public final class KnowledgeRegistrations{
 		
 		//
 		
-		ENDERMAN.setCategoryObject().setImportant();
+		ENDERMAN.setCategoryObject().setImportant().setNoDiscovery().addFragments(new KnowledgeFragment[]{
+			new FragmentText(100).setType(KnowledgeFragmentType.HINT)
+		});
 		
 		ENDER_PEARL.setParent(ENDERMAN,-3,5).addParentLine(0,-2);
 		

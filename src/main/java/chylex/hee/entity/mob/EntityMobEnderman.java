@@ -41,6 +41,8 @@ import chylex.hee.entity.mob.teleport.ITeleportPredicate;
 import chylex.hee.entity.mob.teleport.MobTeleporter;
 import chylex.hee.entity.mob.teleport.TeleportLocation.ITeleportXZ;
 import chylex.hee.entity.mob.teleport.TeleportLocation.ITeleportY;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.player.EventFile;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.causatum.Causatum;
@@ -48,6 +50,8 @@ import chylex.hee.mechanics.causatum.Causatum.Actions;
 import chylex.hee.mechanics.causatum.Causatum.Progress;
 import chylex.hee.mechanics.causatum.CausatumEventHandler;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventTypes;
+import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
+import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
@@ -318,6 +322,7 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			if (ticksExisted%12 == 0 && rand.nextInt(3) == 0){
 				for(EntityPlayer player:EntitySelector.players(worldObj,boundingBox.expand(4D,4D,4D))){
 					if (!canAttackPlayer(player)){
+						SaveData.player(player,EventFile.class).onEndermanAvoid(player);
 						teleportAround(false);
 						break;
 					}
@@ -360,8 +365,9 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			Causatum.trigger(attacker,Actions.KILL_ENDERMAN);
 			
 			if (Causatum.progress(attacker,Progress.ENDERMAN_KILLED,Actions.STAGE_ADVANCE_TO_ENDERMAN_KILLED)){
-				for(EntityPlayer nearbyPlayer:EntitySelector.players(worldObj,boundingBox.expand(12D,4D,12D))){
+				for(EntityPlayer nearbyPlayer:EntitySelector.players(worldObj,boundingBox.expand(8D,4D,8D))){
 					Causatum.progress(nearbyPlayer,Progress.ENDERMAN_KILLED);
+					CompendiumEvents.getPlayerData(nearbyPlayer).tryDiscoverObject(nearbyPlayer,KnowledgeRegistrations.ENDERMAN,true);
 				}
 				
 				entityDropItem(new ItemStack(Items.ender_pearl),0F);
@@ -384,6 +390,8 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 			
 			if (sourceEntity instanceof EntityPlayer && !canAttackPlayer((EntityPlayer)sourceEntity)){
 				if ((isProjectile && teleportAvoid(source.getSourceOfDamage()) || (!isProjectile && teleportAround(false)))){
+					EntityPlayer targetPlayer = (EntityPlayer)sourceEntity;
+					SaveData.player(targetPlayer,EventFile.class).onEndermanAvoid(targetPlayer);
 					return true;
 				}
 			}
@@ -473,6 +481,11 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		if (isControlledExternally)return;
 		
 		if (target instanceof EntityPlayer && !canAttackPlayer((EntityPlayer)target)){
+			if (suspiciousEntity == target){ // check direct look
+				EntityPlayer targetPlayer = (EntityPlayer)target;
+				SaveData.player(targetPlayer,EventFile.class).onEndermanAvoid(targetPlayer);
+			}
+			
 			teleportAround(false);
 			return;
 		}
