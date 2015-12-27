@@ -73,7 +73,10 @@ public class CompendiumEventsClient{
 	}
 	
 	public static void displayCompendiumHint(){
-		OverlayManager.getAchievementOverlay().display("ec.overlay.hint.title","ec.overlay.hint.desc",9000L);
+		String title = I18n.format("ec.overlay.hint.title");
+		String desc = I18n.format("ec.overlay.hint.desc").replace("$",GameSettings.getKeyDisplayString(instance.keyOpenCompendium.getKeyCode()));
+		
+		OverlayManager.getAchievementOverlay().displayLiteral(title,desc,9000L);
 		instance.displayedHintTime = Minecraft.getSystemTime();
 	}
 	

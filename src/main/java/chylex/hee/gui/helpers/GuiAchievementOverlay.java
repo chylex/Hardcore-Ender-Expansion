@@ -18,11 +18,15 @@ public class GuiAchievementOverlay{
 	private String description;
 	private long displayEnd;
 	
-	public void display(String title, String description, long millis){
-		this.title = new ChatComponentText(I18n.format(title));
-		this.description = I18n.format(description);
+	public void displayLiteral(String title, String description, long millis){
+		this.title = new ChatComponentText(title);
+		this.description = description;
 		this.displayEnd = Minecraft.getSystemTime()+millis;
 		Minecraft.getMinecraft().guiAchievement.func_146255_b(achievement); // OBFUSCATED showAchievement
+	}
+	
+	public void displayTranslated(String title, String description, long millis){
+		displayLiteral(I18n.format(title),I18n.format(description),millis);
 	}
 	
 	public void hide(){
