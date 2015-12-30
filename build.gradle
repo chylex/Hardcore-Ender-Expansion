@@ -39,6 +39,12 @@ minecraft{
     srgExtra "PK: chylex/javacheck chylex/shade/javacheck"
 }
 
+task createResourcePack(type: Zip){
+    from "music"
+    archiveName "HardcoreEnderExpansion  Music  v1.0.zip"
+    destinationDir = file("build/libs")
+}
+
 String modid = ""
 String modver = ""
 
@@ -65,3 +71,5 @@ jar{
         attributes 'TweakClass': 'chylex.shade.javacheck.Java8Checker'
     }
 }
+
+tasks.build.dependsOn createResourcePack
