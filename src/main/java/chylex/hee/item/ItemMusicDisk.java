@@ -4,14 +4,20 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SoundEventAccessorComposite;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C02PlayRecord;
@@ -22,6 +28,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemMusicDisk extends ItemRecord{
 	private static final List<String[]> musicNames = new ArrayList<>();
+	private static final List<ResourceLocation> musicResources = new ArrayList<>();
 	
 	static{
 		musicNames.add(new String[]{ "Banjolic", "records.qwertygiy.banjolic" });
@@ -34,6 +41,8 @@ public class ItemMusicDisk extends ItemRecord{
 		musicNames.add(new String[]{ "Spyder", "records.qwertygiy.spyder" });
 		musicNames.add(new String[]{ "Onion", "records.qwertygiy.onion" });
 		musicNames.add(new String[]{ "Crying Soul", "records.qwertygiy.cryingsoul" });
+		
+		for(String[] data:musicNames)musicResources.add(new ResourceLocation("hardcoreenderexpansion",data[1]));
 	}
 	
 	public static int getRecordCount(){
@@ -42,6 +51,10 @@ public class ItemMusicDisk extends ItemRecord{
 	
 	public static String[] getRecordData(int damage){
 		return musicNames.get(MathUtil.clamp(damage,0,musicNames.size()-1));
+	}
+	
+	public static ResourceLocation getRecordResource(int damage){
+		return musicResources.get(MathUtil.clamp(damage,0,musicNames.size()-1));
 	}
 	
 	private IIcon[] iconArray;
@@ -89,6 +102,12 @@ public class ItemMusicDisk extends ItemRecord{
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){	
 		textLines.add("qwertygiy - "+musicNames.get(MathUtil.clamp(is.getItemDamage(),0,musicNames.size()-1))[0]);
+		
+		SoundEventAccessorComposite sound = Minecraft.getMinecraft().getSoundHandler().getSound(getRecordResource(is.getItemDamage()));
+		
+		if (sound == null || sound.func_148720_g() == SoundHandler.missing_sound){ // OBFUSCATED getSoundEntry
+			textLines.add(EnumChatFormatting.RED+I18n.format("music.missingResourcePack"));
+		}
 	}
 	
 	@Override
