@@ -14,6 +14,7 @@ import net.minecraft.client.AnvilConverterException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiErrorScreen;
 import net.minecraft.client.gui.GuiSelectWorld;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagDouble;
@@ -21,22 +22,27 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.storage.SaveFormatComparator;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import org.apache.commons.io.FileUtils;
 import chylex.hee.gui.GuiModTransition;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.GameRegistryUtil;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public final class ModTransition{
+	public static final int worldSpawnY = 512;
+	
 	public static void register(){
-		MinecraftForge.EVENT_BUS.register(new ModTransition());
+		GameRegistryUtil.registerEventHandler(new ModTransition());
 	}
 	
 	public static void updateMappings(FMLMissingMappingsEvent e){
@@ -80,7 +86,7 @@ public final class ModTransition{
 			levelDatNBT = CompressedStreamTools.readCompressed(fileStreamIn);
 			
 			NBTTagCompound data = levelDatNBT.getCompoundTag("Data");
-			worldSpawnPoint = new Pos(data.getInteger("SpawnX"),data.getInteger("SpawnY"),data.getInteger("SpawnZ"));
+			worldSpawnPoint = new Pos(data.getInteger("SpawnX"),worldSpawnY,data.getInteger("SpawnZ"));
 		}
 		
 		FileUtils.deleteDirectory(new File(root,"DIM1"));
@@ -153,7 +159,7 @@ public final class ModTransition{
 	
 	private ModTransition(){}
 	
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	@SideOnly(Side.CLIENT)
 	public void onGuiOpen(GuiOpenEvent e){
 		if (e.gui instanceof GuiSelectWorld){
@@ -171,13 +177,22 @@ public final class ModTransition{
 			
 			for(SaveFormatComparator save:saveList){
 				String name = save.getFileName();
-				if (name == null)continue; // happens to WorldX from alpha days, is this happens the world is too old to not break anyways
+				if (name == null)continue; // happens to WorldX from alpha days, if this happens the world is too old to not break anyways
 				
 				File root = new File(FMLClientHandler.instance().getSavesDir(),name);
 				if (shouldConvertWorld(root))toUpdate.add(root);
 			}
 			
 			if (!toUpdate.isEmpty())e.gui = new GuiModTransition(mc.currentScreen,e.gui,toUpdate);
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerLoggedIn(PlayerLoggedInEvent e){ // TODO test
+		final EntityPlayer player = e.player;
+		
+		if (player.dimension == 0 && MathUtil.floatEquals(worldSpawnY,(float)player.posY)){
+			player.setPositionAndUpdate(player.posX,Pos.getTopBlock(player.worldObj,MathUtil.floor(player.posX),MathUtil.floor(player.posZ)).getY()+0.01D,player.posZ);
 		}
 	}
 }
