@@ -21,6 +21,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C02PlayRecord;
+import chylex.hee.sound.CustomMusicTicker;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -102,6 +103,10 @@ public class ItemMusicDisk extends ItemRecord{
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		textLines.add("qwertygiy - "+musicNames.get(MathUtil.clamp(is.getItemDamage(),0,musicNames.size()-1))[0]);
+		
+		if (!CustomMusicTicker.canPlayMusic()){
+			textLines.add(EnumChatFormatting.RED+I18n.format("music.notEnabled"));
+		}
 		
 		SoundEventAccessorComposite sound = Minecraft.getMinecraft().getSoundHandler().getSound(getRecordResource(is.getItemDamage()));
 		

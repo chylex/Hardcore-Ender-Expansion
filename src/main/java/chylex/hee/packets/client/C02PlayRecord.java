@@ -42,7 +42,7 @@ public class C02PlayRecord extends AbstractClientPacket{
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
 		if (!CustomMusicTicker.canPlayMusic()){
-			Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("music.notEnabled"));
+			Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("music.notEnabledMessage"));
 			return;
 		}
 		

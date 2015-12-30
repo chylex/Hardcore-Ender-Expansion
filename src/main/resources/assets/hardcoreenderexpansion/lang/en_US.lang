@@ -325,7 +325,8 @@ key.openCompendium=Ender Compendium
 key.openCompendium.bacon=Bacon Compendium
 key.openCompendium.conflict=Ender Compendium key conflicts with $, please fix the issue in Controls menu.
 
-music.notEnabled=Cannot play Hardcore Ender Expansion music disc, custom music is not enabled.
+music.notEnabledMessage=Cannot play Hardcore Ender Expansion music disc, custom music is not enabled.
+music.notEnabled=Custom music not enabled
 music.missingResourcePack=Resource Pack not installed
 
 achievement.viewAchievements=View Achievements
