@@ -42,7 +42,7 @@ public class C02PlayRecord extends AbstractClientPacket{
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
 		if (!CustomMusicTicker.canPlayMusic()){
-			Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("notification.music"));
+			Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("music.notEnabled"));
 			return;
 		}
 		
@@ -60,10 +60,11 @@ public class C02PlayRecord extends AbstractClientPacket{
 		}
 
 		mc.ingameGUI.setRecordPlayingMessage("qwertygiy - "+recordData[0]);
-		ResourceLocation resource = new ResourceLocation("hardcoreenderexpansion:"+recordData[1]);
-		PositionedSoundRecord snd = PositionedSoundRecord.func_147675_a(resource,pos.getX(),pos.getY(),pos.getZ());
-		mapSoundPositions.put(coords,snd);
 		
+		ResourceLocation resource = ItemMusicDisk.getRecordResource(diskDamage);
+		PositionedSoundRecord snd = PositionedSoundRecord.func_147675_a(resource,pos.getX(),pos.getY(),pos.getZ());
+		
+		mapSoundPositions.put(coords,snd);
 		CustomMusicTicker.stopMusicAndPlayJukebox(snd);
 	}
 }
