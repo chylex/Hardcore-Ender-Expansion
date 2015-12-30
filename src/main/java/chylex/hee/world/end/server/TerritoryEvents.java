@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.environment;
+package chylex.hee.world.end.server;
 import net.minecraft.entity.player.EntityPlayerMP;
 import chylex.hee.system.abstractions.damage.Damage;
 import chylex.hee.system.abstractions.damage.IDamageModifier;
@@ -12,12 +12,12 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import cpw.mods.fml.relauncher.Side;
 
-public final class EnvironmentEvents{
+public final class TerritoryEvents{ // TODO handle territories
 	public static void register(){
-		GameRegistryUtil.registerEventHandler(new EnvironmentEvents());
+		GameRegistryUtil.registerEventHandler(new TerritoryEvents());
 	}
 	
-	private EnvironmentEvents(){}
+	private TerritoryEvents(){}
 	
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent e){
