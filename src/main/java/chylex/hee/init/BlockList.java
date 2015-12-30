@@ -22,14 +22,7 @@ import chylex.hee.block.vanilla.BlockBasic;
 import chylex.hee.block.vanilla.BlockBasicSlab;
 import chylex.hee.block.vanilla.BlockBasicStairs;
 import chylex.hee.game.creativetab.ModCreativeTab;
-import chylex.hee.item.block.ItemBlockDynamicColor;
-import chylex.hee.item.block.ItemBlockEndFlower;
-import chylex.hee.item.block.ItemBlockEndermanHead;
-import chylex.hee.item.block.ItemBlockEnhanceableTile;
-import chylex.hee.item.block.ItemBlockEssenceAltar;
-import chylex.hee.item.block.ItemBlockSlab;
-import chylex.hee.item.block.ItemBlockWithSubtypes;
-import chylex.hee.item.block.ItemBlockWithTooltip;
+import chylex.hee.item.block.*;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.tileentity.*;
@@ -247,8 +240,8 @@ public final class BlockList{
 	
 	public static void registerBlocks(){
 		BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, new BlockDragonEggCustom());
-		BlockReplaceHelper.replaceBlock(Blocks.end_portal,new BlockEndPortalCustom());
-		BlockReplaceHelper.replaceBlock(Blocks.end_portal_frame,new BlockEndPortalFrameCustom());
+		BlockReplaceHelper.replaceBlock(Blocks.end_portal, new BlockEndPortalCustom());
+		BlockReplaceHelper.replaceBlock(Blocks.end_portal_frame, new BlockEndPortalFrameCustom());
 		
 		Blocks.end_portal.setBlockName("endPortal");
 		
