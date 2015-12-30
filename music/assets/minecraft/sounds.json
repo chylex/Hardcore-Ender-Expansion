@@ -1,0 +1,147 @@
+{
+    "records.qwertygiy.cryingsoul": {
+        "category": "record",
+        "sounds": [
+            {
+                "name": "music/random_qwertygiy_CryingSoul",
+                "stream": "true"
+            }
+        ]
+    },
+    "records.qwertygiy.onion": {
+        "category": "record",
+        "sounds": [
+            {
+                "name": "music/random_qwertygiy_Onion",
+                "stream": "true"
+            }
+        ]
+    },
+    "records.qwertygiy.asteroid": {
+        "category": "record",
+        "sounds": [
+            {
+                "name": "music/dragoncalm_qwertygiy_Asteroid",
+                "stream": "true"
+            }
+        ]
+    },
+    "records.qwertygiy.banjolic": {
+        "category": "record",
+        "sounds": [
+            {
+                "name": "music/dragoncalm_qwertygiy_Banjolic",
+                "stream": "true"
+            }
+        ]
+    },
+    "records.qwertygiy.intheend": {
+        "category": "record",
+        "sounds": [
+            {
+                "name": "music/dragoncalm_qwertygiy_InTheEnd",
+                "stream": "true"
+            }
+        ]
+    },
+    "records.qwertygiy.stewed": {
+        "category": "record",
+        "sounds": [
+            {
+                "name": "music/dragoncalm_qwertygiy_Stewed",
+                "stream": "true"
+            }
+        ]
+    },
+    "records.qwertygiy.beatthedragon": {
+        "category": "record",
+        "sounds": [
+            {
+                "name": "music/dragonangry_qwertygiy_BeatTheDragon",
+                "stream": "true"
+            }
+        ]
+    },
+    "records.qwertygiy.granite": {
+        "category": "record",
+        "sounds": [
+            {
+                "name": "music/dragonangry_qwertygiy_Granite",
+                "stream": "true"
+            }
+        ]
+    },
+    "records.qwertygiy.rememberthis": {
+        "category": "record",
+        "sounds": [
+            {
+                "name": "music/dragonangry_qwertygiy_RememberThis",
+                "stream": "true"
+            }
+        ]
+    },
+    "records.qwertygiy.spyder": {
+        "category": "record",
+        "sounds": [
+            {
+                "name": "music/dragonangry_qwertygiy_Spyder",
+                "stream": "true"
+            }
+        ]
+    },
+    "music.game.end": {
+        "category": "music",
+        "sounds": [
+            {
+                "name": "music/random_qwertygiy_CryingSoul",
+                "stream": true
+            },
+            {
+                "name": "music/random_qwertygiy_Onion",
+                "stream": true
+            }
+        ]
+    },
+    "music.game.end.dragoncalm": {
+        "category": "music",
+        "sounds": [
+            {
+                "name": "music/dragoncalm_qwertygiy_Asteroid",
+                "stream": true
+            },
+            {
+                "name": "music/dragoncalm_qwertygiy_Banjolic",
+                "stream": true
+            },
+            {
+                "name": "music/dragoncalm_qwertygiy_InTheEnd",
+                "stream": true
+            },
+            {
+                "name": "music/dragoncalm_qwertygiy_Stewed",
+                "stream": true
+            }
+        ]
+    },
+    "music.game.end.dragonangry": {
+        "category": "music",
+        "sounds": [
+            {
+                "name": "music/dragonangry_qwertygiy_BeatTheDragon",
+                "stream": true
+            },
+            {
+                "name": "music/dragonangry_qwertygiy_Granite",
+                "stream": true
+            },
+            {
+                "name": "music/dragonangry_qwertygiy_RememberThis",
+                "stream": true
+            },
+            {
+                "name": "music/dragonangry_qwertygiy_Spyder",
+                "stream": true
+            }
+        ]
+    }
+}

@@ -29,22 +29,29 @@ minecraft {
     runDir = "eclipse"
 }
 
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+task createResourcePack(type: Zip){
+    from "music"
+    archiveName "HardcoreEnderExpansion  Music  v1.0.zip"
+    destinationDir = file("build/libs")
+}
 
-    from(sourceSets.main.resources.srcDirs){
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
+String modid = ""
+String modver = ""
+
+processResources{
+    File info = new File(sourceSets.main.resources.srcDirs.iterator().next(), "mcmod.info")
+    def slurp = new groovy.json.JsonSlurper()
+    def data = slurp.parseText(info.getText())[0]
     
-    from(sourceSets.main.resources.srcDirs){
-        exclude 'mcmod.info'
-    }
+    modid = data.modid
+    modver = data.version
 }
 
 jar {
+	archiveName = modid+"  MC-"+project.minecraft.version+"  v"+modver+".jar"
+
     manifest {
         attributes 'FMLAT': 'hee_at.cfg'
     }
 }
+tasks.build.dependsOn createResourcePack
