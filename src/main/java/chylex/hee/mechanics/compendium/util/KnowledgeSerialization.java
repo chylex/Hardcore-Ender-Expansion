@@ -58,9 +58,9 @@ public final class KnowledgeSerialization{
 		);
 	}
 	
-	public static <T extends IObjectHolder<R>,R> String serialize(KnowledgeObject<T> obj){
+	public static <T extends IObjectHolder<R>,R> String serialize(KnowledgeObject obj){ // fucking hell, javac is stupid
 		char chr = types.inverse().get(obj.holder.getClass()).charValue();
-		return chr+((IObjectSerializer<R>)handlers.get(obj.holder.getClass())).serialize(obj.holder.getUnderlyingObject());
+		return chr+((IObjectSerializer)handlers.get(obj.holder.getClass())).serialize(obj.holder.getUnderlyingObject());
 	}
 	
 	public static <T extends IObjectHolder<R>,R> KnowledgeObject<T> deserialize(String line){
