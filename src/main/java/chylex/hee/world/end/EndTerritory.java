@@ -1,5 +1,6 @@
 package chylex.hee.world.end;
 import java.util.Random;
+import java.util.function.ToIntFunction;
 import java.util.stream.IntStream;
 import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
@@ -23,24 +24,39 @@ import chylex.hee.world.structure.StructureWorldLazy;
 import chylex.hee.world.util.BoundingBox;
 
 public enum EndTerritory{
-	THE_HUB(24, color(0,0,0), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Empty(), new TerritoryTheHub.Environment(), TerritoryTheHub::new), // 384 blocks
-	DEBUG_TEST(7, color(253), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Test(), TerritoryEnvironment.defaultEnvironment, TerritoryTest::new),
-	DEBUG_TEST_2(20, color(253), new TerritorySpawnInfo(128,0), new TerritorySpawnGenerator.Test(), TerritoryEnvironment.defaultEnvironment, TerritoryTest::new),
-	;
+	THE_HUB( // 384 blocks
+		24, height(128), bottom(0), color(0,0,0), new TerritorySpawnGenerator.Empty(),
+		TerritoryProperties.defaultProperties, new TerritoryTheHub.Environment(), TerritoryTheHub::new
+	),
+	
+	DEBUG_TEST(
+		7, height(128), bottom(0), color(253), new TerritorySpawnGenerator.Origin(),
+		TerritoryProperties.defaultProperties, TerritoryEnvironment.defaultEnvironment, TerritoryTest::new
+	),
+	
+	DEBUG_TEST_2(
+		20, height(128), bottom(0), color(253), new TerritorySpawnGenerator.Origin(),
+		TerritoryProperties.defaultProperties, TerritoryEnvironment.defaultEnvironment, TerritoryTest::new
+	);
 	
 	private final int chunkSize;
-	private final TerritorySpawnInfo info;
+	private final int height;
+	
+	private final ToIntFunction<Random> bottom;
 	private final TerritorySpawnGenerator spawn;
 	private final ITerritoryGeneratorConstructor constructor;
-
+	
+	public final TerritoryProperties properties;
 	public final TerritoryEnvironment environment;
 	public final int tokenColor;
 	
-	private EndTerritory(int chunkSize, int tokenColor, TerritorySpawnInfo info, TerritorySpawnGenerator spawn, TerritoryEnvironment environment, ITerritoryGeneratorConstructor constructor){
+	private EndTerritory(int chunkSize, int height, ToIntFunction<Random> bottom, int tokenColor, TerritorySpawnGenerator spawn, TerritoryProperties properties, TerritoryEnvironment environment, ITerritoryGeneratorConstructor constructor){
 		this.chunkSize = chunkSize;
+		this.height = height;
+		this.bottom = bottom;
 		this.tokenColor = tokenColor;
-		this.info = info;
 		this.spawn = spawn;
+		this.properties = properties;
 		this.environment = environment;
 		this.constructor = constructor;
 	}
@@ -56,7 +72,7 @@ public enum EndTerritory{
 	}
 	
 	public StructureWorld createWorld(World world){
-		StructureWorldLazy structureWorld = new StructureWorldLazy(world,8*chunkSize,info.getHeight(),8*chunkSize);
+		StructureWorldLazy structureWorld = new StructureWorldLazy(world,8*chunkSize,height,8*chunkSize);
 		
 		if ($debugging){
 			structureWorld.setSendToWatchers();
@@ -113,7 +129,7 @@ public enum EndTerritory{
 		
 		int startX = 16*startPoint.chunkXPos+structureWorld.getArea().x2;
 		int startZ = 16*startPoint.chunkZPos+structureWorld.getArea().z2;
-		int bottomY = info.getBottomY(rand);
+		int bottomY = bottom.applyAsInt(rand);
 		
 		Pos spawnPos = spawn.createSpawnPoint(structureWorld,rand,this).offset(startX,bottomY,startZ);
 		structureWorld.generateInWorld(world,rand,startX,bottomY,startZ);
@@ -123,6 +139,8 @@ public enum EndTerritory{
 	public Pos generateTerritory(int index, World world, Random rand){
 		return generateTerritory(getStartPoint(index),world,rand);
 	}
+	
+	// STATIC FIELDS AND METHODS
 	
 	public static final int chunksBetween = 64; // 1024 blocks
 	public static final int chunkOffset = -THE_HUB.chunkSize/2;
@@ -186,6 +204,21 @@ public enum EndTerritory{
 		return Math.max(0D,distXZ*3.5D-3D)+Math.max(0D,offY);
 	}
 	
+	// INITIALIZATION UTILITY METHODS
+	
+	private static int height(int height){
+		return height;
+	}
+	
+	private static ToIntFunction<Random> bottom(int bottom){
+		return rand -> bottom;
+	}
+	
+	@SuppressWarnings("unused")
+	private static ToIntFunction<Random> bottom(ToIntFunction<Random> bottomFunc){
+		return bottomFunc;
+	}
+	
 	private static int color(int hue){
 		float[] rgb = ColorUtil.hsvToRgb(hue/360F,0.32F,0.76F);
 		return (MathUtil.floor(rgb[0]*255F)<<16)|(MathUtil.floor(rgb[1]*255F)<<8)|MathUtil.floor(rgb[2]*255F);
@@ -194,6 +227,8 @@ public enum EndTerritory{
 	private static int color(int red, int green, int blue){
 		return (red<<16)|(green<<8)|blue;
 	}
+	
+	// DEBUG
 	
 	private static boolean $debugging = false;
 	

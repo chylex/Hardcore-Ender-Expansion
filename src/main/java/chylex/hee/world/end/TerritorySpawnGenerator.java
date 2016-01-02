@@ -76,8 +76,8 @@ public class TerritorySpawnGenerator{
 		void generatePortalAt(StructureWorld world, Random rand, Pos pos){}
 	}
 	
-	public static final class Test extends TerritorySpawnGenerator{
-		Test(){
+	public static final class Origin extends TerritorySpawnGenerator{
+		Origin(){
 			super((world, rand, territory, pos) -> pos.set(0,world.getTopY(0,0),0),1);
 		}
 	}
