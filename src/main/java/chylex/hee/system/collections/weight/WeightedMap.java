@@ -30,6 +30,10 @@ public class WeightedMap<T> implements IWeightedCollection<T>{
 		callback.accept(this);
 	}
 	
+	public WeightedMap(WeightedMap<T> itemMap){
+		items = new TObjectIntHashMap<>(itemMap.items);
+	}
+	
 	// Map methods
 	
 	public void add(T item, int weight){

@@ -1,9 +1,10 @@
 package chylex.hee.system.test.list;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.*;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.CustomArrayList;
+import chylex.hee.system.collections.EmptyEnumSet;
 import chylex.hee.system.collections.RandomList;
 import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.system.collections.weight.WeightedList;
@@ -39,6 +40,11 @@ public class TestCollections{
 		Assert.contains(set,"A");
 		Assert.contains(set,"B");
 		Assert.contains(set,"C");
+		
+		EnumSet<TestEnum> enums = EmptyEnumSet.get();
+		Assert.equal(enums.size(),0);
+		Assert.isTrue(enums.isEmpty());
+		for(TestEnum element:enums)Assert.fail();
 	}
 	
 	@UnitTest
@@ -212,6 +218,12 @@ public class TestCollections{
 		Assert.equal(filledMap.size(),1);
 		Assert.isTrue(filledMap.getTotalWeight() <= 50);
 		
+		WeightedMap<String> filledMapCopy = new WeightedMap<>(filledMap);
+		
+		Assert.isFalse(filledMapCopy.isEmpty());
+		Assert.equal(filledMapCopy.size(),3);
+		Assert.equal(filledMapCopy.getTotalWeight(),100);
+		
 		WeightedMap<String> extremeMap = new WeightedMap<>(map -> {
 			map.add("Yes Please",Integer.MAX_VALUE-1);
 			map.add("No Chance",1);
@@ -268,4 +280,6 @@ public class TestCollections{
 			return obj instanceof StringWeight && ((StringWeight)obj).str.equals(str);
 		}
 	}
+	
+	private enum TestEnum{}
 }
