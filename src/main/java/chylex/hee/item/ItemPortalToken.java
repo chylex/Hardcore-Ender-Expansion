@@ -1,6 +1,8 @@
 package chylex.hee.item;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import javax.annotation.Nullable;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.I18n;
@@ -9,22 +11,31 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.global.WorldFile;
 import chylex.hee.init.ItemList;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.collections.BitStream;
 import chylex.hee.system.collections.CollectionUtil;
+import chylex.hee.system.collections.EmptyEnumSet;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.world.end.EndTerritory;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemPortalToken extends Item{
-	public static final ItemStack forTerritory(EndTerritory territory, boolean rare){
-		ItemStack is = new ItemStack(ItemList.portal_token,1,rare ? 1 : 0);
+	public static final ItemStack forTerritory(EndTerritory territory, boolean isRare){
+		ItemStack is = new ItemStack(ItemList.portal_token,1,isRare ? 1 : 0);
 		ItemUtil.getTagRoot(is,true).setByte("territory",(byte)territory.ordinal());
+		return is;
+	}
+	
+	public static final ItemStack forTerritory(EndTerritory territory, boolean isRare, Random rand){
+		ItemStack is = forTerritory(territory,isRare);
+		ItemUtil.getTagRoot(is,true).setInteger("variations",territory.properties.generateVariationsSerialized(rand,isRare));
 		return is;
 	}
 	
@@ -36,6 +47,13 @@ public class ItemPortalToken extends Item{
 		return is.getItemDamage() == 1;
 	}
 	
+	public static final EnumSet<?> getVariations(ItemStack is){
+		EndTerritory territory = getTerritory(is);
+		if (territory == null)return EmptyEnumSet.get();
+		
+		return territory.properties.deserialize(ItemUtil.getTagRoot(is,false).getInteger("variations"));
+	}
+	
 	public static final Optional<Pos> generateTerritory(ItemStack is, World world){
 		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
 		if (nbt.hasKey("tpos"))return Optional.of(Pos.at(nbt.getLong("tpos")));
@@ -45,7 +63,7 @@ public class ItemPortalToken extends Item{
 		
 		final int index = SaveData.global(WorldFile.class).increment(territory);
 		
-		Pos spawnPos = territory.generateTerritory(index,world,territory.createRandom(world.getSeed(),index));
+		Pos spawnPos = territory.generateTerritory(index,world,territory.createRandom(world.getSeed(),index),getVariations(is));
 		nbt.setLong("tpos",spawnPos.toLong());
 		return Optional.of(spawnPos);
 	}
@@ -63,9 +81,27 @@ public class ItemPortalToken extends Item{
 	}
 	
 	@Override
+	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
+		if (!world.isRemote && player.capabilities.isCreativeMode && getTerritory(is) != null){
+			ItemUtil.getTagRoot(is,true).setInteger("variations",getTerritory(is).properties.generateVariationsSerialized(world.rand,isRare(is)));
+		}
+		
+		return is;
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		textLines.add(I18n.format("territory."+ItemUtil.getTagRoot(is,false).getByte("territory")));
+		final int territory = ItemUtil.getTagRoot(is,false).getByte("territory");
+		textLines.add(I18n.format("territory."+territory));
+		
+		final int variations = ItemUtil.getTagRoot(is,false).getInteger("variations");
+		
+		if (variations != 0){
+			BitStream.forInt(variations).forEach(ordinal -> {
+				textLines.add(EnumChatFormatting.YELLOW+I18n.format("territory."+territory+".variation."+ordinal));
+			});
+		}
 	}
 	
 	@Override

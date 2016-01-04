@@ -4,6 +4,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderServer;
+import chylex.hee.system.collections.EmptyEnumSet;
 import chylex.hee.world.end.EndTerritory;
 
 public class ChunkProviderHardcoreEndServer extends ChunkProviderServer{
@@ -26,6 +27,8 @@ public class ChunkProviderHardcoreEndServer extends ChunkProviderServer{
 	}
 	
 	public void prepareSpawn(){
-		if (!provideChunk(0,0).isTerrainPopulated)EndTerritory.THE_HUB.generateTerritory(0,worldObj,new Random(worldObj.getSeed()));
+		if (!provideChunk(0,0).isTerrainPopulated){
+			EndTerritory.THE_HUB.generateTerritory(0,worldObj,new Random(worldObj.getSeed()),EmptyEnumSet.get());
+		}
 	}
 }

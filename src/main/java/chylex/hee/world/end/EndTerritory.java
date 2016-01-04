@@ -1,4 +1,5 @@
 package chylex.hee.world.end;
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.function.ToIntFunction;
 import java.util.stream.IntStream;
@@ -12,6 +13,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.entity.EntitySelector;
+import chylex.hee.system.collections.EmptyEnumSet;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.DragonUtil;
@@ -117,7 +119,7 @@ public enum EndTerritory{
 		return new ChunkCoordIntPair(chunkOffX+chunkOffset,chunkOffZ+chunkOffset);
 	}
 	
-	public Pos generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand){
+	public Pos generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand, EnumSet variations){
 		for(int chunkX = 0; chunkX < chunkSize; chunkX++){
 			for(int chunkZ = 0; chunkZ < chunkSize; chunkZ++){
 				world.getChunkFromChunkCoords(startPoint.chunkXPos+chunkX,startPoint.chunkZPos+chunkZ);
@@ -125,7 +127,7 @@ public enum EndTerritory{
 		}
 		
 		StructureWorld structureWorld = createWorld(world);
-		constructor.construct(this,structureWorld,rand).generate();
+		constructor.construct(this,variations,structureWorld,rand).generate();
 		
 		int startX = 16*startPoint.chunkXPos+structureWorld.getArea().x2;
 		int startZ = 16*startPoint.chunkZPos+structureWorld.getArea().z2;
@@ -136,8 +138,8 @@ public enum EndTerritory{
 		return spawnPos;
 	}
 	
-	public Pos generateTerritory(int index, World world, Random rand){
-		return generateTerritory(getStartPoint(index),world,rand);
+	public Pos generateTerritory(int index, World world, Random rand, EnumSet<? extends Enum<?>> variations){
+		return generateTerritory(getStartPoint(index),world,rand,variations);
 	}
 	
 	// STATIC FIELDS AND METHODS
@@ -238,13 +240,13 @@ public enum EndTerritory{
 			$debugging = true;
 			
 			if (args.length == 0){
-				THE_HUB.generateTerritory(0,world,new Random(world.getSeed()));
+				THE_HUB.generateTerritory(0,world,new Random(world.getSeed()),EmptyEnumSet.get());
 			}
 			else if (args[0].equals("spawn") && args.length >= 3){
-				values[DragonUtil.tryParse(args[1],0)].generateTerritory(DragonUtil.tryParse(args[2],0),world,new Random(world.getSeed()));
+				values[DragonUtil.tryParse(args[1],0)].generateTerritory(DragonUtil.tryParse(args[2],0),world,new Random(world.getSeed()),EmptyEnumSet.get());
 			}
 			else if (args[0].equals("seed") && args.length >= 4){
-				values[DragonUtil.tryParse(args[1],0)].generateTerritory(DragonUtil.tryParse(args[2],0),world,new Random(DragonUtil.tryParse(args[3],0)));
+				values[DragonUtil.tryParse(args[1],0)].generateTerritory(DragonUtil.tryParse(args[2],0),world,new Random(DragonUtil.tryParse(args[3],0)),EmptyEnumSet.get());
 			}
 			else if (args[0].equals("loc") && args.length >= 3){
 				EndTerritory territory = values[DragonUtil.tryParse(args[1],0)];

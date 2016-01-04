@@ -1,4 +1,5 @@
 package chylex.hee.world.end.gen;
+import java.util.EnumSet;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.init.BlockList;
@@ -34,8 +35,8 @@ public class TerritoryTheHub extends TerritoryGenerator{
 	private final GenerateHubTokenHolder tokenHolders;
 	private final GenerateHubVoidPortal voidPortal;
 	
-	public TerritoryTheHub(EndTerritory territory, StructureWorld world, Random rand){
-		super(territory,world,rand);
+	public TerritoryTheHub(EndTerritory territory, EnumSet variations, StructureWorld world, Random rand){
+		super(territory,variations,world,rand);
 		
 		this.island = new GenerateIslandNoise(Blocks.end_stone,rand);
 		this.island.terrainSize = 64;

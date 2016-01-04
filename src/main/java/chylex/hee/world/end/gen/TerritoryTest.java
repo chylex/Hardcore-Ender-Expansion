@@ -1,4 +1,5 @@
 package chylex.hee.world.end.gen;
+import java.util.EnumSet;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.world.end.EndTerritory;
@@ -7,8 +8,8 @@ import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.util.BoundingBox;
 
 public class TerritoryTest extends TerritoryGenerator{
-	public TerritoryTest(EndTerritory territory, StructureWorld world, Random rand){
-		super(territory,world,rand);
+	public TerritoryTest(EndTerritory territory, EnumSet variations, StructureWorld world, Random rand){
+		super(territory,variations,world,rand);
 	}
 
 	@Override

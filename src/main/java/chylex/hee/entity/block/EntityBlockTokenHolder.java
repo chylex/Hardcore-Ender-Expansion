@@ -86,7 +86,7 @@ public class EntityBlockTokenHolder extends Entity{
 				for(int a = 0; a < 20; a++)worldObj.spawnParticle("largesmoke",posX+(rand.nextDouble()-0.5D)*0.8D,posY+0.05D+rand.nextDouble()*1D,posZ+(rand.nextDouble()-0.5D)*0.8D,0D,0D,0D);
 			}
 			else{
-				EntityItem item = entityDropItem(ItemPortalToken.forTerritory(tokenTerritory,isRare()),0.5F);
+				EntityItem item = entityDropItem(ItemPortalToken.forTerritory(tokenTerritory,isRare(),rand),0.5F); // TODO modify random to allow predictability
 				
 				if (item != null){
 					Vec target = Vec.between(item,source.getSourceOfDamage()).normalized().multiplied(0.225D);
