@@ -205,6 +205,11 @@ public class TestCollections{
 		Assert.equal(filledMap.size(),3);
 		Assert.equal(filledMap.getTotalWeight(),100);
 		
+		WeightedMap<String> filledMapCopy = new WeightedMap<>(filledMap);
+		Assert.isFalse(filledMapCopy.isEmpty());
+		Assert.equal(filledMapCopy.size(),3);
+		Assert.equal(filledMapCopy.getTotalWeight(),100);
+		
 		item = filledMap.getRandomItem(rand);
 		Assert.isTrue(item.equals("Item 1") || item.equals("Item 2") || item.equals("Item 3"));
 		item = filledMap.tryGetRandomItem(rand).get();
@@ -218,11 +223,7 @@ public class TestCollections{
 		Assert.equal(filledMap.size(),1);
 		Assert.isTrue(filledMap.getTotalWeight() <= 50);
 		
-		WeightedMap<String> filledMapCopy = new WeightedMap<>(filledMap);
-		
-		Assert.isFalse(filledMapCopy.isEmpty());
-		Assert.equal(filledMapCopy.size(),3);
-		Assert.equal(filledMapCopy.getTotalWeight(),100);
+		Assert.equal(filledMapCopy.getTotalWeight(),100); // make sure the copy did not change
 		
 		WeightedMap<String> extremeMap = new WeightedMap<>(map -> {
 			map.add("Yes Please",Integer.MAX_VALUE-1);

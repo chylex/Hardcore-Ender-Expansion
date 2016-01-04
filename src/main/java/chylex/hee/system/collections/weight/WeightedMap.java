@@ -32,6 +32,7 @@ public class WeightedMap<T> implements IWeightedCollection<T>{
 	
 	public WeightedMap(WeightedMap<T> itemMap){
 		items = new TObjectIntHashMap<>(itemMap.items);
+		dirty = true;
 	}
 	
 	// Map methods
