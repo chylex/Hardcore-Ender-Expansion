@@ -22,9 +22,9 @@ public class FastRandom{
 	 */
 	protected long next(){
 		last ^= (last << 21);
-	    last ^= (last >>> 35);
-	    last ^= (last << 4);
-	    return last-1; // allows 0 to be returned
+		last ^= (last >>> 35);
+		last ^= (last << 4);
+		return last-1; // allows 0 to be returned
 	}
 	
 	/**
@@ -32,7 +32,7 @@ public class FastRandom{
 	 * because I'm using it for {@link #nextFloat()} and {@link #nextDouble()} and it hasn't broken yet.
 	 */
 	public long nextLong(){
-	    return Math.abs(next());
+		return Math.abs(next());
 	}
 	
 	/**
