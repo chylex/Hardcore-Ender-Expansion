@@ -2,6 +2,7 @@ package chylex.hee.system.test.list;
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
+import chylex.hee.system.collections.BitStream;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.CustomArrayList;
 import chylex.hee.system.collections.EmptyEnumSet;
@@ -45,6 +46,45 @@ public class TestCollections{
 		Assert.equal(enums.size(),0);
 		Assert.isTrue(enums.isEmpty());
 		for(TestEnum element:enums)Assert.fail();
+	}
+	
+	@UnitTest
+	public void testBitStream(){
+		int[] ints;
+		long[] longs;
+		
+		ints = BitStream.forInt(0).toArray();
+		longs = BitStream.forLong(0L).toArray();
+		Assert.equal(ints.length,0);
+		Assert.equal(longs.length,0);
+		
+		ints = BitStream.forInt(0b1).toArray();
+		longs = BitStream.forLong(0b1L).toArray();
+		Assert.equal(ints.length,1);
+		Assert.equal(longs.length,1);
+		Assert.equal(ints[0],0);
+		Assert.equal(longs[0],0L);
+		
+		ints = BitStream.forInt(0b1011001).toArray();
+		longs = BitStream.forLong(0b1011001).toArray();
+		Assert.equal(ints.length,4);
+		Assert.equal(longs.length,4);
+		Assert.equal(ints[0],0);
+		Assert.equal(longs[0],0);
+		Assert.equal(ints[1],3);
+		Assert.equal(longs[1],3);
+		Assert.equal(ints[2],4);
+		Assert.equal(longs[2],4);
+		Assert.equal(ints[3],6);
+		Assert.equal(longs[3],6);
+		
+		ints = BitStream.forInt(1<<31).toArray();
+		Assert.equal(ints.length,1);
+		Assert.equal(ints[0],31);
+		
+		longs = BitStream.forLong(1L<<63).toArray();
+		Assert.equal(longs.length,1);
+		Assert.equal(longs[0],63L);
 	}
 	
 	@UnitTest
