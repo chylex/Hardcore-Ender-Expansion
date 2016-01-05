@@ -33,7 +33,7 @@ public enum EndTerritory{
 	
 	DEBUG_TEST(
 		7, height(128), bottom(0), color(253), new TerritorySpawnGenerator.Origin(),
-		TerritoryProperties.defaultProperties, TerritoryEnvironment.defaultEnvironment, TerritoryTest::new
+		new TerritoryTest.Properties(), TerritoryEnvironment.defaultEnvironment, TerritoryTest::new
 	),
 	
 	DEBUG_TEST_2(
