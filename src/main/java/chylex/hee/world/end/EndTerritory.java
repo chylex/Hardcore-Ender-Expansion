@@ -119,7 +119,7 @@ public enum EndTerritory{
 		return new ChunkCoordIntPair(chunkOffX+chunkOffset,chunkOffZ+chunkOffset);
 	}
 	
-	public Pos generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand, EnumSet<?> variations){
+	public Pos generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand, EnumSet<? extends Enum<?>> variations){
 		for(int chunkX = 0; chunkX < chunkSize; chunkX++){
 			for(int chunkZ = 0; chunkZ < chunkSize; chunkZ++){
 				world.getChunkFromChunkCoords(startPoint.chunkXPos+chunkX,startPoint.chunkZPos+chunkZ);
@@ -138,7 +138,7 @@ public enum EndTerritory{
 		return spawnPos;
 	}
 	
-	public Pos generateTerritory(int index, World world, Random rand, EnumSet<?> variations){
+	public Pos generateTerritory(int index, World world, Random rand, EnumSet<? extends Enum<?>> variations){
 		return generateTerritory(getStartPoint(index),world,rand,variations);
 	}
 	

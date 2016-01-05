@@ -47,7 +47,7 @@ public class ItemPortalToken extends Item{
 		return is.getItemDamage() == 1;
 	}
 	
-	public static final EnumSet<?> getVariations(ItemStack is){
+	public static final EnumSet<? extends Enum<?>> getVariations(ItemStack is){
 		EndTerritory territory = getTerritory(is);
 		if (territory == null)return EmptyEnumSet.get();
 		
