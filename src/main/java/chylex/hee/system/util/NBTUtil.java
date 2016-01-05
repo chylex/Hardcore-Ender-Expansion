@@ -1,5 +1,6 @@
 package chylex.hee.system.util;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -58,6 +59,33 @@ public final class NBTUtil{
 			NBTTagCompound itemTag = list.getCompoundTagAt(slot);
 			inv.setInventorySlotContents(itemTag.getByte("_"),ItemStack.loadItemStackFromNBT(itemTag));
 		}
+	}
+	
+	public static NBTTagCompound createCallbackTag(NBTTagCompound nbt, Runnable callback){
+		return new NBTTagCompoundCallback(callback,nbt);
+	}
+	
+	private static final class NBTTagCompoundCallback extends NBTTagCompound{
+		private final Runnable callback;
+		
+		NBTTagCompoundCallback(Runnable callback, NBTTagCompound sourceTag){
+			this.callback = callback;
+			
+			for(String key:(Set<String>)sourceTag.func_150296_c()){
+				super.setTag(key,sourceTag.getTag(key));
+			}
+		}
+		
+		@Override public void setTag(String key, NBTBase value){ super.setTag(key,value); callback.run(); }
+		@Override public void setByte(String key, byte value){ super.setByte(key,value); callback.run(); }
+		@Override public void setShort(String key, short value){ super.setShort(key,value); callback.run(); }
+		@Override public void setInteger(String key, int value){ super.setInteger(key,value); callback.run(); }
+		@Override public void setLong(String key, long value){ super.setLong(key,value); callback.run(); }
+		@Override public void setFloat(String key, float value){ super.setFloat(key,value); callback.run(); }
+		@Override public void setDouble(String key, double value){ super.setDouble(key,value); callback.run(); }
+		@Override public void setString(String key, String value){ super.setString(key,value); callback.run(); }
+		@Override public void setByteArray(String key, byte[] value){ super.setByteArray(key,value); callback.run(); }
+		@Override public void setIntArray(String key, int[] value){ super.setIntArray(key,value); callback.run(); }
 	}
 	
 	private NBTUtil(){}
