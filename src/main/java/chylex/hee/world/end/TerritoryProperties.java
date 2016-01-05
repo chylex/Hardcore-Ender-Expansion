@@ -1,16 +1,20 @@
 package chylex.hee.world.end;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Random;
 import javax.annotation.Nullable;
 import chylex.hee.system.collections.EmptyEnumSet;
 import chylex.hee.system.collections.weight.WeightedMap;
+import chylex.hee.world.end.tick.ITerritoryBehavior;
 import chylex.hee.world.util.IRangeGenerator;
 import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 import chylex.hee.world.util.RandomAmount;
 
 public abstract class TerritoryProperties<T extends Enum<T>>{
-	public static final TerritoryProperties defaultProperties = new TerritoryProperties(){};
+	public static final TerritoryProperties defaultProperties = new TerritoryProperties(){
+		@Override public void setupBehaviorList(List list, EnumSet variations, boolean isRare){}
+	};
 	
 	private final @Nullable Class<T> variationClass;
 	private final WeightedMap<T> variationsCommon = new WeightedMap<>(4);
@@ -64,6 +68,8 @@ public abstract class TerritoryProperties<T extends Enum<T>>{
 	}
 	
 	// HANDLING
+	
+	public abstract void setupBehaviorList(List<ITerritoryBehavior> list, EnumSet<T> variations, boolean isRare);
 	
 	public int generateVariationsSerialized(Random rand, boolean isRare){
 		if (variationClass == null || (isRare && variationAmountRare == null) || (!isRare && variationAmountCommon == null))return 0;
