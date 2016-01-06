@@ -1,4 +1,5 @@
 package chylex.hee.world.end;
+import java.util.EnumSet;
 import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Vec3;
@@ -11,6 +12,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class TerritoryEnvironment{
 	public static final TerritoryEnvironment defaultEnvironment = new TerritoryEnvironment(){};
+	
+	@SideOnly(Side.CLIENT)
+	protected static EnumSet<? extends Enum<?>> currentVariations;
+
+	@SideOnly(Side.CLIENT)
+	public static final void updateCurrentVariations(EnumSet<? extends Enum<?>> newVariations){
+		currentVariations = newVariations;
+	}
 	
 	@SideOnly(Side.CLIENT)
 	protected static final float getRenderDistanceMp(){

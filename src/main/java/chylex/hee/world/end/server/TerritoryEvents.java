@@ -1,10 +1,16 @@
 package chylex.hee.world.end.server;
 import gnu.trove.map.hash.TLongObjectHashMap;
+import gnu.trove.map.hash.TObjectLongHashMap;
 import gnu.trove.set.TLongSet;
 import gnu.trove.set.hash.TLongHashSet;
+import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import org.apache.commons.lang3.tuple.Pair;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.global.WorldFile;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C13TerritoryInfo;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.damage.Damage;
 import chylex.hee.system.abstractions.damage.IDamageModifier;
@@ -26,6 +32,7 @@ public final class TerritoryEvents{
 	}
 	
 	private final TLongObjectHashMap<TerritoryTicker> activeTickers = new TLongObjectHashMap<>(8);
+	private final TObjectLongHashMap<UUID> currentTerritory = new TObjectLongHashMap<>();
 	private int tickLimiter;
 	
 	private TerritoryEvents(){}
@@ -73,6 +80,11 @@ public final class TerritoryEvents{
 				
 				if (activeTickers.containsKey(hash))toDeactivate.remove(hash);
 				else activeTickers.put(hash,new TerritoryTicker(data.getRight(),data.getLeft(),hash));
+				
+				if (currentTerritory.get(player.getUniqueID()) != hash){
+					currentTerritory.put(player.getUniqueID(),hash);
+					PacketPipeline.sendToPlayer(player,new C13TerritoryInfo(data.getRight(),SaveData.global(WorldFile.class).getTerritoryVariations(hash)));
+				}
 			}
 			
 			toDeactivate.forEach(hash -> {
