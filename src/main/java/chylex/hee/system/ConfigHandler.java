@@ -10,7 +10,6 @@ import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentText;
 import chylex.hee.mechanics.misc.StardustDecomposition;
-import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.sound.MusicManager;
@@ -112,7 +111,6 @@ public final class ConfigHandler{
 			BiomeGenHardcoreEnd.overrideWorldGen = getBool("overrideWorldGen", false, "Prevents other mods from adding worldgen features to the End.").setRequiresMcRestart(true).getBoolean();
 			BiomeGenHardcoreEnd.overrideMobLists = getBool("overrideBiomeMobs", false, "Prevents other mods from changing mobs that spawn in the End.").setRequiresMcRestart(true).getBoolean();
 			BiomeGenHardcoreEnd.overworldEndermanMultiplier = (float)getDecimal("overworldEndermanMultiplier", 1F, "Multiplies spawn weight of Endermen for each overworld biome.").setRequiresMcRestart(true).getDouble();
-			OrbAcquirableItems.overrideRemoveBrokenRecipes = getBool("overrideRemoveBrokenRecipes", false, "This will remove broken recipes that would normally crash the game. ALWAYS REPORT THE RECIPES TO THE AUTHORS OF THE BROKEN MODS FIRST!").setShowInGui(false).getBoolean();
 			ModCommonProxy.achievementStartId = getInt("achievementStartId", 3500, "Starting ID of achievements, only change this if there is a conflict.").setShowInGui(false).getInt();
 			StardustDecomposition.addFromString(getString("decompositionBlacklist", "", "Blacklist of items that should not be decomposable or decomposed into. Visit http://hee.chylex.com/config for syntax and examples.").setRequiresMcRestart(true).getString());
 			StardustDecomposition.addFromString("minecraft:fire, ExtraUtilities:unstableingot, witchery:*");

@@ -26,15 +26,10 @@ import chylex.hee.system.util.DragonUtil;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class OrbAcquirableItems{
-	public static boolean overrideRemoveBrokenRecipes = false;
 	public static final WeightedItemList idList = new WeightedItemList();
-	
-	private static final String errorMessage = "A defective recipe has crashed the game! Another mod is creating recipes with non-existent blocks or items, which is a serious error that will cause item or even world loss when crafting these recipes. Corrupted recipes have been saved in the log with tag [HEE-ORB], please try to find which mod they belong to and report them to the respective modder. Then enable the 'overrideRemoveBrokenRecipes' option in Hardcore Ender Expansion and the game will start.";
 	
 	public static void initialize(){
 		Stopwatch.time("OrbAcquirableItems");
-		
-		boolean proceed = true;
 		
 		for(BiomeGenBase biome:BiomeGenBase.getBiomeGenArray()){
 			if (biome == null)continue;
@@ -43,8 +38,6 @@ public final class OrbAcquirableItems{
 			idList.add(new WeightedItem(biome.topBlock,0,34));
 			idList.add(new WeightedItem(biome.fillerBlock,0,34));
 		}
-		
-		Throwable lastThrowable = null;
 		
 		for(Iterator<Entry<ItemStack,ItemStack>> iter = FurnaceRecipes.smelting().getSmeltingList().entrySet().iterator(); iter.hasNext();){
 			Entry<ItemStack,ItemStack> entry = iter.next();
@@ -55,9 +48,7 @@ public final class OrbAcquirableItems{
 				idList.add(new WeightedItem(entry.getValue().getItem(),0,weight));
 			}catch(Throwable t){
 				Log.error("[HEE-ORB] Corrupted furnace recipe: $0 <= $1",toString(entry.getValue()),toString(entry.getKey()));
-				if (overrideRemoveBrokenRecipes)iter.remove();
-				lastThrowable = t;
-				proceed = false;
+				iter.remove();
 			}
 		}
 			
@@ -112,16 +103,8 @@ public final class OrbAcquirableItems{
 				else if (cls == ShapedOreRecipe.class)Log.error("[HEE-ORB] Corrupted shaped ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapedOreRecipe)recipe).getInput()));
 				else if (cls == ShapelessOreRecipe.class)Log.error("[HEE-ORB] Corrupted shapeless ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapelessOreRecipe)recipe).getInput()));
 				
-				if (overrideRemoveBrokenRecipes)iter.remove();
-				lastThrowable = t;
-				proceed = false;
+				iter.remove();
 			}
-		}
-		
-		if (!proceed && !overrideRemoveBrokenRecipes){
-			RuntimeException e = new RuntimeException(errorMessage);
-			e.setStackTrace(lastThrowable.getStackTrace());
-			throw e;
 		}
 		
 		/*
