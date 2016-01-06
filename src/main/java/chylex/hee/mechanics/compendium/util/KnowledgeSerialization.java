@@ -24,26 +24,34 @@ public final class KnowledgeSerialization{
 	private static final BiMap<Character,Class<? extends IObjectHolder<?>>> types = HashBiMap.create(4);
 	private static final Map<Class<? extends IObjectHolder<?>>,IObjectSerializer<?>> handlers = new HashMap<>(4,1F);
 	
+	private static String writeIdentifier(String identifier){
+		return StringUtils.replaceOnce(identifier,"HardcoreEnderExpansion:","~");
+	}
+	
+	private static String readIdentifier(String identifier){
+		return StringUtils.replaceOnce(identifier,"~","HardcoreEnderExpansion:");
+	}
+	
 	static{
 		register('b',ObjectBlock.class,
 			obj -> {
 				UniqueIdentifier id = GameRegistryUtil.findIdentifier(obj.block);
-				return id.modId+":"+id.name+"/"+obj.meta;
+				return writeIdentifier(id.modId+":"+id.name)+"/"+obj.meta;
 			},
 			line -> {
 				String[] data = StringUtils.split(line,'/');
-				return data.length == 2 ? new BlockInfo(GameData.getBlockRegistry().getObject(data[0]),DragonUtil.tryParse(data[1],ObjectBlock.wildcard)) : null;
+				return data.length == 2 ? new BlockInfo(GameData.getBlockRegistry().getObject(readIdentifier(data[0])),DragonUtil.tryParse(data[1],ObjectBlock.wildcard)) : null;
 			}
 		);
 		
 		register('i',ObjectItem.class,
 			obj -> {
 				UniqueIdentifier id = GameRegistryUtil.findIdentifier(obj.getItem());
-				return id.modId+":"+id.name+"/"+obj.getItemDamage();
+				return writeIdentifier(id.modId+":"+id.name)+"/"+obj.getItemDamage();
 			},
 			line -> {
 				String[] data = StringUtils.split(line,'/');
-				return data.length == 2 ? new ItemStack(GameData.getItemRegistry().getObject(data[0]),1,DragonUtil.tryParse(data[1],ObjectItem.wildcard)) : null;
+				return data.length == 2 ? new ItemStack(GameData.getItemRegistry().getObject(readIdentifier(data[0])),1,DragonUtil.tryParse(data[1],ObjectItem.wildcard)) : null;
 			}
 		);
 		
