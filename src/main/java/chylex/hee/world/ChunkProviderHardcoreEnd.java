@@ -1,4 +1,5 @@
 package chylex.hee.world;
+import java.util.ConcurrentModificationException;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -55,8 +56,12 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 		if (!BiomeGenHardcoreEnd.overrideWorldGen)MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Pre(chunkProvider,world,randCopy,x,z,false));
 		
 		if (world.provider.dimensionId == 1){
-			islandGen.generateStructuresInChunk(world,randCopy,x,z);
-			towerGen.generateStructuresInChunk(world,randCopy,x,z);
+			try{
+				islandGen.generateStructuresInChunk(world,randCopy,x,z);
+				towerGen.generateStructuresInChunk(world,randCopy,x,z);
+			}catch(ConcurrentModificationException e){
+				e.printStackTrace(); // I have no fucking clue
+			}
 		}
 
 		((BiomeGenHardcoreEnd)BiomeGenBase.sky).decorate(world,randCopy,x*16,z*16);
