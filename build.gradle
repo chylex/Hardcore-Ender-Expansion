@@ -31,7 +31,7 @@ minecraft {
 
 task createResourcePack(type: Zip){
     from "music"
-    archiveName "HardcoreEnderExpansion  Music  v1.0.zip"
+    archiveName "HEE Music v1.0.zip"
     destinationDir = file("build/libs")
 }
 
