@@ -7,8 +7,10 @@ import chylex.hee.world.end.EndTerritory;
 import chylex.hee.world.end.TerritoryGenerator;
 import chylex.hee.world.end.TerritoryProperties;
 import chylex.hee.world.end.tick.ITerritoryBehavior;
+import chylex.hee.world.end.tick.TerritoryBehaviorTest;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.util.BoundingBox;
+import chylex.hee.world.util.RandomAmount;
 
 public class TerritoryTest extends TerritoryGenerator{
 	public TerritoryTest(EndTerritory territory, EnumSet variations, StructureWorld world, Random rand){
@@ -36,15 +38,17 @@ public class TerritoryTest extends TerritoryGenerator{
 			
 			addCommonVariation(Variations.VAR1,10);
 			addCommonVariation(Variations.VAR2,5);
+			setCommonAmount(RandomAmount.linear);
 			
 			addRareVariation(Variations.VAR1,10);
 			addRareVariation(Variations.VAR2,5);
 			addRareVariation(Variations.VAR3,5);
+			setRareAmount(RandomAmount.linear);
 		}
 		
 		@Override
 		public void setupBehaviorList(List<ITerritoryBehavior> list, EnumSet<Variations> variations, boolean isRare){
-			
+			list.add(new TerritoryBehaviorTest());
 		}
 	}
 }
