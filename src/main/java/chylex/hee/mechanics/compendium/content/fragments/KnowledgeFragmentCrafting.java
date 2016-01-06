@@ -1,15 +1,11 @@
 package chylex.hee.mechanics.compendium.content.fragments;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.stream.IntStream;
+import javax.annotation.Nullable;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
-import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
@@ -17,9 +13,10 @@ import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.RecipeUnifier;
+import chylex.hee.system.util.RecipeUnifier.Recipe;
 import com.google.common.base.Joiner;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -27,84 +24,83 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 	public static final ItemStack lockedItem = new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark);
 	
-	private static final Map<KnowledgeFragmentCrafting,Pair<ItemStack,ItemStack[]>> tmpCraftingFragments = new HashMap<>();
-	
-	public static void verifyRecipes(){
-		for(Entry<KnowledgeFragmentCrafting,Pair<ItemStack,ItemStack[]>> entry:tmpCraftingFragments.entrySet()){
-			KnowledgeFragmentCrafting fragment = entry.getKey();
-			IRecipe prevRecipe = fragment.referenceRecipe;
-			fragment.setRecipeFromRegistry(entry.getValue().getLeft(),entry.getValue().getRight());
+	private static Recipe findRecipe(ItemStack outputToFind, @Nullable ItemStack[] matchIngredients){
+		List<IRecipe> list = CraftingManager.getInstance().getRecipeList();
+		
+		for(int a = list.size()-1; a >= 0; a--){
+			IRecipe recipe = list.get(a);
 			
-			if (fragment.referenceRecipe == null)fragment.status = 2;
-			else if (fragment.referenceRecipe != prevRecipe)fragment.status = 1;
+			if (ItemStack.areItemStacksEqual(outputToFind,recipe.getRecipeOutput())){
+				Recipe unified = new RecipeUnifier().unify(recipe);
+				ItemStack[] ingredients = unified.getIngredientArray();
+				
+				if (matchIngredients == null)return unified;
+				else if (matchIngredients.length == ingredients.length && IntStream.range(0,ingredients.length).allMatch(index ->
+					ingredients[index].getItem() == matchIngredients[index].getItem() &&
+					ingredients[index].getItemDamage() == matchIngredients[index].getItemDamage()
+				))return unified;
+			}
 		}
 		
-		tmpCraftingFragments.clear();
+		return null;
 	}
 	
-	private IRecipe referenceRecipe;
-	private ItemStack[] items;
-	private byte status; // 0 = ok, 1 = changed, 2 = removed
+	private enum Status{
+		UNVERIFIED, FINE, CHANGED, REMOVED
+	}
+	
+	private ItemStack findOutput;
+	private ItemStack[] findIngredients;
+	
+	private ItemStack[] ingredients;
+	private ItemStack output;
+	private Status status;
 	
 	public KnowledgeFragmentCrafting(int globalID){
 		super(globalID);
 	}
 	
-	private KnowledgeFragmentCrafting setRecipe(IRecipe recipe, ItemStack[] ingredients){
-		this.referenceRecipe = recipe;
-		items = new ItemStack[10];
-		for(int a = 0; a < 9 && a < ingredients.length; a++)items[a] = ingredients[a];
-		items[9] = recipe.getRecipeOutput();
+	public KnowledgeFragmentCrafting setRecipe(ItemStack outputToFind){
+		return setRecipe(outputToFind,null);
+	}
+	
+	public KnowledgeFragmentCrafting setRecipe(ItemStack outputToFind, @Nullable ItemStack[] matchIngredients){
+		this.findOutput = outputToFind;
+		this.findIngredients = matchIngredients;
+		
+		Recipe recipe = findRecipe(outputToFind,matchIngredients);
+		
+		if (recipe != null){
+			this.ingredients = recipe.getIngredientArray();
+			this.output = recipe.getOutput();
+			this.status = Status.UNVERIFIED;
+		}
+		else Log.warn("Could not find ItemStack $0 when registering recipe from registry.",outputToFind.toString());
+		
 		return this;
 	}
 	
-	public KnowledgeFragmentCrafting setRecipeFromRegistry(ItemStack outputToFind){
-		return setRecipeFromRegistry(outputToFind,null);
-	}
-	
-	public KnowledgeFragmentCrafting setRecipeFromRegistry(ItemStack outputToFind, ItemStack[] ingredients){
-		this.referenceRecipe = null;
-		this.items = null;
+	private void verifyRecipe(){
+		if (status != Status.UNVERIFIED)return;
 		
-		List<IRecipe> list = CraftingManager.getInstance().getRecipeList();
-		tmpCraftingFragments.put(this,Pair.of(outputToFind,ingredients));
+		Recipe recipe = findRecipe(findOutput,findIngredients);
 		
-		for(int a = list.size()-1; a >= 0; a--){
-			IRecipe recipe = list.get(a);
-			
-			if (!ItemStack.areItemStacksEqual(outputToFind,recipe.getRecipeOutput()))continue;
-			else if (recipe instanceof ShapedRecipes){
-				ItemStack[] recipeIngredients = ((ShapedRecipes)recipe).recipeItems;
-				if (checkIngredients(recipeIngredients,ingredients))return setRecipe(recipe,recipeIngredients);
-			}
-			else if (recipe instanceof ShapelessRecipes){
-				ItemStack[] recipeIngredients = ((List<ItemStack>)((ShapelessRecipes)recipe).recipeItems).toArray(new ItemStack[recipe.getRecipeSize()]);
-				if (checkIngredients(recipeIngredients,ingredients))return setRecipe(recipe,recipeIngredients);
-			}
+		if (recipe == null){
+			this.status = Status.REMOVED;
+			this.output = null;
+			this.ingredients = null;
+			return;
 		}
-		
-		Log.warn("Could not find ItemStack $0 when registering recipe from registry.",outputToFind.toString());
-		return this;
-	}
-	
-	private boolean checkIngredients(ItemStack[] recipe, ItemStack[] target){
-		if (target == null)return true;
-		if (recipe.length != target.length)return false;
-		
-		int matching = 0;
-		
-		for(int recipeIndex = 0; recipeIndex < recipe.length; recipeIndex++){
-			for(int targetIndex = 0; targetIndex < target.length; targetIndex++){
-				ItemStack recipeIS = recipe[recipeIndex], targetIS = target[targetIndex];
-				
-				if (recipeIS.getItem() == targetIS.getItem() && recipeIS.getItemDamage() == targetIS.getItemDamage()){
-					++matching;
-					break;
-				}
-			}
+		else if (ItemStack.areItemStacksEqual(recipe.getOutput(),output) && ingredients != null && ingredients.length == recipe.getIngredientArray().length &&
+				IntStream.range(0,ingredients.length).allMatch(index -> ItemStack.areItemStacksEqual(ingredients[index],recipe.getIngredientArray()[index]))){
+				status = Status.FINE;
+				return;
 		}
-		
-		return matching == recipe.length;
+		else{
+			this.ingredients = recipe.getIngredientArray();
+			this.output = recipe.getOutput();
+			this.status = Status.CHANGED;
+		}
 	}
 	
 	@Override
@@ -116,25 +112,15 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId, boolean isUnlocked){
-		if (items == null || !isUnlocked || buttonId != 0)return false;
+		if (ingredients == null || output == null || !isUnlocked || buttonId != 0)return false;
 		
-		for(int a = 0, xx = x, yy = y, cnt = 0; a < 10; a++){
-			if (items[a] != null && mouseX >= xx+1 && mouseX <= xx+18 && mouseY >= yy+1 && mouseY <= yy+18){
-				KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = KnowledgeUtils.tryGetFromItemStack(items[a]);
-				if (obj == null)return false;
-				
-				gui.showObject(obj);
-				gui.moveToCurrentObject(true);
-				return true;
+		KnowledgeObject<?> obj = null;
+		
+		for(int a = 0, cnt = 0, xx = x, yy = y; a < ingredients.length; a++, xx += 19){
+			if (ingredients[a] != null){
+				obj = KnowledgeUtils.tryGetFromItemStack(ingredients[a]);
+				break;
 			}
-
-			if (a == 8){
-				xx = x+94;
-				yy = y+19;
-				continue;
-			}
-
-			xx += 19;
 			
 			if (++cnt >= 3){
 				yy += 19;
@@ -143,7 +129,14 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 			}
 		}
 		
-		return false;
+		if (checkRect(mouseX,mouseY,x+95,y+20,17,17))obj = KnowledgeObject.getObject(output);
+		
+		if (obj != null){
+			gui.showObject(obj);
+			gui.moveToCurrentObject(true);
+			return true;
+		}
+		else return false;
 	}
 
 	@Override
@@ -154,36 +147,28 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragments);
 		gui.drawTexturedModalRect(x,y,0,0,88,58);
 		
-		if (status > 0){
-			boolean unicode = gui.mc.fontRenderer.getUnicodeFlag();
+		verifyRecipe();
+		
+		if (status != Status.FINE){
 			gui.mc.fontRenderer.drawString("?",x+107,y+8,255<<24);
-			gui.mc.fontRenderer.setUnicodeFlag(unicode);
 			
-			if (mouseX >= x+106 && mouseY >= y+7 && mouseX <= x+112 && mouseY <= y+16){
-				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,I18n.format(status == 1 ? "compendium.crafting.changed" : "compendium.crafting.removed"));
+			if (checkRect(mouseX,mouseY,x+106,y+7,6,9)){
+				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,I18n.format(status == Status.CHANGED ? "compendium.crafting.changed" : "compendium.crafting.removed"));
 			}
 		}
 		
-		if (items == null)return;
+		if (ingredients == null || output == null)return;
 		
-		for(int a = 0, xx = x, yy = y, cnt = 0; a < 10; a++){
-			ItemStack is = isUnlocked ? items[a] : lockedItem;
-			
-			if (is != null){
+		ItemStack is;
+		
+		for(int a = 0, cnt = 0, xx = x, yy = y; a < (isUnlocked ? ingredients.length : 9); a++, xx += 19){
+			if ((is = isUnlocked ? ingredients[a] : lockedItem) != null){
 				GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,xx+2,yy+2);
 				
-				if (isUnlocked && mouseX >= xx+1 && mouseX <= xx+18 && mouseY >= yy+1 && mouseY <= yy+18){
+				if (isUnlocked && checkRect(mouseX,mouseY,xx+1,yy+1,17,17)){
 					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(is,gui.mc.thePlayer)));
 				}
 			}
-
-			if (a == 8){
-				xx = x+94;
-				yy = y+19;
-				continue;
-			}
-
-			xx += 19;
 			
 			if (++cnt >= 3){
 				yy += 19;
@@ -191,5 +176,15 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 				cnt = 0;
 			}
 		}
+		
+		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),output,x+96,y+21);
+		
+		if (isUnlocked && checkRect(mouseX,mouseY,x+95,y+20,17,17)){
+			GuiItemRenderHelper.setupTooltip(mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(output,gui.mc.thePlayer)));
+		}
+	}
+	
+	private static final boolean checkRect(int mouseX, int mouseY, int x, int y, int w, int h){
+		return mouseX >= x && mouseY >= y && mouseX <= x+w && mouseY <= y+h;
 	}
 }

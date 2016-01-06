@@ -75,7 +75,7 @@ public final class KnowledgeUtils{
 		int a = 0;
 		
 		for(CurseType type:CurseType.values()){
-			fragments.add(new KnowledgeFragmentCrafting(startID+(a++)).setRecipeFromRegistry(new ItemStack(ItemList.curse,8,type.damage)).setPrice(3).setUnlockRequirements(requiredFragment));
+			fragments.add(new KnowledgeFragmentCrafting(startID+(a++)).setRecipe(new ItemStack(ItemList.curse,8,type.damage)).setPrice(3).setUnlockRequirements(requiredFragment));
 		}
 		
 		return fragments.toArray(new KnowledgeFragment[fragments.size()]);
