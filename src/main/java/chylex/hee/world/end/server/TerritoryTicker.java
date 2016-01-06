@@ -17,11 +17,13 @@ public final class TerritoryTicker{
 	private final List<ITerritoryBehavior> behaviorList = new ArrayList<>(4);
 	
 	public TerritoryTicker(EndTerritory territory, Pos centerPos, long hash){
+		WorldFile file = SaveData.global(WorldFile.class);
+		
 		this.territory = territory;
 		this.centerPos = centerPos;
-		this.nbt = SaveData.global(WorldFile.class).getTerritoryData(hash);
+		this.nbt = file.getTerritoryData(hash);
 		
-		// TODO territory.properties.setupBehaviorList(behaviorList,variations,isRare);
+		territory.properties.setupBehaviorList(behaviorList,file.getTerritoryVariations(hash),file.isTerritoryRare(hash));
 	}
 	
 	public void onTick(World world){

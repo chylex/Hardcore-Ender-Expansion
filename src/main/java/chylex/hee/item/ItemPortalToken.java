@@ -67,6 +67,7 @@ public class ItemPortalToken extends Item{
 		final EnumSet<? extends Enum<?>> variations = getVariations(is);
 		
 		file.setTerritoryVariations(territory,index,variations);
+		if (isRare(is))file.setTerritoryRare(territory,index);
 		
 		Pos spawnPos = territory.generateTerritory(index,world,territory.createRandom(world.getSeed(),index),variations);
 		nbt.setLong("tpos",spawnPos.toLong());
