@@ -439,7 +439,7 @@ public final class CharmEvents{
 	 */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onItemDestroyed(PlayerDestroyItemEvent e){
-		if (e.entity.worldObj.isRemote)return;
+		if (e.entity == null || e.entity.worldObj == null || e.entity.worldObj.isRemote)return; // NPE checks for some Thaumcraft bullshit
 		
 		// SECOND_DURABILITY
 		if (e.original.isItemStackDamageable() && e.original.getItem().isRepairable()){
