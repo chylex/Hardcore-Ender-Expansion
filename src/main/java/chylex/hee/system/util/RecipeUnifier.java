@@ -2,31 +2,42 @@ package chylex.hee.system.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import chylex.hee.system.collections.CollectionUtil;
+import chylex.hee.system.J8;
+import com.google.common.base.Function;
 
 /**
  * Converts the current IRecipe mess into a unified system.
  */
 public final class RecipeUnifier{
-	private static final Function<? super Object,? extends ItemStack> mapToItemStack = obj -> {
-		if (obj instanceof ItemStack)return (ItemStack)obj;
-		else if (obj instanceof ArrayList && !((ArrayList)obj).isEmpty())return (ItemStack)((ArrayList)obj).get(0);
-		else return null;
+	private static final Function<Object,ItemStack> mapToItemStack = new Function<Object,ItemStack>(){
+		@Override
+		public ItemStack apply(Object obj){
+			if (obj instanceof ItemStack)return (ItemStack)obj;
+			else if (obj instanceof ArrayList && !((ArrayList)obj).isEmpty())return (ItemStack)((ArrayList)obj).get(0);
+			else return null;
+		}
 	};
 	
-	private static final Function<? super Object,? extends ItemStack[]> mapToOreStack = obj -> {
-		if (obj instanceof ItemStack)return new ItemStack[]{ (ItemStack)obj };
-		else if (obj instanceof ArrayList)return ((ArrayList<ItemStack>)obj).toArray(new ItemStack[((ArrayList)obj).size()]);
-		else return new ItemStack[0];
+	private static final Function<Object,ItemStack[]> mapToOreStack = new Function<Object,ItemStack[]>(){
+		@Override
+		public ItemStack[] apply(Object obj){
+			if (obj instanceof ItemStack)return new ItemStack[]{ (ItemStack)obj };
+			else if (obj instanceof ArrayList)return ((ArrayList<ItemStack>)obj).toArray(new ItemStack[((ArrayList)obj).size()]);
+			else return new ItemStack[0];
+		}
+	};
+	
+	private static final Function<ItemStack,ItemStack[]> mapItemStackToArray = new Function<ItemStack,ItemStack[]>(){
+		@Override
+		public ItemStack[] apply(ItemStack is){
+			return is == null ? new ItemStack[0] : new ItemStack[]{ is };
+		}
 	};
 	
 	private boolean align, pad;
@@ -78,18 +89,18 @@ public final class RecipeUnifier{
 			ingredients = ((List<ItemStack>)((ShapelessRecipes)recipe).recipeItems).toArray(new ItemStack[shapeless.recipeItems.size()]);
 		}
 		else if (recipe instanceof ShapedOreRecipe){
-			ingredients = Arrays.stream(((ShapedOreRecipe)recipe).getInput()).map(mapToItemStack).toArray(ItemStack[]::new);
-			oreIngredients = Arrays.stream(((ShapedOreRecipe)recipe).getInput()).map(mapToOreStack).collect(Collectors.toList());
+			ingredients = J8.toArray(J8.mapArray(((ShapedOreRecipe)recipe).getInput(),mapToItemStack),ItemStack.class);
+			oreIngredients = J8.mapArray(((ShapedOreRecipe)recipe).getInput(),mapToOreStack);
 			isShaped = true;
 		}
 		else if (recipe instanceof ShapelessOreRecipe){
-			ingredients = ((ShapelessOreRecipe)recipe).getInput().stream().map(mapToItemStack).toArray(ItemStack[]::new);
-			oreIngredients = ((ShapelessOreRecipe)recipe).getInput().stream().map(mapToOreStack).collect(Collectors.toList());
+			ingredients = J8.toArray(J8.mapList(((ShapelessOreRecipe)recipe).getInput(),mapToItemStack),ItemStack.class);
+			oreIngredients = J8.mapList(((ShapelessOreRecipe)recipe).getInput(),mapToOreStack);
 		}
 		
 		if (align && ingredients != null){
-			ingredients = Arrays.stream(ingredients).filter(Objects::nonNull).toArray(ItemStack[]::new);
-			if (oreIngredients != null)oreIngredients = oreIngredients.stream().filter(Objects::nonNull).collect(Collectors.toList());
+			ingredients = DragonUtil.getNonNullValues(ingredients);
+			if (oreIngredients != null)oreIngredients = J8.filterList(oreIngredients,J8.nonNull);
 		}
 		
 		if (pad && ingredients != null){
@@ -156,7 +167,7 @@ public final class RecipeUnifier{
 		 * The returned list never contains null, missing/empty ingredients use an empty array instead.
 		 */
 		public List<ItemStack[]> getOreIngredientList(){
-			return oreIngredients != null ? oreIngredients : Arrays.stream(ingredients).map(is -> is == null ? new ItemStack[0] : new ItemStack[]{ is }).collect(Collectors.toList());
+			return oreIngredients != null ? oreIngredients : J8.mapArray(ingredients,mapItemStackToArray);
 		}
 	}
 }

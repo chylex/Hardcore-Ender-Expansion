@@ -1,6 +1,5 @@
 package chylex.hee.mechanics.compendium.content.fragments;
 import java.util.List;
-import java.util.stream.IntStream;
 import javax.annotation.Nullable;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
@@ -14,17 +13,19 @@ import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
+import chylex.hee.system.J8;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.RecipeUnifier;
 import chylex.hee.system.util.RecipeUnifier.Recipe;
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 	public static final ItemStack lockedItem = new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark);
 	
-	private static Recipe findRecipe(ItemStack outputToFind, @Nullable ItemStack[] matchIngredients){
+	private static Recipe findRecipe(ItemStack outputToFind, @Nullable final ItemStack[] matchIngredients){
 		List<IRecipe> list = CraftingManager.getInstance().getRecipeList();
 		
 		for(int a = list.size()-1; a >= 0; a--){
@@ -32,13 +33,16 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 			
 			if (ItemStack.areItemStacksEqual(outputToFind,recipe.getRecipeOutput())){
 				Recipe unified = new RecipeUnifier().unify(recipe);
-				ItemStack[] ingredients = unified.getIngredientArray();
+				final ItemStack[] ingredients = unified.getIngredientArray();
 				
 				if (matchIngredients == null)return unified;
-				else if (matchIngredients.length == ingredients.length && IntStream.range(0,ingredients.length).allMatch(index ->
-					ingredients[index].getItem() == matchIngredients[index].getItem() &&
-					ingredients[index].getItemDamage() == matchIngredients[index].getItemDamage()
-				))return unified;
+				else if (matchIngredients.length == ingredients.length && J8.allMatch(ingredients.length,new Predicate<Integer>(){
+					@Override
+					public boolean apply(Integer index){
+						return ingredients[index].getItem() == matchIngredients[index].getItem() &&
+						       ingredients[index].getItemDamage() == matchIngredients[index].getItemDamage();
+					}
+				}))return unified;
 			}
 		}
 		
@@ -83,7 +87,7 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 	private void verifyRecipe(){
 		if (status != Status.UNVERIFIED)return;
 		
-		Recipe recipe = findRecipe(findOutput,findIngredients);
+		final Recipe recipe = findRecipe(findOutput,findIngredients);
 		
 		if (recipe == null){
 			this.status = Status.REMOVED;
@@ -92,7 +96,12 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 			return;
 		}
 		else if (ItemStack.areItemStacksEqual(recipe.getOutput(),output) && ingredients != null && ingredients.length == recipe.getIngredientArray().length &&
-				IntStream.range(0,ingredients.length).allMatch(index -> ItemStack.areItemStacksEqual(ingredients[index],recipe.getIngredientArray()[index]))){
+				J8.allMatch(ingredients.length,new Predicate<Integer>(){
+					@Override
+					public boolean apply(Integer index){
+						return ItemStack.areItemStacksEqual(ingredients[index],recipe.getIngredientArray()[index]);
+					}
+				})){
 				status = Status.FINE;
 				return;
 		}
