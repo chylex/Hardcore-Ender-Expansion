@@ -1,5 +1,6 @@
 package chylex.hee.world.end;
 import java.util.EnumSet;
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.ToIntFunction;
 import java.util.stream.IntStream;
@@ -13,6 +14,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.entity.EntitySelector;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.EmptyEnumSet;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.ColorUtil;
@@ -119,6 +121,15 @@ public enum EndTerritory{
 		return new ChunkCoordIntPair(chunkOffX+chunkOffset,chunkOffZ+chunkOffset);
 	}
 	
+	public long getHashFromIndex(int index){
+		ChunkCoordIntPair startPoint = getStartPoint(index);
+		return Pos.at(startPoint.chunkXPos*16+chunkSize*8,ordinal(),startPoint.chunkZPos*16+chunkSize*8).toLong();
+	}
+	
+	public long getHashFromPoint(Pos centerPos){
+		return centerPos.offset(0,ordinal()-centerPos.getY(),0).toLong();
+	}
+	
 	public Pos generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand, EnumSet<? extends Enum<?>> variations){
 		for(int chunkX = 0; chunkX < chunkSize; chunkX++){
 			for(int chunkZ = 0; chunkZ < chunkSize; chunkZ++){
@@ -147,6 +158,10 @@ public enum EndTerritory{
 	public static final int chunksBetween = 64; // 1024 blocks
 	public static final int chunkOffset = -THE_HUB.chunkSize/2;
 	public static final EndTerritory[] values = values();
+	
+	public static Optional<EndTerritory> getFromHash(long hash){
+		return CollectionUtil.get(values,Pos.at(hash).getY());
+	}
 	
 	/**
 	 * If you touch this, your pet fish will die.

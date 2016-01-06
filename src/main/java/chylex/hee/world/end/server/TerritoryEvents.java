@@ -69,7 +69,7 @@ public final class TerritoryEvents{
 				Pair<Pos,EndTerritory> data = EndTerritory.findTerritoryCenter(player.posX,player.posZ);
 				if (data == null)continue;
 				
-				final long hash = getTerritoryHash(data);
+				final long hash = data.getRight().getHashFromPoint(data.getLeft());
 				
 				if (activeTickers.containsKey(hash))toDeactivate.remove(hash);
 				else activeTickers.put(hash,new TerritoryTicker(data.getRight(),data.getLeft(),hash));
@@ -80,9 +80,5 @@ public final class TerritoryEvents{
 				return true;
 			});
 		}
-	}
-	
-	private static final long getTerritoryHash(Pair<Pos,EndTerritory> data){
-		return data.getLeft().offset(0,data.getRight().ordinal(),0).toLong();
 	}
 }

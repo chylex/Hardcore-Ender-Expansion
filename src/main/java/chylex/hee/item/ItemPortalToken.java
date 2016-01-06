@@ -61,9 +61,14 @@ public class ItemPortalToken extends Item{
 		EndTerritory territory = getTerritory(is);
 		if (territory == null)return Optional.empty();
 		
-		final int index = SaveData.global(WorldFile.class).increment(territory);
+		WorldFile file = SaveData.global(WorldFile.class);
 		
-		Pos spawnPos = territory.generateTerritory(index,world,territory.createRandom(world.getSeed(),index),getVariations(is));
+		final int index = file.increment(territory);
+		final EnumSet<? extends Enum<?>> variations = getVariations(is);
+		
+		file.setTerritoryVariations(territory,index,variations);
+		
+		Pos spawnPos = territory.generateTerritory(index,world,territory.createRandom(world.getSeed(),index),variations);
 		nbt.setLong("tpos",spawnPos.toLong());
 		return Optional.of(spawnPos);
 	}
