@@ -13,9 +13,9 @@ import javax.annotation.Nullable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagLong;
-import org.apache.commons.lang3.EnumUtils;
 import chylex.hee.game.save.SaveFile;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.EmptyEnumSet;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.NBTUtil;
@@ -80,7 +80,7 @@ public class WorldFile extends SaveFile{
 		NBTTagCompound territoryDataTag = new NBTTagCompound();
 		NBTTagList rareTerritoriesTag = new NBTTagList();
 		
-		for(EndTerritory territory:territories.keySet())territoryTag.setInteger(territory.toString(),territories.get(territory));
+		for(EndTerritory territory:territories.keySet())territoryTag.setInteger(serializeByte((byte)territory.ordinal()),territories.get(territory));
 		
 		for(TLongIntIterator iter = territoryVariations.iterator(); iter.hasNext();){
 			iter.advance();
@@ -113,7 +113,7 @@ public class WorldFile extends SaveFile{
 		NBTTagCompound territoryDataTag = nbt.getCompoundTag("tdata");
 		
 		for(String key:(Set<String>)territoryTag.func_150296_c()){
-			EndTerritory territory = EnumUtils.getEnum(EndTerritory.class,key);
+			EndTerritory territory = CollectionUtil.get(EndTerritory.values,deserializeByte(key)).orElse(null);
 			
 			if (territory == null)Log.reportedError("Unknown territory $0 in WorldFile.",key);
 			else territories.put(territory,territoryTag.getInteger(key));
@@ -128,6 +128,14 @@ public class WorldFile extends SaveFile{
 		}
 		
 		NBTUtil.readNumericList(nbt,"trare").forEach(tag -> rareTerritories.add(tag.func_150291_c()));
+	}
+	
+	private static final String serializeByte(byte value){
+		return new String(new byte[]{ value },StandardCharsets.ISO_8859_1);
+	}
+	
+	private static final byte deserializeByte(String str){
+		return str.getBytes()[0];
 	}
 	
 	private static final String serializeLong(long value){
