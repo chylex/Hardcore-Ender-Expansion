@@ -1,6 +1,5 @@
 package chylex.hee.system.util;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -61,19 +60,15 @@ public final class NBTUtil{
 		}
 	}
 	
-	public static NBTTagCompound createCallbackTag(NBTTagCompound nbt, Runnable callback){
-		return new NBTTagCompoundCallback(callback,nbt);
+	public static NBTTagCompound createCallbackTag(Runnable callback){
+		return new NBTTagCompoundCallback(callback);
 	}
 	
 	private static final class NBTTagCompoundCallback extends NBTTagCompound{
 		private final Runnable callback;
 		
-		NBTTagCompoundCallback(Runnable callback, NBTTagCompound sourceTag){
+		NBTTagCompoundCallback(Runnable callback){
 			this.callback = callback;
-			
-			for(String key:(Set<String>)sourceTag.func_150296_c()){
-				super.setTag(key,sourceTag.getTag(key));
-			}
 		}
 		
 		@Override public void setTag(String key, NBTBase value){ super.setTag(key,value); callback.run(); }
