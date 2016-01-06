@@ -2,6 +2,7 @@ package chylex.hee.gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.helpers.GuiHelper;
 import chylex.hee.mechanics.compendium.handlers.CompendiumPageHandler;
@@ -41,7 +42,7 @@ public class GuiKnowledgeNote extends GuiScreen{
 			boolean origFont = fontRendererObj.getUnicodeFlag();
 			fontRendererObj.setUnicodeFlag(true);
 			
-			String text = I18n.format("compendium.notePoints").replace("$",String.valueOf(addedPoints));
+			String text = StringUtils.replaceOnce(I18n.format("compendium.notePoints"),"$",String.valueOf(addedPoints));
 			GuiHelper.renderUnicodeString(text,(width-fontRendererObj.getStringWidth(text))/2,(height/2)+55,CompendiumPageHandler.innerWidth,255<<24|(32<<16)|(32<<8)|32);
 			
 			fontRendererObj.setUnicodeFlag(origFont);

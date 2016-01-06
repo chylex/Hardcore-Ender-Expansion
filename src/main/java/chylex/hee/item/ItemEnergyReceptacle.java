@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.StringUtils;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.system.abstractions.Pos;
@@ -118,7 +119,7 @@ public class ItemEnergyReceptacle extends Item{
 			float lvl = nbt.getCompoundTag("cluster").getFloat("lvl");
 			float limit = nbt.getCompoundTag("cluster").getFloat("max");
 			long diff = player.worldObj.getTotalWorldTime()-nbt.getLong("ltime");
-			textLines.add(I18n.format("item.energyReceptacle.holding").replace("$",DragonUtil.formatTwoPlaces.format(updateEnergyLevel(lvl,limit,1+(int)(diff/10)))));
+			textLines.add(StringUtils.replaceOnce(I18n.format("item.energyReceptacle.holding"),"$",DragonUtil.formatTwoPlaces.format(updateEnergyLevel(lvl,limit,1+(int)(diff/10)))));
 		}
 	}
 	

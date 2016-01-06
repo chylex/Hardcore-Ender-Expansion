@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.StringUtils;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.player.LoreFile;
 import chylex.hee.mechanics.compendium.content.LoreTexts;
@@ -64,7 +65,7 @@ public class ItemKnowledgeNote extends Item{
 		NBTTagCompound nbt = ItemUtil.getTagRoot(is,false);
 		if (nbt.hasKey("noteCat"))textLines.add(I18n.format("ec.note."+nbt.getString("noteCat")+".title"));
 		
-		if (nbt.hasKey("notePts"))textLines.add(nbt.getByte("notePts") > 0 ? I18n.format("item.knowledgeNote.pts").replace("$",String.valueOf(nbt.getByte("notePts"))) : I18n.format("item.knowledgeNote.used"));
+		if (nbt.hasKey("notePts"))textLines.add(nbt.getByte("notePts") > 0 ? StringUtils.replaceOnce(I18n.format("item.knowledgeNote.pts"),"$",String.valueOf(nbt.getByte("notePts"))) : I18n.format("item.knowledgeNote.used"));
 		else if (nbt.hasKey("pts"))textLines.add(I18n.format("item.knowledgeNote.useless"));
 	}
 	

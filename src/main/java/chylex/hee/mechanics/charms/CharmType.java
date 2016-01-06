@@ -3,6 +3,7 @@ import static chylex.hee.mechanics.charms.RuneType.*;
 import java.util.Locale;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.util.DragonUtil;
 
@@ -184,7 +185,7 @@ public enum CharmType{
 		for(CharmType type:values()){
 			for(CharmRecipe recipe:type.recipes){
 				if (recipe.id == damage){
-					String tooltip = StatCollector.translateToLocal(new StringBuilder().append("item.charm.").append(type.name().toLowerCase(Locale.ENGLISH).replace("_","")).append(".tooltip").toString());
+					String tooltip = StatCollector.translateToLocal(new StringBuilder().append("item.charm.").append(StringUtils.remove(type.name().toLowerCase(Locale.ENGLISH),'_')).append(".tooltip").toString());
 					
 					for(int arg = 0; arg < type.tooltipArgs.length; arg++){
 						String[] args = type.tooltipArgs[arg].split(",");
@@ -203,7 +204,7 @@ public enum CharmType{
 							default: continue;
 						}
 						
-						tooltip = tooltip.replace("$"+arg,replacement);
+						tooltip = StringUtils.replaceOnce(tooltip,"$"+arg,replacement);
 					}
 					
 					if (!type.canBeStacked())tooltip += "\\n"+EnumChatFormatting.DARK_GRAY+StatCollector.translateToLocal("item.charm.cannotstack");

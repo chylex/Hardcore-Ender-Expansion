@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.gui.helpers.GuiAchievementOverlay;
@@ -122,8 +123,8 @@ public final class OverlayManager{
 				
 				if (data != null){
 					drawStringCentered(font,I18n.format("energy.overlay.title"),x,y-40,255,255,255);
-					drawStringCentered(font,I18n.format("energy.overlay.holding").replace("$",DragonUtil.formatTwoPlaces.format(data.getEnergyLevel())),x,y-30,220,220,220);
-					drawStringCentered(font,I18n.format("energy.overlay.regen").replace("$",DragonUtil.formatTwoPlaces.format(data.getMaxLevel())),x,y-20,220,220,220);
+					drawStringCentered(font,StringUtils.replaceOnce(I18n.format("energy.overlay.holding"),"$",DragonUtil.formatTwoPlaces.format(data.getEnergyLevel())),x,y-30,220,220,220);
+					drawStringCentered(font,StringUtils.replaceOnce(I18n.format("energy.overlay.regen"),"$",DragonUtil.formatTwoPlaces.format(data.getMaxLevel())),x,y-20,220,220,220);
 					drawStringCentered(font,I18n.format(data.getHealth().translationText),x,y-10,data.getHealth().color);
 				}
 

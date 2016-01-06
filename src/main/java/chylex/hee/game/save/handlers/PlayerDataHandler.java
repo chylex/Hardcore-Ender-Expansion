@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import org.apache.commons.lang3.StringUtils;
 import chylex.hee.game.save.ISaveDataHandler;
 import chylex.hee.game.save.types.PlayerFile;
 import chylex.hee.system.util.GameRegistryUtil;
@@ -90,7 +91,7 @@ public class PlayerDataHandler implements ISaveDataHandler{
 		
 		@Override
 		public void init(Entity entity, World world){
-			id = UUID.randomUUID().toString().replace("-","");
+			id = StringUtils.remove(UUID.randomUUID().toString(),'-');
 		}
 		
 		@Override

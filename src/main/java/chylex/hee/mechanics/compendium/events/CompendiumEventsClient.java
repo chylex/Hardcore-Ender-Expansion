@@ -10,6 +10,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
+import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import chylex.hee.HardcoreEnderExpansion;
@@ -74,7 +75,7 @@ public class CompendiumEventsClient{
 	
 	public static void displayCompendiumHint(){
 		String title = I18n.format("ec.overlay.hint.title");
-		String desc = I18n.format("ec.overlay.hint.desc").replace("$",GameSettings.getKeyDisplayString(instance.keyOpenCompendium.getKeyCode()));
+		String desc = StringUtils.replaceOnce(I18n.format("ec.overlay.hint.desc"),"$",GameSettings.getKeyDisplayString(instance.keyOpenCompendium.getKeyCode()));
 		
 		OverlayManager.getAchievementOverlay().displayLiteral(title,desc,9000L);
 		instance.displayedHintTime = Minecraft.getSystemTime();
@@ -91,7 +92,7 @@ public class CompendiumEventsClient{
 		
 		AchievementManager.ENDER_COMPENDIUM.setStatStringFormatter(str -> {
 			if (ModCommonProxy.hardcoreEnderbacon)str = StatCollector.translateToLocal("achievement.enderCompendium.desc.bacon");
-			return str.replace("$",GameSettings.getKeyDisplayString(keyOpenCompendium.getKeyCode()));
+			return StringUtils.replaceOnce(str,"$",GameSettings.getKeyDisplayString(keyOpenCompendium.getKeyCode()));
 		});
 	}
 	
@@ -99,7 +100,7 @@ public class CompendiumEventsClient{
 	public void onPlayerLogin(PlayerLoggedInEvent e){
 		for(KeyBinding kb:mc.gameSettings.keyBindings){
 			if (kb != instance.keyOpenCompendium && kb.getKeyCode() == instance.keyOpenCompendium.getKeyCode()){
-				HardcoreEnderExpansion.notifications.report(I18n.format("key.openCompendium.conflict").replace("$",I18n.format(kb.getKeyDescription())));
+				HardcoreEnderExpansion.notifications.report(StringUtils.replaceOnce(I18n.format("key.openCompendium.conflict"),"$",I18n.format(kb.getKeyDescription())));
 				break;
 			}
 		}
