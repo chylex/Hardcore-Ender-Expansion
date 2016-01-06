@@ -75,7 +75,7 @@ public class WorldFile extends SaveFile{
 		
 		for(TLongObjectIterator<NBTTagCompound> iter = territoryData.iterator(); iter.hasNext();){
 			iter.advance();
-			territoryDataTag.setTag(serializeLong(iter.key()),iter.value());
+			if (!iter.value().hasNoTags())territoryDataTag.setTag(serializeLong(iter.key()),iter.value());
 		}
 		
 		nbt.setTag("territories",territoryTag);
