@@ -3,7 +3,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.IdentityHashMap;
-import joptsimple.internal.Objects;
+import java.util.Objects;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -37,9 +37,9 @@ public final class ReflectionPublicizer{
 				}
 			}
 		}
-
-		Objects.ensureNotNull(entityEndermanCarriable);
-		Objects.ensureNotNull(entityLivingBaseGetExperiencePoints);
+		
+		Objects.requireNonNull(entityEndermanCarriable);
+		Objects.requireNonNull(entityLivingBaseGetExperiencePoints);
 
 		Stopwatch.finish("ReflectionPublicizer");
 	}
