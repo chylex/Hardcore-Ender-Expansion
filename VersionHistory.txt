@@ -3,7 +3,7 @@ Release 1.8.5 (1.7.10)
 7 January 2016
 ------------------
 >Important
-Custom music has been moved to a separate resource pack: <a href="http://hee-music.chylex.com">http://hee-music.chylex.com</a>
+Custom music has been moved to a separate resource pack: http://hee-music.chylex.com
 The invalid recipe removal override is now automatically enabled (corrupted recipes will continue to be printed into the log files, but will no longer crash the game)
 
 >Changes
