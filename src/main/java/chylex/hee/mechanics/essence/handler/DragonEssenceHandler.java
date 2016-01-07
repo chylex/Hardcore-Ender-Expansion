@@ -142,9 +142,11 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						world.spawnEntityInWorld(new EntityItemAltar(world,targX,targY,targZ,item,EssenceType.DRAGON.id));
 					}
 				}
-				else if ((updatePedestalTimer&3) == 1 && item instanceof EntityItemAltar && altar.getEssenceLevel() > 0){
+				else if ((updatePedestalTimer&3) == 1 && item instanceof EntityItemAltar){
 					EntityItemAltar altarItem = (EntityItemAltar)item;
 					altarItem.pedestalUpdate = 0;
+					
+					if (altar.getEssenceLevel() > 0){
 					updatePedestalItem(altarItem);
 					
 					if (world.rand.nextInt(5) == 0){
