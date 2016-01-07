@@ -1,14 +1,11 @@
 package chylex.hee.world.structure.island.biome;
-import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.stats.Achievement;
 import chylex.hee.block.BlockEndstoneTerrain;
-import chylex.hee.entity.mob.EntityMobInfestedBat;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionsInfestedForest.InteractionCollapsingTrees;
-import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	public static final BiomeContentVariation DEEP = new BiomeContentVariation(0,8);
@@ -29,10 +26,10 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 		randomDeviations.add(TALL_TREES);
 		randomDeviations.add(MORE_THORNY_BUSHES);
 		
-		getSpawnEntries(DEEP).add(new SpawnEntry[]{
+		/*getSpawnEntries(DEEP).add(new SpawnEntry[]{
 			new SpawnEntry(EntitySilverfish.class,35,35),
 			new SpawnEntry(EntityMobInfestedBat.class,8,10)
-		});
+		});*/
 		
 		getInteractions(DEEP).addAll(new BiomeInteraction[]{
 			new BiomeInteraction("IF_Deep_CollapsingTrees",InteractionCollapsingTrees.class,40,2)

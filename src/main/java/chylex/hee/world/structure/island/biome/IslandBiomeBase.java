@@ -1,7 +1,6 @@
 package chylex.hee.world.structure.island.biome;
 import gnu.trove.map.hash.TByteObjectHashMap;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
@@ -16,7 +15,6 @@ import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.Bio
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
-import chylex.hee.world.util.SpawnEntry;
 
 public abstract class IslandBiomeBase{
 	public static final IslandBiomeBase infestedForest = new IslandBiomeInfestedForest(0),
@@ -31,7 +29,6 @@ public abstract class IslandBiomeBase{
 	
 	public final byte biomeID;
 	
-	private final TByteObjectHashMap<WeightedList<SpawnEntry>> spawnEntries;
 	protected final TByteObjectHashMap<CustomArrayList<BiomeInteraction>> interactions;
 	protected final WeightedList<BiomeContentVariation> contentVariations;
 	protected final List<BiomeRandomDeviation> randomDeviations;
@@ -40,19 +37,9 @@ public abstract class IslandBiomeBase{
 	
 	protected IslandBiomeBase(int biomeID){
 		this.biomeID = (byte)biomeID;
-		this.spawnEntries = new TByteObjectHashMap<>();
 		this.interactions = new TByteObjectHashMap<>();
 		this.contentVariations = new WeightedList<>();
 		this.randomDeviations = new ArrayList<>();
-	}
-	
-	public Collection<WeightedList<SpawnEntry>> getAllSpawnEntries(){
-		return spawnEntries.valueCollection();
-	}
-	
-	public WeightedList<SpawnEntry> getSpawnEntries(BiomeContentVariation contentVariation){
-		spawnEntries.putIfAbsent(contentVariation.id,new WeightedList<SpawnEntry>());
-		return spawnEntries.get(contentVariation.id);
 	}
 	
 	public CustomArrayList<BiomeInteraction> getInteractions(BiomeContentVariation contentVariation){

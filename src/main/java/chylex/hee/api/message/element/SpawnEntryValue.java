@@ -23,6 +23,6 @@ public class SpawnEntryValue extends PreconditionComposite<SpawnEntry>{
 
 	@Override
 	public SpawnEntry getValue(MessageRunner runner){
-		return new SpawnEntry((Class<? extends EntityLiving>)EntityList.stringToClassMapping.get(runner.getString("id")),runner.getInt("limit"),runner.getInt("weight"));
+		return null; // TODO new SpawnEntry((Class<? extends EntityLiving>)EntityList.stringToClassMapping.get(runner.getString("id")),runner.getInt("limit"),runner.getInt("weight"));
 	}
 }

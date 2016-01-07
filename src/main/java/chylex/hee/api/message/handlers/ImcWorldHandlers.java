@@ -14,7 +14,6 @@ import chylex.hee.world.structure.island.biome.IslandBiomeBurningMountains;
 import chylex.hee.world.structure.island.biome.IslandBiomeEnchantedIsland;
 import chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
-import chylex.hee.world.util.SpawnEntry;
 
 public final class ImcWorldHandlers extends ImcHandler{
 	// TODO private static final Map<String,WeightedLootList> lootNames = new HashMap<>();
@@ -90,7 +89,7 @@ public final class ImcWorldHandlers extends ImcHandler{
 	
 	private static final IMessageHandler biomeMobAdd = runner -> {
 		Pair<IslandBiomeBase,BiomeContentVariation> pair = biomeNames.get(runner.getString("biome"));
-		pair.getLeft().getSpawnEntries(pair.getRight()).add(runner.<SpawnEntry>getValue("mob"));
+		// TODO pair.getLeft().getSpawnEntries(pair.getRight()).add(runner.<SpawnEntry>getValue("mob"));
 		MessageLogger.logOk("Added 1 entry to the list.");
 	};
 	

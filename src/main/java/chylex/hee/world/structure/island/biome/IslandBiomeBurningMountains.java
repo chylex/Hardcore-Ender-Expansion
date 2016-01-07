@@ -1,13 +1,9 @@
 package chylex.hee.world.structure.island.biome;
 import net.minecraft.stats.Achievement;
 import chylex.hee.block.BlockEndstoneTerrain;
-import chylex.hee.entity.mob.EntityMobFireGolem;
-import chylex.hee.entity.mob.EntityMobHauntedMiner;
-import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
-import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(1,8);
@@ -31,14 +27,14 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 		randomDeviations.add(LIMITED_ORES);
 		randomDeviations.add(DEEP_RESOURCE_PITS);
 		
-		getSpawnEntries(SCORCHING).add(new SpawnEntry[]{
+		/*getSpawnEntries(SCORCHING).add(new SpawnEntry[]{
 			new SpawnEntry(EntityMobFireGolem.class,14,10),
 			new SpawnEntry(EntityMobScorchingLens.class,10,6)
 		});
 		
 		getSpawnEntries(MINE).add(new SpawnEntry[]{
 			new SpawnEntry(EntityMobHauntedMiner.class,20,10)
-		});
+		});*/
 	}
 
 	/*@Override

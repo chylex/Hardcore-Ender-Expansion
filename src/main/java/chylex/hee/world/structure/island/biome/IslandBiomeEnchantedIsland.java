@@ -1,16 +1,11 @@
 package chylex.hee.world.structure.island.biome;
 import net.minecraft.stats.Achievement;
 import chylex.hee.block.BlockEndstoneTerrain;
-import chylex.hee.entity.mob.EntityMobBabyEnderman;
-import chylex.hee.entity.mob.EntityMobEnderGuardian;
-import chylex.hee.entity.mob.EntityMobEndermage;
-import chylex.hee.entity.mob.EntityMobEnderman;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionEnchantedIsland.InteractionCellarSounds;
-import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	public static final BiomeContentVariation HOMELAND = new BiomeContentVariation(2,6);
@@ -32,7 +27,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		randomDeviations.add(GOO_SWAMP);
 		randomDeviations.add(MORE_SHADOW_ORCHIDS);
 		
-		getSpawnEntries(HOMELAND).add(new SpawnEntry[]{
+		/*getSpawnEntries(HOMELAND).add(new SpawnEntry[]{
 			new SpawnEntry(EntityMobEnderman.class,22,38),
 			new SpawnEntry(EntityMobBabyEnderman.class,14,20)
 		});
@@ -41,7 +36,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 			new SpawnEntry(EntityMobEndermage.class,7,15),
 			new SpawnEntry(EntityMobEnderman.class,12,10),
 			new SpawnEntry(EntityMobEnderGuardian.class,20,7)
-		});
+		});*/
 		
 		getInteractions(HOMELAND).addAll(new BiomeInteraction[]{
 			new BiomeInteraction("EI_Homeland_CellarSounds",InteractionCellarSounds.class,10,20)
