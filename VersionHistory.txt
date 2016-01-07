@@ -1,4 +1,23 @@
 ==================
+Release 1.8.5 (1.7.10)
+7 January 2016
+------------------
+>Important
+Custom music has been moved to a separate resource pack: http://hee-music.chylex.com
+The invalid recipe removal override is now automatically enabled (corrupted recipes will continue to be printed into the log files, but will no longer crash the game)
+
+>Changes
+Allow other mods to have priority replacing the music system
+
+>Bugfixes
+Fixed a critical exploit with Essence Altars
+Fixed detection of modified and removed recipes in the Compendium
+Fixed formatting of mcmod.info on different systems
+Possibly fixed a random crash with Thaumcraft golems passing corrupted event data to Forge
+Possibly worked around a very rare crash when generating custom structures in the End
+
+
+==================
 Release 1.8.4 (1.7.10)
 3 October 2015
 ------------------
