@@ -473,7 +473,7 @@ Optimized mod integration, you should no longer run out of memory on startup
 
 
 ==================
-Release 1.5a (1.6.4, 1.7.2)
+Release 1.5a (1.7.2/1.6.4)
 21 Apr 2014
 ------------------
 >Bugfixes

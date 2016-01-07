@@ -102,6 +102,7 @@
       },
       
       "Beta 1.6.2": {
+        "search": "Pre-release 1.6.2 (1.7.10)",
         "links": [
           "admf gvpb5ya597jsh13/HEE_1.7.10_pre-release-1.6.2.zip",
           "mf gvpb5ya597jsh13/HEE_1.7.10_pre-release-1.6.2.zip"
@@ -111,6 +112,7 @@
     
     "1.7.2": {
       "Release 1.6.1": {
+        "search": "Release 1.6.1 (1.7.2/1.6.4)",
         "links": [
           "admf coh2ga33qwbh41e/HEE_1.7.2_release-1.6.1.zip",
           "mf coh2ga33qwbh41e/HEE_1.7.2_release-1.6.1.zip"
@@ -118,6 +120,7 @@
       },
       
       "Release 1.6": {
+        "search": "Release 1.6 (1.7.2/1.6.4)",
         "links": [
           "admf y1oqm5cn5gd49je/HEE_1.7.2_release-1.6.zip",
           "mf y1oqm5cn5gd49je/HEE_1.7.2_release-1.6.zip"
@@ -125,6 +128,7 @@
       },
       
       "Release 1.5a": {
+        "search": "Release 1.5a (1.7.2/1.6.4)",
         "links": [
           "admf i7s6bra8bjmschh/HEE_1.7.2_release-1.5a.zip",
           "mf i7s6bra8bjmschh/HEE_1.7.2_release-1.5a.zip"
@@ -141,6 +145,7 @@
 
     "1.6.4": {
       "Release 1.6.1": {
+        "search": "Release 1.6.1 (1.7.2/1.6.4)",
         "links": [
           "admf ock52265820530c/HEE_1.6.4_release-1.6.1.zip",
           "mf ock52265820530c/HEE_1.6.4_release-1.6.1.zip"
@@ -148,6 +153,7 @@
       },
       
       "Release 1.6": {
+        "search": "Release 1.6 (1.7.2/1.6.4)",
         "links": [
           "admf yobl3eycmsweh7x/HEE_1.6.4_release-1.6.zip",
           "mf yobl3eycmsweh7x/HEE_1.6.4_release-1.6.zip"
@@ -155,6 +161,7 @@
       },
       
       "Release 1.5a": {
+        "search": "Release 1.5a (1.7.2/1.6.4)",
         "links": [
           "admf 83mijmd3mpmpr64/HEE_1.6.4_release-1.5a.zip",
           "mf 83mijmd3mpmpr64/HEE_1.6.4_release-1.5a.zip"
