@@ -23,7 +23,7 @@ public final class TerritoryTicker{
 		this.centerPos = centerPos;
 		this.nbt = file.getTerritoryData(hash);
 		
-		territory.properties.setupBehaviorList(behaviorList,file.getTerritoryVariations(hash),file.isTerritoryRare(hash));
+		territory.properties.setupBehaviorList(behaviorList,territory,file.getTerritoryVariations(hash),file.isTerritoryRare(hash));
 	}
 	
 	public void onTick(World world){

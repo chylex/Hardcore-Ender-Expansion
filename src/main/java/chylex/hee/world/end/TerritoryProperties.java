@@ -13,7 +13,7 @@ import chylex.hee.world.util.RandomAmount;
 
 public abstract class TerritoryProperties<T extends Enum<T>>{
 	public static final TerritoryProperties defaultProperties = new TerritoryProperties(){
-		@Override public void setupBehaviorList(List list, EnumSet variations, boolean isRare){}
+		@Override public void setupBehaviorList(List list, EndTerritory territory, EnumSet variations, boolean isRare){}
 	};
 	
 	private final @Nullable Class<T> variationClass;
@@ -69,7 +69,7 @@ public abstract class TerritoryProperties<T extends Enum<T>>{
 	
 	// HANDLING
 	
-	public abstract void setupBehaviorList(List<ITerritoryBehavior> list, EnumSet<T> variations, boolean isRare);
+	public abstract void setupBehaviorList(List<ITerritoryBehavior> list, EndTerritory territory, EnumSet<T> variations, boolean isRare);
 	
 	public int generateVariationsSerialized(Random rand, boolean isRare){
 		if (variationClass == null || (isRare && variationAmountRare == null) || (!isRare && variationAmountCommon == null))return 0;
