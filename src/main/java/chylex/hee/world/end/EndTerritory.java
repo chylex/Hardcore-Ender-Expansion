@@ -75,6 +75,11 @@ public enum EndTerritory{
 		return rand;
 	}
 	
+	public BoundingBox createBoundingBox(){
+		final int rad = 8*chunkSize;
+		return new BoundingBox(Pos.at(rad,0,rad),Pos.at(rad,height,rad));
+	}
+	
 	public StructureWorld createWorld(World world){
 		StructureWorldLazy structureWorld = new StructureWorldLazy(world,8*chunkSize,height,8*chunkSize);
 		

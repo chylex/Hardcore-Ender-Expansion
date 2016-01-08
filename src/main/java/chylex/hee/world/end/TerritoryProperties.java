@@ -4,6 +4,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.Nullable;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.EmptyEnumSet;
 import chylex.hee.system.collections.weight.WeightedMap;
 import chylex.hee.world.end.tick.ITerritoryBehavior;
@@ -13,7 +14,7 @@ import chylex.hee.world.util.RandomAmount;
 
 public abstract class TerritoryProperties<T extends Enum<T>>{
 	public static final TerritoryProperties defaultProperties = new TerritoryProperties(){
-		@Override public void setupBehaviorList(List list, EndTerritory territory, EnumSet variations, boolean isRare){}
+		@Override public void setupBehaviorList(List list, EndTerritory territory, EnumSet variations, Pos centerPos, boolean isRare){}
 	};
 	
 	private final @Nullable Class<T> variationClass;
@@ -69,7 +70,7 @@ public abstract class TerritoryProperties<T extends Enum<T>>{
 	
 	// HANDLING
 	
-	public abstract void setupBehaviorList(List<ITerritoryBehavior> list, EndTerritory territory, EnumSet<T> variations, boolean isRare);
+	public abstract void setupBehaviorList(List<ITerritoryBehavior> list, EndTerritory territory, EnumSet<T> variations, Pos centerPos, boolean isRare);
 	
 	public int generateVariationsSerialized(Random rand, boolean isRare){
 		if (variationClass == null || (isRare && variationAmountRare == null) || (!isRare && variationAmountCommon == null))return 0;

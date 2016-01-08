@@ -10,8 +10,6 @@ import chylex.hee.world.end.EndTerritory;
 import chylex.hee.world.end.tick.ITerritoryBehavior;
 
 public final class TerritoryTicker{
-	private final EndTerritory territory;
-	private final Pos centerPos;
 	private final NBTTagCompound nbt;
 	
 	private final List<ITerritoryBehavior> behaviorList = new ArrayList<>(4);
@@ -19,16 +17,13 @@ public final class TerritoryTicker{
 	public TerritoryTicker(EndTerritory territory, Pos centerPos, long hash){
 		WorldFile file = SaveData.global(WorldFile.class);
 		
-		this.territory = territory;
-		this.centerPos = centerPos;
 		this.nbt = file.getTerritoryData(hash);
-		
-		territory.properties.setupBehaviorList(behaviorList,territory,file.getTerritoryVariations(hash),file.isTerritoryRare(hash));
+		territory.properties.setupBehaviorList(behaviorList,territory,file.getTerritoryVariations(hash),centerPos,file.isTerritoryRare(hash));
 	}
 	
 	public void onTick(World world){
 		for(ITerritoryBehavior behavior:behaviorList){
-			behavior.tick(territory,centerPos,nbt,world);
+			behavior.tick(world,nbt);
 		}
 	}
 }
