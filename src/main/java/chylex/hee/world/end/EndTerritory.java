@@ -77,7 +77,7 @@ public enum EndTerritory{
 	
 	public BoundingBox createBoundingBox(){
 		final int rad = 8*chunkSize;
-		return new BoundingBox(Pos.at(rad,0,rad),Pos.at(rad,height,rad));
+		return new BoundingBox(Pos.at(-rad,0,-rad),Pos.at(rad,255,rad));
 	}
 	
 	public StructureWorld createWorld(World world){
