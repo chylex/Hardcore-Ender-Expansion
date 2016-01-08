@@ -1,7 +1,6 @@
 package chylex.hee.system.abstractions;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -123,16 +122,16 @@ public class Pos{
 	/**
 	 * Finds the first block from the top for which the check function returns true.
 	 */
-	public static Pos getTopBlock(World world, int x, int z, Function<BlockInfo,Boolean> checkFunc){
+	public static Pos getTopBlock(World world, int x, int z, Predicate<BlockInfo> checkFunc){
 		return getTopBlock(world,x,z,world.getHeight(),checkFunc);
 	}
 	
 	/**
 	 * Finds the first block from the top for which the check function returns true.
 	 */
-	public static Pos getTopBlock(World world, int x, int z, int startY, Function<BlockInfo,Boolean> checkFunc){
+	public static Pos getTopBlock(World world, int x, int z, int startY, Predicate<BlockInfo> checkFunc){
 		PosMutable mpos = new PosMutable(x,startY,z);
-		while(!checkFunc.apply(mpos.getInfo(world)) && --mpos.y >= 0);
+		while(!checkFunc.test(mpos.getInfo(world)) && --mpos.y >= 0);
 		return mpos.immutable();
 	}
 	
