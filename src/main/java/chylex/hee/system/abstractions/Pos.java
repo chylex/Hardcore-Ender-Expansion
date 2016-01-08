@@ -172,6 +172,10 @@ public class Pos{
 		return new Pos(getX()+x,getY()+y,getZ()+z);
 	}
 	
+	public Pos offset(Pos by){
+		return new Pos(getX()+by.getX(),getY()+by.getY(),getZ()+by.getZ());
+	}
+	
 	public Pos offset(int side){
 		return offset(EnumFacing.values()[side]);
 	}

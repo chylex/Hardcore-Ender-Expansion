@@ -33,6 +33,10 @@ public class BoundingBox{
 		return x1 >= bb.x1 && y1 >= bb.y1 && z1 >= bb.z1 && x2 <= bb.x2 && y2 <= bb.y2 && z2 <= bb.z2;
 	}
 	
+	public BoundingBox offset(Pos offsetBy){
+		return new BoundingBox(getTopLeft().offset(offsetBy),getBottomRight().offset(offsetBy));
+	}
+	
 	public Pos getTopLeft(){
 		return Pos.at(x1,y1,z1);
 	}
