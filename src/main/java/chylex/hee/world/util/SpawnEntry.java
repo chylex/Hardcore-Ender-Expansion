@@ -31,6 +31,8 @@ public class SpawnEntry<T extends EntityLiving>{
 		}
 	}
 	
+	// Entry Builder
+	
 	public static final class Builder<T extends EntityLiving>{
 		private final Function<World,T> constructor;
 		private Consumer<T> locationFinder;
@@ -50,6 +52,22 @@ public class SpawnEntry<T extends EntityLiving>{
 		
 		public Builder<T> addSpawnCondition(Predicate<T> condition){
 			this.spawnCondition = this.spawnCondition.and(condition);
+			return this;
+		}
+		
+		public Builder<T> addSpawnConditions(Predicate<T>...conditions){
+			for(Predicate<T> condition:conditions)this.spawnCondition = this.spawnCondition.and(condition);
+			return this;
+		}
+		
+		public Builder<T> addVanillaSpawnConditions(){
+			addSpawnCondition(noLiquid());
+			addSpawnCondition(noCollidingEntities());
+			return this;
+		}
+		
+		public Builder<T> setSpawnPlayerDistance(double minDistance){
+			addSpawnCondition(entity -> entity.worldObj.getClosestPlayerToEntity(entity,minDistance) == null);
 			return this;
 		}
 		
@@ -74,12 +92,24 @@ public class SpawnEntry<T extends EntityLiving>{
 		}
 		
 		public SpawnEntry build(){
+			if (locationFinder == null)throw new IllegalStateException("Spawn Entry has no location finder!");
+			if (groupSize != null && groupLocationFinder == null)throw new IllegalStateException("Group Spawn Entry has no group location finder!");
+			
 			return groupSize == null ? new SpawnEntry<>(constructor,locationFinder,spawnCondition) : new GroupSpawnEntry<>(constructor,locationFinder,spawnCondition,groupSize,groupLocationFinder);
 		}
 	}
 	
-	public static final Predicate<? extends EntityLiving> noLiquid = entity -> !entity.worldObj.isAnyLiquid(entity.boundingBox);
-	public static final Predicate<? extends EntityLiving> noCollidingEntities = entity -> entity.worldObj.checkNoEntityCollision(entity.boundingBox);
+	// Conditions
+	
+	public static final <T extends EntityLiving> Predicate<T> noLiquid(){
+		return entity -> !entity.worldObj.isAnyLiquid(entity.boundingBox);
+	}
+	
+	public static final <T extends EntityLiving> Predicate<T> noCollidingEntities(){
+		return entity -> entity.worldObj.checkNoEntityCollision(entity.boundingBox);
+	}
+	
+	// Spawn Entry
 	
 	protected final Function<World,T> constructor;
 	protected final Consumer<T> locationFinder;
@@ -105,6 +135,8 @@ public class SpawnEntry<T extends EntityLiving>{
 		
 		return null;
 	}
+	
+	// Group Spawn Entry
 	
 	public static class GroupSpawnEntry<T extends EntityLiving> extends SpawnEntry<T>{
 		private final IRangeGenerator groupSize;
