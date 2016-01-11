@@ -1,6 +1,10 @@
 package chylex.hee.world.end.tick;
+import gnu.trove.impl.Constants;
+import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -29,6 +33,7 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 	private int attemptsPerMob = 15;
 	
 	private ToIntFunction<World> mobLimit = world -> 60;
+	private final TObjectIntHashMap<Class<? extends EntityLiving>> mobClassLimit = new TObjectIntHashMap(4,Constants.DEFAULT_LOAD_FACTOR,0);
 	
 	private int tickLimiter;
 	
@@ -61,12 +66,12 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 		this.mobLimit = world -> maxMobs;
 	}
 	
-	public void setMobLimit(ToIntFunction<World> mobLimitFunc){
-		this.mobLimit = mobLimitFunc;
+	public void setMobLimit(final int initialLimit, final int addPerPlayer, final int largestLimit){
+		this.mobLimit = world -> Math.min(largestLimit,initialLimit+EntitySelector.players(world,area.toAABB()).size()*addPerPlayer);
 	}
 	
-	public void setMobLimitScaled(final int initialValue, final int addPerPlayer, final int maxValue){
-		this.mobLimit = world -> Math.min(maxValue,initialValue+EntitySelector.players(world,area.toAABB()).size()*addPerPlayer);
+	public void setMobClassLimit(Class<? extends EntityLiving> mobClass, final int maxMobs){
+		this.mobClassLimit.put(mobClass,maxMobs);
 	}
 	
 	@Override
@@ -74,10 +79,20 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 		if (++tickLimiter > tickRate){
 			tickLimiter = 0;
 			
-			if (EntitySelector.living(world,area.toAABB()).size() > mobLimit.applyAsInt(world))return;
+			List<EntityLiving> mobs = EntitySelector.mobs(world,area.toAABB());
+			if (mobs.size() >= mobLimit.applyAsInt(world))return;
+			
+			Map<Class<? extends EntityLiving>,Integer> mobCounts = new HashMap<>(4);
 			
 			for(int attempt = 0; attempt < attemptsPerTick; attempt++){
-				spawnEntries.getRandomItem(world.rand).trySpawn(world,attemptsPerMob);
+				final SpawnEntry<? extends EntityLiving> entry = spawnEntries.getRandomItem(world.rand);
+				final Class<? extends EntityLiving> mobClass = entry.getMobClass();
+				
+				int limit = mobClassLimit.get(mobClass);
+				
+				if (limit == 0 || mobCounts.computeIfAbsent(mobClass,cls -> (int)mobs.stream().filter(entity -> entity.getClass() == mobClass).count()) < limit){
+					entry.trySpawn(world,attemptsPerMob);
+				}
 			}
 		}
 	}
@@ -89,7 +104,7 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 			final double posZ = area.z1+rand.nextDouble()*(area.z2-area.z1);
 			final int posY = Pos.getTopBlock(entity.worldObj,MathUtil.floor(posX),MathUtil.floor(posZ),area.y1+rand.nextInt(1+area.y2-area.y1),blockFinder).getY();
 			
-			entity.setPosition(posX,posY,posZ);
+			entity.setPosition(posX,posY+1D,posZ);
 		};
 	}
 	
@@ -112,7 +127,7 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 			final double posZ = parentEntity.posZ+offset.z;
 			final int posY = Pos.getTopBlock(parentEntity.worldObj,MathUtil.floor(posX),MathUtil.floor(posZ),MathUtil.floor(parentEntity.posY+maxDistance),blockFinder).getY();
 			
-			groupedEntity.setPosition(posX,posY,posZ);
+			groupedEntity.setPosition(posX,posY+1D,posZ);
 		};
 	}
 	
