@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
@@ -40,6 +41,8 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 	public TerritoryBehaviorMobSpawner(EndTerritory territory, Pos centerPos){
 		this.area = territory.createBoundingBox().offset(centerPos);
 	}
+	
+	// Setup
 	
 	public void addBuilderModifier(Consumer<SpawnEntry.Builder<?>> entryCallback){
 		this.entryBuilderModifiers.add(entryCallback);
@@ -74,6 +77,8 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 		this.mobClassLimit.put(mobClass,maxMobs);
 	}
 	
+	// Ticking
+	
 	@Override
 	public void tick(World world, NBTTagCompound nbt){
 		if (++tickLimiter > tickRate){
@@ -82,20 +87,25 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 			List<EntityLiving> mobs = EntitySelector.mobs(world,area.toAABB());
 			if (mobs.size() >= mobLimit.applyAsInt(world))return;
 			
-			Map<Class<? extends EntityLiving>,Integer> mobCounts = new HashMap<>(4);
+			final Map<Class<? extends EntityLiving>,Integer> mobCounts = new HashMap<>(4);
+			final boolean isPeaceful = world.difficultySetting == EnumDifficulty.PEACEFUL;
 			
 			for(int attempt = 0; attempt < attemptsPerTick; attempt++){
 				final SpawnEntry<? extends EntityLiving> entry = spawnEntries.getRandomItem(world.rand);
 				final Class<? extends EntityLiving> mobClass = entry.getMobClass();
 				
-				int limit = mobClassLimit.get(mobClass);
-				
-				if (limit == 0 || mobCounts.computeIfAbsent(mobClass,cls -> (int)mobs.stream().filter(entity -> entity.getClass() == mobClass).count()) < limit){
-					entry.trySpawn(world,attemptsPerMob);
+				if (!isPeaceful || !entry.isHostile){
+					int limit = mobClassLimit.get(mobClass);
+					
+					if (limit == 0 || mobCounts.computeIfAbsent(mobClass,cls -> (int)mobs.stream().filter(entity -> entity.getClass() == mobClass).count()) < limit){
+						entry.trySpawn(world,attemptsPerMob);
+					}
 				}
 			}
 		}
 	}
+	
+	// Location functions
 	
 	public <T extends EntityLiving> Consumer<T> spawnOnFloor(final Predicate<BlockInfo> blockFinder){
 		return entity -> {

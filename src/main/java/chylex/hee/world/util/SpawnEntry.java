@@ -2,13 +2,18 @@ package chylex.hee.world.util;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 
 public class SpawnEntry<T extends EntityLiving>{
@@ -111,6 +116,29 @@ public class SpawnEntry<T extends EntityLiving>{
 		return entity -> entity.worldObj.checkNoEntityCollision(entity.boundingBox);
 	}
 	
+	public static final <T extends EntityLiving> Predicate<T> withDifficulty(final EnumDifficulty minDifficulty){
+		return entity -> entity.worldObj.difficultySetting.getDifficultyId() >= minDifficulty.getDifficultyId();
+	}
+	
+	public static final <T extends EntityLiving> Predicate<T> withBlocksNearby(final int maxDistance){
+		return withBlocksNearby(maxDistance,MathUtil.square(maxDistance*2+1));
+	}
+	
+	public static final <T extends EntityLiving> Predicate<T> withBlocksNearby(final int maxDistance, final int attempts){
+		PosMutable mpos = new PosMutable();
+		
+		return entity -> {
+			final Random rand = entity.getRNG();
+			
+			for(int attempt = 0; attempt < attempts; attempt++){
+				mpos.set(entity).move(rand.nextInt(maxDistance*2+1)-maxDistance,rand.nextInt(maxDistance*2+1)-maxDistance,rand.nextInt(maxDistance*2+1)-maxDistance);
+				if (!mpos.isAir(entity.worldObj))return true;
+			}
+			
+			return false;
+		};
+	}
+	
 	// Spawn Entry
 	
 	protected final Class<T> mobClass;
@@ -118,11 +146,14 @@ public class SpawnEntry<T extends EntityLiving>{
 	protected final Consumer<T> locationFinder;
 	protected final Predicate<T> spawnCondition;
 	
+	public final boolean isHostile;
+	
 	public SpawnEntry(Class<T> mobClass, Function<World,T> mobConstructor, Consumer<T> locationFinder, Predicate<T> spawnCondition){
 		this.mobClass = mobClass;
 		this.mobConstructor = mobConstructor;
 		this.locationFinder = locationFinder;
 		this.spawnCondition = spawnCondition;
+		this.isHostile = IMob.class.isAssignableFrom(mobClass);
 	}
 	
 	public Class<T> getMobClass(){
