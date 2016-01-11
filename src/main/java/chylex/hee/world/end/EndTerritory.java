@@ -27,6 +27,9 @@ import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.StructureWorldLazy;
 import chylex.hee.world.util.BoundingBox;
 
+/**
+ * YOU BETTER NOT FUCKING DARE CHANGE THE ORDER OR INSERT NEW ELEMENTS IN THE MIDDLE BECAUSE IT WILL MESS UP ORDINALS
+ */
 public enum EndTerritory{
 	THE_HUB( // 384 blocks
 		size(24), height(128), bottom(0), color(0,0,0), new TerritorySpawnGenerator.Empty(),
