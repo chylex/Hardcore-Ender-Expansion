@@ -161,7 +161,11 @@ public class SpawnEntry<T extends EntityLiving>{
 				
 				for(int attempt = 0; attempt < attempts; attempt++){
 					groupLocationFinder.accept(first,entity);
-					if (spawnCondition.test(entity))world.spawnEntityInWorld(entity);
+					
+					if (spawnCondition.test(entity)){
+						world.spawnEntityInWorld(entity);
+						break;
+					}
 				}
 			}
 			

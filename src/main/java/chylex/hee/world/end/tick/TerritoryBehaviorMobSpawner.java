@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.ToIntFunction;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Vec;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.weight.WeightedMap;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.end.EndTerritory;
@@ -22,9 +24,11 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 	private final List<Consumer<SpawnEntry.Builder<?>>> entryBuilderModifiers = new ArrayList<>(2);
 	private final BoundingBox area;
 	
-	private int tickRate;
-	private int attemptsPerTick;
-	private int attemptsPerMob;
+	private int tickRate = 10;
+	private int attemptsPerTick = 4;
+	private int attemptsPerMob = 15;
+	
+	private ToIntFunction<World> mobLimit = world -> 60;
 	
 	private int tickLimiter;
 	
@@ -53,10 +57,24 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 		this.attemptsPerMob = attemptsPerMob;
 	}
 	
+	public void setMobLimit(final int maxMobs){
+		this.mobLimit = world -> maxMobs;
+	}
+	
+	public void setMobLimit(ToIntFunction<World> mobLimitFunc){
+		this.mobLimit = mobLimitFunc;
+	}
+	
+	public void setMobLimitScaled(final int initialValue, final int addPerPlayer, final int maxValue){
+		this.mobLimit = world -> Math.min(maxValue,initialValue+EntitySelector.players(world,area.toAABB()).size()*addPerPlayer);
+	}
+	
 	@Override
 	public void tick(World world, NBTTagCompound nbt){
 		if (++tickLimiter > tickRate){
 			tickLimiter = 0;
+			
+			if (EntitySelector.living(world,area.toAABB()).size() > mobLimit.applyAsInt(world))return;
 			
 			for(int attempt = 0; attempt < attemptsPerTick; attempt++){
 				spawnEntries.getRandomItem(world.rand).trySpawn(world,attemptsPerMob);
