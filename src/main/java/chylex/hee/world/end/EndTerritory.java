@@ -29,17 +29,17 @@ import chylex.hee.world.util.BoundingBox;
 
 public enum EndTerritory{
 	THE_HUB( // 384 blocks
-		24, height(128), bottom(0), color(0,0,0), new TerritorySpawnGenerator.Empty(),
+		size(24), height(128), bottom(0), color(0,0,0), new TerritorySpawnGenerator.Empty(),
 		TerritoryProperties.defaultProperties, new TerritoryTheHub.Environment(), TerritoryTheHub::new
 	),
 	
 	DEBUG_TEST(
-		7, height(128), bottom(0), color(253), new TerritorySpawnGenerator.Origin(),
+		size(7), height(128), bottom(0), color(253), new TerritorySpawnGenerator.Origin(),
 		new TerritoryTest.Properties(), TerritoryEnvironment.defaultEnvironment, TerritoryTest::new
 	),
 	
 	DEBUG_TEST_2(
-		20, height(128), bottom(0), color(253), new TerritorySpawnGenerator.Origin(),
+		size(20), height(128), bottom(0), color(253), new TerritorySpawnGenerator.Origin(),
 		TerritoryProperties.defaultProperties, TerritoryEnvironment.defaultEnvironment, TerritoryTest::new
 	);
 	
@@ -227,6 +227,10 @@ public enum EndTerritory{
 	}
 	
 	// INITIALIZATION UTILITY METHODS
+	
+	private static int size(int chunkSize){
+		return chunkSize;
+	}
 	
 	private static int height(int height){
 		return height;
