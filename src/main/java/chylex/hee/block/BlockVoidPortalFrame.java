@@ -1,4 +1,5 @@
 package chylex.hee.block;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
@@ -12,8 +13,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.technical.EntityTechnicalVoidPortal;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.facing.Facing4;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -43,7 +47,21 @@ public class BlockVoidPortalFrame extends Block{
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
-		if (!world.isRemote && Pos.at(x,y,z).getMetadata(world) == Meta.voidPortalFrameStorage)player.openGui(HardcoreEnderExpansion.instance,8,world,x,y,z);
+		if (!world.isRemote && Pos.at(x,y,z).getMetadata(world) == Meta.voidPortalFrameStorage){
+			player.openGui(HardcoreEnderExpansion.instance,8,world,x,y,z);
+			
+			if (!BlockVoidPortal.getData(world,x,y,z).isPresent()){
+				final Pos pos = Pos.at(x,y,z);
+				
+				Arrays.stream(Facing4.list).filter(facing -> pos.offset(facing).getBlock(world) == BlockList.void_portal).findAny().ifPresent(facing -> {
+					Pos entityPos = pos.offset(facing,3);
+					
+					EntityTechnicalVoidPortal voidPortalEntity = new EntityTechnicalVoidPortal(world);
+					voidPortalEntity.setPosition(entityPos.getX()+0.5D,entityPos.getY(),entityPos.getZ()+0.5D);
+					world.spawnEntityInWorld(voidPortalEntity);
+				});
+			}
+		}
 		return true;
 	}
 	
