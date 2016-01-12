@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import javax.annotation.Nullable;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.collections.BitStream;
 import chylex.hee.system.collections.EmptyEnumSet;
 import chylex.hee.system.collections.weight.WeightedMap;
 import chylex.hee.world.end.tick.ITerritoryBehavior;
@@ -98,12 +99,9 @@ public abstract class TerritoryProperties<T extends Enum<T>>{
 		if (variationClass == null)return EmptyEnumSet.get();
 		
 		final T[] elements = variationClass.getEnumConstants();
-		EnumSet<T> set = EnumSet.noneOf(variationClass);
+		final EnumSet<T> set = EnumSet.noneOf(variationClass);
 		
-		for(int bit = 0; bit < elements.length; bit++){
-			if ((bits&(1<<bit)) != 0)set.add(elements[bit]);
-		}
-		
+		BitStream.forInt(bits&((1<<elements.length)-1)).forEach(bit -> set.add(elements[bit])); // protect against index out of bounds
 		return set;
 	}
 }
