@@ -4,7 +4,6 @@ import java.util.function.Predicate;
 import net.minecraft.entity.effect.EntityWeatherEffect;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C05CustomWeather;
 import chylex.hee.packets.client.C05CustomWeather.IWeatherEntityConstructor;
@@ -87,7 +86,6 @@ public class TerritoryBehaviorWeather implements ITerritoryBehavior{
 		}
 		
 		if (world.rand.nextFloat() < chancePerTick){
-			HardcoreEnderExpansion.notifications.report("tick");
 			boolean spawned = false;
 			
 			for(int amount = effectAmountGenerator.next(world.rand); amount > 0; amount--){
