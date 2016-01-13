@@ -24,7 +24,7 @@ buildscript{
 }
 
 dependencies{
-    shade files('libs/JavaCheckerShade  MC-UNIVERSAL  v1.2.jar')
+    shade files('libs/JavaCheckerShade  MC-UNIVERSAL  v2.0.jar')
 }
 
 apply plugin: 'forge'
@@ -62,7 +62,7 @@ jar{
     
     configurations.shade.each{ dep ->
         from(project.zipTree(dep)){
-            exclude 'META-INF', 'META-INF/**', 'mcmod.info'
+            exclude 'META-INF', 'META-INF/**'
         }
     }
     
