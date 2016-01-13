@@ -95,16 +95,16 @@ public final class ImcWorldHandlers extends ImcHandler{
 	
 	@Override
 	public void register(){// TODO
-		/*register("HEE:World:LootAdd",lootAdd,RunEvent.LOADCOMPLETE)
+		/*register("World:LootAdd",lootAdd,RunEvent.LOADCOMPLETE)
 		.addProp("list",lootName)
 		.addProp("item",WeightedLootValue.any());*/
 		
-		register("HEE:World:LootRemove",lootRemove,RunEvent.LOADCOMPLETE)
+		register("World:LootRemove",lootRemove,RunEvent.LOADCOMPLETE)
 		.addProp("list",lootName)
 		.addProp("search",ItemPatternValue.any())
 		.addProp("limit",IntValue.positiveOrZero());
 		
-		register("HEE:World:BiomeMobAdd",biomeMobAdd,RunEvent.LOADCOMPLETE)
+		register("World:BiomeMobAdd",biomeMobAdd,RunEvent.LOADCOMPLETE)
 		.addProp("biome",biomeName)
 		.addProp("mob",SpawnEntryValue.any());
 	}

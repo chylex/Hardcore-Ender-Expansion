@@ -30,14 +30,14 @@ public final class ImcTableHandlers extends ImcHandler{
 	
 	@Override
 	public void register(){
-		register("HEE:DecompositionTable:Blacklist",decompositionBlacklist,RunEvent.LOADCOMPLETE)
+		register("DecompositionTable:Blacklist",decompositionBlacklist,RunEvent.LOADCOMPLETE)
 		.addProp("pattern",ItemPatternValue.any());
 		
-		register("HEE:ExtractionTable:SetEnergy",energySet,RunEvent.LOADCOMPLETE)
+		register("ExtractionTable:SetEnergy",energySet,RunEvent.LOADCOMPLETE)
 		.addProp("item",ItemDamagePairValue.any())
 		.addProp("units",DecimalValue.positiveOrZero());
 		
-		register("HEE:ExperienceTable:AddItem",expTableAdd,RunEvent.LOADCOMPLETE)
+		register("ExperienceTable:AddItem",expTableAdd,RunEvent.LOADCOMPLETE)
 		.addProp("item",ItemDamagePairValue.any())
 		.addProp("bottles",IntValue.range(1,64));
 	}

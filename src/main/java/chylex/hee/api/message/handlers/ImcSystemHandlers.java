@@ -13,7 +13,7 @@ public class ImcSystemHandlers extends ImcHandler{
 	
 	@Override
 	public void register(){
-		register("HEE:System:DisableIntegration",disableIntegration,RunEvent.POSTINIT)
+		register("System:DisableIntegration",disableIntegration,RunEvent.POSTINIT)
 		.addProp("modid",StringValue.any());
 	}
 }

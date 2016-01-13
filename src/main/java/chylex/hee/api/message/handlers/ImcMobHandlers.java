@@ -13,7 +13,7 @@ public final class ImcMobHandlers extends ImcHandler{
 	
 	@Override
 	public void register(){
-		register("HEE:Mobs:SetGooImmune",enderGooTolerantAdd,RunEvent.LOADCOMPLETE)
+		register("Mobs:SetGooImmune",enderGooTolerantAdd,RunEvent.LOADCOMPLETE)
 		.addProp("id",SpawnEntryValue.livingMobString);
 		
 		// TODO add/remove Enderman carriable blocks

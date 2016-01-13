@@ -52,13 +52,13 @@ public class ImcOrbHandlers extends ImcHandler{
 	
 	@Override
 	public void register(){
-		register("HEE:Orb:ItemBlacklist",itemBlacklist,RunEvent.LOADCOMPLETE)
+		register("Orb:ItemBlacklist",itemBlacklist,RunEvent.LOADCOMPLETE)
 		.addProp("pattern",ItemPatternValue.any());
 		
-		register("HEE:Orb:MobAdd",mobAdd,RunEvent.LOADCOMPLETE)
+		register("Orb:MobAdd",mobAdd,RunEvent.LOADCOMPLETE)
 		.addProp("id",SpawnEntryValue.livingMobString);
 		
-		register("HEE:Orb:MobRemove",mobRemove,RunEvent.LOADCOMPLETE)
+		register("Orb:MobRemove",mobRemove,RunEvent.LOADCOMPLETE)
 		.addProp("id",SpawnEntryValue.livingMobString);
 	}
 }

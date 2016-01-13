@@ -51,12 +51,12 @@ public final class ImcEssenceHandlers extends ImcHandler{
 	
 	@Override
 	public void register(){
-		register("HEE:DragonEssence:AddRecipe",dragonEssenceAdd,RunEvent.POSTINIT)
+		register("DragonEssence:AddRecipe",dragonEssenceAdd,RunEvent.POSTINIT)
 		.addProp("input",ItemStackValue.any())
 		.addProp("output",ItemStackValue.any())
 		.addProp("cost",IntValue.positive());
 		
-		register("HEE:DragonEssence:RemoveRecipe",dragonEssenceRemove,RunEvent.POSTINIT)
+		register("DragonEssence:RemoveRecipe",dragonEssenceRemove,RunEvent.POSTINIT)
 		.addProp("type",StringValue.one("input","output"))
 		.addProp("search",ItemPatternValue.any())
 		.addProp("limit",IntValue.positiveOrZero());
