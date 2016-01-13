@@ -57,6 +57,14 @@ public final class CollectionUtil{
 		return index >= 0 && index < list.size() ? Optional.ofNullable(list.get(index)) : Optional.empty();
 	}
 	
+	public static <T> T getClamp(T[] array, int index){
+		return array[Math.min(Math.max(index,0),array.length-1)];
+	}
+	
+	public static <T> T getClamp(List<T> list, int index){
+		return list.get(Math.min(Math.max(index,0),list.size()-1));
+	}
+	
 	public static <T> ArrayList<T> newList(T...elements){
 		ArrayList<T> list = new ArrayList<>(elements.length);
 		Collections.addAll(list,elements);
