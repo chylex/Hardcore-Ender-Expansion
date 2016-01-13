@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import chylex.hee.init.BlockList;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
-import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.collections.CollectionUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -30,8 +30,8 @@ public class BlockSpecialEffects extends Block implements IBlockSubtypes{
 	
 	@Override
 	public IIcon getIcon(int side, int meta){
-		if (meta == metaBiomeIslandIcon)return BlockList.end_terrain.getIcon(side,side>>1); 
-		return iconArray[MathUtil.clamp(meta-metaTestOffset,0,iconArray.length-1)];
+		if (meta == metaBiomeIslandIcon)return BlockList.end_terrain.getIcon(side,side>>1);
+		return CollectionUtil.getClamp(iconArray,meta-metaTestOffset);
 	}
 
 	@Override

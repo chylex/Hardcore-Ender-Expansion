@@ -23,7 +23,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C02PlayRecord;
 import chylex.hee.sound.CustomMusicTicker;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.collections.CollectionUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -51,11 +51,11 @@ public class ItemMusicDisk extends ItemRecord{
 	}
 	
 	public static String[] getRecordData(int damage){
-		return musicNames.get(MathUtil.clamp(damage,0,musicNames.size()-1));
+		return CollectionUtil.getClamp(musicNames,damage);
 	}
 	
 	public static ResourceLocation getRecordResource(int damage){
-		return musicResources.get(MathUtil.clamp(damage,0,musicNames.size()-1));
+		return CollectionUtil.getClamp(musicResources,damage);
 	}
 	
 	private IIcon[] iconArray;
@@ -90,7 +90,7 @@ public class ItemMusicDisk extends ItemRecord{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int damage){
-		return iconArray[MathUtil.clamp(damage,0,iconArray.length-1)];
+		return CollectionUtil.getClamp(iconArray,damage);
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class ItemMusicDisk extends ItemRecord{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		textLines.add("qwertygiy - "+musicNames.get(MathUtil.clamp(is.getItemDamage(),0,musicNames.size()-1))[0]);
+		textLines.add("qwertygiy - "+CollectionUtil.getClamp(musicNames,is.getItemDamage())[0]);
 		
 		if (!CustomMusicTicker.canPlayMusic()){
 			textLines.add(EnumChatFormatting.RED+I18n.format("music.notEnabled"));

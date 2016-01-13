@@ -2,7 +2,7 @@ package chylex.hee.item;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
-import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.collections.CollectionUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -20,7 +20,7 @@ public class ItemSpecialEffects extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int damage){
-		return iconArray[MathUtil.clamp(damage,0,iconArray.length-1)];
+		return CollectionUtil.getClamp(iconArray,damage);
 	}
 	
 	@Override

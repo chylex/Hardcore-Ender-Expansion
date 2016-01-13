@@ -13,7 +13,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import chylex.hee.init.BlockList;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.collections.CollectionUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -53,7 +53,7 @@ public class BlockRavishBell extends BlockFlower{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return meta == -1 ? blockIcon : iconArray[MathUtil.clamp(meta,0,variations-1)];
+		return meta == -1 ? blockIcon : CollectionUtil.getClamp(iconArray,meta);
 	}
 	
 	@Override

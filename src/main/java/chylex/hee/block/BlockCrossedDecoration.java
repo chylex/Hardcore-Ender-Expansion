@@ -24,7 +24,6 @@ import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.CollectionUtil;
-import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -120,7 +119,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return iconArray[MathUtil.clamp(meta,0,decorTypes.length-1)];
+		return CollectionUtil.getClamp(iconArray,meta);
 	}
 	
 	@Override
