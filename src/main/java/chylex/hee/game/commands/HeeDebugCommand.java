@@ -20,8 +20,6 @@ import chylex.hee.proxy.ModCommonProxy.MessageType;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.test.UnitTest.RunTime;
-import chylex.hee.system.test.UnitTester;
 import chylex.hee.system.util.ItemUtil;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
@@ -169,13 +167,13 @@ public class HeeDebugCommand extends BaseCommand{
 			}
 			
 			return;
-		}
+		}/* TODO
 		else if (args[0].equalsIgnoreCase("unit") && sender instanceof EntityPlayer){
 			StringBuilder build = new StringBuilder();
 			for(int a = 1; a < args.length; a++)build.append(args[a]).append(' ');
 			
 			UnitTester.trigger(RunTime.INGAME,args.length > 1 ? build.deleteCharAt(build.length()-1).toString() : "");
-		}
+		}*/
 		else if (args[0].equalsIgnoreCase("tmp") && sender instanceof EntityPlayer){
 			EntityPlayer player = (EntityPlayer)sender;
 			// tmp command

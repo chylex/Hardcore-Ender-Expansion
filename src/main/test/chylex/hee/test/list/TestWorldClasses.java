@@ -1,12 +1,12 @@
-package chylex.hee.system.test.list;
+package chylex.hee.test.list;
 import gnu.trove.set.hash.TIntHashSet;
 import java.lang.reflect.Method;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
-import chylex.hee.system.test.Assert;
-import chylex.hee.system.test.UnitTest;
+import chylex.hee.test.Assert;
+import chylex.hee.test.UnitTest;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.util.BoundingBox;
 import chylex.hee.world.util.Range;

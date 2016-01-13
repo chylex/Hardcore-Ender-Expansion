@@ -1,4 +1,4 @@
-package chylex.hee.system.test.list.old;
+package chylex.hee.test.list.old;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.init.Items;
@@ -9,8 +9,8 @@ import net.minecraft.potion.PotionEffect;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.brewing.PotionTypes;
-import chylex.hee.system.test.Assert;
-import chylex.hee.system.test.UnitTest;
+import chylex.hee.test.Assert;
+import chylex.hee.test.UnitTest;
 
 public class EnhancedBrewingTests{
 	private final List<Pair<Item,PotionEffect>> stages = new ArrayList<>();

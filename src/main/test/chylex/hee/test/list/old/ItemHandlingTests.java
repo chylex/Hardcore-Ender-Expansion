@@ -1,4 +1,4 @@
-package chylex.hee.system.test.list.old;
+package chylex.hee.test.list.old;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.init.Blocks;
@@ -6,10 +6,10 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.init.ItemList;
-import chylex.hee.system.test.Assert;
-import chylex.hee.system.test.UnitTest;
 import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.ItemPattern;
+import chylex.hee.test.Assert;
+import chylex.hee.test.UnitTest;
 
 public class ItemHandlingTests{
 	private List<ItemStack> patternTestList = new ArrayList<>();

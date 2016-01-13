@@ -1,11 +1,11 @@
-package chylex.hee.system.test.list;
+package chylex.hee.test.list;
 import net.minecraft.util.EnumFacing;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.abstractions.facing.Facing6;
-import chylex.hee.system.test.Assert;
-import chylex.hee.system.test.UnitTest;
+import chylex.hee.test.Assert;
+import chylex.hee.test.UnitTest;
 
 public class TestAbstractions{
 	@UnitTest

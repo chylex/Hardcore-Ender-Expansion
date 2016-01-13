@@ -1,4 +1,4 @@
-package chylex.hee.system.test;
+package chylex.hee.test;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,8 +10,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import net.minecraftforge.common.ForgeVersion;
 import chylex.hee.system.logging.Log;
-import chylex.hee.system.test.UnitTest.RunTime;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.test.UnitTest.RunTime;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
@@ -33,7 +33,7 @@ public final class UnitTester{
 		Log.debug(prefix+"Loading unit tests!");
 		
 		try{
-			String basePackage = "chylex.hee.system.test.list";
+			String basePackage = "chylex.hee.test.list";
 			
 			for(ClassInfo clsInfo:ClassPath.from(UnitTester.class.getClassLoader()).getTopLevelClassesRecursive(basePackage)){
 				Class<?> cls = clsInfo.load();

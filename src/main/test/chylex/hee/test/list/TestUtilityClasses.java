@@ -1,14 +1,14 @@
-package chylex.hee.system.test.list;
+package chylex.hee.test.list;
 import java.util.Arrays;
 import java.util.Calendar;
 import net.minecraft.util.EnumChatFormatting;
-import chylex.hee.system.test.Assert;
-import chylex.hee.system.test.UnitTest;
 import chylex.hee.system.util.BooleanByte;
 import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.CycleProtection;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.test.Assert;
+import chylex.hee.test.UnitTest;
 
 public class TestUtilityClasses{
 	@UnitTest

@@ -1,4 +1,4 @@
-package chylex.hee.system.test;
+package chylex.hee.test;
 import java.util.Collection;
 import chylex.hee.system.util.MathUtil;
 import com.google.common.base.Objects;

@@ -1,4 +1,4 @@
-package chylex.hee.system.test;
+package chylex.hee.test;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,6 +11,6 @@ public @interface UnitTest{
 	String trigger() default "";
 	
 	public enum RunTime{
-		PREINIT, LOADCOMPLETE, INGAME
+		CONSTRUCT, PREINIT, LOADCOMPLETE, INGAME
 	}
 }

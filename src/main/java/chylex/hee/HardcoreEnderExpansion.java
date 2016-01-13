@@ -30,8 +30,6 @@ import chylex.hee.proxy.NotificationCommonProxy;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.test.UnitTest.RunTime;
-import chylex.hee.system.test.UnitTester;
 import chylex.hee.world.DimensionOverride;
 import chylex.hee.world.end.server.TerritoryEvents;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -85,7 +83,6 @@ public class HardcoreEnderExpansion{
 		
 		ReflectionPublicizer.load();
 		Log.initializeDebug();
-		UnitTester.load();
 		
 		// CONFIGURATION LOAD
 
@@ -136,8 +133,6 @@ public class HardcoreEnderExpansion{
 		proxy.registerRenderers();
 		notifications.register();
 		
-		UnitTester.trigger(RunTime.PREINIT);
-		
 		ModInitHandler.finishPreInit();
 		ModIntegrationManager.sendIMCs();
 		
@@ -178,9 +173,6 @@ public class HardcoreEnderExpansion{
 		try{
 			ModIntegrity.verify();
 			HeeIMC.runLoadComplete();
-			
-			UnitTester.trigger(RunTime.LOADCOMPLETE);
-			UnitTester.finalizeEventTests();
 		}
 		catch(Throwable t){
 			FMLCommonHandler.instance().raiseException(t,"Error running LoadComplete event in Hardcore Ender Expansion!",true);

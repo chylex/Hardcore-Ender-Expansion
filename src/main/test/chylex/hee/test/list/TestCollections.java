@@ -1,6 +1,6 @@
-package chylex.hee.system.test.list;
-import java.util.*;
+package chylex.hee.test.list;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.*;
 import java.util.Map.Entry;
 import chylex.hee.system.collections.BitStream;
 import chylex.hee.system.collections.CollectionUtil;
@@ -10,8 +10,8 @@ import chylex.hee.system.collections.RandomList;
 import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.system.collections.weight.WeightedMap;
-import chylex.hee.system.test.Assert;
-import chylex.hee.system.test.UnitTest;
+import chylex.hee.test.Assert;
+import chylex.hee.test.UnitTest;
 
 public class TestCollections{
 	@UnitTest

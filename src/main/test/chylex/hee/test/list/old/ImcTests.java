@@ -1,4 +1,4 @@
-package chylex.hee.system.test.list.old;
+package chylex.hee.test.list.old;
 import java.util.Random;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -13,13 +13,13 @@ import chylex.hee.mechanics.essence.handler.DragonEssenceHandler;
 import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.mechanics.orb.OrbSpawnableMobs;
-import chylex.hee.system.test.Assert;
-import chylex.hee.system.test.UnitTest;
-import chylex.hee.system.test.UnitTest.RunTime;
+import chylex.hee.test.Assert;
+import chylex.hee.test.UnitTest;
+import chylex.hee.test.UnitTest.RunTime;
 import chylex.hee.tileentity.TileEntityExperienceTable;
 
 public class ImcTests{
-	@UnitTest(runTime = RunTime.PREINIT)
+	@UnitTest(runTime = RunTime.CONSTRUCT)
 	public void prepareImcs(){
 		for(String msgs:new String[]{
 			"HEE:DragonEssence:AddRecipe { 'input': { 'id': 'ghast_tear' }, 'output': { 'id': '~hee:spectral_tear' }, 'cost': 15 }",
