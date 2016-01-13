@@ -11,7 +11,6 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.entity.EntitySelector;
-import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackBloodlust extends DragonSpecialAttackBase{
@@ -40,7 +39,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 			timer = -10;
 			
 			for(EntityPlayer player:dragon.attacks.getViablePlayers()){
-				EntityEnderman enderman = DragonUtil.getClosestEntity(player,EntitySelector.type(dragon.worldObj,EntityEnderman.class,player.boundingBox.expand(18D,8D,18D)));
+				EntityEnderman enderman = EntitySelector.closest(player,EntityEnderman.class,player.boundingBox.expand(18D,8D,18D));
 				
 				if (enderman == null){
 					PosMutable mpos = new PosMutable();

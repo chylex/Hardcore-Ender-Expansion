@@ -6,7 +6,7 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.CollisionEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.MotionUpdateEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackDivebomb extends DragonSpecialAttackBase{
@@ -37,7 +37,7 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 		if (phase == PHASE_FLY_UP){
 			if (dragon.posY < 120)dragon.targetY = 140;
 			
-			if (tmpTarget == null)tmpTarget = DragonUtil.getClosestEntity(dragon,dragon.attacks.getViablePlayers());
+			if (tmpTarget == null)tmpTarget = EntitySelector.closest(dragon,dragon.attacks.getViablePlayers());
 			
 			if (tmpTarget == null){
 				dragon.targetX += dragon.getRNG().nextGaussian()*2D;

@@ -96,24 +96,6 @@ public final class DragonUtil{
 	}
 	
 	/**
-	 * Returns the closest entity to the source. It never returns the source entity, even if it is inside the provided list.
-	 */
-	public static <T extends Entity> T getClosestEntity(Entity source, List<? extends T> list){
-		double closestDist = Double.MAX_VALUE, currentDist;
-		T closestEntity = null;
-		
-		for(T entity:list){
-			if (!entity.isDead && entity != source && (currentDist = source.getDistanceSqToEntity(entity)) < closestDist){
-				closestDist = currentDist;
-				closestEntity = entity;
-			}
-		}
-		
-		return closestEntity;
-	}
-
-	
-	/**
 	 * Returns the sorted list of entities based by distance to the source. It never returns the source entity, even if it is inside the provided list.
 	 */
 	public static <T extends Entity> List<T> getClosestEntities(int maxAmount, Entity source, List<? extends T> list){

@@ -533,7 +533,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 		if (rand.nextInt(10) == 0){
 			float dist = 30F+4F*worldObj.difficultySetting.getDifficultyId()+(ModCommonProxy.opMobs ? 8F : 0F);
-			healingEnderCrystal = DragonUtil.getClosestEntity(this,EntitySelector.type(worldObj,EntityEnderCrystal.class,boundingBox.expand(dist,dist,dist)));
+			healingEnderCrystal = EntitySelector.closest(this,EntityEnderCrystal.class,boundingBox.expand(dist,dist,dist));
 		}
 	}
 
