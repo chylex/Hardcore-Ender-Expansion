@@ -1,7 +1,6 @@
 package chylex.hee.game.integration;
 import java.util.HashSet;
 import java.util.Set;
-import chylex.hee.game.integration.handlers.ArsMagicaFixIntegration;
 import chylex.hee.game.integration.handlers.MineFactoryReloadedIntegration;
 import chylex.hee.game.integration.handlers.ThaumcraftIntegration;
 import chylex.hee.system.logging.Log;
@@ -17,8 +16,7 @@ public final class ModIntegrationManager{
 		
 		Class[] handlerClasses = new Class[]{
 			ThaumcraftIntegration.class,
-			MineFactoryReloadedIntegration.class,
-			ArsMagicaFixIntegration.class
+			MineFactoryReloadedIntegration.class
 		};
 		
 		for(Class<? extends IIntegrationHandler> cls:handlerClasses){
