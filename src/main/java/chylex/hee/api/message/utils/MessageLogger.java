@@ -18,7 +18,7 @@ public final class MessageLogger{
 	}
 	
 	public static void logError(String message, Object...data){
-		Log.error(prefixError+message,data);
+		Log.info(prefixError+message,data);
 	}
 	
 	public static void logOk(String message, Object...data){

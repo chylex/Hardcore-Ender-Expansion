@@ -2,7 +2,6 @@ package chylex.hee.api.message;
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.nbt.NBTTagCompound;
-import org.apache.commons.lang3.StringUtils;
 import chylex.hee.api.message.handlers.ImcHandler;
 import chylex.hee.api.message.utils.MessageLogger;
 import chylex.hee.api.message.utils.RunEvent;
@@ -20,7 +19,7 @@ public final class MessageRegistry{
 	}
 	
 	public static boolean runMessage(String key, NBTTagCompound root){
-		MessagePattern pattern = registry.get(StringUtils.removeStart(key,"HEE:"));
+		MessagePattern pattern = registry.get(key);
 		
 		if (pattern == null){
 			MessageLogger.logError("Message key not found: $0",key);
