@@ -5,8 +5,6 @@ import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.EnumHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -33,16 +31,6 @@ public final class CustomMusicTicker extends MusicTicker{
 		instance.playingCustomJukebox = true;
 	}
 	
-	public static final MusicType HEE_END, HEE_END_DRAGON_CALM, HEE_END_DRAGON_ANGRY;
-	
-	static{
-		Class[][] enumClasses = new Class[][]{{ MusicType.class, ResourceLocation.class, int.class, int.class }};
-
-		HEE_END = EnumHelper.addEnum(enumClasses, MusicType.class, "HEE_END", new ResourceLocation("hardcoreenderexpansion:music.game.end"), 3600, 8400);
-		HEE_END_DRAGON_CALM = EnumHelper.addEnum(enumClasses, MusicType.class, "HEE_END_DRAGON_CALM", new ResourceLocation("hardcoreenderexpansion:music.game.end.dragoncalm"), 0, 0);
-		HEE_END_DRAGON_ANGRY = EnumHelper.addEnum(enumClasses, MusicType.class, "HEE_END_DRAGON_ANGRY", new ResourceLocation("hardcoreenderexpansion:music.game.end.dragonangry"), 0, 0);
-	}
-	
 	private final Minecraft mc;
 	private final Random rand;
 	private ISound currentMusic;
@@ -50,7 +38,7 @@ public final class CustomMusicTicker extends MusicTicker{
 	private int waitAfterNewSong = -1;
 	private int vanillaMusicTimer = 100;
 	private int endMusicTimer;
-	private EndMusicType prevEndMusicType = EndMusicType.EXPLORATION;
+	// TODO private EndMusicType prevEndMusicType = EndMusicType.EXPLORATION;
 	private EndMusicType playingEndMusicType = null;
 	private boolean playingCustomJukebox;
 	
@@ -58,7 +46,7 @@ public final class CustomMusicTicker extends MusicTicker{
 		super(mc);
 		this.mc = mc;
 		this.rand = new Random();
-		endMusicTimer = randomTimer(HEE_END);
+		endMusicTimer = EndMusicType.EXPLORATION.getTimer(rand);
 	}
 	
 	@Override
@@ -85,16 +73,15 @@ public final class CustomMusicTicker extends MusicTicker{
 	private void updateEndMusic(){
 		EndMusicType type = EndMusicType.validateAndGetMusicType();
 		
-		if (!prevEndMusicType.isBossMusic && (playingEndMusicType == null || !playingEndMusicType.isBossMusic) && type.isBossMusic){
+		if (playingEndMusicType == null || type.getPriority() > playingEndMusicType.getPriority()){
 			if (currentMusic != null)mc.getSoundHandler().stopSound(currentMusic);
-			mc.getSoundHandler().playSound(currentMusic = PositionedSoundRecord.func_147673_a(type.toMusicType().getMusicTickerLocation()));
+			mc.getSoundHandler().playSound(currentMusic = type.getPositionedSoundRecord());
 			playingEndMusicType = type;
 			waitAfterNewSong = 100;
-			
-			if (endMusicTimer < HEE_END.func_148634_b())endMusicTimer = randomTimer(HEE_END);
+			endMusicTimer = EndMusicType.EXPLORATION.getTimer(rand);
 		}
 		
-		prevEndMusicType = type;
+		// prevEndMusicType = type;
 		
 		if (currentMusic != null){
 			if (!mc.getSoundHandler().isSoundPlaying(currentMusic) && (waitAfterNewSong < 0 || --waitAfterNewSong < 0)){
@@ -103,10 +90,10 @@ public final class CustomMusicTicker extends MusicTicker{
 			}
 		}
 		else if (endMusicTimer == 0 || --endMusicTimer == 0){
-			mc.getSoundHandler().playSound(currentMusic = PositionedSoundRecord.func_147673_a(type.toMusicType().getMusicTickerLocation()));
+			mc.getSoundHandler().playSound(currentMusic = type.getPositionedSoundRecord());
 			playingEndMusicType = type;
 			waitAfterNewSong = 100;
-			endMusicTimer = randomTimer(type.toMusicType());
+			endMusicTimer = type.getTimer(rand);
 		}
 	}
 	
@@ -136,8 +123,8 @@ public final class CustomMusicTicker extends MusicTicker{
 	}
 	
 	private void resetEndMusic(){
-		endMusicTimer = HEE_END.func_148634_b();
-		prevEndMusicType = EndMusicType.EXPLORATION;
+		endMusicTimer = 3600;
+		// prevEndMusicType = EndMusicType.EXPLORATION;
 		playingEndMusicType = null;
 	}
 	
