@@ -21,7 +21,7 @@ public enum EndMusicType{
 	}
 	
 	EndMusicType(String resourceName, int minDelay, int maxDelay){
-		this.type = createMusicType(this,resourceName,minDelay,maxDelay);
+		this.type = createMusicType(this,new ResourceLocation("hardcoreenderexpansion",resourceName),minDelay,maxDelay);
 	}
 	
 	public int getTimer(Random rand){
@@ -37,10 +37,8 @@ public enum EndMusicType{
 		return PositionedSoundRecord.func_147673_a(type.getMusicTickerLocation());
 	}
 	
-	private static final Class[][] musicTypeClasses = new Class[][]{{ MusicType.class, ResourceLocation.class, int.class, int.class }};
-	
-	private static final MusicType createMusicType(EndMusicType parent, String resourceName, int minDelay, int maxDelay){
-		return EnumHelper.addEnum(musicTypeClasses,MusicType.class,"HEE_"+parent.name(),new ResourceLocation("hardcoreenderexpansion",resourceName),minDelay,maxDelay);
+	private static final MusicType createMusicType(EndMusicType parent, ResourceLocation resource, int minDelay, int maxDelay){
+		return EnumHelper.addEnum(MusicType.class,"HEE_"+parent.name(),new Class[]{ ResourceLocation.class, int.class, int.class },new Object[]{ resource, minDelay, maxDelay });
 	}
 	
 	private static EndMusicType cachedType = null;
