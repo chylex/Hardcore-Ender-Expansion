@@ -4,7 +4,7 @@ import chylex.hee.test.UnitTester;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid = "HardcoreEnderExpansionTest", name = "HEE Unit Tester", version = "0")
@@ -20,7 +20,7 @@ public class HardcoreEnderExpansionTest{
 	}
 	
 	@EventHandler
-	public void onPostInit(FMLPostInitializationEvent e){
+	public void onPostInit(FMLLoadCompleteEvent e){
 		try{
 			UnitTester.trigger(RunTime.LOADCOMPLETE);
 			UnitTester.finalizeEventTests();
