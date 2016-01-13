@@ -1,9 +1,12 @@
 package chylex.hee.sound;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
+import net.minecraft.client.audio.SoundEventAccessorComposite;
+import net.minecraft.client.audio.SoundHandler;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.sound.SoundLoadEvent;
-import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -15,7 +18,12 @@ public final class MusicManager{
 	public static boolean removeVanillaDelay = false;
 	
 	public static void register(){
-		MinecraftForge.EVENT_BUS.register(new MusicManager());
+		GameRegistryUtil.registerEventHandler(new MusicManager());
+	}
+	
+	public static boolean isMusicAvailable(ResourceLocation resource){
+		SoundEventAccessorComposite sound = Minecraft.getMinecraft().getSoundHandler().getSound(resource);
+		return sound != null && sound.func_148720_g() != SoundHandler.missing_sound; // OBFUSCATED getSoundEntry
 	}
 	
 	private boolean hasLoaded;

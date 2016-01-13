@@ -5,9 +5,6 @@ import java.util.Optional;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SoundEventAccessorComposite;
-import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
@@ -19,43 +16,46 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C02PlayRecord;
 import chylex.hee.sound.CustomMusicTicker;
+import chylex.hee.sound.MusicManager;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.CollectionUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemMusicDisk extends ItemRecord{
-	private static final List<String[]> musicNames = new ArrayList<>();
-	private static final List<ResourceLocation> musicResources = new ArrayList<>();
+	private static final List<Pair<String,ResourceLocation>> musicInfo = new ArrayList<>();
+	
+	private static void registerMusicDisk(String title, String resourceName){
+		musicInfo.add(Pair.of("qwertygiy - "+title,new ResourceLocation("hardcoreenderexpansion",resourceName)));
+	}
 	
 	static{
-		musicNames.add(new String[]{ "Banjolic", "records.qwertygiy.banjolic" });
-		musicNames.add(new String[]{ "In The End", "records.qwertygiy.intheend" });
-		musicNames.add(new String[]{ "Asteroid", "records.qwertygiy.asteroid" });
-		musicNames.add(new String[]{ "Stewed", "records.qwertygiy.stewed" });
-		musicNames.add(new String[]{ "Beat The Dragon", "records.qwertygiy.beatthedragon" });
-		musicNames.add(new String[]{ "Granite", "records.qwertygiy.granite" });
-		musicNames.add(new String[]{ "Remember This", "records.qwertygiy.rememberthis" });
-		musicNames.add(new String[]{ "Spyder", "records.qwertygiy.spyder" });
-		musicNames.add(new String[]{ "Onion", "records.qwertygiy.onion" });
-		musicNames.add(new String[]{ "Crying Soul", "records.qwertygiy.cryingsoul" });
-		
-		for(String[] data:musicNames)musicResources.add(new ResourceLocation("hardcoreenderexpansion",data[1]));
+		registerMusicDisk("Banjolic", "records.qwertygiy.banjolic");
+		registerMusicDisk("In The End", "records.qwertygiy.intheend");
+		registerMusicDisk("Asteroid", "records.qwertygiy.asteroid");
+		registerMusicDisk("Stewed", "records.qwertygiy.stewed");
+		registerMusicDisk("Beat The Dragon", "records.qwertygiy.beatthedragon");
+		registerMusicDisk("Granite", "records.qwertygiy.granite");
+		registerMusicDisk("Remember This", "records.qwertygiy.rememberthis");
+		registerMusicDisk("Spyder", "records.qwertygiy.spyder");
+		registerMusicDisk("Onion", "records.qwertygiy.onion");
+		registerMusicDisk("Crying Soul", "records.qwertygiy.cryingsoul");
 	}
 	
 	public static int getRecordCount(){
-		return musicNames.size();
+		return musicInfo.size();
 	}
 	
-	public static String[] getRecordData(int damage){
-		return CollectionUtil.getClamp(musicNames,damage);
+	public static String getRecordTitle(int damage){
+		return CollectionUtil.getClamp(musicInfo,damage).getLeft();
 	}
 	
 	public static ResourceLocation getRecordResource(int damage){
-		return CollectionUtil.getClamp(musicResources,damage);
+		return CollectionUtil.getClamp(musicInfo,damage).getRight();
 	}
 	
 	private IIcon[] iconArray;
@@ -102,15 +102,13 @@ public class ItemMusicDisk extends ItemRecord{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		textLines.add("qwertygiy - "+CollectionUtil.getClamp(musicNames,is.getItemDamage())[0]);
+		textLines.add(getRecordTitle(is.getItemDamage()));
 		
 		if (!CustomMusicTicker.canPlayMusic()){
 			textLines.add(EnumChatFormatting.RED+I18n.format("music.notEnabled"));
 		}
 		
-		SoundEventAccessorComposite sound = Minecraft.getMinecraft().getSoundHandler().getSound(getRecordResource(is.getItemDamage()));
-		
-		if (sound == null || sound.func_148720_g() == SoundHandler.missing_sound){ // OBFUSCATED getSoundEntry
+		if (!MusicManager.isMusicAvailable(getRecordResource(is.getItemDamage()))){
 			textLines.add(EnumChatFormatting.RED+I18n.format("music.missingResourcePack"));
 		}
 	}
@@ -118,7 +116,7 @@ public class ItemMusicDisk extends ItemRecord{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list){
-		for(int a = 0; a < musicNames.size(); a++){
+		for(int a = 0; a < musicInfo.size(); a++){
 			list.add(new ItemStack(item,1,a));
 		}
 	}
@@ -126,7 +124,7 @@ public class ItemMusicDisk extends ItemRecord{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister){
-		iconArray = new IIcon[musicNames.size()];
+		iconArray = new IIcon[musicInfo.size()];
 
 		for(int index = 0; index < iconArray.length; index++){
 			iconArray[index] = iconRegister.registerIcon(iconString+"_"+(index+1));

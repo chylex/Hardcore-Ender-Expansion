@@ -46,7 +46,6 @@ public class C02PlayRecord extends AbstractClientPacket{
 			return;
 		}
 		
-		String[] recordData = ItemMusicDisk.getRecordData(diskDamage);
 		Minecraft mc = Minecraft.getMinecraft();
 
 		SoundHandler soundHandler = mc.getSoundHandler();
@@ -59,7 +58,7 @@ public class C02PlayRecord extends AbstractClientPacket{
 			mapSoundPositions.remove(coords);
 		}
 
-		mc.ingameGUI.setRecordPlayingMessage("qwertygiy - "+recordData[0]);
+		mc.ingameGUI.setRecordPlayingMessage(ItemMusicDisk.getRecordTitle(diskDamage));
 		
 		ResourceLocation resource = ItemMusicDisk.getRecordResource(diskDamage);
 		PositionedSoundRecord snd = PositionedSoundRecord.func_147675_a(resource,pos.getX(),pos.getY(),pos.getZ());
