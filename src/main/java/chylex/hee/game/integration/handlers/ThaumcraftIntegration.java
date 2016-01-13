@@ -18,12 +18,7 @@ import chylex.hee.mechanics.essence.EssenceType;
 
 public class ThaumcraftIntegration implements IIntegrationHandler{
 	@Override
-	public String getModId(){
-		return "Thaumcraft";
-	}
-
-	@Override
-	public void integrate(){
+	public void integrate() throws Throwable{
 		
 		// BLOCK ASPECTS
 		

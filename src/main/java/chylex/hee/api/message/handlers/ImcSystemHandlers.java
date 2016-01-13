@@ -7,8 +7,12 @@ import chylex.hee.game.integration.ModIntegrationManager;
 
 public class ImcSystemHandlers extends ImcHandler{
 	private static final IMessageHandler disableIntegration = runner -> {
-		if (ModIntegrationManager.blacklistedMods.add(runner.getString("modid")))MessageLogger.logOk("Added 1 mod ID to the list.");
-		else MessageLogger.logFail("The mod ID was already in the list.");
+		if (ModIntegrationManager.blacklistMod(runner.getString("modid"))){
+			MessageLogger.logOk("Mod integration was blacklisted.");
+		}
+		else{
+			MessageLogger.logFail("The mod ID does not have any mod integration registered.");
+		}
 	};
 	
 	@Override

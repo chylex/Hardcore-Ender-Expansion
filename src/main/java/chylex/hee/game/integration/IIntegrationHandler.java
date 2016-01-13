@@ -1,6 +1,6 @@
 package chylex.hee.game.integration;
 
+@FunctionalInterface
 public interface IIntegrationHandler{
-	String getModId();
-	void integrate();
+	void integrate() throws Throwable;
 }
