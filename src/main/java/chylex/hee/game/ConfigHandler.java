@@ -113,10 +113,10 @@ public final class ConfigHandler{
 			StardustDecomposition.addToBlacklist(new ItemPattern().setItemName("ExtraUtilities","unstableingot"));
 			StardustDecomposition.addToBlacklist(new ItemPattern().setItemName("witchery","*"));
 			
-			String[] imcs = getStringArray("IMC", new String[]{ "Write your message here" }, "List of IMC/API messages, documentation can be found on http://hee-api.chylex.com").setShowInGui(false).getStringList();
+			String[] imcs = getStringArray("IMC", new String[]{ "Write your message here" }, "List of IMC messages, documentation can be found on http://hee-api.chylex.com").setShowInGui(false).getStringList();
 			
 			if (!(imcs.length == 1 && (imcs[0].isEmpty() || imcs[0].equals("Write your message here")))){
-				for(String imc:imcs)HeeIMC.acceptString("HEE Configuration File",imc);
+				for(String imc:imcs)HeeIMC.acceptString("[Configuration File]",imc);
 			}
 			
 			firstTimeGeneral = false;

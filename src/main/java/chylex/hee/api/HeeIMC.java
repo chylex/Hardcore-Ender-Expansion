@@ -44,8 +44,8 @@ public final class HeeIMC{
 	public static void runUnsafe(){
 		if (!Loader.instance().hasReachedState(LoaderState.AVAILABLE))throw new IllegalStateException("Invalid loader state, tried manually running IMC messages before LoadComplete.");
 		
-		MessageLogger.logState("Running IMC messages unsafely from mod $0.",Loader.instance().activeModContainer().getModId());
-		runMessagesForEvent(null);
+		MessageLogger.logState("Running IMC messages unsafely from mod $0, this is unsupported and may cause issues.",Loader.instance().activeModContainer().getModId());
+		runMessagesUnsafely();
 	}
 	
 	/* === MESSAGE RUNNING === */
@@ -60,6 +60,19 @@ public final class HeeIMC{
 				MessageRegistry.runMessage(msg.key,msg.nbt);
 			}
 		}
+	}
+	
+	private static void runMessagesUnsafely(){
+		for(HeeMessage msg:cachedMessages){
+			try{
+				MessageLogger.logRun("$0 || $1 $2",msg.modid,msg.key,msg.data);
+				MessageRegistry.runMessage(msg.key,msg.nbt);
+			}catch(Throwable t){
+				throw new RuntimeException("Error processing an unsafe IMC message from mod "+msg.modid+": "+msg.key+" "+msg.data,t);
+			}
+		}
+		
+		cachedMessages.clear();
 	}
 	
 	/* === MESSAGE ACCEPTING === */

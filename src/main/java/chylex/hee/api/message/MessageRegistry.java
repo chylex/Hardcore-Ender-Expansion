@@ -31,7 +31,7 @@ public final class MessageRegistry{
 	}
 	
 	public static boolean canRunInEvent(String key, RunEvent event){
-		return events.get(key) == event || event == null;
+		return events.get(key) == event;
 	}
 	
 	static{
