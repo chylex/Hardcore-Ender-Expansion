@@ -22,7 +22,14 @@ import chylex.hee.block.vanilla.BlockBasic;
 import chylex.hee.block.vanilla.BlockBasicSlab;
 import chylex.hee.block.vanilla.BlockBasicStairs;
 import chylex.hee.game.creativetab.ModCreativeTab;
-import chylex.hee.item.block.*;
+import chylex.hee.item.block.ItemBlockDynamicColor;
+import chylex.hee.item.block.ItemBlockEndFlower;
+import chylex.hee.item.block.ItemBlockEndermanHead;
+import chylex.hee.item.block.ItemBlockEnhanceableTile;
+import chylex.hee.item.block.ItemBlockEssenceAltar;
+import chylex.hee.item.block.ItemBlockSlab;
+import chylex.hee.item.block.ItemBlockWithSubtypes;
+import chylex.hee.item.block.ItemBlockWithTooltip;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.tileentity.*;
@@ -236,6 +243,7 @@ public final class BlockList{
 		// TODO setItemClass("sacred_stone", ItemBlockWithSubtypes.class);
 		setItemClass("end_portal_frame", ItemBlockWithSubtypes.class);
 		setItemClass("void_portal_frame", ItemBlockWithSubtypes.class);
+		setItemClass("void_portal", ItemBlockWithSubtypes.class);
 	}
 	
 	public static void registerBlocks(){
@@ -264,6 +272,8 @@ public final class BlockList{
 		);
 		
 		if (Log.isDeobfEnvironment)ModCreativeTab.tabMain.list.add(special_effects);
+		
+		itemBlocks.clear();
 	}
 	
 	public static void configureBlocks(){

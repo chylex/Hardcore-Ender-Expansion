@@ -169,7 +169,7 @@ public final class ItemList{
 			BlockList.enderman_head,bucket_ender_goo,knowledge_note,
 			// TODO SANCTUARY sacred_wand,sacred_wand_cores,
 			exp_bottle,music_disk,portal_token,spawn_eggs,
-			Blocks.end_portal/* TODO figure out a way? ,BlockList.void_portal*/
+			Blocks.end_portal,BlockList.void_portal
 		);
 		
 		ModCreativeTab.tabCharms.list.add(

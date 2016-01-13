@@ -4,8 +4,10 @@ import java.util.Optional;
 import java.util.Random;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -14,6 +16,7 @@ import chylex.hee.entity.technical.EntityTechnicalVoidPortal;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.global.WorldFile;
 import chylex.hee.item.ItemPortalToken;
+import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.entity.EntitySelector;
@@ -24,7 +27,7 @@ import chylex.hee.world.util.EntityPortalStatus;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockVoidPortal extends BlockEndPortal{
+public class BlockVoidPortal extends BlockEndPortal implements IBlockSubtypes{
 	public static Optional<EntityTechnicalVoidPortal> getData(World world, int x, int y, int z){
 		return CollectionUtil.get(EntitySelector.type(world,EntityTechnicalVoidPortal.class,AxisAlignedBB.getBoundingBox(x-4.5D,y-1D,z-4.5D,x+5.5D,y+1D,z+5.5D)),0);
 	}
@@ -79,6 +82,18 @@ public class BlockVoidPortal extends BlockEndPortal{
 
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack is){
+		return is.getItemDamage() == Meta.voidPortalReturn ? "tile.voidPortal.return" : "tile.voidPortal.travel";
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(Item item, CreativeTabs tab, List list){
+		list.add(new ItemStack(item,1,Meta.voidPortalTravel));
+		list.add(new ItemStack(item,1,Meta.voidPortalReturn));
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
