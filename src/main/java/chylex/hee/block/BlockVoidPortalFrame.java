@@ -62,6 +62,7 @@ public class BlockVoidPortalFrame extends Block{
 				});
 			}
 		}
+		
 		return true;
 	}
 	
