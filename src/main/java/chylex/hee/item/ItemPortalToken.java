@@ -54,7 +54,7 @@ public class ItemPortalToken extends Item{
 		return territory.properties.deserialize(ItemUtil.getTagRoot(is,false).getInteger("variations"));
 	}
 	
-	public static final Optional<Pos> generateTerritory(ItemStack is, World world){
+	public static final Optional<Pos> generateTerritory(ItemStack is, World world){ // TODO this needs to be redone to allow duplicating tokens and changing spawn position
 		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
 		if (nbt.hasKey("tpos"))return Optional.of(Pos.at(nbt.getLong("tpos")));
 		

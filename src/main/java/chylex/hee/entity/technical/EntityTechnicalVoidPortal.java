@@ -75,6 +75,12 @@ public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
 			if (timer == 10)entityData.setItemStack(Data.TOKEN,null);
 		}
 	}
+	
+	@Override
+	public void setDead(){
+		Thread.dumpStack(); // TODO
+		super.setDead();
+	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt){}
