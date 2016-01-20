@@ -1,5 +1,7 @@
 package chylex.hee.system.util;
 import java.util.List;
+import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -59,6 +61,25 @@ public final class NBTUtil{
 			inv.setInventorySlotContents(itemTag.getByte("_"),ItemStack.loadItemStackFromNBT(itemTag));
 		}
 	}
+	
+	public static Set<String> getKeys(NBTTagCompound tag){
+		return tag.func_150296_c();
+	}
+	
+	public static void forEachInt(NBTTagCompound tag, IStringIntConsumer consumer){
+		for(String key:getKeys(tag))consumer.accept(key,tag.getInteger(key));
+	}
+	
+	public static void forEachLong(NBTTagCompound tag, IStringLongConsumer consumer){
+		for(String key:getKeys(tag))consumer.accept(key,tag.getLong(key));
+	}
+	
+	public static void forEachCompoundTag(NBTTagCompound tag, BiConsumer<String,NBTTagCompound> consumer){
+		for(String key:getKeys(tag))consumer.accept(key,tag.getCompoundTag(key));
+	}
+	
+	public static interface IStringIntConsumer{ void accept(String key, int value); }
+	public static interface IStringLongConsumer{ void accept(String key, long value); }
 	
 	public static NBTTagCompound createCallbackTag(Runnable callback){
 		return new NBTTagCompoundCallback(callback);
