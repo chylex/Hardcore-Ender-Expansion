@@ -23,6 +23,7 @@ import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.tileentity.TileEntityVoidPortal;
 import chylex.hee.world.end.EndTerritory;
+import chylex.hee.world.util.BoundingBox;
 import chylex.hee.world.util.EntityPortalStatus;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -66,8 +67,14 @@ public class BlockVoidPortal extends BlockEndPortal implements IBlockSubtypes{
 					if (territory == null || !territory.canGenerate())return;
 					
 					ItemPortalToken.generateTerritory(tokenIS,world).ifPresent(targetPos -> {
-						player.mountEntity(null); // TODO if there are players at the position, offset by +-1 for random place inside the portal
-						player.setPositionAndUpdate(targetPos.getX()+0.5D,targetPos.getY()+1D,targetPos.getZ()+0.5D);
+						player.mountEntity(null);
+						
+						if (EntitySelector.players(world,new BoundingBox(targetPos,targetPos).toAABB()).isEmpty()){
+							player.setPositionAndUpdate(targetPos.getX()+0.5D,targetPos.getY()+1D,targetPos.getZ()+0.5D);
+						}
+						else{
+							player.setPositionAndUpdate(targetPos.getX()-0.7D+world.rand.nextDouble()*2.4D,targetPos.getY()+1D,targetPos.getZ()-0.7D+world.rand.nextDouble()*2.4D);
+						}
 					});
 				}
 			}
