@@ -1,4 +1,5 @@
 package chylex.hee.world.end.server;
+import gnu.trove.impl.Constants;
 import gnu.trove.map.hash.TLongObjectHashMap;
 import gnu.trove.map.hash.TObjectLongHashMap;
 import gnu.trove.set.TLongSet;
@@ -32,7 +33,7 @@ public final class TerritoryEvents{
 	}
 	
 	private final TLongObjectHashMap<TerritoryTicker> activeTickers = new TLongObjectHashMap<>(8);
-	private final TObjectLongHashMap<UUID> currentTerritory = new TObjectLongHashMap<>();
+	private final TObjectLongHashMap<UUID> currentTerritory = new TObjectLongHashMap<>(8,Constants.DEFAULT_LOAD_FACTOR,Pos.at(0,4095,0).toLong());
 	private int tickLimiter;
 	
 	private TerritoryEvents(){}
@@ -76,13 +77,14 @@ public final class TerritoryEvents{
 				Pair<Pos,EndTerritory> data = EndTerritory.findTerritoryCenter(player.posX,player.posZ);
 				if (data == null)continue;
 				
+				final UUID playerID = player.getUniqueID();
 				final long hash = data.getRight().getHashFromPoint(data.getLeft());
 				
 				if (activeTickers.containsKey(hash))toDeactivate.remove(hash);
 				else activeTickers.put(hash,new TerritoryTicker(data.getRight(),data.getLeft(),hash));
 				
-				if (currentTerritory.get(player.getUniqueID()) != hash){
-					currentTerritory.put(player.getUniqueID(),hash);
+				if (currentTerritory.get(playerID) != hash){
+					currentTerritory.put(playerID,hash);
 					PacketPipeline.sendToPlayer(player,new C13TerritoryInfo(data.getRight(),SaveData.global(WorldFile.class).getTerritoryVariations(hash)));
 				}
 			}
