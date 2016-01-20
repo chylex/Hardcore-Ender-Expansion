@@ -97,10 +97,6 @@ public enum EndTerritory{
 					}
 				}
 			}
-			
-			for(Entity entity:EntitySelector.any(world,box.toAABB())){
-				if (!(entity instanceof EntityPlayer))entity.setDead();
-			}
 		}
 		
 		return structureWorld;
@@ -149,6 +145,10 @@ public enum EndTerritory{
 		
 		int startX = 16*startPoint.chunkXPos+structureWorld.getArea().x2;
 		int startZ = 16*startPoint.chunkZPos+structureWorld.getArea().z2;
+		
+		if ($debugging){
+			EntitySelector.any(world,structureWorld.getArea().offset(Pos.at(startX,0,startZ)).toAABB()).stream().filter(e -> !(e instanceof EntityPlayer)).forEach(Entity::setDead);
+		}
 		
 		Pos spawnPos = spawn.createSpawnPoint(structureWorld,rand,this).offset(startX,bottom,startZ);
 		structureWorld.generateInWorld(world,rand,startX,bottom,startZ);
