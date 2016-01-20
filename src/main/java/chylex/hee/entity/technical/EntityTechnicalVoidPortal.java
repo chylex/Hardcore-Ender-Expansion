@@ -27,7 +27,7 @@ public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
 	}
 	
 	public void activate(ItemStack tokenIS){
-		entityData.setItemStack(Data.TOKEN,tokenIS.copy());
+		entityData.setItemStack(Data.TOKEN,tokenIS); // no copy; the ItemStack is modified when the territory is first generated
 	}
 	
 	public @Nullable ItemStack getActiveToken(){
@@ -76,12 +76,6 @@ public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
 		}
 	}
 	
-	@Override
-	public void setDead(){
-		Thread.dumpStack(); // TODO
-		super.setDead();
-	}
-
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt){}
 
