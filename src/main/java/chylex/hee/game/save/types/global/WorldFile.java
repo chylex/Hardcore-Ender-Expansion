@@ -156,7 +156,7 @@ public class WorldFile extends SaveFile{
 			territoryVariations.put(deserializeLong(key),territoryVariationsTag.getInteger(key));
 		}
 		
-		for(String key:(Set<String>)territoryVariationsTag.func_150296_c()){
+		for(String key:(Set<String>)territoryPosTag.func_150296_c()){
 			territoryPos.put(deserializeLong(key),territoryPosTag.getLong(key));
 		}
 		
