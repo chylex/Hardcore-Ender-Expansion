@@ -2,12 +2,12 @@ package chylex.hee.game.save.types.player;
 import java.util.EnumMap;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.Set;
 import java.util.stream.IntStream;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.game.save.types.PlayerFile;
 import chylex.hee.mechanics.compendium.content.LoreTexts;
+import chylex.hee.system.util.NBTUtil;
 import chylex.hee.system.util.RandUtil;
 
 public class LoreFile extends PlayerFile{
@@ -50,7 +50,7 @@ public class LoreFile extends PlayerFile{
 
 	@Override
 	protected void onLoad(NBTTagCompound nbt){
-		for(String key:(Set<String>)nbt.func_150296_c()){
+		for(String key:NBTUtil.getKeys(nbt)){
 			readTexts.put(LoreTexts.fromTitle(key),nbt.getByteArray(key));
 		}
 	}

@@ -2,7 +2,6 @@ package chylex.hee.tileentity;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -108,7 +107,7 @@ public class TileEntityLootChest extends TileEntity{
 		
 		NBTTagCompound playerTag = nbt.getCompoundTag("playerInv");
 		
-		for(String id:(Set<String>)playerTag.func_150296_c()){
+		for(String id:NBTUtil.getKeys(playerTag)){
 			InventoryLootChest inv = new InventoryLootChest(this);
 			
 			NBTUtil.readInventory(playerTag.getTagList(id,NBT.TAG_COMPOUND),inv);

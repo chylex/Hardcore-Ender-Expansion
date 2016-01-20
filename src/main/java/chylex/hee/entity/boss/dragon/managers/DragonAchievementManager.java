@@ -3,14 +3,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.game.achievements.AchievementEvents;
 import chylex.hee.game.achievements.AchievementManager;
+import chylex.hee.system.util.NBTUtil;
 
 public class DragonAchievementManager{
 	private final EntityBossDragon dragon;
@@ -82,15 +81,7 @@ public class DragonAchievementManager{
 	}
 
 	public void readFromNBT(NBTTagCompound tag){
-		for(String key:(Set<String>)tag.func_150296_c()){ // OBFUSCATED get keys
-			NBTBase b = tag.getTag(key);
-			
-			if (b instanceof NBTTagCompound){
-				NBTTagCompound compound = (NBTTagCompound)b;
-				getData(UUID.fromString(key)).readFromNBT(compound);
-			}
-		}
-		
+		NBTUtil.forEachCompoundTag(tag,(key, value) -> getData(UUID.fromString(key)).readFromNBT(value));
 		battleTimer = tag.getInteger("___timer");
 	}
 	

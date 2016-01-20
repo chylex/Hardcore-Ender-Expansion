@@ -11,7 +11,6 @@ import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.set.hash.TLongHashSet;
 import java.nio.charset.StandardCharsets;
 import java.util.EnumSet;
-import java.util.Set;
 import javax.annotation.Nullable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -140,29 +139,21 @@ public class WorldFile extends SaveFile{
 		NBTTagCompound territoryPosTag = nbt.getCompoundTag("tpos");
 		NBTTagCompound territoryDataTag = nbt.getCompoundTag("tdata");
 		
-		territories.ensureCapacity(territoryTag.func_150296_c().size());
-		territoryVariations.ensureCapacity(territoryVariationsTag.func_150296_c().size());
-		territoryPos.ensureCapacity(territoryPosTag.func_150296_c().size());
-		territoryData.ensureCapacity(territoryDataTag.func_150296_c().size());
+		territories.ensureCapacity(NBTUtil.getKeys(territoryTag).size());
+		territoryVariations.ensureCapacity(NBTUtil.getKeys(territoryVariationsTag).size());
+		territoryPos.ensureCapacity(NBTUtil.getKeys(territoryPosTag).size());
+		territoryData.ensureCapacity(NBTUtil.getKeys(territoryDataTag).size());
 		
-		for(String key:(Set<String>)territoryTag.func_150296_c()){
+		NBTUtil.forEachInt(territoryTag,(key, value) -> {
 			EndTerritory territory = CollectionUtil.get(EndTerritory.values,deserializeByte(key)).orElse(null);
 			
 			if (territory == null)Log.reportedError("Unknown territory $0 in WorldFile.",key);
-			else territories.put(territory,territoryTag.getInteger(key));
-		}
+			else territories.put(territory,value);
+		});
 		
-		for(String key:(Set<String>)territoryVariationsTag.func_150296_c()){
-			territoryVariations.put(deserializeLong(key),territoryVariationsTag.getInteger(key));
-		}
-		
-		for(String key:(Set<String>)territoryPosTag.func_150296_c()){
-			territoryPos.put(deserializeLong(key),territoryPosTag.getLong(key));
-		}
-		
-		for(String key:(Set<String>)territoryDataTag.func_150296_c()){
-			territoryData.put(deserializeLong(key),territoryDataTag.getCompoundTag(key));
-		}
+		NBTUtil.forEachInt(territoryVariationsTag,(key, value) -> territoryVariations.put(deserializeLong(key),value));
+		NBTUtil.forEachLong(territoryPosTag,(key, value) -> territoryPos.put(deserializeLong(key),value));
+		NBTUtil.forEachCompoundTag(territoryDataTag,(key, value) -> territoryData.put(deserializeLong(key),value));
 		
 		NBTUtil.readNumericList(nbt,"trare").forEach(tag -> rareTerritories.add(tag.func_150291_c()));
 	}
