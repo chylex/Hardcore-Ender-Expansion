@@ -2,7 +2,6 @@ package chylex.hee.world.end;
 import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Random;
-import java.util.function.ToIntFunction;
 import java.util.stream.IntStream;
 import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
@@ -49,7 +48,7 @@ public enum EndTerritory{
 	private final int chunkSize;
 	private final int height;
 	
-	private final ToIntFunction<Random> bottom;
+	private final int bottom;
 	private final TerritorySpawnGenerator spawn;
 	private final ITerritoryGeneratorConstructor constructor;
 	
@@ -57,7 +56,7 @@ public enum EndTerritory{
 	public final TerritoryEnvironment environment;
 	public final int tokenColor;
 	
-	private EndTerritory(int chunkSize, int height, ToIntFunction<Random> bottom, int tokenColor, TerritorySpawnGenerator spawn, TerritoryProperties properties, TerritoryEnvironment environment, ITerritoryGeneratorConstructor constructor){
+	private EndTerritory(int chunkSize, int height, int bottom, int tokenColor, TerritorySpawnGenerator spawn, TerritoryProperties properties, TerritoryEnvironment environment, ITerritoryGeneratorConstructor constructor){
 		this.chunkSize = chunkSize;
 		this.height = height;
 		this.bottom = bottom;
@@ -150,10 +149,9 @@ public enum EndTerritory{
 		
 		int startX = 16*startPoint.chunkXPos+structureWorld.getArea().x2;
 		int startZ = 16*startPoint.chunkZPos+structureWorld.getArea().z2;
-		int bottomY = bottom.applyAsInt(rand);
 		
-		Pos spawnPos = spawn.createSpawnPoint(structureWorld,rand,this).offset(startX,bottomY,startZ);
-		structureWorld.generateInWorld(world,rand,startX,bottomY,startZ);
+		Pos spawnPos = spawn.createSpawnPoint(structureWorld,rand,this).offset(startX,bottom,startZ);
+		structureWorld.generateInWorld(world,rand,startX,bottom,startZ);
 		return spawnPos;
 	}
 	
@@ -239,13 +237,8 @@ public enum EndTerritory{
 		return height;
 	}
 	
-	private static ToIntFunction<Random> bottom(int bottom){
-		return rand -> bottom;
-	}
-	
-	@SuppressWarnings("unused")
-	private static ToIntFunction<Random> bottom(ToIntFunction<Random> bottomFunc){
-		return bottomFunc;
+	private static int bottom(int bottom){
+		return bottom;
 	}
 	
 	private static int color(int hue){
