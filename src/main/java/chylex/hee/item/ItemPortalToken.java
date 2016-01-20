@@ -54,23 +54,26 @@ public class ItemPortalToken extends Item{
 		return territory.properties.deserialize(ItemUtil.getTagRoot(is,false).getInteger("variations"));
 	}
 	
-	public static final Optional<Pos> generateTerritory(ItemStack is, World world){ // TODO this needs to be redone to allow duplicating tokens and changing spawn position
+	public static final Optional<Pos> generateTerritory(ItemStack is, World world){
+		WorldFile file = SaveData.global(WorldFile.class);
+		
 		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
-		if (nbt.hasKey("tpos"))return Optional.of(Pos.at(nbt.getLong("tpos")));
+		if (nbt.hasKey("thash"))return Optional.of(file.getTerritoryPos(nbt.getLong("thash")));
 		
 		EndTerritory territory = getTerritory(is);
 		if (territory == null)return Optional.empty();
 		
-		WorldFile file = SaveData.global(WorldFile.class);
-		
 		final int index = file.increment(territory);
+		final long hash = territory.getHashFromIndex(index);
+		
 		final EnumSet<? extends Enum<?>> variations = getVariations(is);
+		final Pos spawnPos = territory.generateTerritory(index,world,territory.createRandom(world.getSeed(),index),variations);
 		
-		file.setTerritoryVariations(territory,index,variations);
-		if (isRare(is))file.setTerritoryRare(territory,index);
+		if (isRare(is))file.setTerritoryRare(hash);
+		file.setTerritoryPos(hash,spawnPos);
+		file.setTerritoryVariations(hash,variations);
 		
-		Pos spawnPos = territory.generateTerritory(index,world,territory.createRandom(world.getSeed(),index),variations);
-		nbt.setLong("tpos",spawnPos.toLong());
+		nbt.setLong("thash",hash);
 		return Optional.of(spawnPos);
 	}
 	

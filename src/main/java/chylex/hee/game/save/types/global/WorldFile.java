@@ -1,8 +1,11 @@
 package chylex.hee.game.save.types.global;
+import gnu.trove.impl.Constants;
 import gnu.trove.iterator.TLongIntIterator;
 import gnu.trove.iterator.TLongIterator;
+import gnu.trove.iterator.TLongLongIterator;
 import gnu.trove.iterator.TLongObjectIterator;
 import gnu.trove.map.hash.TLongIntHashMap;
+import gnu.trove.map.hash.TLongLongHashMap;
 import gnu.trove.map.hash.TLongObjectHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.set.hash.TLongHashSet;
@@ -23,10 +26,13 @@ import chylex.hee.world.end.EndTerritory;
 import com.google.common.primitives.Longs;
 
 public class WorldFile extends SaveFile{
-	private final TObjectIntHashMap<EndTerritory> territories = new TObjectIntHashMap<>(EndTerritory.values.length);
-	private final TLongIntHashMap territoryVariations = new TLongIntHashMap(10,0.5F,0L,0);
-	private final TLongObjectHashMap<NBTTagCompound> territoryData = new TLongObjectHashMap<>();
-	private final TLongHashSet rareTerritories = new TLongHashSet();
+	private final TObjectIntHashMap<EndTerritory> territories = new TObjectIntHashMap<>(1);
+	private final TLongHashSet rareTerritories = new TLongHashSet(10);
+	
+	private final TLongIntHashMap territoryVariations = new TLongIntHashMap(1,Constants.DEFAULT_LOAD_FACTOR,0L,0);
+	private final TLongLongHashMap territoryPos = new TLongLongHashMap(1,Constants.DEFAULT_LOAD_FACTOR,0L,0L);
+	private final TLongObjectHashMap<NBTTagCompound> territoryData = new TLongObjectHashMap<>(1);
+	
 	private Pos voidPortalPos;
 	
 	public WorldFile(){
@@ -38,8 +44,21 @@ public class WorldFile extends SaveFile{
 		return territories.adjustOrPutValue(territory,1,1)-1;
 	}
 	
-	public void setTerritoryVariations(EndTerritory territory, int index, EnumSet<? extends Enum<?>> variations){
-		territoryVariations.put(territory.getHashFromIndex(index),territory.properties.serialize(variations));
+	public void setTerritoryRare(long hash){
+		rareTerritories.add(hash);
+	}
+	
+	public boolean isTerritoryRare(long hash){
+		return rareTerritories.contains(hash);
+	}
+	
+	public void setTerritoryVariations(long hash, EnumSet<? extends Enum<?>> variations){
+		if (variations.isEmpty())return;
+		
+		EndTerritory territory = EndTerritory.getFromHash(hash).orElse(null);
+		if (territory == null)return;
+		
+		territoryVariations.put(hash,territory.properties.serialize(variations));
 		setModified();
 	}
 	
@@ -48,19 +67,20 @@ public class WorldFile extends SaveFile{
 		return bits == 0 ? EmptyEnumSet.get() : EndTerritory.getFromHash(hash).map(territory -> territory.properties.deserialize(bits)).orElseGet(EmptyEnumSet::get);
 	}
 	
+	public void setTerritoryPos(long hash, Pos spawnPoint){
+		territoryPos.put(hash,spawnPoint.toLong());
+		setModified();
+	}
+	
+	public Pos getTerritoryPos(long hash){
+		return Pos.at(territoryPos.get(hash));
+	}
+	
 	public NBTTagCompound getTerritoryData(long hash){
 		NBTTagCompound tag = territoryData.get(hash);
 		if (tag == null)territoryData.put(hash,tag = NBTUtil.createCallbackTag(this::setModified));
 		
 		return tag;
-	}
-	
-	public void setTerritoryRare(EndTerritory territory, int index){
-		rareTerritories.add(territory.getHashFromIndex(index));
-	}
-	
-	public boolean isTerritoryRare(long hash){
-		return rareTerritories.contains(hash);
 	}
 	
 	public void setVoidPortalPos(Pos pos){
@@ -77,6 +97,7 @@ public class WorldFile extends SaveFile{
 		
 		NBTTagCompound territoryTag = new NBTTagCompound();
 		NBTTagCompound territoryVariationsTag = new NBTTagCompound();
+		NBTTagCompound territoryPosTag = new NBTTagCompound();
 		NBTTagCompound territoryDataTag = new NBTTagCompound();
 		NBTTagList rareTerritoriesTag = new NBTTagList();
 		
@@ -85,6 +106,11 @@ public class WorldFile extends SaveFile{
 		for(TLongIntIterator iter = territoryVariations.iterator(); iter.hasNext();){
 			iter.advance();
 			territoryVariationsTag.setInteger(serializeLong(iter.key()),iter.value());
+		}
+		
+		for(TLongLongIterator iter = territoryPos.iterator(); iter.hasNext();){
+			iter.advance();
+			territoryPosTag.setLong(serializeLong(iter.key()),iter.value());
 		}
 		
 		for(TLongObjectIterator<NBTTagCompound> iter = territoryData.iterator(); iter.hasNext();){
@@ -100,6 +126,7 @@ public class WorldFile extends SaveFile{
 		
 		nbt.setTag("territories",territoryTag);
 		nbt.setTag("tvar",territoryVariationsTag);
+		nbt.setTag("tpos",territoryPosTag);
 		nbt.setTag("tdata",territoryDataTag);
 		nbt.setTag("trare",rareTerritoriesTag);
 	}
@@ -110,7 +137,13 @@ public class WorldFile extends SaveFile{
 		
 		NBTTagCompound territoryTag = nbt.getCompoundTag("territories");
 		NBTTagCompound territoryVariationsTag = nbt.getCompoundTag("tvar");
+		NBTTagCompound territoryPosTag = nbt.getCompoundTag("tpos");
 		NBTTagCompound territoryDataTag = nbt.getCompoundTag("tdata");
+		
+		territories.ensureCapacity(territoryTag.func_150296_c().size());
+		territoryVariations.ensureCapacity(territoryVariationsTag.func_150296_c().size());
+		territoryPos.ensureCapacity(territoryPosTag.func_150296_c().size());
+		territoryData.ensureCapacity(territoryDataTag.func_150296_c().size());
 		
 		for(String key:(Set<String>)territoryTag.func_150296_c()){
 			EndTerritory territory = CollectionUtil.get(EndTerritory.values,deserializeByte(key)).orElse(null);
@@ -121,6 +154,10 @@ public class WorldFile extends SaveFile{
 		
 		for(String key:(Set<String>)territoryVariationsTag.func_150296_c()){
 			territoryVariations.put(deserializeLong(key),territoryVariationsTag.getInteger(key));
+		}
+		
+		for(String key:(Set<String>)territoryVariationsTag.func_150296_c()){
+			territoryPos.put(deserializeLong(key),territoryPosTag.getLong(key));
 		}
 		
 		for(String key:(Set<String>)territoryDataTag.func_150296_c()){
