@@ -2,6 +2,7 @@ package chylex.hee.gui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import chylex.hee.block.BlockVoidPortal;
 import chylex.hee.game.save.SaveData;
@@ -19,7 +20,7 @@ public class ContainerVoidPortalTokens extends Container implements IContainerEv
 	
 	public ContainerVoidPortalTokens(EntityPlayer player, Pos voidPortalPos){
 		this.player = player;
-		this.tokenInv = SaveData.player(player,PortalFile.class).getTokenInventory();
+		this.tokenInv = !player.worldObj.isRemote ? SaveData.player(player,PortalFile.class).getTokenInventory() : new InventoryBasic("",false,PortalFile.slots);
 		this.voidPortalPos = voidPortalPos;
 		
 		for(int a = 0, numRows = tokenInv.getSizeInventory()/9; a < numRows; a++){

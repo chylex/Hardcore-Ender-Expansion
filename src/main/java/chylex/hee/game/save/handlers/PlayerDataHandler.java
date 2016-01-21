@@ -20,7 +20,7 @@ public class PlayerDataHandler implements ISaveDataHandler{
 	private static final String dataIdentifier = "HardcoreEnderExpansion2";
 	
 	public static final String getID(EntityPlayer player){
-		return ((PlayerIdProperty)player.getExtendedProperties(dataIdentifier)).id;
+		return ((PlayerIdProperty)player.getExtendedProperties(dataIdentifier)).id; // server only
 	}
 	
 	private final Map<String,PlayerFile> cache = new HashMap<>();
@@ -70,7 +70,7 @@ public class PlayerDataHandler implements ISaveDataHandler{
 	
 	@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing e){
-		if (e.entity.worldObj != null && e.entity instanceof EntityPlayer){
+		if (e.entity.worldObj != null && !e.entity.worldObj.isRemote && e.entity instanceof EntityPlayer){
 			if (!e.entity.registerExtendedProperties(dataIdentifier,new PlayerIdProperty()).equals(dataIdentifier)){
 				throw new IllegalStateException("Could not register extended player properties, likely due to the properties already being registered by another mod!");
 			}

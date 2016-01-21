@@ -30,7 +30,7 @@ public class EntityProjectileCurse extends EntityThrowable{
 
 	public EntityProjectileCurse(World world, EntityPlayer thrower, CurseType type, boolean eternal){
 		super(world,thrower);
-		this.throwerID = PlayerDataHandler.getID(thrower);
+		this.throwerID = world.isRemote ? "" : PlayerDataHandler.getID(thrower);
 		this.curseType = type;
 		this.eternal = eternal;
 	}

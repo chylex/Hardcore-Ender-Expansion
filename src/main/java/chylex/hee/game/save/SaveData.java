@@ -14,7 +14,9 @@ import chylex.hee.system.abstractions.nbt.NBT;
 import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.GameRegistryUtil;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
 
 public final class SaveData{
 	private static final SaveData instance = new SaveData();
@@ -25,15 +27,24 @@ public final class SaveData{
 	}
 	
 	public static <T extends SaveFile> T global(Class<T> cls){
+		checkServerSide();
 		return instance.global.get(cls);
 	}
 	
 	public static <T extends PlayerFile> T player(EntityPlayer player, Class<T> cls){
+		checkServerSide();
 		return instance.player.get(player,cls);
 	}
 	
 	public static <T extends PlayerFile> T player(String playerID, Class<T> cls){
+		checkServerSide();
 		return instance.player.get(playerID,cls);
+	}
+	
+	private static void checkServerSide(){
+		if (Log.isDebugEnabled() && FMLCommonHandler.instance().getEffectiveSide() != Side.SERVER){
+			throw new RuntimeException("SaveData cannot be accessed on client side: "+Thread.currentThread().getName());
+		}
 	}
 	
 	private final GlobalDataHandler global;

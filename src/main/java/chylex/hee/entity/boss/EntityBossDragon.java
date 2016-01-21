@@ -173,7 +173,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				
 				if (worldObj.getClosestPlayerToEntity(this,180D) == null){
 					freezeAI = true;
-					DragonChunkManager.release(this);
+					if (!worldObj.isRemote)DragonChunkManager.release(this);
 					return;
 				}
 				else freezeAI = false;
