@@ -71,7 +71,7 @@ public class ItemPortalToken extends Item{
 		final long hash = territory.getHashFromIndex(index);
 		
 		final EnumSet<? extends Enum<?>> variations = getVariations(is);
-		final Pos spawnPos = territory.generateTerritory(index,world,territory.createRandom(world.getSeed(),index),variations);
+		final Pos spawnPos = territory.generateTerritory(index,world,territory.createRandom(world.getSeed(),index),variations,isRare(is));
 		
 		if (isRare(is)){
 			file.setTerritoryRare(hash);

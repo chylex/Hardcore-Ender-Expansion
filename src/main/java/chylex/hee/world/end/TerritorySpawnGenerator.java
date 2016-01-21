@@ -27,7 +27,7 @@ public class TerritorySpawnGenerator{
 		this.attempts = attempts;
 	}
 	
-	public Pos createSpawnPoint(StructureWorld world, Random rand, EndTerritory territory){
+	public Pos createSpawnPoint(StructureWorld world, Random rand, EndTerritory territory, boolean isRare){
 		PosMutable pos = new PosMutable();
 		if (attempts == 0)pointFinder.findSpawnPoint(world,rand,territory,pos);
 		
@@ -35,13 +35,13 @@ public class TerritorySpawnGenerator{
 			pointFinder.findSpawnPoint(world,rand,territory,pos);
 			
 			if (canSpawnPortalAt(world,rand,pos)){
-				generatePortalAt(world,rand,pos);
+				generatePortalAt(world,rand,pos,isRare);
 				return pos;
 			}
 		}
 		
 		if (pos.y <= 0)pos.y = 1;
-		generatePortalAt(world,rand,pos);
+		generatePortalAt(world,rand,pos,isRare);
 		return pos;
 	}
 	
@@ -50,10 +50,10 @@ public class TerritorySpawnGenerator{
 			   Pos.allBlocksMatch(pos.offset(-1,1,-1),pos.offset(1,1,1),testPos -> world.isAir(testPos));
 	}
 	
-	void generatePortalAt(StructureWorld world, Random rand, Pos pos){
+	void generatePortalAt(StructureWorld world, Random rand, Pos pos, boolean isRare){
 		for(int offX = -2; offX <= 2; offX++){
 			for(int offZ = -2; offZ <= 2; offZ++){
-				if (Math.abs(offX) <= 1 && Math.abs(offZ) <= 1)world.setAttentionWhore(pos.getX()+offX,pos.getY(),pos.getZ()+offZ,new BlockInfo(BlockList.void_portal,Meta.voidPortalReturn));
+				if (Math.abs(offX) <= 1 && Math.abs(offZ) <= 1)world.setAttentionWhore(pos.getX()+offX,pos.getY(),pos.getZ()+offZ,new BlockInfo(BlockList.void_portal,isRare ? Meta.voidPortalDisabled : Meta.voidPortalReturn));
 				else if (MathUtil.distance(offX,offZ) <= 2.32D)world.setAttentionWhore(pos.getX()+offX,pos.getY(),pos.getZ()+offZ,new BlockInfo(BlockList.void_portal_frame,Meta.voidPortalFramePlain));
 			}
 		}
@@ -79,7 +79,7 @@ public class TerritorySpawnGenerator{
 		}
 		
 		@Override
-		void generatePortalAt(StructureWorld world, Random rand, Pos pos){}
+		void generatePortalAt(StructureWorld world, Random rand, Pos pos, boolean isRare){}
 	}
 	
 	public static final class Origin extends TerritorySpawnGenerator{
