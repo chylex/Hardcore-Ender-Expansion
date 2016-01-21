@@ -12,6 +12,7 @@ import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraftforge.common.util.Constants;
 
 public class NBTList{
 	private final NBTTagList tag;
@@ -50,7 +51,47 @@ public class NBTList{
 		tag.appendTag(new NBTTagDouble(value));
 	}
 	
-	// READING
+	public void appendCompound(NBTTagCompound value){
+		tag.appendTag(value);
+	}
+	
+	public void appendCompound(NBTCompound value){
+		tag.appendTag(value.getUnderlyingTag());
+	}
+	
+	// GETTERS
+	
+	public NBTBase getTag(int index){
+		return index >= 0 && index < size() ? (NBTBase)tag.tagList.get(index) : null;
+	}
+	
+	public int getInt(int index){
+		NBTBase tag = getTag(index);
+		return tag.getId() == Constants.NBT.TAG_INT ? ((NBTTagInt)tag).func_150287_d() : 0;
+	}
+	
+	public long getLong(int index){
+		NBTBase tag = getTag(index);
+		return tag.getId() == Constants.NBT.TAG_LONG ? ((NBTTagLong)tag).func_150291_c() : 0;
+	}
+	
+	public float getFloat(int index){
+		return tag.func_150308_e(index);
+	}
+	
+	public double getDouble(int index){
+		return tag.func_150309_d(index);
+	}
+	
+	public String getString(int index){
+		return tag.getStringTagAt(index);
+	}
+	
+	public NBTCompound getCompound(int index){
+		return NBT.wrap(tag.getCompoundTagAt(index));
+	}
+	
+	// STREAMS
 	
 	public Stream<NBTPrimitive> readPrimitives(){
 		return ((List<NBTPrimitive>)tag.tagList).stream();
