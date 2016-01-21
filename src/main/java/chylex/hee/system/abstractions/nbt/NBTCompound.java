@@ -227,6 +227,10 @@ public class NBTCompound{
 	public boolean isEmpty(){
 		return tag.hasNoTags();
 	}
+	
+	public void removeTag(String key){
+		tag.removeTag(key);
+	}
 
 	@Override
 	public String toString(){
