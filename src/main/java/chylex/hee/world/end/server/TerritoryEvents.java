@@ -62,7 +62,7 @@ public final class TerritoryEvents{
 	}
 	
 	@SubscribeEvent
-	public void onServerTick(WorldTickEvent e){
+	public void onWorldTick(WorldTickEvent e){
 		if (e.phase != Phase.START || e.side != Side.SERVER || e.world.provider.dimensionId != 1)return;
 		
 		for(TerritoryTicker ticker:activeTickers.valueCollection()){
