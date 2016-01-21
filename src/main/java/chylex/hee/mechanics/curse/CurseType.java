@@ -50,7 +50,7 @@ public enum CurseType{
 			if (timer == 0){
 				Random rand = entity.getRNG();
 				timer = (byte)(20+rand.nextInt(60));
-				curseTeleporter.teleport(entity,rand);
+				if (curseTeleporter.teleport(entity,rand))hasTeleported = true;
 			}
 			else --timer;
 			
