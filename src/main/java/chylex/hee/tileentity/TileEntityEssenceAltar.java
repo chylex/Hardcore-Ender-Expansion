@@ -7,6 +7,7 @@ import java.util.Map;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase.NBTPrimitive;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -27,8 +28,8 @@ import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.packets.client.C17AltarRuneItemEffect;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.nbt.NBT;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.util.NBTUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -107,7 +108,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		nbt.setByte("essenceTypeId",essenceType.id);
 		nbt.setInteger("essence",essenceLevel);
 		
-		NBTUtil.writeList(nbt,"runeItems",Arrays.stream(runeItems).map(item -> new NBTTagByte(item == null ? -1 : item.indexInArray)));
+		NBT.wrap(nbt).writeList("runeItems",Arrays.stream(runeItems).map(item -> new NBTTagByte(item == null ? -1 : item.indexInArray)));
 		nbt.setByte("runeIndex",runeItemIndex);
 		
 		nbt.setString("enhancements2",enhancements.serialize());
@@ -123,7 +124,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		essenceType = EssenceType.getById(nbt.getByte("essenceTypeId"));
 		essenceLevel = nbt.getInteger("essence");
 		
-		int[] readItems = NBTUtil.readNumericList(nbt,"runeItems").mapToInt(tag -> tag.func_150290_f()).toArray();
+		int[] readItems = NBT.wrap(nbt).getList("runeItems").readPrimitives().mapToInt(NBTPrimitive::func_150290_f).toArray();
 		
 		for(int a = 0; a < Math.min(runeItems.length,readItems.length); a++){
 			if (readItems[a] != -1)runeItems[a] = essenceType.itemsNeeded[readItems[a]];

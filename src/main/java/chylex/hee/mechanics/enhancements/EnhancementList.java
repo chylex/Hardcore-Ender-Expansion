@@ -8,8 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.EnumUtils;
+import chylex.hee.system.abstractions.nbt.NBT;
 import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.ItemUtil;
 import com.google.common.base.Splitter;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -80,28 +80,28 @@ public class EnhancementList<T extends Enum<T>>{
 			super(enumCls);
 			this.linkedIS = linkedIS;
 			
-			String enhancementData = ItemUtil.getTagRoot(linkedIS,false).getString("enhancements2");
+			String enhancementData = NBT.item(linkedIS,false).getString("enhancements2");
 			if (!enhancementData.isEmpty())deserialize(enhancementData);
 		}
 		
 		@Override
 		public void set(T enhancement, int level){
 			super.set(enhancement,level);
-			ItemUtil.getTagRoot(linkedIS,true).setString("enhancements2",serialize());
+			NBT.item(linkedIS,true).setString("enhancements2",serialize());
 			linkedIS.func_150996_a(EnhancementRegistry.getItemTransformation(linkedIS.getItem()));
 		}
 		
 		@Override
 		public void upgrade(T enhancement){
 			super.upgrade(enhancement);
-			ItemUtil.getTagRoot(linkedIS,true).setString("enhancements2",serialize());
+			NBT.item(linkedIS,true).setString("enhancements2",serialize());
 			linkedIS.func_150996_a(EnhancementRegistry.getItemTransformation(linkedIS.getItem()));
 		}
 		
 		@Override
 		public void replace(EnhancementList<T> replacement){
 			super.replace(replacement);
-			ItemUtil.getTagRoot(linkedIS,true).setString("enhancements2",serialize());
+			NBT.item(linkedIS,true).setString("enhancements2",serialize());
 			linkedIS.func_150996_a(EnhancementRegistry.getItemTransformation(linkedIS.getItem()));
 		}
 	}

@@ -7,7 +7,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -16,7 +15,8 @@ import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
-import chylex.hee.system.util.ItemUtil;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -81,7 +81,7 @@ public class ItemTransferenceGem extends ItemAbstractGem{
 		if (entity.isRiding() || entity.riddenByEntity != null || !is.hasTagCompound() || !canUse(is))return is;
 		
 		GemData gemData = new GemData();
-		gemData.set(is.getTagCompound());
+		gemData.set(NBT.wrap(is.getTagCompound()));
 		
 		if (gemData.isLinked() && entity.dimension == gemData.dim){
 			int itemDamage = is.getItemDamage();
@@ -112,7 +112,7 @@ public class ItemTransferenceGem extends ItemAbstractGem{
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		if (is.hasTagCompound()){
-			clientCache.set(is.getTagCompound());
+			clientCache.set(NBT.wrap(is.getTagCompound()));
 			
 			if (clientCache.isLinked()){
 				textLines.add(EnumChatFormatting.GRAY+I18n.format("item.transferenceGem.info.linked"));
@@ -157,8 +157,8 @@ public class ItemTransferenceGem extends ItemAbstractGem{
 	private static class GemData{
 		private int dim, x, y, z;
 		
-		private void set(NBTTagCompound nbt){
-			set(nbt.hasKey("HED_Gem_Dim") ? nbt.getInteger("HED_Gem_Dim") : -999,nbt.getInteger("HED_Gem_X"),nbt.getInteger("HED_Gem_Y"),nbt.getInteger("HED_Gem_Z"));
+		private void set(NBTCompound tag){
+			set(tag.hasKey("HED_Gem_Dim") ? tag.getInt("HED_Gem_Dim") : -999,tag.getInt("HED_Gem_X"),tag.getInt("HED_Gem_Y"),tag.getInt("HED_Gem_Z"));
 		}
 		
 		private void set(int dimension, int x, int y, int z){
@@ -173,11 +173,11 @@ public class ItemTransferenceGem extends ItemAbstractGem{
 		}
 		
 		public void saveToItemStack(ItemStack is){
-			NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
-			nbt.setInteger("HED_Gem_Dim",dim);
-			nbt.setInteger("HED_Gem_X",x);
-			nbt.setInteger("HED_Gem_Y",y);
-			nbt.setInteger("HED_Gem_Z",z);
+			NBTCompound tag = NBT.item(is,true);
+			tag.setInt("HED_Gem_Dim",dim);
+			tag.setInt("HED_Gem_X",x);
+			tag.setInt("HED_Gem_Y",y);
+			tag.setInt("HED_Gem_Z",z);
 		}
 	}
 }

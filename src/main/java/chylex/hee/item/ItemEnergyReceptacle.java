@@ -13,8 +13,9 @@ import org.apache.commons.lang3.StringUtils;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.ItemUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,24 +35,24 @@ public class ItemEnergyReceptacle extends Item{
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		NBTTagCompound nbt = ItemUtil.getTagRoot(is,false);
+		NBTCompound tag = NBT.item(is,false);
 		
-		if (nbt.hasKey("fuckcreativemode")){
-			is.setItemDamage(nbt.getByte("fuckcreativemode"));
-			nbt.removeTag("fuckcreativemode");
+		if (tag.hasKey("fuckcreativemode")){
+			is.setItemDamage(tag.getByte("fuckcreativemode"));
+			tag.removeTag("fuckcreativemode");
 		}
 		
-		if (!world.isRemote && nbt.hasKey("cluster")){
-			nbt = ItemUtil.getTagRoot(is,true);
-			long prevTime = nbt.getLong("ltime"), currentTime = world.getTotalWorldTime();
+		if (!world.isRemote && tag.hasKey("cluster")){
+			tag = NBT.item(is,true);
+			long prevTime = tag.getLong("ltime"), currentTime = world.getTotalWorldTime();
 			
 			if (currentTime-prevTime >= 10){
-				NBTTagCompound clusterTag = nbt.getCompoundTag("cluster");
+				NBTCompound clusterTag = tag.getCompound("cluster");
 				float lvl = clusterTag.getFloat("lvl");
 				float limit = clusterTag.getFloat("max");
 				
 				clusterTag.setFloat("lvl",updateEnergyLevel(lvl,limit,1+(int)((currentTime-prevTime)/10)));
-				nbt.setLong("ltime",currentTime);
+				tag.setLong("ltime",currentTime);
 			}
 		}
 	}
@@ -60,34 +61,34 @@ public class ItemEnergyReceptacle extends Item{
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (!world.isRemote){
 			Pos pos = Pos.at(x,y,z);
-			NBTTagCompound nbt = ItemUtil.getTagRoot(is,false);
+			NBTCompound tag = NBT.item(is,false);
 			
-			if (nbt.hasKey("cluster")){
-				if (nbt.hasKey("ltime") && world.getTotalWorldTime()-nbt.getLong("ltime") >= 11)return false; // needs to be refreshed before placing
+			if (tag.hasKey("cluster")){
+				if (tag.hasKey("ltime") && world.getTotalWorldTime()-tag.getLong("ltime") >= 11)return false; // needs to be refreshed before placing
 				
 				if (side > 0)pos = pos.offset(side);
 				if (!player.canPlayerEdit(pos.getX(),pos.getY(),pos.getZ(),side,is) || !pos.isAir(world))return false;
 				
-				nbt.getCompoundTag("cluster").setLong("loc",pos.toLong()); // nbt has to exist at this point
+				tag.getCompound("cluster").setLong("loc",pos.toLong()); // nbt has to exist at this point
 				pos.setBlock(world,BlockList.energy_cluster);
 				
 				TileEntityEnergyCluster tile = pos.getTileEntity(world);
-				tile.readTileFromNBT(nbt.getCompoundTag("cluster"));
+				tile.readTileFromNBT(tag.getCompound("cluster").getUnderlyingTag());
 				
 				EnergyClusterData data = tile.getData().get();
-				if (data.getEnergyLevel()-nbt.getFloat("origlvl") >= Math.pow(data.getMaxLevel(),0.015D)+0.01D)data.weaken();
+				if (data.getEnergyLevel()-tag.getFloat("origlvl") >= Math.pow(data.getMaxLevel(),0.015D)+0.01D)data.weaken();
 				
 				tile.synchronize();
 				
-				nbt.removeTag("cluster");
-				nbt.removeTag("ltime");
-				nbt.removeTag("origlvl");
+				tag.removeTag("cluster");
+				tag.removeTag("ltime");
+				tag.removeTag("origlvl");
 				
-				if (player.capabilities.isCreativeMode)nbt.setByte("fuckcreativemode",(byte)0);
+				if (player.capabilities.isCreativeMode)tag.setByte("fuckcreativemode",(byte)0);
 				else is.setItemDamage(0);
 			}
 			else if (pos.getBlock(world) == BlockList.energy_cluster){
-				nbt = ItemUtil.getTagRoot(is,true);
+				tag = NBT.item(is,true);
 				
 				NBTTagCompound clusterTag = new NBTTagCompound();
 				TileEntityEnergyCluster cluster = pos.getTileEntity(world);
@@ -96,11 +97,11 @@ public class ItemEnergyReceptacle extends Item{
 				cluster.shouldNotExplode = true;
 				pos.breakBlock(world,false);
 				
-				nbt.setTag("cluster",clusterTag);
-				nbt.setFloat("origlvl",clusterTag.getFloat("lvl"));
-				nbt.setLong("ltime",world.getTotalWorldTime());
+				tag.setTag("cluster",clusterTag);
+				tag.setFloat("origlvl",clusterTag.getFloat("lvl"));
+				tag.setLong("ltime",world.getTotalWorldTime());
 				
-				if (player.capabilities.isCreativeMode)nbt.setByte("fuckcreativemode",(byte)1);
+				if (player.capabilities.isCreativeMode)tag.setByte("fuckcreativemode",(byte)1);
 				else is.setItemDamage(1);
 			}
 			
@@ -113,12 +114,12 @@ public class ItemEnergyReceptacle extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		NBTTagCompound nbt = ItemUtil.getTagRoot(is,false);
+		NBTCompound tag = NBT.item(is,false);
 		
-		if (nbt.hasKey("cluster")){
-			float lvl = nbt.getCompoundTag("cluster").getFloat("lvl");
-			float limit = nbt.getCompoundTag("cluster").getFloat("max");
-			long diff = player.worldObj.getTotalWorldTime()-nbt.getLong("ltime");
+		if (tag.hasKey("cluster")){
+			float lvl = tag.getCompound("cluster").getFloat("lvl");
+			float limit = tag.getCompound("cluster").getFloat("max");
+			long diff = player.worldObj.getTotalWorldTime()-tag.getLong("ltime");
 			textLines.add(StringUtils.replaceOnce(I18n.format("item.energyReceptacle.holding"),"$",DragonUtil.formatTwoPlaces.format(updateEnergyLevel(lvl,limit,1+(int)(diff/10)))));
 		}
 	}
@@ -132,7 +133,7 @@ public class ItemEnergyReceptacle extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack is, int pass){
-		if (pass == 1 && ItemUtil.getTagRoot(is,false).hasKey("cluster")){
+		if (pass == 1 && NBT.item(is,false).hasKey("cluster")){
 			byte[] colors = is.getTagCompound().getCompoundTag("cluster").getByteArray("col");
 			if (colors.length == 3)return ((colors[0]+128)<<16)|((colors[1]+128)<<8)|(colors[2]+128);
 		}

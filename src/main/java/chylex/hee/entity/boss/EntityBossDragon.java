@@ -57,6 +57,7 @@ import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.abstractions.entity.EntitySelector;
+import chylex.hee.system.abstractions.nbt.NBT;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -663,7 +664,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 		nbt.setTag("atk",attacks.writeToNBT());
 		nbt.setTag("rwr",rewards.writeToNBT());
-		nbt.setTag("acv",achievements.writeToNBT());
+		nbt.setTag("acv",achievements.writeToNBT().getUnderlyingTag());
 	}
 
 	@Override
@@ -678,7 +679,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		
 		attacks.readFromNBT(nbt.getCompoundTag("atk"));
 		rewards.readFromNBT(nbt.getCompoundTag("rwr"));
-		achievements.readFromNBT(nbt.getCompoundTag("acv"));
+		achievements.readFromNBT(NBT.wrap(nbt.getCompoundTag("acv")));
 	}
 
 	public void setAngry(boolean angry){

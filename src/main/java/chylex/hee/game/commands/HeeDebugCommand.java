@@ -18,9 +18,9 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.proxy.ModCommonProxy.MessageType;
 import chylex.hee.system.abstractions.entity.EntitySelector;
+import chylex.hee.system.abstractions.nbt.NBT;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.util.ItemUtil;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
 
@@ -127,7 +127,7 @@ public class HeeDebugCommand extends BaseCommand{
 		}
 		else if (args[0].equalsIgnoreCase("stick") && args.length >= 2 && sender instanceof EntityPlayer && ItemList.debug_stick != null){
 			ItemStack stick = new ItemStack(ItemList.debug_stick);
-			ItemUtil.getTagRoot(stick,true).setString("type",args[1]);
+			NBT.item(stick,true).setString("type",args[1]);
 			
 			EntityPlayer player = (EntityPlayer)sender;
 			player.inventory.mainInventory[player.inventory.currentItem] = stick;

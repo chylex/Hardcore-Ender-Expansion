@@ -4,11 +4,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
-import chylex.hee.system.util.ItemUtil;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -18,18 +18,18 @@ public abstract class ItemAbstractGem extends ItemAbstractEnergyAcceptor{
 	
 	@Override
 	public boolean canUse(ItemStack is){
-		return super.canUse(is) && !ItemUtil.getTagRoot(is,false).hasKey("cooldown");
+		return super.canUse(is) && !NBT.item(is,false).hasKey("cooldown");
 	}
 	
 	@Override
 	public void useEnergy(ItemStack is, EntityLivingBase owner){
 		super.useEnergy(is,owner);
-		ItemUtil.getTagRoot(is,true).setByte("cooldown",getCooldown());
+		NBT.item(is,true).setByte("cooldown",getCooldown());
 	}
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		NBTTagCompound tag = ItemUtil.getTagRoot(is,false);
+		NBTCompound tag = NBT.item(is,false);
 		
 		if (tag.hasKey("cooldown")){
 			byte cooldown = tag.getByte("cooldown");
@@ -56,7 +56,7 @@ public abstract class ItemAbstractGem extends ItemAbstractEnergyAcceptor{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack is, int pass){
-		int shade = 255-MathUtil.ceil(95*(ItemUtil.getTagRoot(is,false).getByte("cooldown")/(float)getCooldown()));
+		int shade = 255-MathUtil.ceil(95*(NBT.item(is,false).getByte("cooldown")/(float)getCooldown()));
 		return shade<<16|shade<<8|shade;
 	}
 }

@@ -15,7 +15,8 @@ import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C03KnowledgeNote;
 import chylex.hee.packets.client.C19CompendiumData;
-import chylex.hee.system.util.ItemUtil;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.world.loot.interfaces.IItemPostProcessor;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -62,11 +63,11 @@ public class ItemKnowledgeNote extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		NBTTagCompound nbt = ItemUtil.getTagRoot(is,false);
-		if (nbt.hasKey("noteCat"))textLines.add(I18n.format("ec.note."+nbt.getString("noteCat")+".title"));
+		NBTCompound tag = NBT.item(is,false);
+		if (tag.hasKey("noteCat"))textLines.add(I18n.format("ec.note."+tag.getString("noteCat")+".title"));
 		
-		if (nbt.hasKey("notePts"))textLines.add(nbt.getByte("notePts") > 0 ? StringUtils.replaceOnce(I18n.format("item.knowledgeNote.pts"),"$",String.valueOf(nbt.getByte("notePts"))) : I18n.format("item.knowledgeNote.used"));
-		else if (nbt.hasKey("pts"))textLines.add(I18n.format("item.knowledgeNote.useless"));
+		if (tag.hasKey("notePts"))textLines.add(tag.getByte("notePts") > 0 ? StringUtils.replaceOnce(I18n.format("item.knowledgeNote.pts"),"$",String.valueOf(tag.getByte("notePts"))) : I18n.format("item.knowledgeNote.used"));
+		else if (tag.hasKey("pts"))textLines.add(I18n.format("item.knowledgeNote.useless"));
 	}
 	
 	public static IItemPostProcessor createNoteProcessor(final LoreTexts category, final int minMultiplier, final int maxMultiplier){
@@ -74,8 +75,8 @@ public class ItemKnowledgeNote extends Item{
 	}
 	
 	public static final ItemStack setNoteInfo(ItemStack is, Random rand, LoreTexts category, int multiplier){
-		ItemUtil.getTagRoot(is,true).setByte("notePts",(byte)(5*multiplier));
-		ItemUtil.getTagRoot(is,true).setString("noteCat",category.getTitle());
+		NBT.item(is,true).setByte("notePts",(byte)(5*multiplier));
+		NBT.item(is,true).setString("noteCat",category.getTitle());
 		return is;
 	}
 }

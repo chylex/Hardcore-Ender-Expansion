@@ -26,6 +26,10 @@ public final class ItemUtil{
 		return sub;
 	}
 	
+	public static void setName(ItemStack is, String name){
+		ItemUtil.getTagSub(is,"display",true).setString("Name",name);
+	}
+	
 	public static void addLore(ItemStack is, String lore){
 		NBTTagCompound display = getTagSub(is,"display",true);
 		NBTTagList loreTag = display.getTagList("Lore",NBT.TAG_STRING);

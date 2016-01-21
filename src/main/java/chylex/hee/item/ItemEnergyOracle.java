@@ -13,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.ChunkPosition;
@@ -21,11 +20,11 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.ColorUtil;
-import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.util.NBTUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -36,11 +35,11 @@ public class ItemEnergyOracle extends Item{
 	
 	private static int updateTimer;
 	private static Pos clusterPos = null, lastPlayerPos = null;
-	private static NBTTagCompound lastRootTag;
+	private static NBTCompound lastRootTag;
 	private static float clusterHue;
 	
-	private static Set<Pos> getIgnoredPositions(NBTTagCompound root){
-		return NBTUtil.readNumericList(root,"ignoreList").map(tag -> Pos.at(tag.func_150291_c())).collect(Collectors.toSet());
+	private static Set<Pos> getIgnoredPositions(NBTCompound root){
+		return root.getList("ignoreList").readLongs().mapToObj(Pos::at).collect(Collectors.toSet());
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -50,7 +49,9 @@ public class ItemEnergyOracle extends Item{
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
 		if (!world.isRemote){
 			if (world.getTotalWorldTime()%100 == 0 && is.hasTagCompound()){
-				Set<Pos> ignored = getIgnoredPositions(is.getTagCompound());
+				NBTCompound tag = NBT.wrap(is.getTagCompound());
+				
+				Set<Pos> ignored = getIgnoredPositions(tag);
 				int prevSize = ignored.size();
 				
 				for(Iterator<Pos> iter = ignored.iterator(); iter.hasNext();){
@@ -61,7 +62,7 @@ public class ItemEnergyOracle extends Item{
 					}
 				}
 				
-				if (ignored.size() != prevSize)NBTUtil.writeList(is.getTagCompound(),"ignoreList",ignored.stream().map(ignoredPos -> new NBTTagLong(ignoredPos.toLong())));
+				if (ignored.size() != prevSize)tag.writeList("ignoreList",ignored.stream().mapToLong(Pos::toLong));
 			}
 		}
 		else if (entity == HardcoreEnderExpansion.proxy.getClientSidePlayer()){
@@ -70,14 +71,14 @@ public class ItemEnergyOracle extends Item{
 				updateTimer = 0;
 				lastPlayerPos = Pos.at(entity);
 				
-				lastRootTag = Optional.ofNullable(is.getTagCompound()).map(tag -> (NBTTagCompound)tag.copy()).orElse(null);
+				lastRootTag = Optional.ofNullable(is.getTagCompound()).map(tag -> NBT.wrap((NBTTagCompound)tag.copy())).orElse(null);
 				
 				if (clusterPos != null && lastPlayerPos.distance(clusterPos) > 80D)clusterPos = null;
 				
 				final int chunkX = lastPlayerPos.getX()>>4, chunkZ = lastPlayerPos.getZ()>>4;
 				
 				List<TileEntityEnergyCluster> clusters = new ArrayList<>();
-				Set<Pos> ignored = getIgnoredPositions(ItemUtil.getTagRoot(is,false));
+				Set<Pos> ignored = getIgnoredPositions(NBT.item(is,false));
 				
 				Pos.forEachBlock(Pos.at(-5,0,-5),Pos.at(5,0,5),offset -> {
 					if (MathUtil.square(16*offset.x-8)+MathUtil.square(16*offset.z-8) > 6400)return; // 80 blocks
@@ -102,12 +103,12 @@ public class ItemEnergyOracle extends Item{
 		Pos pos = Pos.at(x,y,z);
 		
 		if (!world.isRemote && pos.getBlock(world) == BlockList.energy_cluster){
-			NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
+			NBTCompound tag = NBT.item(is,true);
 			
-			Set<Pos> ignored = getIgnoredPositions(nbt);
+			Set<Pos> ignored = getIgnoredPositions(tag);
 			if (!ignored.remove(pos))ignored.add(pos);
 			
-			NBTUtil.writeList(nbt,"ignoreList",ignored.stream().map(ignoredPos -> new NBTTagLong(ignoredPos.toLong())));
+			tag.writeList("ignoreList",ignored.stream().mapToLong(Pos::toLong));
 		}
 		
 		return false;

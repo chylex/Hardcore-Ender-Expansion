@@ -3,7 +3,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.entity.item.EntityItemAltar;
-import chylex.hee.system.util.ItemUtil;
+import chylex.hee.system.abstractions.nbt.NBT;
 
 public class AltarItemRecipe{
 	private static final NBTTagCompound emptyTag = new NBTTagCompound();
@@ -16,7 +16,7 @@ public class AltarItemRecipe{
 		this.output = output;
 		this.cost = (short)cost;
 		
-		ItemUtil.getTagRoot(input,true);
+		NBT.item(input,true);
 	}
 	
 	/**

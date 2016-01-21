@@ -30,7 +30,7 @@ public class ObjectMob implements IObjectHolder<Class<? extends EntityLiving>>{
 		
 		if (is == null)is = new ItemStack(Blocks.bedrock);
 		
-		ItemUtil.getTagSub(is,"display",true).setString("Name",name);
+		ItemUtil.setName(is,name);
 		return is;
 	}
 	

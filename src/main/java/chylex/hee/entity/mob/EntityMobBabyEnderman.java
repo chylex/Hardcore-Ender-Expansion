@@ -2,6 +2,7 @@ package chylex.hee.entity.mob;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -15,7 +16,6 @@ import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
@@ -24,7 +24,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.Constants;
+import org.apache.commons.lang3.EnumUtils;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
@@ -38,10 +38,11 @@ import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.abstractions.entity.EntitySelector;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTList;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.IItemSelector;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.util.NBTUtil;
 import chylex.hee.system.util.WorldUtil;
 import chylex.hee.system.util.WorldUtil.GameRule;
 
@@ -298,7 +299,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		super.writeEntityToNBT(nbt);
 		
 		// item priority list
-		NBTUtil.writeList(nbt,"priorities",itemPriorities.stream().map(level -> new NBTTagString(level.name())));
+		NBT.wrap(nbt).writeList("priorities",itemPriorities.stream().map(ItemPriorityLevel::name).map(NBTTagString::new));
 		
 		// carried item
 		ItemStack is = getCarrying();
@@ -314,14 +315,11 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		super.readEntityFromNBT(nbt);
 		
 		// item priority list
-		NBTTagList tagPriorities = nbt.getTagList("priorities",Constants.NBT.TAG_STRING);
+		NBTList tagPriorities = NBT.wrap(nbt).getList("priorities");
 		
-		if (tagPriorities.tagCount() > 0){
+		if (!tagPriorities.isEmpty()){
 			itemPriorities.clear();
-			
-			for(int a = 0; a < tagPriorities.tagCount(); a++){
-				itemPriorities.add(ItemPriorityLevel.valueOf(tagPriorities.getStringTagAt(a)));
-			}
+			tagPriorities.readStrings().map(name -> EnumUtils.getEnum(ItemPriorityLevel.class,name)).filter(Objects::nonNull).forEach(itemPriorities::add);
 		}
 		
 		// carried item

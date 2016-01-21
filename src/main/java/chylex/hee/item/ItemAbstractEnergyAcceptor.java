@@ -3,33 +3,33 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.energy.IEnergyItem;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.util.ItemUtil;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 
 public abstract class ItemAbstractEnergyAcceptor extends Item implements IEnergyItem{
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
-		if (!nbt.hasKey("engLoc") || !(entity instanceof EntityPlayer) || world.getTotalWorldTime()%4 != 0)return;
+		NBTCompound tag = NBT.item(is,true);
+		if (!tag.hasKey("engLoc") || !(entity instanceof EntityPlayer) || world.getTotalWorldTime()%4 != 0)return;
 		
-		Pos pos = Pos.at(nbt.getLong("engLoc"));
+		Pos pos = Pos.at(tag.getLong("engLoc"));
 		TileEntityEnergyCluster cluster = pos.<TileEntityEnergyCluster>getTileEntity(world);
 		
 		if (cluster != null && cluster.getData().isPresent()){
 			if (!world.isRemote){
 				double dist = pos.distance(entity);
 				
-				if (isHeld && Math.abs(nbt.getFloat("engDst")-dist) <= 0.05D && dist <= 5D && canAcceptEnergy(is) && cluster.getData().get().drainUnit()){
+				if (isHeld && Math.abs(tag.getFloat("engDst")-dist) <= 0.05D && dist <= 5D && canAcceptEnergy(is) && cluster.getData().get().drainUnit()){
 					acceptEnergy(is);
-					nbt.setFloat("engDst",(float)dist);
+					tag.setFloat("engDst",(float)dist);
 				}
-				else clearEnergyData(nbt);
+				else clearEnergyData(tag);
 			}
 			else{
 				FXHelper.create("energy")
@@ -40,7 +40,7 @@ public abstract class ItemAbstractEnergyAcceptor extends Item implements IEnergy
 				.spawn(world.rand,26);
 			}
 		}
-		else clearEnergyData(nbt);
+		else clearEnergyData(tag);
 	}
 	
 	@Override
@@ -48,12 +48,12 @@ public abstract class ItemAbstractEnergyAcceptor extends Item implements IEnergy
 		Pos pos = Pos.at(x,y,z);
 		
 		if (pos.getBlock(world) == BlockList.energy_cluster && canAcceptEnergy(is)){
-			NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
+			NBTCompound tag = NBT.item(is,true);
 			
-			if (nbt.hasKey("engLoc"))clearEnergyData(nbt);
+			if (tag.hasKey("engLoc"))clearEnergyData(tag);
 			else{
-				nbt.setLong("engLoc",pos.toLong());
-				nbt.setFloat("engDst",(float)pos.distance(player));
+				tag.setLong("engLoc",pos.toLong());
+				tag.setFloat("engDst",(float)pos.distance(player));
 			}
 			
 			return true;
@@ -61,8 +61,8 @@ public abstract class ItemAbstractEnergyAcceptor extends Item implements IEnergy
 		else return false;
 	}
 	
-	private static final void clearEnergyData(NBTTagCompound nbt){
-		nbt.removeTag("engLoc");
-		nbt.removeTag("engDst");
+	private static final void clearEnergyData(NBTCompound tag){
+		tag.removeTag("engLoc");
+		tag.removeTag("engDst");
 	}
 }

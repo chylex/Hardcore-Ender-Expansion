@@ -19,8 +19,9 @@ import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.logging.Log;
-import chylex.hee.system.util.ItemUtil;
 import com.google.common.collect.Iterables;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.relauncher.Side;
@@ -32,19 +33,19 @@ public class ItemDebugStick extends Item{
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (!world.isRemote && Log.isDebugEnabled())doDebugAction(is,ItemUtil.getTagRoot(is,false),player,null);
+		if (!world.isRemote && Log.isDebugEnabled())doDebugAction(is,NBT.item(is,false),player,null);
 		return is;
 	}
 	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (!world.isRemote && Log.isDebugEnabled())doDebugAction(is,ItemUtil.getTagRoot(is,false),player,Pos.at(x,y,z));
+		if (!world.isRemote && Log.isDebugEnabled())doDebugAction(is,NBT.item(is,false),player,Pos.at(x,y,z));
 		return true;
 	}
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack is){
-		return "HEE Debug Stick ("+ItemUtil.getTagRoot(is,false).getString("type")+")";
+		return "HEE Debug Stick ("+NBT.item(is,false).getString("type")+")";
 	}
 	
 	@Override
@@ -53,7 +54,7 @@ public class ItemDebugStick extends Item{
 		return true;
 	}
 	
-	private void doDebugAction(ItemStack is, NBTTagCompound nbt, EntityPlayer player, Pos pos){
+	private void doDebugAction(ItemStack is, NBTCompound nbt, EntityPlayer player, Pos pos){
 		switch(nbt.getString("type")){
 			case "build": onDebugBuild(nbt,player,pos); break;
 			case "clear": onDebugClear(nbt,player,pos); break;
@@ -65,7 +66,7 @@ public class ItemDebugStick extends Item{
 	}
 	
 	/* === BUILD === */
-	private void onDebugBuild(NBTTagCompound nbt, EntityPlayer player, Pos pos){
+	private void onDebugBuild(NBTCompound nbt, EntityPlayer player, Pos pos){
 		if (pos == null)nbt.removeTag("pos");
 		else if (!nbt.hasKey("pos"))nbt.setLong("pos",pos.toLong());
 		else if (player.isSneaking()){
@@ -100,7 +101,7 @@ public class ItemDebugStick extends Item{
 	}
 
 	/* === CLEAR === */
-	private void onDebugClear(NBTTagCompound nbt, EntityPlayer player, Pos pos){
+	private void onDebugClear(NBTCompound nbt, EntityPlayer player, Pos pos){
 		if (pos == null)nbt.removeTag("pos");
 		else if (!nbt.hasKey("pos"))nbt.setLong("pos",pos.toLong());
 		else{
@@ -119,7 +120,7 @@ public class ItemDebugStick extends Item{
 	}
 	
 	/* === COPY === */
-	private void onDebugCopy(NBTTagCompound nbt, EntityPlayer player, Pos pos){
+	private void onDebugCopy(NBTCompound nbt, EntityPlayer player, Pos pos){
 		if (pos == null){
 			nbt.removeTag("pos1");
 			nbt.removeTag("pos2");
@@ -153,7 +154,7 @@ public class ItemDebugStick extends Item{
 	}
 
 	/* === INFO === */
-	private void onDebugInfo(NBTTagCompound nbt, EntityPlayer player, Pos pos){
+	private void onDebugInfo(NBTCompound nbt, EntityPlayer player, Pos pos){
 		if (pos != null){
 			player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+"Block Type: "+EnumChatFormatting.RESET+GameData.getBlockRegistry().getNameForObject(pos.getBlock(player.worldObj))));
 			player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+"Metadata: "+EnumChatFormatting.RESET+pos.getMetadata(player.worldObj)));
@@ -169,7 +170,7 @@ public class ItemDebugStick extends Item{
 	}
 	
 	/* === COUNT === */
-	private void onDebugCount(NBTTagCompound nbt, EntityPlayer player, Pos pos){
+	private void onDebugCount(NBTCompound nbt, EntityPlayer player, Pos pos){
 		if (player.isSneaking())counter = 0;
 		else ++counter;
 		

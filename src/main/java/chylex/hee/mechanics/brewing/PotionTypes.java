@@ -10,14 +10,14 @@ import net.minecraft.item.ItemFishFood.FishType;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemAbstractPotion;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTList;
 import chylex.hee.system.util.ItemDamagePair;
-import chylex.hee.system.util.ItemUtil;
 
 public class PotionTypes{
 	public static final List<AbstractPotionData> potionData = Arrays.asList(
@@ -195,7 +195,7 @@ public class PotionTypes{
 			if (data != null && data.requiredDamageValue == (is.getItemDamage()&~16384)){
 				PotionEffect prevEffect = getEffectIfValid(is);
 				
-				ItemUtil.getTagRoot(is,false).removeTag("CustomPotionEffects");
+				NBT.item(is,false).removeTag("CustomPotionEffects");
 				data.onFirstBrewingFinished(is);
 				
 				if (prevEffect != null){
@@ -211,9 +211,9 @@ public class PotionTypes{
 	}
 	
 	public static ItemStack setCustomPotionEffect(ItemStack is, PotionEffect effect){
-		NBTTagList potionList = new NBTTagList();
-		potionList.appendTag(effect.writeCustomPotionEffectToNBT(new NBTTagCompound()));
-		ItemUtil.getTagRoot(is,true).setTag("CustomPotionEffects",potionList);
+		NBTList potionList = new NBTList();
+		potionList.appendCompound(effect.writeCustomPotionEffectToNBT(new NBTTagCompound()));
+		NBT.item(is,true).setList("CustomPotionEffects",potionList);
 		return is;
 	}
 }

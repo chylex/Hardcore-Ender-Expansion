@@ -17,15 +17,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.player.RespawnFile;
-import chylex.hee.system.util.ItemUtil;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.util.NBTUtil;
 import chylex.hee.system.util.WorldUtil;
 import chylex.hee.system.util.WorldUtil.GameRule;
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -54,20 +53,22 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 	
 	public static final IInventory getAmuletInventory(@Nullable ItemStack is){
 		InventoryBasic amuletInv = new InventoryBasic("",false,45);
-		if (is != null)NBTUtil.readInventory(ItemUtil.getTagRoot(is,false).getTagList("amuletItems",NBT.TAG_COMPOUND),amuletInv);
+		if (is != null)NBT.item(is,false).readInventory("amuletItems",amuletInv);
 		return amuletInv;
 	}
 	
 	public static final void setAmuletInventory(ItemStack is, IInventory inv){
+		NBTCompound tag = NBT.item(is,true);
+		
 		for(int slot = 0; slot < inv.getSizeInventory(); slot++){
 			if (inv.getStackInSlot(slot) != null){
-				ItemUtil.getTagRoot(is,true).setTag("amuletItems",NBTUtil.writeInventory(inv));
+				tag.writeInventory("amuletItems",inv);
 				return;
 			}
 		}
 		
-		ItemUtil.getTagRoot(is,true).removeTag("amuletItems");
-		ItemUtil.getTagRoot(is,true).removeTag("amuletRestoreEnergy");
+		tag.removeTag("amuletItems");
+		tag.removeTag("amuletRestoreEnergy");
 		is.setItemDamage(0);
 	}
 	
@@ -75,12 +76,12 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 		ItemStack[] items = new ItemStack[inv.getSizeInventory()];
 		IntStream.range(0,items.length).forEach(slot -> items[slot] = inv.getStackInSlot(slot));
 		
-		ItemUtil.getTagRoot(is,true).setInteger("amuletRestoreEnergy",calculateRequiredEnergy(items));
+		NBT.item(is,true).setInt("amuletRestoreEnergy",calculateRequiredEnergy(items));
 		is.setItemDamage(is.getMaxDamage());
 	}
 	
 	private static boolean hasItems(ItemStack is){
-		return ItemUtil.getTagRoot(is,false).hasKey("amuletItems");
+		return NBT.item(is,false).hasKey("amuletItems");
 	}
 	
 	@SideOnly(Side.CLIENT)

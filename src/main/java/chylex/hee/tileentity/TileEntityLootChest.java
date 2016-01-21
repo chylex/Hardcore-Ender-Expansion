@@ -8,12 +8,12 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.game.save.handlers.PlayerDataHandler;
 import chylex.hee.gui.InventoryLootChest;
 import chylex.hee.init.BlockList;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.util.NBTUtil;
 
 public class TileEntityLootChest extends TileEntity{
 	private final InventoryLootChest sourceInventory;
@@ -91,11 +91,11 @@ public class TileEntityLootChest extends TileEntity{
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		nbt.setTag("sourceInv",NBTUtil.writeInventory(sourceInventory));
+		NBT.wrap(nbt).writeInventory("sourceInv",sourceInventory);
 		
-		NBTTagCompound playerTag = new NBTTagCompound();
-		for(Entry<String,InventoryLootChest> entry:inventories.entrySet())playerTag.setTag(entry.getKey(),NBTUtil.writeInventory(entry.getValue()));
-		nbt.setTag("playerInv",playerTag);
+		NBTCompound playerTag = new NBTCompound();
+		for(Entry<String,InventoryLootChest> entry:inventories.entrySet())playerTag.writeInventory(entry.getKey(),entry.getValue());
+		nbt.setTag("playerInv",playerTag.getUnderlyingTag());
 		
 		if (customName != null)nbt.setString("customName",customName);
 	}
@@ -103,14 +103,15 @@ public class TileEntityLootChest extends TileEntity{
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
-		NBTUtil.readInventory(nbt.getTagList("sourceInv",NBT.TAG_COMPOUND),sourceInventory);
+		NBTCompound tag = NBT.wrap(nbt);
 		
-		NBTTagCompound playerTag = nbt.getCompoundTag("playerInv");
+		tag.readInventory("sourceInv",sourceInventory);
 		
-		for(String id:NBTUtil.getKeys(playerTag)){
+		NBTCompound playerTag = tag.getCompound("playerInv");
+		
+		for(String id:playerTag.keySet()){
 			InventoryLootChest inv = new InventoryLootChest(this);
-			
-			NBTUtil.readInventory(playerTag.getTagList(id,NBT.TAG_COMPOUND),inv);
+			playerTag.readInventory(id,inv);
 			inventories.put(id,inv);
 		}
 		

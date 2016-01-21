@@ -11,7 +11,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.entity.item.EntityItemAltar;
@@ -25,9 +24,11 @@ import chylex.hee.packets.client.C11ParticleAltarOrb;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
+import chylex.hee.system.abstractions.nbt.NBTList;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.weight.WeightedMap;
-import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 
@@ -199,14 +200,14 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				if (updateItemCounter(is,"HEE_enchant",1) < 280-is.getItem().getItemEnchantability()*5)return;
 				updateItemCounter(is,"HEE_enchant",0);
 				
-				NBTTagList enchants = is.getEnchantmentTagList();
-				if (enchants == null || enchants.tagCount() == 0)return;
+				NBTList enchants = is.hasTagCompound() ? new NBTList(is.getEnchantmentTagList()) : null;
+				if (enchants == null || enchants.isEmpty())return;
 				
 				for(int attempt = 0; attempt < 3; attempt++){
 					WeightedMap<Enchantment> list = new WeightedMap<>();
 					
-					for(int a = 0; a < enchants.tagCount(); a++){
-						Enchantment e = Enchantment.enchantmentsList[enchants.getCompoundTagAt(a).getShort("id")];
+					for(int a = 0; a < enchants.size(); a++){
+						Enchantment e = Enchantment.enchantmentsList[enchants.getCompound(a).getShort("id")];
 						if (e == null)continue;
 						
 						list.add(e,e.getWeight());
@@ -216,8 +217,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					
 					Enchantment chosenEnchantment = list.getRandomItem(item.worldObj.rand);
 					
-					for(int a = 0; a < enchants.tagCount(); a++){
-						NBTTagCompound tag = enchants.getCompoundTagAt(a);
+					for(int a = 0; a < enchants.size(); a++){
+						NBTCompound tag = enchants.getCompound(a);
 						if (tag.getShort("id") != chosenEnchantment.effectId)continue;
 						
 						int level = tag.getShort("lvl"), cost = getEnchantmentCost(chosenEnchantment,level+1);
@@ -226,7 +227,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						
 						altar.drainEssence(cost);
 						tag.setShort("lvl",(short)(level+1));
-						ItemUtil.getTagRoot(is,true).setTag("ench",enchants);
+						NBT.item(is,true).setList("ench",enchants);
 
 						item.setSparkling();
 						attempt = 999;
@@ -270,15 +271,15 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	 * @return current value
 	 */
 	private short updateItemCounter(ItemStack is, String counterName, int operation){
-		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
+		NBTCompound tag = NBT.item(is,true);
 		
 		if (operation == 0){
-			nbt.removeTag(counterName);
+			tag.removeTag(counterName);
 			return 0;
 		}
 
-		short counter = nbt.getShort(counterName);
-		if (operation == 1)nbt.setShort(counterName,++counter);
+		short counter = tag.getShort(counterName);
+		if (operation == 1)tag.setShort(counterName,++counter);
 		
 		return counter;
 	}

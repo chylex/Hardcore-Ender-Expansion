@@ -9,7 +9,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
@@ -19,9 +18,10 @@ import chylex.hee.entity.GlobalMobData;
 import chylex.hee.entity.projectile.EntityProjectileSacredWand;
 import chylex.hee.mechanics.wand.WandCore;
 import chylex.hee.mechanics.wand.WandType;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import com.google.common.collect.Multimap;
 import cpw.mods.fml.relauncher.Side;
@@ -29,7 +29,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 	public static boolean attackEntity(ItemStack is, EntityPlayer player, EntityLivingBase entity, EntityProjectileSacredWand projectile){
-		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
+		NBTCompound tag = NBT.item(is,true);
 		
 		float damage = WandType.fromItemStack(is).baseDamage;
 		
@@ -42,9 +42,9 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 		int knockback = isMelee && player.isSprinting() ? 2 : 0; // double knockback value
 		
 		// critical
-		if (entity.worldObj.getTotalWorldTime()-nbt.getLong("latktm") >= 600){
+		if (entity.worldObj.getTotalWorldTime()-tag.getLong("latktm") >= 600){
 			damage *= 1.2F;
-			nbt.setLong("latktm",entity.worldObj.getTotalWorldTime());
+			tag.setLong("latktm",entity.worldObj.getTotalWorldTime());
 			critical = true;
 		}
 		
