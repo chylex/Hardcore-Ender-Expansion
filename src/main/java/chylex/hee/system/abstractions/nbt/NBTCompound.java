@@ -13,8 +13,8 @@ import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagLong;
-import chylex.hee.system.util.NBTUtil.IStringIntConsumer;
-import chylex.hee.system.util.NBTUtil.IStringLongConsumer;
+import chylex.hee.system.abstractions.nbt.NBT.IStringIntConsumer;
+import chylex.hee.system.abstractions.nbt.NBT.IStringLongConsumer;
 
 public class NBTCompound{
 	private final NBTTagCompound tag;
