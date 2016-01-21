@@ -47,6 +47,10 @@ public class ItemPortalToken extends Item{
 		return is.getItemDamage() == 1;
 	}
 	
+	public static final boolean isExpired(ItemStack is){
+		return is.getItemDamage() == 2;
+	}
+	
 	public static final EnumSet<? extends Enum<?>> getVariations(ItemStack is){
 		EndTerritory territory = getTerritory(is);
 		if (territory == null)return EmptyEnumSet.get();
@@ -69,7 +73,11 @@ public class ItemPortalToken extends Item{
 		final EnumSet<? extends Enum<?>> variations = getVariations(is);
 		final Pos spawnPos = territory.generateTerritory(index,world,territory.createRandom(world.getSeed(),index),variations);
 		
-		if (isRare(is))file.setTerritoryRare(hash);
+		if (isRare(is)){
+			file.setTerritoryRare(hash);
+			is.setItemDamage(2);
+		}
+		
 		file.setTerritoryPos(hash,spawnPos);
 		file.setTerritoryVariations(hash,variations);
 		

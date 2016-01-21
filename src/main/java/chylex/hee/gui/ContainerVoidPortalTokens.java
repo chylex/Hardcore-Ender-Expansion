@@ -14,12 +14,10 @@ import chylex.hee.init.ItemList;
 import chylex.hee.system.abstractions.Pos;
 
 public class ContainerVoidPortalTokens extends Container implements IContainerEventHandler{
-	private final EntityPlayer player;
 	private final IInventory tokenInv;
 	private final Pos voidPortalPos;
 	
 	public ContainerVoidPortalTokens(EntityPlayer player, Pos voidPortalPos){
-		this.player = player;
 		this.tokenInv = !player.worldObj.isRemote ? SaveData.player(player,PortalFile.class).getTokenInventory() : new InventoryBasic("",false,PortalFile.slots);
 		this.voidPortalPos = voidPortalPos;
 		
@@ -30,15 +28,6 @@ public class ContainerVoidPortalTokens extends Container implements IContainerEv
 		}
 		
 		ContainerHelper.addPlayerInventorySlots(this,player.inventory,0,9);
-	}
-	
-	@Override
-	public void detectAndSendChanges(){
-		if (!player.worldObj.isRemote && ContainerHelper.hasChanged(this)){
-			SaveData.player(player,PortalFile.class).onTokenInventoryUpdated();
-		}
-		
-		super.detectAndSendChanges();
 	}
 	
 	@Override
