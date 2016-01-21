@@ -1,11 +1,9 @@
 package chylex.hee.game.save.types.player;
 import java.util.Optional;
 import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.game.save.types.PlayerFile;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.util.NBTUtil;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 
 public class PortalFile extends PlayerFile{
 	private Pos strongholdPos;
@@ -33,14 +31,14 @@ public class PortalFile extends PlayerFile{
 	}
 
 	@Override
-	protected void onSave(NBTTagCompound nbt){
+	protected void onSave(NBTCompound nbt){
 		if (strongholdPos != null)nbt.setLong("stronghold",strongholdPos.toLong());
-		nbt.setTag("inv",NBTUtil.writeInventory(inventory));
+		nbt.writeInventory("inv",inventory);
 	}
 
 	@Override
-	protected void onLoad(NBTTagCompound nbt){
+	protected void onLoad(NBTCompound nbt){
 		strongholdPos = nbt.hasKey("stronghold") ? Pos.at(nbt.getLong("stronghold")) : null;
-		NBTUtil.readInventory(nbt.getTagList("inv",NBT.TAG_COMPOUND),inventory);
+		nbt.readInventory("inv",inventory);
 	}
 }

@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagString;
 import chylex.hee.game.save.types.PlayerFile;
@@ -15,8 +14,8 @@ import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 import chylex.hee.mechanics.compendium.util.KnowledgeSerialization;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.util.NBTUtil;
 import com.google.common.collect.DiscreteDomain;
 import com.google.common.collect.Range;
 import com.google.common.collect.TreeRangeSet;
@@ -36,7 +35,7 @@ public class CompendiumFile extends PlayerFile{
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public CompendiumFile(NBTTagCompound nbt){
+	public CompendiumFile(NBTCompound nbt){
 		super("","");
 		onLoad(nbt);
 	}
@@ -140,15 +139,15 @@ public class CompendiumFile extends PlayerFile{
 	// Saving & Loading
 	
 	public void reset(){
-		onLoad(new NBTTagCompound());
+		onLoad(new NBTCompound());
 		setModified();
 	}
 	
 	@Override
-	public void onSave(NBTTagCompound nbt){
+	public void onSave(NBTCompound nbt){
 		nbt.setShort("pts",(short)points);
 		nbt.setTag("efg",new NBTTagIntArray(extraFragments.toArray()));
-		NBTUtil.writeList(nbt,"obj",discoveredObjects.stream().map(obj -> new NBTTagString(KnowledgeSerialization.serialize(obj))));
+		nbt.writeList("obj",discoveredObjects.stream().map(KnowledgeSerialization::serialize).map(NBTTagString::new));
 		
 		StringBuilder build = new StringBuilder();
 		
@@ -160,12 +159,14 @@ public class CompendiumFile extends PlayerFile{
 	}
 
 	@Override
-	protected void onLoad(NBTTagCompound nbt){
+	protected void onLoad(NBTCompound nbt){
 		points = nbt.getShort("pts");
+		
 		extraFragments.clear();
 		extraFragments.addAll(nbt.getIntArray("efg"));
+		
 		discoveredObjects.clear();
-		NBTUtil.readStringList(nbt,"obj").map(KnowledgeSerialization::deserialize).filter(Objects::nonNull).forEach(discoveredObjects::add);
+		nbt.getList("obj").readStrings().map(KnowledgeSerialization::deserialize).filter(Objects::nonNull).forEach(discoveredObjects::add);
 		
 		readFragments.clear();
 		String src = nbt.getString("rfg");

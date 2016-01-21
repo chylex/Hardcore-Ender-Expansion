@@ -3,19 +3,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagString;
 import org.apache.commons.lang3.EnumUtils;
 import chylex.hee.game.save.types.PlayerFile;
 import chylex.hee.mechanics.causatum.Causatum.Actions;
 import chylex.hee.mechanics.causatum.Causatum.Progress;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventTypes;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.collections.CollectionUtil;
-import chylex.hee.system.util.NBTUtil;
 
 public class CausatumFile extends PlayerFile{
 	private final EnumSet<Actions> ranUniqueActions = EnumSet.noneOf(Actions.class);
@@ -76,18 +76,18 @@ public class CausatumFile extends PlayerFile{
 	}
 
 	@Override
-	protected void onSave(NBTTagCompound nbt){
-		nbt.setInteger("lvl",level);
+	protected void onSave(NBTCompound nbt){
+		nbt.setInt("lvl",level);
 		nbt.setByte("prog",(byte)progress.ordinal());
-		NBTUtil.writeList(nbt,"uacts",ranUniqueActions.stream().map(action -> new NBTTagString(action.name())));
-		NBTUtil.writeList(nbt,"evts",ranEvents.stream().map(event -> new NBTTagString(event.name())));
+		nbt.writeList("uacts",ranUniqueActions.stream().map(Actions::name).map(NBTTagString::new));
+		nbt.writeList("evts",ranEvents.stream().map(EventTypes::name).map(NBTTagString::new));
 	}
 
 	@Override
-	protected void onLoad(NBTTagCompound nbt){
-		level = nbt.getInteger("lvl");
+	protected void onLoad(NBTCompound nbt){
+		level = nbt.getInt("lvl");
 		progress = CollectionUtil.get(Progress.values(),nbt.getByte("prog")).orElse(Progress.INITIAL);
-		NBTUtil.readStringList(nbt,"uacts").map(name -> EnumUtils.getEnum(Actions.class,name)).filter(action -> action != null).forEach(ranUniqueActions::add);
-		NBTUtil.readStringList(nbt,"evts").map(name -> EnumUtils.getEnum(EventTypes.class,name)).filter(event -> event != null).forEach(ranEvents::add);
+		nbt.getList("uacts").readStrings().map(name -> EnumUtils.getEnum(Actions.class,name)).filter(Objects::nonNull).forEach(ranUniqueActions::add);
+		nbt.getList("evts").readStrings().map(name -> EnumUtils.getEnum(EventTypes.class,name)).filter(Objects::nonNull).forEach(ranEvents::add);
 	}
 }

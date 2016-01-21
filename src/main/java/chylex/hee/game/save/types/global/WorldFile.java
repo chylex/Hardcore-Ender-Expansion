@@ -12,15 +12,15 @@ import gnu.trove.set.hash.TLongHashSet;
 import java.nio.charset.StandardCharsets;
 import java.util.EnumSet;
 import javax.annotation.Nullable;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagLong;
 import chylex.hee.game.save.SaveFile;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
+import chylex.hee.system.abstractions.nbt.NBTList;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.EmptyEnumSet;
 import chylex.hee.system.logging.Log;
-import chylex.hee.system.util.NBTUtil;
 import chylex.hee.world.end.EndTerritory;
 import com.google.common.primitives.Longs;
 
@@ -30,7 +30,7 @@ public class WorldFile extends SaveFile{
 	
 	private final TLongIntHashMap territoryVariations = new TLongIntHashMap(1,Constants.DEFAULT_LOAD_FACTOR,0L,0);
 	private final TLongLongHashMap territoryPos = new TLongLongHashMap(1,Constants.DEFAULT_LOAD_FACTOR,0L,0L);
-	private final TLongObjectHashMap<NBTTagCompound> territoryData = new TLongObjectHashMap<>(1);
+	private final TLongObjectHashMap<NBTCompound> territoryData = new TLongObjectHashMap<>(1);
 	
 	private Pos voidPortalPos;
 	
@@ -75,9 +75,9 @@ public class WorldFile extends SaveFile{
 		return Pos.at(territoryPos.get(hash));
 	}
 	
-	public NBTTagCompound getTerritoryData(long hash){
-		NBTTagCompound tag = territoryData.get(hash);
-		if (tag == null)territoryData.put(hash,tag = NBTUtil.createCallbackTag(this::setModified));
+	public NBTCompound getTerritoryData(long hash){
+		NBTCompound tag = territoryData.get(hash);
+		if (tag == null)territoryData.put(hash,tag = NBT.callback(this::setModified));
 		
 		return tag;
 	}
@@ -91,20 +91,20 @@ public class WorldFile extends SaveFile{
 	}
 
 	@Override
-	protected void onSave(NBTTagCompound nbt){
+	protected void onSave(NBTCompound nbt){
 		if (voidPortalPos != null)nbt.setLong("voidPortal",voidPortalPos.toLong());
 		
-		NBTTagCompound territoryTag = new NBTTagCompound();
-		NBTTagCompound territoryVariationsTag = new NBTTagCompound();
-		NBTTagCompound territoryPosTag = new NBTTagCompound();
-		NBTTagCompound territoryDataTag = new NBTTagCompound();
-		NBTTagList rareTerritoriesTag = new NBTTagList();
+		NBTCompound territoryTag = new NBTCompound();
+		NBTCompound territoryVariationsTag = new NBTCompound();
+		NBTCompound territoryPosTag = new NBTCompound();
+		NBTCompound territoryDataTag = new NBTCompound();
+		NBTList rareTerritoriesTag = new NBTList();
 		
-		for(EndTerritory territory:territories.keySet())territoryTag.setInteger(serializeByte((byte)territory.ordinal()),territories.get(territory));
+		for(EndTerritory territory:territories.keySet())territoryTag.setInt(serializeByte((byte)territory.ordinal()),territories.get(territory));
 		
 		for(TLongIntIterator iter = territoryVariations.iterator(); iter.hasNext();){
 			iter.advance();
-			territoryVariationsTag.setInteger(serializeLong(iter.key()),iter.value());
+			territoryVariationsTag.setInt(serializeLong(iter.key()),iter.value());
 		}
 		
 		for(TLongLongIterator iter = territoryPos.iterator(); iter.hasNext();){
@@ -112,50 +112,50 @@ public class WorldFile extends SaveFile{
 			territoryPosTag.setLong(serializeLong(iter.key()),iter.value());
 		}
 		
-		for(TLongObjectIterator<NBTTagCompound> iter = territoryData.iterator(); iter.hasNext();){
+		for(TLongObjectIterator<NBTCompound> iter = territoryData.iterator(); iter.hasNext();){
 			iter.advance();
 			
-			if (iter.value().hasNoTags())iter.remove();
-			else territoryDataTag.setTag(serializeLong(iter.key()),iter.value());
+			if (iter.value().isEmpty())iter.remove();
+			else territoryDataTag.setCompound(serializeLong(iter.key()),iter.value());
 		}
 		
 		for(TLongIterator iter = rareTerritories.iterator(); iter.hasNext();){
 			rareTerritoriesTag.appendTag(new NBTTagLong(iter.next()));
 		}
 		
-		nbt.setTag("territories",territoryTag);
-		nbt.setTag("tvar",territoryVariationsTag);
-		nbt.setTag("tpos",territoryPosTag);
-		nbt.setTag("tdata",territoryDataTag);
-		nbt.setTag("trare",rareTerritoriesTag);
+		nbt.setCompound("territories",territoryTag);
+		nbt.setCompound("tvar",territoryVariationsTag);
+		nbt.setCompound("tpos",territoryPosTag);
+		nbt.setCompound("tdata",territoryDataTag);
+		nbt.setList("trare",rareTerritoriesTag);
 	}
 
 	@Override
-	protected void onLoad(NBTTagCompound nbt){
+	protected void onLoad(NBTCompound nbt){
 		if (nbt.hasKey("voidPortal"))voidPortalPos = Pos.at(nbt.getLong("voidPortal"));
 		
-		NBTTagCompound territoryTag = nbt.getCompoundTag("territories");
-		NBTTagCompound territoryVariationsTag = nbt.getCompoundTag("tvar");
-		NBTTagCompound territoryPosTag = nbt.getCompoundTag("tpos");
-		NBTTagCompound territoryDataTag = nbt.getCompoundTag("tdata");
+		NBTCompound territoryTag = nbt.getCompound("territories");
+		NBTCompound territoryVariationsTag = nbt.getCompound("tvar");
+		NBTCompound territoryPosTag = nbt.getCompound("tpos");
+		NBTCompound territoryDataTag = nbt.getCompound("tdata");
+		NBTList rareTerritoriesTag = nbt.getList("trare");
 		
-		territories.ensureCapacity(NBTUtil.getKeys(territoryTag).size());
-		territoryVariations.ensureCapacity(NBTUtil.getKeys(territoryVariationsTag).size());
-		territoryPos.ensureCapacity(NBTUtil.getKeys(territoryPosTag).size());
-		territoryData.ensureCapacity(NBTUtil.getKeys(territoryDataTag).size());
+		territories.ensureCapacity(territoryTag.size());
+		territoryVariations.ensureCapacity(territoryVariationsTag.size());
+		territoryPos.ensureCapacity(territoryPosTag.size());
+		territoryData.ensureCapacity(territoryDataTag.size());
 		
-		NBTUtil.forEachInt(territoryTag,(key, value) -> {
+		territoryTag.forEachInt((key, value) -> {
 			EndTerritory territory = CollectionUtil.get(EndTerritory.values,deserializeByte(key)).orElse(null);
 			
 			if (territory == null)Log.reportedError("Unknown territory $0 in WorldFile.",key);
 			else territories.put(territory,value);
 		});
 		
-		NBTUtil.forEachInt(territoryVariationsTag,(key, value) -> territoryVariations.put(deserializeLong(key),value));
-		NBTUtil.forEachLong(territoryPosTag,(key, value) -> territoryPos.put(deserializeLong(key),value));
-		NBTUtil.forEachCompoundTag(territoryDataTag,(key, value) -> territoryData.put(deserializeLong(key),value));
-		
-		NBTUtil.readNumericList(nbt,"trare").forEach(tag -> rareTerritories.add(tag.func_150291_c()));
+		territoryVariationsTag.forEachInt((key, value) -> territoryVariations.put(deserializeLong(key),value));
+		territoryPosTag.forEachLong((key, value) -> territoryPos.put(deserializeLong(key),value));
+		territoryDataTag.forEachCompound((key, value) -> territoryData.put(deserializeLong(key),value));
+		rareTerritoriesTag.readLongs().forEach(rareTerritories::add);
 	}
 	
 	private static final String serializeByte(byte value){

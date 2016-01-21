@@ -1,7 +1,7 @@
 package chylex.hee.game.save.types.global;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.ChunkCoordIntPair;
 import chylex.hee.game.save.SaveFile;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 
 public class DragonFile extends SaveFile{
 	private ChunkCoordIntPair lastDragonChunk = new ChunkCoordIntPair(0,0);
@@ -20,12 +20,12 @@ public class DragonFile extends SaveFile{
 	}
 
 	@Override
-	protected void onSave(NBTTagCompound nbt){
+	protected void onSave(NBTCompound nbt){
 		nbt.setIntArray("lastChunk",new int[]{ lastDragonChunk.chunkXPos, lastDragonChunk.chunkZPos });
 	}
 
 	@Override
-	protected void onLoad(NBTTagCompound nbt){
+	protected void onLoad(NBTCompound nbt){
 		int[] lastChunk = nbt.getIntArray("lastChunk");
 		if (lastChunk.length == 2)lastDragonChunk = new ChunkCoordIntPair(lastChunk[0],lastChunk[1]);
 	}

@@ -1,16 +1,16 @@
 package chylex.hee.world.end.server;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.global.WorldFile;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.world.end.EndTerritory;
 import chylex.hee.world.end.tick.ITerritoryBehavior;
 
 public final class TerritoryTicker{
-	private final NBTTagCompound nbt;
+	private final NBTCompound nbt;
 	
 	private final List<ITerritoryBehavior> behaviorList = new ArrayList<>(4);
 	

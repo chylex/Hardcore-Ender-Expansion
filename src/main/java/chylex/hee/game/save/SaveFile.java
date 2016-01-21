@@ -1,6 +1,6 @@
 package chylex.hee.game.save;
 import java.io.File;
-import net.minecraft.nbt.NBTTagCompound;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 
 public abstract class SaveFile{
 	protected final String filename;
@@ -25,7 +25,7 @@ public abstract class SaveFile{
 	public final void saveToNBT(File root){
 		wasModified = false;
 		
-		NBTTagCompound nbt = new NBTTagCompound();
+		NBTCompound nbt = new NBTCompound();
 		onSave(nbt);
 		SaveData.saveFile(getFile(root),nbt);
 	}
@@ -36,6 +36,6 @@ public abstract class SaveFile{
 		onLoad(SaveData.readFile(getFile(root)));
 	}
 	
-	protected abstract void onSave(NBTTagCompound nbt);
-	protected abstract void onLoad(NBTTagCompound nbt);
+	protected abstract void onSave(NBTCompound nbt);
+	protected abstract void onLoad(NBTCompound nbt);
 }

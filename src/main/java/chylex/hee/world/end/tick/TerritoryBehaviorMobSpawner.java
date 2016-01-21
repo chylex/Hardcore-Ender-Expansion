@@ -10,13 +10,13 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.entity.EntitySelector;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.collections.weight.WeightedMap;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.end.EndTerritory;
@@ -80,7 +80,7 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 	// Ticking
 	
 	@Override
-	public void tick(World world, NBTTagCompound nbt){
+	public void tick(World world, NBTCompound nbt){
 		if (++tickLimiter > tickRate){
 			tickLimiter = 0;
 			

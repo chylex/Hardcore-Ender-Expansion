@@ -2,10 +2,8 @@ package chylex.hee.game.save.types.player;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.game.save.types.PlayerFile;
-import chylex.hee.system.util.NBTUtil;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 
 public class RespawnFile extends PlayerFile{
 	private InventoryBasic inventory = new InventoryBasic("",false,36);
@@ -37,12 +35,12 @@ public class RespawnFile extends PlayerFile{
 	}
 
 	@Override
-	protected void onSave(NBTTagCompound nbt){
-		nbt.setTag("inv",NBTUtil.writeInventory(inventory));
+	protected void onSave(NBTCompound nbt){
+		nbt.writeInventory("inv",inventory);
 	}
 
 	@Override
-	protected void onLoad(NBTTagCompound nbt){
-		NBTUtil.readInventory(nbt.getTagList("inv",NBT.TAG_COMPOUND),inventory);
+	protected void onLoad(NBTCompound nbt){
+		nbt.readInventory("inv",inventory);
 	}
 }

@@ -2,11 +2,9 @@ package chylex.hee.game.save.types.global;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagLong;
 import chylex.hee.game.save.SaveFile;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.util.NBTUtil;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 
 public class StrongholdFile extends SaveFile{
 	private Set<Pos> chunkPositions = new HashSet<>();
@@ -25,12 +23,12 @@ public class StrongholdFile extends SaveFile{
 	}
 
 	@Override
-	protected void onSave(NBTTagCompound nbt){
-		NBTUtil.writeList(nbt,"list",chunkPositions.stream().map(pos -> new NBTTagLong(pos.toLong())));
+	protected void onSave(NBTCompound nbt){
+		nbt.writeList("list",chunkPositions.stream().mapToLong(Pos::toLong));
 	}
 	
 	@Override
-	protected void onLoad(NBTTagCompound nbt){
-		chunkPositions = NBTUtil.readNumericList(nbt,"list").map(tag -> Pos.at(tag.func_150291_c())).collect(Collectors.toSet());
+	protected void onLoad(NBTCompound nbt){
+		chunkPositions = nbt.getList("list").readLongs().mapToObj(Pos::at).collect(Collectors.toSet());
 	}
 }

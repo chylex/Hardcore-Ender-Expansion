@@ -2,13 +2,13 @@ package chylex.hee.world.end.tick;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import net.minecraft.entity.effect.EntityWeatherEffect;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C05CustomWeather;
 import chylex.hee.packets.client.C05CustomWeather.IWeatherEntityConstructor;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.world.end.EndTerritory;
 import chylex.hee.world.util.IRangeGenerator;
 import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
@@ -79,7 +79,7 @@ public class TerritoryBehaviorWeather implements ITerritoryBehavior{
 	// Ticking
 	
 	@Override
-	public void tick(World world, NBTTagCompound nbt){
+	public void tick(World world, NBTCompound nbt){
 		if (delayLeft > 0){
 			--delayLeft;
 			return;

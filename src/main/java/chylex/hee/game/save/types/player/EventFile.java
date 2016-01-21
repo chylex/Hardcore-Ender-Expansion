@@ -1,12 +1,12 @@
 package chylex.hee.game.save.types.player;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.game.save.types.PlayerFile;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C09SimpleEvent;
 import chylex.hee.packets.client.C09SimpleEvent.EventType;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 
 public class EventFile extends PlayerFile{
 	private int compendiumEndermanHint;
@@ -28,12 +28,12 @@ public class EventFile extends PlayerFile{
 	}
 
 	@Override
-	protected void onSave(NBTTagCompound nbt){
+	protected void onSave(NBTCompound nbt){
 		nbt.setByte("compendiumHint1",(byte)compendiumEndermanHint);
 	}
 
 	@Override
-	protected void onLoad(NBTTagCompound nbt){
+	protected void onLoad(NBTCompound nbt){
 		compendiumEndermanHint = nbt.getByte("compendiumHint1");
 	}
 }

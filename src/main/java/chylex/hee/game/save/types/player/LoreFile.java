@@ -3,11 +3,10 @@ import java.util.EnumMap;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.stream.IntStream;
-import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.game.save.types.PlayerFile;
 import chylex.hee.mechanics.compendium.content.LoreTexts;
-import chylex.hee.system.util.NBTUtil;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.util.RandUtil;
 
 public class LoreFile extends PlayerFile{
@@ -42,15 +41,15 @@ public class LoreFile extends PlayerFile{
 	}
 
 	@Override
-	protected void onSave(NBTTagCompound nbt){
+	protected void onSave(NBTCompound nbt){
 		for(Entry<LoreTexts,byte[]> entry:readTexts.entrySet()){
 			nbt.setByteArray(entry.getKey().getTitle(),entry.getValue());
 		}
 	}
 
 	@Override
-	protected void onLoad(NBTTagCompound nbt){
-		for(String key:NBTUtil.getKeys(nbt)){
+	protected void onLoad(NBTCompound nbt){
+		for(String key:nbt.keySet()){
 			readTexts.put(LoreTexts.fromTitle(key),nbt.getByteArray(key));
 		}
 	}

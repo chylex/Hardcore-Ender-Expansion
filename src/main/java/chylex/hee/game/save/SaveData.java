@@ -5,12 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.world.WorldEvent;
 import chylex.hee.game.save.handlers.GlobalDataHandler;
 import chylex.hee.game.save.handlers.PlayerDataHandler;
 import chylex.hee.game.save.types.PlayerFile;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -77,21 +78,21 @@ public final class SaveData{
 		for(ISaveDataHandler handler:handlers)handler.save();
 	}
 	
-	public static NBTTagCompound readFile(File file){
+	public static NBTCompound readFile(File file){
 		if (file.exists()){
 			try(FileInputStream fileStream = new FileInputStream(file)){
-				return CompressedStreamTools.readCompressed(fileStream);
+				return NBT.wrap(CompressedStreamTools.readCompressed(fileStream));
 			}catch(IOException ioe){
 				Log.throwable(ioe,"Error reading NBT file - $0",file);
 			}
 		}
 		
-		return new NBTTagCompound();
+		return new NBTCompound();
 	}
 	
-	public static boolean saveFile(File file, NBTTagCompound nbt){
+	public static boolean saveFile(File file, NBTCompound nbt){
 		try(FileOutputStream fileStream = new FileOutputStream(file)){
-			CompressedStreamTools.writeCompressed(nbt,fileStream);
+			CompressedStreamTools.writeCompressed(nbt.getUnderlyingTag(),fileStream);
 			return true;
 		}catch(Exception ex){
 			Log.throwable(ex,"Error writing NBT file $0",file);
