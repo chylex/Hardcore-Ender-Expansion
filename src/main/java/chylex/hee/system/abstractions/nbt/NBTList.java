@@ -20,6 +20,14 @@ public class NBTList{
 		this.tag = tag;
 	}
 	
+	public NBTList(){
+		this(new NBTTagList());
+	}
+	
+	public NBTTagList getUnderlyingTag(){
+		return tag;
+	}
+	
 	// APPENDING
 	
 	public void appendTag(NBTBase value){
@@ -68,10 +76,14 @@ public class NBTList{
 		return ((List<NBTTagCompound>)tag.tagList).stream().map(NBTCompound::new);
 	}
 	
-	// DELEGATES
+	// DELEGATES AND NEW HANDLING
 	
 	public int size(){
 		return tag.tagCount();
+	}
+	
+	public boolean isEmpty(){
+		return tag.tagCount() == 0;
 	}
 	
 	@Override

@@ -23,6 +23,10 @@ public class NBTCompound{
 		this.tag = tag;
 	}
 	
+	public NBTCompound(){
+		this(new NBTTagCompound());
+	}
+	
 	public NBTTagCompound getUnderlyingTag(){
 		return tag;
 	}
@@ -152,6 +156,14 @@ public class NBTCompound{
 		tag.setTag(key,value.getUnderlyingTag());
 	}
 	
+	public void setList(String key, NBTTagList value){
+		tag.setTag(key,value);
+	}
+	
+	public void setList(String key, NBTList value){
+		tag.setTag(key,value.getUnderlyingTag());
+	}
+	
 	// DELEGATE GETTERS
 	
 	public NBTBase getTag(String key){
@@ -210,6 +222,10 @@ public class NBTCompound{
 	
 	public boolean hasKey(String key){
 		return tag.hasKey(key);
+	}
+	
+	public boolean isEmpty(){
+		return tag.hasNoTags();
 	}
 
 	@Override
