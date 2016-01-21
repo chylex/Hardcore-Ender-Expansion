@@ -63,7 +63,7 @@ public final class KnowledgeRegistrations{
 		END_POWDER_ORE = $(new ObjectBlock(BlockList.end_powder_ore)),
 		END_POWDER = $(new ObjectItem(ItemList.end_powder)),
 		VOID_PORTAL = $(new ObjectBlock(BlockList.void_portal_frame),"tile.voidPortal.name"),
-		PORTAL_TOKEN = $(new ObjectItem(ItemList.portal_token,ItemPortalToken.forTerritory(EndTerritory.DEBUG_TEST,false))),
+		PORTAL_TOKEN = $(new ObjectItem(ItemList.portal_token,ItemPortalToken.forTerritory(EndTerritory.FORGOTTEN_TOMBS,false))),
 		RAVISH_BRICK = $(new ObjectBlock(BlockList.ravish_brick)),
 		RAVISH_BELL = $(new ObjectBlock(BlockList.ravish_bell)),
 		DARK_LOAM = $(new ObjectBlock(BlockList.dark_loam)),

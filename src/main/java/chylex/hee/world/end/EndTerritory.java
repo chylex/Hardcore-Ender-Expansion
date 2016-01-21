@@ -20,6 +20,8 @@ import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.end.TerritoryGenerator.ITerritoryGeneratorConstructor;
+import chylex.hee.world.end.gen.TerritoryArcaneConjunctions;
+import chylex.hee.world.end.gen.TerritoryForgottenTombs;
 import chylex.hee.world.end.gen.TerritoryTest;
 import chylex.hee.world.end.gen.TerritoryTheHub;
 import chylex.hee.world.structure.StructureWorld;
@@ -35,20 +37,20 @@ public enum EndTerritory{
 		TerritoryProperties.defaultProperties, new TerritoryTheHub.Environment(), TerritoryTheHub::new
 	),
 	
-	DEBUG_TEST(
-		size(7), height(128), bottom(0), color(253), new TerritorySpawnGenerator.Origin(),
-		new TerritoryTest.Properties(), TerritoryEnvironment.defaultEnvironment, TerritoryTest::new
+	FORGOTTEN_TOMBS( // 448 blocks
+		size(28), height(128), bottom(64), color(253), new TerritorySpawnGenerator.Origin(),
+		new TerritoryTest.Properties(), TerritoryEnvironment.defaultEnvironment, TerritoryForgottenTombs::new
 	),
 	
-	DEBUG_TEST_2(
-		size(20), height(128), bottom(0), color(253), new TerritorySpawnGenerator.Origin(),
-		TerritoryProperties.defaultProperties, TerritoryEnvironment.defaultEnvironment, TerritoryTest::new
+	ARCANE_CONJUNCTIONS(
+		size(20), height(128), bottom(0), color(253), new TerritorySpawnGenerator.InSquareCenter(0.75D),
+		TerritoryProperties.defaultProperties, TerritoryEnvironment.defaultEnvironment, TerritoryArcaneConjunctions::new
 	);
 	
 	private final int chunkSize;
 	private final int height;
-	
 	private final int bottom;
+	
 	private final TerritorySpawnGenerator spawn;
 	private final ITerritoryGeneratorConstructor constructor;
 	

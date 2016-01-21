@@ -122,7 +122,7 @@ public final class GenerateHubTokenHolder implements ITerritoryFeature{
 		// token holder
 		EntityBlockTokenHolder tokenHolder = new EntityBlockTokenHolder(world.getParentWorld());
 		tokenHolder.setPosition(x+0.5D,y+1D,z+0.5D);
-		tokenHolder.setTerritory(EndTerritory.DEBUG_TEST); // TODO
+		tokenHolder.setTerritory(EndTerritory.FORGOTTEN_TOMBS);
 		world.addEntity(tokenHolder);
 		
 		tempGenerated.add(Pos.at(x,y,z));
