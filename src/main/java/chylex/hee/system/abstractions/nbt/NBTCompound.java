@@ -20,7 +20,7 @@ public class NBTCompound{
 	private final NBTTagCompound tag;
 	
 	public NBTCompound(NBTTagCompound tag){
-		this.tag = tag;
+		this.tag = tag == null ? new NBTTagCompound() : tag;
 	}
 	
 	public NBTCompound(){
@@ -76,11 +76,11 @@ public class NBTCompound{
 	}
 	
 	public void readInventory(String key, IInventory inventory){
-		NBTTagList list = (NBTTagList)getTag(key);
+		NBTList list = getList(key);
 		
-		for(int slot = 0; slot < list.tagCount(); slot++){
-			NBTTagCompound itemTag = list.getCompoundTagAt(slot);
-			inventory.setInventorySlotContents(itemTag.getByte("_"),ItemStack.loadItemStackFromNBT(itemTag));
+		for(int slot = 0; slot < list.size(); slot++){
+			NBTCompound itemTag = list.getCompound(slot);
+			inventory.setInventorySlotContents(itemTag.getByte("_"),ItemStack.loadItemStackFromNBT(itemTag.getUnderlyingTag()));
 		}
 	}
 	

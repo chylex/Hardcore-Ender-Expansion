@@ -18,7 +18,7 @@ public class NBTList{
 	private final NBTTagList tag;
 
 	public NBTList(NBTTagList tag){
-		this.tag = tag;
+		this.tag = tag == null ? new NBTTagList() : tag;
 	}
 	
 	public NBTList(){
