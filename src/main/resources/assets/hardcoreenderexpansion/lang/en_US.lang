@@ -28,6 +28,7 @@ tile.endPortal.name=End Portal
 tile.voidPortalFrame.name=Void Portal Frame
 tile.voidPortal.travel.name=Void Portal (Travel)
 tile.voidPortal.return.name=Void Portal (Return)
+tile.voidPortal.disabled.name=Void Portal (Disabled)
 tile.darkLoam.name=Dark Loam
 tile.darkLoamSlab.name=Dark Loam Slab
 tile.ravishBrick.name=Ravish Brick

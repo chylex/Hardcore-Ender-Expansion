@@ -37,6 +37,11 @@ public class RenderTileVoidPortal extends RenderTilePortalBase{
 	
 	@Override
 	protected void generateColors(int layer){
+		if (tile.getBlockMetadata() == Meta.voidPortalDisabled){
+			colorMp = 0F;
+			return;
+		}
+		
 		if (tile.getBlockMetadata() == Meta.voidPortalReturn){
 			RenderTileEndPortal.setEndPortalColor(this,layer);
 			return;

@@ -6,11 +6,13 @@ import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.entity.technical.EntityTechnicalVoidPortal;
 import chylex.hee.game.save.SaveData;
@@ -59,7 +61,7 @@ public class BlockVoidPortal extends BlockEndPortal implements IBlockSubtypes{
 					player.mountEntity(null);
 					player.setPositionAndUpdate(voidPortal.getX()+0.5D,voidPortal.getY()+1D,voidPortal.getZ()+0.5D);
 				}
-				else{
+				else if (pos.getMetadata(world) == Meta.voidPortalTravel){
 					ItemStack tokenIS = getData(world,x,y,z).map(data -> data.getActiveToken()).orElse(null);
 					if (tokenIS == null)return;
 					
@@ -92,7 +94,8 @@ public class BlockVoidPortal extends BlockEndPortal implements IBlockSubtypes{
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		return is.getItemDamage() == Meta.voidPortalReturn ? "tile.voidPortal.return" : "tile.voidPortal.travel";
+		return is.getItemDamage() == Meta.voidPortalReturn ? "tile.voidPortal.return" : is.getItemDamage() == Meta.voidPortalTravel ? "tile.voidPortal.travel" : "tile.voidPortal.disabled";
+	}
 	}
 	
 	@Override
@@ -100,6 +103,7 @@ public class BlockVoidPortal extends BlockEndPortal implements IBlockSubtypes{
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
 		list.add(new ItemStack(item,1,Meta.voidPortalTravel));
 		list.add(new ItemStack(item,1,Meta.voidPortalReturn));
+		list.add(new ItemStack(item,1,Meta.voidPortalDisabled));
 	}
 	
 	@Override
