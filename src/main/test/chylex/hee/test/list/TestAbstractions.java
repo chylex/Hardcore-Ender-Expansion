@@ -1,11 +1,18 @@
 package chylex.hee.test.list;
 import java.util.Random;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.abstractions.facing.Facing6;
+import chylex.hee.system.abstractions.nbt.NBT;
+import chylex.hee.system.abstractions.nbt.NBTCompound;
+import chylex.hee.system.abstractions.nbt.NBTList;
 import chylex.hee.test.Assert;
 import chylex.hee.test.UnitTest;
 
@@ -145,5 +152,98 @@ public class TestAbstractions{
 		refXYZ.moveBy(Vec.xyz(1D,0.5D,-12D));
 		
 		Assert.equal(refXYZ,Vec.xyz(1D,0.5D,-12D));
+	}
+	
+	@UnitTest
+	public void testNBT(){
+		ItemStack is = new ItemStack(Blocks.bedrock);
+		
+		Assert.isTrue(NBT.item(is,false).isEmpty());
+		Assert.isNull(is.getTagCompound());
+		
+		Assert.isTrue(NBT.item(is,true).isEmpty());
+		Assert.notNull(is.getTagCompound());
+		
+		NBT.item(is,true).setBool("test",true);
+		Assert.isTrue(NBT.item(is,true).getBool("test"));
+	}
+	
+	@UnitTest
+	public void testNBTCompound(){
+		NBTCompound compound = new NBTCompound();
+		
+		Assert.isTrue(compound.isEmpty());
+		Assert.equal(compound.size(),0);
+		Assert.equal(compound.keySet().size(),0);
+		
+		compound.setBool("a",true);
+		compound.setByte("b",Byte.MIN_VALUE);
+		compound.setByteArray("c",new byte[]{ Byte.MAX_VALUE });
+		compound.setCompound("d",new NBTCompound());
+		compound.setDouble("e",0D);
+		compound.setFloat("f",10.5F);
+		compound.setInt("g",-30);
+		compound.setIntArray("h",new int[]{ 1, 2 });
+		compound.setList("i",new NBTList());
+		compound.setLong("j",Long.MAX_VALUE);
+		compound.setShort("k",Short.MIN_VALUE);
+		compound.setString("l","test");
+		
+		Assert.isFalse(compound.isEmpty());
+		Assert.equal(compound.size(),12);
+		
+		Assert.contains(compound.keySet(),"a");
+		Assert.contains(compound.keySet(),"l");
+		Assert.notContains(compound.keySet(),"z");
+		
+		Assert.equal(compound.getBool("a"),true);
+		Assert.equal(compound.getByte("b"),Byte.MIN_VALUE);
+		Assert.equal(compound.getByteArray("c")[0],Byte.MAX_VALUE);
+		Assert.isTrue(compound.getCompound("d").isEmpty());
+		Assert.equal(compound.getDouble("e"),0D);
+		Assert.equal(compound.getFloat("f"),10.5F);
+		Assert.equal(compound.getInt("g"),-30);
+		Assert.equal(compound.getIntArray("h")[0],1);
+		Assert.equal(compound.getIntArray("h")[1],2);
+		Assert.isTrue(compound.getList("i").isEmpty());
+		Assert.equal(compound.getLong("j"),Long.MAX_VALUE);
+		Assert.equal(compound.getShort("k"),Short.MIN_VALUE);
+		Assert.equal(compound.getString("l"),"test");
+		
+		compound.removeTag("a");
+		Assert.equal(compound.size(),11);
+		Assert.notContains(compound.keySet(),"a");
+		
+		NBTTagCompound vanillaCompound = new NBTTagCompound();
+		Assert.isTrue(vanillaCompound == NBT.wrap(vanillaCompound).getUnderlyingTag());
+		
+		vanillaCompound.setBoolean("a",true);
+		vanillaCompound.setInteger("b",10);
+		vanillaCompound.setString("c","test");
+		
+		Assert.equal(vanillaCompound.func_150296_c(),NBT.wrap(vanillaCompound).keySet());
+		Assert.equal(vanillaCompound.toString(),NBT.wrap(vanillaCompound).toString());
+	}
+	
+	@UnitTest
+	public void testNBTList(){
+		NBTList list = new NBTList();
+		
+		Assert.isTrue(list.isEmpty());
+		Assert.equal(list.size(),0);
+		
+		NBTList stringList = new NBTList();
+		stringList.appendString("Test1");
+		stringList.appendString("Test2");
+		stringList.appendString("Test3");
+		
+		Assert.isFalse(stringList.isEmpty());
+		Assert.equal(stringList.size(),3);
+		Assert.equal(stringList.getString(0),"Test1");
+		Assert.equal(stringList.getString(1),"Test2");
+		Assert.equal(stringList.getString(2),"Test3");
+		
+		NBTTagList vanillaList = new NBTTagList();
+		Assert.isTrue(vanillaList == new NBTList(vanillaList).getUnderlyingTag());
 	}
 }
