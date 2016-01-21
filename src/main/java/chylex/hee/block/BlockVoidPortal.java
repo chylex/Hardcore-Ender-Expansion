@@ -96,6 +96,11 @@ public class BlockVoidPortal extends BlockEndPortal implements IBlockSubtypes{
 	public String getUnlocalizedName(ItemStack is){
 		return is.getItemDamage() == Meta.voidPortalReturn ? "tile.voidPortal.return" : is.getItemDamage() == Meta.voidPortalTravel ? "tile.voidPortal.travel" : "tile.voidPortal.disabled";
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
+		return new ItemStack(this,1,Pos.at(x,y,z).getMetadata(world));
 	}
 	
 	@Override

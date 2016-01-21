@@ -4,9 +4,12 @@ import java.util.Random;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.player.PortalFile;
@@ -82,6 +85,12 @@ public class BlockEndPortalCustom extends BlockEndPortal{
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB checkAABB, List list, Entity entity){
 		AxisAlignedBB collisionBox = AxisAlignedBB.getBoundingBox(x,y,z,x+1D,y+0.025D,z+1D);
 		if (checkAABB.intersectsWith(collisionBox))list.add(collisionBox);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
+		return new ItemStack(this,1,Pos.at(x,y,z).getMetadata(world));
 	}
 	
 	@Override
