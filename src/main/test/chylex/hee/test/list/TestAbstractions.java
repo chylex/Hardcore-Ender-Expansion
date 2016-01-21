@@ -1,7 +1,9 @@
 package chylex.hee.test.list;
+import java.util.Random;
 import net.minecraft.util.EnumFacing;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.test.Assert;
@@ -78,5 +80,70 @@ public class TestAbstractions{
 		
 		for(Facing4 facing:Facing4.list)Assert.isFalse(reference.equals(new PosMutable(reference).move(facing)));
 		for(Facing6 facing:Facing6.list)Assert.isFalse(reference.equals(new PosMutable(reference).move(facing)));
+	}
+	
+	@UnitTest
+	public void testImmutableVec(){
+		Assert.equal(Vec.xyzRandom(new Random()).normalized().length(),1D);
+		Assert.equal(Vec.xzRandom(new Random()).normalized().length(),1D);
+		
+		Vec refXYZ = Vec.xyz(10D,20.1D,-5D);
+		Vec refXZ = Vec.xz(10D,-5D);
+		Vec refZero = Vec.zero();
+		
+		Assert.equal(refXYZ.x,10D);
+		Assert.equal(refXYZ.y,20.1D);
+		Assert.equal(refXYZ.z,-5D);
+		
+		Assert.equal(refXZ.x,10D);
+		Assert.equal(refXZ.y,0D);
+		Assert.equal(refXZ.z,-5D);
+		
+		Assert.equal(refZero.x,0D);
+		Assert.equal(refZero.y,0D);
+		Assert.equal(refZero.z,0D);
+		
+		Assert.equal(refXYZ,refXYZ.copy());
+		Assert.isFalse(refXYZ == refXYZ.copy());
+		
+		Assert.equal(refXYZ.length(),23.00021739D);
+		Assert.equal(refXZ.length(),11.18033989D);
+		Assert.equal(refZero.length(),0D);
+		
+		Assert.equal(refXYZ.normalized(),Vec.xyz(0.4347784992774615D,0.8739047835476976D,-0.21738924963873074D));
+		Assert.equal(refXZ.normalized(),Vec.xz(0.8944271909999159D,-0.4472135954999579D));
+		Assert.equal(refZero.normalized(),Vec.zero());
+		
+		Assert.equal(refXYZ.offset(1D,-0.1D,-8D),Vec.xyz(11D,20D,-13D));
+		Assert.equal(refXYZ.offset(refXZ),Vec.xyz(20D,20.1D,-10D));
+		Assert.equal(refXYZ.offset(refXZ,2D),Vec.xyz(30D,20.1D,-15D));
+		Assert.equal(refXYZ.offset(refZero),refXYZ);
+		
+		Assert.equal(refXYZ.multiplied(10D),Vec.xyz(100D,201D,-50D));
+		Assert.equal(refXZ.multiplied(-1D),Vec.xz(-10D,5D));
+		Assert.equal(refXYZ.multiplied(0D,-1D,-10D),Vec.xyz(0D,-20.1D,50D));
+		
+		Assert.equal(refXYZ.interpolated(refXZ,0D),refXYZ);
+		Assert.equal(refXYZ.interpolated(refXZ,1D),refXZ);
+		Assert.equal(refXYZ.interpolated(refXZ,0.5D),Vec.xyz(10D,10.05D,-5D));
+		
+		Assert.equal(refXYZ.distance(refZero),23.00021739D);
+		Assert.equal(refXYZ.distance(refXZ),20.1D);
+		
+		Assert.equal(refXYZ.toPos(),Pos.at(10,20,-5));
+		Assert.equal(Vec.from(refXYZ.toVec3()),refXYZ);
+		Assert.isTrue(refXYZ.toAABB().expand(0.00001D,0.00001D,0.00001D).isVecInside(refXYZ.toVec3()));
+		
+		Assert.equal(refXYZ,Vec.xyz(10D,20.1D,-5D));
+		Assert.equal(refXZ,Vec.xz(10D,-5D));
+		Assert.equal(refZero,Vec.zero());
+	}
+	
+	@UnitTest
+	public void testMutableVec(){
+		Vec refXYZ = Vec.xyz(0D,0D,0D);
+		refXYZ.moveBy(Vec.xyz(1D,0.5D,-12D));
+		
+		Assert.equal(refXYZ,Vec.xyz(1D,0.5D,-12D));
 	}
 }
