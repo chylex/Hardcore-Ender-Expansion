@@ -7,6 +7,7 @@ import gnu.trove.set.hash.TLongHashSet;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.AxisAlignedBB;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.global.WorldFile;
@@ -21,6 +22,7 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.TeleportHandler;
 import chylex.hee.world.end.EndTerritory;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
@@ -32,8 +34,13 @@ public final class TerritoryEvents{
 		GameRegistryUtil.registerEventHandler(new TerritoryEvents());
 	}
 	
+	private static AxisAlignedBB getTerritoryAABB(EndTerritory territory, Pos centerPos){ // TODO TEST THIS SEE BELOW
+		return territory.createBoundingBox().offset(centerPos).toAABB().expand(EndTerritory.chunksBetween*8D,512D,EndTerritory.chunksBetween*8D);
+	}
+	
 	private final TLongObjectHashMap<TerritoryTicker> activeTickers = new TLongObjectHashMap<>(8);
 	private final TObjectLongHashMap<UUID> currentTerritory = new TObjectLongHashMap<>(8,Constants.DEFAULT_LOAD_FACTOR,Pos.at(0,4095,0).toLong());
+	private final TLongHashSet rareTerritories = new TLongHashSet(2);
 	private int tickLimiter;
 	
 	private TerritoryEvents(){}
@@ -62,6 +69,25 @@ public final class TerritoryEvents{
 	}
 	
 	@SubscribeEvent
+	public void onPlayerLogout(PlayerLoggedOutEvent e){ // TODO HOLY SHIT DON'T FORGET TO TEST THIS ON MULTIPLAYER
+		EntityPlayer player = e.player;
+		
+		if (player.dimension == 1 && !player.worldObj.isRemote){
+			Pair<Pos,EndTerritory> data = EndTerritory.findTerritoryCenter(player.posX,player.posZ); // TODO SERIOUSLY TEST THIS
+			if (data == null)return;
+			
+			final long hash = data.getRight().getHashFromPoint(data.getLeft());
+			
+			System.out.println(getTerritoryAABB(data.getRight(),data.getLeft())); // TODO HERE'S A PRINTOUT, HOPE YOU DON'T FORGET TO SEARCH FOR THOSE BEFORE RELEASING ANYTHING
+			
+			if (rareTerritories.remove(hash) && EntitySelector.players(player.worldObj,getTerritoryAABB(data.getRight(),data.getLeft())).isEmpty()){
+				currentTerritory.remove(player.getUniqueID());
+				activeTickers.remove(hash);
+			}
+		}
+	}
+	
+	@SubscribeEvent
 	public void onWorldTick(WorldTickEvent e){
 		if (e.phase != Phase.START || e.side != Side.SERVER || e.world.provider.dimensionId != 1)return;
 		
@@ -81,7 +107,13 @@ public final class TerritoryEvents{
 				final long hash = data.getRight().getHashFromPoint(data.getLeft());
 				
 				if (activeTickers.containsKey(hash))toDeactivate.remove(hash);
-				else activeTickers.put(hash,new TerritoryTicker(data.getRight(),data.getLeft(),hash));
+				else{
+					if (SaveData.global(WorldFile.class).isTerritoryRare(hash)){
+						rareTerritories.add(hash);
+					}
+					
+					activeTickers.put(hash,new TerritoryTicker(data.getRight(),data.getLeft(),hash));
+				}
 				
 				if (currentTerritory.get(playerID) != hash){
 					currentTerritory.put(playerID,hash);
@@ -91,6 +123,11 @@ public final class TerritoryEvents{
 			
 			toDeactivate.forEach(hash -> {
 				activeTickers.remove(hash);
+				
+				if (rareTerritories.remove(hash)){
+					// TODO destroy the territory
+				}
+				
 				return true;
 			});
 		}
