@@ -1,4 +1,5 @@
 package chylex.hee.system.abstractions.entity;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nonnull;
@@ -25,7 +26,13 @@ public final class EntitySelector{
 	}
 	
 	public static @Nonnull List<EntityPlayer> players(World world, AxisAlignedBB boundingBox){
-		return world.getEntitiesWithinAABB(EntityPlayer.class,boundingBox);
+		List<EntityPlayer> foundPlayers = new ArrayList<>(1+world.playerEntities.size()/2);
+		
+		for(EntityPlayer player:players(world)){
+			if (player.boundingBox.intersectsWith(boundingBox))foundPlayers.add(player);
+		}
+		
+		return foundPlayers;
 	}
 	
 	public static @Nonnull List<Entity> any(World world){
