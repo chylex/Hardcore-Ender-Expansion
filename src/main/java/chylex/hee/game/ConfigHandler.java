@@ -15,11 +15,11 @@ import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.sound.MusicManager;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.update.UpdateNotificationManager;
+import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.system.util.ItemPattern;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,7 +28,7 @@ public final class ConfigHandler{
 	private static ConfigHandler instance;
 	
 	public static void register(File configFile){
-		FMLCommonHandler.instance().bus().register(instance = new ConfigHandler(new Configuration(configFile)));
+		GameRegistryUtil.registerEventHandler(instance = new ConfigHandler(new Configuration(configFile)));
 	}
 
 	@SideOnly(Side.CLIENT)

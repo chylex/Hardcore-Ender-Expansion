@@ -75,6 +75,11 @@ public final class GameRegistryUtil{
 		FMLCommonHandler.instance().bus().register(o);
 	}
 	
+	public static void unregisterEventHandler(Object o){
+		MinecraftForge.EVENT_BUS.unregister(o);
+		FMLCommonHandler.instance().bus().unregister(o);
+	}
+	
 	// protection against idiots who can't register their shit properly
 	
 	public static UniqueIdentifier findIdentifier(Block block){

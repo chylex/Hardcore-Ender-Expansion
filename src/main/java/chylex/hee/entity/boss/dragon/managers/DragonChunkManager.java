@@ -9,7 +9,6 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
@@ -18,13 +17,14 @@ import chylex.hee.game.save.types.global.DragonFile;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class DragonChunkManager implements LoadingCallback{
 	private static final DragonChunkManager instance = new DragonChunkManager();
 	
 	public static void register(){
-		MinecraftForge.EVENT_BUS.register(instance);
+		GameRegistryUtil.registerEventHandler(instance);
 		ForgeChunkManager.setForcedChunkLoadingCallback(HardcoreEnderExpansion.instance,instance);
 	}
 	

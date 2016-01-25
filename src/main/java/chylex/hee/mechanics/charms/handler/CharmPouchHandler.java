@@ -4,12 +4,10 @@ import java.util.Map;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
 import chylex.hee.system.abstractions.nbt.NBT;
 import chylex.hee.system.util.GameRegistryUtil;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
@@ -46,16 +44,12 @@ public final class CharmPouchHandler{
 		
 		if (!isHandlerActive && !activePouchIDs.isEmpty()){
 			isHandlerActive = true;
-			
-			MinecraftForge.EVENT_BUS.register(events);
-			FMLCommonHandler.instance().bus().register(events);
+			GameRegistryUtil.registerEventHandler(events);
 		}
 		else if (isHandlerActive && activePouchIDs.isEmpty()){
 			isHandlerActive = false;
-
 			events.onDisabled();
-			MinecraftForge.EVENT_BUS.unregister(events);
-			FMLCommonHandler.instance().bus().unregister(events);
+			GameRegistryUtil.unregisterEventHandler(events);
 		}
 		
 		refresh = false;
