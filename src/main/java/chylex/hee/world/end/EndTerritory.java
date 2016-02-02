@@ -127,6 +127,11 @@ public enum EndTerritory{
 		return centerPos.offset(0,ordinal()-centerPos.getY(),0).toLong();
 	}
 	
+	public Pos getStructurePosFromHash(long hash){
+		Pos structurePos = Pos.at(hash);
+		return structurePos.offset(0,bottom-structurePos.getY(),0);
+	}
+	
 	public Pos generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand, EnumSet<? extends Enum<?>> variations, boolean isRare){
 		for(int chunkX = 0; chunkX < chunkSize; chunkX++){
 			for(int chunkZ = 0; chunkZ < chunkSize; chunkZ++){

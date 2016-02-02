@@ -7,6 +7,7 @@ import gnu.trove.set.hash.TLongHashSet;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.game.save.SaveData;
@@ -21,6 +22,7 @@ import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.TeleportHandler;
 import chylex.hee.world.end.EndTerritory;
+import chylex.hee.world.structure.StructureWorld;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
@@ -125,7 +127,13 @@ public final class TerritoryEvents{
 				activeTickers.remove(hash);
 				
 				if (rareTerritories.remove(hash)){
-					// TODO destroy the territory
+					EndTerritory.getFromHash(hash).ifPresent(territory -> {
+						Pos structurePos = territory.getStructurePosFromHash(hash);
+						StructureWorld world = territory.createWorld(e.world);
+						
+						world.clearArea(Blocks.air,0);
+						world.generateInWorld(e.world,null,structurePos.getX(),structurePos.getY(),structurePos.getZ());
+					});
 				}
 				
 				return true;
