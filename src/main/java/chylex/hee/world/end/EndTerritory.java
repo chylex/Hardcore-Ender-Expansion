@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
@@ -89,16 +90,7 @@ public enum EndTerritory{
 		
 		if ($debugging){
 			structureWorld.setSendToWatchers();
-			
-			BoundingBox box = structureWorld.getArea();
-			
-			for(int x = box.x1; x < box.x2; x++){
-				for(int z = box.z1; z < box.z2; z++){
-					for(int y = box.y1; y < box.y2; y++){
-						structureWorld.setAir(x,y,z);
-					}
-				}
-			}
+			structureWorld.clearArea(Blocks.air,0);
 		}
 		
 		return structureWorld;
