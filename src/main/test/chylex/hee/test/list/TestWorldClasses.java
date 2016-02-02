@@ -110,5 +110,12 @@ public class TestWorldClasses{
 		}catch(Throwable t){
 			throw new RuntimeException(t);
 		}
+		
+		world.clearArea(Blocks.dirt,2);
+		
+		Pos.forEachBlock(Pos.at(-2,0,-2),Pos.at(2,2,2),pos -> {
+			Assert.equal(world.getBlock(pos),Blocks.dirt);
+			Assert.equal(world.getMetadata(pos),2);
+		});
 	}
 }

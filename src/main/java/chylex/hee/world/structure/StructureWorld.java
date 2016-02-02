@@ -120,6 +120,15 @@ public class StructureWorld{
 		return true;
 	}
 	
+	public void clearArea(Block block, int metadata){
+		final int limit = this.blocks.length;
+		
+		for(int index = 0; index < limit; index++){
+			this.blocks[index] = block;
+			this.metadata[index] = (byte)metadata;
+		}
+	}
+	
 	// Getting block information
 	
 	public Block getBlock(int x, int y, int z){
