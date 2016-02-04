@@ -23,7 +23,6 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.end.TerritoryGenerator.ITerritoryGeneratorConstructor;
 import chylex.hee.world.end.gen.TerritoryArcaneConjunctions;
 import chylex.hee.world.end.gen.TerritoryForgottenTombs;
-import chylex.hee.world.end.gen.TerritoryTest;
 import chylex.hee.world.end.gen.TerritoryTheHub;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.StructureWorldLazy;
@@ -40,7 +39,7 @@ public enum EndTerritory{
 	
 	FORGOTTEN_TOMBS( // 448 blocks
 		size(28), height(128), bottom(64), color(253), new TerritorySpawnGenerator.Origin(),
-		new TerritoryTest.Properties(), TerritoryEnvironment.defaultEnvironment, TerritoryForgottenTombs::new
+		TerritoryProperties.defaultProperties, TerritoryEnvironment.defaultEnvironment, TerritoryForgottenTombs::new
 	),
 	
 	ARCANE_CONJUNCTIONS(
