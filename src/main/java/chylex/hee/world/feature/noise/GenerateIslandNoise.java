@@ -115,7 +115,7 @@ public class GenerateIslandNoise{
 		return densities;
 	}
 	
-	private void generateChunk(StructureWorld world, int x, int z, final int offsetX, final int offsetY, final int offsetZ){
+	private void generateChunk(StructureWorld world, int x, int z, final int offsetY){
 		int noiseSizeXZ = 3;
 		byte height = (byte)(noiseHeight+1);
 		densities = initializeNoiseField(densities,x*2,0,z*2,noiseSizeXZ,height,noiseSizeXZ);
@@ -146,7 +146,7 @@ public class GenerateIslandNoise{
 							double interpolation = (dCurrentRight-dCurrentLeft)*0.125D;
 							
 							for(int yBlock3 = 0; yBlock3 < 8; yBlock3++){
-								if (density > 0D)world.setBlock(x*16+((index>>12)&15)+offsetX,(index&255)+offsetY,z*16+((index>>8)&15)+offsetZ,block);
+								if (density > 0D)world.setBlock(x*16+((index>>12)&15),(index&255)+offsetY,z*16+((index>>8)&15),block);
 								index += 256;
 								density += interpolation;
 							}
@@ -166,17 +166,17 @@ public class GenerateIslandNoise{
 	}
 	
 	public void generate(StructureWorld world){
-		generate(world,0,0,0);
+		generate(world,0);
 	}
 	
-	public void generate(StructureWorld world, final int offsetX, final int offsetY, final int offsetZ){
+	public void generate(StructureWorld world, final int offsetY){
 		BoundingBox box = world.getArea();
 		int cx1 = box.x1/16, cx2 = box.x2/16;
 		int cz1 = box.z1/16, cz2 = box.z2/16;
 		
 		for(int chunkX = cx1; chunkX < cx2; chunkX++){
 			for(int chunkZ = cz1; chunkZ < cz2; chunkZ++){
-				generateChunk(world,chunkX,chunkZ,offsetX,offsetY,offsetZ);
+				generateChunk(world,chunkX,chunkZ,offsetY);
 			}
 		}
 	}
