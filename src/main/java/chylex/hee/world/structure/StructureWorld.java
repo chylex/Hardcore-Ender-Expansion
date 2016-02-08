@@ -120,7 +120,11 @@ public class StructureWorld{
 		return true;
 	}
 	
-	public void clearArea(Block block, int metadata){
+	public final void clearArea(){
+		clearArea(null,0);
+	}
+	
+	public void clearArea(@Nullable Block block, int metadata){
 		final int limit = this.blocks.length;
 		
 		for(int index = 0; index < limit; index++){
