@@ -38,7 +38,7 @@ public enum EndTerritory{
 	),
 	
 	FORGOTTEN_TOMBS( // 448 blocks
-		size(28), height(128), bottom(64), color(253), new TerritorySpawnGenerator.Origin(),
+		size(28), height(128), bottom(64), color(253), new TerritorySpawnGenerator.InSquare(0.5D),
 		TerritoryProperties.defaultProperties, TerritoryEnvironment.defaultEnvironment, TerritoryForgottenTombs::new
 	),
 	
