@@ -1,7 +1,7 @@
 package chylex.hee.gui;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.helpers.GuiHelper;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -16,7 +16,7 @@ public class GuiButtonArrow extends GuiButtonSmall{
 		super.drawButton(mc,mouseX,mouseY);
 		
 		if (visible){
-			if (!field_146123_n)GL11.glColor4f(1F,1F,1F,1F);
+			if (!field_146123_n)GL.color(1F,1F,1F,1F);
 			mc.getTextureManager().bindTexture(GuiHelper.texUtils);
 			drawTexturedModalRect(xPosition,yPosition,0,0,11,11);
 		}

@@ -3,8 +3,8 @@ import java.util.Random;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLightningBolt;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.proxy.ModClientProxy;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -14,10 +14,9 @@ public class RenderWeatherLightningBoltPurple extends RenderLightningBolt{
 	public void doRender(EntityLightningBolt bolt, double x, double y, double z, float yaw, float partialTickTime){
 		Tessellator tessellator = Tessellator.instance;
 		
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);
+		GL.disableTexture2D();
+		GL.disableLighting();
+		GL.enableBlend(GL.SRC_ALPHA,GL.ONE);
 		
 		double[] xOffsets = new double[8];
 		double[] zOffsets = new double[8];
@@ -111,8 +110,8 @@ public class RenderWeatherLightningBoltPurple extends RenderLightningBolt{
 			}
 		}
 
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL.disableBlend();
+		GL.enableLighting();
+		GL.enableTexture2D();
 	}
 }

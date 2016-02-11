@@ -6,10 +6,10 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.render.model.ModelLouse;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.system.util.RandUtil;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
@@ -64,7 +64,7 @@ public class RenderMobLouse extends RenderLiving{
 
 	@Override
 	protected void preRenderCallback(EntityLivingBase entity, float partialTickTime){
-		GL11.glScalef(0.6F,0.6F,0.6F);
+		GL.scale(0.6F,0.6F,0.6F);
 	}
 	
 	@Override
@@ -100,22 +100,20 @@ public class RenderMobLouse extends RenderLiving{
 			for(EnumLouseAbility ability:abilities)rand.nextInt(1+ability.ordinal());
 			
 			bindTexture(RandUtil.anyOf(rand,pass == 1 ? texLouseRuneBottom : texLouseRuneTop));
-			GL11.glMatrixMode(GL11.GL_TEXTURE);
-			GL11.glLoadIdentity();
+			GL.setMatrixMode(GL.TEXTURE);
+			GL.loadIdentity();
 			setRenderPassModel(mainModel);
-			GL11.glMatrixMode(GL11.GL_MODELVIEW);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE);
-			
-			GL11.glColor4f(color.red,color.green,color.blue,1F);
+			GL.setMatrixMode(GL.MODELVIEW);
+			GL.enableBlend(GL.ONE,GL.ONE);
+			GL.color(color.red,color.green,color.blue,1F);
 			
 			return 1;
 		}
 		else if (pass == 3){
-			GL11.glMatrixMode(GL11.GL_TEXTURE);
-			GL11.glLoadIdentity();
-			GL11.glMatrixMode(GL11.GL_MODELVIEW);
-			GL11.glDisable(GL11.GL_BLEND);
+			GL.setMatrixMode(GL.TEXTURE);
+			GL.loadIdentity();
+			GL.setMatrixMode(GL.MODELVIEW);
+			GL.disableBlend();
 		}
 
 		return -1;

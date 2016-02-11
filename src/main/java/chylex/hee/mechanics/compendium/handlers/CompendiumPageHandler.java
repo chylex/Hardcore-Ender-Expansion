@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiButtonPageArrow;
 import chylex.hee.gui.GuiEnderCompendium;
@@ -21,6 +20,7 @@ import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.elements.CompendiumPurchaseElement;
 import chylex.hee.packets.server.S01CompendiumReadFragments;
 import chylex.hee.packets.server.S02CompendiumPurchase;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -193,8 +193,8 @@ public class CompendiumPageHandler{
 		
 		if (currentObject == null)return;
 		
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.disableDepthTest();
+		GL.color(1F,1F,1F,1F);
 		RenderHelper.disableStandardItemLighting();
 		
 		gui.mc.getTextureManager().bindTexture(texPage);
@@ -209,13 +209,13 @@ public class CompendiumPageHandler{
 		if (!currentObject.isHidden()){
 			int iconY = innerY-5;
 			RenderHelper.enableGUIStandardItemLighting();
-			GL11.glPushMatrix();
-			GL11.glTranslatef(left+8,iconY+8,0F);
-			GL11.glScaled(0.75F,0.75F,1F);
-			GL11.glTranslatef(-left-8,-iconY-8,0F);
-			GL11.glTranslatef(0F,0.5F,0F);
+			GL.pushMatrix();
+			GL.translate(left+8,iconY+8,0F);
+			GL.scale(0.75F,0.75F,1F);
+			GL.translate(-left-8,-iconY-8,0F);
+			GL.translate(0F,0.5F,0F);
 			GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),currentObject.holder.getDisplayItemStack(),left,iconY,true);
-			GL11.glPopMatrix();
+			GL.popMatrix();
 		}
 		
 		int x = innerX, y = innerY+12;
@@ -231,6 +231,6 @@ public class CompendiumPageHandler{
 		
 		for(CompendiumPurchaseElement element:purchaseElements)element.render(gui,compendiumFile,mouseX,mouseY);
 
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL.enableDepthTest();
 	}
 }

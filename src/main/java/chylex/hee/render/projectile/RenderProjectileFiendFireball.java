@@ -7,9 +7,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -25,19 +24,19 @@ public class RenderProjectileFiendFireball extends Render{
 	public void doRender(Entity entity, double x, double y, double z, float rotationYaw, float partialTickTime){
 		EntityProjectileFiendFireball fireball = (EntityProjectileFiendFireball)entity;
 		
-		GL11.glPushMatrix();
+		GL.pushMatrix();
 		bindEntityTexture(entity);
-		GL11.glTranslated(getX(fireball,partialTickTime),y,getZ(fireball,partialTickTime));
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		GL11.glScalef(scale,scale,scale);
+		GL.translate(getX(fireball,partialTickTime),y,getZ(fireball,partialTickTime));
+		GL.enableRescaleNormal();
+		GL.scale(scale,scale,scale);
 		
 		IIcon iicon = Items.fire_charge.getIconFromDamage(0);
 		Tessellator tessellator = Tessellator.instance;
 		float minU = iicon.getMinU(), maxU = iicon.getMaxU();
 		float minV = iicon.getMinV(), maxV = iicon.getMaxV();
 		
-		GL11.glRotatef(180F-renderManager.playerViewY,0F,1F,0F);
-		GL11.glRotatef(-renderManager.playerViewX,1F,0F,0F);
+		GL.rotate(180F-renderManager.playerViewY,0F,1F,0F);
+		GL.rotate(-renderManager.playerViewX,1F,0F,0F);
 		
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0F,1F,0F);
@@ -47,8 +46,8 @@ public class RenderProjectileFiendFireball extends Render{
 		tessellator.addVertexWithUV(-0.5F,0.75F,0D,minU,minV);
 		tessellator.draw();
 		
-		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-		GL11.glPopMatrix();
+		GL.disableRescaleNormal();
+		GL.popMatrix();
 	}
 	
 	@Override

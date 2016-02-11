@@ -12,8 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.helpers.AnimatedFloat;
 import chylex.hee.gui.helpers.AnimatedFloat.Easing;
@@ -31,6 +29,7 @@ import chylex.hee.mechanics.compendium.handlers.CompendiumTabHandler;
 import chylex.hee.packets.AbstractPacket;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -214,26 +213,25 @@ public class GuiEnderCompendium extends GuiScreen{
 		partialTickTime = Minecraft.getMinecraft().timer.elapsedPartialTicks; // if doesGuiPauseGame() returns true, Minecraft freezes renderPartialTicks
 		
 		drawDefaultBackground();
-		GL11.glDepthFunc(GL11.GL_GEQUAL);
-		GL11.glPushMatrix();
-		GL11.glTranslatef(0F,0F,-200F);
+		GL.setDepthFunc(GL.GEQUAL);
+		GL.pushMatrix();
+		GL.translate(0F,0F,-200F);
 		portalRenderer.render(0,-scrollHandler.getOffset(partialTickTime)*0.49F,1F/getScaleMultiplier(),partialTickTime);
-		GL11.glDepthFunc(GL11.GL_LEQUAL);
-		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL.setDepthFunc(GL.LEQUAL);
+		GL.enableCullFace();
 		renderScreen(mouseX,mouseY,partialTickTime);
-		GL11.glPopMatrix();
-		GL11.glDepthFunc(GL11.GL_LEQUAL);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL.popMatrix();
+		GL.setDepthFunc(GL.LEQUAL);
+		GL.disableDepthTest();
 		RenderHelper.disableStandardItemLighting();
 		super.drawScreen(mouseX,mouseY,partialTickTime);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL.enableDepthTest();
 	}
 
 	private void renderScreen(int mouseX, int mouseY, float partialTickTime){
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		GL11.glColor4f(1F,1F,1F,1F);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL.enableRescaleNormal();
+		GL.color(1F,1F,1F,1F);
+		GL.enableBlendAlpha();
 
 		renderBackgroundGUI();
 		
@@ -242,8 +240,8 @@ public class GuiEnderCompendium extends GuiScreen{
 		
 		tabHandler.render(mouseX,mouseY);
 		
-		GL11.glPushMatrix();
-		GL11.glTranslatef(0F,offY,0F);
+		GL.pushMatrix();
+		GL.translate(0F,offY,0F);
 		
 		for(CompendiumObjectElement element:objectElements){
 			if (element.isVisible(compendiumFile))element.renderLine(this,compendiumFile,yLowerBound,yUpperBound);
@@ -257,15 +255,13 @@ public class GuiEnderCompendium extends GuiScreen{
 		}
 		
 		RenderHelper.disableStandardItemLighting();
-		GL11.glPopMatrix();
+		GL.popMatrix();
 
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL.enableBlendAlpha();
 		
 		renderFragmentCount(width-90,24);
 
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL.enableBlendAlpha();
 		
 		pageHandler.render(mouseX,mouseY);
 		
@@ -280,7 +276,7 @@ public class GuiEnderCompendium extends GuiScreen{
 	}
 	
 	private void renderBackgroundGUI(){
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL.disableDepthTest();
 		RenderHelper.disableStandardItemLighting();
 		mc.getTextureManager().bindTexture(texBack);
 		
@@ -304,12 +300,12 @@ public class GuiEnderCompendium extends GuiScreen{
 		String title = ModCommonProxy.hardcoreEnderbacon ? "Hardcore Bacon Expansion - Bacon Compendium" : "Hardcore Ender Expansion - Ender Compendium";
 		fontRendererObj.drawString(title,(width>>1)-(fontRendererObj.getStringWidth(title)>>1),14,0x404040);
 		
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL.enableDepthTest();
 	}
 	
 	private void renderFragmentCount(int x, int y){
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.disableDepthTest();
+		GL.color(1F,1F,1F,1F);
 		
 		mc.getTextureManager().bindTexture(texBack);
 		drawTexturedModalRect(x,y,56,0,56,20);
@@ -320,7 +316,7 @@ public class GuiEnderCompendium extends GuiScreen{
 		String pointAmount = String.valueOf(compendiumFile.getPoints());
 		fontRendererObj.drawString(pointAmount,x+50-fontRendererObj.getStringWidth(pointAmount),y+6,0x404040);
 		
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL.enableDepthTest();
 	}
 	
 	@Override

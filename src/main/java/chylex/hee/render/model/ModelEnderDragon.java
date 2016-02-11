@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -118,14 +119,14 @@ public class ModelEnderDragon extends ModelBase{
 
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		GL11.glPushMatrix();
+		GL.pushMatrix();
 		EntityBossDragon dragon = (EntityBossDragon)entity;
 		float animTime = dragon.prevAnimTime+(dragon.animTime-dragon.prevAnimTime)*partialTicks;
 		jaw.rotateAngleX = (float)(Math.sin((animTime*(float)Math.PI*2F))+1D)*0.2F;
 		float f7 = (float)(Math.sin((animTime*(float)Math.PI*2F-1F))+1D);
 		f7 = (f7*f7+f7*2F)*0.05F;
-		GL11.glTranslatef(0F,f7-2F,-3F);
-		GL11.glRotatef(f7*2F,1F,0F,0F);
+		GL.translate(0F,f7-2F,-3F);
+		GL.rotate(f7*2F,1F,0F,0F);
 		float f8 = -30F;
 		float f9 = 0F;
 		float f10 = 1.5F;
@@ -160,15 +161,15 @@ public class ModelEnderDragon extends ModelBase{
 		head.rotateAngleY = updateRotations(adouble2[0]-adouble[0])*(float)Math.PI/180F;
 		head.rotateAngleZ = -updateRotations(adouble2[0]-f12)*(float)Math.PI/180F;
 		head.render(unitPixel);
-		GL11.glPushMatrix();
-		GL11.glTranslatef(0F,1F,0F);
-		GL11.glRotatef(-f11*f10,0F,0F,1F);
-		GL11.glTranslatef(0F,-1F,0F);
+		GL.pushMatrix();
+		GL.translate(0F,1F,0F);
+		GL.rotate(-f11*f10,0F,0F,1F);
+		GL.translate(0F,-1F,0F);
 		body.rotateAngleZ = 0F;
 		body.render(unitPixel);
 
 		for(int a = 0; a < 2; ++a){
-			GL11.glEnable(GL11.GL_CULL_FACE);
+			GL.enableCullFace();
 			f15 = animTime*(float)Math.PI*2F;
 			wing.rotateAngleX = 0.125F-(float)Math.cos(f15)*0.2F;
 			wing.rotateAngleY = 0.25F;
@@ -183,14 +184,14 @@ public class ModelEnderDragon extends ModelBase{
 			wing.render(unitPixel);
 			frontLeg.render(unitPixel);
 			rearLeg.render(unitPixel);
-			GL11.glScalef(-1F,1F,1F);
+			GL.scale(-1F,1F,1F);
 
 			if (a == 0)GL11.glCullFace(GL11.GL_FRONT);
 		}
 
-		GL11.glPopMatrix();
+		GL.popMatrix();
 		GL11.glCullFace(GL11.GL_BACK);
-		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL.disableCullFace();
 		float f16 = -((float)Math.sin((animTime*(float)Math.PI*2F)))*0F;
 		f13 = animTime*(float)Math.PI*2F;
 		f8 = 10F;
@@ -213,7 +214,7 @@ public class ModelEnderDragon extends ModelBase{
 			neck.render(unitPixel);
 		}
 
-		GL11.glPopMatrix();
+		GL.popMatrix();
 	}
 
 	private float updateRotations(double angle){

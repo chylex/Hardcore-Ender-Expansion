@@ -3,7 +3,7 @@ import java.util.Random;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -37,7 +37,8 @@ public final class GuiEndPortalRenderer{
 		
 		float div = (float)portalWidthHalf/portalHeightHalf;
 
-		GL11.glDisable(GL11.GL_LIGHTING);
+		GL.disableLighting();
+		GL.enableBlend();
 		consistentRandom.setSeed(31100L);
 
 		for(int layer = 0; layer < 16; ++layer){
@@ -47,16 +48,14 @@ public final class GuiEndPortalRenderer{
 				gui.mc.getTextureManager().bindTexture(texPortalSky);
 				colorMultiplier = 0.1F;
 				scale = 1.125F;
-				GL11.glEnable(GL11.GL_BLEND);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+				GL.setBlendFunc(GL.SRC_ALPHA,GL.ONE_MINUS_SRC_ALPHA);
 			}
 
 			if (layer >= 1){
 				gui.mc.getTextureManager().bindTexture(texPortal);
 				
 				if (layer == 1){
-					GL11.glEnable(GL11.GL_BLEND);
-					GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE);
+					GL.setBlendFunc(GL.ONE,GL.ONE);
 					scale = 0.2F;
 				}
 			}
@@ -66,22 +65,22 @@ public final class GuiEndPortalRenderer{
 				continue;
 			}
 
-			GL11.glMatrixMode(GL11.GL_TEXTURE);
-			GL11.glPushMatrix();
-			GL11.glLoadIdentity();
+			GL.setMatrixMode(GL.TEXTURE);
+			GL.pushMatrix();
+			GL.loadIdentity();
 
-			GL11.glTranslatef(0F,layerMp*(prevPortalTranslation+(portalTranslation-prevPortalTranslation)*partialTickTime)*0.00002F,0F);
-			GL11.glScalef(scale,scale,1F);
-			GL11.glScalef(1F+revLayer*0.15F,1F+revLayer*0.15F,1F);
-			GL11.glTranslatef(0.5F,0.5F,0F);
-			GL11.glRotatef((layer*layer*4321+layer*9)*4F+180F,0F,0F,1F);
+			GL.translate(0F,layerMp*(prevPortalTranslation+(portalTranslation-prevPortalTranslation)*partialTickTime)*0.00002F,0F);
+			GL.scale(scale,scale,1F);
+			GL.scale(1F+revLayer*0.15F,1F+revLayer*0.15F,1F);
+			GL.translate(0.5F,0.5F,0F);
+			GL.rotate((layer*layer*4321+layer*9)*4F+180F,0F,0F,1F);
 			
-			GL11.glTranslatef(x*0.0025F*layerMp,y*0.0025F*layerMp,0F);
-			GL11.glTranslatef(0.5F*div,0.5F,0F);
-			GL11.glScalef(4F*portalScale,4F*portalScale,1F);
-			GL11.glTranslatef(-0.5F*div,-0.5F,0F);
+			GL.translate(x*0.0025F*layerMp,y*0.0025F*layerMp,0F);
+			GL.translate(0.5F*div,0.5F,0F);
+			GL.scale(4F*portalScale,4F*portalScale,1F);
+			GL.translate(-0.5F*div,-0.5F,0F);
 			
-			GL11.glScalef(div,1F,1F);
+			GL.scale(div,1F,1F);
 			
 			Tessellator tessellator = Tessellator.instance;
 			tessellator.startDrawingQuads();
@@ -97,11 +96,11 @@ public final class GuiEndPortalRenderer{
 			tessellator.addVertexWithUV(hw+portalWidthHalf,hh-portalHeightHalf+portalTopOffset,0D,1D,0D);
 			tessellator.addVertexWithUV(hw-portalWidthHalf,hh-portalHeightHalf+portalTopOffset,0D,0D,0D);
 			tessellator.draw();
-			GL11.glPopMatrix();
-			GL11.glMatrixMode(GL11.GL_MODELVIEW);
+			GL.popMatrix();
+			GL.setMatrixMode(GL.MODELVIEW);
 		}
 
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_LIGHTING);
+		GL.disableBlend();
+		GL.enableLighting();
 	}
 }

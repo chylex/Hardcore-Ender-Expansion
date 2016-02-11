@@ -14,8 +14,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
+import chylex.hee.system.abstractions.GL;
 import com.google.common.base.Joiner;
 
 public class GuiItemRenderHelper{
@@ -31,57 +30,57 @@ public class GuiItemRenderHelper{
 		if (is.getItemSpriteNumber() == 0 && block != null && RenderBlocks.renderItemIn3d(block.getRenderType())){
 			RenderHelper.enableGUIStandardItemLighting();
 			textureManager.bindTexture(TextureMap.locationBlocksTexture);
-			GL11.glPushMatrix();
-			GL11.glTranslatef((x-2),(y+3),-3.0F+renderItem.zLevel);
-			GL11.glScalef(10F,10F,10F);
-			GL11.glTranslatef(1F,0.5F,1F);
-			GL11.glScalef(1F,1F,-1F);
-			GL11.glRotatef(210F,1F,0F,0F);
-			GL11.glRotatef(45F,0F,1F,0F);
+			GL.pushMatrix();
+			GL.translate((x-2),(y+3),-3.0F+renderItem.zLevel);
+			GL.scale(10F,10F,10F);
+			GL.translate(1F,0.5F,1F);
+			GL.scale(1F,1F,-1F);
+			GL.rotate(210F,1F,0F,0F);
+			GL.rotate(45F,0F,1F,0F);
 			
 			int col = item.getColorFromItemStack(is,0);
-			if (renderItem.renderWithColor)GL11.glColor4f((col>>16&255)/255F,(col>>8&255)/255F,(col&255)/255F,1F);
+			if (renderItem.renderWithColor)GL.color((col>>16&255)/255F,(col>>8&255)/255F,(col&255)/255F,1F);
 
-			GL11.glRotatef(-90F,0F,1F,0F);
+			GL.rotate(-90F,0F,1F,0F);
 			renderBlocks.useInventoryTint = renderItem.renderWithColor;
 			renderBlocks.renderBlockAsItem(block,damage,1F);
 			renderBlocks.useInventoryTint = true;
-			GL11.glPopMatrix();
+			GL.popMatrix();
 			RenderHelper.disableStandardItemLighting();
 		}
 		else if (item.requiresMultipleRenderPasses()){
-			GL11.glDisable(GL11.GL_LIGHTING);
+			GL.disableLighting();
 
 			for(int pass = 0; pass < item.getRenderPasses(damage); ++pass){
 				textureManager.bindTexture(is.getItemSpriteNumber() == 0?TextureMap.locationBlocksTexture:TextureMap.locationItemsTexture);
 				IIcon icon = item.getIcon(is,pass);
 				
 				int col = item.getColorFromItemStack(is,pass);
-				if (renderItem.renderWithColor)GL11.glColor4f((col>>16&255)/255F,(col>>8&255)/255F,(col&255)/255F,1F);
+				if (renderItem.renderWithColor)GL.color((col>>16&255)/255F,(col>>8&255)/255F,(col&255)/255F,1F);
 
 				renderItem.renderIcon(x,y,icon,16,16);
 			}
 
-			GL11.glEnable(GL11.GL_LIGHTING);
+			GL.enableLighting();
 		}
 		else{
-			GL11.glDisable(GL11.GL_LIGHTING);
+			GL.disableLighting();
 			ResourceLocation resourcelocation = textureManager.getResourceLocation(is.getItemSpriteNumber());
 			textureManager.bindTexture(resourcelocation);
 
 			if (object == null)object = ((TextureMap)textureManager.getTexture(resourcelocation)).getAtlasSprite("missingno");
 
 			int col = item.getColorFromItemStack(is,0);
-			if (renderItem.renderWithColor)GL11.glColor4f((col>>16&255)/255F,(col>>8&255)/255F,(col&255)/255F,1F);
+			if (renderItem.renderWithColor)GL.color((col>>16&255)/255F,(col>>8&255)/255F,(col&255)/255F,1F);
 
 			renderItem.renderIcon(x,y,(IIcon)object,16,16);
-			GL11.glEnable(GL11.GL_LIGHTING);
+			GL.enableLighting();
 		}
 
-		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL.enableCullFace();
 		
 		renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer,textureManager,is,x,y);
-		GL11.glDisable(GL11.GL_LIGHTING);
+		GL.disableLighting();
 	}
 	
 	private static int tooltipX, tooltipY;
@@ -101,10 +100,10 @@ public class GuiItemRenderHelper{
 		if (tooltipString == null)return;
 		String[] strings = tooltipString.split("\n");
 		
-		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		GL.disableRescaleNormal();
 		RenderHelper.disableStandardItemLighting();
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL.disableLighting();
+		GL.disableDepthTest();
 		
 		int maxWidth = 0, xx = tooltipX+12, yy = tooltipY-12, height = strings.length > 1 ? 10+(strings.length-1)*10 : 8;
 		
@@ -135,8 +134,8 @@ public class GuiItemRenderHelper{
 
 		renderItem.zLevel = 0F;
 		
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		GL.enableDepthTest();
+		GL.enableRescaleNormal();
 		
 		tooltipString = null;
 	}

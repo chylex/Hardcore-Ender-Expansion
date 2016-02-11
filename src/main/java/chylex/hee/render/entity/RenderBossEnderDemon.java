@@ -4,8 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.render.model.ModelEnderDemon;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -19,8 +19,8 @@ public class RenderBossEnderDemon extends RenderLiving{
 	
 	@Override
 	protected void preRenderCallback(EntityLivingBase entity, float partialTickTime){
-		GL11.glScalef(2.5f,2.5f,2.5f);
-		GL11.glTranslatef(0f,0.9f,0f);
+		GL.scale(2.5F,2.5F,2.5F);
+		GL.translate(0F,0.9F,0F);
 	}
 	
 	@Override

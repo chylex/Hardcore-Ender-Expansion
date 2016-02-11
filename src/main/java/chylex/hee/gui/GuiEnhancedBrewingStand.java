@@ -3,7 +3,7 @@ import net.minecraft.client.gui.inventory.GuiBrewingStand;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,7 +24,7 @@ public class GuiEnhancedBrewingStand extends GuiBrewingStand{
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int y){
 		super.drawGuiContainerForegroundLayer(x,y);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL.disableDepthTest();
 		
 		int powderReq = brewingStand.getRequiredPowder();
 		
@@ -35,7 +35,7 @@ public class GuiEnhancedBrewingStand extends GuiBrewingStand{
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float renderPartialTicks, int x, int y){
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.color(1F,1F,1F,1F);
 		mc.getTextureManager().bindTexture(guiResource);
 		int guiX = 1+(width-xSize)/2;
 		int guiY = (height-ySize)/2;

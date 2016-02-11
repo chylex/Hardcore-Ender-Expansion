@@ -3,9 +3,9 @@ import net.minecraft.client.renderer.entity.RenderBat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
 import chylex.hee.mechanics.misc.Baconizer;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -16,7 +16,7 @@ public class RenderMobInfestedBat extends RenderBat{
 	@Override
 	protected void preRenderCallback(EntityBat bat, float partialTickTime){
 		float scale = ((EntityMobInfestedBat)bat).getScale();
-		GL11.glScalef(scale,scale,scale);
+		GL.scale(scale,scale,scale);
 	}
 	
 	@Override

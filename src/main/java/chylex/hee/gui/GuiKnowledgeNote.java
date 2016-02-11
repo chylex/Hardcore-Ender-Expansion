@@ -3,9 +3,9 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import org.apache.commons.lang3.StringUtils;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.helpers.GuiHelper;
 import chylex.hee.mechanics.compendium.handlers.CompendiumPageHandler;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.client.config.GuiButtonExt;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,7 +32,7 @@ public class GuiKnowledgeNote extends GuiScreen{
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTickTime){
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.color(1F,1F,1F,1F);
 		mc.getTextureManager().bindTexture(CompendiumPageHandler.texPage);
 		drawTexturedModalRect((width-CompendiumPageHandler.pageWidth)/2,(height-CompendiumPageHandler.pageHeight)/2-20,0,0,CompendiumPageHandler.pageWidth,CompendiumPageHandler.pageHeight);
 		

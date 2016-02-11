@@ -5,8 +5,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -16,19 +15,19 @@ abstract class RenderProjectileBase extends Render{
 	
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float rotationYaw, float partialTickTime){
-		GL11.glPushMatrix();
-		GL11.glTranslated(x,y,z);
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		GL11.glScalef(0.5F,0.5F,0.5F);
+		GL.pushMatrix();
+		GL.translate(x,y,z);
+		GL.enableRescaleNormal();
+		GL.scale(0.5F,0.5F,0.5F);
 		
-		GL11.glRotatef(180F-renderManager.playerViewY,0F,1F,0F);
-		GL11.glRotatef(-renderManager.playerViewX,1F,0F,0F);
+		GL.rotate(180F-renderManager.playerViewY,0F,1F,0F);
+		GL.rotate(-renderManager.playerViewX,1F,0F,0F);
 		
 		bindEntityTexture(entity);
 		render(entity);
 		
-		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-		GL11.glPopMatrix();
+		GL.disableRescaleNormal();
+		GL.popMatrix();
 	}
 	
 	@Override

@@ -6,7 +6,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.init.ItemList;
@@ -14,6 +13,7 @@ import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.RecipeUnifier;
 import chylex.hee.system.util.RecipeUnifier.Recipe;
@@ -141,8 +141,8 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.enableDepthTest();
+		GL.color(1F,1F,1F,1F);
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragments);
 		gui.drawTexturedModalRect(x,y,0,0,88,58);
 		

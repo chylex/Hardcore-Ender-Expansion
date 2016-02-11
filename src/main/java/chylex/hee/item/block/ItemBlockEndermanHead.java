@@ -10,10 +10,10 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.init.BlockList;
 import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.render.item.RenderItemEndermanHead;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.tileentity.TileEntityEndermanHead;
@@ -77,7 +77,7 @@ public class ItemBlockEndermanHead extends ItemBlock{
 		ModClientProxy.endermanHeadModelBiped.isSneak = e.entityPlayer.isSneaking();
 		ModClientProxy.endermanHeadModelBiped.isRiding = e.entityPlayer.isRiding();
 		
-		GL11.glColor3f(1F,1F,1F);
+		GL.color(1F,1F,1F);
 		e.result = e.stack.isItemEnchanted() ? 15 : 1;
 		
 		RenderItemEndermanHead.isRenderingArmor = true;

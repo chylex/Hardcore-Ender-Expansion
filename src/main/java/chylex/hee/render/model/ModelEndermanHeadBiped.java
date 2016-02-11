@@ -2,7 +2,7 @@ package chylex.hee.render.model;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import org.lwjgl.opengl.GL11;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,10 +32,10 @@ public class ModelEndermanHeadBiped extends ModelBiped{
 	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
 		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		
-		GL11.glPushMatrix();
-		GL11.glScalef(1.05F,1.05F,1.05F);
+		GL.pushMatrix();
+		GL.scale(1.05F,1.05F,1.05F);
 		bipedHead.render(unitPixel);
-		GL11.glPopMatrix();
+		GL.popMatrix();
 	}
 
 	@Override

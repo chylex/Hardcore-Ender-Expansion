@@ -2,9 +2,9 @@ package chylex.hee.render.block;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.block.EntityBlockTokenHolder;
 import chylex.hee.render.model.ModelTokenHolder;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -18,16 +18,15 @@ public class RenderBlockTokenHolder extends Render{
 	public void doRender(Entity entity, double x, double y, double z, float rotationYaw, float partialTickTime){
 		EntityBlockTokenHolder e = (EntityBlockTokenHolder)entity;
 		
-		GL11.glPushMatrix();
-		GL11.glTranslated(x,y,z);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_SRC_ALPHA);
+		GL.pushMatrix();
+		GL.translate(x,y,z);
+		GL.enableBlend(GL.ONE,GL.SRC_ALPHA);
 		bindTexture(texture);
 		model.setRotation(e.prevRotation+(e.rotation-e.prevRotation)*partialTickTime);
 		model.setCharge(e.prevCharge+(e.getChargeProgress()-e.prevCharge)*partialTickTime);
 		model.render(entity,0F,0F,0F,0F,0F,0.0625F);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glPopMatrix();
+		GL.disableBlend();
+		GL.popMatrix();
 	}
 
 	@Override

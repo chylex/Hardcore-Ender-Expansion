@@ -5,9 +5,9 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.render.model.ModelFireFiend;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -21,7 +21,7 @@ public class RenderMiniBossFireFiend extends RenderLiving{
 	
 	@Override
 	protected void preRenderCallback(EntityLivingBase entity, float partialTickTime){
-		GL11.glScalef(1.5F,1.5F,1.5F);
+		GL.scale(1.5F,1.5F,1.5F);
 	}
 	
 	@Override

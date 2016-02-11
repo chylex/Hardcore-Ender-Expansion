@@ -5,9 +5,9 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.render.model.ModelEnderEye;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -24,8 +24,8 @@ public class RenderMiniBossEnderEye extends RenderLiving{
 	
 	@Override
 	protected void preRenderCallback(EntityLivingBase entity, float partialTickTime){
-		GL11.glScalef(0.8F,0.8F,0.8F);
-		GL11.glTranslatef(0F,0.6F,0F);
+		GL.scale(0.8F,0.8F,0.8F);
+		GL.translate(0F,0.6F,0F);
 	}
 	
 	@Override

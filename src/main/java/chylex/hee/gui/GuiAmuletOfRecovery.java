@@ -5,10 +5,10 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.IContainerEventHandler;
 import chylex.hee.item.ItemAmuletOfRecovery;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -54,7 +54,7 @@ public class GuiAmuletOfRecovery extends GuiContainer{
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTickTime, int mouseX, int mouseY){
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.color(1F,1F,1F,1F);
 		mc.getTextureManager().bindTexture(texture);
 		
 		int x = (width-xSize)/2, y = (height-ySize)/2;

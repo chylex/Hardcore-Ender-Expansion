@@ -6,10 +6,10 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.mechanics.energy.EnergyClusterHealth;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
@@ -113,14 +113,13 @@ public class EntityEnergyFX extends EntityFX{
 		      y = (float)(prevPosY+(posY-prevPosY)*partialTickTime-interpPosY),
 		      z = (float)(prevPosZ+(posZ-prevPosZ)*partialTickTime-interpPosZ);
 		
-		GL11.glPushMatrix();
-		GL11.glDepthMask(false);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_FOG);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.pushMatrix();
+		GL.disableDepthMask();
+		GL.disableLighting();
+		GL.disableFog();
+		GL.disableAlphaTest();
+		GL.enableBlend(GL.SRC_ALPHA,GL.ONE);
+		GL.color(1F,1F,1F,1F);
 		RenderHelper.disableStandardItemLighting();
 		
 		tessellator.startDrawingQuads();
@@ -133,11 +132,11 @@ public class EntityEnergyFX extends EntityFX{
 		tessellator.addVertexWithUV(x+rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z+rotZ*particleScale-rotXY*particleScale,left,bottom);
 		tessellator.draw();
 		
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		GL11.glDepthMask(true);
-		GL11.glPopMatrix();
+		GL.disableBlend();
+		GL.enableLighting();
+		GL.enableAlphaTest();
+		GL.enableDepthMask();
+		GL.popMatrix();
 	}
 	
 	@Override

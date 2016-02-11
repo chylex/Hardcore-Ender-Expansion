@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.proxy.ModClientProxy;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -65,28 +66,28 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 		final float offY = (float)(-y-0.75F);
 		final float topY = offY+ActiveRenderInfo.objectY;
 		
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_BLEND);
+		GL.disableLighting();
+		GL.enableBlend();
 		rand.setSeed(getColorSeed());
 		
 		onRender();
 		
 		for(int layer = 0, layers = getLayers(); layer < layers; layer++){
-			GL11.glPushMatrix();
+			GL.pushMatrix();
 			
 			float revLayer = getRevLayer(layer);
 			float scale = getScale(layer);
 			
-			GL11.glTranslatef(globalX,(float)((topY/(offY+revLayer+ActiveRenderInfo.objectY))+y+0.75F),globalZ);
+			GL.translate(globalX,(float)((topY/(offY+revLayer+ActiveRenderInfo.objectY))+y+0.75F),globalZ);
 
 			if (layer == 0){
 				bindTexture(texPortalBackground);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+				GL.setBlendFunc(GL.SRC_ALPHA,GL.ONE_MINUS_SRC_ALPHA);
 			}
 
 			if (layer >= 1){
 				bindTexture(texPortalLayers);
-				if (layer == 1)GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE);
+				if (layer == 1)GL.setBlendFunc(GL.ONE,GL.ONE);
 			}
 			
 			GL11.glTexGeni(GL11.GL_S,GL11.GL_TEXTURE_GEN_MODE,GL11.GL_OBJECT_LINEAR);
@@ -101,19 +102,19 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 			GL11.glEnable(GL11.GL_TEXTURE_GEN_T);
 			GL11.glEnable(GL11.GL_TEXTURE_GEN_R);
 			GL11.glEnable(GL11.GL_TEXTURE_GEN_Q);
-			GL11.glPopMatrix();
+			GL.popMatrix();
 			
-			GL11.glMatrixMode(GL11.GL_TEXTURE);
-			GL11.glPushMatrix();
-			GL11.glLoadIdentity();
-			GL11.glTranslatef(0F,getTranslation(),0F);
-			GL11.glScalef(scale,scale,scale);
-			GL11.glTranslatef(0.5F,0.5F,0F);
-			GL11.glRotatef((layer*layer*4321+layer*9)*2F,0F,0F,1F);
-			GL11.glTranslatef(-globalX-0.5F,-globalZ-0.5F,-globalY);
+			GL.setMatrixMode(GL.TEXTURE);
+			GL.pushMatrix();
+			GL.loadIdentity();
+			GL.translate(0F,getTranslation(),0F);
+			GL.scale(scale,scale,scale);
+			GL.translate(0.5F,0.5F,0F);
+			GL.rotate((layer*layer*4321+layer*9)*2F,0F,0F,1F);
+			GL.translate(-globalX-0.5F,-globalZ-0.5F,-globalY);
 			
 			float posAdjustment = revLayer/(offY+ActiveRenderInfo.objectY);
-			GL11.glTranslatef(ActiveRenderInfo.objectX*posAdjustment,ActiveRenderInfo.objectZ*posAdjustment,-globalY);
+			GL.translate(ActiveRenderInfo.objectX*posAdjustment,ActiveRenderInfo.objectZ*posAdjustment,-globalY);
 
 			colorMp = layer == 0 ? 0.1F : 1F/(revLayer+1F);
 			generateColors(layer);
@@ -126,16 +127,16 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 			tessellator.addVertex(x+1D,y+0.75F,z+1D);
 			tessellator.addVertex(x+1D,y+0.75F,z);
 			tessellator.draw();
-			GL11.glPopMatrix();
-			GL11.glMatrixMode(GL11.GL_MODELVIEW);
+			GL.popMatrix();
+			GL.setMatrixMode(GL.MODELVIEW);
 		}
 
-		GL11.glDisable(GL11.GL_BLEND);
+		GL.disableBlend();
 		GL11.glDisable(GL11.GL_TEXTURE_GEN_S);
 		GL11.glDisable(GL11.GL_TEXTURE_GEN_T);
 		GL11.glDisable(GL11.GL_TEXTURE_GEN_R);
 		GL11.glDisable(GL11.GL_TEXTURE_GEN_Q);
-		GL11.glEnable(GL11.GL_LIGHTING);
+		GL.enableLighting();
 		
 		this.tile = null;
 	}

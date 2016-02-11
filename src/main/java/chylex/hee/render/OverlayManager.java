@@ -12,13 +12,13 @@ import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import org.apache.commons.lang3.StringUtils;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.gui.helpers.GuiAchievementOverlay;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.elements.KnowledgeNotification;
 import chylex.hee.mechanics.energy.EnergyClusterData;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.GameRegistryUtil;
@@ -66,11 +66,11 @@ public final class OverlayManager{
 		if (e.type == ElementType.HELMET && mc.thePlayer.isInsideOfMaterial(BlockEnderGoo.enderGoo)){
 			int w = e.resolution.getScaledWidth(), h = e.resolution.getScaledHeight();
 
-			GL11.glDisable(GL11.GL_ALPHA_TEST);
-			GL11.glDisable(GL11.GL_DEPTH_TEST);
-			GL11.glDepthMask(false);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GL11.glColor4f(1F,1F,1F,1F);
+			GL.disableAlphaTest();
+			GL.disableDepthTest();
+			GL.disableDepthMask();
+			GL.enableBlendAlpha();
+			GL.color(1F,1F,1F,1F);
 			
 			mc.getTextureManager().bindTexture(texGoo);
 			Tessellator tessellator = Tessellator.instance;
@@ -81,10 +81,10 @@ public final class OverlayManager{
 			tessellator.addVertexWithUV(0D,0D,-90D,0D,0D);
 			tessellator.draw();
 			
-			GL11.glDepthMask(true);
-			GL11.glEnable(GL11.GL_DEPTH_TEST);
-			GL11.glEnable(GL11.GL_ALPHA_TEST);
-			GL11.glColor4f(1F,1F,1F,1F);
+			GL.enableDepthMask();
+			GL.enableDepthTest();
+			GL.enableAlphaTest();
+			GL.color(1F,1F,1F,1F);
 		}
 	}
 	
@@ -97,8 +97,8 @@ public final class OverlayManager{
 			achievementOverlay.update();
 			
 			if (hasNotification){
-				GL11.glColor4f(1F,1F,1F,1F);
-				GL11.glDisable(GL11.GL_DEPTH_TEST);
+				GL.color(1F,1F,1F,1F);
+				GL.disableDepthTest();
 				
 				for(int ind = 0; ind < notifications.length; ind++){
 					if (notifications[ind] != null && notifications[ind].render(mc.ingameGUI,e.partialTicks,e.resolution.getScaledWidth()-13-24*ind,e.resolution.getScaledHeight()+12)){
@@ -107,7 +107,7 @@ public final class OverlayManager{
 					}
 				}
 				
-				GL11.glEnable(GL11.GL_DEPTH_TEST);
+				GL.enableDepthTest();
 			}
 			
 			if (clusterLookedAt != null){
@@ -115,9 +115,8 @@ public final class OverlayManager{
 				int x = e.resolution.getScaledWidth()>>1;
 				int y = e.resolution.getScaledHeight()>>1;
 				
-				GL11.glEnable(GL11.GL_BLEND);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
-				GL11.glColor4f(1F,1F,1F,1F);
+				GL.enableBlendAlpha();
+				GL.color(1F,1F,1F,1F);
 				
 				EnergyClusterData data = clusterLookedAt.getData().orElse(null);
 				
@@ -128,7 +127,7 @@ public final class OverlayManager{
 					drawStringCentered(font,I18n.format(data.getHealth().translationText),x,y-10,data.getHealth().color);
 				}
 
-				GL11.glDisable(GL11.GL_BLEND);
+				GL.disableBlend();
 				clusterLookedAt = null;
 			}
 		}

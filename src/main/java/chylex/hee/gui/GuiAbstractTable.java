@@ -4,7 +4,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.tileentity.TileEntityAbstractTable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -53,17 +53,17 @@ public abstract class GuiAbstractTable extends GuiContainer{
 		if (stardustTextX != -1){
 			int stardustReq = table.getRequiredStardust();
 			
-			GL11.glDisable(GL11.GL_DEPTH_TEST);
+			GL.disableDepthTest();
 			itemRender.zLevel = zLevel = 300F;
 			fontRendererObj.drawStringWithShadow((table.getHoldingStardust() < stardustReq ? EnumChatFormatting.YELLOW : EnumChatFormatting.WHITE)+String.valueOf(stardustReq),stardustTextX,stardustTextY,0x404040);
 			itemRender.zLevel = zLevel = 0F;
-			GL11.glEnable(GL11.GL_DEPTH_TEST);
+			GL.enableDepthTest();
 		}
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float renderPartialTicks, int mouseX, int mouseY){
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.color(1F,1F,1F,1F);
 		mc.getTextureManager().bindTexture(getBackgroundTexture());
 		
 		int guiX = (width-xSize)>>1, guiY = (height-ySize)>>1; 

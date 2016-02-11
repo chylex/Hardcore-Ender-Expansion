@@ -8,7 +8,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.IContainerEventHandler;
 import chylex.hee.mechanics.enhancements.EnhancementData;
@@ -17,6 +16,7 @@ import chylex.hee.mechanics.enhancements.EnhancementIngredient;
 import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
+import chylex.hee.system.abstractions.GL;
 import com.google.common.base.Joiner;
 import cpw.mods.fml.client.config.GuiButtonExt;
 import cpw.mods.fml.relauncher.Side;
@@ -125,7 +125,7 @@ public class GuiEndPowderEnhancements extends GuiContainer{
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float renderPartialTicks, int mouseX, int mouseY){
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.color(1F,1F,1F,1F);
 		mc.getTextureManager().bindTexture(guiResource);
 		
 		int guiX = (width-xSize)/2, guiY = (height-ySize)/2, centerX = guiX+xSize/2;
@@ -164,12 +164,12 @@ public class GuiEndPowderEnhancements extends GuiContainer{
 				GuiItemRenderHelper.renderItemIntoGUI(mc.getTextureManager(),ingredient.selector.getRepresentativeItem(),ingX+1,ingY+1);
 				
 				String amt = String.valueOf(ingredient.getAmount(level+1,container.getStackSize()));
-				GL11.glDisable(GL11.GL_LIGHTING);
-				GL11.glDisable(GL11.GL_DEPTH_TEST);
-				GL11.glDisable(GL11.GL_BLEND);
+				GL.disableLighting();
+				GL.disableDepthTest();
+				GL.disableBlend();
 				fontRendererObj.drawStringWithShadow(amt,ingX+18-fontRendererObj.getStringWidth(amt),ingY+10,missing.contains(ingredient) ? 0xF67676 : 0xFFFFFF);
-				GL11.glEnable(GL11.GL_LIGHTING);
-				GL11.glEnable(GL11.GL_DEPTH_TEST);
+				GL.enableLighting();
+				GL.enableDepthTest();
 				
 				if (checkRect(mouseX,mouseY,ingX,ingY,18,18)){
 					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,Joiner.on('\n').join(ingredient.selector.getRepresentativeItem().getTooltip(mc.thePlayer,mc.gameSettings.advancedItemTooltips)));

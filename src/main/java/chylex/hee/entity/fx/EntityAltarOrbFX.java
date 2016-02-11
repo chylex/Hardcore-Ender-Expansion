@@ -5,8 +5,8 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -83,10 +83,9 @@ public class EntityAltarOrbFX extends EntityFX{
 			  y = (float)(prevPosY+(posY-prevPosY)*partialTickTime-interpPosY),
 			  z = (float)(prevPosZ+(posZ-prevPosZ)*partialTickTime-interpPosZ);
 		
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);
-		GL11.glDepthMask(false);
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.enableBlend(GL.SRC_ALPHA,GL.ONE);
+		GL.disableDepthMask();
+		GL.color(1F,1F,1F,1F);
 		RenderHelper.disableStandardItemLighting();
 		
 		tessellator.startDrawingQuads();
@@ -99,8 +98,8 @@ public class EntityAltarOrbFX extends EntityFX{
 		tessellator.addVertexWithUV(x+rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z+rotZ*particleScale-rotXY*particleScale,0F,1F);
 		tessellator.draw();
 		
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDepthMask(true);
+		GL.disableBlend();
+		GL.enableDepthMask();
 	}
 
 	@Override

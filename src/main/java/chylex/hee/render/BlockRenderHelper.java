@@ -5,9 +5,9 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Blocks;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.init.BlockList;
 import chylex.hee.render.tileentity.RenderTileEndermanHead;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -17,7 +17,7 @@ public final class BlockRenderHelper{
 		RenderManager.instance.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 		
 		if (block == BlockList.enderman_head){
-			GL11.glTranslatef(-0.5F,0F,-0.5F);
+			GL.translate(-0.5F,0F,-0.5F);
 			RenderTileEndermanHead.renderSkull(1,0F);
 		}
 		else renderer.renderBlockAsItem(block,metadata,1F);
@@ -29,7 +29,7 @@ public final class BlockRenderHelper{
 	
 	public static void renderInventoryBlock(Block block, int metadata, RenderBlocks renderer){
 		Tessellator tessellator = Tessellator.instance;
-		GL11.glTranslatef(-0.5F,-0.5F,-0.5F);
+		GL.translate(-0.5F,-0.5F,-0.5F);
 		
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0F,-1F,0F);
@@ -61,7 +61,7 @@ public final class BlockRenderHelper{
 		renderer.renderFaceXPos(block,0D,0D,0D,renderer.getBlockIconFromSideAndMetadata(block,5,metadata));
 		tessellator.draw();
 		
-		GL11.glTranslatef(0.5F,0.5F,0.5F);
+		GL.translate(0.5F,0.5F,0.5F);
 	}
 	
 	private BlockRenderHelper(){}

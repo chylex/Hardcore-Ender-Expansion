@@ -3,7 +3,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import org.lwjgl.opengl.GL11;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -75,8 +75,8 @@ public class ModelHauntedMiner extends ModelBase{
 
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		GL11.glTranslatef(0F,1.3F,0F);
-		if (((EntityLiving)entity).hurtTime > 0)GL11.glColor3f(0.5F,0.4F,0.4F);
+		GL.translate(0F,1.3F,0F);
+		if (((EntityLiving)entity).hurtTime > 0)GL.color(0.5F,0.4F,0.4F);
 		super.render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
 		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		

@@ -12,13 +12,13 @@ import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.render.model.ModelEnderDragon;
 import chylex.hee.sound.EndMusicType;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -36,39 +36,37 @@ public class RenderBossDragon extends RenderLiving{
 	}
 
 	protected void rotateDragonBody(EntityBossDragon dragon, float entityTickTime, float yawOffset, float partialTickTime){
-		GL11.glRotatef(-(float)dragon.getMovementOffsets(7,partialTickTime)[0],0F,1F,0F);
-		GL11.glRotatef(10F*((float)(dragon.getMovementOffsets(5,partialTickTime)[1]-dragon.getMovementOffsets(10,partialTickTime)[1])),1F,0F,0F);
-		GL11.glTranslatef(0F,0F,1F);
+		GL.rotate(-(float)dragon.getMovementOffsets(7,partialTickTime)[0],0F,1F,0F);
+		GL.rotate(10F*((float)(dragon.getMovementOffsets(5,partialTickTime)[1]-dragon.getMovementOffsets(10,partialTickTime)[1])),1F,0F,0F);
+		GL.translate(0F,0F,1F);
 
 		if (dragon.deathTime > 0){
-			GL11.glRotatef(Math.min(1F,MathHelper.sqrt_float((dragon.deathTime+partialTickTime-1F)/20F*1.6F))*getDeathMaxRotation(dragon),0F,0F,1F);
+			GL.rotate(Math.min(1F,MathHelper.sqrt_float((dragon.deathTime+partialTickTime-1F)/20F*1.6F))*getDeathMaxRotation(dragon),0F,0F,1F);
 		}
 	}
 
 	protected void renderDragonModel(EntityBossDragon dragon, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
 		if (dragon.deathTicks > 0){
-			GL11.glDepthFunc(GL11.GL_LEQUAL);
-			GL11.glEnable(GL11.GL_ALPHA_TEST);
-			GL11.glAlphaFunc(GL11.GL_GREATER,dragon.deathTicks*0.005F);
+			GL.setDepthFunc(GL.LEQUAL);
+			GL.enableAlphaTest(GL.GREATER,dragon.deathTicks*0.005F);
 			bindTexture(texDeathExplosions);
 			mainModel.render(dragon,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
-			GL11.glAlphaFunc(GL11.GL_GREATER,0.1F);
-			GL11.glDepthFunc(GL11.GL_EQUAL);
+			GL.setAlphaFunc(GL.GREATER,0.1F);
+			GL.setDepthFunc(GL.EQUAL);
 		}
 
 		bindEntityTexture(dragon);
 		mainModel.render(dragon,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
 
 		if (dragon.hurtTime > 0){
-			GL11.glDepthFunc(GL11.GL_EQUAL);
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GL11.glColor4f(1F,0F,0F,0.5F);
+			GL.setDepthFunc(GL.EQUAL);
+			GL.disableTexture2D();
+			GL.enableBlendAlpha();
+			GL.color(1F,0F,0F,0.5F);
 			mainModel.render(dragon,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			GL11.glDisable(GL11.GL_BLEND);
-			GL11.glDepthFunc(GL11.GL_LEQUAL);
+			GL.enableTexture2D();
+			GL.disableBlend();
+			GL.setDepthFunc(GL.LEQUAL);
 		}
 	}
 
@@ -87,15 +85,15 @@ public class RenderBossDragon extends RenderLiving{
 			float diffZ = (float)(dragon.healingEnderCrystal.posZ-dragon.posZ-(dragon.prevPosZ-dragon.posZ)*(1F-partialTickTime));
 			float distXZ = MathHelper.sqrt_float(diffX*diffX+diffZ*diffZ);
 			float distXYZ = MathHelper.sqrt_float(diffX*diffX+diffY*diffY+diffZ*diffZ);
-			GL11.glPushMatrix();
-			GL11.glTranslatef((float)x,(float)y+2F,(float)z);
-			GL11.glRotatef(MathUtil.toDeg((float)-Math.atan2(diffZ,diffX))-90F,0F,1F,0F);
-			GL11.glRotatef(MathUtil.toDeg((float)-Math.atan2(distXZ,diffY))-90F,1F,0F,0F);
+			GL.pushMatrix();
+			GL.translate((float)x,(float)y+2F,(float)z);
+			GL.rotate(MathUtil.toDeg((float)-Math.atan2(diffZ,diffX))-90F,0F,1F,0F);
+			GL.rotate(MathUtil.toDeg((float)-Math.atan2(distXZ,diffY))-90F,1F,0F,0F);
 			Tessellator tessellator = Tessellator.instance;
 			RenderHelper.disableStandardItemLighting();
-			GL11.glDisable(GL11.GL_CULL_FACE);
+			GL.disableCullFace();
 			bindTexture(texCrystalBeam);
-			GL11.glShadeModel(GL11.GL_SMOOTH);
+			GL.setShadeModel(GL.SMOOTH);
 			float animTime = -(dragon.ticksExisted+partialTickTime)*0.01F;
 			float textureV = MathHelper.sqrt_float(diffX*diffX+diffY*diffY+diffZ*diffZ)*0.03125F-(dragon.ticksExisted+partialTickTime)*0.01F;
 			tessellator.startDrawing(5);
@@ -112,10 +110,10 @@ public class RenderBossDragon extends RenderLiving{
 			}
 
 			tessellator.draw();
-			GL11.glEnable(GL11.GL_CULL_FACE);
-			GL11.glShadeModel(GL11.GL_FLAT);
+			GL.enableCullFace();
+			GL.setShadeModel(GL.FLAT);
 			RenderHelper.enableStandardItemLighting();
-			GL11.glPopMatrix();
+			GL.popMatrix();
 		}
 	}
 
@@ -131,23 +129,22 @@ public class RenderBossDragon extends RenderLiving{
 			Random rand = ModClientProxy.seedableRand;
 			rand.setSeed(432L);
 			
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glShadeModel(GL11.GL_SMOOTH);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);
-			GL11.glDisable(GL11.GL_ALPHA_TEST);
-			GL11.glEnable(GL11.GL_CULL_FACE);
-			GL11.glDepthMask(false);
-			GL11.glPushMatrix();
-			GL11.glTranslatef(0F,-1F,-2F);
+			GL.disableTexture2D();
+			GL.setShadeModel(GL.SMOOTH);
+			GL.enableBlend(GL.SRC_ALPHA,GL.ONE);
+			GL.disableAlphaTest();
+			GL.enableCullFace();
+			GL.disableDepthMask();
+			GL.pushMatrix();
+			GL.translate(0F,-1F,-2F);
 
 			for(int beam = 0; beam < (animPerc+animPerc*animPerc)/2F*60F; ++beam){
-				GL11.glRotatef(rand.nextFloat()*360F,1F,0F,0F);
-				GL11.glRotatef(rand.nextFloat()*360F,0F,1F,0F);
-				GL11.glRotatef(rand.nextFloat()*360F,0F,0F,1F);
-				GL11.glRotatef(rand.nextFloat()*360F,1F,0F,0F);
-				GL11.glRotatef(rand.nextFloat()*360F,0F,1F,0F);
-				GL11.glRotatef(rand.nextFloat()*360F+animPerc*90F,0F,0F,1F);
+				GL.rotate(rand.nextFloat()*360F,1F,0F,0F);
+				GL.rotate(rand.nextFloat()*360F,0F,1F,0F);
+				GL.rotate(rand.nextFloat()*360F,0F,0F,1F);
+				GL.rotate(rand.nextFloat()*360F,1F,0F,0F);
+				GL.rotate(rand.nextFloat()*360F,0F,1F,0F);
+				GL.rotate(rand.nextFloat()*360F+animPerc*90F,0F,0F,1F);
 				tessellator.startDrawing(6);
 				float yRot = rand.nextFloat()*20F+5F+fade*10F;
 				float xzRot = rand.nextFloat()*2F+1F+fade*2F;
@@ -161,32 +158,31 @@ public class RenderBossDragon extends RenderLiving{
 				tessellator.draw();
 			}
 
-			GL11.glPopMatrix();
-			GL11.glDepthMask(true);
-			GL11.glDisable(GL11.GL_CULL_FACE);
-			GL11.glDisable(GL11.GL_BLEND);
-			GL11.glShadeModel(GL11.GL_FLAT);
-			GL11.glColor4f(1F,1F,1F,1F);
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			GL11.glEnable(GL11.GL_ALPHA_TEST);
+			GL.popMatrix();
+			GL.enableDepthMask();
+			GL.disableCullFace();
+			GL.disableBlend();
+			GL.setShadeModel(GL.FLAT);
+			GL.color(1F,1F,1F,1F);
+			GL.enableTexture2D();
+			GL.enableAlphaTest();
 			RenderHelper.enableStandardItemLighting();
 		}
 	}
 
 	protected int renderGlow(EntityBossDragon dragon, int pass, float partialTickTime){
-		if (pass == 1)GL11.glDepthFunc(GL11.GL_LEQUAL);
+		if (pass == 1)GL.setDepthFunc(GL.LEQUAL);
 		if (pass != 0 || ModCommonProxy.hardcoreEnderbacon)return -1;
 		else{
 			bindTexture(texDragonEyes);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glDisable(GL11.GL_ALPHA_TEST);
-			GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE);
-			GL11.glDisable(GL11.GL_LIGHTING);
-			GL11.glDepthFunc(GL11.GL_EQUAL);
+			GL.enableBlend(GL.ONE,GL.ONE);
+			GL.disableAlphaTest();
+			GL.disableLighting();
+			GL.setDepthFunc(GL.EQUAL);
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,61680%65536,61680/65536);
-			GL11.glColor4f(1F,1F,1F,1F);
-			GL11.glEnable(GL11.GL_LIGHTING);
-			GL11.glColor4f(1F,1F,1F,1F);
+			GL.color(1F,1F,1F,1F);
+			GL.enableLighting();
+			GL.color(1F,1F,1F,1F);
 			return 1;
 		}
 	}

@@ -3,7 +3,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -29,7 +29,7 @@ public class GuiCharmPouch extends GuiContainer{
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTickTime, int mouseX, int mouseY){
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.color(1F,1F,1F,1F);
 		mc.getTextureManager().bindTexture(guiResource);
 		
 		int guiX = (width-xSize)>>1, guiY = (height-ySize)>>1; 

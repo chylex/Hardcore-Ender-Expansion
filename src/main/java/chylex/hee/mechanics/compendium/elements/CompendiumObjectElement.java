@@ -9,7 +9,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiHelper;
@@ -17,6 +16,7 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentType;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -138,20 +138,19 @@ public final class CompendiumObjectElement{
 		ObjectStatus outline = getStatus(object,file);
 		
 		// render background
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.enableBlendAlpha();
+		GL.color(1F,1F,1F,1F);
 		
 		RenderHelper.disableStandardItemLighting();
 		mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
 		
 		gui.drawTexturedModalRect(x-13,y-13,outline == ObjectStatus.NONE_UNLOCKED && !file.isDiscovered(object) ? shape.x+27 : shape.x,shape.y,26,26);
 		
-		if (blink)GL11.glColor4f(1F,1F,1F,1F);
-		else GL11.glColor4f(outline.red,outline.green,outline.blue,1F);
+		if (blink)GL.color(1F,1F,1F,1F);
+		else GL.color(outline.red,outline.green,outline.blue,1F);
 		
 		gui.drawTexturedModalRect(x-13,y-13,shape.x+54,shape.y,26,26);
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.color(1F,1F,1F,1F);
 		
 		// render item
 		RenderHelper.enableGUIStandardItemLighting();

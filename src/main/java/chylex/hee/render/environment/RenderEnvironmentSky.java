@@ -1,12 +1,11 @@
 package chylex.hee.render.environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IRenderHandler;
-import org.lwjgl.opengl.GL11;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.end.EndTerritory;
 import chylex.hee.world.end.TerritoryEnvironment;
@@ -32,13 +31,11 @@ public class RenderEnvironmentSky extends IRenderHandler{
 		final TerritoryEnvironment environment = ((WorldProviderHardcoreEnd)world.provider).getEnvironment(mc);
 		final double voidFactor = EndTerritory.getVoidFactor(mc.thePlayer);
 		
-		GL11.glDisable(GL11.GL_FOG);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		GL11.glEnable(GL11.GL_BLEND);
-		
-		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA,1,0);
+		GL.disableFog();
+		GL.disableAlphaTest();
+		GL.enableBlend(GL.SRC_ALPHA,GL.ONE_MINUS_SRC_ALPHA,1,0);
 		RenderHelper.disableStandardItemLighting();
-		GL11.glDepthMask(false);
+		GL.disableDepthMask();
 		
 		mc.renderEngine.bindTexture(environment.getSkyTexture().resource);
 		
@@ -47,14 +44,14 @@ public class RenderEnvironmentSky extends IRenderHandler{
 		int alpha = MathUtil.floor(255F-255F*MathUtil.clamp(voidFactor,0F,1F));
 
 		for(int side = 0; side < 6; side++){
-			GL11.glPushMatrix();
+			GL.pushMatrix();
 			
 			switch(side){
-				case 1: GL11.glRotatef(90F,1F,0F,0F); break;
-				case 2: GL11.glRotatef(-90F,1F,0F,0F); break;
-				case 3: GL11.glRotatef(180F,1F,0F,0F); break;
-				case 4: GL11.glRotatef(90F,0F,0F,1F); break;
-				case 5: GL11.glRotatef(-90F,0F,0F,1F); break;
+				case 1: GL.rotate(90F,1F,0F,0F); break;
+				case 2: GL.rotate(-90F,1F,0F,0F); break;
+				case 3: GL.rotate(180F,1F,0F,0F); break;
+				case 4: GL.rotate(90F,0F,0F,1F); break;
+				case 5: GL.rotate(-90F,0F,0F,1F); break;
 			}
 			
 			tessellator.startDrawingQuads();
@@ -64,11 +61,11 @@ public class RenderEnvironmentSky extends IRenderHandler{
 			tessellator.addVertexWithUV(100D,-100D,100D,16D,16D);
 			tessellator.addVertexWithUV(100D,-100D,-100D,16D,0D);
 			tessellator.draw();
-			GL11.glPopMatrix();
+			GL.popMatrix();
 		}
 
-		GL11.glDepthMask(true);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL.enableDepthMask();
+		GL.enableTexture2D();
+		GL.enableAlphaTest();
 	}
 }

@@ -8,9 +8,9 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.helpers.IContainerEventHandler;
 import chylex.hee.init.ItemList;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,7 +35,7 @@ public class GuiVoidPortalTokens extends GuiContainer{
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTickTime, int mouseX, int mouseY){
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.color(1F,1F,1F,1F);
 		mc.getTextureManager().bindTexture(texture);
 		drawTexturedModalRect((width-xSize)/2,(height-ySize)/2,0,0,xSize,174);
 	}

@@ -5,6 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,11 +21,11 @@ public class RenderTileLaserBeam extends TileEntitySpecialRenderer{
 		
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_WRAP_S,10497F);
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_WRAP_T,10497F);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_CULL_FACE);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDepthMask(true);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);
+		GL.disableLighting();
+		GL.disableCullFace();
+		GL.disableBlend();
+		GL.enableDepthMask();
+		GL.setBlendFunc(GL.SRC_ALPHA,GL.ONE); // TODO wtf
 		
 		float beamAngle = ((TileEntityLaserBeam)tile).getBeamAngle();
 		float f3 = -beamAngle*0.2F-MathHelper.floor_float(-beamAngle*0.1F);
@@ -62,9 +63,8 @@ public class RenderTileLaserBeam extends TileEntitySpecialRenderer{
 		tessellator.addVertexWithUV(x+d5,y+1D,z+d6,0D,d17);
 		tessellator.draw();
 		
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glDepthMask(false);
+		GL.enableBlendAlpha();
+		GL.disableDepthMask();
 		
 		tessellator.startDrawingQuads();
 		tessellator.setColorRGBA(255,255,255,32);
@@ -91,8 +91,8 @@ public class RenderTileLaserBeam extends TileEntitySpecialRenderer{
 		tessellator.addVertexWithUV(x+posMin,y+1D,z+posMin,0D,d29);
 		tessellator.draw();
 		
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glDepthMask(true);
+		GL.enableLighting();
+		GL.enableTexture2D();
+		GL.enableDepthMask();
 	}
 }

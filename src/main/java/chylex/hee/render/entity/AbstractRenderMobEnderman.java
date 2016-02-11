@@ -10,12 +10,11 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.render.model.ModelBaconmanHead;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -51,18 +50,17 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 		if (pass <= 0 || ModCommonProxy.hardcoreEnderbacon)return -1;
 		
 		bindTexture(texEndermanEyes);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE);
-		GL11.glDisable(GL11.GL_LIGHTING);
+		GL.enableBlend(GL.ONE,GL.ONE);
+		GL.disableAlphaTest();
+		GL.disableLighting();
 
-		GL11.glDepthMask(true);
+		GL.enableDepthMask();
 
 		char c = 61680;
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,c%65536,c/65536);
-		GL11.glColor4f(1F,1F,1F,1F);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.color(1F,1F,1F,1F);
+		GL.enableLighting();
+		GL.color(1F,1F,1F,1F);
 		
 		return 1;
 	}
@@ -72,22 +70,22 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 		
 		ItemStack carrying = enderman.getCarrying();
 		
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		GL11.glPushMatrix();
-		GL11.glTranslatef(0F,0.6875F,-0.75F);
-		GL11.glRotatef(20F,1F,0F,0F);
-		GL11.glRotatef(45F,0F,1F,0F);
-		GL11.glScalef(-0.5F,-0.5F,0.5F);
+		GL.enableRescaleNormal();
+		GL.pushMatrix();
+		GL.translate(0F,0.6875F,-0.75F);
+		GL.rotate(20F,1F,0F,0F);
+		GL.rotate(45F,0F,1F,0F);
+		GL.scale(-0.5F,-0.5F,0.5F);
 		
 		int brightness = ((Entity)enderman).getBrightnessForRender(partialTickTime);
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,brightness%65536F,brightness/65536F);
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.color(1F,1F,1F,1F);
 		
 		bindTexture(TextureMap.locationBlocksTexture);
 		field_147909_c.renderBlockAsItem(Block.getBlockFromItem(carrying.getItem()),carrying.getItemDamage(),1F);
 		
-		GL11.glPopMatrix();
-		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		GL.popMatrix();
+		GL.disableRescaleNormal();
 	}
 	
 	@Override
@@ -97,22 +95,21 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 		if (((IEndermanRenderer)entity).isAggressive()){
 			rand.setSeed(entity.worldObj.getTotalWorldTime());
 			
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GL11.glDepthMask(false);
-			GL11.glAlphaFunc(GL11.GL_GREATER,0.004F);
+			GL.enableBlendAlpha();
+			GL.disableDepthMask();
+			GL.setAlphaFunc(GL.GREATER,0.004F);
 			
 			for(int a = 0; a < 3; a++){
-				GL11.glColor4f(1F,1F,1F,0.025F+rand.nextFloat()*0.075F);
-				GL11.glPushMatrix();
-				GL11.glTranslated(rand.nextGaussian()*0.05D,rand.nextGaussian()*0.05D,rand.nextGaussian()*0.05D);
+				GL.color(1F,1F,1F,0.025F+rand.nextFloat()*0.075F);
+				GL.pushMatrix();
+				GL.translate(rand.nextGaussian()*0.05D,rand.nextGaussian()*0.05D,rand.nextGaussian()*0.05D);
 				super.renderModel(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
-				GL11.glPopMatrix();
+				GL.popMatrix();
 			}
 			
-			GL11.glDisable(GL11.GL_BLEND);
-			GL11.glAlphaFunc(GL11.GL_GREATER,0.1F);
-			GL11.glDepthMask(true);
+			GL.disableBlend();
+			GL.setAlphaFunc(GL.GREATER,0.1F);
+			GL.enableDepthMask();
 		}
 	}
 

@@ -1,11 +1,11 @@
 package chylex.hee.mechanics.compendium.elements;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.handlers.CompendiumPageHandler;
+import chylex.hee.system.abstractions.GL;
 
 public class CompendiumPurchaseElement{
 	public final KnowledgeFragment fragment;
@@ -20,9 +20,8 @@ public class CompendiumPurchaseElement{
 	}
 	
 	public void render(GuiScreen gui, CompendiumFile file, int mouseX, int mouseY){
-		GL11.glColor4f(1F,1F,1F,isMouseOver(mouseX,mouseY) ? 1F : 0.95F);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL.color(1F,1F,1F,isMouseOver(mouseX,mouseY) ? 1F : 0.95F);
+		GL.enableBlendAlpha();
 		RenderHelper.disableStandardItemLighting();
 		
 		gui.mc.getTextureManager().bindTexture(CompendiumPageHandler.texPage);

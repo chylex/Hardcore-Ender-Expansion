@@ -2,10 +2,9 @@ package chylex.hee.gui.helpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
+import chylex.hee.system.abstractions.GL;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -56,13 +55,13 @@ public final class GuiHelper{
 			float dist = 0.08F;
 			
 			for(int cycle = 0; cycle < 2; cycle++){
-				GL11.glTranslatef(-dist,0F,0F);
+				GL.translate(-dist,0F,0F);
 				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
-				GL11.glTranslatef(dist,-dist,0F);
+				GL.translate(dist,-dist,0F);
 				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
-				GL11.glTranslatef(dist,0F,0F);
+				GL.translate(dist,0F,0F);
 				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
-				GL11.glTranslatef(-dist,dist,0F);
+				GL.translate(-dist,dist,0F);
 				
 				dist = -dist;
 			}
@@ -73,11 +72,11 @@ public final class GuiHelper{
 	}
 
 	public static void renderGradient(int x, int y, int w, int h, int color1, int color2, float zLevel){
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		OpenGlHelper.glBlendFunc(770,771,1,0);
-		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL.disableTexture2D();
+		GL.enableBlend();
+		GL.disableAlphaTest();
+		GL.enableBlend(GL.SRC_ALPHA,GL.ONE_MINUS_SRC_ALPHA,1,0);
+		GL.setShadeModel(GL.SMOOTH);
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
 		tessellator.setColorRGBA_F((color1>>16&255)/255F,(color1>>8&255)/255F,(color1&255)/255F,(color1>>24&255)/255F);
@@ -87,10 +86,10 @@ public final class GuiHelper{
 		tessellator.addVertex(x,h,zLevel);
 		tessellator.addVertex(w,h,zLevel);
 		tessellator.draw();
-		GL11.glShadeModel(GL11.GL_FLAT);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL.setShadeModel(GL.FLAT);
+		GL.disableBlend();
+		GL.enableAlphaTest();
+		GL.enableTexture2D();
 	}
 	
 	private GuiHelper(){}

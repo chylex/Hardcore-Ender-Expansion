@@ -1,12 +1,12 @@
 package chylex.hee.mechanics.compendium.content.fragments;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
+import chylex.hee.system.abstractions.GL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -45,7 +45,7 @@ public class FragmentItemConversion extends KnowledgeFragment<FragmentItemConver
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL.color(1F,1F,1F,1F);
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragments);
 		gui.drawTexturedModalRect(x+20,y,0,59,22,20);
 		
