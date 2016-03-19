@@ -51,7 +51,9 @@ public class WeightedItem implements IWeightProvider{
 	 * true to signal it should be removed. It will also return the amount of removed damage values.
 	 */
 	public Pair<Integer,Boolean> runBlacklistPattern(ItemPattern pattern){
-		if (pattern.matchesAnyDamage())return Pair.of(possibleDamageValues.length,true);
+		if (pattern.matchesAnyDamage() && pattern.matches(new ItemStack(item,1,0))){
+			return Pair.of(possibleDamageValues.length,true);
+		}
 		
 		TShortArrayList dmgToRemove = new TShortArrayList(possibleDamageValues.length);
 		
