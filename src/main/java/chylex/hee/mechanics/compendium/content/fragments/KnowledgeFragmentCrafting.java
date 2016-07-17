@@ -126,7 +126,7 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 		KnowledgeObject<?> obj = null;
 		
 		for(int a = 0, cnt = 0, xx = x, yy = y; a < ingredients.length; a++, xx += 19){
-			if (ingredients[a] != null){
+			if (ingredients[a] != null && checkRect(mouseX,mouseY,xx+1,yy+1,17,17)){
 				obj = KnowledgeUtils.tryGetFromItemStack(ingredients[a]);
 				break;
 			}
@@ -138,7 +138,9 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 			}
 		}
 		
-		if (checkRect(mouseX,mouseY,x+95,y+20,17,17))obj = KnowledgeObject.getObject(output);
+		if (obj == null && checkRect(mouseX,mouseY,x+95,y+20,17,17)){
+			obj = KnowledgeUtils.tryGetFromItemStack(output);
+		}
 		
 		if (obj != null){
 			gui.showObject(obj);
