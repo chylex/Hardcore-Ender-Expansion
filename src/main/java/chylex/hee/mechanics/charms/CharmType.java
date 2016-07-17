@@ -48,8 +48,8 @@ public enum CharmType{
 	
 	BLOCKING_REFLECTION(1, 10, new CharmRecipe[]{
 		new CharmRecipe(22).rune(POWER).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.20F).prop("blockreflectdmg",0.10F),
-		new CharmRecipe(23).rune(POWER).rune(DEFENSE).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.32F).prop("blockreflectdmg",0.10F),
-		new CharmRecipe(24).rune(POWER).rune(POWER).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.20F).prop("blockreflectdmg",0.20F)
+		new CharmRecipe(23).rune(POWER).rune(DEFENSE,2).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.32F).prop("blockreflectdmg",0.10F),
+		new CharmRecipe(24).rune(POWER,2).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.20F).prop("blockreflectdmg",0.20F)
 	}, new String[]{ "perc,reducedmgblock", "perc,blockreflectdmg" }),
 	
 	BLOCKING_REPULSION(2, 10, new CharmRecipe[]{
@@ -66,7 +66,7 @@ public enum CharmType{
 	
 	LIFE_STEAL(5, 11, new CharmRecipe[]{
 		new CharmRecipe(28).rune(POWER).rune(VIGOR).rune(MAGIC).rune(VOID).prop("stealhealth",2).prop("stealdealt",16),
-		new CharmRecipe(29).rune(POWER).rune(VIGOR,2).rune(MAGIC).rune(VOID).prop("stealhealth",4).prop("stealdealt",16),
+		//new CharmRecipe(29).rune(POWER).rune(VIGOR,2).rune(MAGIC).rune(VOID).prop("stealhealth",4).prop("stealdealt",16),
 		new CharmRecipe(30).rune(POWER,2).rune(VIGOR,2).rune(VOID).prop("stealhealth",2).prop("stealdealt",10)
 	}, new String[]{ "int,stealhealth", "int,stealdealt" }),
 	
@@ -90,7 +90,7 @@ public enum CharmType{
 	}, new String[]{ "perc,dmgtomagic" }),
 	
 	WITCHERY_HARM(12, 4, new CharmRecipe[]{
-		new CharmRecipe(44).rune(POWER).rune(MAGIC).rune(VIGOR).rune(VOID).prop("badeffchance",0.08F).prop("badefflvl",1).prop("badefftime",5),
+		//new CharmRecipe(44).rune(POWER).rune(MAGIC).rune(VIGOR).rune(VOID).prop("badeffchance",0.08F).prop("badefflvl",1).prop("badefftime",5),
 		new CharmRecipe(45).rune(POWER).rune(MAGIC).rune(VIGOR,2).rune(VOID).prop("badeffchance",0.09F).prop("badefflvl",2).prop("badefftime",5),
 		new CharmRecipe(46).rune(POWER).rune(MAGIC,2).rune(VIGOR).rune(VOID).prop("badeffchance",0.14F).prop("badefflvl",1).prop("badefftime",5),
 		new CharmRecipe(65).rune(POWER,2).rune(MAGIC).rune(VIGOR).rune(VOID).prop("badeffchance",0.09F).prop("badefflvl",1).prop("badefftime",10)
@@ -137,7 +137,7 @@ public enum CharmType{
 	
 	/*VOID_RESCUE(16, 0, new CharmRecipe[]{
 		new CharmRecipe(15).rune(DEFENSE).rune(VOID,3).prop("voidrescue",30),
-		new CharmRecipe(16).rune(DEFENSE,2).rune(VOID,3).prop("voidrescue",20)		
+		new CharmRecipe(16).rune(DEFENSE,2).rune(VOID,3).prop("voidrescue",20)
 	}, ""),*/
 	
 	SLAUGHTER_IMPACT(15, 12, new CharmRecipe[]{
