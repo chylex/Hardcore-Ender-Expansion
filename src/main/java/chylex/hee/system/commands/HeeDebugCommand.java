@@ -125,7 +125,7 @@ public class HeeDebugCommand extends BaseCommand{
 				ClassPath path = ClassPath.from(HeeDebugCommand.class.getClassLoader());
 				
 				for(ClassInfo clsInfo:path.getAllClasses()){
-					if (clsInfo.getSimpleName().equals(args[1]) && clsInfo.getPackageName().startsWith("chylex.hee")){	
+					if (clsInfo.getSimpleName().equals(args[1]) && clsInfo.getPackageName().startsWith("chylex.hee")){
 						HeeTest test = (HeeTest)clsInfo.load().getField("$debugTest").get(null);
 						test.player = (EntityPlayer)sender;
 						test.world = test.player.worldObj;
@@ -160,7 +160,7 @@ public class HeeDebugCommand extends BaseCommand{
 			UnitTester.trigger(RunTime.INGAME,args.length > 1 ? build.deleteCharAt(build.length()-1).toString() : "");
 		}
 		else if (args[0].equalsIgnoreCase("tmp") && sender instanceof EntityPlayer){
-			EntityPlayer player = (EntityPlayer)sender;
+			// EntityPlayer player = (EntityPlayer)sender;
 			// tmp command
 		}
 		else{

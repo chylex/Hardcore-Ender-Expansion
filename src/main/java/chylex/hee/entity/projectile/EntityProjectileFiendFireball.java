@@ -24,7 +24,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityProjectileFiendFireball extends EntityLargeFireball{
-	private int fiendId;
 	private double centerX, centerZ;
 	private float ang;
 	public byte timer;
@@ -41,7 +40,6 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		super(world,shooter,0D,0D,0D);
 		setPosition(x,y,z);
 		setSize(0.2F,0.2F);
-		this.fiendId = shooter.getEntityId();
 		this.centerX = x;
 		this.centerZ = z;
 		this.ang = (float)MathUtil.toRad(ang);

@@ -70,7 +70,7 @@ public class ContainerCharmPouch extends Container{
 		if (inventory == runeInv){
 			runeResultInv.setInventorySlotContents(0,null);
 			
-			List<RuneType> runes = new ArrayList<RuneType>(5);
+			List<RuneType> runes = new ArrayList<>(5);
 			
 			for(int a = 0; a < 5; a++){
 				ItemStack rune = runeInv.getStackInSlot(a);

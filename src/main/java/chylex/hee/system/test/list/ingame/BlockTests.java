@@ -393,7 +393,7 @@ public class BlockTests{
 	}
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
-	public void testBrewing(){		
+	public void testBrewing(){
 		Object[][] data = new Object[][]{
 			new Object[]{ 0, new ItemStack(Items.potionitem,1,16) },
 			new Object[]{ 0, new ItemStack(Items.potionitem,1,8194) },
@@ -492,6 +492,7 @@ public class BlockTests{
 		pos.setBlock(world,block);
 	}
 	
+	@SuppressWarnings("unused")
 	private void set(Block block, int meta){
 		pos.setBlock(world,block,meta);
 	}
@@ -518,6 +519,7 @@ public class BlockTests{
 	
 	/* TEST METHODS */
 	
+	@SuppressWarnings("unused")
 	private void runEntity(Entity entity, int ticks){
 		Assert.notNull(entity,"Unexpected argument, entity is null.");
 		
@@ -534,6 +536,7 @@ public class BlockTests{
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void runTile(TileEntity tile, int ticks){
 		Assert.notNull(tile,"Unexpected argument, tile entity is null.");
 		

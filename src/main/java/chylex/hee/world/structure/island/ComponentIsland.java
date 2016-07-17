@@ -35,7 +35,7 @@ public class ComponentIsland extends ComponentLargeStructureWorld{
 	public ComponentIsland(){}
 	
 	public ComponentIsland(Random rand, int x, int z){
-		super(rand,x,20,z,208,140,208);		
+		super(rand,x,20,z,208,140,208);
 		coordBaseMode = 0;
 		boundingBox = new StructureBoundingBox(x,20,z,x+sizeX-1,140+sizeY-1,z+sizeZ-1);
 		WorldDataHandler.<WorldGenSavefile>get(WorldGenSavefile.class).addElementAt(getStartX()>>4,getStartZ()>>4,WorldGenElement.BIOME_ISLAND);
@@ -122,7 +122,7 @@ public class ComponentIsland extends ComponentLargeStructureWorld{
 		public void run(String...args){
 			int variation = args.length == 0 ? -1 : DragonUtil.tryParse(args[0],-1);
 			
-			for(IslandBiomeBase biome:new ArrayList<IslandBiomeBase>(IslandBiomeBase.biomeList)){
+			for(IslandBiomeBase biome:new ArrayList<>(IslandBiomeBase.biomeList)){
 				if (biome.isValidMetadata(variation)){
 					List<IslandBiomeBase> prevBiomes = new ArrayList<>(IslandBiomeBase.biomeList);
 					IslandBiomeBase.biomeList.clear();
@@ -143,7 +143,7 @@ public class ComponentIsland extends ComponentLargeStructureWorld{
 						}
 						
 						if (variationInst != null){
-							fieldVariations.set(biome,new WeightedList<BiomeContentVariation>(variationInst));
+							fieldVariations.set(biome,new WeightedList<>(variationInst));
 							generate();
 							fieldVariations.set(biome,prevVariations);
 							variation = -2;

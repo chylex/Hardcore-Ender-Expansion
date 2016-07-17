@@ -73,7 +73,7 @@ public final class KnowledgeRegistrations{
 		DRAGON_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,EssenceType.DRAGON.getItemDamage()),"ec.title.essence"),
 		END_POWDER = create(ItemList.end_powder),
 		TEMPLE_CALLER = create(ItemList.temple_caller),
-		ENDER_DRAGON = new KnowledgeObject<ObjectMob>(new ObjectMob(EntityBossDragon.class),new ItemStack(Blocks.dragon_egg),"ec.title.enderDragon"),
+		ENDER_DRAGON = new KnowledgeObject<>(new ObjectMob(EntityBossDragon.class),new ItemStack(Blocks.dragon_egg),"ec.title.enderDragon"),
 		ANGRY_ENDERMAN = create(EntityMobAngryEnderman.class),
 		VAMPIRE_BAT = create(EntityMobVampiricBat.class),
 		
@@ -1208,31 +1208,31 @@ public final class KnowledgeRegistrations{
 	}
 	
 	public static KnowledgeObject<ObjectBlock> create(Block block){
-		return new KnowledgeObject<ObjectBlock>(new ObjectBlock(block));
+		return new KnowledgeObject<>(new ObjectBlock(block));
 	}
 	
 	public static KnowledgeObject<ObjectBlock> create(Block block, String tooltip){
-		return new KnowledgeObject<ObjectBlock>(new ObjectBlock(block),tooltip);
+		return new KnowledgeObject<>(new ObjectBlock(block),tooltip);
 	}
 	
 	public static KnowledgeObject<ObjectBlock> create(Block block, int metadata){
-		return new KnowledgeObject<ObjectBlock>(new ObjectBlock(block,metadata));
+		return new KnowledgeObject<>(new ObjectBlock(block,metadata));
 	}
 	
 	public static KnowledgeObject<ObjectItem> create(Item item){
-		return new KnowledgeObject<ObjectItem>(new ObjectItem(item));
+		return new KnowledgeObject<>(new ObjectItem(item));
 	}
 	
 	public static KnowledgeObject<ObjectItem> create(Item item, String tooltip){
-		return new KnowledgeObject<ObjectItem>(new ObjectItem(item),tooltip);
+		return new KnowledgeObject<>(new ObjectItem(item),tooltip);
 	}
 	
 	public static KnowledgeObject<ObjectMob> create(Class<? extends EntityLiving> mobClass){
-		return new KnowledgeObject<ObjectMob>(new ObjectMob(mobClass));
+		return new KnowledgeObject<>(new ObjectMob(mobClass));
 	}
 	
 	public static KnowledgeObject<ObjectDummy> dummy(String identifier, ItemStack itemToRender, String tooltip){
-		return new KnowledgeObject<ObjectDummy>(new ObjectDummy(identifier),itemToRender,tooltip);
+		return new KnowledgeObject<>(new ObjectDummy(identifier),itemToRender,tooltip);
 	}
 	
 	public static KnowledgeObject<? extends IKnowledgeObjectInstance<?>> link(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object){

@@ -195,7 +195,7 @@ public class ContainerEndPowderEnhancements extends Container{
 		updateClientItems();
 		HardcoreEnderExpansion.proxy.sendMessage(MessageType.ENHANCEMENT_SLOT_RESET,ArrayUtils.EMPTY_INT_ARRAY);
 		
-		List<ItemStack> toDrop = new ArrayList<ItemStack>();
+		List<ItemStack> toDrop = new ArrayList<>();
 		SlotList slots = mainIS == null ? new SlotList() : EnhancementHandler.getEnhancementSlotsForItem(mainIS.getItem());
 		
 		for(int a = slots.amountPowder, index; a < powderSlots.length; a++){

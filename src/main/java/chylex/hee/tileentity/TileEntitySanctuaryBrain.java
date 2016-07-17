@@ -39,7 +39,6 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 				List<EntityPlayer> list = worldObj.getEntitiesWithinAABB(EntityPlayer.class,BlockPosM.getBoundingBox(point1,point2).expand(0.9D,0.9D,0.9D));
 				
 				for(EntityPlayer player:list){
-					PotionEffect effJump = player.getActivePotionEffect(Potion.jump);
 					player.addPotionEffect(new PotionEffect(Potion.jump.id,8,4,true));
 					player.addPotionEffect(new PotionEffect(Potion.nightVision.id,215,0,true));
 				}
@@ -85,6 +84,7 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 		byte runTimer = -1, startTimer = 0;
 		boolean isConquered;
 		
+		@SuppressWarnings("unused")
 		void update(){
 			if (point1 == null || point2 == null || isConquered)return;
 			

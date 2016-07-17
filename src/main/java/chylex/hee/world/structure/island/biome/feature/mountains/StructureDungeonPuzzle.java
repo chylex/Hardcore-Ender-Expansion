@@ -1,13 +1,13 @@
 package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
 import net.minecraft.init.Blocks;
-import chylex.hee.world.util.Direction;
 import net.minecraft.util.Vec3;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.island.gen.CaveGenerator;
+import chylex.hee.world.util.Direction;
 
 public class StructureDungeonPuzzle extends AbstractIslandStructure{
 	private static final byte[] checkX = new byte[]{ -1, -1, 1, 1 },
@@ -90,7 +90,7 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 				}
 				
 				if (posY > yy && posY < yy+4){
-					for(int posX = xx-distX+1, meta; posX <= xx+distX-1; posX++){
+					for(int posX = xx-distX+1; posX <= xx+distX-1; posX++){
 						for(int posZ = zz-distZ+1; posZ <= zz+distZ-1; posZ++){
 							world.setBlock(posX,posY,posZ,Blocks.air);
 						}
@@ -128,12 +128,12 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 			
 			boolean[] foundTriggerable = new boolean[4];
 			
-			for(int posX = xx-distX+1, meta; posX <= xx+distX-1; posX++){
+			for(int posX = xx-distX+1; posX <= xx+distX-1; posX++){
 				if (BlockDungeonPuzzle.getUnlit(world.getMetadata(posX,yy,zz-distZ+1)) == BlockDungeonPuzzle.metaTriggerUnlit)foundTriggerable[0] = true;
 				if (BlockDungeonPuzzle.getUnlit(world.getMetadata(posX,yy,zz+distZ-1)) == BlockDungeonPuzzle.metaTriggerUnlit)foundTriggerable[1] = true;
 			}
 			
-			for(int posZ = zz-distZ+1, meta; posZ <= zz+distZ-1; posZ++){
+			for(int posZ = zz-distZ+1; posZ <= zz+distZ-1; posZ++){
 				if (BlockDungeonPuzzle.getUnlit(world.getMetadata(xx-distX+1,yy,posZ)) == BlockDungeonPuzzle.metaTriggerUnlit)foundTriggerable[2] = true;
 				if (BlockDungeonPuzzle.getUnlit(world.getMetadata(xx+distX-1,yy,posZ)) == BlockDungeonPuzzle.metaTriggerUnlit)foundTriggerable[3] = true;
 			}
@@ -193,11 +193,11 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 			
 			// generate additional non-triggerable blocks
 			
-			for(int amt = 1+rand.nextInt(6+(rand.nextInt(xSize*2+zSize*2)>>3))+(MathUtil.square(xSize)>>4)+(MathUtil.square(zSize)>>4), chainAttempt = amt*3, posX, posZ, meta; chainAttempt > 0 && amt > 0; chainAttempt--){
+			for(int amt = 1+rand.nextInt(6+(rand.nextInt(xSize*2+zSize*2)>>3))+(MathUtil.square(xSize)>>4)+(MathUtil.square(zSize)>>4), chainAttempt = amt*3, posX, posZ; chainAttempt > 0 && amt > 0; chainAttempt--){
 				posX = xx+rand.nextInt(distX*2+1)-distX;
 				posZ = zz+rand.nextInt(distZ*2+1)-distZ;
 				
-				if ((meta = BlockDungeonPuzzle.getUnlit(world.getMetadata(posX,yy,posZ))) == BlockDungeonPuzzle.metaTriggerUnlit){
+				if (BlockDungeonPuzzle.getUnlit(world.getMetadata(posX,yy,posZ)) == BlockDungeonPuzzle.metaTriggerUnlit){
 					boolean canSpawn = true;
 					
 					for(int dir = 0, adjacentNonTrig = 0, adjMeta; dir < 4; dir++){

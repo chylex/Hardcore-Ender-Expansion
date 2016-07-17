@@ -18,7 +18,7 @@ public class StructureLavaPool extends AbstractIslandStructure{
 		while(world.isAir(x,--y,z) && y > 10);
 		if (world.getBlock(x,y,z) != surface())return false;
 		
-		Set<BlockPosM> lavaBlocks = new HashSet<BlockPosM>();
+		Set<BlockPosM> lavaBlocks = new HashSet<>();
 		
 		for(int disc = 0, discAmount = 5+rand.nextInt(8); disc < discAmount; disc++){
 			double len = (0.5D+rand.nextDouble()*0.5D)*disc*0.75D, rad = 1.8D+rand.nextDouble()*3D, radSq = MathUtil.square(rad+0.5D), px, pz;

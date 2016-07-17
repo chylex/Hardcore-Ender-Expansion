@@ -697,6 +697,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		if (rand.nextFloat() < fuelChance)structure.setTileEntityGenerator(x,y,z,"Furnace",this);
 	}
 	
+	@SuppressWarnings("unused")
 	private void spawnEndermanHead(int x, int y, int z, Facing facing){
 		structure.setBlock(x,y,z,BlockList.enderman_head,getMetadataWithOffset(Blocks.skull,facing.getSkull())); // may be broken
 		structure.setTileEntityGenerator(x,y,z,"Skull",this);

@@ -8,7 +8,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import chylex.hee.world.util.Direction;
 import chylex.hee.block.BlockPersegrit;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
@@ -17,6 +16,7 @@ import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -25,7 +25,7 @@ import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.world.util.Direction;
 
 public class StructureHiddenCellar extends AbstractIslandStructure implements ITileEntityGenerator{
 	public enum EnchantedIslandVariation{
@@ -124,7 +124,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 			RoomInfo info = genRoom(x,z,3+rand.nextInt(6),y,height,rand);
 			if (info == null)continue;
 			
-			List<RoomInfo> rooms = new ArrayList<RoomInfo>();
+			List<RoomInfo> rooms = new ArrayList<>();
 			rooms.add(info);
 			
 			for(int roomAttemptsLeft = 70+rand.nextInt(110), roomsLeft = 5+rand.nextInt(16), side, dist, hWidth, offX, offZ; roomAttemptsLeft > 0 && roomsLeft > 0; roomAttemptsLeft--){
@@ -211,7 +211,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		
 		switch(type){
 			case CONNECTING_LINES:
-				List<BlockPosM> toPersegrit = new ArrayList<BlockPosM>();
+				List<BlockPosM> toPersegrit = new ArrayList<>();
 				
 				for(int lines = 3+((halfWidth*(height-2))>>1)+rand.nextInt(6+halfWidth*2+height), width = halfWidth*2-2, dir, xx, yy, zz, addX = 0, addY = 0, addZ = 0, a, b; lines > 0; lines--){
 					dir = rand.nextInt(4);
@@ -401,7 +401,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				break;
 			
 			case CHEST_PILLARS:
-				for(int amount = 2+room.halfWidth*(room.halfWidth-2)+rand.nextInt(5+room.halfWidth*3), width = halfWidth*2-2, xx, yy, zz; amount > 0; amount--){
+				for(int amount = 2+room.halfWidth*(room.halfWidth-2)+rand.nextInt(5+room.halfWidth*3), xx, yy, zz; amount > 0; amount--){
 					xx = x-halfWidth+1+rand.nextInt(halfWidth*2-2);
 					zz = z-halfWidth+1+rand.nextInt(halfWidth*2-2);
 					yy = bottomY+2+rand.nextInt(height-3);

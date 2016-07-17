@@ -82,10 +82,10 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 			int unlit = getUnlit(meta);
 			
 			if (unlit == metaDistributorSpreadUnlit){
-				for(int dir = 0, distrMeta, distrToggled, tx, tz; dir < 4; dir++){
+				for(int dir = 0, distrMeta, tx, tz; dir < 4; dir++){
 					if (dir == Direction.rotateOpposite[chainDir])continue;
 					
-					if ((distrToggled = toggleState(distrMeta = world.getBlockMetadata(x+(tx = Direction.offsetX[dir]),y,z+(tz = Direction.offsetZ[dir])))) != distrMeta && world.getBlock(x+tx,y,z+tz) == BlockList.dungeon_puzzle){
+					if (toggleState(distrMeta = world.getBlockMetadata(x+(tx = Direction.offsetX[dir]),y,z+(tz = Direction.offsetZ[dir]))) != distrMeta && world.getBlock(x+tx,y,z+tz) == BlockList.dungeon_puzzle){
 						world.spawnEntityInWorld(new EntityTechnicalPuzzleChain(world,x+tx,y,z+tz,dir));
 					}
 				}

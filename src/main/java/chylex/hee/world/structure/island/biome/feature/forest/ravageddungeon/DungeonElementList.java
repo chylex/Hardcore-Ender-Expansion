@@ -19,7 +19,7 @@ public final class DungeonElementList{
 	}
 	
 	public void add(DungeonElement element){
-		if (locReference[element.x+element.y*width] != null)remove(locReference[element.x+element.y*width]);		
+		if (locReference[element.x+element.y*width] != null)remove(locReference[element.x+element.y*width]);
 		data.get(element.type).add(element);
 		locReference[element.x+element.y*width] = element;
 	}
@@ -56,7 +56,7 @@ public final class DungeonElementList{
 	}
 	
 	public Set<DungeonElement> getGrouped(DungeonElement element){
-		Set<DungeonElement> list = new HashSet<DungeonElement>();
+		Set<DungeonElement> list = new HashSet<>();
 		addElementAndGrouped(element,list);
 		return list;
 	}

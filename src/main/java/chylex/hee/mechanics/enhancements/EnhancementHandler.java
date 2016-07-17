@@ -75,7 +75,7 @@ public final class EnhancementHandler{
 	}
 	
 	public static List<IEnhancementEnum> getAllEnhancements(){
-		List<IEnhancementEnum> list = new ArrayList<IEnhancementEnum>();
+		List<IEnhancementEnum> list = new ArrayList<>();
 		
 		for(EnhancementData data:itemMap.values()){
 			for(IEnhancementEnum enhancement:data.valuesInterface)list.add(enhancement);

@@ -60,10 +60,10 @@ public class ItemHandlingTests{
 		String error1 = "Failed item damage pair test (expected true).";
 		String error2 = "Failed item damage pair test (expected false).";
 		
-		Assert.state(pair1.check(new ItemStack(Items.gunpowder)),"Failed item damage pair test (expected true).");
-		Assert.state(!pair1.check(new ItemStack(Items.gunpowder,1,1)),"Failed item damage pair test (expected false).");
-		Assert.state(pair2.check(new ItemStack(Items.gunpowder,1,1)),"Failed item damage pair test (expected true).");
-		Assert.state(!pair1.check(new ItemStack(Items.dye)),"Failed item damage pair test (expected false).");
+		Assert.state(pair1.check(new ItemStack(Items.gunpowder)),error1);
+		Assert.state(!pair1.check(new ItemStack(Items.gunpowder,1,1)),error2);
+		Assert.state(pair2.check(new ItemStack(Items.gunpowder,1,1)),error1);
+		Assert.state(!pair1.check(new ItemStack(Items.dye)),error2);
 		
 	}
 }

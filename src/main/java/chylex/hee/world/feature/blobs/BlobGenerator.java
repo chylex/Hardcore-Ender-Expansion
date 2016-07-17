@@ -5,9 +5,9 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import chylex.hee.system.collections.weight.IWeightProvider;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
-import chylex.hee.system.util.BlockPosM;
 
 public abstract class BlobGenerator implements IWeightProvider{
 	private final int weight;
@@ -37,7 +37,7 @@ public abstract class BlobGenerator implements IWeightProvider{
 		boolean generatedSomething = false;
 		double radSq = MathUtil.square(rad+0.5D);
 		int size = MathUtil.ceil(rad), ix = MathUtil.floor(x), iy = MathUtil.floor(y), iz = MathUtil.floor(z);
-		List<BlockPosM> locs = new ArrayList<BlockPosM>();
+		List<BlockPosM> locs = new ArrayList<>();
 		
 		for(int xx = ix-size; xx <= ix+size; xx++){
 			for(int yy = iy-size; yy <= iy+size; yy++){

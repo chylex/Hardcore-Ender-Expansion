@@ -22,7 +22,7 @@ public class StructureRuinBuild extends AbstractIslandStructure{
 	
 	@Override
 	protected boolean generate(Random rand){
-		int x = getRandomXZ(rand,structureType.rad), z = getRandomXZ(rand,structureType.rad), y = world.getHighestY(x,z);
+		//int x = getRandomXZ(rand,structureType.rad), z = getRandomXZ(rand,structureType.rad), y = world.getHighestY(x,z);
 		
 		if (structureType == RuinStructureType.WALL){
 			

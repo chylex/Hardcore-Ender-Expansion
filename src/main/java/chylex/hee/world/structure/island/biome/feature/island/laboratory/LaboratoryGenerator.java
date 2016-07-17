@@ -3,11 +3,11 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import chylex.hee.world.util.Direction;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.CycleProtection;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
+import chylex.hee.world.util.Direction;
 
 public final class LaboratoryGenerator{
 	private final TIntObjectHashMap<LaboratoryElement> elements;
@@ -24,7 +24,6 @@ public final class LaboratoryGenerator{
 	
 	public void generateInWorld(LargeStructureWorld world, Random rand){
 		int xx, yy, zz, offX, offZ, fromX, fromZ, dir, dist;
-		boolean prevStairs = false;
 		
 		List<int[]> stairs = new ArrayList<>();
 		
@@ -97,8 +96,6 @@ public final class LaboratoryGenerator{
 							yy = hall.y;
 							continue;
 						}
-
-						prevStairs = false;
 					}
 					
 					CycleProtection.reset();
@@ -112,7 +109,7 @@ public final class LaboratoryGenerator{
 							ele.connected[Direction.rotateOpposite[dir]] = false;
 							break;
 						}
-						else{						
+						else{
 							xx += offX;
 							zz += offZ;
 						}

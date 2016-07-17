@@ -64,7 +64,7 @@ public class DragonAttackManager{
 	}
 	
 	public boolean isPlayerViable(EntityPlayer player){
-		return MathUtil.distance(player.posX,player.posZ) <= 160D; 
+		return MathUtil.distance(player.posX,player.posZ) <= 160D;
 	}
 	
 	public List<EntityPlayer> getViablePlayers(){
@@ -108,7 +108,7 @@ public class DragonAttackManager{
 		if (healthPercentage == 0)return null;
 		
 		if (specialAttackQueue.isEmpty()){
-			WeightedList<DragonSpecialAttackBase> list = new WeightedList<DragonSpecialAttackBase>(specialAttackWeights);
+			WeightedList<DragonSpecialAttackBase> list = new WeightedList<>(specialAttackWeights);
 			
 			for(int a = 0, amt = list.size()-2; a < amt; a++){
 				DragonSpecialAttackBase attack = list.getRandomItem(dragon.worldObj.rand);

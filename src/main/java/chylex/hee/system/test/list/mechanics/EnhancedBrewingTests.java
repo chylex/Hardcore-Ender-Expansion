@@ -16,6 +16,7 @@ import chylex.hee.system.test.data.UnitTest;
 
 public class EnhancedBrewingTests{
 	private final List<Pair<Item,PotionEffect>> stages = new ArrayList<>();
+	@SuppressWarnings("unused")
 	private Potion[] potionList; // unused
 	private Item[] specialIngredients;
 	private ItemStack isWater;

@@ -23,7 +23,7 @@ import chylex.hee.world.util.WorldGenChance;
  *  - constant = same chance for all ranges
  *  - linear+/- = chance increases/decreases linearly in a range
  *  - cubic+/- = chance increases/decreases using cubic easing function in a range
- *  
+ * 
  * Chance ranges
  * =============
  *  a- => constant - generation starts happening at a point
@@ -119,7 +119,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		
 		Stopwatch.timeAverage("WorldGenEndPowderOre",64);
 		
-		for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 22 && placed < 4+randomGenerator.nextInt(5); attempt++){
+		for(int attempt = 0, placed = 0; attempt < 22 && placed < 4+randomGenerator.nextInt(5); attempt++){
 			if (tryGenerate(endPowderOreGen,randX(),35+randomGenerator.nextInt(92),randZ()))++placed;
 		}
 		

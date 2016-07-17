@@ -9,7 +9,6 @@ import chylex.hee.init.EntityList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.RecipeList;
-import chylex.hee.mechanics.causatum.CausatumEvents;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
@@ -132,14 +131,13 @@ public class HardcoreEnderExpansion{
 		EnergyEvents.register();
 		TempleEvents.register();
 		CurseEvents.register();
-		CausatumEvents.register();
 		PlayerTransportBeacons.register();
 		DragonChunkManager.register();
 		
 		Stopwatch.finish("PreInitEvent - events");
 		
 		proxy.registerSidedEvents();
-		proxy.registerRenderers();		
+		proxy.registerRenderers();
 		notifications.register();
 		
 		UnitTester.trigger(RunTime.PREINIT);

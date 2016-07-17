@@ -3,7 +3,7 @@ import net.minecraft.nbt.NBTBase;
 
 public class Optional<T> extends Precondition<T>{
 	public static final <T> Optional<T> of(Precondition<T> precondition, T defaultValue){
-		return new Optional<T>(precondition,defaultValue);
+		return new Optional<>(precondition,defaultValue);
 	}
 	
 	private final Precondition<T> precondition;
