@@ -8,10 +8,10 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.MapGenScatteredFeatureCustom;
 import chylex.hee.world.structure.island.util.IslandSpawnChecker;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.world.util.WorldGenChance;
 
 public class MapGenTower extends MapGenScatteredFeatureCustom{
@@ -58,7 +58,7 @@ public class MapGenTower extends MapGenScatteredFeatureCustom{
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
 		public void run(String...args){
-			ComponentTower tower = new ComponentTower(world.rand,(int)player.posX,(int)player.posZ);
+			ComponentTower tower = new ComponentTower(world,world.rand,(int)player.posX,(int)player.posZ);
 			tower.addComponentParts(world,world.rand,new StructureBoundingBox(-9999999,0,-9999999,9999999,128,9999999));
 			HardcoreEnderExpansion.notifications.report("Generated tower.");
 		}

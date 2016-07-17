@@ -13,12 +13,12 @@ public abstract class ComponentLargeStructureWorld extends ComponentScatteredFea
 	private int bottomY;
 	
 	public ComponentLargeStructureWorld(){
-		structure = new LargeStructureWorld(null);
+		structure = new LargeStructureWorld(null,null);
 	}
 	
-	public ComponentLargeStructureWorld(Random rand, int x, int y, int z, int sizeX, int sizeY, int sizeZ){
+	public ComponentLargeStructureWorld(World world, Random rand, int x, int y, int z, int sizeX, int sizeY, int sizeZ){
 		super(rand,x,y,z,sizeX,sizeY,sizeZ);
-		structure = new LargeStructureWorld(this);
+		structure = new LargeStructureWorld(world,this);
 		startX = x;
 		startZ = z;
 	}

@@ -2,6 +2,7 @@ package chylex.hee.world.structure.sanctuary;
 import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.WorldGenSavefile;
 import chylex.hee.system.savedata.types.WorldGenSavefile.WorldGenElement;
@@ -17,11 +18,11 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 	 */
 	public ComponentSanctuary(){}
 	
-	protected ComponentSanctuary(Random rand, int x, int z){
-		super(rand,x,128,z,112,128,112);
+	protected ComponentSanctuary(World world, Random rand, int x, int z){
+		super(world,rand,x,128,z,112,128,112);
 		WorldDataHandler.<WorldGenSavefile>get(WorldGenSavefile.class).addElementAt(getStartX()>>4,getStartZ()>>4,WorldGenElement.INSIDIOUS_SANCTUARY);
 	}
-	// TODO SANCTUARY 
+	// TODO SANCTUARY
 	@Override
 	protected int setupStructure(long seed){return 0;
 		/*brainNBT = new NBTTagCompound();
@@ -75,7 +76,7 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 			}
 		}
 		
-		// rooms		
+		// rooms
 		for(int floor = 0; floor < 2; floor++){
 			int startY = bottom+1+floor*(floorHeight-1);
 			

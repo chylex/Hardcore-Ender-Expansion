@@ -11,7 +11,7 @@ public class StructureTower extends StructureStart{
 	
 	public StructureTower(World world, Random rand, int x, int z){
 		super(x,z);
-		components.add(new ComponentTower(rand,x*16,z*16));
+		components.add(new ComponentTower(world,rand,x*16,z*16));
 		updateBoundingBox();
 	}
 }

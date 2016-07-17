@@ -54,7 +54,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		
 		// OBSIDIAN PILES
 		for(int cx = 0; cx < world.getChunkAmountX(); cx++){
-			for(int cz = 0; cz < world.getChunkAmountZ(); cz++){	
+			for(int cz = 0; cz < world.getChunkAmountZ(); cz++){
 				if (rand.nextInt(5) <= 2){
 					int height = rand.nextInt(14)+(data.hasDeviation(IslandBiomeEnchantedIsland.TALL_PILES) ? 6+rand.nextInt(12) : 4);
 					int radius = rand.nextInt(2)+1;
@@ -111,7 +111,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 					Block block = world.getBlock(xx+rand.nextInt(11)-5,yy,zz+rand.nextInt(11)-5);
 					
 					if (block == Blocks.obsidian || block == BlockList.obsidian_falling){
-						EntityBlockHomelandCache cache = new EntityBlockHomelandCache(null);
+						EntityBlockHomelandCache cache = new EntityBlockHomelandCache(world.getWorldObj());
 						cache.setPosition(xx+0.5D,yy+1D,zz+0.5D);
 						world.addEntity(cache);
 						--placed;
@@ -125,7 +125,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		TObjectIntHashMap<HomelandRole> map = new TObjectIntHashMap<>();
 		
 		for(int spawnAttempt = 0, spawnedTotal = 52+rand.nextInt(28)+rand.nextInt(16); spawnAttempt < spawnedTotal; spawnAttempt++){
-			EntityMobHomelandEnderman enderman = new EntityMobHomelandEnderman(null);
+			EntityMobHomelandEnderman enderman = new EntityMobHomelandEnderman(world.getWorldObj());
 			
 			HomelandRole role = HomelandRole.getRandomRole(rand);
 			enderman.setHomelandRole(role);

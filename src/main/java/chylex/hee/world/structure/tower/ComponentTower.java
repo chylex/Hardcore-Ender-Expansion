@@ -17,6 +17,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityDispenser;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
 import org.apache.commons.lang3.StringUtils;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.init.BlockList;
@@ -134,8 +135,8 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 	 */
 	public ComponentTower(){}
 	
-	protected ComponentTower(Random rand, int x, int z){
-		super(rand,x,32,z,32,140,32);
+	protected ComponentTower(World world, Random rand, int x, int z){
+		super(world,rand,x,32,z,32,140,32);
 		WorldDataHandler.<WorldGenSavefile>get(WorldGenSavefile.class).addElementAt(getStartX()>>4,getStartZ()>>4,WorldGenElement.DUNGEON_TOWER);
 	}
 	
@@ -259,7 +260,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		structure.setBlock(centerX,topY,centerZ+(roomAmount%2 == 1 ? -3 : 3),Blocks.ladder,getMetadataWithOffset(Blocks.ladder,roomAmount%2 == 0 ? 3 : 2));
 		structure.setBlock(centerX,topY+1,centerZ+zOffset,BlockList.obsidian_special_glow,1,true);
 		
-		EntityMiniBossEnderEye eye = new EntityMiniBossEnderEye(null,centerX+0.5D,topY+1.825D,centerZ+zOffset+0.5D);
+		EntityMiniBossEnderEye eye = new EntityMiniBossEnderEye(structure.getWorldObj(),centerX+0.5D,topY+1.825D,centerZ+zOffset+0.5D);
 		eye.setPositionAndRotation(eye.posX,eye.posY,eye.posZ,90*coordBaseMode,0);
 		structure.addEntity(eye);
 		

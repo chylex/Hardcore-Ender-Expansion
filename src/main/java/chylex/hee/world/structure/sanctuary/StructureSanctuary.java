@@ -11,7 +11,7 @@ public class StructureSanctuary extends StructureStart{
 	
 	public StructureSanctuary(World world, Random rand, int x, int z){
 		super(x,z);
-		components.add(new ComponentSanctuary(rand,x*16,z*16));
+		components.add(new ComponentSanctuary(world,rand,x*16,z*16));
 		updateBoundingBox();
 	}
 }

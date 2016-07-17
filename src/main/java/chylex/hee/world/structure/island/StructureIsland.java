@@ -11,7 +11,7 @@ public class StructureIsland extends StructureStart{
 	
 	public StructureIsland(World world, Random rand, int x, int z){
 		super(x,z);
-		components.add(new ComponentIsland(rand,x*16,z*16));
+		components.add(new ComponentIsland(world,rand,x*16,z*16));
 		updateBoundingBox();
 	}
 }

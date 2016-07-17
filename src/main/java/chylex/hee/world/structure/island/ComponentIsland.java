@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.init.BlockList;
@@ -34,8 +35,8 @@ public class ComponentIsland extends ComponentLargeStructureWorld{
 	 */
 	public ComponentIsland(){}
 	
-	public ComponentIsland(Random rand, int x, int z){
-		super(rand,x,20,z,208,140,208);
+	public ComponentIsland(World world, Random rand, int x, int z){
+		super(world,rand,x,20,z,208,140,208);
 		coordBaseMode = 0;
 		boundingBox = new StructureBoundingBox(x,20,z,x+sizeX-1,140+sizeY-1,z+sizeZ-1);
 		WorldDataHandler.<WorldGenSavefile>get(WorldGenSavefile.class).addElementAt(getStartX()>>4,getStartZ()>>4,WorldGenElement.BIOME_ISLAND);
@@ -161,7 +162,7 @@ public class ComponentIsland extends ComponentLargeStructureWorld{
 		}
 		
 		private void generate(){
-			ComponentIsland island = new ComponentIsland(world.rand,(int)player.posX-104,(int)player.posZ-104);
+			ComponentIsland island = new ComponentIsland(world,world.rand,(int)player.posX-104,(int)player.posZ-104);
 			island.addComponentParts(world,world.rand,new StructureBoundingBox(-9999999,0,-9999999,9999999,128,9999999));
 			HardcoreEnderExpansion.notifications.report("Generated island: "+island.biomeData.getDeviationsAsString(),true);
 		}

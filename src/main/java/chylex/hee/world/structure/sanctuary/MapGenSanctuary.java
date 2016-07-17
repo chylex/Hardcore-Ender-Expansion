@@ -30,7 +30,7 @@ public class MapGenSanctuary extends MapGenScatteredFeatureCustom{
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
 		public void run(String...args){
-			ComponentSanctuary sanctuary = new ComponentSanctuary(world.rand,(int)player.posX,(int)player.posZ);
+			ComponentSanctuary sanctuary = new ComponentSanctuary(world,world.rand,(int)player.posX,(int)player.posZ);
 			sanctuary.addComponentParts(world,world.rand,new StructureBoundingBox(-9999999,0,-9999999,9999999,256,9999999));
 			HardcoreEnderExpansion.notifications.report("Generated sanctuary.");
 		}

@@ -6,15 +6,20 @@ import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 
 public final class LargeStructureWorld{
 	private static final LargeStructureChunk emptyFallbackChunk = new LargeStructureChunk.Empty(0,0,128);
 	
+	private final World ownerWorld;
 	private final LargeStructureChunk[][] chunks;
 	private LargeStructureChunk lastActiveChunk;
 	
-	public LargeStructureWorld(ComponentScatteredFeatureCustom structure){
+	public LargeStructureWorld(World ownerWorld, ComponentScatteredFeatureCustom structure){
+		this.ownerWorld = ownerWorld;
+		
 		if (structure == null){
 			chunks = new LargeStructureChunk[0][0];
 			return;
@@ -112,6 +117,10 @@ public final class LargeStructureWorld{
 		}
 		
 		return list;
+	}
+
+	public World getWorldObj(){
+		return ownerWorld == null ? DimensionManager.getWorld(1) : ownerWorld;
 	}
 	
 	public NBTTagCompound saveToNBT(){
