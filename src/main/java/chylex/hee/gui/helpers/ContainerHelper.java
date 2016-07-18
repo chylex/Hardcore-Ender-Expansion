@@ -40,7 +40,7 @@ public final class ContainerHelper{
 		ItemStack isCopy = null;
 		Slot slot = getSlot(container,slotId);
 		
-		if (slot != null && slot.getHasStack()){			
+		if (slot != null && slot.getHasStack()){
 			ItemStack is = slot.getStack();
 			isCopy = is.copy();
 

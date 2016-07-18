@@ -41,7 +41,11 @@ public class ListValue<T> extends Precondition<List<T>>{
 	@Override
 	public List<T> getValue(NBTBase tag){
 		List<T> elements = new ArrayList<>();
-		for(NBTBase element:(List<NBTBase>)((NBTTagList)tag).tagList)elements.add(condition.getValue(tag));
+		
+		for(NBTBase element:(List<NBTBase>)((NBTTagList)tag).tagList){
+			elements.add(condition.getValue(element));
+		}
+		
 		return elements;
 	}
 }

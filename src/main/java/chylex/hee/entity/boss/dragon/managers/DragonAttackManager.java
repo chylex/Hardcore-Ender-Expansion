@@ -65,7 +65,7 @@ public class DragonAttackManager{
 	}
 	
 	public boolean isPlayerViable(EntityPlayer player){
-		return MathUtil.distance(player.posX,player.posZ) <= 160D; 
+		return MathUtil.distance(player.posX,player.posZ) <= 160D;
 	}
 	
 	public List<EntityPlayer> getViablePlayers(){

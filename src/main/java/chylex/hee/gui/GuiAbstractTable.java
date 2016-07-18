@@ -66,7 +66,7 @@ public abstract class GuiAbstractTable extends GuiContainer{
 		GL.color(1F,1F,1F,1F);
 		mc.getTextureManager().bindTexture(getBackgroundTexture());
 		
-		int guiX = (width-xSize)>>1, guiY = (height-ySize)>>1; 
+		int guiX = (width-xSize)>>1, guiY = (height-ySize)>>1;
 		drawTexturedModalRect(guiX,guiY,0,0,xSize,ySize);
 		
 		if (progressBarX != -1){

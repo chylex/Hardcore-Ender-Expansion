@@ -132,7 +132,6 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 		
 		// generate inventory
 		IInventory amuletInv = getAmuletInventory(null);
-		ItemStack is;
 		
 		for(int slot = 0; slot < 4; slot++){
 			tryMoveSlot(inv.armorInventory,slot,amuletInv,3-slot);

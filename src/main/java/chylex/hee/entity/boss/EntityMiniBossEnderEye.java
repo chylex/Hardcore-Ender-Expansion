@@ -259,7 +259,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 			if (worldObj.difficultySetting.getDifficultyId() > 1 || ModCommonProxy.opMobs){
 				PosMutable mpos = new PosMutable();
 				
-				for(int a = 0, hits = 0, x, y, z; a < 400 && hits < 5+worldObj.difficultySetting.getDifficultyId()*10+(ModCommonProxy.opMobs ? 30 : 0); a++){
+				for(int a = 0, hits = 0; a < 400 && hits < 5+worldObj.difficultySetting.getDifficultyId()*10+(ModCommonProxy.opMobs ? 30 : 0); a++){
 					mpos.set(this).move(rand.nextInt(15)-7,rand.nextInt(8)-4,rand.nextInt(15)-7);
 					
 					Block block = mpos.getBlock(worldObj);

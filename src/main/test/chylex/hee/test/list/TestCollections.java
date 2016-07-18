@@ -45,7 +45,7 @@ public class TestCollections{
 		EnumSet<TestEnum> enums = EmptyEnumSet.get();
 		Assert.equal(enums.size(),0);
 		Assert.isTrue(enums.isEmpty());
-		for(TestEnum element:enums)Assert.fail();
+		for(@SuppressWarnings("unused") TestEnum element:enums)Assert.fail();
 	}
 	
 	@UnitTest

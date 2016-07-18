@@ -54,14 +54,14 @@ public class BlockVoidPortal extends BlockEndPortal implements IBlockSubtypes{
 			EntityPlayerMP player = (EntityPlayerMP)entity;
 			
 			if (portalStatus.onTouch(player)){
-				if (pos.getMetadata(world) == Meta.voidPortalReturn){ // TODO update current territory spawn if it was different
+				if (meta == Meta.voidPortalReturn){ // TODO update current territory spawn if it was different
 					Pos voidPortal = SaveData.global(WorldFile.class).getVoidPortalPos();
 					if (voidPortal == null)return;
 					
 					player.mountEntity(null);
 					player.setPositionAndUpdate(voidPortal.getX()+0.5D,voidPortal.getY()+1D,voidPortal.getZ()+0.5D);
 				}
-				else if (pos.getMetadata(world) == Meta.voidPortalTravel){
+				else if (meta == Meta.voidPortalTravel){
 					ItemStack tokenIS = getData(world,x,y,z).map(data -> data.getActiveToken()).orElse(null);
 					if (tokenIS == null)return;
 					

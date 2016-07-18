@@ -52,9 +52,6 @@ public class ItemHandlingTests{
 		ItemDamagePair pair1 = new ItemDamagePair(Items.gunpowder,0);
 		ItemDamagePair pair2 = new ItemDamagePair(Items.gunpowder,-1);
 		
-		String error1 = "Failed item damage pair test (expected true).";
-		String error2 = "Failed item damage pair test (expected false).";
-		
 		Assert.isTrue(pair1.check(new ItemStack(Items.gunpowder)));
 		Assert.isFalse(pair1.check(new ItemStack(Items.gunpowder,1,1)));
 		Assert.isTrue(pair2.check(new ItemStack(Items.gunpowder,1,1)));

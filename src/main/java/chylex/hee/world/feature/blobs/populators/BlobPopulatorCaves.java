@@ -145,7 +145,7 @@ public class BlobPopulatorCaves extends BlobPopulator{
 	
 	private boolean generateCave(StructureWorldBlob world, Random rand, Vec startPos, double radius, int cycles){
 		Vec dir = Vec.xyzRandom(rand), pos = startPos.copy();
-		boolean isNearEndStone, wasNearEndStone = false;
+		boolean wasNearEndStone = false;
 		
 		while(--cycles >= 0){
 			if (isNearEndStone(world,pos,radius)){

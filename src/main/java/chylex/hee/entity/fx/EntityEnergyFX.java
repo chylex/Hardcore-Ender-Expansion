@@ -3,7 +3,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import chylex.hee.init.BlockList;
@@ -105,7 +104,6 @@ public class EntityEnergyFX extends EntityFX{
 	@Override
 	public void renderParticle(Tessellator tessellator, float partialTickTime, float rotX, float rotXZ, float rotZ, float rotYZ, float rotXY){
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
 		float left = indexX*0.25F, right = left+0.25F,
 			  top = indexY*0.25F, bottom = top+0.25F,

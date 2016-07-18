@@ -13,7 +13,7 @@ public class RandomIterator<T> implements Iterator<T>{
 		return list;
 	}
 	
-	private final List<T> collection; 
+	private final List<T> collection;
 	private final int[] indexes;
 	private int position;
 	

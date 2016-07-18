@@ -49,7 +49,7 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 		byte[] decorations = new byte[16];
 		int decorationIndex = 0;
 		
-		for(int cobwebs = 0, index; cobwebs < 3+rand.nextInt(8); cobwebs++){
+		for(int cobwebs = 0; cobwebs < 3+rand.nextInt(8); cobwebs++){
 			decorations[rand.nextInt(decorations.length)] = 1;
 		}
 		

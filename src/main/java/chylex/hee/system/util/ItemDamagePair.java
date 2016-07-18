@@ -12,7 +12,7 @@ public class ItemDamagePair{
 	}
 	
 	public boolean check(ItemStack is){
-		return item == is.getItem() && (damage == is.getItemDamage() || damage == -1); 
+		return item == is.getItem() && (damage == is.getItemDamage() || damage == -1);
 	}
 	
 	@Override

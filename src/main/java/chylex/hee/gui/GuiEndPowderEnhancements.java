@@ -155,12 +155,9 @@ public class GuiEndPowderEnhancements extends GuiContainer{
 			Collection<EnhancementIngredient> missing = container.getMissingUpgradeIngredients(selectedEnhancement);
 			int ingX = centerX-(18*ingredients.size()+2*(ingredients.size()-1))/2, ingY = guiY+enhListY+19;
 			
-			for(EnhancementIngredient ingredient:ingredients){
-				drawTexturedModalRect(ingX,ingY,124,226,18,18);
-				ingX += 20;
+			for(int index = ingredients.size()-1; index >= 0; index--){
+				drawTexturedModalRect(ingX+20*index,ingY,124,226,18,18);
 			}
-			
-			ingX -= ingredients.size()*20;
 			
 			for(EnhancementIngredient ingredient:ingredients){
 				GuiItemRenderHelper.renderItemIntoGUI(mc.getTextureManager(),ingredient.selector.getRepresentativeItem(),ingX+1,ingY+1);

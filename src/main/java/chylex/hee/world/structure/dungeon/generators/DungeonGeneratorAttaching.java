@@ -40,7 +40,7 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 		generateStartPiece(rand);
 		
 		if (generated.size() < targetAmount && generated.getTotalWeight() > 0){
-			for(int cycleAttempt = 0, count; cycleAttempt < cycleAttempts; cycleAttempt++){
+			for(int cycleAttempt = 0; cycleAttempt < cycleAttempts; cycleAttempt++){
 				StructureDungeonPieceArray nextArray = selectNextPiece(rand);
 				if (nextArray == null)break;
 				

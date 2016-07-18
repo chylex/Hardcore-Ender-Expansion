@@ -32,7 +32,7 @@ public class GuiCharmPouch extends GuiContainer{
 		GL.color(1F,1F,1F,1F);
 		mc.getTextureManager().bindTexture(guiResource);
 		
-		int guiX = (width-xSize)>>1, guiY = (height-ySize)>>1; 
+		int guiX = (width-xSize)>>1, guiY = (height-ySize)>>1;
 		drawTexturedModalRect(guiX,guiY,0,0,xSize,ySize);
 	}
 }
