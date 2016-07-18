@@ -26,10 +26,13 @@ import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.ItemPattern;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class OrbAcquirableItems{
 	public static final WeightedItemList idList = new WeightedItemList();
+	public static final List<ItemPattern> blacklist = new ArrayList<>();
+	
 	private static String lastWorldIdentifier;
 	
 	public static void initialize(boolean firstTime){
@@ -120,18 +123,33 @@ public final class OrbAcquirableItems{
 		}
 		
 		/*
-		 * CLEANUP OF THINGS WE DON'T WANT
+		 * CLEANUP OF THINGS WE DON'T WANT + BLACKLIST
 		 */
 		
 		Item fire = Item.getItemFromBlock(Blocks.fire);
 		
 		for(Iterator<WeightedItem> iter = idList.iterator(); iter.hasNext();){
-			Item item = iter.next().getItem();
+			WeightedItem weightedItem = iter.next();
+			Item item = weightedItem.getItem();
 			
-			if (item == fire)iter.remove();
+			if (item == fire){
+				iter.remove();
+				continue;
+			}
 			else if (item instanceof ItemBlock){
 				Block block = Block.getBlockFromItem(item);
-				if (block instanceof IFluidBlock || block instanceof BlockLiquid)iter.remove();
+				
+				if (block instanceof IFluidBlock || block instanceof BlockLiquid){
+					iter.remove();
+					continue;
+				}
+			}
+			
+			for(ItemPattern pattern:blacklist){
+				if (weightedItem.runBlacklistPattern(pattern).getRight()){
+					iter.remove();
+					break;
+				}
 			}
 		}
 

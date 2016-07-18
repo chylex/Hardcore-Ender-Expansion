@@ -20,6 +20,7 @@ public class ImcOrbHandlers extends ImcHandler{
 		@Override
 		public void call(MessageRunner runner){
 			ItemPattern pattern = runner.<ItemPattern>getValue("pattern");
+			OrbAcquirableItems.blacklist.add(pattern);
 			
 			WeightedItemList list = OrbAcquirableItems.idList;
 			int size = list.size(), damageRemoved = 0;
