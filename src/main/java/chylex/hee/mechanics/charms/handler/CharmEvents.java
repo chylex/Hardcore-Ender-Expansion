@@ -395,7 +395,7 @@ public final class CharmEvents{
 					List<EntityLivingBase> entities = e.entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class,e.entity.boundingBox.expand(impactRad[a],impactRad[a],impactRad[a]));
 					
 					for(EntityLivingBase entity:entities){
-						if (entity == sourcePlayer || entity == e.entity)continue;
+						if (entity == sourcePlayer || entity == e.entity || (entity instanceof EntityPlayer && !sourcePlayer.canAttackPlayer((EntityPlayer)entity)))continue;
 						if (entity.getDistanceToEntity(e.entity) <= impactRad[a]){
 							entity.attackEntityFrom(DamageSource.generic,impactAmt[a]*lastDamage);
 							PacketPipeline.sendToAllAround(e.entity,64D,new C22EffectLine(FXType.Line.CHARM_SLAUGHTER_IMPACT,entity,e.entity));
