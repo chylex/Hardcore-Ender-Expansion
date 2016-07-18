@@ -1,6 +1,7 @@
 bin/
 build/
 eclipse/
+run/
 .gradle/
 .settings/
 .classpath
