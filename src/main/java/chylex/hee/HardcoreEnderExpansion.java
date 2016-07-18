@@ -165,7 +165,7 @@ public class HardcoreEnderExpansion{
 		
 		HeeIMC.runPostInit();
 		KnowledgeRegistrations.initialize();
-		OrbAcquirableItems.initialize();
+		OrbAcquirableItems.initialize(true);
 		OrbSpawnableMobs.initialize();
 		ModIntegrationManager.integrateMods();
 		DimensionOverride.postInit();

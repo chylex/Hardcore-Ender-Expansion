@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.init.Blocks;
@@ -15,6 +16,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -22,14 +24,20 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.util.DragonUtil;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class OrbAcquirableItems{
 	public static final WeightedItemList idList = new WeightedItemList();
+	private static String lastWorldIdentifier;
 	
-	public static void initialize(){
+	public static void initialize(boolean firstTime){
 		Stopwatch.time("OrbAcquirableItems");
+		
+		if (!firstTime){
+			idList.clear();
+		}
 		
 		for(BiomeGenBase biome:BiomeGenBase.getBiomeGenArray()){
 			if (biome == null)continue;
@@ -47,8 +55,10 @@ public final class OrbAcquirableItems{
 				idList.add(new WeightedItem(entry.getKey().getItem(),0,weight));
 				idList.add(new WeightedItem(entry.getValue().getItem(),0,weight));
 			}catch(Throwable t){
-				Log.error("[HEE-ORB] Corrupted furnace recipe: $0 <= $1",toString(entry.getValue()),toString(entry.getKey()));
-				iter.remove();
+				if (firstTime){
+					Log.error("[HEE-ORB] Corrupted furnace recipe: $0 <= $1",toString(entry.getValue()),toString(entry.getKey()));
+					iter.remove();
+				}
 			}
 		}
 			
@@ -67,7 +77,7 @@ public final class OrbAcquirableItems{
 					for(ItemStack item:(List<ItemStack>)((ShapelessRecipes)recipe).recipeItems)addItemToList(item,25-recipe.getRecipeSize()*2);
 				}
 				else if (cls == ShapedOreRecipe.class){
-					ShapedOreRecipe shaped = (ShapedOreRecipe)recipe;					
+					ShapedOreRecipe shaped = (ShapedOreRecipe)recipe;
 					int amt = DragonUtil.getNonNullValues(shaped.getInput()).length;
 					
 					addItemToList(shaped.getRecipeOutput(),20-amt*2);
@@ -82,7 +92,7 @@ public final class OrbAcquirableItems{
 						}
 					}
 				}
-				else if (cls == ShapelessOreRecipe.class){					
+				else if (cls == ShapelessOreRecipe.class){
 					int amt = recipe.getRecipeSize();
 					
 					addItemToList(recipe.getRecipeOutput(),23-amt*2);
@@ -98,12 +108,14 @@ public final class OrbAcquirableItems{
 					}
 				}
 			}catch(Throwable t){
-				if (cls == ShapedRecipes.class)Log.error("[HEE-ORB] Corrupted shaped recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapedRecipes)recipe).recipeItems));
-				else if (cls == ShapelessRecipes.class)Log.error("[HEE-ORB] Corrupted shapeless recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapelessRecipes)recipe).recipeItems));
-				else if (cls == ShapedOreRecipe.class)Log.error("[HEE-ORB] Corrupted shaped ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapedOreRecipe)recipe).getInput()));
-				else if (cls == ShapelessOreRecipe.class)Log.error("[HEE-ORB] Corrupted shapeless ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapelessOreRecipe)recipe).getInput()));
-				
-				iter.remove();
+				if (firstTime){
+					if (cls == ShapedRecipes.class)Log.error("[HEE-ORB] Corrupted shaped recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapedRecipes)recipe).recipeItems));
+					else if (cls == ShapelessRecipes.class)Log.error("[HEE-ORB] Corrupted shapeless recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapelessRecipes)recipe).recipeItems));
+					else if (cls == ShapedOreRecipe.class)Log.error("[HEE-ORB] Corrupted shaped ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapedOreRecipe)recipe).getInput()));
+					else if (cls == ShapelessOreRecipe.class)Log.error("[HEE-ORB] Corrupted shapeless ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapelessOreRecipe)recipe).getInput()));
+					
+					iter.remove();
+				}
 			}
 		}
 		
@@ -124,6 +136,17 @@ public final class OrbAcquirableItems{
 		}
 
 		Stopwatch.finish("OrbAcquirableItems");
+	}
+	
+	public static WeightedItem getRandomItem(World world, Random rand){
+		String identifier = WorldDataHandler.getWorldIdentifier(world);
+		
+		if (lastWorldIdentifier == null || !lastWorldIdentifier.equals(identifier)){
+			lastWorldIdentifier = identifier;
+			initialize(false);
+		}
+		
+		return idList.getRandomItem(rand);
 	}
 	
 	private static String getModID(ItemStack is){

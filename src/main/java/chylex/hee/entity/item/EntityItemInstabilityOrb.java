@@ -31,7 +31,7 @@ import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.BlockPosM;
 
-public class EntityItemInstabilityOrb extends EntityItem{	
+public class EntityItemInstabilityOrb extends EntityItem{
 	public EntityItemInstabilityOrb(World world){
 		super(world);
 	}
@@ -96,7 +96,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 			}
 		}
 		else{
-			WeightedItem item = OrbAcquirableItems.idList.getRandomItem(rand);
+			WeightedItem item = OrbAcquirableItems.getRandomItem(worldObj,rand);
 			
 			if (item == null){ // list is empty
 				String[] list = new String[]{

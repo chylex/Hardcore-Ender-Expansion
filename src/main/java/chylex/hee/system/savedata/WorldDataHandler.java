@@ -7,6 +7,7 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
@@ -52,6 +53,10 @@ public final class WorldDataHandler{
 		return (T)savefile;
 	}
 	
+	public static String getWorldIdentifier(World world){
+		return world.getSaveHandler().getWorldDirectoryName()+world.getWorldInfo().getWorldName()+world.getWorldInfo().getSeed();
+	}
+	
 	public static void forceSave(){
 		instance.saveModified();
 	}
@@ -66,7 +71,7 @@ public final class WorldDataHandler{
 	public void onWorldLoad(WorldEvent.Load e){
 		if (e.world.isRemote)return;
 		
-		String id = e.world.getSaveHandler().getWorldDirectoryName()+e.world.getWorldInfo().getWorldName()+e.world.getWorldInfo().getSeed();
+		String id = getWorldIdentifier(e.world);
 		
 		if (!worldIdentifier.equals(id)){
 			Log.debug("Clearing cache - old $0, new $1",worldIdentifier,id);
