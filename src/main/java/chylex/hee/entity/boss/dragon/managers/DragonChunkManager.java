@@ -1,7 +1,5 @@
 package chylex.hee.entity.boss.dragon.managers;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
@@ -53,28 +51,11 @@ public class DragonChunkManager implements LoadingCallback{
 		
 		Stopwatch.timeAverage("DragonChunkManager - ping update",10);
 		
-		Set<ChunkCoordIntPair> oldChunks = ticket.getChunkList();
-		Set<ChunkCoordIntPair> updatedChunks = new HashSet<>();
-		
 		for(int xx = dragon.chunkCoordX-1; xx <= dragon.chunkCoordX+1; xx++){
 			for(int zz = dragon.chunkCoordZ-1; zz <= dragon.chunkCoordZ+1; zz++){
-				updatedChunks.add(new ChunkCoordIntPair(xx,zz));
+				ForgeChunkManager.forceChunk(ticket,new ChunkCoordIntPair(xx,zz));
 			}
 		}
-		
-		Set<ChunkCoordIntPair> toLoad = new HashSet<>();
-		Set<ChunkCoordIntPair> toUnload = new HashSet<>();
-		
-		for(ChunkCoordIntPair pair:updatedChunks){
-			if (!oldChunks.contains(pair))toLoad.add(pair);
-		}
-		
-		for(ChunkCoordIntPair pair:oldChunks){
-			if (!updatedChunks.contains(pair))toUnload.add(pair);
-		}
-		
-		for(ChunkCoordIntPair unload:toUnload)ForgeChunkManager.unforceChunk(ticket,unload);
-		for(ChunkCoordIntPair load:toLoad)ForgeChunkManager.forceChunk(ticket,load);
 		
 		Stopwatch.finish("DragonChunkManager - ping update");
 	}
@@ -91,7 +72,7 @@ public class DragonChunkManager implements LoadingCallback{
 	
 	private Ticket ticket;
 	private int prevChunkX = Integer.MAX_VALUE, prevChunkZ = Integer.MAX_VALUE;
-	private byte timer;
+	private int timer;
 	
 	@Override
 	public void ticketsLoaded(List<Ticket> tickets, World world){
