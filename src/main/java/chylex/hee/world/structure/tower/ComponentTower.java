@@ -364,7 +364,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		 * heads on dispensers with redstone on floor and spawner in the center
 		 */
 		else if (n == 2){
-			spawnEndermanSpawner(x,y,z,2+roomNb);
+			spawnEndermanSpawner(x,y,z,2+roomNb,y);
 			
 			for(int a = 0; a < 2; a++){
 				spawnDispenser(x-3+a*6,y,z,0,2,Facing.UP);
@@ -388,7 +388,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 			structure.setBlock(x,y+1,z,BlockList.death_flower_pot,rand.nextInt(3));
 			
 			for(int a = 0; a < 2; a++){
-				spawnEndermanSpawner(x-3+a*6,y,z,1+roomNb);
+				spawnEndermanSpawner(x-3+a*6,y,z,1+roomNb,y);
 				
 				for(int b = 0; b < 2; b++){
 					structure.setBlock(x-3+a*6,y+2,z-2+b*4,BlockList.obsidian_stairs,4+getMetadataWithOffset(Blocks.stone_stairs,(a == 1 ? Facing.EAST_POSX : Facing.WEST_NEGX).getStairs()));
@@ -405,8 +405,8 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 				spawnEndermanHead(x-3+a*6,y+1,z,x,z);
 				
 				for(int b = 0; b < 2; b++){
-					spawnEndermanSpawner(x-3+a*6,y+2,z-2+b*4,1+roomNb);
-					spawnEndermanSpawner(x-2+a*4,y+2,z-3+b*6,1+roomNb);
+					spawnEndermanSpawner(x-3+a*6,y+2,z-2+b*4,1+roomNb,y);
+					spawnEndermanSpawner(x-2+a*4,y+2,z-3+b*6,1+roomNb,y);
 					
 					for(int c = 0; c < 2; c++){
 						for(int d = 0; d < 2; d++){
@@ -431,7 +431,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 					structure.setBlock(x-3+a*6,y,z-2+b*4,Blocks.double_stone_slab,0);
 					structure.setBlock(x-3+a*6,y+1,z-2+b*4,Blocks.stone_brick_stairs,4+getMetadataWithOffset(Blocks.stone_stairs,(a == 1 ? Facing.EAST_POSX : Facing.WEST_NEGX).getStairs()));
 					for(int yy = y+2; yy <= y+3; yy++)structure.setBlock(x-3+a*6,yy,z-2+b*4,Blocks.nether_brick_fence);
-					spawnEndermanSpawner(x-3+a*6,y+4,z-2+b*4,1+roomNb);
+					spawnEndermanSpawner(x-3+a*6,y+4,z-2+b*4,1+roomNb,y);
 					
 					structure.setBlock(x-1+a*2,y,z-3+b*6,Blocks.stone_brick_stairs,getMetadataWithOffset(Blocks.stone_stairs,(a == 1 ? Facing.EAST_POSX : Facing.WEST_NEGX).getStairs()));
 					structure.setBlock(x-2+a*4,y,z-3+b*6,Blocks.bookshelf,0);
@@ -444,7 +444,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		 * flowers in corners, iron bars with spawner on ceiling
 		 */
 		else if (n == 6){
-			spawnEndermanSpawner(x,y+4,z,2+roomNb);
+			spawnEndermanSpawner(x,y+4,z,2+roomNb,y);
 			
 			for(int a = 0; a < 2; a++){
 				for(int b = 0; b < 2; b++){
@@ -492,8 +492,8 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 					structure.setBlock(x-3+a*6,y+2,z-1+b*2,Blocks.bookshelf,0);
 					structure.setBlock(x-1+b*2,y+2,z-3+a*6,Blocks.bookshelf,0);
 					
-					spawnEndermanSpawner(x-3+a*6,y,z-2+b*4,1+roomNb);
-					spawnEndermanSpawner(x-2+a*4,y,z-3+b*6,1+roomNb);
+					spawnEndermanSpawner(x-3+a*6,y,z-2+b*4,1+roomNb,y);
+					spawnEndermanSpawner(x-2+a*4,y,z-3+b*6,1+roomNb,y);
 					
 					spawnAnvil(x-2+a*4,y,z-2+b*4,Facing.EAST_POSX,rand);
 					structure.setBlock(x-2+a*4,y+1,z-2+b*4,Blocks.lit_redstone_lamp,0);
@@ -521,11 +521,11 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 			
 			for(int[] xz:pillars){
 				for(int yy = y; yy <= y+4; yy++)structure.setBlock(x+xz[0],yy,z+xz[1],BlockList.obsidian_special,2);
-				if (rand.nextFloat() < 0.25F)spawnEndermanSpawner(x+xz[0],y+rand.nextInt(5),z+xz[1],1);
+				if (rand.nextFloat() < 0.25F)spawnEndermanSpawner(x+xz[0],y+rand.nextInt(5),z+xz[1],1,y);
 			}
 			
 			for(int yy = y; yy <= y+1; yy++)structure.setBlock(x+2,yy,z-1,BlockList.obsidian_special,2);
-			spawnEndermanSpawner(x+2,y+2,z-1,2+roomNb);
+			spawnEndermanSpawner(x+2,y+2,z-1,2+roomNb,y);
 			structure.setBlock(x+2,y+3,z-1,BlockList.obsidian_stairs,getMetadataWithOffset(Blocks.stone_stairs,Facing.SOUTH_POSZ.getStairs()));
 			
 			for(int attempt = 0,placed = 0,xx,zz; attempt < 8 && placed < rand.nextInt(4); attempt++){
@@ -533,7 +533,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 				zz = z+rand.nextInt(7)-3;
 				
 				if (structure.isAir(xx,y,zz)){
-					spawnEndermanSpawner(xx,y,zz,1);
+					spawnEndermanSpawner(xx,y,zz,1,y);
 					++placed;
 				}
 			}
@@ -548,7 +548,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 			for(int yy = y+3+(roomNb == 0 ? 1 : 0); yy <= y+4; yy++)structure.setBlock(x,yy,z+(isRoomEven ? 3 : -3),Blocks.obsidian);
 			
 			for(int a = 0; a < 2; a++){
-				spawnEndermanSpawner(x-3+a*6,y+2,z,3+roomNb);
+				spawnEndermanSpawner(x-3+a*6,y+2,z,3+roomNb,y);
 				structure.setBlock(x,y+4,z-2+a*4,BlockList.obsidian_stairs,4+getMetadataWithOffset(Blocks.stone_stairs,(a == 0 ? Facing.SOUTH_POSZ : Facing.NORTH_NEGZ).getStairs()));
 				
 				for(int b = 0; b < 2; b++){
@@ -586,8 +586,8 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 				spawnChest(x-3+a*6,y,z,false,7,11,a == 0 ? Facing.WEST_NEGX : Facing.EAST_POSX);
 				
 				for(int b = 0; b < 2; b++){
-					spawnEndermanSpawner(x-3+a*6,y,z-2+b*4,2);
-					spawnEndermanSpawner(x-2+a*4,y,z-3+b*6,2);
+					spawnEndermanSpawner(x-3+a*6,y,z-2+b*4,2,y);
+					spawnEndermanSpawner(x-2+a*4,y,z-3+b*6,2,y);
 					structure.setBlock(x-2+a*4,y,z-2+b*4,BlockList.obsidian_special,2);
 					
 					spawnEndermanHead(x-2+a*4,y+1,z-2+b*4,x,z);
@@ -611,7 +611,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		 */
 		else if (n == 2){
 			for(int a = 0; a < 2; a++){
-				spawnEndermanSpawner(x-3+a*6,y,z,6);
+				spawnEndermanSpawner(x-3+a*6,y,z,6,y);
 				for(int yy = y+1; yy <= y+3; yy++)structure.setBlock(x-3+a*6,yy,z,Blocks.nether_brick_fence);
 				structure.setBlock(x-3+a*6,y+4,z,Blocks.hopper,0);
 				
@@ -644,7 +644,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		else if (n == 3){
 			spawnChest(x,y,z,false,17,21,isRoomEven ? Facing.NORTH_NEGZ : Facing.SOUTH_POSZ);
 			structure.setBlock(x,y+2,z,BlockList.obsidian_special_glow,2,true);
-			spawnEndermanSpawner(x,y+3,z,7);
+			spawnEndermanSpawner(x,y+3,z,7,y);
 			
 			for(int a = 0; a < 2; a++){
 				structure.setBlock(x-1+a*2,y+3,z,Blocks.obsidian,0);
@@ -709,9 +709,9 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		structure.setTileEntityGenerator(x,y,z,"Head:"+((byte)Math.floor(90D+MathUtil.toDeg(Math.atan2(pointingAtZ-z,pointingAtX-x))/22.5D)),this);
 	}
 	
-	private void spawnEndermanSpawner(int x, int y, int z, int difficulty){
+	private void spawnEndermanSpawner(int x, int y, int z, int difficulty, int minY){
 		structure.setBlock(x,y,z,BlockList.custom_spawner,0);
-		structure.setTileEntityGenerator(x,y,z,"Spawner:"+difficulty,this);
+		structure.setTileEntityGenerator(x,y,z,"Spawner:"+minY+":"+difficulty,this);
 	}
 	
 	private void spawnAnvil(int x, int y, int z, Facing facing, Random rand){
@@ -744,7 +744,8 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 			tile.blockMetadata = DragonUtil.tryParse(split[3],0);
 		}
 		else if (key.startsWith("Spawner:")){
-			int minY = tile.yCoord+32, difficulty = DragonUtil.tryParse(StringUtils.split(key,":",2)[1],0);
+			String[] split = StringUtils.split(key,":",3);
+			int minY = 32+DragonUtil.tryParse(split[1],0), difficulty = DragonUtil.tryParse(split[2],0);
 			
 			List<Potion> availablePotions = CollectionUtil.newList(new Potion[]{
 				Potion.damageBoost, Potion.moveSpeed, Potion.regeneration, Potion.resistance, Potion.fireResistance

@@ -46,6 +46,11 @@ public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
 	}
 	
 	@Override
+	protected boolean checkSpawnerConditions(){
+		return getSpawnerWorld().getEntitiesWithinAABB(EntityMobAngryEnderman.class,getSpawnerCheckBB().expand(32D,256D,32D)).size() < 32;
+	}
+	
+	@Override
 	protected boolean canMobSpawn(EntityLiving entity){
 		for(int yy = minY; yy <= maxY; yy++){
 			entity.setLocationAndAngles(entity.posX,yy,entity.posZ,entity.rotationYaw,0F);
