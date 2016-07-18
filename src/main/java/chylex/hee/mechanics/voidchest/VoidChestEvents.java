@@ -19,7 +19,7 @@ public final class VoidChestEvents{
 		PlayerVoidChest.register();
 	}
 	
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerDrops(PlayerDropsEvent e){
 		if (!e.entity.worldObj.isRemote && e.entity.dimension == 1 && !e.drops.isEmpty()){
 			boolean triggered = false;
