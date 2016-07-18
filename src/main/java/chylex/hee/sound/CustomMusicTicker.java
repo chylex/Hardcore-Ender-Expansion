@@ -14,10 +14,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public final class CustomMusicTicker extends MusicTicker{
 	private static CustomMusicTicker instance;
 	
-	public static CustomMusicTicker setup(Minecraft mc){
-		return instance = new CustomMusicTicker(mc);
-	}
-	
 	public static boolean canPlayMusic(){
 		return instance != null;
 	}
@@ -30,6 +26,7 @@ public final class CustomMusicTicker extends MusicTicker{
 		instance.currentMusic = music;
 		instance.mc.getSoundHandler().playSound(music);
 		instance.vanillaMusicTimer = 100;
+		instance.jukeboxDelay = 160;
 		instance.playingCustomJukebox = true;
 	}
 	
@@ -44,28 +41,49 @@ public final class CustomMusicTicker extends MusicTicker{
 	}
 	
 	private final Minecraft mc;
+	private final MusicTicker wrappedTicker;
 	private final Random rand;
-	private ISound currentMusic;
 	
+	private ISound currentMusic;
 	private byte waitAfterNewSong = -1;
 	private int vanillaMusicTimer = 100;
 	private int endMusicTimer;
 	private EndMusicType prevEndMusicType = EndMusicType.EXPLORATION;
 	private EndMusicType playingEndMusicType = null;
-	private boolean playingCustomJukebox;
 	
-	private CustomMusicTicker(Minecraft mc){
+	private boolean playingCustomJukebox;
+	private int jukeboxDelay;
+	
+	public CustomMusicTicker(Minecraft mc, MusicTicker wrappedTicker){
 		super(mc);
+		
+		if (instance != null)throw new IllegalStateException("CustomMusicTicker can only be created once!");
+		instance = this;
+		
 		this.mc = mc;
+		this.wrappedTicker = wrappedTicker;
 		this.rand = new Random();
+		
 		endMusicTimer = randomTimer(HEE_END);
 	}
 	
 	@Override
 	public void update(){
-		if (playingCustomJukebox)updateCustomJukeboxMusic();
-		else if (mc.theWorld != null && mc.theWorld.provider.dimensionId == 1 && MusicManager.enableCustomMusic)updateEndMusic();
-		else updateVanillaMusic();
+		if (playingCustomJukebox){
+			updateCustomJukeboxMusic();
+		}
+		else if (jukeboxDelay > 0){
+			--jukeboxDelay;
+		}
+		else if (mc.theWorld != null && mc.theWorld.provider.dimensionId == 1 && MusicManager.enableCustomMusic){
+			updateEndMusic();
+		}
+		else if (MusicManager.removeVanillaDelay || wrappedTicker == null){
+			updateVanillaMusic();
+		}
+		else{
+			wrappedTicker.update();
+		}
 	}
 	
 	private void updateCustomJukeboxMusic(){

@@ -29,12 +29,18 @@ public final class MusicManager{
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		if (mc.mcMusicTicker != null){
-			if (mc.mcMusicTicker.getClass() == MusicTicker.class){
-				mc.mcMusicTicker = CustomMusicTicker.setup(mc);
-				hasLoaded = true;
-				Log.debug("Successfully replaced MusicTicker.");
+			Class<? extends MusicTicker> tickerClass = mc.mcMusicTicker.getClass();
+			
+			if (tickerClass == MusicTicker.class){
+				mc.mcMusicTicker = new CustomMusicTicker(mc,null);
+				Log.info("Successfully replaced music system.");
 			}
-			else Log.warn("Another mod has already replaced the music system: $0",mc.mcMusicTicker.getClass().getName());
+			else{
+				mc.mcMusicTicker = new CustomMusicTicker(mc,mc.mcMusicTicker);
+				Log.info("Successfully wrapped a music system replaced by another mod: $0",tickerClass.getName());
+			}
+
+			hasLoaded = true;
 		}
 	}
 }
