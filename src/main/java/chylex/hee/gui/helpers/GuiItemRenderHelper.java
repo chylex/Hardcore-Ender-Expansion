@@ -97,6 +97,10 @@ public class GuiItemRenderHelper{
 	}
 	
 	public static void drawTooltip(GuiScreen gui, FontRenderer fontRendererObj){
+		drawTooltip(gui,fontRendererObj,0,0);
+	}
+	
+	public static void drawTooltip(GuiScreen gui, FontRenderer fontRendererObj, int guiLeft, int guiTop){
 		if (tooltipString == null)return;
 		String[] strings = tooltipString.split("\n");
 		
@@ -105,7 +109,7 @@ public class GuiItemRenderHelper{
 		GL.disableLighting();
 		GL.disableDepthTest();
 		
-		int maxWidth = 0, xx = tooltipX+12, yy = tooltipY-12, height = strings.length > 1 ? 10+(strings.length-1)*10 : 8;
+		int maxWidth = 0, xx = tooltipX-guiLeft+12, yy = tooltipY-guiTop-12, height = strings.length > 1 ? 10+(strings.length-1)*10 : 8;
 		
 		for(String s:strings)maxWidth = Math.max(maxWidth,fontRendererObj.getStringWidth(s));
 		

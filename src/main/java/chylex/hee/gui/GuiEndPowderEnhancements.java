@@ -121,6 +121,8 @@ public class GuiEndPowderEnhancements extends GuiContainer{
 				offY += 9;
 			}
 		}
+		
+		GuiItemRenderHelper.drawTooltip(this,fontRendererObj,guiLeft,guiTop);
 	}
 
 	@Override
@@ -177,8 +179,6 @@ public class GuiEndPowderEnhancements extends GuiContainer{
 
 				ingX += 20;
 			}
-			
-			GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
 		}
 		else if (container.getSlot(0).getHasStack()){
 			List<EnhancementInfo> enhancements = container.listEnhancementInfo();
