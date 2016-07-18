@@ -1,9 +1,29 @@
 ==================
+Release 1.8.6 (1.7.10)
+18 July 2016
+------------------
+>Changes
+Void Chest events now run after other mods
+Optimized Ender Dragon chunkloading
+Instability Orb item list refreshes when triggered first time for MineTweaker recipe compatibility
+Music system now wraps music tickers from other mods for compatibility (unless removeVanillaDelay is enabled)
+Dungeon Tower spawners now have a mob limit for the entire area
+
+>Bugfixes
+Fixed Dungeon Tower Enderman spawn location
+Fixed Instability Orb blacklist ignoring item name with damage wildcard
+Fixed unclickable items in recipes in the Ender Compendium
+Fixed worldgen entity bug with Ars Magica 2 (removed workaround)
+Fixed Charm of Slaughter Impact causing damage to players with disabled PVP or team friendly fire
+Fixed conflicting Charm recipes
+
+
+==================
 Release 1.8.5 (1.7.10)
 7 January 2016
 ------------------
 >Important
-Custom music has been moved to a separate resource pack: <a href="http://hee-music.chylex.com">http://hee-music.chylex.com</a>
+Custom music has been moved to a separate resource pack: <a href="https://hee-music.chylex.com">https://hee-music.chylex.com</a>
 The invalid recipe removal override is now automatically enabled (corrupted recipes will continue to be printed into the log files, but will no longer crash the game)
 
 >Changes

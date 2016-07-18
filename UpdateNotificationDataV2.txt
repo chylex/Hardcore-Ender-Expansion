@@ -1,5 +1,12 @@
 {
-  "~URL": "http://hee.chylex.com/download",
+  "~URL": "https://hee.chylex.com/download",
+  
+  "34 - 1.8.6": {
+    "modVersion": "1.8.6",
+    "mcVersions": [ "1.7.10" ],
+    "buildId": 1897160,
+    "releaseDate": "18 Jul 2016"
+  },
   
   "33 - 1.8.5": {
     "modVersion": "1.8.5",
