@@ -1,0 +1,522 @@
+# DO NOT MODIFY THIS FILE!
+# Update by Athloniux for v1.8.6
+# Thanks to Yoooo And Rudis From NGACraft
+ec.title.stronghold=要塞
+ec.title.dragonLair=龙巢
+ec.title.endstoneBlob=末地浮岩
+ec.title.dungeonTower=末地龙塔
+ec.title.meteoroid=流星体
+ec.title.biomeIslands=生态浮岛
+ec.title.biome.infestedForest=腐化之森生态
+ec.title.biome.burningMountains=灼烧之山生态
+ec.title.biome.enchantedIsland=附魔之岛生态
+
+ec.title.portal=末地门
+ec.title.enderDragon=末地龙
+ec.title.essence=精华
+ec.title.ravagedDungeon=破损的地牢
+ec.title.curses=诅咒
+ec.title.dungeonPuzzle=地牢谜题
+ec.title.laboratory=研究室
+ec.title.ghostAmulet=幽魂护符
+
+ec.title.enh.enderPearl=末影珍珠附魔
+ec.title.enh.essenceAltar=精华祭坛附魔
+ec.title.enh.enhancedBrewingStand=强化酿造台附魔
+ec.title.enh.tnt=TNT附魔
+ec.title.enh.spatialDashGem=空间碰撞宝石附魔
+ec.title.enh.transferenceGem=传送宝石附魔
+
+ec.reg.0=欢迎来到末地概要,一切关于末地的信息尽在其中!
+ec.reg.1=概要按照方块,物品,生态划分,你可以在相应的部分浏览信息.
+ec.reg.2=想要解开这些物品的信息,你必须找到他们或者使用知识点来解锁.
+ec.reg.3=然后,你可以花费你的知识点在知识片段上,这些片段包含着具体的信息.
+ec.reg.4=最新发现的内容会显示在屏幕的右下角,打开纲目会显示这个内容.
+ec.reg.5=发现末地的新内容同样会解锁一些片段并给你一些知识点.
+ec.reg.6=这些内容碎片以及知识片段会逐步地推进你的进度.
+ec.reg.7=可以使用道具知识笔记增加知识点.你可以在地下城中找到或者从村民手中购买它们.
+ec.reg.8=重要的进度点会显示在成就页面,点击成就将会在概要中显示它.
+ec.reg.9=末地概要中,你可以使用鼠标右键而不是返回键返回,也可以用鼠标滚轮来翻阅内容或者翻页.
+ec.reg.18=在游戏中看着一个内容或者鼠标悬停在一个物品上时,按下纲目的快捷键,将会在概要中显示它的具体信息.
+ec.reg.19=也可以在NEI里悬停在物品上按末地概要快捷键查看信息,不过你可以按住Ctrl来屏蔽它.
+
+ec.reg.80=精华一般用来解锁祭坛的力量.
+ec.reg.81=龙之精华通过杀死$e:~Dragon:Ender Dragon$得到.
+ec.reg.82=位于异变生态$d:BurningMountains:Burning Mountains$ 的 $e:~FireGolem 和 $e:~ScorchedLens会掉落炎之精华.
+
+ec.reg.710=主世界会有一些由石头构成的,拥有庞大而复杂地下结构的要塞.
+ec.reg.711=将末影眼扔向空中,可能会定位到这些要塞.
+ec.reg.712=要塞有许多个房间,其中一个房间是$b:end_portal_frame:End Portal$大厅. 传送门通往 $d:DragonLair,并且需要末影之眼来激活它.
+ec.reg.713=要塞中的箱子内可能有 $i:~adventurers_diary, $i:~temple_caller 和知识笔记.
+
+ec.reg.10=冒险家的短篇故事,共计16页.
+ec.reg.11=打开新的一页日记可以解锁下一页的故事, 并且对于其他玩家来说只会锁定那一页.
+
+ec.reg.20=罕见的掉落于$e:Enderman:Endermen$.
+ec.reg.21=综合掉落几率大约2.5%,掠夺附魔可以增加这个几率.
+
+ec.reg.30=音乐盒可以播放由qwertygiy制作的音乐.
+
+ec.reg.1410=这是通往末地世界的入口.
+ec.reg.1411=当使用末影之眼激活它以后,入口将会显现并且把跳入的玩家传送进 $d:DragonLair.
+ec.reg.1412=不同于主世界,末地从中心伸展开来,随着远离$d:DragonLair,你将发现许多新的建筑和资源.
+ec.reg.1413=离得越远,资源和建筑就越丰富.
+
+ec.reg.40=$b:~essence_altar/0的核心部件.
+
+ec.reg.51=基础祭坛转换成特定种类的祭坛,需要添加一个 $i:~essence:Essence$ 以及必要的8个方块和物品.
+ec.reg.52=已转化祭坛右击一次可以添加32个 $i:~essence:Essence$ ,在潜行时下添加1个.
+
+ec.reg.60=高高的末影人在末地里非常多,在主世界却并非随处可见.
+ec.reg.61=直视或者攻击会让他们产生敌意.
+ec.reg.62=末影人被攻击时会随机地传送,没受到伤害有时也会如此.
+ec.reg.63=水会伤害他们.
+
+ec.reg.70=一种小的敌对的节肢动物,可以在主世界的 $d:Stronghold:Strongholds$和末地的$d:InfestedForest:Infested Forest$中发现它们.
+ec.reg.71=它们一般隐匿在石砖中,腐化的砖块中更容易找到它们.
+ec.reg.72=攻击蠹虫会唤醒周围隐藏在石块中的其他蠹虫.
+
+ec.reg.750=末地石组成的巨大浮岛,由$e:~Dragon:Ender Dragon$守护着.
+ec.reg.751=几个黑曜石柱和末地晶体分散在整个岛上.这些晶体会治疗末地龙,晶体被破坏时会爆炸.
+ec.reg.752=有三种不同的晶体:
+ec.reg.753=一种晶体会生成8个点燃的TNT方块炸向四周,并吸引周围的$e:Enderman:Endermen$攻击玩家.
+ec.reg.754=另一种一般在较高的黑曜石柱的顶端,这种晶体被铁栅栏围绕着.
+ec.reg.755=第三种水晶毁坏时会造成巨大的爆炸,将整个黑曜石柱炸散.这种晶体只会在较矮的柱子上出现.
+
+ec.reg.90=末地石是末地的主要构成物.这种石头对爆炸有很高的抗性.
+
+ec.reg.100=特殊的黑曜石会受到重力的影响.
+ec.reg.101=主要出现在$d:DragonLair和$d:EnchantedIsland上.
+ec.reg.102=当掉落在脆弱的方块上,比如火把或者花上,这种黑曜石会直接崩坏.
+ec.reg.103=玩家或生物被这种黑曜石砸中后会受到严重的伤害,最高可达30点.
+ec.reg.104=被采集后将不再受重力的影响.
+
+ec.reg.110=龙之精华祭坛消耗$i:~essence/0对物品注魔.
+ec.reg.111=注魔需要基座,用最多8个相同种类的方块均匀的围绕着这个祭坛来构建基座.
+ec.reg.112=使用$i:~end_powder:Enhancing$ 增加祭坛范围使基座上限提高到12个.
+ec.reg.113=工具,武器和护甲能被快速修复耐久以及缓慢地提升他们的附魔.
+ec.reg.114=注魔时有些物品会转换成不同的物品:
+
+ec.reg.120=通常可以在末地找到这种矿石.  
+ec.reg.121=矿脉的分布范围比其他矿石更广些.
+ec.reg.122=用任何矿镐采集可以获得1-3个 $i:~end_powder 和 2-4 的经验.
+ec.reg.123=时运附魔会影响 $i:~end_powder 的掉落数量.
+
+ec.reg.130=由$i:~essence/0注魔强化过的酿造台.
+ec.reg.131=酿造速度与药水的复杂程度有关,越复杂的酿的越慢. 
+ec.reg.132=使用萤石,红石还有火药进行酿造同时需要$i:~end_powder,但这可以让你酿造的药水超脱于普通酿造台.
+ec.reg.137=由强化酿造台制造的大多数药水可以做到等级3,如果有高等级的$i:~end_powder:enhanced$,则可以达到等级4.
+ec.reg.133=以下可以用来与粗制的药水以及其他原料制作特殊药水:
+
+ec.reg.150=在杀死$e:~Dragon:Ender Dragon$之后,龙蛋会出现在末地传送门的柱子顶端.
+ec.reg.151=当你触碰它时,龙蛋会向着一个随机方向上传送.
+ec.reg.152=潜行状态可以拿起蛋,或者用任意剑敲下来也可以.
+ec.reg.153=被摧毁后,它会被传送回末地.
+
+ec.reg.160=富含魔力的粉末可以用来给物品附魔以提供特殊效果.
+ec.reg.161=使用末影粉末可以打开附魔界面. 把一个方块或者物品放在上边的方格上,可以看到它所有的可用附魔选项.
+ec.reg.162=同样的,直接对可升级方块使用末影粉末也可以直接附魔它.
+ec.reg.163=附魔需要特定数量的末影粉末以及其他的材料.
+ec.reg.164=具体配方要通过不断的尝试来解锁,使用错误的原料会摧毁让你损失部分末影粉末,不过这个过程或许会揭示正确的配方.
+ec.reg.165=不同种类的增强效果可以同时生效.
+ec.reg.166=末影粉末可以用来增强 $i:~enhanced_brewing_stand 所产出的药水效果.
+ec.reg.167=末影粉末可以缓解$b:~death_flower 的腐坏效果.
+
+ec.reg.180=神庙召唤物是一个被$i:~essence/0注魔的末影之眼.
+ec.reg.181=可以罕见的在主世界的$d:Stronghold 或者 $d:DungeonTower 之中找到.
+ec.reg.182=神庙召唤物在使用之前,必须用$b:~energy_cluster:Energy$ 将其充满.
+ec.reg.183=身上带着龙蛋去末地使用这神庙召唤物,可以把你传送到神庙之中.
+ec.reg.184=在神庙中有一个可以安放$b:dragon_egg的黑色基座.在龙蛋被安放完毕后,它会释放一场风暴摧毁整个末地.
+
+ec.reg.190=末影龙是一个有着250血的巨大生物,它保护着整个末地世界.
+ec.reg.191=附近的末影水晶会恢复它的生命.
+ec.reg.192=它的基础攻击手段包括发射火球和正面撕咬.被正面撕咬到会被施加负面效果,并且会被击退很远并摧毁周围方块.
+ec.reg.193=摧毁了足够多的末影水晶之后,他就会进入暴怒阶段.
+ec.reg.194=进入暴怒阶段之后,会更强力的释放原有技能.此外施放额外的特殊攻击(仅限普通或困难难度).
+ec.reg.195=在狂暴阶段,末影龙飞过那些黑曜石柱子的时候,它还会击碎这些柱子.
+ec.reg.196=末影龙有5种特殊攻击:
+ec.reg.197=大鹏展翅:末影龙飞向高空,而后俯冲向地面撞穿空岛.
+ec.reg.198=烈焰爆发:末影龙飞到头顶,选定一个目标之后疯狂的从嘴里喷出一堆火球,并如此反复.
+ec.reg.700=普通直拳:末影龙以四倍速度冲向目标,使出直拳攻击.
+ec.reg.702=末影呼唤:从天空召唤闪电,并且从被击中的地方召唤出$e:~AngryEnderman:Angry Endermen$.这些末影人会攻击任何还在地面上的玩家.
+ec.reg.703=歃血之怒:末影龙的飞行速度会被减慢,但是无法被伤害,同时会将周围的$e:Enderman:Endermen$转变为吸血蝙蝠攻击玩家.
+ec.reg.704=当末影龙被击杀时,它会向天空飞去直至消失,并且掉落大量的经验球以及$i:~essence/0.
+ec.reg.705=末地传送门会在末影龙死去的地方开启,并且$b:dragon_egg会出现在柱子的顶端.
+
+ec.reg.200=被惊扰的$e:Enderman 会攻击附近的玩家.
+ec.reg.201=他们比一般的末影人要弱一些,但是他们不会因为受伤而传送走.
+
+ec.reg.210=$e:~Dragon:Ender Dragon$释放某种特殊攻击时会召唤出这种蝙蝠.
+ec.reg.211=一击即杀.
+ec.reg.212=这种蝙蝠会尝试着攻击玩家.当它击中你的时候,伤害会治疗$e:~Dragon:Ender Dragon$,然后就会死掉.
+
+ec.reg.220=由末地石组成的形状大小各不相同的末地浮岩.
+ec.reg.221=有三种不同的末地浮岩:常见的,少见的以及罕见的.
+ec.reg.222=常见的末地浮岩地形大多是随机的.可能包括洞穴,黑曜石尖塔,$i:~bucket_ender_goo:Ender Goo$的湖泊和瀑布,或者还有$i:~end_powder、$i:~igneous_rock 矿石和$b:~death_flower.
+ec.reg.223=少见的末地浮岩会有一些特定的形状和资源,比如一个由大量$i:~end_powder组成的球,或者是外边包裹着末地黏浆,里面有个空腔的类型.
+ec.reg.224=罕见的末地浮岩则包含着珍贵而罕有的资源,他们与其他浮岩大不相同,很好区别. 罕见的末地浮岩上会生成$b:~transport_beacon:Transport Beacons$,并且有战利品以及一大片末影矿石矿脉.
+
+ec.reg.230=一种通常在$d:BurningMountains生成的矿石,偶尔在$d:EndstoneBlob:Endstone Blobs$也有分布.
+ec.reg.231=可以用铁镐及以上的镐子挖.
+ec.reg.232=通常会掉落一个$i:~igneous_rock和3~5的经验球.
+
+ec.reg.240=在$d:EndstoneBlob:Endstone Blobs$顶端可以找到的紫色的花儿.可以种在末地石,泥土,草地和花盆里.
+ec.reg.241=离开末地之后,这种花会逐渐凋零,即便是种在了花盆里也一样.
+ec.reg.242=开始凋零后,它会开始吸引$e:~AngryEnderman:Angry Endermen$.
+ec.reg.243=当它彻底凋零,它会变成黑色,并且向周围的方块上传播一种腐败,而且会生成$b:~energy_cluster.
+ec.reg.244=这种凋零可以用$i:~end_powder有限的治愈.
+
+ec.reg.250=末地世界中还会发现一种末地黏浆.
+ec.reg.251=在黏浆里不能跳,移动也会十分缓慢,并且碰了之后会同时被获得"中毒,虚弱,挖掘疲劳"三种负面效果.
+ec.reg.252=末地本土生物对这些效果免疫.
+ec.reg.253=它会和水之间相互吞噬,特别是在末地.
+
+ec.reg.260=挖掘$b:~igneous_rock_ore获得的灼热岩石.
+ec.reg.261=当你手持它的时候,有一定几率点燃你.这个效果在地狱会变得更猛烈,在末地则会被削弱.
+ec.reg.262=作为燃料使用,热量相当于三根烈焰棒.
+ec.reg.263=丢到地上之后,它会向外蔓延出火焰,熔化方块以及点燃生物,并且造成TNT级别的爆炸.石头也会很快融解.
+
+ec.reg.960=传送信标可以让你从一个信标传送到它附近的另一个已被发现的信标上.
+ec.reg.961=它们会在一种罕见的$d:EndstoneBlob 附近生成,并且会发出一个很明显的光柱.
+ec.reg.962=传送需要$b:~energy_cluster:Energy$,具体的内容你可以在下边的$b:~energy_cluster:Energy$ 有关章节中了解更多.
+ec.reg.963=传送距离上限为960个方块.
+
+ec.reg.270=一个由各种各样黑曜石组成的高塔.
+ec.reg.271=距$d:DragonLair 350方块到900方块的距离中都比较常见,超过这个范围之后就变得比较稀少了.
+ec.reg.272=每座塔有3层,最里面一层可以捡到不少随机的战利品,当然还有一些其他的随机要原料.
+ec.reg.273=这些战利品通常可以在塔内的发射器,熔炉,酿造台里面找到. 约1%的几率塔内的酿造台是$i:~enhanced_brewing_stand.
+ec.reg.274=基本上每层都有$e:~AngryEnderman 的刷怪笼.刷怪笼会强化$e:~AngryEnderman ,使得它们比你之前遇到过的要强.
+ec.reg.275=塔顶就是$e:~EnderEye 栖息的地方.
+
+ec.reg.280=很坚硬的黑曜石台阶,不可合成.
+
+ec.reg.281=光滑的黑曜石,比较容易被破坏.不可合成.
+
+ec.reg.282=有纹理的黑曜石,比较容易被破坏。不可合成.
+
+ec.reg.283=黑曜石柱子,可以水平或者竖直放置,比较容易被破坏.不可合成.
+
+ec.reg.284=发光的光滑黑曜石,比较容易被破坏,不可合成.
+
+ec.reg.285=发光的有纹理黑曜石,比较容易被破坏,不可合成.
+
+ec.reg.286=发光的黑曜石柱子,可以水平或者竖直放置,比较容易被破坏.不可合成.
+
+ec.reg.890=能量是各种物品和方块力量的一种表现形式.
+ec.reg.891=它在末地世界中无处不在.$d:DungeonTower:Dungeon Towers$附近会生成能量簇.如果你继续旅行得足够远,最终会变得非常常见.
+ec.reg.892=每种形式的能量都会在一个特定的位置缓慢重生. 太多的能量会引发随机泄露的堕落能量.
+ec.reg.893=能量簇被击碎时会发生爆炸,同时产生堕落能量.
+ec.reg.894=接触到堕落能量会受到无视护甲的大量伤害.
+ec.reg.895=末地中的能量会从富含能量的区域流向含量较低的区域,以保持相对的能量平衡.
+ec.reg.289=在末地杀死某些怪物会向周围的环境中释放少量的能量.
+ec.reg.896=能量簇有不同的生命等级,这个等级会影响能量的再生速度.
+ec.reg.897=能量簇可以被能量魔棒移动.移动得太远或者穿越次元会对使用者的健康造成负面影响.
+ec.reg.898=使用能量的方块可以最多从16格范围内的能量簇抽取能量,如果在末地还可以从环境中获得能量.
+ec.reg.899=使用能量的物品在末地可以自动充能,或者使用能量簇给它充能.
+
+ec.reg.760=$d:DungeonTower:Dungeon Towers$附近会生成罕见的矿石.如果你继续旅行得足够远,会随着距离的增长而变得更加常见.
+ec.reg.761=方块掉落的矿石可以被用来制作 $i:~endium_ingot.
+
+ec.reg.770=由$i:~endium_ingot:Endium Ingots$制作而成的方块.
+
+ec.reg.800=一个存储着你掉到虚空里的物品的箱子.
+ec.reg.802=如果装的太满,新的物品会取代旧的.
+
+ec.reg.290=$e:~EnderEye会掉落传送宝石.
+ec.reg.291=使用传送宝石会发射一条射线,将你传送到射线所命中的方块上.
+ec.reg.292=射线可以最远把你传送到75格之外.
+ec.reg.293=射线会尝试寻找合适的着陆点,就算你命中的是方块底部.
+ec.reg.294=如果没有合适的着陆点,你会被传送到附近的某个夹缝中并且会窒息.
+
+ec.reg.780=通过熔炼$b:~endium_ore而获得的闪蓝色金属锭.
+
+ec.reg.300=指向最近的$d:BiomeIslands:Biome Island$的指南针.
+ec.reg.301=手持这件物品会显示周围所有的浮岩标志.
+ec.reg.302=右击可以在这些浮岩标志之间切换.
+
+ec.reg.310=末影之眼是一个体型较小但仍然强大的生物,它具有125血.
+ec.reg.311=攻击会把它从沉睡中唤醒. 如果没有发现可以攻击的目标,它会重新陷入沉睡并且恢复生命.
+ec.reg.312=唤醒末影之眼会摧毁周围较脆的方块.
+ec.reg.313=末影之眼的硬度相当于黑曜石,所以至少需要铁剑才能伤害它.
+ec.reg.314=免疫火焰,仙人掌,窒息,掉落和魔法伤害.
+ec.reg.315=会随机用以下三种攻击方式攻击:
+ec.reg.316=冲击:放出冲击波,击碎周围的方块,并且击退周围的生物.
+ec.reg.317=迷惑:使玩家获得反胃和失明的负面状态.
+ec.reg.318=眼棱:发射光束扫过周围,光束会造成魔法火焰伤害,并且在结束时额外造成一次伤害.
+ec.reg.319=被杀死后会掉落 $i:~spatial_dash_gem, 一个末影之眼, 3-6 黑曜石和 35 经验.
+
+ec.reg.320=$b:~sphalerite/0的小型矿脉会在$d:DragonLair 的1300格到2700格之间生成.超过这一范围就会逐渐变得稀少.
+
+ec.reg.330=在$d:Meteoroid:Meteoroids$发现的一种中等强度的岩石.
+ec.reg.331=石镐或更好的镐可以轻易的采集它们.
+
+ec.reg.340=$b:~sphalerite/0的一种变异版本, 会在地表上露出黄色的印记.
+ec.reg.341=会掉落 1-3个 $i:~stardust, 但是没有经验.
+ec.reg.342=时运附魔会轻微的提升掉落数量.
+
+ec.reg.350=由$b:~stardust_ore 和 $b:~sphalerite/1掉落的粉末. 可以在分解台中用作催化剂.
+
+ec.reg.880=可以将物品分解为原料的台子.
+ec.reg.882=需要 $i:~stardust 和 $b:~energy_cluster:Energy$ 才能运行, 并且随着合成的复杂程度提高花费. 红石比较器可以检测出分解台是否在运行中.
+ec.reg.883=不是所有的原料都会被返还,最多可以返还84%的原材料.
+ec.reg.884=损坏的物品返还比满耐久物品要少.
+ec.reg.885=如果有多重合成方式,最后返还的原料是随机的.
+
+ec.reg.970=用来从物品和方块中提取经验的台子.
+ec.reg.972=需要 $i:~stardust 和 $b:~energy_cluster:Energy$ 才能运行, 并且随着合成的复杂程度提高花费. 红石比较器可以检测出分解台是否在运行中.
+ec.reg.973=这个台子可以处理宝石和金属,将他们转化为经验.这个过程会摧毁掉原材料.
+ec.reg.974=金属和宝石块的单个经验产量是原本的三倍.
+
+ec.reg.980=一个用来存储$b:~energy_cluster:Energy$ 和 将这些能量导入物品的台子.
+ec.reg.982=红石比较器可以检测出分解台是否在运行中.
+ec.reg.983=拆除这个台子会导致其中的$b:~energy_cluster:Energy$ 泄露到周围的世界里.
+
+ec.reg.990=一个用于提取末地方块和品中 $b:~energy_cluster:Energy$ 的台子.
+ec.reg.992=需要 $i:~stardust 和少量的来自不同来源的 $b:~energy_cluster:Energy$ 才能运行. 红石比较器可以检测出分解台是否在运行中
+ec.reg.993=可以存储来自泄露的 $b:~energy_cluster:Energy$ 和附近的$b:~energy_cluster:Energy Clusters$的能量.
+ec.reg.994=能量泄露可以通过放置 $i:~instability_orb:Instability Orbs$ 在台子中减缓或阻止.
+ec.reg.995=拆除这个台子会导致其中的$b:~energy_cluster:Energy$ 泄露到周围的世界里
+
+ec.reg.720=$d:BiomeIslands 是一种巨型的浮岛,在距离 $d:DragonLair 1600格左右的距离开始生成.
+ec.reg.721=每座浮岛上都有洞穴和矿脉,同时也各自有千奇百怪的特殊地貌.
+ec.reg.722=每种生态都有其独特的内容和随机变化, 这些变化拥有诸多表现形式(比如高大的丛林和$i:~bucket_ender_goo:goo$沼泽).
+ec.reg.723=$b:~instability_orb_ore 和 $b:~stardust_ore 只会生成在这种浮岛上.
+
+ec.reg.360=在$d:BiomeIslands里很罕见的一种矿物.
+ec.reg.361=只能由钻石镐以上采集.
+ec.reg.362=有40%的概率掉落 $i:~instability_orb.
+ec.reg.363=每级时运附魔可以提升4%的掉落率.
+
+ec.reg.370=$d:BiomeIslands中一种常见的矿物.
+ec.reg.371=钻石镐以上可以轻易的采集它.
+ec.reg.372=一块矿石会掉落0-4个 $i:~stardust 和 6-9的 经验 .
+ec.reg.373=时运附魔不会影响这种矿物的掉落数量.
+
+ec.reg.380=采集$b:~instability_orb_ore获得的一种极不稳定的矿物.
+ec.reg.381=扔到地上时会开始分解. 当分解完成时会发生爆炸或者变成其他的物品,方块甚至生物.
+ec.reg.382=爆炸不会伤害生物,但是会伤害玩家,物品和一些矿物.
+ec.reg.383=可以在$i:~enhanced_brewing_stand 上酿造 $i:~potion_of_instability.
+
+ec.reg.740=一种特殊的可以造成随机药效的药水. 可以在$i:~enhanced_brewing_stand上酿造, 将已酿造好的药水和火药混合可以获得喷溅版的这种药水.
+
+ec.reg.390=除了黑曜石山丘之外都比较平坦的生态,矿物含量适中.
+ec.reg.391=这种生态有两个异变- 深林 和 废墟.
+ec.reg.392=两种异变都会生成蠢虫,腐化蝙蝠.偶尔也会生成$e:Enderman:Endermen$.
+ec.reg.393=深林变异会生成巨大的幽灵树丛林,这些幽灵树上甚至可以看到一张张的脸. 地面上会生成所有种类的腐化灌木和大量的荆棘丛.
+ec.reg.394=废墟变异只会生成小块的幽灵树丛林, 但是会生成 $d:RavagedDungeon , 通往$i:~charm:Charms$的罗马大道.
+
+ec.reg.400=可以在 $d:InfestedForest:Infested Forest$ 发现的异变的末地石头.
+
+ec.reg.410=在 $d:InfestedForest:Infested Forest$ 内一种常见植物.
+
+ec.reg.411=在 $d:InfestedForest:Infested Forest$ 内一种常见植物.
+
+ec.reg.412=在 $d:InfestedForest:Infested Forest$ 内一种常见植物.
+
+ec.reg.730=可以缓解末影腐败的一种药剂. 可以在$i:~enhanced_brewing_stand里酿造.
+
+ec.reg.480=一种在 $d:InfestedForest:Infested Forest$生成. ,每只蝙蝠在个头上都略有不同.
+
+ec.reg.420=一种在 $d:InfestedForest:Infested Forest$ 的深林异变中很常见的黑暗植物.
+ec.reg.421=接触它会导致随机的药水效果.
+
+ec.reg.430=幽灵树的原木.
+ec.reg.431=摧毁一块原木会导致它上面的所有原木一起崩塌.
+ec.reg.432=每块原木都有12.5%的概率掉落一个 $i:~dry_splinter.
+ec.reg.433=在$d:InfestedForest:Infested Forest$的深林异变中, 一些树上会长着脸.
+ec.reg.434=如果没人盯着这些脸看,它们会在附近的树木上来回的移动.
+ec.reg.435=如果一个带着脸的原木被摧毁,有25%的几率生成一个森林幽魂.
+ec.reg.436=$i:~ghost_amulet 可以阻止森林幽魂的生成,树上的脸有60%的几率掉落 $i:~endoplasm.
+
+ec.reg.440=幽灵树树叶是幽灵树的叶子.
+ec.reg.441=如果没有和$b:~spooky_log相连, 这些树叶会很快凋零.
+
+ec.reg.450=$b:~spooky_log掉落的合成材料.
+ec.reg.451=每块 $b:~spooky_log 有12.5%的概率掉落一个 $i:~dry_splinter.
+
+ec.reg.460=可以驱逐森林幽魂的护符.
+ec.reg.461=当护符放在物品栏时,将不会生成森林幽魂.$b:~spooky_log 上的脸有60%的几率掉落 $i:~endoplasm.
+ec.reg.462=将一块$i:~end_powder, 一块绿宝石 和 线扔进一滩 $i:~bucket_ender_goo:Ender Goo$ 里就可以制造出护符.
+ec.reg.463=接下来需要在$b:~essence_altar/1里纯化.
+
+ec.reg.470=森林幽魂掉落的奇怪的空灵物质.
+
+ec.reg.920=用来合成 $i:~living_matter 的材料.
+
+ec.reg.930=用来合成 $i:~curse:Curses$的微生物材料.
+
+ec.reg.940=诅咒是一种可以影响区域,生物甚至玩家的魔法力量. 通过 $i:~living_matter, $i:~end_powder 和一些特定原料合成.
+ec.reg.941=可以放在方块和物体上,或者扔出去使用. 如果扔到一群生物上,诅咒有可能传染至这群生物中的每一个身上.
+ec.reg.942=诅咒终究会消弭, 但可以通过和 $i:~stardust 以及 $i:~arcane_shard 合成在一起将诅咒升级为永恒诅咒. 永恒诅咒会一直存在在方块和生物身上, 但在玩家身上只会比一般诅咒持续时间更长一些而已.
+ec.reg.943=只收施术者才能看到施加在方块上的诅咒, 如果你被诅咒影响了,你也可以短暂的看到这个诅咒.
+ec.reg.944=如果你极为小心的接近诅咒所在的位置,在足够近的情况下,你也可以看到诅咒.
+ec.reg.945=使用 $i:~potion_of_purity 有几率净化诅咒.
+
+ec.reg.950=净化药水是一种有几率净化 $i:~curse:Curses$ 的药水,它有普通和喷溅型两种.
+ec.reg.951=在 $i:~enhanced_brewing_stand 上把 $i:~endoplasm 和 粗制药水混合来酿造 .
+
+ec.reg.1400=咒术护符可以揭示周围的方块上的 $i:~curse:Curses$ 并且手持时可以让 $i:~curse:Curses$ 更快的结束.
+ec.reg.1401=通过把 $i:~end_powder, 金锭, $i:~endoplasm 和 线 扔进 $i:~bucket_ender_goo:Ender Goo$ 制造.
+
+ec.reg.490=由$b:~ravaged_brick/0:Ravaged Bricks$建造的巨大地城, 在废墟异变的 $d:InfestedForest:Infested Forest$ 找到.
+ec.reg.491=是唯一可以获取用来创造$i:~charm:Charms$的材料的地方.
+ec.reg.492=地城通常有三层. 每层都会随机的生成走廊的房间绵延在整个区域内.
+ec.reg.493=一般在第一层有入口,然后每层都有通往下层的房间和大量的刷怪笼以及可观的战利品.
+ec.reg.494=走廊和房间都是随机生成的,其中会包含$e:Silverfish 和 $e:~Louse 的刷怪笼以及战利品箱子.
+
+ec.reg.500=$d:RavagedDungeon主要由这种砖块建造而成.
+ec.reg.501=一些砖块可以被拆除或凿开.
+ec.reg.505=砖块硬度取决于地城内的刷怪笼数量.
+
+ec.reg.510=一种发光异变的 $b:~ravaged_brick/0. 可以发出萤石等级的光. 不可合成.
+
+ec.reg.512=由$b:~ravaged_brick/0制成的楼梯, 比整块的略脆.
+
+ec.reg.514=由$b:~ravaged_brick/0制成的半砖, 比整块的脆.
+
+ec.reg.516=由$b:~ravaged_brick/0制成的围栏, 比整块的脆.
+
+ec.reg.520=带有魔力的袋子,可以用来合成和激活 $i:~charm:Charms$.
+ec.reg.522=潜行时使用袋子可以切换 $i:~charm:Charms$的激活状态. 同时只能激活一个护符.
+
+ec.reg.530=符文可以用来创造 $i:~charm:Charms$, 以及合成 $i:~charm_pouch.
+ec.reg.531=总共有6种符文 - 力量, 敏捷, 活力, 防御, 魔力 和 虚空. 虚空符文比其他击中更罕见.
+ec.reg.532=需要在 $d:RavagedDungeon 里探索来得到符文. 他们会被发现在箱子里或者在杀死虱的时候较为少见的掉落.
+
+ec.reg.540=护符是一种增强玩家能力的东西 ,可以在 $i:~charm_pouch 里使用和合成.
+ec.reg.541=3-5种符文可以组合成一个护符. 不同的组合方式可以合成出迥异的护符.
+
+ec.reg.550=一种生成于 $d:RavagedDungeon 的节肢动物.
+ec.reg.551=虱的头上会有毁灭符文, 不同的符文会赋予其不同的能力和属性.
+ec.reg.552=毁灭符文有一到两种不同的颜色,这与 $i:~rune:Rune$ 的颜色是一致的. 杀死他们会掉落一种 $i:~rune:Runes$.
+ec.reg.553=基础的 $i:~rune:Runes$ 可以提升你的属性, 例如力量生命速度等. 而$i:~rune:Void Rune$则会给予你一些强大而危险的能力.
+
+ec.reg.560=拥有巨大山脉和深邃洞穴的火焰系生态. 除开常见的矿物之外,这里还盛产 $b:~igneous_rock_ore.
+ec.reg.561=这种生态游两个异变版本 - 极热 和 矿物.
+ec.reg.562=极热异变会生成大量的 $b:~cinder, 岩浆池和岩浆河流以及火莲. 每座浮岛都会包含 $b:~dungeon_puzzle/0. 这里也是 $e:~FireGolem:Fire Golems$ 和 $e:~ScorchedLens:Scorching Lenses$ 唯一出没的地方.
+ec.reg.563=矿物变异会生成 $e:~HauntedMiner:Haunted Miners$, 它保护着一个富含末地,地狱以及表世界大量矿物的矿井. 不过不是所有的矿物都会在矿井内发现,大约会有一到两种缺失.
+
+ec.reg.570=可以在 $d:BurningMountains 发现的异变的末地石头.
+
+ec.reg.582=灼火草是 $d:BurningMountains 的一种常见植物. 在极热异变中,他们常常分布于岩浆附近.
+
+ec.reg.590=一种被发现于$d:BurningMountains:Burning Mountains$ (极热异变) 的石头.
+
+ec.reg.580=被发现于 $d:BurningMountains:Burning Mountains$ (极热异变) 橘色郁金香样的植物.
+
+ec.reg.900=地牢谜题是一种 $d:BurningMountains:Burning Mountains$ (极热异变) 生态中生成的建筑. 通常有一个通向地城的洞穴.
+ec.reg.901=用$i:~igneous_rock 投掷到谜题方块上会导致一个连锁反应并且摧毁这个方块.
+ec.reg.902=当连锁反应连接到有纹饰的方块上会导致不同的效果.
+ec.reg.903=当地板上所有的方块都被点亮时, 中间将会出现一道灼热的光束. 进入光束将会开始 $e:~FireFiend 的首领战.
+
+ec.reg.600=炎之精华祭坛可以将 $i:~essence/1 转换为热量来提升熔炉,酿造台或者其他设备的速度.
+ec.reg.601=越多 $i:~essence/1 热量提升的速度越快, 512个 $i:~essence/1:Essence$ 达到最大速度.
+ec.reg.602=炎之精华祭坛可以支持熔炉在没有燃料的情况下熔炼, 不过会慢上一些.
+
+ec.reg.610=一种生成于 $d:BurningMountains:Burning Mountains$ (极热异变) 的灼热造物.
+ec.reg.611=同时拥有近战攻击和远程攻击模式.
+ec.reg.612=远程攻击模式下, 将会使用可以留下巨大的灼热陨石坑的火球攻击.
+ec.reg.613=这个傀儡免疫爆炸伤害,并且在受到爆炸伤害时会传送一小段距离. 这项能力拥有一个短暂的冷却时间.
+ec.reg.614=会掉落 0-1个 火焰弹 和 1-3个 $i:~essence/1.
+
+ec.reg.620=一种有着巨大眼睛的双足生物 ,常见于 $d:BurningMountains:Burning Mountains$ (极热异变).
+ec.reg.621=会从眼睛里喷出火焰来攻击距离内的玩家.
+ec.reg.622=火焰会造成伤害,并且击退玩家,而且还会延长身上着火状态的时间.
+ec.reg.623=掉落 0-2个 $i:~igneous_rock 和 1-2个 $i:~essence/1.
+
+ec.reg.910=解开 $b:~dungeon_puzzle时生成的小型首领. 有100血.
+ec.reg.911=烈焰魔将会随机的移动,并尝试停留在玩家的头上.
+ec.reg.912=每过一段时间,烈焰魔会切换他的攻击模式.
+ec.reg.913=第一种攻击模式下,烈焰魔会在身体周围召唤一圈火球,然后随机的射向玩家.
+ec.reg.914=第二种攻击模式不是很常见. 烈焰魔点燃自己周围的区域,将对玩家造成伤害和着火效果.
+ec.reg.915=当烈焰魔的生命值降到40%以下时,它周围将燃起火焰,这标志着进入了下一阶段.
+ec.reg.916=在这一阶段,烈焰魔受到的伤害会降低,同时攻击速度会上升.并且会唤醒周围的 $e:~FireGolem:Fire Golems$ 来攻击玩家.
+ec.reg.917=死亡时掉落 40 经验和 240个 $i:~essence/1.
+
+ec.reg.630=幽魂粒子是一种 $e:~HauntedMiner:Haunted Miners$ 掉落的合成材料.
+
+ec.reg.640=一种特殊的镐,可以对方块产生熔炉的效果.
+ec.reg.641=只对可熔炼的方块和矿物有效. 方块会像放进熔炉一样被熔炼成物品,例如铁矿石和仙人掌.
+ec.reg.642=这些方块同样会被更快的开采.
+
+ec.reg.650=幽魂矿工是一种生成于 $d:BurningMountains:Burning Mountains$ (矿物异变) 的灼热飞行生物.
+ec.reg.651=他们守卫着矿井, 他们可以感知到那些带着大量采矿相关物品-例如矿镐,矿石,锭或者原料-的玩家,并且攻击他们.
+ec.reg.652=他们会点燃任何靠的过近的生物.
+ec.reg.653=幽魂矿工拥有三种强力法术:
+ec.reg.654=第一种是一种抛射物攻击. 幽魂矿工射出两个可以造成巨大伤害和点燃效果的抛射物.
+ec.reg.655=第二种是一种爆炸冲击波. 一次以幽魂矿工为中心的爆炸冲击,离得越近的单位将会受到越强的冲击,并且冲击波会点燃周围的区域.
+ec.reg.656=第三种是一种岩浆攻击. 幽魂矿工会持续的在地面上制造岩浆柱,摧毁所有接触到岩浆的方块.
+ec.reg.657=死亡时掉落 0-2个 $i:~fire_shard 和 10 经验.
+
+ec.reg.660=一种很平坦偶有小洞穴的生态.
+ec.reg.661=这种生态有两种异变 - 故土 和 研究室.
+ec.reg.662=故土异变会生成 $i:~bucket_ender_goo:Ender Goo$ 构成的湖泊, 落下的黑曜石堆 和 类似黑曜石公路一样的建筑. 这里可以找到故土藏宝处,一个可以打碎的悬浮方块. $e:Enderman:Endermen$, $e:~BabyEnderman:Baby Endermen$ 和 $e:~EnderGuardian:Ender Guardians$ 会在这生成.
+ec.reg.663=研究室异变只有一个巨大的由特殊方块构造的 $d:Laboratory:structure$,研究室的周围会有一些紫苔. $e:~Endermage:Endermages$ 和 $e:~EnderGuardian:Ender Guardians$ 会在这种异变中生成.
+ec.reg.665=所有异变都会生成隐藏的地窖或者闹鬼的地城.
+
+ec.reg.670=一种在 $d:EnchantedIsland 发现的异变的末地石.
+
+ec.reg.810=一种构成了隐藏地窖的墙壁,地板和天花板的紫色方块.
+ec.reg.811=锹可以快速的破坏这种方块, 但你用其他工具或者手来破坏它就会得到方块.
+ec.reg.812=一些在隐藏地窖的这种方块上有纹饰.
+
+ec.reg.1420=奥术碎片常见于故土藏宝处, 有时在隐藏地窖里也能找到.
+ec.reg.1421=它有好几种不同的用处,包括用来合成 $i:~curse:Eternal Curses$.
+
+ec.reg.1430=空白宝石仅用来合成更高级的宝石.
+
+ec.reg.1440=下一级宝石允许你传送的更远.
+ec.reg.1442=潜行模式右击方块将你的宝石绑定在这个方块上.
+ec.reg.1443=绑定完成后, 使用它将会将你传送至绑定的方块上, 并且会消耗一定数量的 $b:~energy_cluster:Energy$.
+ec.reg.1444=如果宝石内的 $b:~energy_cluster:Energy$ 低于44%, 宝石内的 $b:~energy_cluster:Energy$ 越低越有可能造成负面效果. 宝石的中心也会逐渐变暗.
+ec.reg.1445=负面效果包括所有负面药水效果,随机传送甚至一场小型的风暴.
+ec.reg.1446=当 $i:~end_powder:enhanced$ 附有野兽附魔时, 对着另外一个生物使用它会将生物传送到传送点.
+
+ec.reg.680=幼年末影人生成在 $d:EnchantedIsland:Enchanted Island$ (故土异变)中.
+ec.reg.681=如果被攻击,他的父母会传送过来保护它.
+ec.reg.682=有时,它会从玩家身边经过并且偷窃玩家的物品.
+ec.reg.683=被偷窃的物品会在死亡时掉落. 每个幼年末影人都有不同的喜好,并且可能互相交换偷来的物品.
+ec.reg.684=不会偷窃穿着 $i:~enderman_head 的玩家.
+
+ec.reg.790=生成于 $d:EnchantedIsland:Enchanted Island$ (故土异变) 的特殊末影人.
+ec.reg.791=在故土中,每种末影人都有不同的角色,每种角色都有不同的外观. 这些角色决定了末影人的行为和倾向.
+ec.reg.792=一些末影人会组成群落,它们偶尔会散发特殊的灰色粒子效果.
+ec.reg.793=攻击具有确定角色的 $e:Enderman:Endermen$ 会导致他们呼叫守卫.
+
+ec.reg.1460=研究室是一个巨大的建筑,末影法师们在其中实验着他们的法术.
+ec.reg.1461=其中包含着数个回廊,大大小小的房间.这些房间里都有可能藏有富有价值的战利品.
+ec.reg.1462=房间里通常有 $b:~energy_cluster:Energy Clusters$, $b:~death_flower:Death Flowers$, 偶尔还有 $i:~endium_ingot:Endium$ 和末影箱, 以及其他战利品.
+ec.reg.1463=里面也有含有战利品的常规箱子.里面通常有 $i:~obsidian_fragment:Obsidian Fragments$ 和 $i:~auricion, 以及其他战利品.
+
+ec.reg.1450=轻微异变的黑曜石组成了 $d:Laboratory 的围墙.
+
+ec.reg.1451=在$d:Laboratory里发现的黑色玻璃.
+
+ec.reg.1452=用于 $d:Laboratory 地板的平滑方块.
+
+ec.reg.1453=$b:~laboratory_floor 的楼梯, 不可合成.
+
+ec.reg.820=掉落自 $e:~EnderGuardian:Ender Guardians$ 的黑曜石碎片, 在 $d:Laboratory的箱子里也能找到.
+
+ec.reg.830=$i:~obsidian_fragment:Obsidian Fragments$制作的黑曜石棒.
+
+ec.reg.870=用于合成的金元素.
+ec.reg.871=可以在 $d:Laboratory 和 隐藏地窖里找到, 也会被 $e:~Endermage:Endermages$ 罕见的掉落.
+
+ec.reg.840=$i:~energy_wand的核心.
+
+ec.reg.850=用于存储和移动 $b:~energy_cluster:Energy Clusters$ 的法杖.
+ec.reg.852=潜行状态并在 $b:~energy_cluster:Cluster$ 上右击可以存储能量 , 或者潜行状态并在方块上右击来释放 $b:~energy_cluster:Cluster$.
+ec.reg.853=移动 $b:~energy_cluster:Cluster$ 越远, 越有可能削弱能量簇,并丢失部分 $b:~energy_cluster:Energy$.
+
+ec.reg.690=可以在 $d:EnchantedIsland:Enchanted Island$ (研究室异变) 发现的巨大的傀儡造物.
+ec.reg.691=被激怒时会攻击玩家 (被攻击或靠的过近).
+ec.reg.692=它会冲锋并击退玩家.
+ec.reg.694=傀儡的攻击会点燃玩家, 傀儡对抛射物和掉落的方块伤害具有抗性, 仙人掌的伤害则完全无效. 同时,傀儡对击退也有较强的抗性,甚至完全免疫某些击退.
+ec.reg.693=会掉落 0-1 个末影珍珠 1-3 个黑曜石块 和 0-3个 $i:~obsidian_fragment:Obsidian Fragments$.
+
+ec.reg.860=居住在 $d:EnchantedIsland:Enchanted Island$ (研究室异变) 的法师.
+ec.reg.861=只有在被攻击后才会攻击玩家. 受到伤害后将闪现到另外的位置,这个闪现具有一个短暂的冷却时间.如果即将遭受致命的伤害将会频繁的闪现.
+ec.reg.862=它会使用连续的饱含 $b:~energy_cluster:Corrupted Energy$ 的飞弹攻击玩家, 这些飞弹可以穿越方块并且严重的伤害靠的太近的玩家.
+ec.reg.863=当被杀死时,会极罕见的掉落 $i:~auricion.
+ec.reg.864=掠夺附魔可以提升掉落几率.
