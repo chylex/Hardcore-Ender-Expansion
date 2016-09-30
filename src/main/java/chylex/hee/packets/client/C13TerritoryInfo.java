@@ -29,7 +29,7 @@ public class C13TerritoryInfo extends AbstractClientPacket{
 
 	@Override
 	public void read(ByteBuf buffer){
-		territory = CollectionUtil.get(EndTerritory.values,buffer.readByte()).orElse(null);
+		territory = CollectionUtil.get(EndTerritory.values, buffer.readByte()).orElse(null);
 		variations = territory == null ? EmptyEnumSet.get() : territory.properties.deserialize(buffer.readInt());
 	}
 

@@ -13,19 +13,19 @@ public final class MessagePattern{
 	}
 	
 	public MessagePattern addProp(String name, Precondition condition){
-		conditions.addCondition(name,condition);
+		conditions.addCondition(name, condition);
 		return this;
 	}
 	
 	boolean tryRun(NBTTagCompound root){
 		if (!conditions.checkType(root)){
-			MessageLogger.logError("Unexpected message format, expected NBTTagCompound, got $0 || $1",root.getClass().getSimpleName(),root);
+			MessageLogger.logError("Unexpected message format, expected NBTTagCompound, got $0 || $1", root.getClass().getSimpleName(), root);
 			return false;
 		}
 		
 		if (!conditions.checkValue(root))return false;
 		
-		handler.call(new MessageRunner(conditions,root));
+		handler.call(new MessageRunner(conditions, root));
 		return true;
 	}
 }

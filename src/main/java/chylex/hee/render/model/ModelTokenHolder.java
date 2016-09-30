@@ -15,8 +15,8 @@ public class ModelTokenHolder extends ModelBase{
 		textureWidth = 64;
 		textureHeight = 32;
 		
-		outside = new ModelRenderer(this,0,0);
-		outside.addBox(-8F,-8F,-8F,16,16,16);
+		outside = new ModelRenderer(this, 0, 0);
+		outside.addBox(-8F, -8F, -8F, 16, 16, 16);
 	}
 	
 	public void setRotation(float rotation){
@@ -29,12 +29,12 @@ public class ModelTokenHolder extends ModelBase{
 	
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		GL.translate(0F,0.65F,0F);
+		GL.translate(0F, 0.65F, 0F);
 		GL.pushMatrix();
-		GL.scale(0.25F+0.25F*tempCharge,0.25F+0.25F*tempCharge,0.25F+0.25F*tempCharge);
-		GL.rotate(tempRotation,0F,1F,0F);
-		GL.rotate(55F,1F,0F,1F);
-		GL.color(1F,1F,1F,0.95F-0.25F*tempCharge);
+		GL.scale(0.25F+0.25F*tempCharge, 0.25F+0.25F*tempCharge, 0.25F+0.25F*tempCharge);
+		GL.rotate(tempRotation, 0F, 1F, 0F);
+		GL.rotate(55F, 1F, 0F, 1F);
+		GL.color(1F, 1F, 1F, 0.95F-0.25F*tempCharge);
 		outside.render(unitPixel);
 		GL.popMatrix();
 	}

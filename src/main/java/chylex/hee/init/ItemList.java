@@ -19,10 +19,10 @@ import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class ItemList{
-	private static final Map<String,Item> items = new HashMap<>();
+	private static final Map<String, Item> items = new HashMap<>();
 	
 	private static void register(String itemIdentifier, Item item){
-		items.put(itemIdentifier,item);
+		items.put(itemIdentifier, item);
 	}
 	
 	public static Item getItem(String identifier){
@@ -154,22 +154,22 @@ public final class ItemList{
 	}
 	
 	public static void registerItems(){
-		for(Entry<String,Item> entry:ItemList.items.entrySet()){
-			GameRegistryUtil.registerItem(entry.getValue(),entry.getKey());
+		for(Entry<String, Item> entry:ItemList.items.entrySet()){
+			GameRegistryUtil.registerItem(entry.getValue(), entry.getKey());
 		}
 		
 		ModCreativeTab.tabMain.list.add(
-			ethereum,ancient_dust,alteration_nexus,energy_oracle,energy_receptacle,amulet_of_recovery,spatial_dash_gem,
-			essence,enhanced_brewing_stand,
-			end_powder,endium_ingot,stardust,igneous_rock,instability_orb,potion_of_instability,
-			blank_gem,transference_gem,
-			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,
-			ghost_amulet,ectoplasm,spectral_tear,living_matter,curse,potion_of_purity,curse_amulet,
-			infernium,scorching_pickaxe,arcane_shard,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,
-			BlockList.enderman_head,bucket_ender_goo,knowledge_note,
-			// TODO SANCTUARY sacred_wand,sacred_wand_cores,
-			exp_bottle,music_disk,portal_token,spawn_eggs,
-			Blocks.end_portal,BlockList.void_portal
+			ethereum, ancient_dust, alteration_nexus, energy_oracle, energy_receptacle, amulet_of_recovery, spatial_dash_gem,
+			essence, enhanced_brewing_stand,
+			end_powder, endium_ingot, stardust, igneous_rock, instability_orb, potion_of_instability,
+			blank_gem, transference_gem,
+			silverfish_blood, dry_splinter, infestation_remedy, charm_pouch, rune,
+			ghost_amulet, ectoplasm, spectral_tear, living_matter, curse, potion_of_purity, curse_amulet,
+			infernium, scorching_pickaxe, arcane_shard, obsidian_fragment, obsidian_rod, auricion, energy_wand_core,
+			BlockList.enderman_head, bucket_ender_goo, knowledge_note,
+			// TODO SANCTUARY sacred_wand, sacred_wand_cores,
+			exp_bottle, music_disk, portal_token, spawn_eggs,
+			Blocks.end_portal, BlockList.void_portal
 		);
 		
 		ModCreativeTab.tabCharms.list.add(

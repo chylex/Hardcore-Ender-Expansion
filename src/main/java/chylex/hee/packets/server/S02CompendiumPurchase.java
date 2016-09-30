@@ -31,8 +31,8 @@ public class S02CompendiumPurchase extends AbstractServerPacket{
 	@Override
 	protected void handle(EntityPlayerMP player){
 		KnowledgeFragment fragment = KnowledgeFragment.fromID(id);
-		if (fragment != null && CompendiumEvents.getPlayerData(player).tryPurchaseFragment(player,fragment))return; // C19CompendiumData also restores the state
+		if (fragment != null && CompendiumEvents.getPlayerData(player).tryPurchaseFragment(player, fragment))return; // C19CompendiumData also restores the state
 		
-		if (!MinecraftServer.getServer().isDedicatedServer())PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.RESTORE_COMPENDIUM_PAUSE));
+		if (!MinecraftServer.getServer().isDedicatedServer())PacketPipeline.sendToPlayer(player, new C09SimpleEvent(EventType.RESTORE_COMPENDIUM_PAUSE));
 	}
 }

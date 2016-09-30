@@ -8,9 +8,9 @@ import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionsInfestedForest.InteractionCollapsingTrees;
 
 public class IslandBiomeInfestedForest extends IslandBiomeBase{
-	public static final BiomeContentVariation DEEP = new BiomeContentVariation(0,8);
-	public static final BiomeContentVariation RAVAGED = new BiomeContentVariation(3,6);
-	public static final BiomeContentVariation RUINS = new BiomeContentVariation(4,3);
+	public static final BiomeContentVariation DEEP = new BiomeContentVariation(0, 8);
+	public static final BiomeContentVariation RAVAGED = new BiomeContentVariation(3, 6);
+	public static final BiomeContentVariation RUINS = new BiomeContentVariation(4, 3);
 	
 	public static final BiomeRandomDeviation TALL_TREES = new BiomeRandomDeviation("TallTrees", DEEP, RAVAGED);
 	public static final BiomeRandomDeviation MORE_THORNY_BUSHES = new BiomeRandomDeviation("ThornyBushes", DEEP);
@@ -27,12 +27,12 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 		randomDeviations.add(MORE_THORNY_BUSHES);
 		
 		/*getSpawnEntries(DEEP).add(new SpawnEntry[]{
-			new SpawnEntry(EntitySilverfish.class,35,35),
-			new SpawnEntry(EntityMobInfestedBat.class,8,10)
+			new SpawnEntry(EntitySilverfish.class, 35, 35),
+			new SpawnEntry(EntityMobInfestedBat.class, 8, 10)
 		});*/
 		
 		getInteractions(DEEP).addAll(new BiomeInteraction[]{
-			new BiomeInteraction("IF_Deep_CollapsingTrees",InteractionCollapsingTrees.class,40,2)
+			new BiomeInteraction("IF_Deep_CollapsingTrees", InteractionCollapsingTrees.class, 40, 2)
 		});
 	}
 	

@@ -79,7 +79,7 @@ public class HardcoreEnderExpansion{
 		configPath = e.getSuggestedConfigurationFile().getParentFile().getName();
 		sourceFile = e.getSourceFile();
 		
-		e.getModMetadata().description = e.getModMetadata().description.replace('$','\u00a7');
+		e.getModMetadata().description = e.getModMetadata().description.replace('$', '\u00a7');
 		
 		ReflectionPublicizer.load();
 		Log.initializeDebug();
@@ -144,7 +144,7 @@ public class HardcoreEnderExpansion{
 		Stopwatch.time("InitEvent");
 		
 		PacketPipeline.initializePipeline();
-		NetworkRegistry.INSTANCE.registerGuiHandler(this,GuiHandler.instance);
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, GuiHandler.instance);
 		RecipeList.addRecipes();
 		EnhancementRegistry.init();
 		// TODO WorldLoot.registerWorldLoot();
@@ -175,7 +175,7 @@ public class HardcoreEnderExpansion{
 			HeeIMC.runLoadComplete();
 		}
 		catch(Throwable t){
-			FMLCommonHandler.instance().raiseException(t,"Error running LoadComplete event in Hardcore Ender Expansion!",true);
+			FMLCommonHandler.instance().raiseException(t, "Error running LoadComplete event in Hardcore Ender Expansion!", true);
 		}
 		
 		Stopwatch.finish("LoadCompleteEvent");
@@ -205,7 +205,7 @@ public class HardcoreEnderExpansion{
 	}
 	
 	@NetworkCheckHandler
-	public boolean onNetworkCheck(Map<String,String> mods, Side side){
-		return mods.getOrDefault("HardcoreEnderExpansion","").equals(modVersion);
+	public boolean onNetworkCheck(Map<String, String> mods, Side side){
+		return mods.getOrDefault("HardcoreEnderExpansion", "").equals(modVersion);
 	}
 }

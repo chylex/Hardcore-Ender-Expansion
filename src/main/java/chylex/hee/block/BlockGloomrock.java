@@ -35,7 +35,7 @@ public class BlockGloomrock extends BlockAbstractSubtypes{
 	
 	@Override
 	public float getBlockHardness(World world, int x, int y, int z){
-		return Pos.at(x,y,z).getMetadata(world) == State.PLAIN.value ? blockHardness*0.5F : blockHardness;
+		return Pos.at(x, y, z).getMetadata(world) == State.PLAIN.value ? blockHardness*0.5F : blockHardness;
 	}
 
 	@Override

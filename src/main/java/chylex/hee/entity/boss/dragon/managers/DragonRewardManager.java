@@ -30,7 +30,7 @@ public class DragonRewardManager{
 	}
 	
 	public void addHandicap(float v, boolean playerAffect){
-		if (playerAffect)extraHandicap += v/Math.max(1F,dragon.worldObj.playerEntities.size()/1.5F);
+		if (playerAffect)extraHandicap += v/Math.max(1F, dragon.worldObj.playerEntities.size()/1.5F);
 		else extraHandicap += v;
 	}
 	
@@ -58,7 +58,7 @@ public class DragonRewardManager{
 						default: v = 4F;
 					}
 					
-					addHandicap(v,true);
+					addHandicap(v, true);
 					deadPlayers.add(p.getPersistentID());
 				}
 				else if (!p.isDead && wasDead)deadPlayers.remove(p.getPersistentID());
@@ -89,19 +89,19 @@ public class DragonRewardManager{
 	}
 	
 	public void spawnEssence(World world, int x, int z){
-		float len = Math.min(44F,(float)(Math.abs(world.rand.nextGaussian())*24D));
+		float len = Math.min(44F, (float)(Math.abs(world.rand.nextGaussian())*24D));
 		double ang = world.rand.nextDouble()*Math.PI*2D;
 		double fx = x+Math.cos(ang)*len,
 		 	   fz = z+Math.sin(ang)*len;
-		EntityItem item = new EntityItem(world,fx+world.rand.nextDouble()-0.5D,128,fz+world.rand.nextDouble()-0.5D,new ItemStack(ItemList.essence,getEssencePerTick(),0));
+		EntityItem item = new EntityItem(world, fx+world.rand.nextDouble()-0.5D, 128, fz+world.rand.nextDouble()-0.5D, new ItemStack(ItemList.essence, getEssencePerTick(), 0));
 		item.delayBeforeCanPickup = 10;
 		world.spawnEntityInWorld(item);
 	}
 	
 	public NBTTagCompound writeToNBT(){
 		NBTTagCompound tag = new NBTTagCompound();
-		tag.setFloat("ehc",extraHandicap);
-		for(int a = 0; a < difficultyTimer.length; a++)tag.setInteger("dt"+a,difficultyTimer[a]);
+		tag.setFloat("ehc", extraHandicap);
+		for(int a = 0; a < difficultyTimer.length; a++)tag.setInteger("dt"+a, difficultyTimer[a]);
 		return tag;
 	}
 

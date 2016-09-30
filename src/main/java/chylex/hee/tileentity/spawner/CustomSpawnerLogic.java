@@ -39,7 +39,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	
 	@Override
 	public boolean isActivated(){
-		return getSpawnerWorld().getClosestPlayer(getSpawnerX()+0.5D,getSpawnerY()+0.5D,getSpawnerZ()+0.5D,activatingRangeFromPlayer) != null;
+		return getSpawnerWorld().getClosestPlayer(getSpawnerX()+0.5D, getSpawnerY()+0.5D, getSpawnerZ()+0.5D, activatingRangeFromPlayer) != null;
 	}
 	
 	protected void resetTimer(){
@@ -49,7 +49,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	}
 	
 	protected AxisAlignedBB getSpawnerCheckBB(){
-		return AxisAlignedBB.getBoundingBox(getSpawnerX(),getSpawnerY(),getSpawnerZ(),getSpawnerX()+1,getSpawnerY()+1,getSpawnerZ()+1).expand(spawnRange*2D,4D,spawnRange*2D);
+		return AxisAlignedBB.getBoundingBox(getSpawnerX(), getSpawnerY(), getSpawnerZ(), getSpawnerX()+1, getSpawnerY()+1, getSpawnerZ()+1).expand(spawnRange*2D, 4D, spawnRange*2D);
 	}
 	
 	protected boolean checkSpawnerConditions(){
@@ -68,7 +68,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 
 	@Override
 	public final void func_98267_a(int i){
-		spawnerTile.getWorldObj().addBlockEvent(spawnerTile.xCoord,spawnerTile.yCoord,spawnerTile.zCoord,Blocks.mob_spawner,i,0);
+		spawnerTile.getWorldObj().addBlockEvent(spawnerTile.xCoord, spawnerTile.yCoord, spawnerTile.zCoord, Blocks.mob_spawner, i, 0);
 	}
 
 	@Override
@@ -78,8 +78,8 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 		World world = getSpawnerWorld();
 		
 		if (world.isRemote){
-			FXHelper.create("smoke").pos(getSpawnerX(),getSpawnerY(),getSpawnerZ()).spawn(world.rand,1);
-			FXHelper.create("flame").pos(getSpawnerX(),getSpawnerY(),getSpawnerZ()).spawn(world.rand,1);
+			FXHelper.create("smoke").pos(getSpawnerX(), getSpawnerY(), getSpawnerZ()).spawn(world.rand, 1);
+			FXHelper.create("flame").pos(getSpawnerX(), getSpawnerY(), getSpawnerZ()).spawn(world.rand, 1);
 
 			if (spawnDelay > 0)--spawnDelay;
 
@@ -100,7 +100,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 				EntityLiving entity = createMob(getSpawnerWorld());
 				if (entity == null)return;
 
-				int nearby = getSpawnerWorld().getEntitiesWithinAABB(entity.getClass(),getSpawnerCheckBB()).size();
+				int nearby = getSpawnerWorld().getEntitiesWithinAABB(entity.getClass(), getSpawnerCheckBB()).size();
 
 				if (nearby >= maxNearbyEntities || !checkSpawnerConditions()){
 					resetTimer();
@@ -110,11 +110,11 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 				double posX = getSpawnerX()+(world.rand.nextDouble()-world.rand.nextDouble())*spawnRange;
 				double posY = getSpawnerY()+getSpawnerWorld().rand.nextInt(3)-1;
 				double posZ = getSpawnerZ()+(world.rand.nextDouble()-world.rand.nextDouble())*spawnRange;
-				entity.setLocationAndAngles(posX,posY,posZ,getSpawnerWorld().rand.nextFloat()*360F,0F);
+				entity.setLocationAndAngles(posX, posY, posZ, getSpawnerWorld().rand.nextFloat()*360F, 0F);
 
 				if (canMobSpawn(entity)){
 					func_98265_a(entity); // OBFUSCATED spawn entity
-					getSpawnerWorld().playAuxSFX(2004,getSpawnerX(),getSpawnerY(),getSpawnerZ(),0);
+					getSpawnerWorld().playAuxSFX(2004, getSpawnerX(), getSpawnerY(), getSpawnerZ(), 0);
 					entity.spawnExplosionParticle();
 					
 					onMobSpawned(entity);

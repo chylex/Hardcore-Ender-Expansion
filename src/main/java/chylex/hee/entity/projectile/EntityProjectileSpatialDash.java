@@ -40,13 +40,13 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 	}
 
 	public EntityProjectileSpatialDash(World world, EntityLivingBase thrower, EnhancementList<SpatialDashGemEnhancements> enhancements){
-		super(world,thrower);
+		super(world, thrower);
 		this.enhancements = enhancements;
 		this.startPos = Pos.at(this);
 		
 		double speed = 1.5D+2D*enhancements.get(SpatialDashGemEnhancements.SPEED);
 		
-		Vec motionVec = Vec.xyz(motionX,motionY,motionZ).normalized().multiplied(speed);
+		Vec motionVec = Vec.xyz(motionX, motionY, motionZ).normalized().multiplied(speed);
 		this.motionX = motionVec.x;
 		this.motionY = motionVec.y;
 		this.motionZ = motionVec.z;
@@ -54,13 +54,13 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 
 	@SideOnly(Side.CLIENT)
 	public EntityProjectileSpatialDash(World world, double x, double y, double z){
-		super(world,x,y,z);
+		super(world, x, y, z);
 		this.enhancements = new EnhancementList<>(SpatialDashGemEnhancements.class);
 	}
 	
 	@Override
 	public void setThrowableHeading(double motionX, double motionY, double motionZ, float ing, float randomMp){
-		super.setThrowableHeading(motionX,motionY,motionZ,ing,0F);
+		super.setThrowableHeading(motionX, motionY, motionZ, ing, 0F);
 	}
 	
 	@Override
@@ -80,17 +80,17 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 					break;
 				}
 				
-				Vec3 vecPos = Vec3.createVectorHelper(posX,posY,posZ);
-				Vec3 vecPosWithMotion = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
+				Vec3 vecPos = Vec3.createVectorHelper(posX, posY, posZ);
+				Vec3 vecPosWithMotion = Vec3.createVectorHelper(posX+motionX, posY+motionY, posZ+motionZ);
 				
-				MovingObjectPosition mop = worldObj.rayTraceBlocks(vecPos.addVector(0D,0D,0D),vecPosWithMotion.addVector(0D,0D,0D));
-				Vec3 hitVec = Optional.ofNullable(mop).map(mopTest -> mopTest.hitVec).orElse(vecPosWithMotion).addVector(0D,0D,0D);
+				MovingObjectPosition mop = worldObj.rayTraceBlocks(vecPos.addVector(0D, 0D, 0D), vecPosWithMotion.addVector(0D, 0D, 0D));
+				Vec3 hitVec = Optional.ofNullable(mop).map(mopTest -> mopTest.hitVec).orElse(vecPosWithMotion).addVector(0D, 0D, 0D);
 				
-				List<Entity> collisionList = worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.addCoord(motionX,motionY,motionZ).expand(1D,1D,1D));
+				List<Entity> collisionList = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1D, 1D, 1D));
 				
 				mop = collisionList.stream()
 				.filter(e -> e.canBeCollidedWith() && (e != getThrower() || ticksExisted >= 5))
-				.map(e -> Pair.of(e,Optional.ofNullable(e.boundingBox.expand(0.3F,0.3F,0.3F).calculateIntercept(vecPos,hitVec)).map(mopTest -> vecPos.distanceTo(mopTest.hitVec)).orElse(Double.MAX_VALUE)))
+				.map(e -> Pair.of(e, Optional.ofNullable(e.boundingBox.expand(0.3F, 0.3F, 0.3F).calculateIntercept(vecPos, hitVec)).map(mopTest -> vecPos.distanceTo(mopTest.hitVec)).orElse(Double.MAX_VALUE)))
 				.min((p1, p2) -> p1.getValue().compareTo(p2.getValue())) // returns closest entity
 				.map(pair -> new MovingObjectPosition(pair.getKey()))
 				.orElse(mop);
@@ -100,12 +100,12 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 					break;
 				}
 				
-				setPosition(posX+motionX,posY+motionY,posZ+motionZ);
+				setPosition(posX+motionX, posY+motionY, posZ+motionZ);
 				
 				if (instant)++ticksExisted;
 			}
 			
-			PacketPipeline.sendToAllAround(this,164D,new C22EffectLine(FXType.Line.SPATIAL_DASH_MOVE,lastTickPosX,lastTickPosY,lastTickPosZ,posX,posY,posZ));
+			PacketPipeline.sendToAllAround(this, 164D, new C22EffectLine(FXType.Line.SPATIAL_DASH_MOVE, lastTickPosX, lastTickPosY, lastTickPosZ, posX, posY, posZ));
 		}
 	}
 
@@ -115,41 +115,41 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 			if (getThrower() instanceof EntityPlayerMP){
 				EntityPlayerMP player = (EntityPlayerMP)getThrower();
 				
-				PacketPipeline.sendToAllAround(player,64D,new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM,player));
+				PacketPipeline.sendToAllAround(player, 64D, new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM, player));
 
 				if (player.playerNetServerHandler.func_147362_b().isChannelOpen() && player.worldObj == worldObj){ // OBFUSCATED get network manager
 					if (player.isRiding())player.mountEntity(null);
 					boolean tryAchievement = player.posY <= 0D;
 					
 					Vec3 hitVec = mop.hitVec;
-					Vec3 normalizedMotion = Vec3.createVectorHelper(motionX,motionY,motionZ).normalize();
+					Vec3 normalizedMotion = Vec3.createVectorHelper(motionX, motionY, motionZ).normalize();
 					
-					if (mop.typeOfHit == MovingObjectType.BLOCK)hitVec = hitVec.addVector(normalizedMotion.xCoord*1.41D,normalizedMotion.yCoord*1.41D,normalizedMotion.zCoord*1.41D);
-					else if (mop.typeOfHit == MovingObjectType.ENTITY)hitVec = hitVec.addVector(-normalizedMotion.xCoord*2.82D,-normalizedMotion.yCoord*2.82D,-normalizedMotion.zCoord*2.82D);
+					if (mop.typeOfHit == MovingObjectType.BLOCK)hitVec = hitVec.addVector(normalizedMotion.xCoord*1.41D, normalizedMotion.yCoord*1.41D, normalizedMotion.zCoord*1.41D);
+					else if (mop.typeOfHit == MovingObjectType.ENTITY)hitVec = hitVec.addVector(-normalizedMotion.xCoord*2.82D, -normalizedMotion.yCoord*2.82D, -normalizedMotion.zCoord*2.82D);
 					
-					Map<Pos,Double> available = new HashMap<>(10);
+					Map<Pos, Double> available = new HashMap<>(10);
 					Pos hitPos = Pos.at(hitVec);
 					
-					Pos.forEachBlock(hitPos.offset(-1,-2,-1),hitPos.offset(1,2,1),pos -> {
+					Pos.forEachBlock(hitPos.offset(-1, -2, -1), hitPos.offset(1, 2, 1), pos -> {
 						if (pos.getMaterial(worldObj).blocksMovement() &&
 							!pos.offset(Facing6.UP_POSY).getBlock(worldObj).isNormalCube() &&
-							!pos.offset(Facing6.UP_POSY,2).getBlock(worldObj).isNormalCube()){
-							available.put(pos.immutable(),pos.distance(hitPos));
+							!pos.offset(Facing6.UP_POSY, 2).getBlock(worldObj).isNormalCube()){
+							available.put(pos.immutable(), pos.distance(hitPos));
 						}
 					});
 					
-					if (available.isEmpty())player.setPositionAndUpdate(hitVec.xCoord,hitVec.yCoord,hitVec.zCoord);
+					if (available.isEmpty())player.setPositionAndUpdate(hitVec.xCoord, hitVec.yCoord, hitVec.zCoord);
 					else{
 						double minDistance = available.values().stream().mapToDouble(dist -> dist).min().getAsDouble();
-						Pos[] closest = available.entrySet().stream().filter(entry -> MathUtil.floatEquals(entry.getValue().floatValue(),(float)minDistance)).map(entry -> entry.getKey()).toArray(Pos[]::new);
+						Pos[] closest = available.entrySet().stream().filter(entry -> MathUtil.floatEquals(entry.getValue().floatValue(), (float)minDistance)).map(entry -> entry.getKey()).toArray(Pos[]::new);
 						
-						Pos selected = RandUtil.anyOf(rand,closest);
-						player.setPositionAndUpdate(selected.getX()+0.5D,selected.getY()+1.001D,selected.getZ()+0.5D);
+						Pos selected = RandUtil.anyOf(rand, closest);
+						player.setPositionAndUpdate(selected.getX()+0.5D, selected.getY()+1.001D, selected.getZ()+0.5D);
 					}
 					
 					player.fallDistance = 0F;
-					if (tryAchievement && !player.isEntityInsideOpaqueBlock())player.addStat(AchievementManager.TP_NEAR_VOID,1);
-					PacketPipeline.sendToAllAround(player,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,player));
+					if (tryAchievement && !player.isEntityInsideOpaqueBlock())player.addStat(AchievementManager.TP_NEAR_VOID, 1);
+					PacketPipeline.sendToAllAround(player, 64D, new C20Effect(FXType.Basic.GEM_TELEPORT_TO, player));
 				}
 			}
 
@@ -169,8 +169,8 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setLong("startPos",startPos.toLong());
-		nbt.setString("enhancements2",enhancements.serialize());
+		nbt.setLong("startPos", startPos.toLong());
+		nbt.setString("enhancements2", enhancements.serialize());
 		nbt.removeTag("inTile");
 		nbt.removeTag("shake");
 	}

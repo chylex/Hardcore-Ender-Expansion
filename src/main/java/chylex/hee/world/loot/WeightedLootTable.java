@@ -19,8 +19,8 @@ public class WeightedLootTable extends LootTable<WeightedLootItem>{
 	}
 	
 	public ItemStack generateWeighted(Object obj, Random rand){
-		ItemStack is = weightList.getRandomItem(rand).generate(obj,rand);
-		for(IItemPostProcessor processor:postProcessors)is = processor.processItem(is,rand);
+		ItemStack is = weightList.getRandomItem(rand).generate(obj, rand);
+		for(IItemPostProcessor processor:postProcessors)is = processor.processItem(is, rand);
 		return is;
 	}
 	
@@ -60,7 +60,7 @@ public class WeightedLootTable extends LootTable<WeightedLootItem>{
 		}
 		
 		public WeightedLootItem setAmount(final int minAmount, final int maxAmount, final RandomAmount generator){
-			this.amount = (obj, rand) -> generator.generate(rand,minAmount,maxAmount);
+			this.amount = (obj, rand) -> generator.generate(rand, minAmount, maxAmount);
 			return this;
 		}
 		
@@ -81,7 +81,7 @@ public class WeightedLootTable extends LootTable<WeightedLootItem>{
 		
 		@Override
 		public ItemStack generate(Object obj, Random rand){
-			return new ItemStack(item,amount == null ? 1 : amount.getAmount(obj,rand),damage == null ? 0 : damage.getDamage(obj,rand));
+			return new ItemStack(item, amount == null ? 1 : amount.getAmount(obj, rand), damage == null ? 0 : damage.getDamage(obj, rand));
 		}
 	}
 }

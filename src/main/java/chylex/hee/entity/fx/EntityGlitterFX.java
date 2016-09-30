@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class EntityGlitterFX extends EntityFX{
 	public EntityGlitterFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float red, float green, float blue){
-		super(world,x,y,z);
+		super(world, x, y, z);
 		this.particleRed = red;
 		this.particleGreen = green;
 		this.particleBlue = blue;

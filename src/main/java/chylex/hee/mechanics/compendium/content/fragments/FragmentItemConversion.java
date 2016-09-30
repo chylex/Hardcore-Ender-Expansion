@@ -45,21 +45,21 @@ public class FragmentItemConversion extends KnowledgeFragment<FragmentItemConver
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragments);
-		gui.drawTexturedModalRect(x+20,y,0,59,22,20);
+		gui.drawTexturedModalRect(x+20, y, 0, 59, 22, 20);
 		
-		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),isUnlocked ? itemFrom : FragmentCrafting.lockedItem,x+1,y+1);
-		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),isUnlocked ? itemTo : FragmentCrafting.lockedItem,x+45,y+1);
+		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(), isUnlocked ? itemFrom : FragmentCrafting.lockedItem, x+1, y+1);
+		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(), isUnlocked ? itemTo : FragmentCrafting.lockedItem, x+45, y+1);
 		
 		RenderHelper.disableStandardItemLighting();
 		
 		if (isUnlocked && mouseY >= y && mouseY <= y+17){
 			if (mouseX >= x && mouseX <= x+17){
-				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,KnowledgeUtils.getCompendiumTooltipClient(itemFrom));
+				GuiItemRenderHelper.setupTooltip(mouseX, mouseY, KnowledgeUtils.getCompendiumTooltipClient(itemFrom));
 			}
 			else if (mouseX >= x+44 && mouseX <= x+61){
-				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,KnowledgeUtils.getCompendiumTooltipClient(itemTo));
+				GuiItemRenderHelper.setupTooltip(mouseX, mouseY, KnowledgeUtils.getCompendiumTooltipClient(itemTo));
 			}
 		}
 	}

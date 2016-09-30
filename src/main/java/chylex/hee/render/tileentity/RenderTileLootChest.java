@@ -22,19 +22,19 @@ public class RenderTileLootChest extends TileEntitySpecialRenderer{
 		bindTexture(texture);
 		GL.pushMatrix();
 		GL.enableRescaleNormal();
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 		
-		GL.translate(x,y+1D,z+1D);
-		GL.scale(1F,-1F,-1F);
-		GL.translate(0.5F,0.5F,0.5F);
-		GL.rotate(meta == 2 ? 180 : meta == 4 ? 90 : meta == 5 ? -90 : 0,0F,1F,0F);
-		GL.translate(-0.5F,-0.5F,-0.5F);
+		GL.translate(x, y+1D, z+1D);
+		GL.scale(1F, -1F, -1F);
+		GL.translate(0.5F, 0.5F, 0.5F);
+		GL.rotate(meta == 2 ? 180 : meta == 4 ? 90 : meta == 5 ? -90 : 0, 0F, 1F, 0F);
+		GL.translate(-0.5F, -0.5F, -0.5F);
 		
-		model.chestLid.rotateAngleX = Math.min(0F,-((1F-(float)Math.pow(1F-chest.lidAnim+(chest.prevLidAnim-chest.lidAnim)*partialTickTime,3))*MathUtil.HALF_PI));
+		model.chestLid.rotateAngleX = Math.min(0F, -((1F-(float)Math.pow(1F-chest.lidAnim+(chest.prevLidAnim-chest.lidAnim)*partialTickTime, 3))*MathUtil.HALF_PI));
 		model.renderAll();
 		
 		GL.disableRescaleNormal();
 		GL.popMatrix();
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 	}
 }

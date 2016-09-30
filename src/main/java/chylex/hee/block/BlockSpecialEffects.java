@@ -30,8 +30,8 @@ public class BlockSpecialEffects extends Block implements IBlockSubtypes{
 	
 	@Override
 	public IIcon getIcon(int side, int meta){
-		if (meta == metaBiomeIslandIcon)return BlockList.end_terrain.getIcon(side,side>>1);
-		return CollectionUtil.getClamp(iconArray,meta-metaTestOffset);
+		if (meta == metaBiomeIslandIcon)return BlockList.end_terrain.getIcon(side, side>>1);
+		return CollectionUtil.getClamp(iconArray, meta-metaTestOffset);
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class BlockSpecialEffects extends Block implements IBlockSubtypes{
 	
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 0; a < textures.length; a++)list.add(new ItemStack(item,1,a+metaTestOffset));
+		for(int a = 0; a < textures.length; a++)list.add(new ItemStack(item, 1, a+metaTestOffset));
 	}
 	
 	@Override

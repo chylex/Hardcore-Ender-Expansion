@@ -29,15 +29,15 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	
 	static{
 		teleportAround.setLocationSelector(
-			ITeleportXZ.inSquare(15D),
-			ITeleportY.findSolidBottom((entity, startPos, rand) -> MathUtil.floor(entity.posY)+7,14)
+			ITeleportXZ.inSquare(15D), 
+			ITeleportY.findSolidBottom((entity, startPos, rand) -> MathUtil.floor(entity.posY)+7, 14)
 		);
 		
 		teleportAround.setAttempts(15);
 		teleportAround.addLocationPredicate(ITeleportPredicate.noCollision);
-		teleportAround.addLocationPredicate((entity, startPos, rand) -> MathUtil.distance(entity.posX-entity.lastSource.posX,entity.posZ-entity.lastSource.posZ) > entity.lastSourceDist*4D);
+		teleportAround.addLocationPredicate((entity, startPos, rand) -> MathUtil.distance(entity.posX-entity.lastSource.posX, entity.posZ-entity.lastSource.posZ) > entity.lastSourceDist*4D);
 		teleportAround.addLocationPredicate((entity, startPos, rand) -> entity.canEntityBeSeen(entity.lastSource));
-		// TODO PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,tmpPos.x+0.5D,tmpPos.y,tmpPos.z+0.5D));
+		// TODO PacketPipeline.sendToAllAround(this, 64D, new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT, posX, posY, posZ, tmpPos.x+0.5D, tmpPos.y, tmpPos.z+0.5D));
 	}
 	
 	private short lastAttacked;
@@ -46,29 +46,29 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	
 	public EntityMobEndermage(World world){
 		super(world);
-		setSize(0.6F,2.7F);
+		setSize(0.6F, 2.7F);
 		stepHeight = 1F;
 		
-		tasks.addTask(1,new EntityAISwimming(this));
-		tasks.addTask(4,new EntityAIRangedEnergyAttack(this,1D));
-		tasks.addTask(5,new EntityAIWander(this,0.7D));
-		tasks.addTask(6,new EntityAIWatchClosest(this,EntityPlayer.class,4F));
-		tasks.addTask(6,new EntityAILookIdle(this));
-		targetTasks.addTask(1,new EntityAIHurtByTarget(this,false));
+		tasks.addTask(1, new EntityAISwimming(this));
+		tasks.addTask(4, new EntityAIRangedEnergyAttack(this, 1D));
+		tasks.addTask(5, new EntityAIWander(this, 0.7D));
+		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 4F));
+		tasks.addTask(6, new EntityAILookIdle(this));
+		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 	}
 	
 	public EntityMobEndermage(World world, double x, double y, double z){
 		this(world);
-		setPosition(x,y,z);
+		setPosition(x, y, z);
 	}
 	
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		EntityAttributes.setValue(this,EntityAttributes.maxHealth,ModCommonProxy.opMobs ? 80D : 65D);
-		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,0.24D);
-		EntityAttributes.setValue(this,EntityAttributes.attackDamage,12D);
-		EntityAttributes.setValue(this,EntityAttributes.followRange,25D);
+		EntityAttributes.setValue(this, EntityAttributes.maxHealth, ModCommonProxy.opMobs ? 80D : 65D);
+		EntityAttributes.setValue(this, EntityAttributes.movementSpeed, 0.24D);
+		EntityAttributes.setValue(this, EntityAttributes.attackDamage, 12D);
+		EntityAttributes.setValue(this, EntityAttributes.followRange, 25D);
 	}
 	
 	@Override
@@ -84,13 +84,13 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		if (super.attackEntityFrom(source,amount)){
+		if (super.attackEntityFrom(source, amount)){
 			if ((lastAttacked == 0 || (rand.nextInt(3) != 0 && getHealth()-amount*2D <= 0D)) && source.getEntity() != null){
 				lastAttacked = (short)(130+rand.nextInt(160));
 				lastSource = source.getEntity();
-				lastSourceDist = MathUtil.distance(lastSource.posX-posX,lastSource.posZ-posZ);
+				lastSourceDist = MathUtil.distance(lastSource.posX-posX, lastSource.posZ-posZ);
 				
-				boolean result = teleportAround.teleport(this,rand);
+				boolean result = teleportAround.teleport(this, rand);
 				lastSource = null;
 				return result;
 			}
@@ -105,7 +105,7 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
-		if (recentlyHit && (rand.nextInt(3) == 0 || looting > 0) && rand.nextBoolean())dropItem(ItemList.auricion,1);
+		if (recentlyHit && (rand.nextInt(3) == 0 || looting > 0) && rand.nextBoolean())dropItem(ItemList.auricion, 1);
 	}
 	
 	@Override

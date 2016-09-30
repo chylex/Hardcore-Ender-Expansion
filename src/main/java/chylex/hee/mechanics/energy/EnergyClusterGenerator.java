@@ -7,8 +7,8 @@ public final class EnergyClusterGenerator{
 	public static final EnergyClusterGenerator
 	
 		creative = new EnergyClusterGenerator(
-			new Range(0,1000),
-			new Range(0,1000),
+			new Range(0, 1000),
+			new Range(0, 1000),
 			rand -> {
 				int health = rand.nextInt(100);
 				
@@ -20,8 +20,8 @@ public final class EnergyClusterGenerator{
 		),
 		
 		overworld = new EnergyClusterGenerator(
-			new Range(0,7),
-			new Range(8,13),
+			new Range(0, 7),
+			new Range(8, 13),
 			rand -> {
 				int chance = rand.nextInt(4);
 				return chance == 0 ? EnergyClusterHealth.HEALTHY : chance == 1 ? EnergyClusterHealth.TIRED : EnergyClusterHealth.WEAKENED;
@@ -29,8 +29,8 @@ public final class EnergyClusterGenerator{
 		),
 		
 		stronghold = new EnergyClusterGenerator(
-			new Range(4,23),
-			new Range(18,35),
+			new Range(4, 23),
+			new Range(18, 35),
 			rand -> {
 				int health = rand.nextInt(100);
 				
@@ -41,16 +41,16 @@ public final class EnergyClusterGenerator{
 		),
 		
 		energyShrine = new EnergyClusterGenerator(
-			new Range(60,150),
-			new Range(110,220),
+			new Range(60, 150),
+			new Range(110, 220),
 			rand -> EnergyClusterHealth.HEALTHY
 		);
 	
 	private final Range unitsSpawned;
 	private final Range unitsMax;
-	private final Function<Random,EnergyClusterHealth> healthGen;
+	private final Function<Random, EnergyClusterHealth> healthGen;
 	
-	EnergyClusterGenerator(Range unitsSpawned, Range unitsMax, Function<Random,EnergyClusterHealth> healthGen){
+	EnergyClusterGenerator(Range unitsSpawned, Range unitsMax, Function<Random, EnergyClusterHealth> healthGen){
 		this.unitsSpawned = unitsSpawned;
 		this.unitsMax = unitsMax;
 		this.healthGen = healthGen;
@@ -59,6 +59,6 @@ public final class EnergyClusterGenerator{
 	public EnergyClusterData generate(Random rand){
 		float max = EnergyValues.unit*(unitsMax.min+rand.nextFloat()*(unitsMax.max-unitsMax.min));
 		float current = EnergyValues.unit*(unitsSpawned.min+rand.nextFloat()*(unitsSpawned.max-unitsSpawned.min));
-		return new EnergyClusterData(Math.min(current,max),max,healthGen.apply(rand));
+		return new EnergyClusterData(Math.min(current, max), max, healthGen.apply(rand));
 	}
 }

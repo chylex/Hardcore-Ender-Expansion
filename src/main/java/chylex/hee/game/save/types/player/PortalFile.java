@@ -11,11 +11,11 @@ public class PortalFile extends PlayerFile{
 	public static final int slots = 27;
 	
 	private Pos strongholdPos;
-	private InventoryBasic inventory = new InventoryBasic("",false,slots);
+	private InventoryBasic inventory = new InventoryBasic("", false, slots);
 	private ItemStack[] prevInventory = new ItemStack[slots];
 	
 	public PortalFile(String filename){
-		super("portal",filename);
+		super("portal", filename);
 	}
 	
 	public void setStrongholdPos(Pos pos){
@@ -35,10 +35,10 @@ public class PortalFile extends PlayerFile{
 			ItemStack is1 = inventory.getStackInSlot(slot);
 			
 			if (is1 != null && ItemPortalToken.isExpired(is1)){
-				inventory.setInventorySlotContents(slot,is1 = null);
+				inventory.setInventorySlotContents(slot, is1 = null);
 			}
 			
-			if (!ItemStack.areItemStacksEqual(is1,prevInventory[slot])){
+			if (!ItemStack.areItemStacksEqual(is1, prevInventory[slot])){
 				wasModified = true;
 				prevInventory[slot] = is1 == null ? null : is1.copy();
 			}
@@ -53,14 +53,14 @@ public class PortalFile extends PlayerFile{
 
 	@Override
 	protected void onSave(NBTCompound nbt){
-		if (strongholdPos != null)nbt.setLong("stronghold",strongholdPos.toLong());
-		nbt.writeInventory("inv",inventory);
+		if (strongholdPos != null)nbt.setLong("stronghold", strongholdPos.toLong());
+		nbt.writeInventory("inv", inventory);
 	}
 
 	@Override
 	protected void onLoad(NBTCompound nbt){
 		strongholdPos = nbt.hasKey("stronghold") ? Pos.at(nbt.getLong("stronghold")) : null;
-		nbt.readInventory("inv",inventory);
+		nbt.readInventory("inv", inventory);
 		wasModified();
 	}
 }

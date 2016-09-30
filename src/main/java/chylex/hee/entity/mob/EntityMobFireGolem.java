@@ -28,14 +28,14 @@ import chylex.hee.system.util.MathUtil;
 public class EntityMobFireGolem extends EntityMob{
 	private enum Data{ FLAME_PARTICLES }
 	
-	private static final AttributeModifier stopMovingModifier = EntityAttributes.createModifier("Cancel movement",Operation.MULTIPLY,0D);
+	private static final AttributeModifier stopMovingModifier = EntityAttributes.createModifier("Cancel movement", Operation.MULTIPLY, 0D);
 	
 	private EntityDataWatcher entityData;
 	private byte rangedStatus = -1, teleportCooldown = 0;
 	
 	public EntityMobFireGolem(World world){
 		super(world);
-		setSize(0.9F,1.4F);
+		setSize(0.9F, 1.4F);
 		isImmuneToFire = true;
 		experienceValue = 8;
 	}
@@ -50,14 +50,14 @@ public class EntityMobFireGolem extends EntityMob{
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		EntityAttributes.setValue(this,EntityAttributes.maxHealth,ModCommonProxy.opMobs ? 42D : 24D);
-		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,0.55D);
-		EntityAttributes.setValue(this,EntityAttributes.attackDamage,ModCommonProxy.opMobs ? 4D : 2D);
+		EntityAttributes.setValue(this, EntityAttributes.maxHealth, ModCommonProxy.opMobs ? 42D : 24D);
+		EntityAttributes.setValue(this, EntityAttributes.movementSpeed, 0.55D);
+		EntityAttributes.setValue(this, EntityAttributes.attackDamage, ModCommonProxy.opMobs ? 4D : 2D);
 	}
 	
 	@Override
 	protected Entity findPlayerToAttack(){
-		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this,28D);
+		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this, 28D);
 		return player != null && canEntityBeSeen(player) ? player : null;
 	}
 
@@ -74,22 +74,22 @@ public class EntityMobFireGolem extends EntityMob{
 				double xx = posX+look.xCoord*0.62D, zz = posZ+look.zCoord*0.62D;
 				int amt = rand.nextInt(2+flameParticleAmount);
 				
-				for(int a = 0; a < amt; a++)HardcoreEnderExpansion.fx.flame(xx+(rand.nextDouble()-0.5D)*0.2D,posY+0.8D+rand.nextDouble()*0.1D,zz+(rand.nextDouble()-0.5D)*0.2D,4);
+				for(int a = 0; a < amt; a++)HardcoreEnderExpansion.fx.flame(xx+(rand.nextDouble()-0.5D)*0.2D, posY+0.8D+rand.nextDouble()*0.1D, zz+(rand.nextDouble()-0.5D)*0.2D, 4);
 			}
 		}
 		else{
-			EntityAttributes.removeModifier(this,EntityAttributes.movementSpeed,stopMovingModifier);
+			EntityAttributes.removeModifier(this, EntityAttributes.movementSpeed, stopMovingModifier);
 			
 			if (teleportCooldown > 0)--teleportCooldown;
 			
 			if (entityToAttack != null){
-				double dist = MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ);
+				double dist = MathUtil.distance(posX-entityToAttack.posX, posZ-entityToAttack.posZ);
 				
 				if (rangedStatus == -1 && dist > 4D && dist < 10D && canEntityBeSeen(entityToAttack)){
 					rangedStatus = 0;
 				}
 				else if (rangedStatus >= 0){
-					EntityAttributes.applyModifier(this,EntityAttributes.movementSpeed,stopMovingModifier);
+					EntityAttributes.applyModifier(this, EntityAttributes.movementSpeed, stopMovingModifier);
 					rotationYaw = rotationYawHead;
 					
 					byte flameParticleAmountNew = (byte)(MathUtil.floor(70-rangedStatus)>>2);
@@ -100,14 +100,14 @@ public class EntityMobFireGolem extends EntityMob{
 						Vec3 look = getLookVec();
 						
 						worldObj.spawnEntityInWorld(new EntityProjectileGolemFireball(
-							worldObj,this,posX+look.xCoord*0.8D,posY+1D,posZ+look.zCoord*0.8D,
-							entityToAttack.posX-posX,entityToAttack.posY+0.2D-posY,entityToAttack.posZ-posZ)
+							worldObj, this, posX+look.xCoord*0.8D, posY+1D, posZ+look.zCoord*0.8D,
+							entityToAttack.posX-posX, entityToAttack.posY+0.2D-posY, entityToAttack.posZ-posZ)
 						);
 						
-						PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.SPAWN_FIREBALL,posX,posY,posZ,1.5F,0.85F+rand.nextFloat()*0.1F));
+						PacketPipeline.sendToAllAround(this, 64D, new C08PlaySound(C08PlaySound.SPAWN_FIREBALL, posX, posY, posZ, 1.5F, 0.85F+rand.nextFloat()*0.1F));
 					}
 					
-					if (entityData.getByte(Data.FLAME_PARTICLES) != flameParticleAmountNew)entityData.setByte(Data.FLAME_PARTICLES,flameParticleAmountNew);
+					if (entityData.getByte(Data.FLAME_PARTICLES) != flameParticleAmountNew)entityData.setByte(Data.FLAME_PARTICLES, flameParticleAmountNew);
 				}
 			}
 		}
@@ -115,11 +115,11 @@ public class EntityMobFireGolem extends EntityMob{
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity){
-		if (entity.attackEntityFrom(DamageSource.causeMobDamage(this),(float)getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue())){ // TODO
+		if (entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float)getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue())){ // TODO
 			if (rand.nextInt(5) <= 1)entity.setFire(rand.nextInt(4)+2);
 
 			if (entity instanceof EntityLivingBase){
-				EnchantmentHelper.func_151384_a((EntityLivingBase)entity,this); // OBFUSCATED handle thorns
+				EnchantmentHelper.func_151384_a((EntityLivingBase)entity, this); // OBFUSCATED handle thorns
 			}
 			
 			return true;
@@ -141,22 +141,22 @@ public class EntityMobFireGolem extends EntityMob{
 				yy = posY+rand.nextDouble()*8D-4D;
 				zz = posZ+look.zCoord*3F+rand.nextDouble()*18D-9D;
 				
-				if (Math.pow(xx-posX,2)+Math.pow(yy-posY,2)+Math.pow(zz-posZ,2) < 30)continue;
+				if (Math.pow(xx-posX, 2)+Math.pow(yy-posY, 2)+Math.pow(zz-posZ, 2) < 30)continue;
 				
-				tmpPos.set(xx,yy,zz).moveDown();
+				tmpPos.set(xx, yy, zz).moveDown();
 				
 				if (!tmpPos.isAir(worldObj) && tmpPos.moveUp().isAir(worldObj) && tmpPos.moveUp().isAir(worldObj)){
-					setPosition(xx,yy,zz);
-					if (entityToAttack != null)faceEntity(entityToAttack,360F,360F);
-					playSound("mob.endermen.portal",1F,1.1F);
+					setPosition(xx, yy, zz);
+					if (entityToAttack != null)faceEntity(entityToAttack, 360F, 360F);
+					playSound("mob.endermen.portal", 1F, 1.1F);
 					return false;
 				}
 			}*/
 		}
 		
-		if (super.attackEntityFrom(source,amount)){
+		if (super.attackEntityFrom(source, amount)){
 			if (entityToAttack instanceof IBossDisplayData)entityToAttack = null;
-			// TODO CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.25F);
+			// TODO CausatumUtils.increase(source, CausatumMeters.END_MOB_DAMAGE, amount*0.25F);
 			return true;
 		}
 		else return false;
@@ -164,8 +164,8 @@ public class EntityMobFireGolem extends EntityMob{
 	
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
-		dropItem(Items.fire_charge,rand.nextInt(2));
-		if (recentlyHit)entityDropItem(new ItemStack(ItemList.essence,rand.nextInt(4+looting)+1,EssenceType.FIERY.getItemDamage()),0F);
+		dropItem(Items.fire_charge, rand.nextInt(2));
+		if (recentlyHit)entityDropItem(new ItemStack(ItemList.essence, rand.nextInt(4+looting)+1, EssenceType.FIERY.getItemDamage()), 0F);
 	}
 	
 	@Override

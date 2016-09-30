@@ -65,7 +65,7 @@ public class NotificationCommonProxy{
 		if (MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile())){
 			deliverNotificationsToPlayer(player);
 			clearNotifications();
-			PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.CHECK_UPDATES));
+			PacketPipeline.sendToPlayer(player, new C09SimpleEvent(EventType.CHECK_UPDATES));
 		}
 	}
 }

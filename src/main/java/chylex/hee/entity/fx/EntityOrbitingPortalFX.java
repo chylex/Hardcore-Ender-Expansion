@@ -14,7 +14,7 @@ public class EntityOrbitingPortalFX extends EntityPortalFX{
 	private double orbitAngle;
 
 	public EntityOrbitingPortalFX(World world, double x, double y, double z, double motionY){
-		super(world,x,y,z,0D,motionY,0D);
+		super(world, x, y, z, 0D, motionY, 0D);
 		portalPosX = x;
 		portalPosZ = z;
 		motionX = motionZ = 0D;
@@ -30,7 +30,7 @@ public class EntityOrbitingPortalFX extends EntityPortalFX{
 		float scale = 1F-((particleAge+partialTickTime)/particleMaxAge);
 		scale *= scale;
 		particleScale = portalParticleScale*(1F-scale);
-		super.renderParticle(tessellator,partialTickTime,rotX,rotXZ,rotZ,rotYZ,rotXY);
+		super.renderParticle(tessellator, partialTickTime, rotX, rotXZ, rotZ, rotYZ, rotXY);
 	}
 
 	@Override

@@ -27,7 +27,7 @@ public class EntityBlockTokenHolder extends Entity{
 	
 	public EntityBlockTokenHolder(World world){
 		super(world);
-		setSize(0.75F,1.05F);
+		setSize(0.75F, 1.05F);
 		preventEntitySpawning = true;
 		rotation = prevRotation = rand.nextFloat()*2F*(float)Math.PI;
 	}
@@ -57,8 +57,8 @@ public class EntityBlockTokenHolder extends Entity{
 			}
 			
 			if (isRestoring && getChargeProgress() < 1F){
-				float newValue = Math.min(1F,getChargeProgress()+0.05F);
-				if (MathUtil.floatEquals(newValue,1F))isRestoring = false;
+				float newValue = Math.min(1F, getChargeProgress()+0.05F);
+				if (MathUtil.floatEquals(newValue, 1F))isRestoring = false;
 				setChargeProgress(newValue);
 			}
 		}
@@ -69,12 +69,12 @@ public class EntityBlockTokenHolder extends Entity{
 		if (isEntityInvulnerable() || !(source.getSourceOfDamage() instanceof EntityPlayer))return false; // no indirect player damage
 		
 		if (source.getSourceOfDamage().isSneaking() && ((EntityPlayer)source.getSourceOfDamage()).capabilities.isCreativeMode){
-			if (worldObj.isRemote)worldObj.playSound(posX,posY,posZ,"dig.glass",1F,rand.nextFloat()*0.1F+0.92F,false);
+			if (worldObj.isRemote)worldObj.playSound(posX, posY, posZ, "dig.glass", 1F, rand.nextFloat()*0.1F+0.92F, false);
 			setDead();
 			return true;
 		}
 		
-		if (!isDead && MathUtil.floatEquals(getChargeProgress(),1F)){
+		if (!isDead && MathUtil.floatEquals(getChargeProgress(), 1F)){
 			if (EndTerritory.fromPosition(posX) == EndTerritory.THE_HUB){
 				setChargeProgress(0F);
 				isRestoring = false;
@@ -82,14 +82,14 @@ public class EntityBlockTokenHolder extends Entity{
 			else setDead();
 			
 			if (worldObj.isRemote){
-				worldObj.playSound(posX,posY,posZ,"dig.glass",1F,rand.nextFloat()*0.1F+0.92F,false);
-				for(int a = 0; a < 20; a++)worldObj.spawnParticle("largesmoke",posX+(rand.nextDouble()-0.5D)*0.8D,posY+0.05D+rand.nextDouble()*1D,posZ+(rand.nextDouble()-0.5D)*0.8D,0D,0D,0D);
+				worldObj.playSound(posX, posY, posZ, "dig.glass", 1F, rand.nextFloat()*0.1F+0.92F, false);
+				for(int a = 0; a < 20; a++)worldObj.spawnParticle("largesmoke", posX+(rand.nextDouble()-0.5D)*0.8D, posY+0.05D+rand.nextDouble()*1D, posZ+(rand.nextDouble()-0.5D)*0.8D, 0D, 0D, 0D);
 			}
 			else{
-				EntityItem item = entityDropItem(ItemPortalToken.forTerritory(tokenTerritory,isRare(),rand),0.5F); // TODO modify random to allow predictability
+				EntityItem item = entityDropItem(ItemPortalToken.forTerritory(tokenTerritory, isRare(), rand), 0.5F); // TODO modify random to allow predictability
 				
 				if (item != null){
-					Vec target = Vec.between(item,source.getSourceOfDamage()).normalized().multiplied(0.225D);
+					Vec target = Vec.between(item, source.getSourceOfDamage()).normalized().multiplied(0.225D);
 					item.motionX = target.x+(rand.nextDouble()-0.5D)*0.1D;
 					item.motionZ = target.z+(rand.nextDouble()-0.5D)*0.1D;
 				}
@@ -104,7 +104,7 @@ public class EntityBlockTokenHolder extends Entity{
 	}
 	
 	public void setChargeProgress(float progress){
-		entityData.setFloat(Data.CHARGE_PROGRESS,progress);
+		entityData.setFloat(Data.CHARGE_PROGRESS, progress);
 		restoreTimer = 0;
 	}
 	
@@ -113,7 +113,7 @@ public class EntityBlockTokenHolder extends Entity{
 	}
 	
 	public void setRare(boolean isRare){
-		entityData.setBoolean(Data.IS_RARE,isRare);
+		entityData.setBoolean(Data.IS_RARE, isRare);
 	}
 	
 	public boolean isRare(){
@@ -124,18 +124,18 @@ public class EntityBlockTokenHolder extends Entity{
 	protected void writeEntityToNBT(NBTTagCompound nbt){
 		if (tokenTerritory == null)return;
 		
-		nbt.setFloat("charge",getChargeProgress());
-		nbt.setBoolean("isRare",isRare());
-		nbt.setByte("territory",(byte)tokenTerritory.ordinal());
-		if (restoreTimer > 0)nbt.setShort("restoreTim",restoreTimer);
-		if (isRestoring)nbt.setBoolean("isRestoring",isRestoring);
+		nbt.setFloat("charge", getChargeProgress());
+		nbt.setBoolean("isRare", isRare());
+		nbt.setByte("territory", (byte)tokenTerritory.ordinal());
+		if (restoreTimer > 0)nbt.setShort("restoreTim", restoreTimer);
+		if (isRestoring)nbt.setBoolean("isRestoring", isRestoring);
 	}
 	
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt){
 		setChargeProgress(nbt.getFloat("charge"));
 		setRare(nbt.getBoolean("isRare"));
-		tokenTerritory = CollectionUtil.get(EndTerritory.values,nbt.getByte("territory")).orElse(null);
+		tokenTerritory = CollectionUtil.get(EndTerritory.values, nbt.getByte("territory")).orElse(null);
 		restoreTimer = nbt.getShort("restoreTim");
 		isRestoring = nbt.getBoolean("isRestoring");
 		

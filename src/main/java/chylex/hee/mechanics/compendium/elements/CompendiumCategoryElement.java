@@ -17,14 +17,14 @@ public final class CompendiumCategoryElement{
 	}
 	
 	public void render(GuiScreen gui, boolean selected){
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 		RenderHelper.disableStandardItemLighting();
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
-		gui.drawTexturedModalRect(startX,startY+y,selected ? 113 : 115,selected ? 0 : 23,23,22);
+		gui.drawTexturedModalRect(startX, startY+y, selected ? 113 : 115, selected ? 0 : 23, 23, 22);
 		
 		GL.pushMatrix();
 		RenderHelper.enableGUIStandardItemLighting();
-		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),category.getDisplayItem(),startX+(selected ? 3 : 2),startY+y+3);
+		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer, gui.mc.getTextureManager(), category.getDisplayItem(), startX+(selected ? 3 : 2), startY+y+3);
 		GL.popMatrix();
 	}
 	

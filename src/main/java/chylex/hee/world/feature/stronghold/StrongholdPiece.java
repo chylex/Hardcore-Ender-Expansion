@@ -38,12 +38,12 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 	protected static final IConnectWith withAnything = type -> true;
 	
 	private static final BlockInfo[] blocksStoneBrick = new BlockInfo[]{
-		new BlockInfo(Blocks.stonebrick,Meta.stoneBrickPlain),
-		new BlockInfo(Blocks.stonebrick,Meta.stoneBrickMossy),
-		new BlockInfo(Blocks.stonebrick,Meta.stoneBrickCracked),
-		new BlockInfo(Blocks.monster_egg,Meta.silverfishPlain),
-		new BlockInfo(Blocks.monster_egg,Meta.silverfishMossy),
-		new BlockInfo(Blocks.monster_egg,Meta.silverfishCracked)
+		new BlockInfo(Blocks.stonebrick, Meta.stoneBrickPlain),
+		new BlockInfo(Blocks.stonebrick, Meta.stoneBrickMossy),
+		new BlockInfo(Blocks.stonebrick, Meta.stoneBrickCracked),
+		new BlockInfo(Blocks.monster_egg, Meta.silverfishPlain),
+		new BlockInfo(Blocks.monster_egg, Meta.silverfishMossy),
+		new BlockInfo(Blocks.monster_egg, Meta.silverfishCracked)
 	};
 	
 	protected static final IBlockPicker placeStoneBrick = rand -> {
@@ -62,37 +62,37 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 	};
 	
 	protected static final IBlockPicker placeStoneBrickPlain = blocksStoneBrick[0];
-	protected static final IBlockPicker placeStoneBrickChiseled = new BlockInfo(Blocks.stonebrick,Meta.stoneBrickChiseled);
+	protected static final IBlockPicker placeStoneBrickChiseled = new BlockInfo(Blocks.stonebrick, Meta.stoneBrickChiseled);
 	
 	protected static final IBlockPicker placeStoneBrickStairs(Facing4 ascendsTowards, boolean flip){
-		return new BlockInfo(Blocks.stone_brick_stairs,Meta.getStairs(ascendsTowards,flip));
+		return new BlockInfo(Blocks.stone_brick_stairs, Meta.getStairs(ascendsTowards, flip));
 	}
 	
 	private static final void generateLoot(WeightedLootTable lootTable, int items, int cobwebs, TileEntityChest chest, Random rand){
 		while(items-- > 0){
-			chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),lootTable.generateWeighted(null,rand));
+			chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()), lootTable.generateWeighted(null, rand));
 		}
 		
 		for(int slot; cobwebs > 0; cobwebs--){
 			slot = rand.nextInt(chest.getSizeInventory());
-			if (chest.getStackInSlot(slot) == null)chest.setInventorySlotContents(slot,new ItemStack(rand.nextInt(3) == 0 ? BlockList.ancient_web : Blocks.web));
+			if (chest.getStackInSlot(slot) == null)chest.setInventorySlotContents(slot, new ItemStack(rand.nextInt(3) == 0 ? BlockList.ancient_web : Blocks.web));
 		}
 	}
 	
 	protected static final IStructureTileEntity generateLootGeneral = (tile, rand) -> {
-		generateLoot(WorldGenStronghold.lootGeneral,RandomAmount.aroundCenter.generate(rand,3,10),rand.nextInt(7),(TileEntityChest)tile,rand);
+		generateLoot(WorldGenStronghold.lootGeneral, RandomAmount.aroundCenter.generate(rand, 3, 10), rand.nextInt(7), (TileEntityChest)tile, rand);
 	};
 	
 	protected static final IStructureTileEntity generateLootLibraryMain = (tile, rand) -> {
-		generateLoot(WorldGenStronghold.lootLibrary,RandomAmount.linear.generate(rand,9,11),2+rand.nextInt(2),(TileEntityChest)tile,rand);
+		generateLoot(WorldGenStronghold.lootLibrary, RandomAmount.linear.generate(rand, 9, 11), 2+rand.nextInt(2), (TileEntityChest)tile, rand);
 	};
 	
 	protected static final IStructureTileEntity generateLootLibrarySecondary = (tile, rand) -> {
-		generateLoot(WorldGenStronghold.lootLibrary,RandomAmount.aroundCenter.generate(rand,4,6),4+rand.nextInt(3),(TileEntityChest)tile,rand);
+		generateLoot(WorldGenStronghold.lootLibrary, RandomAmount.aroundCenter.generate(rand, 4, 6), 4+rand.nextInt(3), (TileEntityChest)tile, rand);
 	};
 	
 	public StrongholdPiece(Type type, Size size){
-		super(type,size);
+		super(type, size);
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 	 */
 	@Override
 	public final int calculateInstWeight(int availableConnections){
-		return MathUtil.ceil(Math.pow(availableConnections,getWeightFactor())*getWeightMultiplier());
+		return MathUtil.ceil(Math.pow(availableConnections, getWeightFactor())*getWeightMultiplier());
 	}
 	
 	protected float getWeightFactor(){

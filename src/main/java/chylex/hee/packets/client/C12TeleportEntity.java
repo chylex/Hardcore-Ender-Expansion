@@ -36,6 +36,6 @@ public class C12TeleportEntity extends AbstractClientPacket{
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
 		Entity entity = player.worldObj.getEntityByID(entityId);
-		if (entity != null)entity.setPosition(posX,posY,posZ);
+		if (entity != null)entity.setPosition(posX, posY, posZ);
 	}
 }

@@ -24,13 +24,13 @@ public class BlockEndPortalFrame extends BlockContainer{
 	
 	public BlockEndPortalFrame(){
 		super(Material.rock);
-		setBlockBounds(0F,0F,0F,1F,0.8125F,1F);
+		setBlockBounds(0F, 0F, 0F, 1F, 0.8125F, 1F);
 	}
 	
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighborBlock){
-		if (Pos.at(x,y,z).getMetadata(world) == Meta.endPortalFrameAcceptor){
-			Pos.at(x,y,z).castTileEntity(world,TileEntityEndPortalFrame.class).ifPresent(tile -> tile.onNeighborClusterUpdate());
+		if (Pos.at(x, y, z).getMetadata(world) == Meta.endPortalFrameAcceptor){
+			Pos.at(x, y, z).castTileEntity(world, TileEntityEndPortalFrame.class).ifPresent(tile -> tile.onNeighborClusterUpdate());
 		}
 	}
 	
@@ -46,7 +46,7 @@ public class BlockEndPortalFrame extends BlockContainer{
 	
 	@Override
 	public int getDamageValue(World world, int x, int y, int z){
-		return Pos.at(x,y,z).getMetadata(world);
+		return Pos.at(x, y, z).getMetadata(world);
 	}
 	
 	@Override
@@ -62,15 +62,15 @@ public class BlockEndPortalFrame extends BlockContainer{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return side == 0 ? Blocks.end_stone.getIcon(0,0) :
+		return side == 0 ? Blocks.end_stone.getIcon(0, 0) :
 			   side == 1 ? (meta == Meta.endPortalFrameAcceptor ? iconTopAcceptor : iconTopPlain) : blockIcon;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public final void getSubBlocks(Item item, CreativeTabs tab, List list){
-		list.add(new ItemStack(item,1,Meta.endPortalFramePlain));
-		list.add(new ItemStack(item,1,Meta.endPortalFrameAcceptor));
+		list.add(new ItemStack(item, 1, Meta.endPortalFramePlain));
+		list.add(new ItemStack(item, 1, Meta.endPortalFrameAcceptor));
 	}
 	
 	@Override

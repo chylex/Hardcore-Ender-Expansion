@@ -42,12 +42,12 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		
 		// SINGLE LAVA BLOCKS
 		for(int a = data.hasDeviation(IslandBiomeBurningMountains.SINGLE_LAVA_ONLY) ? 8000 : 6500, xx, yy, zz; a > 0; a--){
-			xx = getRandomXZ(rand,32);
-			zz = getRandomXZ(rand,32);
+			xx = getRandomXZ(rand, 32);
+			zz = getRandomXZ(rand, 32);
 			yy = 10+rand.nextInt(65);
 			
-			if (world.getBlock(xx,yy,zz) == Blocks.end_stone && (world.isAir(xx+1,yy,zz) || world.isAir(xx-1,yy,zz) || world.isAir(xx,yy,zz+1) || world.isAir(xx,yy,zz-1))){
-				world.setBlock(xx,yy,zz,Blocks.flowing_lava,0,true);
+			if (world.getBlock(xx, yy, zz) == Blocks.end_stone && (world.isAir(xx+1, yy, zz) || world.isAir(xx-1, yy, zz) || world.isAir(xx, yy, zz+1) || world.isAir(xx, yy, zz-1))){
+				world.setBlock(xx, yy, zz, Blocks.flowing_lava, 0, true);
 			}
 		}
 		
@@ -63,10 +63,10 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 			for(int cz = 0; cz < world.getChunkAmountZ(); cz++){
 				if (rand.nextInt(4) <= 1){
 					for(int a = 0; a < 1+rand.nextInt(6)+rand.nextInt(5); a++){
-						int xx = cx*16+rand.nextInt(16), zz = cz*16+rand.nextInt(16), yy = world.getHighestY(xx,zz);
+						int xx = cx*16+rand.nextInt(16), zz = cz*16+rand.nextInt(16), yy = world.getHighestY(xx, zz);
 						
-						if (world.getBlock(xx,yy,zz) == BlockList.end_terrain){
-							world.setBlock(xx,yy+1,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire);
+						if (world.getBlock(xx, yy, zz) == BlockList.end_terrain){
+							world.setBlock(xx, yy+1, zz, BlockList.crossed_decoration, BlockCrossedDecoration.dataLilyFire);
 						}
 					}
 				}
@@ -75,15 +75,15 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		
 		// FLAMEWEED
 		for(int attempt = 0, xx, yy, zz, lava; attempt < 420; attempt++){
-			xx = getRandomXZ(rand,48);
-			zz = getRandomXZ(rand,48);
+			xx = getRandomXZ(rand, 48);
+			zz = getRandomXZ(rand, 48);
 			yy = 10+rand.nextInt(65);
-			if (world.isAir(xx,yy,zz))continue;
+			if (world.isAir(xx, yy, zz))continue;
 			
 			lava = 0;
 			
 			for(int lavaCheck = 0; lavaCheck < 25 && lava < 5; lavaCheck++){
-				if (world.getBlock(xx+rand.nextInt(11)-5,yy+rand.nextInt(4),zz+rand.nextInt(11)-5).getMaterial() == Material.lava)++lava;
+				if (world.getBlock(xx+rand.nextInt(11)-5, yy+rand.nextInt(4), zz+rand.nextInt(11)-5).getMaterial() == Material.lava)++lava;
 			}
 			
 			for(int placeAttempt = 40+(7-lava)*5, px, py, pz; placeAttempt > 0; placeAttempt--){
@@ -93,8 +93,8 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 				for(int yAttempt = 0; yAttempt < 8; yAttempt++){
 					py = yy+rand.nextInt(11)-5;
 					
-					if (world.isAir(px,py,pz) && world.getBlock(px,py-1,pz) == BlockList.end_terrain){
-						world.setBlock(px,py,pz,BlockList.crossed_decoration,rand.nextInt(3) == 0 ? BlockCrossedDecoration.dataFlameweed1 : rand.nextBoolean() ? BlockCrossedDecoration.dataFlameweed2 : BlockCrossedDecoration.dataFlameweed3);
+					if (world.isAir(px, py, pz) && world.getBlock(px, py-1, pz) == BlockList.end_terrain){
+						world.setBlock(px, py, pz, BlockList.crossed_decoration, rand.nextInt(3) == 0 ? BlockCrossedDecoration.dataFlameweed1 : rand.nextBoolean() ? BlockCrossedDecoration.dataFlameweed2 : BlockCrossedDecoration.dataFlameweed3);
 						break;
 					}
 				}
@@ -117,15 +117,15 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		
 		for(int type = 0, xx, yy, zz; type < 3; type++){
 			for(int attempt = rand.nextInt(300)+750; attempt > 0; attempt--){
-				xx = getRandomXZ(rand,8);
-				zz = getRandomXZ(rand,8);
+				xx = getRandomXZ(rand, 8);
+				zz = getRandomXZ(rand, 8);
 				yy = 60-rand.nextInt(20+rand.nextInt(32));
 				
 				for(int yAttempt = 0; yAttempt < 10; yAttempt++){
 					++yy;
 					
-					if (world.isAir(xx,yy,zz) && world.getBlock(xx,yy-1,zz) == BlockList.end_terrain){
-						world.setBlock(xx,yy,zz,BlockList.crossed_decoration,flameweed[type]);
+					if (world.isAir(xx, yy, zz) && world.getBlock(xx, yy-1, zz) == BlockList.end_terrain){
+						world.setBlock(xx, yy, zz, BlockList.crossed_decoration, flameweed[type]);
 						break;
 					}
 				}
@@ -133,7 +133,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		}
 		
 		// MINING SPOT
-		genMiningSpot.regenerateOreWeightList(rand,data);
+		genMiningSpot.regenerateOreWeightList(rand, data);
 		
 		for(int attempt = 0, attemptAmount = 90+rand.nextInt(20), placed = 0; attempt < attemptAmount; attempt++){
 			if (generateStructure(genMiningSpot)){

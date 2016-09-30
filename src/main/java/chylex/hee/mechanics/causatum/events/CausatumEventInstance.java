@@ -17,15 +17,15 @@ public abstract class CausatumEventInstance{
 		
 		public final short requiredLevel;
 		private final Progress minProgress, maxProgress;
-		private final BiFunction<EventTypes,EntityPlayerMP,CausatumEventInstance> eventConstructor;
+		private final BiFunction<EventTypes, EntityPlayerMP, CausatumEventInstance> eventConstructor;
 		
-		private EventTypes(BiFunction<EventTypes,EntityPlayerMP,CausatumEventInstance> eventConstructor){
+		private EventTypes(BiFunction<EventTypes, EntityPlayerMP, CausatumEventInstance> eventConstructor){
 			this.requiredLevel = -1;
 			this.minProgress = this.maxProgress = null;
 			this.eventConstructor = eventConstructor;
 		}
 		
-		private EventTypes(int requiredLevel, Progress minProgress, Progress maxProgress, BiFunction<EventTypes,EntityPlayerMP,CausatumEventInstance> eventConstructor){
+		private EventTypes(int requiredLevel, Progress minProgress, Progress maxProgress, BiFunction<EventTypes, EntityPlayerMP, CausatumEventInstance> eventConstructor){
 			this.requiredLevel = (short)requiredLevel;
 			this.minProgress = minProgress;
 			this.maxProgress = maxProgress;
@@ -37,11 +37,11 @@ public abstract class CausatumEventInstance{
 		}
 		
 		public boolean canTrigger(Progress currentProgress, int level){
-			return (minProgress == null || maxProgress == null || new Range(minProgress.ordinal(),maxProgress.ordinal()).in(currentProgress.ordinal())) && (requiredLevel == -1 || level >= requiredLevel);
+			return (minProgress == null || maxProgress == null || new Range(minProgress.ordinal(), maxProgress.ordinal()).in(currentProgress.ordinal())) && (requiredLevel == -1 || level >= requiredLevel);
 		}
 		
 		public CausatumEventInstance createEvent(EntityPlayerMP player){
-			return eventConstructor.apply(this,player);
+			return eventConstructor.apply(this, player);
 		}
 		
 		public CausatumEventInstance createEvent(EntityPlayerMP player, Object[] params){
@@ -81,7 +81,7 @@ public abstract class CausatumEventInstance{
 		if (state.ordinal() <= this.state.ordinal())return;
 		
 		this.state = state;
-		if (state == EventState.SATISFIED)SaveData.player(playerID,CausatumFile.class).finishEvent(eventType);
+		if (state == EventState.SATISFIED)SaveData.player(playerID, CausatumFile.class).finishEvent(eventType);
 	}
 	
 	public void updateEvent(){

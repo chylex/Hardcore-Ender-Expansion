@@ -16,11 +16,11 @@ public class RenderMobInfestedBat extends RenderBat{
 	@Override
 	protected void preRenderCallback(EntityBat bat, float partialTickTime){
 		float scale = ((EntityMobInfestedBat)bat).getScale();
-		GL.scale(scale,scale,scale);
+		GL.scale(scale, scale, scale);
 	}
 	
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity){
-		return Baconizer.mobTexture(this,tex);
+		return Baconizer.mobTexture(this, tex);
 	}
 }

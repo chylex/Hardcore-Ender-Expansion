@@ -85,7 +85,7 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack is){
-		super.setInventorySlotContents(slot,is);
+		super.setInventorySlotContents(slot, is);
 		if (slot == 0)invalidateInventory();
 	}
 

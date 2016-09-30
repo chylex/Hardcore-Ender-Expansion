@@ -19,7 +19,7 @@ public abstract class ImcHandler{
 	}
 	
 	protected final MessagePattern register(String key, IMessageHandler handler, RunEvent event){
-		return MessageRegistry.register(key,handler,event);
+		return MessageRegistry.register(key, handler, event);
 	}
 	
 	public abstract void register();

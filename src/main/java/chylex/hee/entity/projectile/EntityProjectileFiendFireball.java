@@ -31,13 +31,13 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	
 	public EntityProjectileFiendFireball(World world){
 		super(world);
-		setSize(0.2F,0.2F);
+		setSize(0.2F, 0.2F);
 	}
 	
 	public EntityProjectileFiendFireball(World world, EntityLivingBase shooter, double x, double y, double z, double ang, int timer){
-		super(world,shooter,0D,0D,0D);
-		setPosition(x,y,z);
-		setSize(0.2F,0.2F);
+		super(world, shooter, 0D, 0D, 0D);
+		setPosition(x, y, z);
+		setSize(0.2F, 0.2F);
 		this.centerX = x;
 		this.centerZ = z;
 		this.ang = (float)MathUtil.toRad(ang);
@@ -50,7 +50,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	}
 	
 	public void shootAt(EntityPlayer player){
-		worldObj.playAuxSFXAtEntity(null,1008,(int)posX,(int)posY,(int)posZ,0);
+		worldObj.playAuxSFXAtEntity(null, 1008, (int)posX, (int)posY, (int)posZ, 0);
 		
 		if (player == null)setDead();
 		else{
@@ -60,7 +60,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 			diffY += rand.nextGaussian()*0.1D;
 			diffZ += rand.nextGaussian()*0.1D;
 			
-			double dist = MathUtil.distance(diffX,diffY,diffZ);
+			double dist = MathUtil.distance(diffX, diffY, diffZ);
 			accelerationX = diffX/dist*0.1D;
 			accelerationY = diffY/dist*0.1D;
 			accelerationZ = diffZ/dist*0.1D;
@@ -70,14 +70,14 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	@Override
 	public void onUpdate(){
 		if (ticksExisted == 3 && worldObj.isRemote){
-			for(int a = 0; a < 3; a++)HardcoreEnderExpansion.fx.flame(actualPosX+(rand.nextDouble()-0.5D)*0.1D,posY+(rand.nextDouble()-0.5D)*0.1D,actualPosZ+(rand.nextDouble()-0.5D)*0.1D,4+rand.nextInt(6));
+			for(int a = 0; a < 3; a++)HardcoreEnderExpansion.fx.flame(actualPosX+(rand.nextDouble()-0.5D)*0.1D, posY+(rand.nextDouble()-0.5D)*0.1D, actualPosZ+(rand.nextDouble()-0.5D)*0.1D, 4+rand.nextInt(6));
 		}
 		
-		if (!worldObj.isRemote)PacketPipeline.sendToAllAround(this,128D,new C14FiendFireball(this,posX,posZ));
+		if (!worldObj.isRemote)PacketPipeline.sendToAllAround(this, 128D, new C14FiendFireball(this, posX, posZ));
 		
 		if (!worldObj.isRemote && timer > 0 && --timer > 0){
 			onEntityUpdate();
-			setPosition(centerX+MathHelper.cos(ang)*2.5D,posY,centerZ+MathHelper.sin(ang)*2.5D);
+			setPosition(centerX+MathHelper.cos(ang)*2.5D, posY, centerZ+MathHelper.sin(ang)*2.5D);
 			ang += 0.22F;
 		}
 		else if (worldObj.isRemote){
@@ -90,21 +90,21 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	private void simulateClientUpdate(){
 		posX = actualPosX;
 		posZ = actualPosZ;
-		Vec3 vecPos = Vec3.createVectorHelper(posX,posY,posZ);
-		Vec3 vecPosNext = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
-		MovingObjectPosition mop = worldObj.rayTraceBlocks(vecPos,vecPosNext);
-		vecPos = Vec3.createVectorHelper(posX,posY,posZ);
-		vecPosNext = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
+		Vec3 vecPos = Vec3.createVectorHelper(posX, posY, posZ);
+		Vec3 vecPosNext = Vec3.createVectorHelper(posX+motionX, posY+motionY, posZ+motionZ);
+		MovingObjectPosition mop = worldObj.rayTraceBlocks(vecPos, vecPosNext);
+		vecPos = Vec3.createVectorHelper(posX, posY, posZ);
+		vecPosNext = Vec3.createVectorHelper(posX+motionX, posY+motionY, posZ+motionZ);
 
-		if (mop != null)vecPosNext = Vec3.createVectorHelper(mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord);
+		if (mop != null)vecPosNext = Vec3.createVectorHelper(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 
 		Entity closest = null;
 		double minDist = Double.MAX_VALUE;
 		
-		for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.addCoord(motionX,motionY,motionZ).expand(1D,1D,1D))){
+		for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1D, 1D, 1D))){
 			if (entity.canBeCollidedWith()){
-				AxisAlignedBB aabb = entity.boundingBox.expand(0.3F,0.3F,0.3F);
-				MovingObjectPosition tmp = aabb.calculateIntercept(vecPos,vecPosNext);
+				AxisAlignedBB aabb = entity.boundingBox.expand(0.3F, 0.3F, 0.3F);
+				MovingObjectPosition tmp = aabb.calculateIntercept(vecPos, vecPosNext);
 				
 				if (tmp != null){
 					double dist = vecPos.distanceTo(tmp.hitVec);
@@ -123,8 +123,8 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		posX += motionX;
 		posY += motionY;
 		posZ += motionZ;
-		rotationYaw = (float)(MathUtil.toDeg(Math.atan2(motionZ,motionX)))+90F;
-		rotationPitch = (float)MathUtil.toDeg(Math.atan2(MathUtil.distance(motionX,motionZ),motionY))-90F;
+		rotationYaw = (float)(MathUtil.toDeg(Math.atan2(motionZ, motionX)))+90F;
+		rotationPitch = (float)MathUtil.toDeg(Math.atan2(MathUtil.distance(motionX, motionZ), motionY))-90F;
 
 		while(rotationPitch-prevRotationPitch < -180F)prevRotationPitch -= 360F;
 		while(rotationPitch-prevRotationPitch >= 180F)prevRotationPitch += 360F;
@@ -136,7 +136,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		float motFactor = getMotionFactor();
 
 		if (isInWater()){
-			for(int a = 0; a < 4; ++a)worldObj.spawnParticle("bubble",posX-motionX*0.25F,posY-motionY*0.25F,posZ-motionZ*0.25F,motionX,motionY,motionZ);
+			for(int a = 0; a < 4; ++a)worldObj.spawnParticle("bubble", posX-motionX*0.25F, posY-motionY*0.25F, posZ-motionZ*0.25F, motionX, motionY, motionZ);
 			motFactor = 0.8F;
 		}
 
@@ -146,23 +146,23 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		motionX *= motFactor;
 		motionY *= motFactor;
 		motionZ *= motFactor;
-		worldObj.spawnParticle("smoke",posX,posY+0.5D,posZ,0D,0D,0D);
-		setPosition(posX,posY,posZ);
+		worldObj.spawnParticle("smoke", posX, posY+0.5D, posZ, 0D, 0D, 0D);
+		setPosition(posX, posY, posZ);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void setPositionAndRotation2(double x, double y, double z, float rotationYaw, float rotationPitch, int eger){
-		super.setPositionAndRotation2(actualPosX,y,actualPosZ,rotationYaw,rotationPitch,eger);
+		super.setPositionAndRotation2(actualPosX, y, actualPosZ, rotationYaw, rotationPitch, eger);
 	}
 
 	@Override
 	protected void onImpact(MovingObjectPosition mop){
 		if (mop.entityHit instanceof EntityMiniBossFireFiend || mop.entityHit instanceof EntityProjectileFiendFireball || worldObj.isRemote)return;
 		
-		if (mop.entityHit != null)mop.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this,shootingEntity),ModCommonProxy.opMobs ? 9F : 4F);
+		if (mop.entityHit != null)mop.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, shootingEntity), ModCommonProxy.opMobs ? 9F : 4F);
 		
-		new FieryExplosion(worldObj,posX,posY,posZ,ModCommonProxy.opMobs ? 3.5F : 2.7F,this,shootingEntity).trigger();
+		new FieryExplosion(worldObj, posX, posY, posZ, ModCommonProxy.opMobs ? 3.5F : 2.7F, this, shootingEntity).trigger();
 		setDead();
 	}
 	

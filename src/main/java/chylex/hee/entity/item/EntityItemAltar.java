@@ -21,7 +21,7 @@ public class EntityItemAltar extends EntityItem{
 	}
 	
 	public EntityItemAltar(World world, double x, double y, double z, EntityItem originalItem, byte essenceType){
-		super(world,x,y,z);
+		super(world, x, y, z);
 		motionX = motionY = motionZ = 0D;
 		delayBeforeCanPickup = 50;
 		
@@ -53,7 +53,7 @@ public class EntityItemAltar extends EntityItem{
 	@Override
 	public void onUpdate(){
 		if (!worldObj.isRemote && ++pedestalUpdate > 10){
-			EntityItem item = new EntityItem(worldObj,posX,posY,posZ,getEntityItem());
+			EntityItem item = new EntityItem(worldObj, posX, posY, posZ, getEntityItem());
 			item.copyLocationAndAnglesFrom(this);
 			worldObj.spawnEntityInWorld(item);
 			setDead();
@@ -90,26 +90,26 @@ public class EntityItemAltar extends EntityItem{
 			super.onCollideWithPlayer(player);
 			
 			if (isDead){
-				if (is.getItem() == ItemList.enhanced_brewing_stand)player.addStat(AchievementManager.ENHANCED_BREWING_STAND,1);
+				if (is.getItem() == ItemList.enhanced_brewing_stand)player.addStat(AchievementManager.ENHANCED_BREWING_STAND, 1);
 			}
 		}
 	}
 	
 	public void setSparkling(){
-		entityData.setBoolean(Data.SPARKLING,true);
+		entityData.setBoolean(Data.SPARKLING, true);
 	}
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setBoolean("sparkling",entityData.getBoolean(Data.SPARKLING));
-		nbt.setByte("essenceType",essenceType);
+		nbt.setBoolean("sparkling", entityData.getBoolean(Data.SPARKLING));
+		nbt.setByte("essenceType", essenceType);
 	}
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
-		if (nbt.getBoolean("sparkling"))entityData.setBoolean(Data.SPARKLING,true);
+		if (nbt.getBoolean("sparkling"))entityData.setBoolean(Data.SPARKLING, true);
 		essenceType = nbt.getByte("essenceType");
 	}
 }

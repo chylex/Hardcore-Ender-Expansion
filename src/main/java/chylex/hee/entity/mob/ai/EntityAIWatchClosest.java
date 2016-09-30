@@ -51,10 +51,10 @@ public class EntityAIWatchClosest<T extends EntityLivingBase> extends EntityAIAb
 		if (entity.getRNG().nextFloat() >= checkChance)return false;
 		
 		if (targetClass == EntityPlayer.class){
-			watchedEntity = entity.worldObj.getClosestPlayerToEntity(entity,checkDistance);
+			watchedEntity = entity.worldObj.getClosestPlayerToEntity(entity, checkDistance);
 		}
 		else{
-			watchedEntity = (EntityLivingBase)entity.worldObj.findNearestEntityWithinAABB(targetClass,entity.boundingBox.expand(checkDistance,4D,checkDistance),entity);
+			watchedEntity = (EntityLivingBase)entity.worldObj.findNearestEntityWithinAABB(targetClass, entity.boundingBox.expand(checkDistance, 4D, checkDistance), entity);
 			if (watchedEntity != null && entity.getDistanceSqToEntity(watchedEntity) > checkDistance*checkDistance)watchedEntity = null;
 		}
 		

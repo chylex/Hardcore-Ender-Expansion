@@ -14,19 +14,19 @@ public class RenderBossEnderDemon extends RenderLiving{
 	private static final ResourceLocation tex = new ResourceLocation("hardcoreenderexpansion:textures/entity/ender_demon.png");
 	
 	public RenderBossEnderDemon(){
-		super(new ModelEnderDemon(),1.5F);
+		super(new ModelEnderDemon(), 1.5F);
 	}
 	
 	@Override
 	protected void preRenderCallback(EntityLivingBase entity, float partialTickTime){
-		GL.scale(2.5F,2.5F,2.5F);
-		GL.translate(0F,0.9F,0F);
+		GL.scale(2.5F, 2.5F, 2.5F);
+		GL.translate(0F, 0.9F, 0F);
 	}
 	
 	@Override
 	public void doRender(EntityLiving entity, double x, double y, double z, float yaw, float partialTickTime){
-		// TODO BossStatus.setBossStatus((EntityBossEnderDemon)entity,true);
-		super.doRender(entity,x,y,z,yaw,partialTickTime);
+		// TODO BossStatus.setBossStatus((EntityBossEnderDemon)entity, true);
+		super.doRender(entity, x, y, z, yaw, partialTickTime);
 	}
 
 	@Override

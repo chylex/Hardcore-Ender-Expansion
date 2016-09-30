@@ -25,7 +25,7 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
-		for(int a = 0; a < 3; a++)worldObj.spawnParticle("portal",posX,posY-0.45D,posZ,0D,0D,0D);
+		for(int a = 0; a < 3; a++)worldObj.spawnParticle("portal", posX, posY-0.45D, posZ, 0D, 0D, 0D);
 	}
 	
 	@Override
@@ -33,7 +33,7 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 		super.updateAITasks();
 
 		if (target == null || (!Pos.at(target).isAir(worldObj) || target.isDead || target.posY < 1)){
-			if ((target = worldObj.getClosestPlayerToEntity(this,32D)) == null){
+			if ((target = worldObj.getClosestPlayerToEntity(this, 32D)) == null){
 				setDead();
 				return;
 			}
@@ -45,7 +45,7 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 		motionX += (Math.signum(xDiff)*0.5D-motionX)*0.1D;
 		motionY += (Math.signum(yDiff)*0.7D-motionY)*0.1D;
 		motionZ += (Math.signum(zDiff)*0.5D-motionZ)*0.1D;
-		rotationYaw += MathHelper.wrapAngleTo180_float((float)(Math.atan2(motionZ,motionX)*180D/Math.PI)-90F-rotationYaw);
+		rotationYaw += MathHelper.wrapAngleTo180_float((float)(Math.atan2(motionZ, motionX)*180D/Math.PI)-90F-rotationYaw);
 		moveForward = 0.5F;
 	}
 	
@@ -56,7 +56,7 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	
 	@Override
 	protected void collideWithNearbyEntities(){
-		for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.expand(0.2D,0D,0.2D))){
+		for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(0.2D, 0D, 0.2D))){
 			if (entity.canBePushed())collideWithEntity(entity);
 		}
 	}
@@ -68,19 +68,19 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 		if (entity instanceof EntityPlayer){
 			if (!worldObj.isRemote){
 				EntityPlayer player = (EntityPlayer)entity;
-				player.attackEntityFrom(DamageSource.causeMobDamage(this),ModCommonProxy.opMobs ? 4F : 2F);
+				player.attackEntityFrom(DamageSource.causeMobDamage(this), ModCommonProxy.opMobs ? 4F : 2F);
 				
 				EntitySelector.any(worldObj).stream().filter(e -> e instanceof EntityBossDragon).findAny().ifPresent(dragon -> {
 					((EntityBossDragon)dragon).heal(1);
-					worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(worldObj,dragon.posX,dragon.posY+dragon.height*0.25F,dragon.posZ));
+					worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(worldObj, dragon.posX, dragon.posY+dragon.height*0.25F, dragon.posZ));
 				});
 				
 				setDead();
 			}
 			
 			for(int a = 0; a < 6; a++){
-				worldObj.spawnParticle("largesmoke",posX,posY+0.4D,posZ,0D,0D,0D);
-				worldObj.spawnParticle("smoke",posX,posY+0.4D,posZ,0D,0D,0D);
+				worldObj.spawnParticle("largesmoke", posX, posY+0.4D, posZ, 0D, 0D, 0D);
+				worldObj.spawnParticle("smoke", posX, posY+0.4D, posZ, 0D, 0D, 0D);
 			}
 		}
 	}
@@ -90,8 +90,8 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 		if (!worldObj.isRemote)setDead();
 		
 		for(int a = 0; a < 6; a++){
-			worldObj.spawnParticle("largesmoke",posX,posY+0.4D,posZ,0D,0D,0D);
-			worldObj.spawnParticle("smoke",posX,posY+0.4D,posZ,0D,0D,0D);
+			worldObj.spawnParticle("largesmoke", posX, posY+0.4D, posZ, 0D, 0D, 0D);
+			worldObj.spawnParticle("smoke", posX, posY+0.4D, posZ, 0D, 0D, 0D);
 		}
 		
 		return true;

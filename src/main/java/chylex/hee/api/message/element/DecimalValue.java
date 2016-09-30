@@ -6,15 +6,15 @@ import chylex.hee.api.message.element.base.Precondition;
 
 public class DecimalValue extends Precondition<Double>{
 	public static final DecimalValue any(){
-		return new DecimalValue(Double.MIN_VALUE,Double.MAX_VALUE);
+		return new DecimalValue(Double.MIN_VALUE, Double.MAX_VALUE);
 	}
 	
 	public static final DecimalValue positiveOrZero(){
-		return new DecimalValue(0,Double.MAX_VALUE);
+		return new DecimalValue(0, Double.MAX_VALUE);
 	}
 	
 	public static final DecimalValue negativeOrZero(){
-		return new DecimalValue(Double.MIN_VALUE,0);
+		return new DecimalValue(Double.MIN_VALUE, 0);
 	}
 	
 	private double minValue, maxValue;

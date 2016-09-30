@@ -30,11 +30,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockEnergyCluster extends BlockContainer{
-	public static final SoundType soundTypeEnergyCluster = new SoundTypeSingle("dig.glass",5F,1.6F);
+	public static final SoundType soundTypeEnergyCluster = new SoundTypeSingle("dig.glass", 5F, 1.6F);
 
 	public BlockEnergyCluster(){
 		super(Material.glass);
-		setBlockBounds(0.35F,0.35F,0.35F,0.65F,0.65F,0.65F);
+		setBlockBounds(0.35F, 0.35F, 0.35F, 0.65F, 0.65F, 0.65F);
 	}
 
 	@Override
@@ -44,21 +44,21 @@ public class BlockEnergyCluster extends BlockContainer{
 	
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta){
-		TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(x,y,z);
+		TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(x, y, z);
 		if (tile == null || tile.shouldNotExplode)return;
 		
-		super.breakBlock(world,x,y,z,block,meta);
+		super.breakBlock(world, x, y, z, block, meta);
 		destroyCluster(tile);
 	}
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase placer, ItemStack is){
-		Pos.at(x,y,z).<TileEntityEnergyCluster>getTileEntity(world).generate(EnergyClusterGenerator.creative,world.rand);
+		Pos.at(x, y, z).<TileEntityEnergyCluster>getTileEntity(world).generate(EnergyClusterGenerator.creative, world.rand);
 	}
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (entity instanceof EntityArrow || entity instanceof EntityThrowable)Pos.at(x,y,z).setAir(world);
+		if (entity instanceof EntityArrow || entity instanceof EntityThrowable)Pos.at(x, y, z).setAir(world);
 	}
 	
 	@Override
@@ -94,7 +94,7 @@ public class BlockEnergyCluster extends BlockContainer{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean addHitEffects(World world, MovingObjectPosition target, EffectRenderer effectRenderer){
-		for(int a = 0; a < 4; a++)effectRenderer.addEffect(new EntityEnergyFX(world,target.blockX+0.5D,target.blockY+0.5D,target.blockZ+0.5D,0F,0F,0F,0D,0D,0D));
+		for(int a = 0; a < 4; a++)effectRenderer.addEffect(new EntityEnergyFX(world, target.blockX+0.5D, target.blockY+0.5D, target.blockZ+0.5D, 0F, 0F, 0F, 0D, 0D, 0D));
 		return true;
 	}
 
@@ -102,11 +102,11 @@ public class BlockEnergyCluster extends BlockContainer{
 	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer){
 		FXHelper.create("smoke")
-		.pos(x,y,z)
+		.pos(x, y, z)
 		.fluctuatePos(0.1D)
 		.fluctuateMotion(0.05D)
 		.paramSingle(0.75F)
-		.spawn(world.rand,18);
+		.spawn(world.rand, 18);
 		
 		return true;
 	}
@@ -115,25 +115,25 @@ public class BlockEnergyCluster extends BlockContainer{
 		World world = tile.getWorldObj();
 		int units = MathUtil.ceil(tile.getData().map(data -> data.getEnergyLevel()).orElse(0F)/EnergyValues.unit);
 		
-		float explosionRad = Math.min(2.5F+(float)Math.sqrt(units)/10F,7F);
-		double blockDist = 2D+Math.pow(units,0.75D)/75D;
+		float explosionRad = Math.min(2.5F+(float)Math.sqrt(units)/10F, 7F);
+		double blockDist = 2D+Math.pow(units, 0.75D)/75D;
 		int energyMeta = 5+MathUtil.ceil(units/60F);
-		int ethereum = MathUtil.floor((1+world.rand.nextInt(3))*Math.pow(units,0.2D));
+		int ethereum = MathUtil.floor((1+world.rand.nextInt(3))*Math.pow(units, 0.2D));
 
 		int iBlockDist = MathUtil.ceil(blockDist);
-		Pos pos1 = Pos.at(tile).offset(-iBlockDist,-iBlockDist,-iBlockDist);
-		Pos pos2 = Pos.at(tile).offset(iBlockDist,iBlockDist,iBlockDist);
+		Pos pos1 = Pos.at(tile).offset(-iBlockDist, -iBlockDist, -iBlockDist);
+		Pos pos2 = Pos.at(tile).offset(iBlockDist, iBlockDist, iBlockDist);
 		
-		Explosion explosion = new Explosion(world,tile.xCoord+0.5D,tile.yCoord+0.5D,tile.zCoord+0.5D,explosionRad,null);
+		Explosion explosion = new Explosion(world, tile.xCoord+0.5D, tile.yCoord+0.5D, tile.zCoord+0.5D, explosionRad, null);
 		explosion.spawnFire = true;
 		explosion.trigger();
 		
-		Pos.forEachBlock(pos1,pos2,pos -> {
-			if (pos.distance(tile) <= blockDist && pos.isAir(world))pos.setBlock(world,BlockList.corrupted_energy_high,energyMeta);
+		Pos.forEachBlock(pos1, pos2, pos -> {
+			if (pos.distance(tile) <= blockDist && pos.isAir(world))pos.setBlock(world, BlockList.corrupted_energy_high, energyMeta);
 		});
 		
 		while(ethereum-- > 0){
-			EntityItem item = new EntityItem(world,tile.xCoord+0.5D,tile.yCoord+0.5D,tile.zCoord+0.5D,new ItemStack(ItemList.ethereum));
+			EntityItem item = new EntityItem(world, tile.xCoord+0.5D, tile.yCoord+0.5D, tile.zCoord+0.5D, new ItemStack(ItemList.ethereum));
 			item.delayBeforeCanPickup = 10;
 			world.spawnEntityInWorld(item);
 		}

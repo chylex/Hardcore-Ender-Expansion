@@ -16,25 +16,25 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerEnhancedBrewingStand extends Container{
 	private final TileEntityEnhancedBrewingStand tileBrewingStand;
-	private final Slot ingredientSlot,powderSlot;
-	private int startBrewTime,brewTime,requiredPowder;
+	private final Slot ingredientSlot, powderSlot;
+	private int startBrewTime, brewTime, requiredPowder;
 
 	public ContainerEnhancedBrewingStand(InventoryPlayer inv, TileEntityEnhancedBrewingStand tile){
 		tileBrewingStand = tile;
-		addSlotToContainer(new SlotBrewingStandPotion(tile,0,58,46));
-		addSlotToContainer(new SlotBrewingStandPotion(tile,1,81,53));
-		addSlotToContainer(new SlotBrewingStandPotion(tile,2,104,46));
-		ingredientSlot = addSlotToContainer(new SlotBrewingStandIngredient(tile,3,81,17));
-		powderSlot = addSlotToContainer(new SlotBasicItem(tile,4,81,77,ItemList.end_powder));
-		ContainerHelper.addPlayerInventorySlots(this,inv,1,24);
+		addSlotToContainer(new SlotBrewingStandPotion(tile, 0, 58, 46));
+		addSlotToContainer(new SlotBrewingStandPotion(tile, 1, 81, 53));
+		addSlotToContainer(new SlotBrewingStandPotion(tile, 2, 104, 46));
+		ingredientSlot = addSlotToContainer(new SlotBrewingStandIngredient(tile, 3, 81, 17));
+		powderSlot = addSlotToContainer(new SlotBasicItem(tile, 4, 81, 77, ItemList.end_powder));
+		ContainerHelper.addPlayerInventorySlots(this, inv, 1, 24);
 	}
 
 	@Override
 	public void addCraftingToCrafters(ICrafting icrafting){
 		super.addCraftingToCrafters(icrafting);
-		icrafting.sendProgressBarUpdate(this,0,tileBrewingStand.getBrewTime());
-		icrafting.sendProgressBarUpdate(this,1,tileBrewingStand.getRequiredPowder());
-		icrafting.sendProgressBarUpdate(this,2,tileBrewingStand.getStartBrewTime());
+		icrafting.sendProgressBarUpdate(this, 0, tileBrewingStand.getBrewTime());
+		icrafting.sendProgressBarUpdate(this, 1, tileBrewingStand.getRequiredPowder());
+		icrafting.sendProgressBarUpdate(this, 2, tileBrewingStand.getStartBrewTime());
 	}
 
 	@Override
@@ -44,9 +44,9 @@ public class ContainerEnhancedBrewingStand extends Container{
 		for(int i = 0; i < crafters.size(); ++i){
 			ICrafting icrafting = (ICrafting)crafters.get(i);
 
-			if (brewTime != tileBrewingStand.getBrewTime())icrafting.sendProgressBarUpdate(this,0,tileBrewingStand.getBrewTime());
-			if (requiredPowder != tileBrewingStand.getRequiredPowder())icrafting.sendProgressBarUpdate(this,1,tileBrewingStand.getRequiredPowder());
-			if (startBrewTime != tileBrewingStand.getStartBrewTime())icrafting.sendProgressBarUpdate(this,2,tileBrewingStand.getStartBrewTime());
+			if (brewTime != tileBrewingStand.getBrewTime())icrafting.sendProgressBarUpdate(this, 0, tileBrewingStand.getBrewTime());
+			if (requiredPowder != tileBrewingStand.getRequiredPowder())icrafting.sendProgressBarUpdate(this, 1, tileBrewingStand.getRequiredPowder());
+			if (startBrewTime != tileBrewingStand.getStartBrewTime())icrafting.sendProgressBarUpdate(this, 2, tileBrewingStand.getStartBrewTime());
 		}
 		
 		brewTime = tileBrewingStand.getBrewTime();
@@ -78,32 +78,32 @@ public class ContainerEnhancedBrewingStand extends Container{
 
 			if ((slotId < 0 || slotId > 2) && slotId != 3 && slotId != 4){ // TODO WHAT THE FUCK IS ALL THIS
 				if (!ingredientSlot.getHasStack() && ingredientSlot.isItemValid(slotIS)){
-					if (!mergeItemStack(slotIS,3,4,false))return null;
+					if (!mergeItemStack(slotIS, 3, 4, false))return null;
 				}
 				else if (powderSlot.isItemValid(slotIS)){
-					if (!mergeItemStack(slotIS,4,5,false))return null;
+					if (!mergeItemStack(slotIS, 4, 5, false))return null;
 				}
 				else if (SlotBrewingStandPotion.canHoldPotion(is)){
-					if (!mergeItemStack(slotIS,0,3,false))return null;
+					if (!mergeItemStack(slotIS, 0, 3, false))return null;
 				}
 				else if (slotId >= 5 && slotId < 32){
-					if (!mergeItemStack(slotIS,32,41,false))return null;
+					if (!mergeItemStack(slotIS, 32, 41, false))return null;
 				}
 				else if (slotId >= 32 && slotId < 41){
-					if (!mergeItemStack(slotIS,5,32,false))return null;
+					if (!mergeItemStack(slotIS, 5, 32, false))return null;
 				}
-				else if (!mergeItemStack(slotIS,5,41,false))return null;
+				else if (!mergeItemStack(slotIS, 5, 41, false))return null;
 			}
 			else{
-				if (!mergeItemStack(slotIS,5,41,true))return null;
-				slot.onSlotChange(slotIS,is);
+				if (!mergeItemStack(slotIS, 5, 41, true))return null;
+				slot.onSlotChange(slotIS, is);
 			}
 
 			if (slotIS.stackSize == 0)slot.putStack((ItemStack)null);
 			else slot.onSlotChanged();
 			
 			if (slotIS.stackSize == is.stackSize)return null;
-			slot.onPickupFromSlot(player,slotIS);
+			slot.onPickupFromSlot(player, slotIS);
 		}
 
 		return is;

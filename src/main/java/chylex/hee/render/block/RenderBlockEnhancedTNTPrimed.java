@@ -9,6 +9,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderBlockEnhancedTNTPrimed extends RenderTNTPrimed{
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime){
-		doRender((EntityTNTPrimed)entity,x,y+0.49D,z,yaw,partialTickTime);
+		doRender((EntityTNTPrimed)entity, x, y+0.49D, z, yaw, partialTickTime);
 	}
 }

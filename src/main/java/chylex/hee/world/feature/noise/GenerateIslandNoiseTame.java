@@ -24,7 +24,7 @@ public class GenerateIslandNoiseTame{
 	}
 	
 	public void setWorldArea(int radX, int sizeY, int radZ){
-		this.worldArea = new BoundingBox(Pos.at(-radX,0,-radZ),Pos.at(radX,sizeY,radZ));
+		this.worldArea = new BoundingBox(Pos.at(-radX, 0, -radZ), Pos.at(radX, sizeY, radZ));
 	}
 	
 	public void setCenterXZ(){
@@ -50,8 +50,8 @@ public class GenerateIslandNoiseTame{
 	}
 	
 	public boolean generate(StructureWorld world, int offsetX, int offsetY, int offsetZ){
-		BoundingBox area = Objects.firstNonNull(worldArea,world.getArea());
-		StructureWorldFeature part = new StructureWorldFeature(world.getParentWorld(),area.x2,area.y2,area.z2);
+		BoundingBox area = Objects.firstNonNull(worldArea, world.getArea());
+		StructureWorldFeature part = new StructureWorldFeature(world.getParentWorld(), area.x2, area.y2, area.z2);
 		
 		generator.generate(part);
 		
@@ -69,7 +69,7 @@ public class GenerateIslandNoiseTame{
 		if (minSizeZ != -1 && part.getGeneratedSizeZ() < minSizeZ)return false;
 		if (maxSizeZ != -1 && part.getGeneratedSizeZ() > maxSizeZ)return false;
 		
-		part.insertInto(world,offsetX,offsetY,offsetZ);
+		part.insertInto(world, offsetX, offsetY, offsetZ);
 		return true;
 	}
 }

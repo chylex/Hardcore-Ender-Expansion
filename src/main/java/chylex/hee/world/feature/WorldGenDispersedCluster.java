@@ -17,15 +17,15 @@ public class WorldGenDispersedCluster implements IWorldGenerator{
 			int height = world.getActualHeight()-8;
 			
 			while(height >= 60){
-				Pos pos = Pos.at(blockX+8+rand.nextInt(16),4+rand.nextInt(height),blockZ+8+rand.nextInt(16));
+				Pos pos = Pos.at(blockX+8+rand.nextInt(16), 4+rand.nextInt(height), blockZ+8+rand.nextInt(16));
 				
 				if (pos.isAir(world)){
 					PosMutable testPos = new PosMutable();
 					
 					for(int surroundingsCheck = 0; surroundingsCheck < 12; surroundingsCheck++){
-						if (!testPos.set(pos).move(rand.nextInt(7)-3,rand.nextInt(7)-3,rand.nextInt(7)-3).isAir(world)){
-							testPos.setBlock(world,BlockList.energy_cluster);
-							testPos.<TileEntityEnergyCluster>tryGetTileEntity(world).ifPresent(tile -> tile.generate(EnergyClusterGenerator.overworld,rand));
+						if (!testPos.set(pos).move(rand.nextInt(7)-3, rand.nextInt(7)-3, rand.nextInt(7)-3).isAir(world)){
+							testPos.setBlock(world, BlockList.energy_cluster);
+							testPos.<TileEntityEnergyCluster>tryGetTileEntity(world).ifPresent(tile -> tile.generate(EnergyClusterGenerator.overworld, rand));
 							return;
 						}
 					}

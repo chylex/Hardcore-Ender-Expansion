@@ -18,13 +18,13 @@ public class C05CustomWeather extends AbstractClientPacket{
 	
 	private static final byte invalidType = -1;
 	
-	private static final TObjectByteHashMap<Class<? extends EntityWeatherEffect>> entityToType = new TObjectByteHashMap<>(4,Constants.DEFAULT_LOAD_FACTOR,invalidType);
+	private static final TObjectByteHashMap<Class<? extends EntityWeatherEffect>> entityToType = new TObjectByteHashMap<>(4, Constants.DEFAULT_LOAD_FACTOR, invalidType);
 	private static final TByteObjectHashMap<IWeatherEntityConstructor<?>> typeToEntity = new TByteObjectHashMap<>(4);
 	
 	private static <T extends EntityWeatherEffect> void register(Class<T> effectClass, IWeatherEntityConstructor<T> constructor){
 		final byte nextId = (byte)entityToType.size();
-		entityToType.put(effectClass,nextId);
-		typeToEntity.put(nextId,constructor);
+		entityToType.put(effectClass, nextId);
+		typeToEntity.put(nextId, constructor);
 	}
 	
 	static{
@@ -64,7 +64,7 @@ public class C05CustomWeather extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		EntityWeatherEffect eff = typeToEntity.get(entityType).construct(player.worldObj,x,y,z);
+		EntityWeatherEffect eff = typeToEntity.get(entityType).construct(player.worldObj, x, y, z);
 		eff.serverPosX = (int)(x*32D);
 		eff.serverPosY = (int)(y*32D);
 		eff.serverPosZ = (int)(z*32D);

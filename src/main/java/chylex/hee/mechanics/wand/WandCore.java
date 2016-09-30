@@ -17,15 +17,15 @@ public enum WandCore{
 	 * Returns an array of cores sorted based on slots (there can be null elements).
 	 */
 	public static List<WandCore> getCores(ItemStack is){
-		return NBT.item(is,false).getList("wandcores").readStrings().map(name -> EnumUtils.getEnum(WandCore.class,name)).filter(Objects::nonNull).collect(Collectors.toList());
+		return NBT.item(is, false).getList("wandcores").readStrings().map(name -> EnumUtils.getEnum(WandCore.class, name)).filter(Objects::nonNull).collect(Collectors.toList());
 	}
 	
 	public static boolean hasCore(ItemStack is, WandCore core){
 		final String name = core.name();
-		return NBT.item(is,false).getList("wandcores").readStrings().anyMatch(name::equals);
+		return NBT.item(is, false).getList("wandcores").readStrings().anyMatch(name::equals);
 	}
 	
 	public static void setCores(ItemStack is, WandCore[] cores){
-		NBT.item(is,true).writeList("wandcores",Arrays.stream(cores).filter(Objects::nonNull).map(WandCore::name).map(NBTTagString::new));
+		NBT.item(is, true).writeList("wandcores", Arrays.stream(cores).filter(Objects::nonNull).map(WandCore::name).map(NBTTagString::new));
 	}
 }

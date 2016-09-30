@@ -10,19 +10,19 @@ public class StructureObsidianRoad extends AbstractIslandStructure{
 	
 	@Override
 	protected boolean generate(Random rand){
-		int x = getRandomXZ(rand,8), z = getRandomXZ(rand,8);
+		int x = getRandomXZ(rand, 8), z = getRandomXZ(rand, 8);
 		
 		int nearbyRoad = 0;
 		
 		for(int a = 0, xx, zz; a < 32; a++){
 			xx = x+rand.nextInt(5)-rand.nextInt(5);
 			zz = z+rand.nextInt(5)-rand.nextInt(5);
-			if (world.getBlock(xx,world.getHighestY(xx,zz),zz) == roadBlock)++nearbyRoad;
+			if (world.getBlock(xx, world.getHighestY(xx, zz), zz) == roadBlock)++nearbyRoad;
 		}
 		
-		if (nearbyRoad > 2 || !tryPlaceRoadAt(x,z))return false;
+		if (nearbyRoad > 2 || !tryPlaceRoadAt(x, z))return false;
 		
-		generateRoad(rand,x,z,rand.nextDouble()*2D*Math.PI,0);
+		generateRoad(rand, x, z, rand.nextDouble()*2D*Math.PI, 0);
 		return true;
 	}
 	
@@ -39,7 +39,7 @@ public class StructureObsidianRoad extends AbstractIslandStructure{
 			x += Math.cos(dir)*1.49D;
 			z += Math.sin(dir)*1.49D;
 			
-			if (!tryPlaceRoadAt((int)x,(int)z))break;
+			if (!tryPlaceRoadAt((int)x, (int)z))break;
 			
 			if (rand.nextInt(dirChange != 0 ? dirChangeFrequency : dirChangeFrequency-8) == 0){
 				if (rand.nextInt(4) == 0)dirChange = 0;
@@ -48,7 +48,7 @@ public class StructureObsidianRoad extends AbstractIslandStructure{
 				else dirChange = dirChange+(rand.nextBoolean() ? -1 : 1);
 			}
 			
-			if (rand.nextInt(28+4*level) == 0 && ++branchAmount < 4)generateRoad(rand,x,z,dir+MathUtil.toRad((rand.nextBoolean() ? 90D : -90D)+(rand.nextDouble()-0.5D)*32D),level+1);
+			if (rand.nextInt(28+4*level) == 0 && ++branchAmount < 4)generateRoad(rand, x, z, dir+MathUtil.toRad((rand.nextBoolean() ? 90D : -90D)+(rand.nextDouble()-0.5D)*32D), level+1);
 		}
 	}
 	
@@ -60,10 +60,10 @@ public class StructureObsidianRoad extends AbstractIslandStructure{
 		
 		for(int px = 0; px < 2; px++){
 			for(int pz = 0; pz < 2; pz++){
-				int yy = world.getHighestY(topLeftX+px,topLeftZ+pz);
-				Block block = world.getBlock(topLeftX+px,yy,topLeftZ+pz);
+				int yy = world.getHighestY(topLeftX+px, topLeftZ+pz);
+				Block block = world.getBlock(topLeftX+px, yy, topLeftZ+pz);
 				
-				if (block == surface())world.setBlock(topLeftX+px,yy,topLeftZ+pz,roadBlock);
+				if (block == surface())world.setBlock(topLeftX+px, yy, topLeftZ+pz, roadBlock);
 				else if (block != roadBlock)shouldContinue = false;
 			}
 		}

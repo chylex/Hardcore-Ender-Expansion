@@ -15,7 +15,7 @@ public final class AIToggle<T extends EntityAIBase>{
 	}
 	
 	public void changeState(boolean enableTask){
-		if (enableTask && !enabled)taskList.addTask(priority,task);
+		if (enableTask && !enabled)taskList.addTask(priority, task);
 		else if (!enableTask && enabled)taskList.removeTask(task);
 		
 		enabled = enableTask;

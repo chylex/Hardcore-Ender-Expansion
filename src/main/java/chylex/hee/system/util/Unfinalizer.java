@@ -10,13 +10,13 @@ public final class Unfinalizer{
 			modifiersField = Field.class.getDeclaredField("modifiers");
 			modifiersField.setAccessible(true);
 		}catch(NoSuchFieldException | SecurityException e){
-			throw new RuntimeException("Could not load Unfinalizer!",e);
+			throw new RuntimeException("Could not load Unfinalizer!", e);
 		}
 	}
 	
 	public static void unfinalizeField(Field field) throws IllegalArgumentException, IllegalAccessException{
 		try{
-			modifiersField.setInt(field,field.getModifiers() & ~Modifier.FINAL);
+			modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 		}catch(IllegalArgumentException | IllegalAccessException e){
 			throw e;
 		}

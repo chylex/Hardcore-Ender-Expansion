@@ -45,12 +45,12 @@ public abstract class StringValue extends Precondition<String>{
 		private final String[] values;
 		
 		private StringValueArray(String[] values){
-			this.values = Arrays.copyOf(values,values.length);
+			this.values = Arrays.copyOf(values, values.length);
 		}
 		
 		@Override
 		public boolean checkValue(NBTBase tag){
-			return ArrayUtils.contains(values,getValue(tag));
+			return ArrayUtils.contains(values, getValue(tag));
 		}
 	}
 	

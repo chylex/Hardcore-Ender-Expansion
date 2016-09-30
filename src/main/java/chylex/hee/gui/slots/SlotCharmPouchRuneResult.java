@@ -10,7 +10,7 @@ public class SlotCharmPouchRuneResult extends Slot{
 	private final ContainerCharmPouch pouchContainer;
 	
 	public SlotCharmPouchRuneResult(IInventory inv, IInventory runeInv, ContainerCharmPouch pouchContainer, int slot, int x, int y){
-		super(inv,slot,x,y);
+		super(inv, slot, x, y);
 		this.runeInv = runeInv;
 		this.pouchContainer = pouchContainer;
 	}
@@ -22,11 +22,11 @@ public class SlotCharmPouchRuneResult extends Slot{
 	
 	@Override
 	public void onPickupFromSlot(EntityPlayer player, ItemStack is){
-		super.onPickupFromSlot(player,is);
+		super.onPickupFromSlot(player, is);
 		
 		for(int a = 0; a < runeInv.getSizeInventory(); a++){
 			ItemStack slotIS = runeInv.getStackInSlot(a);
-			if (slotIS != null && --slotIS.stackSize == 0)runeInv.setInventorySlotContents(a,null);
+			if (slotIS != null && --slotIS.stackSize == 0)runeInv.setInventorySlotContents(a, null);
 		}
 		
 		pouchContainer.onCraftMatrixChanged(runeInv);

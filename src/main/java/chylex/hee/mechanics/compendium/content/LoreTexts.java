@@ -2,8 +2,8 @@ package chylex.hee.mechanics.compendium.content;
 import java.util.Arrays;
 
 public enum LoreTexts{
-	UNKNOWN("oops",0),
-	STRONGHOLD("stronghold",3);
+	UNKNOWN("oops", 0),
+	STRONGHOLD("stronghold", 3);
 	
 	final String name;
 	final int count;

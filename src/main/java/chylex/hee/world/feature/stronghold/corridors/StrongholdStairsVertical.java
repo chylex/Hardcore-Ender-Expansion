@@ -14,7 +14,7 @@ import chylex.hee.world.util.Size;
 public class StrongholdStairsVertical extends StrongholdPiece{
 	public static StrongholdStairsVertical[] generateStairs(final int levels){
 		return Arrays.stream(Facing4.list).flatMap(entrance -> {
-			return Arrays.stream(Facing4.list).map(exit -> new StrongholdStairsVertical(entrance,exit,levels));
+			return Arrays.stream(Facing4.list).map(exit -> new StrongholdStairsVertical(entrance, exit, levels));
 		}).toArray(StrongholdStairsVertical[]::new);
 	}
 	
@@ -39,13 +39,13 @@ public class StrongholdStairsVertical extends StrongholdPiece{
 	private final Facing4 toEntrance, toExit;
 	
 	public StrongholdStairsVertical(Facing4 toEntrance, Facing4 toExit, int levels){
-		super(Type.CORRIDOR,new Size(5,calculateHeight(toEntrance,toExit,levels),5));
+		super(Type.CORRIDOR, new Size(5, calculateHeight(toEntrance, toExit, levels), 5));
 		this.toEntrance = toEntrance;
 		this.toExit = toExit;
 		
 		Facing4 oppositeEntrance = toEntrance.opposite();
-		addConnection(oppositeEntrance,maxX/2+2*oppositeEntrance.getX(),0,maxZ/2+2*oppositeEntrance.getZ(),withAnything);
-		addConnection(toExit,maxX/2+2*toExit.getX(),size.sizeY-5,maxZ/2+2*toExit.getZ(),withAnything);
+		addConnection(oppositeEntrance, maxX/2+2*oppositeEntrance.getX(), 0, maxZ/2+2*oppositeEntrance.getZ(), withAnything);
+		addConnection(toExit, maxX/2+2*toExit.getX(), size.sizeY-5, maxZ/2+2*toExit.getZ(), withAnything);
 	}
 
 	@Override
@@ -54,9 +54,9 @@ public class StrongholdStairsVertical extends StrongholdPiece{
 		boolean addPillar = rand.nextBoolean();
 		
 		// basic layout
-		placeCube(world,rand,placeStoneBrick,x,y,z,x+maxX,y,z+maxZ);
-		placeCube(world,rand,placeStoneBrick,x,y+maxY,z,x+maxX,y+maxY,z+maxZ);
-		placeWalls(world,rand,placeStoneBrick,x,y+1,z,x+maxX,y+maxY-1,z+maxZ);
+		placeCube(world, rand, placeStoneBrick, x, y, z, x+maxX, y, z+maxZ);
+		placeCube(world, rand, placeStoneBrick, x, y+maxY, z, x+maxX, y+maxY, z+maxZ);
+		placeWalls(world, rand, placeStoneBrick, x, y+1, z, x+maxX, y+maxY-1, z+maxZ);
 		
 		// entrance and exit
 		for(Connection connection:connections){
@@ -65,32 +65,32 @@ public class StrongholdStairsVertical extends StrongholdPiece{
 			Facing4 facing = connection.facing, perpendicular = facing.perpendicular();
 			
 			int posX = x+maxX/2+2*facing.getX(), posZ = z+maxZ/2+2*facing.getZ();
-			placeCube(world,rand,placeAir,posX-perpendicular.getX(),y+connection.offsetY+1,posZ-perpendicular.getZ(),posX+perpendicular.getX(),y+connection.offsetY+3,posZ+perpendicular.getZ());
+			placeCube(world, rand, placeAir, posX-perpendicular.getX(), y+connection.offsetY+1, posZ-perpendicular.getZ(), posX+perpendicular.getX(), y+connection.offsetY+3, posZ+perpendicular.getZ());
 		}
 		
 		// stairs or slabs
 		Facing4 towards = toEntrance;
-		PosMutable pos = new PosMutable(x+maxX/2,y+1,z+maxZ/2);
-		pos.move(toEntrance.rotateLeft()).move(toEntrance,-1);
+		PosMutable pos = new PosMutable(x+maxX/2, y+1, z+maxZ/2);
+		pos.move(toEntrance.rotateLeft()).move(toEntrance, -1);
 		
 		for(int index = 0; index <= maxY-5; index++){
 			pos.move(towards);
-			placeBlock(world,rand,useStairs ? placeStoneBrickStairs(towards,false) : IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickBottom),pos.x,pos.y,pos.z);
+			placeBlock(world, rand, useStairs ? placeStoneBrickStairs(towards, false) : IBlockPicker.basic(Blocks.stone_slab, Meta.slabStoneBrickBottom), pos.x, pos.y, pos.z);
 			pos.move(towards);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),pos.x,pos.y,pos.z);
+			placeBlock(world, rand, IBlockPicker.basic(Blocks.stone_slab, Meta.slabStoneBrickTop), pos.x, pos.y, pos.z);
 			towards = towards.rotateRight();
 			++pos.y;
 		}
 		
 		// pillar
 		if (addPillar){
-			placeLine(world,rand,placeStoneBrick,x+maxX/2,y+1,z+maxZ/2,x+maxX/2,y+maxY-1,z+maxZ/2);
+			placeLine(world, rand, placeStoneBrick, x+maxX/2, y+1, z+maxZ/2, x+maxX/2, y+maxY-1, z+maxZ/2);
 			
 			if (rand.nextBoolean()){
-				PosMutable endPos = new PosMutable(x+maxX/2,0,z+maxZ/2).move(toExit);
-				placeLine(world,rand,placeStoneBrick,endPos.x,y+maxY-3,endPos.z,endPos.x,y+maxY-1,endPos.z);
+				PosMutable endPos = new PosMutable(x+maxX/2, 0, z+maxZ/2).move(toExit);
+				placeLine(world, rand, placeStoneBrick, endPos.x, y+maxY-3, endPos.z, endPos.x, y+maxY-1, endPos.z);
 				endPos.move(toExit.rotateRight());
-				placeLine(world,rand,placeStoneBrick,endPos.x,y+maxY-3,endPos.z,endPos.x,y+maxY-1,endPos.z);
+				placeLine(world, rand, placeStoneBrick, endPos.x, y+maxY-3, endPos.z, endPos.x, y+maxY-1, endPos.z);
 			}
 		}
 	}

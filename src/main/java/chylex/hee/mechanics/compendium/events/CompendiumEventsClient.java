@@ -75,9 +75,9 @@ public class CompendiumEventsClient{
 	
 	public static void displayCompendiumHint(){
 		String title = I18n.format("ec.overlay.hint.title");
-		String desc = StringUtils.replaceOnce(I18n.format("ec.overlay.hint.desc"),"$",GameSettings.getKeyDisplayString(instance.keyOpenCompendium.getKeyCode()));
+		String desc = StringUtils.replaceOnce(I18n.format("ec.overlay.hint.desc"), "$", GameSettings.getKeyDisplayString(instance.keyOpenCompendium.getKeyCode()));
 		
-		OverlayManager.getAchievementOverlay().displayLiteral(title,desc,9000L);
+		OverlayManager.getAchievementOverlay().displayLiteral(title, desc, 9000L);
 		instance.displayedHintTime = Minecraft.getSystemTime();
 	}
 	
@@ -86,13 +86,13 @@ public class CompendiumEventsClient{
 	private long displayedHintTime;
 	
 	private CompendiumEventsClient(){
-		keyOpenCompendium = new KeyBinding(ModCommonProxy.hardcoreEnderbacon ? "key.openCompendium.bacon" : "key.openCompendium",25,"Hardcore Ender Expansion");
+		keyOpenCompendium = new KeyBinding(ModCommonProxy.hardcoreEnderbacon ? "key.openCompendium.bacon" : "key.openCompendium", 25, "Hardcore Ender Expansion");
 		ClientRegistry.registerKeyBinding(keyOpenCompendium);
 		mc.gameSettings.loadOptions();
 		
 		AchievementManager.ENDER_COMPENDIUM.setStatStringFormatter(str -> {
 			if (ModCommonProxy.hardcoreEnderbacon)str = StatCollector.translateToLocal("achievement.enderCompendium.desc.bacon");
-			return StringUtils.replaceOnce(str,"$",GameSettings.getKeyDisplayString(keyOpenCompendium.getKeyCode()));
+			return StringUtils.replaceOnce(str, "$", GameSettings.getKeyDisplayString(keyOpenCompendium.getKeyCode()));
 		});
 	}
 	
@@ -100,7 +100,7 @@ public class CompendiumEventsClient{
 	public void onPlayerLogin(PlayerLoggedInEvent e){
 		for(KeyBinding kb:mc.gameSettings.keyBindings){
 			if (kb != instance.keyOpenCompendium && kb.getKeyCode() == instance.keyOpenCompendium.getKeyCode()){
-				HardcoreEnderExpansion.notifications.report(StringUtils.replaceOnce(I18n.format("key.openCompendium.conflict"),"$",I18n.format(kb.getKeyDescription())));
+				HardcoreEnderExpansion.notifications.report(StringUtils.replaceOnce(I18n.format("key.openCompendium.conflict"), "$", I18n.format(kb.getKeyDescription())));
 				break;
 			}
 		}
@@ -125,7 +125,7 @@ public class CompendiumEventsClient{
 				else{
 					GuiContainer container = (GuiContainer)mc.currentScreen;
 					List<Slot> slots = container.inventorySlots.inventorySlots;
-					ScaledResolution res = new ScaledResolution(mc,mc.displayWidth,mc.displayHeight);
+					ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 					
 					int mouseX = Mouse.getX()*res.getScaledWidth()/mc.displayWidth,
 						mouseY = res.getScaledHeight()-Mouse.getY()*res.getScaledHeight()/mc.displayHeight-1;

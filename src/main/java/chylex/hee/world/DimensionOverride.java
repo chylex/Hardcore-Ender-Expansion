@@ -29,14 +29,14 @@ public final class DimensionOverride{
 		MinecraftForge.EVENT_BUS.register(instance);
 		MinecraftForge.TERRAIN_GEN_BUS.register(instance);
 		
-		GameRegistry.registerWorldGenerator(new WorldGenDispersedCluster(),Integer.MAX_VALUE);
-		GameRegistry.registerWorldGenerator(new WorldGenStronghold(),Integer.MAX_VALUE-1);
-		GameRegistry.registerWorldGenerator(new WorldGenEnergyShrine(),Integer.MAX_VALUE-2);
+		GameRegistry.registerWorldGenerator(new WorldGenDispersedCluster(), Integer.MAX_VALUE);
+		GameRegistry.registerWorldGenerator(new WorldGenStronghold(), Integer.MAX_VALUE-1);
+		GameRegistry.registerWorldGenerator(new WorldGenEnergyShrine(), Integer.MAX_VALUE-2);
 	}
 	
 	public static void postInit(){
 		DimensionManager.unregisterProviderType(1);
-		DimensionManager.registerProviderType(1,WorldProviderHardcoreEnd.class,false);
+		DimensionManager.registerProviderType(1, WorldProviderHardcoreEnd.class, false);
 		
 		BiomeGenBase endBiome = BiomeGenBase.getBiome(9);
 		if (endBiome instanceof BiomeGenHardcoreEnd)((BiomeGenHardcoreEnd)endBiome).overrideMobLists(); // if false, integrity verification fails
@@ -60,7 +60,7 @@ public final class DimensionOverride{
 				protected boolean canSpawnStructureAtCoords(int x, int z){ return false; }
 				
 				@Override
-				public ChunkPosition func_151545_a(World world, int x, int y, int z){ return new ChunkPosition(x,y+2,z); }
+				public ChunkPosition func_151545_a(World world, int x, int y, int z){ return new ChunkPosition(x, y+2, z); }
 			};
 		}
 	}

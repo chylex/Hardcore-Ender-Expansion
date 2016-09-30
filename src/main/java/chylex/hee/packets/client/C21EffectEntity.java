@@ -25,7 +25,7 @@ public class C21EffectEntity extends AbstractClientPacket{
 	}
 	
 	public C21EffectEntity(FXType.Entity type, Entity entity){
-		this(type,entity.posX,entity.posY,entity.posZ,entity.width,entity.height);
+		this(type, entity.posX, entity.posY, entity.posZ, entity.width, entity.height);
 	}
 	
 	@Override
@@ -50,6 +50,6 @@ public class C21EffectEntity extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		if (type != null)FXHandler.handleEntity(player.worldObj,player,type,x,y,z,entityWidth,entityHeight);
+		if (type != null)FXHandler.handleEntity(player.worldObj, player, type, x, y, z, entityWidth, entityHeight);
 	}
 }

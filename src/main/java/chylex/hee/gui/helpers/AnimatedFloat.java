@@ -15,11 +15,11 @@ public final class AnimatedFloat{
 	}
 	
 	public void startAnimation(float startValue, float endValue){
-		startAnimation(startValue,endValue,1F,false);
+		startAnimation(startValue, endValue, 1F, false);
 	}
 	
 	public void startAnimation(float startValue, float endValue, float duration){
-		startAnimation(startValue,endValue,duration,false);
+		startAnimation(startValue, endValue, duration, false);
 	}
 	
 	public void startAnimation(float startValue, float endValue, float duration, boolean force){
@@ -40,7 +40,7 @@ public final class AnimatedFloat{
 			isAnimating = false;
 		}
 		
-		currentValue = easing.getValue(time,startValue,endValue-startValue);
+		currentValue = easing.getValue(time, startValue, endValue-startValue);
 	}
 	
 	public void finish(){

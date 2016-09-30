@@ -36,14 +36,14 @@ public class BiomeInteractionEnchantedIsland{
 		
 		@Override
 		public void init(){
-			List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class,getIslandBoundingBox());
+			List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getIslandBoundingBox());
 			
 			if (players.isEmpty()){
 				entity.setDead();
 				return;
 			}
 			
-			List<EntityTechnicalBiomeInteraction> interactions = world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,entity.boundingBox.expand(1D,1D,1D));
+			List<EntityTechnicalBiomeInteraction> interactions = world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class, entity.boundingBox.expand(1D, 1D, 1D));
 			
 			for(int attempt = 0; attempt <= 10; attempt++){
 				if (attempt == 10){
@@ -94,12 +94,12 @@ public class BiomeInteractionEnchantedIsland{
 				
 				for(int a = 0; a < 8; a++){
 					if (!foundBottom){
-						if (world.getBlock(tx,minPersegritY,tz) != BlockList.persegrit)--minPersegritY;
+						if (world.getBlock(tx, minPersegritY, tz) != BlockList.persegrit)--minPersegritY;
 						else foundBottom = true;
 					}
 					
 					if (!foundTop){
-						if (world.getBlock(tx,maxPersegritY,tz) != BlockList.persegrit)++maxPersegritY;
+						if (world.getBlock(tx, maxPersegritY, tz) != BlockList.persegrit)++maxPersegritY;
 						else foundTop = true;
 					}
 					
@@ -123,26 +123,26 @@ public class BiomeInteractionEnchantedIsland{
 				switch(procedure){
 					case FOOTSTEPS:
 						timer = 7+rand.nextInt(3);
-						play(C08PlaySound.PERSEGRIT_FOOTSTEPS,BlockList.persegrit.stepSound.getVolume()*0.15F,BlockList.persegrit.stepSound.getPitch()*1F);
+						play(C08PlaySound.PERSEGRIT_FOOTSTEPS, BlockList.persegrit.stepSound.getVolume()*0.15F, BlockList.persegrit.stepSound.getPitch()*1F);
 						break;
 						
 					case BLOCK_BREAKING:
 						timer = 7+rand.nextInt(8+rand.nextInt(15));
 						if (lastSoundId == 0 || rand.nextInt(8) == 0)lastSoundId = (byte)(1+rand.nextInt(BreakEffects.values.length));
 						
-						play((byte)(C08PlaySound.GRASS_BREAK-1+lastSoundId),lastSoundId == BreakEffects.WOOD.ordinal()+1 ? 0.5F : 0.25F,BlockList.persegrit.stepSound.getPitch()*0.8F);
+						play((byte)(C08PlaySound.GRASS_BREAK-1+lastSoundId), lastSoundId == BreakEffects.WOOD.ordinal()+1 ? 0.5F : 0.25F, BlockList.persegrit.stepSound.getPitch()*0.8F);
 						break;
 						
 					case CHEST_OPENING:
 						if (lastSoundId == 0){
 							timer = 12+rand.nextInt(10+rand.nextInt(50))+rand.nextInt(15);
 							lastSoundId = 1;
-							play(C08PlaySound.CHEST_OPEN,0.12F,0.9F+rand.nextFloat()*0.1F);
+							play(C08PlaySound.CHEST_OPEN, 0.12F, 0.9F+rand.nextFloat()*0.1F);
 						}
 						else{
 							timer = 4+rand.nextInt(10+rand.nextInt(70))+rand.nextInt(25);
 							lastSoundId = 0;
-							play(C08PlaySound.CHEST_CLOSE,0.1F,0.9F+rand.nextFloat()*0.1F);
+							play(C08PlaySound.CHEST_CLOSE, 0.1F, 0.9F+rand.nextFloat()*0.1F);
 						}
 						
 						break;
@@ -150,7 +150,7 @@ public class BiomeInteractionEnchantedIsland{
 					case MOB_KILLING:
 						if (lastSoundId == 0)lastSoundId = (byte)(1+rand.nextInt(MobEffects.values.length));
 						timer = 10+rand.nextInt(4+rand.nextInt(7)*rand.nextInt(2));
-						play((byte)(C08PlaySound.PIG_HURT+2*(lastSoundId-1)+(rand.nextInt(6) == 0 ? 1 : 0)),lastSoundId == MobEffects.COW.ordinal()+1 ? 0.4F : 1F,1F+(rand.nextFloat()-rand.nextFloat())*0.2F);
+						play((byte)(C08PlaySound.PIG_HURT+2*(lastSoundId-1)+(rand.nextInt(6) == 0 ? 1 : 0)), lastSoundId == MobEffects.COW.ordinal()+1 ? 0.4F : 1F, 1F+(rand.nextFloat()-rand.nextFloat())*0.2F);
 						break;
 				}
 				
@@ -161,7 +161,7 @@ public class BiomeInteractionEnchantedIsland{
 		}
 		
 		private void play(byte soundId, float volume, float pitch){
-			PacketPipeline.sendToPlayer(target,new C08PlaySound(soundId,target.posX+MathHelper.cos(soundAngle)*soundDist,target.posY,target.posZ+MathHelper.sin(soundAngle)*soundDist,volume,pitch));
+			PacketPipeline.sendToPlayer(target, new C08PlaySound(soundId, target.posX+MathHelper.cos(soundAngle)*soundDist, target.posY, target.posZ+MathHelper.sin(soundAngle)*soundDist, volume, pitch));
 		}
 
 		@Override

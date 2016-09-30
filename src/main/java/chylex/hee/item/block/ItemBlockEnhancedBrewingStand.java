@@ -23,6 +23,6 @@ public class ItemBlockEnhancedBrewingStand extends ItemReed{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		EnhancementRegistry.getEnhancementList(is).addTooltip(textLines,EnumChatFormatting.YELLOW);
+		EnhancementRegistry.getEnhancementList(is).addTooltip(textLines, EnumChatFormatting.YELLOW);
 	}
 }

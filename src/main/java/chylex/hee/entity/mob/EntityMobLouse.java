@@ -46,15 +46,15 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		teleportAround.setLocationSelector(
 			(entity, startPos, rand) -> {
 				final int dist = 3+entity.louseData.attribute(EnumLouseAttribute.TELEPORT);
-				return startPos.offset((rand.nextDouble()-0.5D)*2D*dist,0D,(rand.nextDouble()-0.5D)*2D*dist);
+				return startPos.offset((rand.nextDouble()-0.5D)*2D*dist, 0D, (rand.nextDouble()-0.5D)*2D*dist);
 			},
-			ITeleportY.findSolidBottom((entity, startPos, rand) -> MathUtil.floor(startPos.y+1D),3)
+			ITeleportY.findSolidBottom((entity, startPos, rand) -> MathUtil.floor(startPos.y+1D), 3)
 		);
 
 		teleportAround.setAttempts(32);
 		teleportAround.addLocationPredicate(ITeleportPredicate.minDistance(3D));
 		teleportAround.addLocationPredicate(ITeleportPredicate.airAboveSolid(1));
-		teleportAround.onTeleport((entity, startPos, rand) -> entity.setPosition(entity.posX,entity.posY+0.1D,entity.posZ));
+		teleportAround.onTeleport((entity, startPos, rand) -> entity.setPosition(entity.posX, entity.posY+0.1D, entity.posZ));
 		teleportAround.onTeleport(ITeleportListener.playSound);
 	}
 	
@@ -67,7 +67,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	
 	public EntityMobLouse(World world){
 		super(world);
-		setSize(1.1F,0.45F);
+		setSize(1.1F, 0.45F);
 	}
 	
 	public EntityMobLouse(World world, LouseSpawnData louseData){
@@ -101,9 +101,9 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		int attrSpeed = louseData.attribute(EnumLouseAttribute.SPEED);
 		int attrArmor = louseData.attribute(EnumLouseAttribute.ARMOR);
 		
-		EntityAttributes.setValue(this,EntityAttributes.maxHealth,14D+(attrHealth > 0 ? 10D+8D*attrHealth : 0D));
-		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,0.7D+(attrSpeed > 0 ? 0.1D+0.07D*attrSpeed : 0D));
-		EntityAttributes.setValue(this,EntityAttributes.attackDamage,7D+3.5D*louseData.attribute(EnumLouseAttribute.ATTACK));
+		EntityAttributes.setValue(this, EntityAttributes.maxHealth, 14D+(attrHealth > 0 ? 10D+8D*attrHealth : 0D));
+		EntityAttributes.setValue(this, EntityAttributes.movementSpeed, 0.7D+(attrSpeed > 0 ? 0.1D+0.07D*attrSpeed : 0D));
+		EntityAttributes.setValue(this, EntityAttributes.attackDamage, 7D+3.5D*louseData.attribute(EnumLouseAttribute.ATTACK));
 		
 		setHealth(getMaxHealth());
 		
@@ -112,12 +112,12 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		healAbility = (byte)louseData.ability(EnumLouseAbility.HEAL);
 		regenLevel = (byte)attrHealth;
 		
-		entityData.setString(Data.LOUSE_DATA,louseData.serializeToString());
+		entityData.setString(Data.LOUSE_DATA, louseData.serializeToString());
 	}
 	
 	@Override
 	protected Entity findPlayerToAttack(){
-		return worldObj.getClosestVulnerablePlayerToEntity(this,12D);
+		return worldObj.getClosestVulnerablePlayerToEntity(this, 12D);
 	}
 	
 	@Override
@@ -130,7 +130,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 				if (!data.isEmpty())louseData = new LouseSpawnData(data);
 			}
 			else{
-				louseData = new LouseSpawnData((byte)rand.nextInt(LouseSpawnData.maxLevel),getRNG());
+				louseData = new LouseSpawnData((byte)rand.nextInt(LouseSpawnData.maxLevel), getRNG());
 				updateLouseData();
 			}
 		}
@@ -148,12 +148,12 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		if (regenLevel > 1 && getHealth() < getMaxHealth() && ++regenTimer >= 32-8*regenLevel && !isDead){
 			setHealth(getHealth()+1);
 			regenTimer = 0;
-			PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.LOUSE_REGEN,this));
+			PacketPipeline.sendToAllAround(this, 64D, new C21EffectEntity(FXType.Entity.LOUSE_REGEN, this));
 		}
 		
 		if (healAbility > 0 && --healTimer <= 0){
 			healTimer = 25;
-			List<EntityLiving> list = EntitySelector.mobs(worldObj,boundingBox.expand(5D,1D,5D));
+			List<EntityLiving> list = EntitySelector.mobs(worldObj, boundingBox.expand(5D, 1D, 5D));
 			
 			if (!list.isEmpty()){
 				for(int attempt = 0, amt = list.size(); attempt < 15; attempt++){
@@ -161,14 +161,14 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 					
 					if (entity.getHealth() < entity.getMaxHealth() && !entity.isDead){
 						entity.setHealth(entity.getHealth()+1+2*healAbility);
-						PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.LOUSE_HEAL_ENTITY,this,entity));
+						PacketPipeline.sendToAllAround(this, 64D, new C22EffectLine(FXType.Line.LOUSE_HEAL_ENTITY, this, entity));
 						break;
 					}
 				}
 			}
 		}
 		
-		if (entityToAttack != null && entityToAttack.posY > posY+1.3D && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) <= 3D && (getDistanceToEntity(entityToAttack) < 8D || canEntityBeSeen(entityToAttack))){
+		if (entityToAttack != null && entityToAttack.posY > posY+1.3D && MathUtil.distance(posX-entityToAttack.posX, posZ-entityToAttack.posZ) <= 3D && (getDistanceToEntity(entityToAttack) < 8D || canEntityBeSeen(entityToAttack))){
 			jump();
 		}
 	}
@@ -178,14 +178,14 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		float dmgAmount = (float)getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue(); // TODO
 
 		if (entity instanceof EntityLivingBase){
-			dmgAmount += EnchantmentHelper.getEnchantmentModifierLiving(this,(EntityLivingBase)entity);
+			dmgAmount += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase)entity);
 		}
 
-		if (entity.attackEntityFrom(DamageSource.causeMobDamage(this),dmgAmount)){
+		if (entity.attackEntityFrom(DamageSource.causeMobDamage(this), dmgAmount)){
 			int knockback = louseData.ability(EnumLouseAbility.KNOCKBACK);
 			
 			if (knockback > 0){
-				entity.addVelocity((-MathHelper.sin(MathUtil.toRad(rotationYaw))*knockback*1.25F),0.1D,(MathHelper.cos(MathUtil.toRad(rotationYaw))*knockback*1.25F));
+				entity.addVelocity((-MathHelper.sin(MathUtil.toRad(rotationYaw))*knockback*1.25F), 0.1D, (MathHelper.cos(MathUtil.toRad(rotationYaw))*knockback*1.25F));
 				motionX *= 0.6D;
 				motionZ *= 0.6D;
 			}
@@ -194,11 +194,11 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 			
 			if (magicDamage > 0){
 				entity.hurtResistantTime = 0;
-				entity.attackEntityFrom(DamageSource.magic,1F+2F*(magicDamage-1));
+				entity.attackEntityFrom(DamageSource.magic, 1F+2F*(magicDamage-1));
 			}
 
-			if (entity instanceof EntityLivingBase)EnchantmentHelper.func_151384_a((EntityLivingBase)entity,this);
-			EnchantmentHelper.func_151385_b(this,entity);
+			if (entity instanceof EntityLivingBase)EnchantmentHelper.func_151384_a((EntityLivingBase)entity, this);
+			EnchantmentHelper.func_151385_b(this, entity);
 			
 			return true;
 		}
@@ -221,8 +221,8 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		
 		if (armor > 0F && hurtResistantTime == 0){
 			entityToAttack = source.getEntity();
-			playSound("random.anvil_land",0.5F,1.2F);
-			PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.LOUSE_ARMOR_HIT,this));
+			playSound("random.anvil_land", 0.5F, 1.2F);
+			PacketPipeline.sendToAllAround(this, 64D, new C20Effect(FXType.Basic.LOUSE_ARMOR_HIT, this));
 			
 			if ((armor -= amount) <= 0F)armor = 0F;
 			hurtTime = maxHurtTime = 10;
@@ -231,8 +231,8 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 			return true;
 		}
 		
-		if (super.attackEntityFrom(source,amount)){
-			// TODO CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.25F);
+		if (super.attackEntityFrom(source, amount)){
+			// TODO CausatumUtils.increase(source, CausatumMeters.END_MOB_DAMAGE, amount*0.25F);
 			return true;
 		}
 		else return false;
@@ -243,12 +243,12 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		
 		if (worldObj.isRemote){
 			FXHelper.create("portal")
-			.pos(posX,posY,posZ)
+			.pos(posX, posY, posZ)
 			.fluctuatePos((rand, axis) -> axis == Axis.Y ? rand.nextDouble()*height : (rand.nextDouble()-0.5D)*2D*width)
 			.fluctuateMotion(0.1D)
-			.spawn(rand,64);
+			.spawn(rand, 64);
 		}
-		else teleportAround.teleport(this,rand);
+		else teleportAround.teleport(this, rand);
 	}
 	
 	@Override
@@ -263,7 +263,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		if (louseData != null)nbt.setTag("louseData",louseData.writeToNBT(new NBTTagCompound()));
+		if (louseData != null)nbt.setTag("louseData", louseData.writeToNBT(new NBTTagCompound()));
 	}
 	
 	@Override
@@ -275,13 +275,13 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	
 	@Override
 	protected void dropRareDrop(int lootingExtraLuck){
-		int nearbyLice = EntitySelector.type(worldObj,EntityMobLouse.class,boundingBox.expand(4D,4D,4D)).size();
+		int nearbyLice = EntitySelector.type(worldObj, EntityMobLouse.class, boundingBox.expand(4D, 4D, 4D)).size();
 		
 		if (rand.nextInt(1+(nearbyLice>>3)) == 0){
 			Set<EnumLouseAttribute> attributes = louseData.getAttributeSet();
 			Set<EnumLouseAbility> abilities = louseData.getAbilitySet();
 
-			if (!abilities.isEmpty() && rand.nextBoolean())entityDropItem(new ItemStack(ItemList.rune,1,RuneType.VOID.ordinal()),0F);
+			if (!abilities.isEmpty() && rand.nextBoolean())entityDropItem(new ItemStack(ItemList.rune, 1, RuneType.VOID.ordinal()), 0F);
 			else if (!attributes.isEmpty()){
 				int n = rand.nextInt(attributes.size());
 				
@@ -289,7 +289,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 					EnumLouseAttribute attribute = iter.next();
 					
 					if (--n < 0){
-						entityDropItem(new ItemStack(ItemList.rune,1,attribute.ordinal()),0F);
+						entityDropItem(new ItemStack(ItemList.rune, 1, attribute.ordinal()), 0F);
 						break;
 					}
 				}

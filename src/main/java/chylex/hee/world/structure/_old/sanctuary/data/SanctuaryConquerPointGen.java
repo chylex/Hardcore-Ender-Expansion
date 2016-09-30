@@ -30,12 +30,12 @@ public class SanctuaryConquerPointGen{
 		
 		for(byte px = (byte)(x-1); px <= x+1; px++){
 			for(byte pz = (byte)(z-1); pz <= z+1; pz++){
-				tryBlock(px,pz);
+				tryBlock(px, pz);
 			}
 		}
 		
 		for(Facing4 dir:Facing4.list){
-			tryBlock((byte)(x+dir.getX()*2),(byte)(z+dir.getZ()*2));
+			tryBlock((byte)(x+dir.getX()*2), (byte)(z+dir.getZ()*2));
 		}
 		
 		return true;
@@ -52,7 +52,7 @@ public class SanctuaryConquerPointGen{
 	}
 	
 	public static SanctuaryConquerPointGen generate(Random rand, int width, int depth, int conquerPointAmount){
-		SanctuaryConquerPointGen pts = new SanctuaryConquerPointGen(width,depth);
+		SanctuaryConquerPointGen pts = new SanctuaryConquerPointGen(width, depth);
 		List<byte[]> options = new ArrayList<>();
 		
 		for(int x = 0; x < width; x++){
@@ -63,10 +63,10 @@ public class SanctuaryConquerPointGen{
 		
 		while(!options.isEmpty()){
 			byte[] loc = options.remove(rand.nextInt(options.size()));
-			if (pts.tryAddPoint(loc[0],loc[1]) && pts.chosenPoints.size() >= conquerPointAmount)break;
+			if (pts.tryAddPoint(loc[0], loc[1]) && pts.chosenPoints.size() >= conquerPointAmount)break;
 		}
 		
-		if (pts.chosenPoints.size() != conquerPointAmount)Log.warn("Incorrect conquer point amount, expected $0, got $1 ($2)",conquerPointAmount,pts.chosenPoints.size(),pts.chosenPoints);
+		if (pts.chosenPoints.size() != conquerPointAmount)Log.warn("Incorrect conquer point amount, expected $0, got $1 ($2)", conquerPointAmount, pts.chosenPoints.size(), pts.chosenPoints);
 		
 		return pts;
 	}

@@ -15,6 +15,6 @@ public class RandomList<T> implements Iterable<T>{
 	
 	@Override
 	public Iterator<T> iterator(){
-		return new RandomIterator<>(collection,rand);
+		return new RandomIterator<>(collection, rand);
 	}
 }

@@ -28,7 +28,7 @@ public class ItemKnowledgeNote extends Item{
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (!world.isRemote)player.worldObj.playSoundAtEntity(player,"hardcoreenderexpansion:player.random.pageflip",1.5F,0.5F*((world.rand.nextFloat()-world.rand.nextFloat())*0.7F+1.8F));
+		if (!world.isRemote)player.worldObj.playSoundAtEntity(player, "hardcoreenderexpansion:player.random.pageflip", 1.5F, 0.5F*((world.rand.nextFloat()-world.rand.nextFloat())*0.7F+1.8F));
 		
 		if (!world.isRemote && is.hasTagCompound()){
 			NBTTagCompound nbt = is.getTagCompound();
@@ -36,8 +36,8 @@ public class ItemKnowledgeNote extends Item{
 			
 			if (nbt.getByte("notePts") > 0){
 				CompendiumEvents.getPlayerData(player).offsetPoints(is.getTagCompound().getByte("notePts"));
-				PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
-				nbt.setByte("notePts",(byte)0);
+				PacketPipeline.sendToPlayer(player, new C19CompendiumData(player));
+				nbt.setByte("notePts", (byte)0);
 			}
 			
 			if (nbt.hasKey("noteCat")){
@@ -46,14 +46,14 @@ public class ItemKnowledgeNote extends Item{
 				
 				if (nbt.hasKey("noteInd")){
 					index = nbt.getByte("noteInd");
-					SaveData.player(player,LoreFile.class).markAsRead(category,index);
+					SaveData.player(player, LoreFile.class).markAsRead(category, index);
 				}
 				else{
-					index = SaveData.player(player,LoreFile.class).getRandomTextIndex(category,world.rand);
-					nbt.setByte("noteInd",(byte)index);
+					index = SaveData.player(player, LoreFile.class).getRandomTextIndex(category, world.rand);
+					nbt.setByte("noteInd", (byte)index);
 				}
 				
-				PacketPipeline.sendToPlayer(player,new C03KnowledgeNote(category,index,added));
+				PacketPipeline.sendToPlayer(player, new C03KnowledgeNote(category, index, added));
 			}
 		}
 		
@@ -63,20 +63,20 @@ public class ItemKnowledgeNote extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		NBTCompound tag = NBT.item(is,false);
+		NBTCompound tag = NBT.item(is, false);
 		if (tag.hasKey("noteCat"))textLines.add(I18n.format("ec.note."+tag.getString("noteCat")+".title"));
 		
-		if (tag.hasKey("notePts"))textLines.add(tag.getByte("notePts") > 0 ? StringUtils.replaceOnce(I18n.format("item.knowledgeNote.pts"),"$",String.valueOf(tag.getByte("notePts"))) : I18n.format("item.knowledgeNote.used"));
+		if (tag.hasKey("notePts"))textLines.add(tag.getByte("notePts") > 0 ? StringUtils.replaceOnce(I18n.format("item.knowledgeNote.pts"), "$", String.valueOf(tag.getByte("notePts"))) : I18n.format("item.knowledgeNote.used"));
 		else if (tag.hasKey("pts"))textLines.add(I18n.format("item.knowledgeNote.useless"));
 	}
 	
 	public static IItemPostProcessor createNoteProcessor(final LoreTexts category, final int minMultiplier, final int maxMultiplier){
-		return (is, rand) -> setNoteInfo(is,rand,category,minMultiplier+rand.nextInt(1+maxMultiplier-minMultiplier));
+		return (is, rand) -> setNoteInfo(is, rand, category, minMultiplier+rand.nextInt(1+maxMultiplier-minMultiplier));
 	}
 	
 	public static final ItemStack setNoteInfo(ItemStack is, Random rand, LoreTexts category, int multiplier){
-		NBT.item(is,true).setByte("notePts",(byte)(5*multiplier));
-		NBT.item(is,true).setString("noteCat",category.getTitle());
+		NBT.item(is, true).setByte("notePts", (byte)(5*multiplier));
+		NBT.item(is, true).setString("noteCat", category.getTitle());
 		return is;
 	}
 }

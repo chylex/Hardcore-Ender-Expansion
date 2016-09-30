@@ -8,7 +8,7 @@ abstract class SubCommand{
 	final boolean requiresPlayer;
 	
 	SubCommand(String name, int argCount, boolean requiresPlayer){
-		this(name,null,argCount,requiresPlayer);
+		this(name, null, argCount, requiresPlayer);
 	}
 	
 	SubCommand(String name, String arguments, int argCount, boolean requiresPlayer){

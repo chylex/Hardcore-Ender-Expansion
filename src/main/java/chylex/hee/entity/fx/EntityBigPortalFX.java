@@ -11,7 +11,7 @@ public class EntityBigPortalFX extends EntityFX{
 	protected float portalParticleScale;
 	
 	public EntityBigPortalFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ){
-		super(world,x,y,z,motionX,motionY,motionZ);
+		super(world, x, y, z, motionX, motionY, motionZ);
 		
 		this.motionX = motionX;
 		this.motionY = motionY;
@@ -31,7 +31,7 @@ public class EntityBigPortalFX extends EntityFX{
 	}
 	
 	public EntityBigPortalFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float particleScaleMp){
-		this(world,x,y,z,motionX,motionY,motionZ);
+		this(world, x, y, z, motionX, motionY, motionZ);
 		particleScale = portalParticleScale *= particleScaleMp;
 	}
 	
@@ -40,7 +40,7 @@ public class EntityBigPortalFX extends EntityFX{
 		float scale = 1F-((particleAge+partialTickTime)/particleMaxAge);
 		scale *= scale;
 		particleScale = portalParticleScale*(1F-scale);
-		super.renderParticle(tessellator,partialTickTime,rotX,rotXZ,rotZ,rotYZ,rotXY);
+		super.renderParticle(tessellator, partialTickTime, rotX, rotXZ, rotZ, rotYZ, rotXY);
 	}
 	
 	@Override
@@ -49,7 +49,7 @@ public class EntityBigPortalFX extends EntityFX{
 		prevPosY = posY;
 		prevPosZ = posZ;
 
-		moveEntity(motionX,motionY,motionZ);
+		moveEntity(motionX, motionY, motionZ);
 		motionX *= 0.98D;
 		motionY *= 0.98D;
 		motionZ *= 0.98D;

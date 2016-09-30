@@ -16,7 +16,7 @@ public class BlockBasicSlab extends BlockSlab implements IBlockSlab{
 	private final BlockInfo full;
 	
 	public BlockBasicSlab(BlockInfo fullBlockInfo){
-		super(false,fullBlockInfo.block.getMaterial());
+		super(false, fullBlockInfo.block.getMaterial());
 		this.full = fullBlockInfo;
 		this.useNeighborBrightness = true;
 		setHardness(full.block.blockHardness*0.5F);
@@ -29,7 +29,7 @@ public class BlockBasicSlab extends BlockSlab implements IBlockSlab{
 	}
 	
 	public BlockBasicSlab(Block fullBlock, int fullMeta){
-		this(new BlockInfo(fullBlock,fullMeta));
+		this(new BlockInfo(fullBlock, fullMeta));
 	}
 	
 	@Override
@@ -49,7 +49,7 @@ public class BlockBasicSlab extends BlockSlab implements IBlockSlab{
 	
 	@Override
 	protected ItemStack createStackedBlock(int meta){
-		return new ItemStack(Item.getItemFromBlock(this),1,0);
+		return new ItemStack(Item.getItemFromBlock(this), 1, 0);
 	}
 	
 	@Override
@@ -61,7 +61,7 @@ public class BlockBasicSlab extends BlockSlab implements IBlockSlab{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return full.block.getIcon(side,full.meta);
+		return full.block.getIcon(side, full.meta);
 	}
 	
 	@Override

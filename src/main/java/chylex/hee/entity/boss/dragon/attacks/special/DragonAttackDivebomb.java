@@ -18,7 +18,7 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 	private EntityPlayer tmpTarget;
 	
 	public DragonAttackDivebomb(EntityBossDragon dragon, int attackId, int weight){
-		super(dragon,attackId,weight);
+		super(dragon, attackId, weight);
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 		if (phase == PHASE_FLY_UP){
 			if (dragon.posY < 120)dragon.targetY = 140;
 			
-			if (tmpTarget == null)tmpTarget = EntitySelector.closest(dragon,dragon.attacks.getViablePlayers());
+			if (tmpTarget == null)tmpTarget = EntitySelector.closest(dragon, dragon.attacks.getViablePlayers());
 			
 			if (tmpTarget == null){
 				dragon.targetX += dragon.getRNG().nextGaussian()*2D;
@@ -48,7 +48,7 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 				dragon.targetZ = tmpTarget.posZ;
 			}
 			
-			if (++timer > 125 || MathUtil.distance(dragon.targetX-dragon.posX,dragon.targetZ-dragon.posZ) < 6D){
+			if (++timer > 125 || MathUtil.distance(dragon.targetX-dragon.posX, dragon.targetZ-dragon.posZ) < 6D){
 				tick = 0;
 				phase = PHASE_DIVEBOMB;
 				tmpTarget = null;
@@ -112,8 +112,8 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 			event.motionZ *= 0.98D;
 		}
 		else if (phase == PHASE_DIVEBOMB){
-			event.motionX = MathUtil.clamp(event.motionX/dragon.moveSpeedMp,-0.01D,0.01D);
-			event.motionZ = MathUtil.clamp(event.motionZ/dragon.moveSpeedMp,-0.01D,0.01D);
+			event.motionX = MathUtil.clamp(event.motionX/dragon.moveSpeedMp, -0.01D, 0.01D);
+			event.motionZ = MathUtil.clamp(event.motionZ/dragon.moveSpeedMp, -0.01D, 0.01D);
 			if (dragon.posY < 30)event.motionY = 0D;
 		}
 	}

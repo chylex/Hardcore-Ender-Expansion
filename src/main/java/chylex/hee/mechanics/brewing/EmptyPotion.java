@@ -3,6 +3,6 @@ import net.minecraft.potion.Potion;
 
 public class EmptyPotion extends AbstractPotionData{
 	public EmptyPotion(Potion potion, int requiredDamageValue, int damageValue){
-		super(potion,requiredDamageValue,damageValue,1,1);
+		super(potion, requiredDamageValue, damageValue, 1, 1);
 	}
 }

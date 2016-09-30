@@ -23,7 +23,7 @@ public final class CharmPouchHandler{
 	
 	public static void setActivePouch(EntityPlayer player, ItemStack is){
 		if (is == null)instance.activePouchIDs.remove(player.getGameProfile().getId());
-		else instance.activePouchIDs.put(player.getGameProfile().getId(),new CharmPouchInfo(is));
+		else instance.activePouchIDs.put(player.getGameProfile().getId(), new CharmPouchInfo(is));
 		instance.refresh = true;
 	}
 	
@@ -31,7 +31,7 @@ public final class CharmPouchHandler{
 		return instance.activePouchIDs.get(player.getGameProfile().getId());
 	}
 	
-	private final Map<UUID,CharmPouchInfo> activePouchIDs = new HashMap<>();
+	private final Map<UUID, CharmPouchInfo> activePouchIDs = new HashMap<>();
 	private final CharmEvents events = new CharmEvents();
 	private boolean isHandlerActive;
 	private boolean refresh;
@@ -60,8 +60,8 @@ public final class CharmPouchHandler{
 		ItemStack[] mainInv = e.player.inventory.mainInventory;
 		
 		for(int a = 0; a < mainInv.length; a++){
-			if (mainInv[a] != null && mainInv[a].getItem() == ItemList.charm_pouch && NBT.item(mainInv[a],false).getBool("isPouchActive")){
-				setActivePouch(e.player,mainInv[a]);
+			if (mainInv[a] != null && mainInv[a].getItem() == ItemList.charm_pouch && NBT.item(mainInv[a], false).getBool("isPouchActive")){
+				setActivePouch(e.player, mainInv[a]);
 				break;
 			}
 		}

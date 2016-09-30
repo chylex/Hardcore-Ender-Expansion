@@ -31,7 +31,7 @@ public class GuiAmuletOfRecovery extends GuiContainer{
 	@Override
 	public void initGui(){
 		super.initGui();
-		buttonList.add(new GuiButtonArrow(1,width/2-6,height/2+6));
+		buttonList.add(new GuiButtonArrow(1, width/2-6, height/2+6));
 	}
 	
 	@Override
@@ -41,24 +41,24 @@ public class GuiAmuletOfRecovery extends GuiContainer{
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-		fontRendererObj.drawString(I18n.format("container.amuletOfRecovery"),8,6,(64<<16)|(64<<8)|64);
-		fontRendererObj.drawString(I18n.format(player.inventory.getInventoryName()),8,ySize-96+2,(64<<16)|(64<<8)|64);
+		fontRendererObj.drawString(I18n.format("container.amuletOfRecovery"), 8, 6, (64<<16)|(64<<8)|64);
+		fontRendererObj.drawString(I18n.format(player.inventory.getInventoryName()), 8, ySize-96+2, (64<<16)|(64<<8)|64);
 		
 		GuiButtonArrow arrow = (GuiButtonArrow)buttonList.get(0);
 		
 		if (arrow.func_146115_a() && mouseX >= arrow.xPosition && mouseY >= arrow.yPosition && mouseX < arrow.xPosition+arrow.width && mouseY < arrow.yPosition+arrow.height){
-			GuiItemRenderHelper.setupTooltip(mouseX,mouseY,I18n.format("gui.moveAndEquip"));
-			GuiItemRenderHelper.drawTooltip(this,fontRendererObj,guiLeft,guiTop);
+			GuiItemRenderHelper.setupTooltip(mouseX, mouseY, I18n.format("gui.moveAndEquip"));
+			GuiItemRenderHelper.drawTooltip(this, fontRendererObj, guiLeft, guiTop);
 		}
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTickTime, int mouseX, int mouseY){
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 		mc.getTextureManager().bindTexture(texture);
 		
 		int x = (width-xSize)/2, y = (height-ySize)/2;
-		drawTexturedModalRect(x,y,0,0,xSize,rowCount*18+17);
-		drawTexturedModalRect(x,y+rowCount*18+17,0,126,xSize,96);
+		drawTexturedModalRect(x, y, 0, 0, xSize, rowCount*18+17);
+		drawTexturedModalRect(x, y+rowCount*18+17, 0, 126, xSize, 96);
 	}
 }

@@ -35,6 +35,6 @@ public class BlobPopulatorFill extends BlobPopulator{
 			}
 		}
 		
-		for(Pos pos:toRemove)world.setBlock(pos,block);
+		for(Pos pos:toRemove)world.setBlock(pos, block);
 	}
 }

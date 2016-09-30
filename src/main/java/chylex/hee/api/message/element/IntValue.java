@@ -6,27 +6,27 @@ import chylex.hee.api.message.element.base.Precondition;
 
 public class IntValue extends Precondition<Integer>{
 	public static final IntValue any(){
-		return new IntValue(Integer.MIN_VALUE,Integer.MAX_VALUE);
+		return new IntValue(Integer.MIN_VALUE, Integer.MAX_VALUE);
 	}
 	
 	public static final IntValue positive(){
-		return new IntValue(1,Integer.MAX_VALUE);
+		return new IntValue(1, Integer.MAX_VALUE);
 	}
 	
 	public static final IntValue negative(){
-		return new IntValue(Integer.MIN_VALUE,-1);
+		return new IntValue(Integer.MIN_VALUE, -1);
 	}
 	
 	public static final IntValue positiveOrZero(){
-		return new IntValue(0,Integer.MAX_VALUE);
+		return new IntValue(0, Integer.MAX_VALUE);
 	}
 	
 	public static final IntValue negativeOrZero(){
-		return new IntValue(Integer.MIN_VALUE,0);
+		return new IntValue(Integer.MIN_VALUE, 0);
 	}
 	
 	public static final IntValue range(int minValue, int maxValue){
-		return new IntValue(minValue,maxValue);
+		return new IntValue(minValue, maxValue);
 	}
 	
 	private int minValue, maxValue;

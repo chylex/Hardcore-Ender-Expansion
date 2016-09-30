@@ -19,7 +19,7 @@ public class C11ParticleAltarOrb extends AbstractClientPacket{
 	public C11ParticleAltarOrb(){}
 	
 	public C11ParticleAltarOrb(TileEntityEssenceAltar altar, double targetX, double targetY, double targetZ){
-		this(altar,targetX,targetY,targetZ,(byte)1);
+		this(altar, targetX, targetY, targetZ, (byte)1);
 	}
 	
 	public C11ParticleAltarOrb(TileEntityEssenceAltar altar, double targetX, double targetY, double targetZ, byte amount){
@@ -45,7 +45,7 @@ public class C11ParticleAltarOrb extends AbstractClientPacket{
 	}
 	
 	public C11ParticleAltarOrb(double startX, double startY, double startZ, double targetX, double targetY, double targetZ, byte essenceId, byte amount, float width, float height){
-		this(startX,startY,startZ,targetX,targetY,targetZ,essenceId,amount);
+		this(startX, startY, startZ, targetX, targetY, targetZ, essenceId, amount);
 		this.width = width;
 		this.height = height;
 	}
@@ -76,7 +76,7 @@ public class C11ParticleAltarOrb extends AbstractClientPacket{
 		Random rand = player.worldObj.rand;
 		
 		for(int a = 0; a < amount; a++){
-			FXClientProxy.spawn(new EntityAltarOrbFX(player.worldObj,startX+width*(rand.nextFloat()-rand.nextFloat()),startY+height*rand.nextFloat(),startZ+width*(rand.nextFloat()-rand.nextFloat()),targetX,targetY,targetZ,essence));
+			FXClientProxy.spawn(new EntityAltarOrbFX(player.worldObj, startX+width*(rand.nextFloat()-rand.nextFloat()), startY+height*rand.nextFloat(), startZ+width*(rand.nextFloat()-rand.nextFloat()), targetX, targetY, targetZ, essence));
 		}
 	}
 }

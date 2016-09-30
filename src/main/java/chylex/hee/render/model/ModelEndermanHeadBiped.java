@@ -13,9 +13,9 @@ public class ModelEndermanHeadBiped extends ModelBiped{
 		textureWidth = 64;
 		textureHeight = 32;
 		
-		bipedHead = new ModelRenderer(this,0,0);
-		bipedHead.addBox(-4F,-8F,-4F,8,8,8,0F);
-		bipedHead.setRotationPoint(0F,0F,0F);
+		bipedHead = new ModelRenderer(this, 0, 0);
+		bipedHead.addBox(-4F, -8F, -4F, 8, 8, 8, 0F);
+		bipedHead.setRotationPoint(0F, 0F, 0F);
 		
 		bipedHead.showModel = true;
 		bipedHeadwear.showModel = true;
@@ -30,10 +30,10 @@ public class ModelEndermanHeadBiped extends ModelBiped{
 	
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+		setRotationAngles(limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel, entity);
 		
 		GL.pushMatrix();
-		GL.scale(1.05F,1.05F,1.05F);
+		GL.scale(1.05F, 1.05F, 1.05F);
 		bipedHead.render(unitPixel);
 		GL.popMatrix();
 	}

@@ -9,7 +9,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class RandomIterator<T> implements Iterator<T>{
 	private static final <T> List<T> shuffleMe(List<T> list, Random rand){
-		Collections.shuffle(list,rand);
+		Collections.shuffle(list, rand);
 		return list;
 	}
 	
@@ -19,7 +19,7 @@ public class RandomIterator<T> implements Iterator<T>{
 	
 	RandomIterator(List<T> collection, Random rand){
 		this.collection = collection;
-		this.indexes = ArrayUtils.toPrimitive(shuffleMe(IntStream.range(0,collection.size()).boxed().collect(Collectors.toList()),rand).toArray(new Integer[collection.size()]));
+		this.indexes = ArrayUtils.toPrimitive(shuffleMe(IntStream.range(0, collection.size()).boxed().collect(Collectors.toList()), rand).toArray(new Integer[collection.size()]));
 		// sorry
 	}
 	

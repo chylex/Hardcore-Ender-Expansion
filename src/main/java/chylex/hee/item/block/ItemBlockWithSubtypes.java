@@ -16,7 +16,7 @@ public class ItemBlockWithSubtypes extends ItemBlock{
 	
 	@Override
 	public IIcon getIconFromDamage(int damage){
-		return field_150939_a.getIcon(0,damage);
+		return field_150939_a.getIcon(0, damage);
 	}
 
 	@Override

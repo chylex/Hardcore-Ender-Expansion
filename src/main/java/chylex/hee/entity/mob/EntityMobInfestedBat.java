@@ -19,7 +19,7 @@ public class EntityMobInfestedBat extends EntityBat{
 	protected void entityInit(){
 		super.entityInit();
 		entityData = new EntityDataWatcher(this);
-		entityData.addFloat(Data.SCALE,0.35F+rand.nextFloat()*0.35F);
+		entityData.addFloat(Data.SCALE, 0.35F+rand.nextFloat()*0.35F);
 	}
 	
 	public float getScale(){
@@ -29,7 +29,7 @@ public class EntityMobInfestedBat extends EntityBat{
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setFloat("scale",getScale());
+		nbt.setFloat("scale", getScale());
 	}
 	
 	@Override
@@ -37,12 +37,12 @@ public class EntityMobInfestedBat extends EntityBat{
 		super.readEntityFromNBT(nbt);
 		
 		float scale = nbt.getFloat("scale");
-		if (scale != 0F)entityData.setFloat(Data.SCALE,scale);
+		if (scale != 0F)entityData.setFloat(Data.SCALE, scale);
 	}
 
 	@Override
 	public boolean getCanSpawnHere(){
-		return worldObj.checkNoEntityCollision(boundingBox) && worldObj.getCollidingBoundingBoxes(this,boundingBox).isEmpty() && !worldObj.isAnyLiquid(boundingBox);
+		return worldObj.checkNoEntityCollision(boundingBox) && worldObj.getCollidingBoundingBoxes(this, boundingBox).isEmpty() && !worldObj.isAnyLiquid(boundingBox);
 	}
 	
 	@Override

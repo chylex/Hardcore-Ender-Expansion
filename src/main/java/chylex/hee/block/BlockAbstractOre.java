@@ -8,7 +8,7 @@ public abstract class BlockAbstractOre extends BlockOre{
 	
 	@Override
 	public final void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta){
-		super.harvestBlock(world,player,x,y,z,meta);
-		// TODO CausatumUtils.increase(player,CausatumMeters.END_ORE_MINING,getCausatumLevel());
+		super.harvestBlock(world, player, x, y, z, meta);
+		// TODO CausatumUtils.increase(player, CausatumMeters.END_ORE_MINING, getCausatumLevel());
 	}
 }

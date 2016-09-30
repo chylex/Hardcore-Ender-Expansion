@@ -21,7 +21,7 @@ public class EntityTechnicalSpawner<T extends EntityLiving> extends EntityTechni
 	
 	public EntityTechnicalSpawner(World world, double x, double y, double z, IVirtualSpawner<T> spawner){
 		super(world);
-		setPosition(x,y,z);
+		setPosition(x, y, z);
 		this.spawner = spawner;
 	}
 
@@ -50,9 +50,9 @@ public class EntityTechnicalSpawner<T extends EntityLiving> extends EntityTechni
 					
 					for(int attemptsLeft = spawner.getSpawnAttempts(rand); attemptsLeft > 0 && mobsLeft > 0; attemptsLeft--){
 						T entity = spawner.createEntity(worldObj);
-						spawner.findSpawnPosition(worldObj,rand,player,entity,spawner.getSpawnRange(rand));
+						spawner.findSpawnPosition(worldObj, rand, player, entity, spawner.getSpawnRange(rand));
 						
-						if (spawner.checkSpawnConditions(worldObj,rand,players,player,entity)){
+						if (spawner.checkSpawnConditions(worldObj, rand, players, player, entity)){
 							worldObj.spawnEntityInWorld(entity);
 							--mobsLeft;
 						}
@@ -64,7 +64,7 @@ public class EntityTechnicalSpawner<T extends EntityLiving> extends EntityTechni
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt){
-		if (spawner != null)nbt.setString("spawnerCls",spawner.getClass().getName());
+		if (spawner != null)nbt.setString("spawnerCls", spawner.getClass().getName());
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class EntityTechnicalSpawner<T extends EntityLiving> extends EntityTechni
 		try{
 			this.spawner = ((Class<? extends IVirtualSpawner>)Class.forName(nbt.getString("spawnerCls"))).newInstance();
 		}catch(Throwable t){
-			Log.throwable(t,"Unable to load a spawner entity: $0",nbt.getString("spawnerCls"));
+			Log.throwable(t, "Unable to load a spawner entity: $0", nbt.getString("spawnerCls"));
 			setDead();
 		}
 	}
@@ -88,12 +88,12 @@ public class EntityTechnicalSpawner<T extends EntityLiving> extends EntityTechni
 		BoundingBox getCheckBox();
 		
 		default List<EntityPlayer> getPlayersInRange(World world){
-			return EntitySelector.players(world,getCheckBox().toAABB());
+			return EntitySelector.players(world, getCheckBox().toAABB());
 		}
 		
 		default void findSpawnPosition(World world, Random rand, EntityPlayer target, T entity, double range){
 			Vec vec = Vec.xzRandom(rand);
-			entity.setPositionAndRotation(target.posX+vec.x*range,target.posY+(rand.nextDouble()-0.5D)*range,target.posZ+vec.z*range,rand.nextFloat()*360F-180F,0F);
+			entity.setPositionAndRotation(target.posX+vec.x*range, target.posY+(rand.nextDouble()-0.5D)*range, target.posZ+vec.z*range, rand.nextFloat()*360F-180F, 0F);
 		}
 		
 		default boolean checkSpawnConditions(World world, Random rand, ImmutableList<EntityPlayer> playersInRange, EntityPlayer target, T entity){

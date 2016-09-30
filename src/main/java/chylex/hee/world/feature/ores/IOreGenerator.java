@@ -19,7 +19,7 @@ public interface IOreGenerator{
 	void generate(GenerateOres gen, StructureWorld world, Random rand, int x, int y, int z, int ores);
 	
 	default boolean canPlaceAt(GenerateOres gen, StructureWorld world, Random rand, int x, int y, int z){
-		return world.getBlock(x,y,z) == gen.toReplace;
+		return world.getBlock(x, y, z) == gen.toReplace;
 	}
 	
 	/**
@@ -28,7 +28,7 @@ public interface IOreGenerator{
 	public static class SinglePiece implements IOreGenerator{
 		@Override
 		public void generate(GenerateOres gen, StructureWorld world, Random rand, int x, int y, int z, int ores){
-			world.setBlock(x,y,z,gen.orePicker.pick(rand));
+			world.setBlock(x, y, z, gen.orePicker.pick(rand));
 		}
 	}
 	
@@ -48,19 +48,19 @@ public interface IOreGenerator{
 			List<Pos> generated = new ArrayList<>(ores);
 			PosMutable mpos;
 			
-			mpos = new PosMutable(x,y,z);
+			mpos = new PosMutable(x, y, z);
 			generated.add(mpos.immutable());
-			world.setBlock(x,y,z,gen.orePicker.pick(rand));
+			world.setBlock(x, y, z, gen.orePicker.pick(rand));
 			
 			for(int ore = 1; ore < ores; ore++){
 				for(int attempt = 0; attempt < 5; attempt++){
-					mpos.set(CollectionUtil.randomOrNull(generated,rand));
+					mpos.set(CollectionUtil.randomOrNull(generated, rand));
 					
-					if (allowDiagonal)mpos.move(rand.nextInt(3)-1,rand.nextInt(3)-1,rand.nextInt(3)-1);
+					if (allowDiagonal)mpos.move(rand.nextInt(3)-1, rand.nextInt(3)-1, rand.nextInt(3)-1);
 					else mpos.move(Facing6.random(rand));
 					
-					if (canPlaceAt(gen,world,rand,mpos.x,mpos.y,mpos.z)){
-						world.setBlock(mpos,gen.orePicker.pick(rand));
+					if (canPlaceAt(gen, world, rand, mpos.x, mpos.y, mpos.z)){
+						world.setBlock(mpos, gen.orePicker.pick(rand));
 						generated.add(mpos.immutable());
 						break;
 					}
@@ -93,10 +93,10 @@ public interface IOreGenerator{
 					Vec vec = Vec.xyzRandom(rand);
 					double dist = calculator.applyAsDouble(rand);
 					
-					mpos.set(dx+vec.x*dist,dy+vec.y*dist,dz+vec.z*dist);
+					mpos.set(dx+vec.x*dist, dy+vec.y*dist, dz+vec.z*dist);
 					
-					if (canPlaceAt(gen,world,rand,mpos.x,mpos.y,mpos.z)){
-						world.setBlock(mpos,gen.orePicker.pick(rand));
+					if (canPlaceAt(gen, world, rand, mpos.x, mpos.y, mpos.z)){
+						world.setBlock(mpos, gen.orePicker.pick(rand));
 						break;
 					}
 				}
@@ -121,23 +121,23 @@ public interface IOreGenerator{
 		public void generate(GenerateOres gen, StructureWorld world, Random rand, int x, int y, int z, int ores){
 			final List<Pos> generated = new ArrayList<>(ores);
 			
-			world.setBlock(x,y,z,gen.orePicker.pick(rand));
-			generated.add(Pos.at(x,y,z));
+			world.setBlock(x, y, z, gen.orePicker.pick(rand));
+			generated.add(Pos.at(x, y, z));
 			
 			for(int attempt = 0; attempt < 3*ores; attempt++){
 				int total = oresPerLine.next(rand);
-				Pos startPos = CollectionUtil.randomOrNull(generated,rand);
+				Pos startPos = CollectionUtil.randomOrNull(generated, rand);
 				Vec dir = Vec.xyzRandom(rand);
-				Vec pos = Vec.xyz(startPos.getX()+0.5D,startPos.getY()+0.5D,startPos.getZ()+0.5D);
+				Vec pos = Vec.xyz(startPos.getX()+0.5D, startPos.getY()+0.5D, startPos.getZ()+0.5D);
 				
 				for(int cycle = 1, left = total; cycle <= (generateCloser ? total*2 : total) && left > 0; cycle++){
 					if (generated.size() >= ores)return;
 					
 					double mp = generateCloser ? 0.5D : 1D;
-					Pos nextPos = Pos.at(pos.x += dir.x*mp,pos.y += dir.y*mp,pos.z += dir.z*mp);
+					Pos nextPos = Pos.at(pos.x += dir.x*mp, pos.y += dir.y*mp, pos.z += dir.z*mp);
 					
-					if (canPlaceAt(gen,world,rand,nextPos.getX(),nextPos.getY(),nextPos.getZ())){
-						world.setBlock(nextPos,gen.orePicker.pick(rand));
+					if (canPlaceAt(gen, world, rand, nextPos.getX(), nextPos.getY(), nextPos.getZ())){
+						world.setBlock(nextPos, gen.orePicker.pick(rand));
 						generated.add(nextPos);
 						--left;
 					}
@@ -156,7 +156,7 @@ public interface IOreGenerator{
 		
 		@Override
 		public boolean canPlaceAt(GenerateOres gen, StructureWorld world, Random rand, int x, int y, int z){
-			return super.canPlaceAt(gen,world,rand,x,y,z) && Arrays.stream(Facing6.list).anyMatch(facing -> world.isAir(x+facing.getX(),y+facing.getY(),z+facing.getZ()));
+			return super.canPlaceAt(gen, world, rand, x, y, z) && Arrays.stream(Facing6.list).anyMatch(facing -> world.isAir(x+facing.getX(), y+facing.getY(), z+facing.getZ()));
 		}
 	}
 }

@@ -17,7 +17,7 @@ public class BlockLaserBeam extends BlockContainer{
 	
 	public BlockLaserBeam(){
 		super(laserBeam);
-		setBlockBounds(0F,0F,0F,0F,0F,0F);
+		setBlockBounds(0F, 0F, 0F, 0F, 0F, 0F);
 	}
 	
 	@Override
@@ -48,7 +48,7 @@ public class BlockLaserBeam extends BlockContainer{
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
 		if (entity.isImmuneToFire())return;
-		entity.attackEntityFrom(DamageSource.magic,ModCommonProxy.opMobs ? 5F : 3F);
+		entity.attackEntityFrom(DamageSource.magic, ModCommonProxy.opMobs ? 5F : 3F);
 		entity.setFire(1);
 	}
 

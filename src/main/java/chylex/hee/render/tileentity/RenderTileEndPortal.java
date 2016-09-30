@@ -36,11 +36,11 @@ public class RenderTileEndPortal extends RenderTilePortalBase{
 	
 	@Override
 	protected void generateColors(int layer){
-		setEndPortalColor(this,layer);
+		setEndPortalColor(this, layer);
 		
 		if (progress < 1F && layer > 1){
 			// this is cubic easing out with adjustment to kick off new layers just before the old one has full color
-			colorMp *= MathUtil.clamp(-progress*(progress-2F)*14.5F-0.95F*(layer-1),0F,1F);
+			colorMp *= MathUtil.clamp(-progress*(progress-2F)*14.5F-0.95F*(layer-1), 0F, 1F);
 		}
 	}
 	

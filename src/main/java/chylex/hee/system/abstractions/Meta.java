@@ -161,7 +161,7 @@ public final class Meta{
 	public enum LogDirection { PILLAR, EAST_WEST, NORTH_SOUTH }
 	
 	public static BlockInfo getLog(LogType type, Facing4 facing){
-		return getLog(type,(facing == Facing4.EAST_POSX || facing == Facing4.WEST_NEGX) ? LogDirection.EAST_WEST :
+		return getLog(type, (facing == Facing4.EAST_POSX || facing == Facing4.WEST_NEGX) ? LogDirection.EAST_WEST :
 						   (facing == Facing4.NORTH_NEGZ || facing == Facing4.SOUTH_POSZ) ? LogDirection.NORTH_SOUTH :
 						   LogDirection.PILLAR);
 	}
@@ -188,7 +188,7 @@ public final class Meta{
 			case NORTH_SOUTH: meta += 8; break;
 		}
 		
-		return new BlockInfo(log,meta);
+		return new BlockInfo(log, meta);
 	}
 	
 	/* === FLOWER POTS === */
@@ -229,8 +229,8 @@ public final class Meta{
 					break;
 			}
 			
-			Pos.at(tile).setMetadata(tile.getWorldObj(),meta);
-			((TileEntityFlowerPot)tile).func_145964_a(Item.getItemFromBlock(block),meta);
+			Pos.at(tile).setMetadata(tile.getWorldObj(), meta);
+			((TileEntityFlowerPot)tile).func_145964_a(Item.getItemFromBlock(block), meta);
 		};
 	}
 	
@@ -248,9 +248,9 @@ public final class Meta{
 		}
 		
 		return (tile, rand) -> {
-			tile.getWorldObj().setBlockMetadataWithNotify(tile.xCoord,tile.yCoord,tile.zCoord,meta,3);
+			tile.getWorldObj().setBlockMetadataWithNotify(tile.xCoord, tile.yCoord, tile.zCoord, meta, 3);
 			if (tile instanceof TileEntityChest)((TileEntityChest)tile).adjacentChestChecked = true;
-			if (call != null)call.generateTile(tile,rand);
+			if (call != null)call.generateTile(tile, rand);
 		};
 	}
 	
@@ -268,8 +268,8 @@ public final class Meta{
 		}
 		
 		return (tile, rand) -> {
-			tile.getWorldObj().setBlockMetadataWithNotify(tile.xCoord,tile.yCoord,tile.zCoord,meta,3);
-			if (call != null)call.generateTile(tile,rand);
+			tile.getWorldObj().setBlockMetadataWithNotify(tile.xCoord, tile.yCoord, tile.zCoord, meta, 3);
+			if (call != null)call.generateTile(tile, rand);
 		};
 	}
 	
@@ -285,7 +285,7 @@ public final class Meta{
 			TileEntitySkull skull = (TileEntitySkull)tile;
 			skull.func_152107_a(skullType.ordinal()); // OBFUSCATED setSkullType
 			
-			double deg = 78.75D+MathUtil.toDeg(Math.atan2(looksAtCopy.getZ()-placedAtCopy.getZ(),looksAtCopy.getX()-placedAtCopy.getX()));
+			double deg = 78.75D+MathUtil.toDeg(Math.atan2(looksAtCopy.getZ()-placedAtCopy.getZ(), looksAtCopy.getX()-placedAtCopy.getX()));
 			if (deg < 0D)deg += 360D;
 			
 			skull.func_145903_a((1+MathUtil.floor(deg*16D/360D))&15); // OBFUSCATED setSkullRotation

@@ -29,8 +29,8 @@ public class C04EndPortalAnimation extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		Pos.forEachBlock(centerPos.offset(-1,0,-1),centerPos.offset(1,0,1),pos -> {
-			pos.castTileEntity(player.worldObj,TileEntityEndPortalCustom.class).ifPresent(tile -> tile.startAnimation());
+		Pos.forEachBlock(centerPos.offset(-1, 0, -1), centerPos.offset(1, 0, 1), pos -> {
+			pos.castTileEntity(player.worldObj, TileEntityEndPortalCustom.class).ifPresent(tile -> tile.startAnimation());
 		});
 	}
 }

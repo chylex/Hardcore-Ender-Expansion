@@ -41,20 +41,20 @@ public class NBTCompound{
 		return tag.func_150296_c().size();
 	}
 	
-	public void forEach(BiConsumer<NBTCompound,String> consumer){
-		for(String key:keySet())consumer.accept(this,key);
+	public void forEach(BiConsumer<NBTCompound, String> consumer){
+		for(String key:keySet())consumer.accept(this, key);
 	}
 	
 	public void forEachInt(IStringIntConsumer consumer){
-		for(String key:keySet())consumer.accept(key,getInt(key));
+		for(String key:keySet())consumer.accept(key, getInt(key));
 	}
 	
 	public void forEachLong(IStringLongConsumer consumer){
-		for(String key:keySet())consumer.accept(key,getLong(key));
+		for(String key:keySet())consumer.accept(key, getLong(key));
 	}
 	
-	public void forEachCompound(BiConsumer<String,NBTCompound> consumer){
-		for(String key:keySet())consumer.accept(key,getCompound(key));
+	public void forEachCompound(BiConsumer<String, NBTCompound> consumer){
+		for(String key:keySet())consumer.accept(key, getCompound(key));
 	}
 	
 	// CUSTOM WRITERS AND READERS
@@ -67,12 +67,12 @@ public class NBTCompound{
 			
 			if (is != null){
 				NBTTagCompound itemTag = is.writeToNBT(new NBTTagCompound());
-				itemTag.setByte("_",(byte)slot);
+				itemTag.setByte("_", (byte)slot);
 				list.appendTag(itemTag);
 			}
 		}
 		
-		setTag(key,list);
+		setTag(key, list);
 	}
 	
 	public void readInventory(String key, IInventory inventory){
@@ -80,88 +80,88 @@ public class NBTCompound{
 		
 		for(int slot = 0; slot < list.size(); slot++){
 			NBTCompound itemTag = list.getCompound(slot);
-			inventory.setInventorySlotContents(itemTag.getByte("_"),ItemStack.loadItemStackFromNBT(itemTag.getUnderlyingTag()));
+			inventory.setInventorySlotContents(itemTag.getByte("_"), ItemStack.loadItemStackFromNBT(itemTag.getUnderlyingTag()));
 		}
 	}
 	
 	public <T extends NBTBase> void writeList(String key, Stream<T> stream){
 		NBTTagList tag = new NBTTagList();
 		stream.forEach(tag::appendTag);
-		setTag(key,tag);
+		setTag(key, tag);
 	}
 	
 	public void writeList(String key, IntStream stream){
-		writeList(key,stream.mapToObj(NBTTagInt::new));
+		writeList(key, stream.mapToObj(NBTTagInt::new));
 	}
 	
 	public void writeList(String key, LongStream stream){
-		writeList(key,stream.mapToObj(NBTTagLong::new));
+		writeList(key, stream.mapToObj(NBTTagLong::new));
 	}
 	
 	public void writeList(String key, DoubleStream stream){
-		writeList(key,stream.mapToObj(NBTTagDouble::new));
+		writeList(key, stream.mapToObj(NBTTagDouble::new));
 	}
 	
 	// DELEGATE SETTERS
 
 	public void setTag(String key, NBTBase value){
-		tag.setTag(key,value);
+		tag.setTag(key, value);
 	}
 
 	public void setBool(String key, boolean value){
-		tag.setBoolean(key,value);
+		tag.setBoolean(key, value);
 	}
 
 	public void setByte(String key, byte value){
-		tag.setByte(key,value);
+		tag.setByte(key, value);
 	}
 
 	public void setShort(String key, short value){
-		tag.setShort(key,value);
+		tag.setShort(key, value);
 	}
 
 	public void setInt(String key, int value){
-		tag.setInteger(key,value);
+		tag.setInteger(key, value);
 	}
 
 	public void setLong(String key, long value){
-		tag.setLong(key,value);
+		tag.setLong(key, value);
 	}
 
 	public void setFloat(String key, float value){
-		tag.setFloat(key,value);
+		tag.setFloat(key, value);
 	}
 
 	public void setDouble(String key, double value){
-		tag.setDouble(key,value);
+		tag.setDouble(key, value);
 	}
 
 	public void setString(String key, String value){
-		tag.setString(key,value);
+		tag.setString(key, value);
 	}
 
 	public void setByteArray(String key, byte[] value){
-		tag.setByteArray(key,value);
+		tag.setByteArray(key, value);
 	}
 
 	public void setIntArray(String key, int[] value){
-		tag.setIntArray(key,value);
+		tag.setIntArray(key, value);
 	}
 	
 	public void setCompound(String key, NBTTagCompound value){
-		tag.setTag(key,value);
+		tag.setTag(key, value);
 	}
 	
 	public void setCompound(String key, NBTCompound value){
-		tag.setTag(key,value.getUnderlyingTag());
+		tag.setTag(key, value.getUnderlyingTag());
 	}
 	
 	public void setList(String key, NBTTagList value){
-		tag.setTag(key,value);
+		tag.setTag(key, value);
 	}
 	
 	public void setList(String key, NBTList value){
-		tag.setTag(key,value.getUnderlyingTag());
+		tag.setTag(key, value.getUnderlyingTag());
 	}
 	
 	// DELEGATE GETTERS

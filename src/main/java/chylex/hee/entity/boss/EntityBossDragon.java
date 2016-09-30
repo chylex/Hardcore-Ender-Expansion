@@ -115,14 +115,14 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		super(world);
 		
 		dragonPartArray = new EntityDragonPart[]{
-			dragonPartHead = new EntityDragonPart(this,"head",6F,6F), dragonPartBody = new EntityDragonPart(this,"body",8F,8F),
-			dragonPartTail1 = new EntityDragonPart(this,"tail",4F,4F), dragonPartTail2 = new EntityDragonPart(this,"tail",4F,4F),
-			dragonPartTail3 = new EntityDragonPart(this,"tail",4F,4F), dragonPartWing1 = new EntityDragonPart(this,"wing",4F,4F),
-			dragonPartWing2 = new EntityDragonPart(this,"wing",4F,4F)
+			dragonPartHead = new EntityDragonPart(this, "head", 6F, 6F), dragonPartBody = new EntityDragonPart(this, "body", 8F, 8F),
+			dragonPartTail1 = new EntityDragonPart(this, "tail", 4F, 4F), dragonPartTail2 = new EntityDragonPart(this, "tail", 4F, 4F),
+			dragonPartTail3 = new EntityDragonPart(this, "tail", 4F, 4F), dragonPartWing1 = new EntityDragonPart(this, "wing", 4F, 4F),
+			dragonPartWing2 = new EntityDragonPart(this, "wing", 4F, 4F)
 		};
 		
 		setHealth(getMaxHealth());
-		setSize(16F,8F);
+		setSize(16F, 8F);
 		noClip = true;
 		isImmuneToFire = true;
 		targetY = 100D;
@@ -134,21 +134,21 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		rewards = new DragonRewardManager(this);
 		achievements = new DragonAchievementManager(this);
 		
-		attacks.registerPassive(new DragonAttackFireball(this,ATTACK_FIREBALL));
-		attacks.registerPassive(new DragonAttackBite(this,ATTACK_BITE));
+		attacks.registerPassive(new DragonAttackFireball(this, ATTACK_FIREBALL));
+		attacks.registerPassive(new DragonAttackBite(this, ATTACK_BITE));
 		
-		attacks.registerSpecial(defaultAttack = new DragonAttackDefault(this,0));
-		attacks.registerSpecial(new DragonAttackDivebomb(this,1,10).setDisabledPassiveAttacks(ATTACK_FIREBALL));
-		attacks.registerSpecial(new DragonAttackFireburst(this,2,10).setDisabledPassiveAttacks(ATTACK_FIREBALL,ATTACK_BITE));
-		attacks.registerSpecial(new DragonAttackPunch(this,3,10).setDisabledPassiveAttacks(ATTACK_FIREBALL));
-		attacks.registerSpecial(new DragonAttackSummoning(this,4,7).setDisabledPassiveAttacks(ATTACK_FIREBALL,ATTACK_BITE));
-		attacks.registerSpecial(new DragonAttackBloodlust(this,5,7).setDisabledPassiveAttacks(ATTACK_FIREBALL,ATTACK_BITE));
+		attacks.registerSpecial(defaultAttack = new DragonAttackDefault(this, 0));
+		attacks.registerSpecial(new DragonAttackDivebomb(this, 1, 10).setDisabledPassiveAttacks(ATTACK_FIREBALL));
+		attacks.registerSpecial(new DragonAttackFireburst(this, 2, 10).setDisabledPassiveAttacks(ATTACK_FIREBALL, ATTACK_BITE));
+		attacks.registerSpecial(new DragonAttackPunch(this, 3, 10).setDisabledPassiveAttacks(ATTACK_FIREBALL));
+		attacks.registerSpecial(new DragonAttackSummoning(this, 4, 7).setDisabledPassiveAttacks(ATTACK_FIREBALL, ATTACK_BITE));
+		attacks.registerSpecial(new DragonAttackBloodlust(this, 5, 7).setDisabledPassiveAttacks(ATTACK_FIREBALL, ATTACK_BITE));
 	}
 
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		EntityAttributes.setValue(this,EntityAttributes.maxHealth,250D+(ModCommonProxy.opMobs ? 80D : 0D));
+		EntityAttributes.setValue(this, EntityAttributes.maxHealth, 250D+(ModCommonProxy.opMobs ? 80D : 0D));
 	}
 
 	@Override
@@ -171,7 +171,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			if (ticksExisted%40 == 0 && attacks.getViablePlayers().isEmpty()){
 				noViablePlayers = true;
 				
-				if (worldObj.getClosestPlayerToEntity(this,180D) == null){
+				if (worldObj.getClosestPlayerToEntity(this, 180D) == null){
 					freezeAI = true;
 					if (!worldObj.isRemote)DragonChunkManager.release(this);
 					return;
@@ -195,7 +195,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			
 			if (loadTimer > 0 && --loadTimer == 1){
 				for(int chunkX = -6; chunkX <= 6; chunkX++){
-					for(int chunkZ = -6; chunkZ <= 6; chunkZ++)worldObj.getChunkFromChunkCoords(chunkX,chunkZ);
+					for(int chunkZ = -6; chunkZ <= 6; chunkZ++)worldObj.getChunkFromChunkCoords(chunkX, chunkZ);
 				}
 			}
 			
@@ -211,7 +211,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			currentAttack.update();
 			
 			if (angryStatus){
-				DebugBoard.updateValue("AttackId",currentAttack.id);
+				DebugBoard.updateValue("AttackId", currentAttack.id);
 				
 				if (currentAttack.equals(defaultAttack)){
 					if (nextAttackTicks-- <= 0 && target == null){
@@ -236,12 +236,12 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				if (dragonHurtTime > 0)--dragonHurtTime;
 				
 				double spd = currentAttack.overrideMovementSpeed();
-				if (moveSpeedMp > spd)moveSpeedMp = moveSpeedMp < 0.2D && spd == 0D ? 0D : Math.max(spd,moveSpeedMp-0.0175D);
-				else if (moveSpeedMp < spd)moveSpeedMp = Math.min(spd,moveSpeedMp+0.0175D);
+				if (moveSpeedMp > spd)moveSpeedMp = moveSpeedMp < 0.2D && spd == 0D ? 0D : Math.max(spd, moveSpeedMp-0.0175D);
+				else if (moveSpeedMp < spd)moveSpeedMp = Math.min(spd, moveSpeedMp+0.0175D);
 
 				float wng = frozen ? HeeDebugCommand.overrideWingSpeed : currentAttack.overrideWingSpeed(), curWng = getWingSpeed();
-				if (curWng > wng)curWng = Math.max(wng,curWng-0.015F);
-				else if (curWng < wng)curWng = Math.min(wng,curWng+0.015F);
+				if (curWng > wng)curWng = Math.max(wng, curWng-0.015F);
+				else if (curWng < wng)curWng = Math.min(wng, curWng+0.015F);
 				
 				if (curWng != getWingSpeed())setWingSpeed(curWng);
 				
@@ -250,12 +250,12 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					
 					if (perc < 40 && rand.nextInt(500-(50-perc)*8) == 0){
 						int x = (int)posX+rand.nextInt(301)-150, z = (int)posZ+rand.nextInt(301)-150;
-						int y = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,x,z);
+						int y = 1+DragonUtil.getTopBlockY(worldObj, Blocks.end_stone, x, z);
 						
 						/* TODO EntityMobAngryEnderman buddy = new EntityMobAngryEnderman(worldObj);
-						buddy.setPosition(x,y,z);
+						buddy.setPosition(x, y, z);
 						
-						worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(worldObj,x,y,z));
+						worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(worldObj, x, y, z));
 						worldObj.spawnEntityInWorld(buddy);*/
 					}
 					
@@ -267,17 +267,17 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		}
 
 		if (worldObj.isRemote && MathHelper.cos(prevAnimTime*(float)Math.PI*2F) <= -0.3F && MathHelper.cos(animTime*(float)Math.PI*2F) >= -0.3F){
-			worldObj.playSound(posX,posY,posZ,"mob.enderdragon.wings",5F,0.8F+rand.nextFloat()*0.3F,false);
+			worldObj.playSound(posX, posY, posZ, "mob.enderdragon.wings", 5F, 0.8F+rand.nextFloat()*0.3F, false);
 		}
 
 		prevAnimTime = animTime;
 
-		if (getHealth() <= 0F)worldObj.spawnParticle("largeexplode",posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
+		if (getHealth() <= 0F)worldObj.spawnParticle("largeexplode", posX+(rand.nextFloat()-0.5F)*8F, posY+2D+(rand.nextFloat()-0.5F)*4F, posZ+(rand.nextFloat()-0.5F)*8F, 0D, 0D, 0D);
 		else{
 			updateEnderCrystal();
 			
 			float animAdvance = 0.2F/(MathHelper.sqrt_double(motionX*motionX+motionZ*motionZ)*10F+1F);
-			animAdvance *= (float)Math.pow(2D,motionY);
+			animAdvance *= (float)Math.pow(2D, motionY);
 			animAdvance *= getWingSpeed();
 
 			animTime += slowed ? animAdvance*0.5F : animAdvance;
@@ -304,8 +304,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					rotationYaw = (float)(rotationYaw+MathHelper.wrapAngleTo180_double(newRotationYaw-rotationYaw)/newPosRotationIncrements);
 					rotationPitch = (float)(rotationPitch+(newRotationPitch-rotationPitch)/newPosRotationIncrements);
 					--newPosRotationIncrements;
-					setPosition(finalPosX,finalPosY,finalPosZ);
-					setRotation(rotationYaw,rotationPitch);
+					setPosition(finalPosX, finalPosY, finalPosZ);
+					setRotation(rotationYaw, rotationPitch);
 				}
 			}
 			else{
@@ -315,15 +315,15 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				if (noViablePlayers){
 					forceAttackEnd = true;
 					trySetTarget(null);
-					trySetTargetPosition(rand.nextDouble()*60D-30D,targetY,rand.nextDouble()*60D-30D);
+					trySetTargetPosition(rand.nextDouble()*60D-30D, targetY, rand.nextDouble()*60D-30D);
 				}
 				
 				if (target != null){
 					targetX = target.posX;
 					targetZ = target.posZ;
-					targetY = target.boundingBox.minY+Math.min(0.4D+Math.sqrt(Math.pow(targetX-posX,2)+Math.pow(targetZ-posZ,2))/80D-1D,10D);
+					targetY = target.boundingBox.minY+Math.min(0.4D+Math.sqrt(Math.pow(targetX-posX, 2)+Math.pow(targetZ-posZ, 2))/80D-1D, 10D);
 				}
-				else trySetTargetPosition(targetX+rand.nextGaussian()*2D,targetY,targetZ+rand.nextGaussian()*2D);
+				else trySetTargetPosition(targetX+rand.nextGaussian()*2D, targetY, targetZ+rand.nextGaussian()*2D);
 				
 				if ((target != null && target.isDead) || distFromTargetSq > 22500D)forceAttackEnd = forceNewTarget = true;
 
@@ -331,38 +331,38 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					setNewTarget();
 				}
 
-				yDiff = MathUtil.clamp(yDiff/MathUtil.distance(xDiff,zDiff),-0.6F,0.6F);
+				yDiff = MathUtil.clamp(yDiff/MathUtil.distance(xDiff, zDiff), -0.6F, 0.6F);
 
 				motionY += yDiff*0.1D;
 				rotationYaw = MathHelper.wrapAngleTo180_float(rotationYaw);
-				double d9 = MathUtil.clamp(MathHelper.wrapAngleTo180_double(180D-MathUtil.toDeg(Math.atan2(xDiff,zDiff))-rotationYaw),-50D,50D);
+				double d9 = MathUtil.clamp(MathHelper.wrapAngleTo180_double(180D-MathUtil.toDeg(Math.atan2(xDiff, zDiff))-rotationYaw), -50D, 50D);
 
-				Vec3 targetDiffVec = Vec3.createVectorHelper(targetX-posX,targetY-posY,targetZ-posZ).normalize();
-				Vec3 rotationVec = Vec3.createVectorHelper(MathHelper.sin(MathUtil.toRad(rotationYaw)),motionY,(-MathHelper.cos(MathUtil.toRad(rotationYaw)))).normalize();
+				Vec3 targetDiffVec = Vec3.createVectorHelper(targetX-posX, targetY-posY, targetZ-posZ).normalize();
+				Vec3 rotationVec = Vec3.createVectorHelper(MathHelper.sin(MathUtil.toRad(rotationYaw)), motionY, (-MathHelper.cos(MathUtil.toRad(rotationYaw)))).normalize();
 				
-				float f4 = Math.max((float)(rotationVec.dotProduct(targetDiffVec)+0.5D)/1.5F,0F);
+				float f4 = Math.max((float)(rotationVec.dotProduct(targetDiffVec)+0.5D)/1.5F, 0F);
 
 				randomYawVelocity *= 0.8F;
 				float speed = MathHelper.sqrt_double(motionX*motionX+motionZ*motionZ)+1F;
-				double speedLimited = Math.min(Math.sqrt(motionX*motionX+motionZ*motionZ)+1D,40D);
+				double speedLimited = Math.min(Math.sqrt(motionX*motionX+motionZ*motionZ)+1D, 40D);
 
 				randomYawVelocity = (float)(randomYawVelocity+d9*(0.7D/speedLimited/speed));
 				rotationYaw += randomYawVelocity*0.1F;
 				float f6 = (float)(2D/(speedLimited+1D));
-				moveFlying(0F,-1F,0.06F*(f4*f6+(1F-f6)));
+				moveFlying(0F, -1F, 0.06F*(f4*f6+(1F-f6)));
 				
 				if (frozen)motionX = motionY = motionZ = 0D;
 				
-				MotionUpdateEvent event = new MotionUpdateEvent(motionX,motionY,motionZ);
+				MotionUpdateEvent event = new MotionUpdateEvent(motionX, motionY, motionZ);
 				currentAttack.onMotionUpdateEvent(event);
 				motionX = event.motionX;
 				motionY = event.motionY;
 				motionZ = event.motionZ;
 
-				if (slowed)moveEntity(motionX*moveSpeedMp*0.8D,motionY*moveSpeedMp*0.8D,motionZ*moveSpeedMp*0.8D);
-				else moveEntity(motionX*moveSpeedMp,motionY*moveSpeedMp,motionZ*moveSpeedMp);
+				if (slowed)moveEntity(motionX*moveSpeedMp*0.8D, motionY*moveSpeedMp*0.8D, motionZ*moveSpeedMp*0.8D);
+				else moveEntity(motionX*moveSpeedMp, motionY*moveSpeedMp, motionZ*moveSpeedMp);
 
-				double motionMultiplier = 0.8D+0.15D*((Vec3.createVectorHelper(motionX,motionY,motionZ).normalize().dotProduct(rotationVec)+1D)*0.5D);
+				double motionMultiplier = 0.8D+0.15D*((Vec3.createVectorHelper(motionX, motionY, motionZ).normalize().dotProduct(rotationVec)+1D)*0.5D);
 				motionX *= motionMultiplier;
 				motionZ *= motionMultiplier;
 				motionY *= 0.91D;
@@ -377,45 +377,45 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			dragonPartWing1.width = 4F; dragonPartWing1.height = 2F;
 			dragonPartWing2.width = 4F; dragonPartWing2.height = 3F;
 			
-			float offsetAngle = MathUtil.toRad((float)(getMovementOffsets(5,1F)[1]-getMovementOffsets(10,1F)[1])*10F);
+			float offsetAngle = MathUtil.toRad((float)(getMovementOffsets(5, 1F)[1]-getMovementOffsets(10, 1F)[1])*10F);
 			float angleCos = MathHelper.cos(offsetAngle);
 			float angleSin = -MathHelper.sin(offsetAngle);
 			float yawRad = MathUtil.toRad(rotationYaw);
 			float yawSin = MathHelper.sin(yawRad);
 			float yawCos = MathHelper.cos(yawRad);
 			dragonPartBody.onUpdate();
-			dragonPartBody.setLocationAndAngles(posX+yawSin*0.5F,posY,posZ-yawCos*0.5F,0F,0F);
+			dragonPartBody.setLocationAndAngles(posX+yawSin*0.5F, posY, posZ-yawCos*0.5F, 0F, 0F);
 			dragonPartWing1.onUpdate();
-			dragonPartWing1.setLocationAndAngles(posX+yawCos*4.5F,posY+2D,posZ+yawSin*4.5F,0F,0F);
+			dragonPartWing1.setLocationAndAngles(posX+yawCos*4.5F, posY+2D, posZ+yawSin*4.5F, 0F, 0F);
 			dragonPartWing2.onUpdate();
-			dragonPartWing2.setLocationAndAngles(posX-yawCos*4.5F,posY+2D,posZ-yawSin*4.5F,0F,0F);
+			dragonPartWing2.setLocationAndAngles(posX-yawCos*4.5F, posY+2D, posZ-yawSin*4.5F, 0F, 0F);
 			
-			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartWing1.boundingBox.expand(1.5D,2D,1.5D).offset(0D,-2D,0D)));
-			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartWing2.boundingBox.expand(1.5D,2D,1.5D).offset(0D,-2D,0D)));
-			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartTail3.boundingBox.expand(0.8D,1D,0.8D)));
-			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartHead.boundingBox.expand(0.6D,1D,0.6D)));
+			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this, dragonPartWing1.boundingBox.expand(1.5D, 2D, 1.5D).offset(0D, -2D, 0D)));
+			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this, dragonPartWing2.boundingBox.expand(1.5D, 2D, 1.5D).offset(0D, -2D, 0D)));
+			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this, dragonPartTail3.boundingBox.expand(0.8D, 1D, 0.8D)));
+			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this, dragonPartHead.boundingBox.expand(0.6D, 1D, 0.6D)));
 
-			double[] oldOffsets = getMovementOffsets(5,1F), currentOffsets = getMovementOffsets(0,1F);
+			double[] oldOffsets = getMovementOffsets(5, 1F), currentOffsets = getMovementOffsets(0, 1F);
 			float moveX = MathHelper.sin(MathUtil.toRad(rotationYaw)-randomYawVelocity*0.01F);
 			float moveZ = MathHelper.cos(MathUtil.toRad(rotationYaw)-randomYawVelocity*0.01F);
 			dragonPartHead.onUpdate();
-			dragonPartHead.setLocationAndAngles(posX+moveX*5.5F*angleCos,posY+currentOffsets[1]-oldOffsets[1]+angleSin*5.5F,posZ-moveZ*5.5F*angleCos,0F,0F);
+			dragonPartHead.setLocationAndAngles(posX+moveX*5.5F*angleCos, posY+currentOffsets[1]-oldOffsets[1]+angleSin*5.5F, posZ-moveZ*5.5F*angleCos, 0F, 0F);
 
 			for(int part = 0; part < 3; part++){
 				EntityDragonPart tailPart = part == 0 ? dragonPartTail1 : part == 1 ? dragonPartTail2 : dragonPartTail3;
 				
-				double[] partOffsets = getMovementOffsets(12+part*2,1F);
+				double[] partOffsets = getMovementOffsets(12+part*2, 1F);
 				float partYaw = MathUtil.toRad(rotationYaw)+MathUtil.toRad((float)MathHelper.wrapAngleTo180_double(partOffsets[0]-oldOffsets[0]));
 				float partYawSin = MathHelper.sin(partYaw);
 				float partYawCos = MathHelper.cos(partYaw);
 				float partMp = (part+1)*2F;
 				tailPart.onUpdate();
-				tailPart.setLocationAndAngles(posX-((yawSin*1.5F+partYawSin*partMp)*angleCos),posY+(partOffsets[1]-oldOffsets[1])-((partMp+1.5F)*angleSin)+1.5D,posZ+((yawCos*1.5F+partYawCos*partMp)*angleCos),0F,0F);
+				tailPart.setLocationAndAngles(posX-((yawSin*1.5F+partYawSin*partMp)*angleCos), posY+(partOffsets[1]-oldOffsets[1])-((partMp+1.5F)*angleSin)+1.5D, posZ+((yawCos*1.5F+partYawCos*partMp)*angleCos), 0F, 0F);
 			}
 
 			if (!worldObj.isRemote){
 				slowed = destroyBlocksInAABB(dragonPartHead.boundingBox)|destroyBlocksInAABB(dragonPartBody.boundingBox);
-				if (currentAttack.id == 1)slowed |= destroyBlocksInAABB(dragonPartWing1.boundingBox.expand(0.5D,0.5D,0.5D))|destroyBlocksInAABB(dragonPartWing2.boundingBox.expand(0.5D,0.5D,0.5D));
+				if (currentAttack.id == 1)slowed |= destroyBlocksInAABB(dragonPartWing1.boundingBox.expand(0.5D, 0.5D, 0.5D))|destroyBlocksInAABB(dragonPartWing2.boundingBox.expand(0.5D, 0.5D, 0.5D));
 				
 				attacks.updatePassiveAttacks(currentAttack);
 			}
@@ -429,12 +429,12 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		spawnCooldown = 0;
 		
 		if (dragonPart != dragonPartHead)amount = amount/3+1;
-		amount = Math.min(amount,ModCommonProxy.opMobs ? 14F : 18F);
+		amount = Math.min(amount, ModCommonProxy.opMobs ? 14F : 18F);
 		
 		int players = attacks.getViablePlayers().size();
-		if (players > 1)amount = amount*(1F-Math.max(0.5F,(players-1)*0.05F));
+		if (players > 1)amount = amount*(1F-Math.max(0.5F, (players-1)*0.05F));
 		
-		DamageTakenEvent event = new DamageTakenEvent(source,amount);
+		DamageTakenEvent event = new DamageTakenEvent(source, amount);
 		currentAttack.onDamageTakenEvent(event);
 		currentAttack.onDamageTaken(event.damage);
 		amount = event.damage;
@@ -451,8 +451,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 								 posZ-(MathHelper.cos(yawRad)*5F)+((rand.nextFloat()-0.5F)*2F));
 		}
 
-		if ((source.getEntity() instanceof EntityPlayer || source.isExplosion()) && super.attackEntityFrom(source,amount))hurtResistantTime = (dragonHurtTime = (byte)(hurtTime = 15))+10;
-		// TODO CausatumUtils.increase(source,CausatumMeters.DRAGON_DAMAGE,amount*16F);
+		if ((source.getEntity() instanceof EntityPlayer || source.isExplosion()) && super.attackEntityFrom(source, amount))hurtResistantTime = (dragonHurtTime = (byte)(hurtTime = 15))+10;
+		// TODO CausatumUtils.increase(source, CausatumMeters.DRAGON_DAMAGE, amount*16F);
 		return true;
 	}
 
@@ -468,11 +468,11 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  		if (!worldObj.isRemote){
  			if (deathTicks == 1){
  				achievements.onBattleFinished();
-				worldObj.playBroadcastSound(1018,(int)posX,(int)posY,(int)posZ,0);
+				worldObj.playBroadcastSound(1018, (int)posX, (int)posY, (int)posZ, 0);
  			}
  			else if (deathTicks == 20 || deathTicks == 140){ // double check
  				for(Entity entity:EntitySelector.any(worldObj)){
- 					if (MathUtil.distance(entity.posX,entity.posZ) > 180D)continue;
+ 					if (MathUtil.distance(entity.posX, entity.posZ) > 180D)continue;
  					
  					// TODO no longer works if (entity instanceof EntityEnderman)((EntityEnderman)entity).setTarget(null);
  				}
@@ -481,29 +481,29 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  				PosMutable mpos = new PosMutable();
  				
  				for(int a = 0; a < 250; a++){
- 					mpos.set(this).move(rand.nextInt(51)-25,0,rand.nextInt(51)-25);
- 					mpos.setY(1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,mpos.x,mpos.z,65));
+ 					mpos.set(this).move(rand.nextInt(51)-25, 0, rand.nextInt(51)-25);
+ 					mpos.setY(1+DragonUtil.getTopBlockY(worldObj, Blocks.end_stone, mpos.x, mpos.z, 65));
  					if (mpos.y > 40 && mpos.getBlock(worldObj) == Blocks.fire)mpos.setAir(worldObj);
  				}
  			}
- 			else if (deathTicks > 150 && deathTicks%5 == 0)DragonUtil.spawnXP(this,550+(250*(rewards.getFinalDifficulty()>>2)));
+ 			else if (deathTicks > 150 && deathTicks%5 == 0)DragonUtil.spawnXP(this, 550+(250*(rewards.getFinalDifficulty()>>2)));
  			else if (deathTicks == 191){
- 				for(EntityPlayer player:EntitySelector.players(worldObj))player.addStat(AchievementManager.GO_INTO_THE_END,1);
+ 				for(EntityPlayer player:EntitySelector.players(worldObj))player.addStat(AchievementManager.GO_INTO_THE_END, 1);
  			}
- 			else if (deathTicks == 200)DragonUtil.spawnXP(this,4000);
+ 			else if (deathTicks == 200)DragonUtil.spawnXP(this, 4000);
  			
- 			if (deathTicks > 40 && deathTicks < 140)rewards.spawnEssence(worldObj,(int)posX,(int)posZ);
+ 			if (deathTicks > 40 && deathTicks < 140)rewards.spawnEssence(worldObj, (int)posX, (int)posZ);
 		}
 
 		if (deathTicks >= 180 && deathTicks <= 200){
-			worldObj.spawnParticle("hugeexplosion",posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
+			worldObj.spawnParticle("hugeexplosion", posX+(rand.nextFloat()-0.5F)*8F, posY+2D+(rand.nextFloat()-0.5F)*4F, posZ+(rand.nextFloat()-0.5F)*8F, 0D, 0D, 0D);
 		}
 
-		moveEntity(0D,0.1D,0D);
+		moveEntity(0D, 0.1D, 0D);
 		renderYawOffset = rotationYaw += 20F;
 
 		if (deathTicks == 200 && !worldObj.isRemote){
-			DragonUtil.spawnXP(this,2000);
+			DragonUtil.spawnXP(this, 2000);
 			DragonChunkManager.release(this);
 			setDead();
 		}
@@ -523,7 +523,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		if (healingEnderCrystal != null){
 			if (healingEnderCrystal.isDead){
 				if (!worldObj.isRemote){
-					attackEntityFromPart(dragonPartHead,DamageSource.setExplosionSource(null),10F);
+					attackEntityFromPart(dragonPartHead, DamageSource.setExplosionSource(null), 10F);
 					if (target == null)trySetTarget(attacks.getRandomPlayer());
 				}
 				
@@ -534,7 +534,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 		if (rand.nextInt(10) == 0){
 			float dist = 30F+4F*worldObj.difficultySetting.getDifficultyId()+(ModCommonProxy.opMobs ? 8F : 0F);
-			healingEnderCrystal = EntitySelector.closest(this,EntityEnderCrystal.class,boundingBox.expand(dist,dist,dist));
+			healingEnderCrystal = EntitySelector.closest(this, EntityEnderCrystal.class, boundingBox.expand(dist, dist, dist));
 		}
 	}
 
@@ -546,20 +546,20 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			if (entity instanceof EntityLivingBase || entity instanceof EntityBlockFallingObsidian){
 				while(entity.ridingEntity != null)entity = entity.ridingEntity;
 				
-				Vec vec = Vec.xz(entity.posX-bodyCenterX,entity.posZ-bodyCenterZ).normalized();
-				CollisionEvent event = new CollisionEvent(entity,vec.x*2D,0.2D,vec.z*2D);
+				Vec vec = Vec.xz(entity.posX-bodyCenterX, entity.posZ-bodyCenterZ).normalized();
+				CollisionEvent event = new CollisionEvent(entity, vec.x*2D, 0.2D, vec.z*2D);
 				currentAttack.onCollisionEvent(event);
 				event.collidedEntity.motionX = event.velocityX;
 				event.collidedEntity.motionY = event.velocityY;
 				event.collidedEntity.motionZ = event.velocityZ;
 				
-				if (entity instanceof EntityPlayerMP)PacketPipeline.sendToPlayer((EntityPlayerMP)entity,new C06SetPlayerVelocity(event.velocityX,event.velocityY,event.velocityZ));
+				if (entity instanceof EntityPlayerMP)PacketPipeline.sendToPlayer((EntityPlayerMP)entity, new C06SetPlayerVelocity(event.velocityX, event.velocityY, event.velocityZ));
 			}
 		}
 	}
 
 	private boolean destroyBlocksInAABB(AxisAlignedBB aabb){
-		if (!WorldUtil.getRuleBool(worldObj,GameRule.MOB_GRIEFING))return false;
+		if (!WorldUtil.getRuleBool(worldObj, GameRule.MOB_GRIEFING))return false;
 
 		boolean wasBlocked = false;
 		boolean spawnParticles = false;
@@ -569,7 +569,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		int maxX = MathUtil.floor(aabb.maxX-0.5D+rand.nextDouble()*rand.nextDouble()*5D);
 		int maxY = MathUtil.floor(aabb.maxY-0.5D+rand.nextDouble()*rand.nextDouble()*5D);
 		int maxZ = MathUtil.floor(aabb.maxZ-0.5D+rand.nextDouble()*rand.nextDouble()*5D);
-		double rad = 2.8D+Math.min((aabb.maxX-aabb.minX)*0.5D,(aabb.maxZ-aabb.minZ)*0.5D);
+		double rad = 2.8D+Math.min((aabb.maxX-aabb.minX)*0.5D, (aabb.maxZ-aabb.minZ)*0.5D);
 		int cx = (int)((aabb.maxX-aabb.minX)*0.5D+aabb.minX);
 		int cy = (int)((aabb.maxY-aabb.minY)*0.5D+aabb.minY);
 		int cz = (int)((aabb.maxZ-aabb.minZ)*0.5D+aabb.minZ);
@@ -578,11 +578,11 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		for(int xx = minX; xx <= maxX; xx++){
 			for(int yy = minY; yy <= maxY; yy++){
 				for(int zz = minZ; zz <= maxZ; zz++){
-					Block block = mpos.set(xx,yy,zz).getBlock(worldObj);
+					Block block = mpos.set(xx, yy, zz).getBlock(worldObj);
 
 					if (angryStatus && block == BlockList.obsidian_falling){
 						mpos.setAir(worldObj);
-						EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj,xx,yy,zz);
+						EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj, xx, yy, zz);
 						obsidian.motionY = -0.2;
 						worldObj.spawnEntityInWorld(obsidian);
 						spawnParticles = true;
@@ -590,14 +590,14 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					else if (block == Blocks.bedrock || (!angryStatus && (block == Blocks.obsidian || block == BlockList.obsidian_falling || (block == Blocks.iron_bars && mpos.getDown().getBlock(worldObj) == BlockList.obsidian_falling)))){
 						wasBlocked = true;
 					}
-					else if (block.canEntityDestroy(worldObj,xx,yy,zz,this) && MathUtil.distance(xx-cx,yy-cy,zz-cz) <= rad+(0.9D*rand.nextDouble()-0.4D)){
-						spawnParticles = mpos.set(xx,yy,zz).setAir(worldObj) || spawnParticles;
+					else if (block.canEntityDestroy(worldObj, xx, yy, zz, this) && MathUtil.distance(xx-cx, yy-cy, zz-cz) <= rad+(0.9D*rand.nextDouble()-0.4D)){
+						spawnParticles = mpos.set(xx, yy, zz).setAir(worldObj) || spawnParticles;
 					}
 				}
 			}
 		}
 
-		if (spawnParticles)worldObj.spawnParticle("largeexplode",aabb.minX+(aabb.maxX-aabb.minX)*rand.nextFloat(),aabb.minY+(aabb.maxY-aabb.minY)*rand.nextFloat(),aabb.minZ+(aabb.maxZ-aabb.minZ)*rand.nextFloat(),0D,0D,0D);
+		if (spawnParticles)worldObj.spawnParticle("largeexplode", aabb.minX+(aabb.maxX-aabb.minX)*rand.nextFloat(), aabb.minY+(aabb.maxY-aabb.minY)*rand.nextFloat(), aabb.minZ+(aabb.maxZ-aabb.minZ)*rand.nextFloat(), 0D, 0D, 0D);
 		
 		return wasBlocked;
 	}
@@ -612,7 +612,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			newTargetZ = (rand.nextFloat()*120F-60F);
 			
 			if (MathUtil.square(posX-newTargetX)+MathUtil.square(posY-newTargetY)+MathUtil.square(posZ-newTargetZ) > 100D){
-				trySetTargetPosition(newTargetX,newTargetY,newTargetZ);
+				trySetTargetPosition(newTargetX, newTargetY, newTargetZ);
 				break;
 			}
 		}
@@ -622,14 +622,14 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		if (entity != null && (entity.isDead || !attacks.isPlayerViable(entity) || spawnCooldown > 0))return false;
 		forceNewTarget = false;
 		
-		TargetSetEvent event = new TargetSetEvent(target,entity);
+		TargetSetEvent event = new TargetSetEvent(target, entity);
 		currentAttack.onTargetSetEvent(event);
 		target = event.newTarget;
 		return target != null;
 	}
 	
 	public void trySetTargetPosition(double newTargetX, double newTargetY, double newTargetZ){
-		TargetPositionSetEvent event = new TargetPositionSetEvent(target,targetX,targetY,targetZ,newTargetX,newTargetY,newTargetZ);
+		TargetPositionSetEvent event = new TargetPositionSetEvent(target, targetX, targetY, targetZ, newTargetX, newTargetY, newTargetZ);
 		currentAttack.onTargetPositionSetEvent(event);
 		
 		if (event.isCancelled() && event.currentEntityTarget != null)target = event.currentEntityTarget;
@@ -656,15 +656,15 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setBoolean("angry",isAngry());
-		nbt.setShort("nat",(short)Math.max(120,nextAttackTicks));
-		nbt.setShort("dth",(short)deathTicks); // suck it, zeek :P
-		nbt.setShort("scd",(short)Math.max(200,spawnCooldown));
-		nbt.setByte("load",loadTimer);
+		nbt.setBoolean("angry", isAngry());
+		nbt.setShort("nat", (short)Math.max(120, nextAttackTicks));
+		nbt.setShort("dth", (short)deathTicks); // suck it, zeek :P
+		nbt.setShort("scd", (short)Math.max(200, spawnCooldown));
+		nbt.setByte("load", loadTimer);
 
-		nbt.setTag("atk",attacks.writeToNBT());
-		nbt.setTag("rwr",rewards.writeToNBT());
-		nbt.setTag("acv",achievements.writeToNBT().getUnderlyingTag());
+		nbt.setTag("atk", attacks.writeToNBT());
+		nbt.setTag("rwr", rewards.writeToNBT());
+		nbt.setTag("acv", achievements.writeToNBT().getUnderlyingTag());
 	}
 
 	@Override
@@ -683,7 +683,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	}
 
 	public void setAngry(boolean angry){
-		entityData.setBoolean(Data.ANGRY,angry);
+		entityData.setBoolean(Data.ANGRY, angry);
 	}
 
 	public boolean isAngry(){
@@ -691,7 +691,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	}
 
 	public void setWingSpeed(float wingSpeed){
-		entityData.setFloat(Data.WING_SPEED,wingSpeed);
+		entityData.setFloat(Data.WING_SPEED, wingSpeed);
 	}
 
 	public float getWingSpeed(){

@@ -20,23 +20,23 @@ public class CompendiumPurchaseElement{
 	}
 	
 	public void render(GuiScreen gui, CompendiumFile file, int mouseX, int mouseY){
-		GL.color(1F,1F,1F,isMouseOver(mouseX,mouseY) ? 1F : 0.95F);
+		GL.color(1F, 1F, 1F, isMouseOver(mouseX, mouseY) ? 1F : 0.95F);
 		GL.enableBlendAlpha();
 		RenderHelper.disableStandardItemLighting();
 		
 		gui.mc.getTextureManager().bindTexture(CompendiumPageHandler.texPage);
-		gui.drawTexturedModalRect(x-24,y-8,158,3,48,16);
+		gui.drawTexturedModalRect(x-24, y-8, 158, 3, 48, 16);
 		
 		RenderHelper.enableGUIStandardItemLighting();
-		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),GuiEnderCompendium.knowledgeFragmentIS,x-22,y-8);
+		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer, gui.mc.getTextureManager(), GuiEnderCompendium.knowledgeFragmentIS, x-22, y-8);
 		RenderHelper.disableStandardItemLighting();
 		
 		int red, green, blue;
-		red = green = blue = isMouseOver(mouseX,mouseY) ? 64 : 96;
-		if (file.getPoints() < price)red = Math.min(255,red*4)-64;
+		red = green = blue = isMouseOver(mouseX, mouseY) ? 64 : 96;
+		if (file.getPoints() < price)red = Math.min(255, red*4)-64;
 		
 		String price = String.valueOf(this.price);
-		gui.mc.fontRenderer.drawString(price,x-gui.mc.fontRenderer.getStringWidth(price)+20,y-3,(red<<16)|(green<<8)|blue);
+		gui.mc.fontRenderer.drawString(price, x-gui.mc.fontRenderer.getStringWidth(price)+20, y-3, (red<<16)|(green<<8)|blue);
 	}
 	
 	public boolean isMouseOver(int mouseX, int mouseY){

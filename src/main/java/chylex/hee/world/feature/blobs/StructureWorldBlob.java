@@ -11,24 +11,24 @@ public class StructureWorldBlob extends StructureWorldPart{
 	private final List<Pos> generatedEndStone = new ArrayList<>(64);
 	
 	public StructureWorldBlob(World world, int radX, int sizeY, int radZ){
-		super(world,radX,sizeY,radZ);
+		super(world, radX, sizeY, radZ);
 	}
 	
 	public StructureWorldBlob(int radX, int sizeY, int radZ){
-		super(null,radX,sizeY,radZ);
+		super(null, radX, sizeY, radZ);
 	}
 	
 	@Override
 	public boolean setBlock(int x, int y, int z, Block block, int metadata){
-		if (!isInside(x,y,z))return false;
+		if (!isInside(x, y, z))return false;
 		
-		int index = toIndex(x,y,z);
+		int index = toIndex(x, y, z);
 		
 		if (this.blocks[index] == Blocks.end_stone){
-			if (block != Blocks.end_stone)generatedEndStone.remove(Pos.at(x,y,z));
+			if (block != Blocks.end_stone)generatedEndStone.remove(Pos.at(x, y, z));
 		}
 		else{
-			if (block == Blocks.end_stone)generatedEndStone.add(Pos.at(x,y,z));
+			if (block == Blocks.end_stone)generatedEndStone.add(Pos.at(x, y, z));
 		}
 		
 		this.blocks[index] = block;

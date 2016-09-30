@@ -28,7 +28,7 @@ public class BlockEssenceAltar extends BlockContainer{
 	
 	public BlockEssenceAltar(){
 		super(Material.iron);
-		setBlockBounds(0.0F,0.0F,0.0F,1.0F,0.75F,1.0F);
+		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class BlockEssenceAltar extends BlockContainer{
 		ItemStack held = player.getHeldItem();
 		if (held != null && held.getItem() == ItemList.end_powder)return false;
 		
-		TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(x,y,z);
+		TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(x, y, z);
 		if (altar != null)altar.onRightClick(player);
 		
 		return true;
@@ -52,13 +52,13 @@ public class BlockEssenceAltar extends BlockContainer{
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block oldBlock, int oldMeta){
 		if (!world.isRemote){
-			Pos.at(x,y,z).castTileEntity(world,TileEntityEssenceAltar.class).ifPresent(tile -> {
+			Pos.at(x, y, z).castTileEntity(world, TileEntityEssenceAltar.class).ifPresent(tile -> {
 				tile.onBlockDestroy();
-				dropBlockAsItem(world,x,y,z,IEnhanceableTile.createItemStack(tile));
+				dropBlockAsItem(world, x, y, z, IEnhanceableTile.createItemStack(tile));
 			});
 		}
 		
-		super.breakBlock(world,x,y,z,oldBlock,oldMeta);
+		super.breakBlock(world, x, y, z, oldBlock, oldMeta);
 	}
 	
 	@Override
@@ -73,7 +73,7 @@ public class BlockEssenceAltar extends BlockContainer{
 	
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
-		return new ItemStack(BlockList.essence_altar,1,world.getBlockMetadata(x,y,z));
+		return new ItemStack(BlockList.essence_altar, 1, world.getBlockMetadata(x, y, z));
 	}
 	
 	@Override
@@ -89,7 +89,7 @@ public class BlockEssenceAltar extends BlockContainer{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(EssenceType essenceType:EssenceType.values())list.add(new ItemStack(item,1,essenceType.id));
+		for(EssenceType essenceType:EssenceType.values())list.add(new ItemStack(item, 1, essenceType.id));
 	}
 	
 	@Override

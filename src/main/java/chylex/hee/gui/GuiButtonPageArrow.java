@@ -12,16 +12,16 @@ public class GuiButtonPageArrow extends GuiButton{
 	public boolean forcedHover;
 
 	public GuiButtonPageArrow(int id, int x, int y, boolean isRightArrow){
-		super(id,x,y,23,13,"");
+		super(id, x, y, 23, 13, "");
 		this.isRightArrow = isRightArrow;
 	}
 
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY){
 		if (visible){
-			GL.color(1F,1F,1F,1F);
+			GL.color(1F, 1F, 1F, 1F);
 			mc.getTextureManager().bindTexture(CompendiumPageHandler.texPage);
-			drawTexturedModalRect(xPosition,yPosition,(mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition+width && mouseY < yPosition+height) || forcedHover ? 23 : 0,231+(!isRightArrow ? 13 : 0),23,13);
+			drawTexturedModalRect(xPosition, yPosition, (mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition+width && mouseY < yPosition+height) || forcedHover ? 23 : 0, 231+(!isRightArrow ? 13 : 0), 23, 13);
 		}
 	}
 }

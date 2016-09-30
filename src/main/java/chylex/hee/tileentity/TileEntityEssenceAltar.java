@@ -43,7 +43,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	private byte runeItemIndex = -2; // @STAGE_HASTYPE
 	
 	private AltarActionHandler actionHandler;
-	private final Map<String,ItemUseCache> playerItemCache = new HashMap<>();
+	private final Map<String, ItemUseCache> playerItemCache = new HashMap<>();
 	
 	private final EnhancementList<EssenceAltarEnhancements> enhancements = new EnhancementList<>(EssenceAltarEnhancements.class);
 	
@@ -88,13 +88,13 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	}
 	
 	public void drainEssence(int amount){
-		essenceLevel = Math.max(essenceLevel-amount,0);
-		worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
+		essenceLevel = Math.max(essenceLevel-amount, 0);
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	@Override
 	public ItemStack getEnhancementItemStack(){
-		return new ItemStack(BlockList.essence_altar,1,essenceType.id);
+		return new ItemStack(BlockList.essence_altar, 1, essenceType.id);
 	}
 	
 	@Override
@@ -104,14 +104,14 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	
 	@Override
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){
-		nbt.setByte("stage",currentStage);
-		nbt.setByte("essenceTypeId",essenceType.id);
-		nbt.setInteger("essence",essenceLevel);
+		nbt.setByte("stage", currentStage);
+		nbt.setByte("essenceTypeId", essenceType.id);
+		nbt.setInteger("essence", essenceLevel);
 		
-		NBT.wrap(nbt).writeList("runeItems",Arrays.stream(runeItems).map(item -> new NBTTagByte(item == null ? -1 : item.indexInArray)));
-		nbt.setByte("runeIndex",runeItemIndex);
+		NBT.wrap(nbt).writeList("runeItems", Arrays.stream(runeItems).map(item -> new NBTTagByte(item == null ? -1 : item.indexInArray)));
+		nbt.setByte("runeIndex", runeItemIndex);
 		
-		nbt.setString("enhancements2",enhancements.serialize());
+		nbt.setString("enhancements2", enhancements.serialize());
 		
 		if (actionHandler != null)actionHandler.onTileWriteToNBT(nbt);
 		
@@ -126,7 +126,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		
 		int[] readItems = NBT.wrap(nbt).getList("runeItems").readPrimitives().mapToInt(NBTPrimitive::func_150290_f).toArray();
 		
-		for(int a = 0; a < Math.min(runeItems.length,readItems.length); a++){
+		for(int a = 0; a < Math.min(runeItems.length, readItems.length); a++){
 			if (readItems[a] != -1)runeItems[a] = essenceType.itemsNeeded[readItems[a]];
 		}
 		
@@ -162,7 +162,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	
 	private void addOrRenewCache(EntityPlayer player, ItemStack is){
 		ItemUseCache cache = playerItemCache.get(player.getCommandSenderName());
-		if (cache == null || is.getItem() != cache.item || is.getItemDamage() != cache.damage)playerItemCache.put(player.getCommandSenderName(),new ItemUseCache(is));
+		if (cache == null || is.getItem() != cache.item || is.getItemDamage() != cache.damage)playerItemCache.put(player.getCommandSenderName(), new ItemUseCache(is));
 		else cache.renewTime();
 	}
 	
@@ -184,9 +184,9 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 				ItemStack invIs = player.inventory.getStackInSlot(a);
 				if (invIs != null && invIs.getItem() == cache.item && invIs.getItemDamage() == cache.damage){
 					player.inventory.mainInventory[player.inventory.currentItem] = is = invIs;
-					player.inventory.setInventorySlotContents(a,null);
+					player.inventory.setInventorySlotContents(a, null);
 					
-					PacketPipeline.sendToPlayer(player,new C00ClearInventorySlot(a));
+					PacketPipeline.sendToPlayer(player, new C00ClearInventorySlot(a));
 					
 					found = true;
 					break;
@@ -201,7 +201,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		
 		if (is == null)return;
 		
-		int giveAmount = player.capabilities.isCreativeMode ? (player.isSneaking() ? 1 : 32) : Math.min(is.stackSize,player.isSneaking() ? 1 : 32);
+		int giveAmount = player.capabilities.isCreativeMode ? (player.isSneaking() ? 1 : 32) : Math.min(is.stackSize, player.isSneaking() ? 1 : 32);
 				
 		if (is.getItem() == ItemList.essence){
 			if (currentStage == STAGE_BASIC){
@@ -220,7 +220,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 					runeItems[a] = availableItems.remove(worldObj.rand.nextInt(availableItems.size()));
 				}
 				
-				PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.ESSENCE_ALTAR_SMOKE,this));
+				PacketPipeline.sendToAllAround(this, 64D, new C20Effect(FXType.Basic.ESSENCE_ALTAR_SMOKE, this));
 			}
 			else if (currentStage == STAGE_WORKING && is.getItemDamage() == essenceType.id-1){
 				essenceLevel += giveAmount;
@@ -229,7 +229,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		}
 		else if (currentStage == STAGE_HASTYPE){
 			if (runeItems[runeItemIndex] != null && runeItems[runeItemIndex].selector.isValid(is)){
-				PacketPipeline.sendToAllAround(this,32D,new C17AltarRuneItemEffect(this,runeItems[runeItemIndex].indexInArray));
+				PacketPipeline.sendToAllAround(this, 32D, new C17AltarRuneItemEffect(this, runeItems[runeItemIndex].indexInArray));
 				
 				giveAmount = 1;
 				runeItems[runeItemIndex] = null;
@@ -239,43 +239,43 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 					createActionHandler();
 					runeItemIndex = -1;
 					essenceLevel += 1;
-					Pos.at(this).setMetadata(worldObj,blockMetadata = essenceType.id);
+					Pos.at(this).setMetadata(worldObj, blockMetadata = essenceType.id);
 					
-					if (essenceType == EssenceType.DRAGON)player.addStat(AchievementManager.DRAGON_ESSENCE,1);
+					if (essenceType == EssenceType.DRAGON)player.addStat(AchievementManager.DRAGON_ESSENCE, 1);
 				}
 			}
 			else return;
 		}
 		else if (currentStage == STAGE_WORKING){
-			if (actionHandler.onRightClick(player,is) && !player.capabilities.isCreativeMode)--is.stackSize;
+			if (actionHandler.onRightClick(player, is) && !player.capabilities.isCreativeMode)--is.stackSize;
 			return;
 		}
 		else return;
 		
-		addOrRenewCache(player,is);
+		addOrRenewCache(player, is);
 
 		if (!player.capabilities.isCreativeMode)is.stackSize -= giveAmount;
 		synchronize();
 	}
 	
 	public void onBlockDestroy(){
-		if (currentStage == STAGE_HASTYPE)worldObj.spawnEntityInWorld(createItem(this,new ItemStack(ItemList.essence,1,essenceType.getItemDamage())));
+		if (currentStage == STAGE_HASTYPE)worldObj.spawnEntityInWorld(createItem(this, new ItemStack(ItemList.essence, 1, essenceType.getItemDamage())));
 		
 		int essence16 = MathUtil.floor(essenceLevel/16F);
-		ItemStack is16 = new ItemStack(ItemList.essence,16,essenceType.getItemDamage());
+		ItemStack is16 = new ItemStack(ItemList.essence, 16, essenceType.getItemDamage());
 		
-		for(int a = 0; a < essence16; a++)worldObj.spawnEntityInWorld(createItem(this,is16.copy()));
-		if (essenceLevel-(16*essence16) > 0)worldObj.spawnEntityInWorld(createItem(this,new ItemStack(ItemList.essence,essenceLevel-(16*essence16),essenceType.getItemDamage())));
+		for(int a = 0; a < essence16; a++)worldObj.spawnEntityInWorld(createItem(this, is16.copy()));
+		if (essenceLevel-(16*essence16) > 0)worldObj.spawnEntityInWorld(createItem(this, new ItemStack(ItemList.essence, essenceLevel-(16*essence16), essenceType.getItemDamage())));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox(){
-		return AxisAlignedBB.getBoundingBox(xCoord,yCoord,zCoord,xCoord+1,yCoord+3,zCoord+1);
+		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord+1, yCoord+3, zCoord+1);
 	}
 	
 	private static EntityItem createItem(TileEntity tile, ItemStack is){
-		EntityItem item = new EntityItem(tile.getWorldObj(),tile.xCoord+0.5D,tile.yCoord+1.175D,tile.zCoord+0.5D,is);
+		EntityItem item = new EntityItem(tile.getWorldObj(), tile.xCoord+0.5D, tile.yCoord+1.175D, tile.zCoord+0.5D, is);
 		item.delayBeforeCanPickup = 5;
 		item.motionY = (item.motionX = item.motionZ = 0D)+0.02D;
 		return item;

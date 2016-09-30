@@ -12,17 +12,17 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderBlockObsidianSpecial implements ISimpleBlockRenderingHandler{
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer){
-		BlockRenderHelper.renderInventoryBlock(block,metadata,renderer);
+		BlockRenderHelper.renderInventoryBlock(block, metadata, renderer);
 	}
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer){
-		int meta = world.getBlockMetadata(x,y,z);
+		int meta = world.getBlockMetadata(x, y, z);
 
 		if (meta == 3)renderer.uvRotateEast = renderer.uvRotateWest = renderer.uvRotateTop = renderer.uvRotateBottom = 1;
 		else if (meta == 4)renderer.uvRotateSouth = renderer.uvRotateNorth = 1;
 
-		boolean flag = renderer.renderStandardBlock(block,x,y,z);
+		boolean flag = renderer.renderStandardBlock(block, x, y, z);
 		renderer.uvRotateSouth = renderer.uvRotateEast = renderer.uvRotateWest = 0;
 		renderer.uvRotateNorth = renderer.uvRotateTop = renderer.uvRotateBottom = 0;
 		return flag;

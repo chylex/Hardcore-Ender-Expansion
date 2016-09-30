@@ -18,13 +18,13 @@ public class TileEntityEndPortalCustom extends TileEntityEndPortal{
 	public void updateEntity(){
 		if (!worldObj.isRemote && activationTimer != -1){
 			if (++activationTimer > 135){
-				Pos.at(this).setMetadata(worldObj,Meta.endPortalActive);
+				Pos.at(this).setMetadata(worldObj, Meta.endPortalActive);
 				activationTimer = -1;
 			}
 		}
 		
 		if (worldObj.isRemote && animate){
-			if (!MathUtil.floatEquals(prevColorProgress = colorProgress,1F))colorProgress = Math.min(colorProgress+0.0075F,1F);
+			if (!MathUtil.floatEquals(prevColorProgress = colorProgress, 1F))colorProgress = Math.min(colorProgress+0.0075F, 1F);
 			if (getBlockMetadata() == Meta.endPortalActive)animate = false;
 		}
 	}
@@ -46,13 +46,13 @@ public class TileEntityEndPortalCustom extends TileEntityEndPortal{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox(){
-		return AxisAlignedBB.getBoundingBox(xCoord,yCoord,zCoord,xCoord+1D,yCoord+1D,zCoord+1D);
+		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord+1D, yCoord+1D, zCoord+1D);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		if (activationTimer != -1)nbt.setBoolean("activating",true);
+		if (activationTimer != -1)nbt.setBoolean("activating", true);
 	}
 	
 	@Override

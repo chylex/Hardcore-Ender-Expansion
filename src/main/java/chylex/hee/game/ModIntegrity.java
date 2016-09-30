@@ -56,9 +56,9 @@ public final class ModIntegrity{
 		try{
 			Field f = DimensionManager.class.getDeclaredField("providers");
 			f.setAccessible(true); // let it throw NPE if the field isn't found
-			return ((Hashtable<Integer,Class>)f.get(null)).get(1);
+			return ((Hashtable<Integer, Class>)f.get(null)).get(1);
 		}catch(Throwable t){
-			throw new RuntimeException("Could not retrieve world provider!",t);
+			throw new RuntimeException("Could not retrieve world provider!", t);
 		}
 	}
 	

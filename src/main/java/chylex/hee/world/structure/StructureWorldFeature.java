@@ -10,25 +10,25 @@ public class StructureWorldFeature extends StructureWorldPart{
 	private int generatedBlocks;
 	
 	public StructureWorldFeature(World world, int radX, int sizeY, int radZ){
-		super(world,radX,sizeY,radZ);
+		super(world, radX, sizeY, radZ);
 	}
 	
 	public StructureWorldFeature(int radX, int sizeY, int radZ){
-		super(radX,sizeY,radZ);
+		super(radX, sizeY, radZ);
 	}
 	
 	@Override
 	public boolean setBlock(int x, int y, int z, Block block, int metadata){
-		boolean wasAir = isAir(x,y,z);
+		boolean wasAir = isAir(x, y, z);
 		
-		if (super.setBlock(x,y,z,block,metadata)){
+		if (super.setBlock(x, y, z, block, metadata)){
 			if (x < minX)minX = x;
 			else if (x > maxX)maxX = x;
 			
 			if (z < minZ)minZ = z;
 			else if (z > maxZ)maxZ = z;
 			
-			boolean isAir = isAir(x,y,z);
+			boolean isAir = isAir(x, y, z);
 			
 			if (isAir && !wasAir)--generatedBlocks;
 			else if (!isAir && wasAir)++generatedBlocks;
@@ -40,9 +40,9 @@ public class StructureWorldFeature extends StructureWorldPart{
 	
 	@Override
 	public void clearArea(Block block, int metadata){
-		super.clearArea(block,metadata);
+		super.clearArea(block, metadata);
 		
-		if (isAir(0,0,0))minX = maxX = minZ = maxZ = 0;
+		if (isAir(0, 0, 0))minX = maxX = minZ = maxZ = 0;
 		else{
 			minX = -radX;
 			maxX = radX;

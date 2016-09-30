@@ -20,12 +20,12 @@ public class BlobGeneratorAttaching extends BlobGenerator{
 	}
 	
 	public BlobGeneratorAttaching setAmount(int amount){
-		this.amount = new RangeGenerator(amount,amount,RandomAmount.exact);
+		this.amount = new RangeGenerator(amount, amount, RandomAmount.exact);
 		return this;
 	}
 	
 	public BlobGeneratorAttaching setAmount(int minAmount, int maxAmount){
-		this.amount = new RangeGenerator(minAmount,maxAmount,RandomAmount.linear);
+		this.amount = new RangeGenerator(minAmount, maxAmount, RandomAmount.linear);
 		return this;
 	}
 	
@@ -79,23 +79,23 @@ public class BlobGeneratorAttaching extends BlobGenerator{
 		int blobsLeft = (amount == null ? 0 : amount.next(rand));
 		if (blobsLeft < 0)return;
 		
-		List<Pair<Vec,Double>> radii = new ArrayList<>();
+		List<Pair<Vec, Double>> radii = new ArrayList<>();
 		
 		double radFirst = radiusFirst.generate(rand);
-		generateBlob(world,0D,world.getCenterY(),0D,radFirst);
-		radii.add(Pair.of(Vec.xyz(0D,world.getCenterY(),0D),radFirst));
+		generateBlob(world, 0D, world.getCenterY(), 0D, radFirst);
+		radii.add(Pair.of(Vec.xyz(0D, world.getCenterY(), 0D), radFirst));
 		
 		int attempts = (blobsLeft--)*3;
 		
 		while(--attempts > 0 && blobsLeft > 0){
-			Pair<Vec,Double> target = CollectionUtil.randomOrNull(radii,rand);
+			Pair<Vec, Double> target = CollectionUtil.randomOrNull(radii, rand);
 			
 			double rad = radiusOther.generate(rand);
-			Vec pos = target.getKey().offset(Vec.xyzRandom(rand),(target.getValue()+rad)*distance.generate(rand));
+			Vec pos = target.getKey().offset(Vec.xyzRandom(rand), (target.getValue()+rad)*distance.generate(rand));
 			
-			if (isBlobInsideWorld(world,pos.x,pos.y,pos.z,rad)){
-				generateBlob(world,pos.x,pos.y,pos.z,rad);
-				radii.add(Pair.of(pos,rad));
+			if (isBlobInsideWorld(world, pos.x, pos.y, pos.z, rad)){
+				generateBlob(world, pos.x, pos.y, pos.z, rad);
+				radii.add(Pair.of(pos, rad));
 				--blobsLeft;
 			}
 		}

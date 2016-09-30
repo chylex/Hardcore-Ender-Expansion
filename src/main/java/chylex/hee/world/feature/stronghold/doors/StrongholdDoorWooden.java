@@ -20,17 +20,17 @@ public class StrongholdDoorWooden extends StrongholdDoor{
 
 	@Override
 	protected void generateDoor(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
-		PosMutable archPos = new PosMutable(x+maxX/2,0,z+maxZ/2);
+		PosMutable archPos = new PosMutable(x+maxX/2, 0, z+maxZ/2);
 		Facing4 perpendicular = facing.perpendicular();
 		
-		archPos.move(perpendicular,-1);
-		placeLine(world,rand,placeStoneBrick,archPos.x,y+1,archPos.z,archPos.x,y+3,archPos.z);
-		archPos.move(perpendicular,1);
-		placeBlock(world,rand,placeStoneBrick,archPos.x,y+3,archPos.z);
-		archPos.move(perpendicular,1);
-		placeLine(world,rand,placeStoneBrick,archPos.x,y+1,archPos.z,archPos.x,y+3,archPos.z);
+		archPos.move(perpendicular, -1);
+		placeLine(world, rand, placeStoneBrick, archPos.x, y+1, archPos.z, archPos.x, y+3, archPos.z);
+		archPos.move(perpendicular, 1);
+		placeBlock(world, rand, placeStoneBrick, archPos.x, y+3, archPos.z);
+		archPos.move(perpendicular, 1);
+		placeLine(world, rand, placeStoneBrick, archPos.x, y+1, archPos.z, archPos.x, y+3, archPos.z);
 		
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_door,Meta.getDoor(facing,false)),x+maxX/2,y+1,z+maxZ/2);
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_door,Meta.getDoor(facing,true)),x+maxX/2,y+2,z+maxZ/2);
+		placeBlock(world, rand, IBlockPicker.basic(Blocks.wooden_door, Meta.getDoor(facing, false)), x+maxX/2, y+1, z+maxZ/2);
+		placeBlock(world, rand, IBlockPicker.basic(Blocks.wooden_door, Meta.getDoor(facing, true)), x+maxX/2, y+2, z+maxZ/2);
 	}
 }

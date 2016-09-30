@@ -16,18 +16,18 @@ public class RenderMiniBossFireFiend extends RenderLiving{
 	private static final ResourceLocation tex = new ResourceLocation("hardcoreenderexpansion:textures/entity/fire_fiend.png");
 
 	public RenderMiniBossFireFiend(){
-		super(new ModelFireFiend(),1F);
+		super(new ModelFireFiend(), 1F);
 	}
 	
 	@Override
 	protected void preRenderCallback(EntityLivingBase entity, float partialTickTime){
-		GL.scale(1.5F,1.5F,1.5F);
+		GL.scale(1.5F, 1.5F, 1.5F);
 	}
 	
 	@Override
 	public void doRender(EntityLiving entity, double x, double y, double z, float yaw, float partialTickTime){
-		BossStatus.setBossStatus((EntityMiniBossFireFiend)entity,true);
-		super.doRender(entity,x,y,z,yaw,partialTickTime);
+		BossStatus.setBossStatus((EntityMiniBossFireFiend)entity, true);
+		super.doRender(entity, x, y, z, yaw, partialTickTime);
 	}
 
 	@Override

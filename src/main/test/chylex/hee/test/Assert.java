@@ -43,7 +43,7 @@ public final class Assert{
 	 * Fails if the provided value is not true.
 	 */
 	public static void isTrue(boolean value){
-		isTrue(value,"Expected value to be true.");
+		isTrue(value, "Expected value to be true.");
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public final class Assert{
 	 * Fails if the provided value is not false.
 	 */
 	public static void isFalse(boolean value){
-		isFalse(value,"Expected value to be false.");
+		isFalse(value, "Expected value to be false.");
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public final class Assert{
 	 * Fails if the provided value is not null.
 	 */
 	public static void isNull(Object value){
-		isNull(value,"Expected value to be null, got $ instead.");
+		isNull(value, "Expected value to be null, got $ instead.");
 	}
 	
 	/**
@@ -82,14 +82,14 @@ public final class Assert{
 	 */
 	public static void isNull(Object value, String message){
 		if (value == null)onSuccess.call();
-		else onFail.call(new IllegalStateException(message.replace("$",value.toString())));
+		else onFail.call(new IllegalStateException(message.replace("$", value.toString())));
 	}
 	
 	/**
 	 * Fails if the provided value is null.
 	 */
 	public static void notNull(Object value){
-		notNull(value,"Expected value to not be null.");
+		notNull(value, "Expected value to not be null.");
 	}
 	
 	/**
@@ -104,7 +104,7 @@ public final class Assert{
 	 * Fails if the value is not an instance of targetClass.
 	 */
 	public static void instanceOf(Object value, Class<?> targetClass){
-		instanceOf(value,targetClass,"Expected value to be instance of $2, instead the class is $1.");
+		instanceOf(value, targetClass, "Expected value to be instance of $2, instead the class is $1.");
 	}
 	
 	/**
@@ -113,14 +113,14 @@ public final class Assert{
 	 */
 	public static void instanceOf(Object value, Class<?> targetClass, String message){
 		if (value != null && targetClass.isAssignableFrom(value.getClass()))onSuccess.call();
-		else onFail.call(new IllegalStateException(message.replace("$1",value == null ? "<null>" : value.getClass().getName()).replace("$2",targetClass.getName())));
+		else onFail.call(new IllegalStateException(message.replace("$1", value == null ? "<null>" : value.getClass().getName()).replace("$2", targetClass.getName())));
 	}
 	
 	/**
 	 * Fails if the value is not present in the collection.
 	 */
 	public static void contains(Collection<?> collection, Object value){
-		contains(collection,value,"Expected object $1 to be present in the collection. Collection contents: $2");
+		contains(collection, value, "Expected object $1 to be present in the collection. Collection contents: $2");
 	}
 	
 	/**
@@ -129,14 +129,14 @@ public final class Assert{
 	 */
 	public static void contains(Collection<?> collection, Object value, String message){
 		if (collection != null && collection.contains(value))onSuccess.call();
-		else onFail.call(new IllegalStateException(message.replace("$1",value == null ? "<null>" : value.toString()).replace("$2",collection == null ? "<null>" : collection.toString())));
+		else onFail.call(new IllegalStateException(message.replace("$1", value == null ? "<null>" : value.toString()).replace("$2", collection == null ? "<null>" : collection.toString())));
 	}
 	
 	/**
 	 * Fails if the value is present in the collection, or if the collection is null.
 	 */
 	public static void notContains(Collection<?> collection, Object value){
-		notContains(collection,value,"Expected object $1 to not be present in the collection. Collection contents: $2");
+		notContains(collection, value, "Expected object $1 to not be present in the collection. Collection contents: $2");
 	}
 	
 	/**
@@ -145,14 +145,14 @@ public final class Assert{
 	 */
 	public static void notContains(Collection<?> collection, Object value, String message){
 		if (collection == null || !collection.contains(value))onSuccess.call();
-		else onFail.call(new IllegalStateException(message.replace("$1",value == null ? "<null>" : value.toString()).replace("$2",collection.toString())));
+		else onFail.call(new IllegalStateException(message.replace("$1", value == null ? "<null>" : value.toString()).replace("$2", collection.toString())));
 	}
 	
 	/**
 	 * Fails if the value is not equal to target (supports wrapped primitives).
 	 */
 	public static void equal(Object value, Object target){
-		equal(value,target,"Expected value to be equal to $2, got $1 instead.");
+		equal(value, target, "Expected value to be equal to $2, got $1 instead.");
 	}
 	
 	/**
@@ -160,8 +160,8 @@ public final class Assert{
 	 * Use $1 to substitute the value and $2 to substitute the target in the message.
 	 */
 	public static void equal(Object value, Object target, String message){
-		if (Objects.equal(value,target) || arePrimitivesEqual(value,target))onSuccess.call();
-		else onFail.call(new IllegalStateException(message.replace("$1",value == null ? "null" : value.toString()).replace("$2",target == null ? "null" : target.toString())));
+		if (Objects.equal(value, target) || arePrimitivesEqual(value, target))onSuccess.call();
+		else onFail.call(new IllegalStateException(message.replace("$1", value == null ? "null" : value.toString()).replace("$2", target == null ? "null" : target.toString())));
 	}
 	
 	/**
@@ -169,7 +169,7 @@ public final class Assert{
 	 */
 	private static boolean arePrimitivesEqual(Object value1, Object value2){
 		if (value1 instanceof Number && value2 instanceof Number){
-			if (value1 instanceof Double || value1 instanceof Float)return MathUtil.floatEquals(((Number)value1).floatValue(),((Number)value2).floatValue());
+			if (value1 instanceof Double || value1 instanceof Float)return MathUtil.floatEquals(((Number)value1).floatValue(), ((Number)value2).floatValue());
 			else return ((Number)value1).longValue() == ((Number)value2).longValue();
 		}
 		else if (value1 instanceof Boolean && value2 instanceof Boolean){

@@ -26,7 +26,7 @@ import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityItemIgneousRock extends EntityItem{
-	private static final IdentityHashMap<Block,Block> blockTransformations = new IdentityHashMap<>();
+	private static final IdentityHashMap<Block, Block> blockTransformations = new IdentityHashMap<>();
 	
 	static{
 		blockTransformations.put(Blocks.ice, Blocks.flowing_water);
@@ -50,9 +50,9 @@ public class EntityItemIgneousRock extends EntityItem{
 	}
 	
 	public EntityItemIgneousRock(World world, double x, double y, double z, ItemStack is){
-		super(world,x,y,z,is);
+		super(world, x, y, z, is);
 		
-		EntityPlayer thrower = world.getClosestPlayer(x,y-1.62D,z,1D);
+		EntityPlayer thrower = world.getClosestPlayer(x, y-1.62D, z, 1D);
 		if (thrower != null)thrownDirection = MathHelper.floor_double((thrower.rotationYaw*4F/360F)+0.5D)&3;
 	}
 
@@ -70,39 +70,39 @@ public class EntityItemIgneousRock extends EntityItem{
 				}
 			}
 			
-			if (rand.nextInt(64-Math.min(32,is.stackSize/2)) == 0){
+			if (rand.nextInt(64-Math.min(32, is.stackSize/2)) == 0){
 				for(int attempt = 0; attempt < 4+(is.stackSize/8); attempt++){
 					Pos pos = Pos.at(this);
-					pos = pos.offset(MathUtil.floor((rand.nextDouble()-0.5D)*4D),MathUtil.floor((rand.nextDouble()-0.5D)*4D),MathUtil.floor((rand.nextDouble()-0.5D)*4D));
+					pos = pos.offset(MathUtil.floor((rand.nextDouble()-0.5D)*4D), MathUtil.floor((rand.nextDouble()-0.5D)*4D), MathUtil.floor((rand.nextDouble()-0.5D)*4D));
 					
 					Block block = pos.getBlock(worldObj);
 					Block target = blockTransformations.get(block);
 					
-					if (target != null)pos.setBlock(worldObj,target);
+					if (target != null)pos.setBlock(worldObj, target);
 					else if (block.getMaterial() == Material.air){
-						if (rand.nextInt(5) == 0)pos.setBlock(worldObj,Blocks.fire);
+						if (rand.nextInt(5) == 0)pos.setBlock(worldObj, Blocks.fire);
 						else continue;
 					}
 					else if (block == Blocks.tnt){
 						pos.setAir(worldObj);
-						new Explosion(worldObj,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D,3.9F,null).trigger();
+						new Explosion(worldObj, pos.getX()+0.5D, pos.getY()+0.5D, pos.getZ()+0.5D, 3.9F, null).trigger();
 					}
 					// TODO enhanced tnt
 					else if (block == Blocks.tallgrass && pos.getMetadata(worldObj) != 0){
-						pos.setMetadata(worldObj,0,2);
+						pos.setMetadata(worldObj, 0, 2);
 					}
 					else continue;
 					
 					if (block.getMaterial() != Material.air){
-						PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.IGNEOUS_ROCK_MELT,pos));
+						PacketPipeline.sendToAllAround(this, 64D, new C20Effect(FXType.Basic.IGNEOUS_ROCK_MELT, pos));
 					}
 					
 					if (rand.nextInt(3) == 0)break;
 				}
 			}
 			
-			if (rand.nextInt(80-Math.min(32,is.stackSize/3)) == 0){
-				CollectionUtil.random(EntitySelector.living(worldObj,boundingBox.expand(3D,3D,3D)),rand).ifPresent(entity -> {
+			if (rand.nextInt(80-Math.min(32, is.stackSize/3)) == 0){
+				CollectionUtil.random(EntitySelector.living(worldObj, boundingBox.expand(3D, 3D, 3D)), rand).ifPresent(entity -> {
 					entity.setFire(1+rand.nextInt(4)+getEntityItem().stackSize/10);
 				});
 			}
@@ -112,32 +112,32 @@ public class EntityItemIgneousRock extends EntityItem{
 		Pos below = pos.getDown();
 		
 		if (rand.nextInt(6) == 0 && pos.getMaterial(worldObj) == Material.water){
-			HardcoreEnderExpansion.fx.global("bubble",posX+0.2F*(rand.nextFloat()-0.5F),posY+0.2F*(rand.nextFloat()-0.5F),posZ+0.2F*(rand.nextFloat()-0.5F),0D,0.6D,0D);
+			HardcoreEnderExpansion.fx.global("bubble", posX+0.2F*(rand.nextFloat()-0.5F), posY+0.2F*(rand.nextFloat()-0.5F), posZ+0.2F*(rand.nextFloat()-0.5F), 0D, 0.6D, 0D);
 		}
 		
 		if (below.getBlock(worldObj) == BlockList.dungeon_puzzle && BlockDungeonPuzzle.canTrigger(below.getMetadata(worldObj))){
 			for(int a = 0; a < 4; a++)HardcoreEnderExpansion.fx.igneousRockBreak(this);
 			
 			if (!worldObj.isRemote && onGround){
-				worldObj.spawnEntityInWorld(new EntityTechnicalPuzzleChain(worldObj,below,Facing4.list[thrownDirection])); // TODO check if this even works
+				worldObj.spawnEntityInWorld(new EntityTechnicalPuzzleChain(worldObj, below, Facing4.list[thrownDirection])); // TODO check if this even works
 				setDead();
 			}
 		}
 		
 		if (rand.nextInt(30) == 0){
-			FXHelper.create("lava").pos(this).fluctuatePos(0.1D).spawn(rand,2);
+			FXHelper.create("lava").pos(this).fluctuatePos(0.1D).spawn(rand, 2);
 		}
 	}
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource damageSource, float amount){
-		return damageSource.isFireDamage() ? false : super.attackEntityFrom(damageSource,amount);
+		return damageSource.isFireDamage() ? false : super.attackEntityFrom(damageSource, amount);
 	}
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setShort("rockLife",(short)rockLife);
+		nbt.setShort("rockLife", (short)rockLife);
 	}
 
 	@Override

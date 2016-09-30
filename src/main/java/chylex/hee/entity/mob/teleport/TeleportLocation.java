@@ -11,7 +11,7 @@ public final class TeleportLocation<T extends Entity> implements ITeleportLocati
 		Vec findXZ(T entity, Vec startPos, Random rand);
 		
 		public static <T extends Entity> ITeleportXZ<T> inSquare(final double maxDist){
-			return (entity, startPos, rand) -> startPos.offset((rand.nextDouble()-0.5D)*2D*maxDist,0D,(rand.nextDouble()-0.5D)*2D*maxDist);
+			return (entity, startPos, rand) -> startPos.offset((rand.nextDouble()-0.5D)*2D*maxDist, 0D, (rand.nextDouble()-0.5D)*2D*maxDist);
 		}
 		
 		public static <T extends Entity> ITeleportXZ<T> inCircle(final double minDist, final double maxDist){
@@ -19,14 +19,14 @@ public final class TeleportLocation<T extends Entity> implements ITeleportLocati
 				Vec offXZ = Vec.xzRandom(rand);
 				double dist = minDist+rand.nextDouble()*(maxDist-minDist);
 				
-				return startPos.offset(offXZ.x*dist,0D,offXZ.z*dist);
+				return startPos.offset(offXZ.x*dist, 0D, offXZ.z*dist);
 			};
 		}
 		
 		public static <T extends Entity> ITeleportXZ<T> exactDistance(final double dist){
 			return (entity, startPos, rand) -> {
 				Vec offXZ = Vec.xzRandom(rand);
-				return startPos.offset(offXZ.x*dist,0D,offXZ.z*dist);
+				return startPos.offset(offXZ.x*dist, 0D, offXZ.z*dist);
 			};
 		}
 	}
@@ -48,10 +48,10 @@ public final class TeleportLocation<T extends Entity> implements ITeleportLocati
 		 */
 		public static <T extends Entity> ITeleportY<T> findSolidBottom(final ITeleportY<T> provider, final int maxOffset){
 			return (entity, startPos, rand) -> {
-				final int startY = provider.findY(entity,startPos,rand);
+				final int startY = provider.findY(entity, startPos, rand);
 				
 				for(int y = startY; y != startY-maxOffset; y -= (int)Math.signum(maxOffset)){
-					if (Pos.at(entity.posX,y-1,entity.posZ).getMaterial(entity.worldObj).blocksMovement())return y;
+					if (Pos.at(entity.posX, y-1, entity.posZ).getMaterial(entity.worldObj).blocksMovement())return y;
 				}
 				
 				return maxOffset <= 0 ? startY : startY-maxOffset;
@@ -69,9 +69,9 @@ public final class TeleportLocation<T extends Entity> implements ITeleportLocati
 	
 	@Override
 	public Vec findPosition(T entity, Vec startPos, Random rand){
-		Vec vec = findXZ.findXZ(entity,startPos,rand);
-		entity.setPosition(vec.x,entity.posY,vec.z);
-		vec.y = findY.findY(entity,startPos,rand);
+		Vec vec = findXZ.findXZ(entity, startPos, rand);
+		entity.setPosition(vec.x, entity.posY, vec.z);
+		vec.y = findY.findY(entity, startPos, rand);
 		return vec;
 	}
 }

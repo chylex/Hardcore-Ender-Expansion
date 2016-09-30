@@ -14,6 +14,6 @@ public class BlockRavagedBrickSmooth extends Block{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return side == 0 || side == 1 ? BlockList.ravaged_brick.getIcon(0,0) : blockIcon;
+		return side == 0 || side == 1 ? BlockList.ravaged_brick.getIcon(0, 0) : blockIcon;
 	}
 }

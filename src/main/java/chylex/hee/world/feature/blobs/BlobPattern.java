@@ -49,7 +49,7 @@ public final class BlobPattern implements IWeightProvider{
 	}
 	
 	public BlobPattern setPopulatorAmount(int amount){
-		this.populatorAmount = new RangeGenerator(amount,amount,RandomAmount.exact);
+		this.populatorAmount = new RangeGenerator(amount, amount, RandomAmount.exact);
 		return this;
 	}
 	
@@ -72,7 +72,7 @@ public final class BlobPattern implements IWeightProvider{
 			else break;
 		}
 		
-		Collections.sort(selected,(p1, p2) -> populators.indexOf(p1) < populators.indexOf(p2) ? -1 : 1);
+		Collections.sort(selected, (p1, p2) -> populators.indexOf(p1) < populators.indexOf(p2) ? -1 : 1);
 		return selected;
 	}
 	

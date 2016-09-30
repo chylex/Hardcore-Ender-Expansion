@@ -52,7 +52,7 @@ public interface IItemSelector{
 			
 			@Override
 			public ItemStack getRepresentativeItem(){
-				return new ItemStack(item,damage);
+				return new ItemStack(item, damage);
 			}
 		}
 		
@@ -65,7 +65,7 @@ public interface IItemSelector{
 			
 			@Override
 			public boolean isValid(ItemStack is){
-				return ItemStack.areItemStacksEqual(this.is,is);
+				return ItemStack.areItemStacksEqual(this.is, is);
 			}
 			
 			@Override

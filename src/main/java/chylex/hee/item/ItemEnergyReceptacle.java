@@ -22,8 +22,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemEnergyReceptacle extends Item{
 	private static final float updateEnergyLevel(float lvl, float limit, int cycles){
-		float lossPerCycle = (float)Math.pow(limit,0.001D)-1F;
-		return Math.max(lvl-lossPerCycle*cycles,0F);
+		float lossPerCycle = (float)Math.pow(limit, 0.001D)-1F;
+		return Math.max(lvl-lossPerCycle*cycles, 0F);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -35,7 +35,7 @@ public class ItemEnergyReceptacle extends Item{
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		NBTCompound tag = NBT.item(is,false);
+		NBTCompound tag = NBT.item(is, false);
 		
 		if (tag.hasKey("fuckcreativemode")){
 			is.setItemDamage(tag.getByte("fuckcreativemode"));
@@ -43,7 +43,7 @@ public class ItemEnergyReceptacle extends Item{
 		}
 		
 		if (!world.isRemote && tag.hasKey("cluster")){
-			tag = NBT.item(is,true);
+			tag = NBT.item(is, true);
 			long prevTime = tag.getLong("ltime"), currentTime = world.getTotalWorldTime();
 			
 			if (currentTime-prevTime >= 10){
@@ -51,8 +51,8 @@ public class ItemEnergyReceptacle extends Item{
 				float lvl = clusterTag.getFloat("lvl");
 				float limit = clusterTag.getFloat("max");
 				
-				clusterTag.setFloat("lvl",updateEnergyLevel(lvl,limit,1+(int)((currentTime-prevTime)/10)));
-				tag.setLong("ltime",currentTime);
+				clusterTag.setFloat("lvl", updateEnergyLevel(lvl, limit, 1+(int)((currentTime-prevTime)/10)));
+				tag.setLong("ltime", currentTime);
 			}
 		}
 	}
@@ -60,23 +60,23 @@ public class ItemEnergyReceptacle extends Item{
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (!world.isRemote){
-			Pos pos = Pos.at(x,y,z);
-			NBTCompound tag = NBT.item(is,false);
+			Pos pos = Pos.at(x, y, z);
+			NBTCompound tag = NBT.item(is, false);
 			
 			if (tag.hasKey("cluster")){
 				if (tag.hasKey("ltime") && world.getTotalWorldTime()-tag.getLong("ltime") >= 11)return false; // needs to be refreshed before placing
 				
 				if (side > 0)pos = pos.offset(side);
-				if (!player.canPlayerEdit(pos.getX(),pos.getY(),pos.getZ(),side,is) || !pos.isAir(world))return false;
+				if (!player.canPlayerEdit(pos.getX(), pos.getY(), pos.getZ(), side, is) || !pos.isAir(world))return false;
 				
-				tag.getCompound("cluster").setLong("loc",pos.toLong()); // nbt has to exist at this point
-				pos.setBlock(world,BlockList.energy_cluster);
+				tag.getCompound("cluster").setLong("loc", pos.toLong()); // nbt has to exist at this point
+				pos.setBlock(world, BlockList.energy_cluster);
 				
 				TileEntityEnergyCluster tile = pos.getTileEntity(world);
 				tile.readTileFromNBT(tag.getCompound("cluster").getUnderlyingTag());
 				
 				EnergyClusterData data = tile.getData().get();
-				if (data.getEnergyLevel()-tag.getFloat("origlvl") >= Math.pow(data.getMaxLevel(),0.015D)+0.01D)data.weaken();
+				if (data.getEnergyLevel()-tag.getFloat("origlvl") >= Math.pow(data.getMaxLevel(), 0.015D)+0.01D)data.weaken();
 				
 				tile.synchronize();
 				
@@ -84,24 +84,24 @@ public class ItemEnergyReceptacle extends Item{
 				tag.removeTag("ltime");
 				tag.removeTag("origlvl");
 				
-				if (player.capabilities.isCreativeMode)tag.setByte("fuckcreativemode",(byte)0);
+				if (player.capabilities.isCreativeMode)tag.setByte("fuckcreativemode", (byte)0);
 				else is.setItemDamage(0);
 			}
 			else if (pos.getBlock(world) == BlockList.energy_cluster){
-				tag = NBT.item(is,true);
+				tag = NBT.item(is, true);
 				
 				NBTTagCompound clusterTag = new NBTTagCompound();
 				TileEntityEnergyCluster cluster = pos.getTileEntity(world);
 				
 				cluster.writeTileToNBT(clusterTag);
 				cluster.shouldNotExplode = true;
-				pos.breakBlock(world,false);
+				pos.breakBlock(world, false);
 				
-				tag.setTag("cluster",clusterTag);
-				tag.setFloat("origlvl",clusterTag.getFloat("lvl"));
-				tag.setLong("ltime",world.getTotalWorldTime());
+				tag.setTag("cluster", clusterTag);
+				tag.setFloat("origlvl", clusterTag.getFloat("lvl"));
+				tag.setLong("ltime", world.getTotalWorldTime());
 				
-				if (player.capabilities.isCreativeMode)tag.setByte("fuckcreativemode",(byte)1);
+				if (player.capabilities.isCreativeMode)tag.setByte("fuckcreativemode", (byte)1);
 				else is.setItemDamage(1);
 			}
 			
@@ -114,13 +114,13 @@ public class ItemEnergyReceptacle extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		NBTCompound tag = NBT.item(is,false);
+		NBTCompound tag = NBT.item(is, false);
 		
 		if (tag.hasKey("cluster")){
 			float lvl = tag.getCompound("cluster").getFloat("lvl");
 			float limit = tag.getCompound("cluster").getFloat("max");
 			long diff = player.worldObj.getTotalWorldTime()-tag.getLong("ltime");
-			textLines.add(StringUtils.replaceOnce(I18n.format("item.energyReceptacle.holding"),"$",DragonUtil.formatTwoPlaces.format(updateEnergyLevel(lvl,limit,1+(int)(diff/10)))));
+			textLines.add(StringUtils.replaceOnce(I18n.format("item.energyReceptacle.holding"), "$", DragonUtil.formatTwoPlaces.format(updateEnergyLevel(lvl, limit, 1+(int)(diff/10)))));
 		}
 	}
 	
@@ -133,7 +133,7 @@ public class ItemEnergyReceptacle extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack is, int pass){
-		if (pass == 1 && NBT.item(is,false).hasKey("cluster")){
+		if (pass == 1 && NBT.item(is, false).hasKey("cluster")){
 			byte[] colors = is.getTagCompound().getCompoundTag("cluster").getByteArray("col");
 			if (colors.length == 3)return ((colors[0]+128)<<16)|((colors[1]+128)<<8)|(colors[2]+128);
 		}

@@ -25,7 +25,7 @@ public class EntityItemEndPowder extends EntityItem{
 	}
 
 	public EntityItemEndPowder(World world, double x, double y, double z, ItemStack is){
-		super(world,x,y,z,is);
+		super(world, x, y, z, is);
 	}
 	
 	@Override
@@ -36,13 +36,13 @@ public class EntityItemEndPowder extends EntityItem{
 			checkTimer = 0;
 			if (!isInsideOfMaterial(BlockEnderGoo.enderGoo))return;
 			
-			Map<Set<Item>,ItemStack> ingredientList = new HashMap<>();
-			ingredientList.put(Sets.newHashSet(Items.emerald,Items.string),new ItemStack(ItemList.ghost_amulet));
-			ingredientList.put(Sets.newHashSet(Items.gold_ingot,ItemList.ectoplasm,Items.string),new ItemStack(ItemList.curse_amulet));
+			Map<Set<Item>, ItemStack> ingredientList = new HashMap<>();
+			ingredientList.put(Sets.newHashSet(Items.emerald, Items.string), new ItemStack(ItemList.ghost_amulet));
+			ingredientList.put(Sets.newHashSet(Items.gold_ingot, ItemList.ectoplasm, Items.string), new ItemStack(ItemList.curse_amulet));
 			
-			List<EntityItem> nearbyItems = EntitySelector.type(worldObj,EntityItem.class,boundingBox.expand(1.8D,1.8D,1.8D));
+			List<EntityItem> nearbyItems = EntitySelector.type(worldObj, EntityItem.class, boundingBox.expand(1.8D, 1.8D, 1.8D));
 			
-			for(Entry<Set<Item>,ItemStack> entry:ingredientList.entrySet()){
+			for(Entry<Set<Item>, ItemStack> entry:ingredientList.entrySet()){
 				Set<Item> ingredients = entry.getKey();
 				List<EntityItem> foundIngredients = new ArrayList<>(ingredients.size());
 				
@@ -58,7 +58,7 @@ public class EntityItemEndPowder extends EntityItem{
 				if (ingredients.isEmpty()){
 					if (++progress > 8){
 						progress = 0;
-						for(int a = 0; a < 20; a++)HardcoreEnderExpansion.fx.global("portalbig",posX,posY+0.5D,posZ,(rand.nextDouble()-0.5D)*0.2D,0.15D+rand.nextDouble()*0.15D,(rand.nextDouble()-0.5D)*0.2D);
+						for(int a = 0; a < 20; a++)HardcoreEnderExpansion.fx.global("portalbig", posX, posY+0.5D, posZ, (rand.nextDouble()-0.5D)*0.2D, 0.15D+rand.nextDouble()*0.15D, (rand.nextDouble()-0.5D)*0.2D);
 						
 						if (!worldObj.isRemote){
 							ItemStack is = getEntityItem();
@@ -70,8 +70,8 @@ public class EntityItemEndPowder extends EntityItem{
 								else ingredient.setEntityItemStack(is);
 							}
 							
-							EntityItem amulet = new EntityItem(worldObj,posX,posY,posZ,entry.getValue());
-							amulet.addVelocity((rand.nextDouble()-rand.nextDouble())*0.1D,0.45D,(rand.nextDouble()-rand.nextDouble())*0.1D);
+							EntityItem amulet = new EntityItem(worldObj, posX, posY, posZ, entry.getValue());
+							amulet.addVelocity((rand.nextDouble()-rand.nextDouble())*0.1D, 0.45D, (rand.nextDouble()-rand.nextDouble())*0.1D);
 							worldObj.spawnEntityInWorld(amulet);
 						}
 					}

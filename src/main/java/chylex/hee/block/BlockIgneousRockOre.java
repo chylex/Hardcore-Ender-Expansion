@@ -22,7 +22,7 @@ public class BlockIgneousRockOre extends BlockAbstractOre{
 	
 	@Override
 	public int getExpDrop(IBlockAccess world, int meta, int fortune){
-		return MathHelper.getRandomIntegerInRange(BlockList.blockRandom,3,5);
+		return MathHelper.getRandomIntegerInRange(BlockList.blockRandom, 3, 5);
 	}
 	
 	@Override
@@ -33,6 +33,6 @@ public class BlockIgneousRockOre extends BlockAbstractOre{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		for(int a = 0; a < 2; a++)world.spawnParticle("lava",(x-0.425F+1.75F*rand.nextFloat()),(y+1.5F*rand.nextFloat()),(z-0.425F+1.75F*rand.nextFloat()),0D,0D,0D);
+		for(int a = 0; a < 2; a++)world.spawnParticle("lava", (x-0.425F+1.75F*rand.nextFloat()), (y+1.5F*rand.nextFloat()), (z-0.425F+1.75F*rand.nextFloat()), 0D, 0D, 0D);
 	}
 }

@@ -46,7 +46,7 @@ public class ItemPattern{
 			if (!(prefix.equals(id.modId) && (nameWildcard || name.equals(id.name))))return false;
 		}
 		
-		if (!(damageValues.length == 0 || ArrayUtils.contains(damageValues,(short)is.getItemDamage())))return false;
+		if (!(damageValues.length == 0 || ArrayUtils.contains(damageValues, (short)is.getItemDamage())))return false;
 		if (!(nbt == null || (is.hasTagCompound() && nbt.equals(is.getTagCompound()))))return false;
 		
 		return true;

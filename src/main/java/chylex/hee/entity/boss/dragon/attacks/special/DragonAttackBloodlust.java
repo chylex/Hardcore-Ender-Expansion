@@ -18,7 +18,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 	private boolean ended;
 	
 	public DragonAttackBloodlust(EntityBossDragon dragon, int attackId, int weight){
-		super(dragon,attackId,weight);
+		super(dragon, attackId, weight);
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 			timer = -10;
 			
 			for(EntityPlayer player:dragon.attacks.getViablePlayers()){
-				EntityEnderman enderman = EntitySelector.closest(player,EntityEnderman.class,player.boundingBox.expand(18D,8D,18D));
+				EntityEnderman enderman = EntitySelector.closest(player, EntityEnderman.class, player.boundingBox.expand(18D, 8D, 18D));
 				
 				if (enderman == null){
 					PosMutable mpos = new PosMutable();
@@ -48,25 +48,25 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 						float rad = rand.nextFloat()*(float)Math.PI*2F;
 						double len = 10D+rand.nextDouble()*8D;
 						
-						mpos.set(player.posX+Math.sin(rad)*len,player.posY-(rand.nextDouble()-0.5D)*6D,player.posZ+Math.cos(rad)*len);
+						mpos.set(player.posX+Math.sin(rad)*len, player.posY-(rand.nextDouble()-0.5D)*6D, player.posZ+Math.cos(rad)*len);
 						if (mpos.isAir(dragon.worldObj))break;
 					}
 					
 					for(int a = 0; a < 2+rand.nextInt(3)+(getDifficulty()>>1); a++){
 						for(int attempt = 0; attempt < 6; attempt++){
-							if (mpos.move(rand.nextInt(3)-1,rand.nextInt(3)-1,rand.nextInt(3)-1).isAir(dragon.worldObj))break;
+							if (mpos.move(rand.nextInt(3)-1, rand.nextInt(3)-1, rand.nextInt(3)-1).isAir(dragon.worldObj))break;
 						}
 						
-						spawnBatAt(mpos.x,mpos.y,mpos.z,player);
+						spawnBatAt(mpos.x, mpos.y, mpos.z, player);
 					}
 				}
 				else{
 					for(int a = 0; a < 2+rand.nextInt(3)+(getDifficulty()>>1); a++){
-						spawnBatAt(enderman.posX+rand.nextDouble()-0.5D,enderman.posY+rand.nextDouble()*enderman.height,enderman.posZ+rand.nextDouble()-0.5D,player);
+						spawnBatAt(enderman.posX+rand.nextDouble()-0.5D, enderman.posY+rand.nextDouble()*enderman.height, enderman.posZ+rand.nextDouble()-0.5D, player);
 					}
 					
 					enderman.setDead();
-					PacketPipeline.sendToAllAround(enderman,64D,new C20Effect(FXType.Basic.ENDERMAN_BLOODLUST_TRANSFORMATION,enderman));
+					PacketPipeline.sendToAllAround(enderman, 64D, new C20Effect(FXType.Basic.ENDERMAN_BLOODLUST_TRANSFORMATION, enderman));
 				}
 			}
 			
@@ -74,7 +74,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 		}
 		
 		if (dragon.ticksExisted%10 == 0){
-			if (MathUtil.distance(dragon.posX,dragon.posZ) > 100D){
+			if (MathUtil.distance(dragon.posX, dragon.posZ) > 100D){
 				dragon.targetX = (rand.nextDouble()-0.5D)*60;
 				dragon.targetZ = (rand.nextDouble()-0.5D)*60;
 			}
@@ -83,7 +83,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 	
 	private void spawnBatAt(double x, double y, double z, EntityPlayer target){
 		EntityMobVampiricBat bat = new EntityMobVampiricBat(dragon.worldObj);
-		bat.setPosition(x,y,z);
+		bat.setPosition(x, y, z);
 		bat.target = target;
 		dragon.worldObj.spawnEntityInWorld(bat);
 	}

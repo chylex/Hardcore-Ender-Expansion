@@ -40,8 +40,8 @@ public class BlobPopulatorScatter extends BlobPopulator{
 		double genChance = (chance == null ? 0.05D : chance.generate(rand));
 		
 		for(Pos pos:world.getEndStoneBlocks()){
-			if (rand.nextDouble() < genChance && (!visibleOnly || isVisible(world,pos))){
-				world.setBlock(pos,block);
+			if (rand.nextDouble() < genChance && (!visibleOnly || isVisible(world, pos))){
+				world.setBlock(pos, block);
 			}
 		}
 	}

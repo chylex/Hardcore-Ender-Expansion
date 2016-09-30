@@ -13,7 +13,7 @@ import chylex.hee.world.structure.StructureWorld;
 
 public class TerritoryForgottenTombs extends TerritoryGenerator{
 	public TerritoryForgottenTombs(EndTerritory territory, EnumSet variations, StructureWorld world, Random rand){
-		super(territory,variations,world,rand);
+		super(territory, variations, world, rand);
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class TerritoryForgottenTombs extends TerritoryGenerator{
 			int offZ = MathUtil.floor(Math.sin(angle)*dist);
 			
 			for(int attempt = 0; attempt < 25; attempt++){
-				GenerateIslandNoise noise = new GenerateIslandNoise(Blocks.end_stone,rand);
+				GenerateIslandNoise noise = new GenerateIslandNoise(Blocks.end_stone, rand);
 				noise.terrainSize = 36;
 				noise.noiseHeight = 21;
 				noise.sideSmoothness = 180D;
@@ -35,21 +35,21 @@ public class TerritoryForgottenTombs extends TerritoryGenerator{
 				
 				GenerateIslandNoiseTame generator = new GenerateIslandNoiseTame(noise);
 				generator = new GenerateIslandNoiseTame(noise);
-				generator.setWorldArea(100,60,100);
+				generator.setWorldArea(100, 60, 100);
 				generator.setCenterXZ();
 				
 				if (attempt < 18){
 					generator.setMinBlocks(65_000);
-					generator.setMinSize(72,72);
-					generator.setMaxSize(100,100);
+					generator.setMinSize(72, 72);
+					generator.setMaxSize(100, 100);
 				}
 				else if (attempt < 24){
 					generator.setMinBlocks(30_000);
-					generator.setMinSize(50,50);
-					generator.setMaxSize(120,120);
+					generator.setMinSize(50, 50);
+					generator.setMaxSize(120, 120);
 				}
 				
-				if (generator.generate(world,offX,rand.nextInt(10),offZ))break;
+				if (generator.generate(world, offX, rand.nextInt(10), offZ))break;
 			}
 		}
 	}

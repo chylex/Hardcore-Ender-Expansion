@@ -9,7 +9,7 @@ public interface ITeleportPredicate<T extends Entity>{
 	boolean isValid(T entity, Vec startPos, Random rand);
 	
 	public static final ITeleportPredicate noCollision = (entity, startPos, rand) -> {
-		return entity.worldObj.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty();
+		return entity.worldObj.getCollidingBoundingBoxes(entity, entity.boundingBox).isEmpty();
 	};
 	
 	public static final ITeleportPredicate noLiquid = (entity, startPos, rand) -> {
@@ -22,7 +22,7 @@ public interface ITeleportPredicate<T extends Entity>{
 			if (!entityPos.getDown().getMaterial(entity.worldObj).blocksMovement())return false;
 			
 			for(int y = 0; y < airBlocks; y++){
-				if (!entityPos.offset(0,y,0).isAir(entity.worldObj))return false;
+				if (!entityPos.offset(0, y, 0).isAir(entity.worldObj))return false;
 			}
 			
 			return true;
@@ -33,7 +33,7 @@ public interface ITeleportPredicate<T extends Entity>{
 		double minDistSq = MathUtil.square(minDist);
 		
 		return (entity, startPos, rand) -> {
-			return MathUtil.distanceSquared(entity.posX-startPos.x,entity.posY-startPos.y,entity.posZ-startPos.z) >= minDistSq;
+			return MathUtil.distanceSquared(entity.posX-startPos.x, entity.posY-startPos.y, entity.posZ-startPos.z) >= minDistSq;
 		};
 	}
 }

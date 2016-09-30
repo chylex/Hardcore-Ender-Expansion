@@ -13,9 +13,9 @@ public abstract class PlayerFile extends SaveFile{
 	
 	@Override
 	protected File getFile(File root){
-		File dir = new File(root,folder);
+		File dir = new File(root, folder);
 		if (!dir.exists())dir.mkdirs();
 		
-		return new File(dir,filename);
+		return new File(dir, filename);
 	}
 }

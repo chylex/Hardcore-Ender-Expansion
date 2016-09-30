@@ -49,7 +49,7 @@ public class C02PlayRecord extends AbstractClientPacket{
 		Minecraft mc = Minecraft.getMinecraft();
 
 		SoundHandler soundHandler = mc.getSoundHandler();
-		ChunkCoordinates coords = new ChunkCoordinates(pos.getX(),pos.getY(),pos.getZ());
+		ChunkCoordinates coords = new ChunkCoordinates(pos.getX(), pos.getY(), pos.getZ());
 		Map mapSoundPositions = mc.renderGlobal.mapSoundPositions;
 		ISound currentSound = (ISound)mapSoundPositions.get(coords);
 
@@ -61,9 +61,9 @@ public class C02PlayRecord extends AbstractClientPacket{
 		mc.ingameGUI.setRecordPlayingMessage(ItemMusicDisk.getRecordTitle(diskDamage));
 		
 		ResourceLocation resource = ItemMusicDisk.getRecordResource(diskDamage);
-		PositionedSoundRecord snd = PositionedSoundRecord.func_147675_a(resource,pos.getX(),pos.getY(),pos.getZ());
+		PositionedSoundRecord snd = PositionedSoundRecord.func_147675_a(resource, pos.getX(), pos.getY(), pos.getZ());
 		
-		mapSoundPositions.put(coords,snd);
+		mapSoundPositions.put(coords, snd);
 		CustomMusicTicker.stopMusicAndPlayJukebox(snd);
 	}
 }

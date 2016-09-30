@@ -49,22 +49,22 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 	
 	public EntityMobSilverfish(World world){
 		super(world);
-		setSize(0.35F,0.6F);
+		setSize(0.35F, 0.6F);
 		
 		AIUtil.clearEntityTasks(this);
 		
-		canSummonSilverfish = new AIToggle<>(tasks,2,new EntityAISummonFromBlock(this,Blocks.monster_egg,EntityMobSilverfish::new));
-		canHideInBlocks = new AIToggle<>(tasks,5,new EntityAIHideInBlock(this,new Block[]{ Blocks.cobblestone, Blocks.stone, Blocks.stonebrick },target -> new BlockInfo(Blocks.monster_egg,BlockSilverfish.func_150195_a(target.block,target.meta))));
+		canSummonSilverfish = new AIToggle<>(tasks, 2, new EntityAISummonFromBlock(this, Blocks.monster_egg, EntityMobSilverfish::new));
+		canHideInBlocks = new AIToggle<>(tasks, 5, new EntityAIHideInBlock(this, new Block[]{ Blocks.cobblestone, Blocks.stone, Blocks.stonebrick }, target -> new BlockInfo(Blocks.monster_egg, BlockSilverfish.func_150195_a(target.block, target.meta))));
 		
-		tasks.addTask(1,new EntityAISwimming(this));
-		tasks.addTask(3,new EntityAIAttackOnCollide(this,EntityPlayer.class,1D,false));
-		tasks.addTask(4,new EntityAIWanderConstantly(this,1D));
+		tasks.addTask(1, new EntityAISwimming(this));
+		tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1D, false));
+		tasks.addTask(4, new EntityAIWanderConstantly(this, 1D));
 		setCanSummonSilverfish(true);
 		setCanHideInBlocks(true);
 		
-		targetTasks.addTask(1,new EntityAIResetTarget(this).setVanilla(true));
-		targetTasks.addTask(2,new EntityAIHurtByTarget(this,false));
-		targetTasks.addTask(3,new EntityAIRandomTarget(this,EntityPlayer.class).setPredicate(EntityAIRandomTarget.noCreativeMode));
+		targetTasks.addTask(1, new EntityAIResetTarget(this).setVanilla(true));
+		targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
+		targetTasks.addTask(3, new EntityAIRandomTarget(this, EntityPlayer.class).setPredicate(EntityAIRandomTarget.noCreativeMode));
 		
 		experienceValue = 3;
 	}
@@ -80,21 +80,21 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		EntityAttributes.setValue(this,EntityAttributes.maxHealth,8D);
-		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,0.25D);
-		EntityAttributes.setValue(this,EntityAttributes.attackDamage,2D);
-		EntityAttributes.setValue(this,EntityAttributes.followRange,8D);
+		EntityAttributes.setValue(this, EntityAttributes.maxHealth, 8D);
+		EntityAttributes.setValue(this, EntityAttributes.movementSpeed, 0.25D);
+		EntityAttributes.setValue(this, EntityAttributes.attackDamage, 2D);
+		EntityAttributes.setValue(this, EntityAttributes.followRange, 8D);
 	}
 	
 	@Override
 	public void onUpdate(){
-		if (worldObj.isRemote)rotationYaw = DragonUtil.rotateSmoothly(rotationYaw,rotationYawHead,30F); // TODO fix rotation somehow
+		if (worldObj.isRemote)rotationYaw = DragonUtil.rotateSmoothly(rotationYaw, rotationYawHead, 30F); // TODO fix rotation somehow
 		super.onUpdate();
 	}
 	
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
-		for(ItemStack drop:drops.generateLoot(new LootMobInfo(this,recentlyHit,looting),rand))entityDropItem(drop,0F);
+		for(ItemStack drop:drops.generateLoot(new LootMobInfo(this, recentlyHit, looting), rand))entityDropItem(drop, 0F);
 	}
 	
 	@Override
@@ -102,14 +102,14 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 		if (isEntityInvulnerable())return false;
 		
 		if (canSummonSilverfish.isEnabled() && (source.getEntity() != null || source == DamageSource.magic))canSummonSilverfish.getTask().setSummonTimer(20);
-		return super.attackEntityFrom(source,amount);
+		return super.attackEntityFrom(source, amount);
 	}
 	
 	@Override
 	public boolean attackEntityAsMob(Entity target){
-		if (Damage.vanillaMob(this).addModifiers(IDamageModifier.rapidDamage(5),IDamageModifier.overrideKnockback(0.25F+rand.nextFloat()*0.25F)).deal(target)){
-			if (rand.nextInt(4) == 0 && EntitySelector.type(worldObj,EntitySilverfish.class,boundingBox.expand(12D,6D,12D)).stream().anyMatch(mob -> mob != this && mob.getAttackTarget() == target)){
-				List<EntityPlayer> targets = EntitySelector.players(worldObj,boundingBox.expand(4D,4D,4D));
+		if (Damage.vanillaMob(this).addModifiers(IDamageModifier.rapidDamage(5), IDamageModifier.overrideKnockback(0.25F+rand.nextFloat()*0.25F)).deal(target)){
+			if (rand.nextInt(4) == 0 && EntitySelector.type(worldObj, EntitySilverfish.class, boundingBox.expand(12D, 6D, 12D)).stream().anyMatch(mob -> mob != this && mob.getAttackTarget() == target)){
+				List<EntityPlayer> targets = EntitySelector.players(worldObj, boundingBox.expand(4D, 4D, 4D));
 				targets = targets.stream().filter(entity -> entity.getDistanceSqToEntity(this) <= 64D && getEntitySenses().canSee(entity)).collect(Collectors.toList());
 				
 				if (!targets.isEmpty())setAttackTarget(targets.get(rand.nextInt(targets.size()))); // TODO test in multiplayer
@@ -133,8 +133,8 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setBoolean("canSummonSilverfish",canSummonSilverfish.isEnabled());
-		nbt.setBoolean("canHideInBlocks",canHideInBlocks.isEnabled());
+		nbt.setBoolean("canSummonSilverfish", canSummonSilverfish.isEnabled());
+		nbt.setBoolean("canHideInBlocks", canHideInBlocks.isEnabled());
 	}
 	
 	@Override

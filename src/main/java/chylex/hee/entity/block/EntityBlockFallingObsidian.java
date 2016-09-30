@@ -20,7 +20,7 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 	}
 	
 	public EntityBlockFallingObsidian(World world, double x, double y, double z){
-		super(world,x,y,z,BlockList.obsidian_falling);
+		super(world, x, y, z, BlockList.obsidian_falling);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 		prevPosZ = posZ;
 		field_145812_b++;
 		motionY -= 0.15D;
-		moveEntity(motionX,motionY,motionZ);
+		moveEntity(motionX, motionY, motionZ);
 		motionX *= 0.9D;
 		motionY *= 0.9D;
 		motionZ *= 0.9D;
@@ -50,12 +50,12 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 			motionZ *= 0.7D;
 			motionY *= -0.5D;
 
-			if (field_145812_b > 5 && pos.getBlock(worldObj) != Blocks.piston_extension && EntitySelector.type(worldObj,EntityBossDragon.class,boundingBox.expand(1,1,1)).isEmpty()){
-				if (pos.setBlock(worldObj,func_145805_f()))setDead();
+			if (field_145812_b > 5 && pos.getBlock(worldObj) != Blocks.piston_extension && EntitySelector.type(worldObj, EntityBossDragon.class, boundingBox.expand(1, 1, 1)).isEmpty()){
+				if (pos.setBlock(worldObj, func_145805_f()))setDead();
 			}
 		}
 		else if (!worldObj.isRemote && (pos.getY() < 1 || field_145812_b > 600)){
-			dropItem(Item.getItemFromBlock(Blocks.obsidian),1);
+			dropItem(Item.getItemFromBlock(Blocks.obsidian), 1);
 			setDead();
 		}
 	}
@@ -65,8 +65,8 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 		int i = MathHelper.ceiling_float_int(distance-1F);
 
 		if (i > 0){
-			for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox)){
-				entity.attackEntityFrom(DamageSource.fallingBlock,Math.min(MathHelper.floor_float(i*5F),60));
+			for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox)){
+				entity.attackEntityFrom(DamageSource.fallingBlock, Math.min(MathHelper.floor_float(i*5F), 60));
 			}
 		}
 	}

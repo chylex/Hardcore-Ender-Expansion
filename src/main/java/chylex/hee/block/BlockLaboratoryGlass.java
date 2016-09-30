@@ -12,7 +12,7 @@ public class BlockLaboratoryGlass extends BlockBreakable{
 	private IIcon iconOutline;
 	
 	public BlockLaboratoryGlass(){
-		super("",Material.glass,false);
+		super("", Material.glass, false);
 	}
 
 	@Override

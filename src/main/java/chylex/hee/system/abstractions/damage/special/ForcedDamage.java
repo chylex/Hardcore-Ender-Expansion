@@ -25,20 +25,20 @@ public class ForcedDamage implements IDamage{
 	@Override
 	public boolean deal(Entity target){
 		List<IDamagePostProcessor> postProcessors = new ArrayList<>();
-		float amount = damage.calculateAmount(target,DamageSource.magic,postProcessors);
+		float amount = damage.calculateAmount(target, DamageSource.magic, postProcessors);
 		
-		if (!MathUtil.floatEquals(amount,0F) && target instanceof EntityLivingBase){
+		if (!MathUtil.floatEquals(amount, 0F) && target instanceof EntityLivingBase){
 			EntityLivingBase living = (EntityLivingBase)target;
 			
 			if (target instanceof EntityPlayer){
 				EntityPlayer player = (EntityPlayer)target;
 				if (player.capabilities.isCreativeMode && player.getHealth() <= amount)return false;
-				player.addStat(StatList.damageTakenStat,Math.round(amount*10F));
+				player.addStat(StatList.damageTakenStat, Math.round(amount*10F));
 			}
 			
 			living.prevHealth = living.getHealth();
 			living.setHealth(living.getHealth()-amount);
-			living.func_110142_aN().func_94547_a(DamageSource.magic,living.prevHealth,amount); // OBFUSCATED combat tracker, second method
+			living.func_110142_aN().func_94547_a(DamageSource.magic, living.prevHealth, amount); // OBFUSCATED combat tracker, second method
 			
 			if (living.getHealth() <= 0F)living.onDeath(DamageSource.magic);
 			

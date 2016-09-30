@@ -8,7 +8,7 @@ public class GuiButtonState extends GuiButton{
 	public boolean forcedHover;
 	
 	public GuiButtonState(int id, int x, int y, int width, int height, String text){
-		super(id,x,y,width,height,text);
+		super(id, x, y, width, height, text);
 	}
 	
 	@Override

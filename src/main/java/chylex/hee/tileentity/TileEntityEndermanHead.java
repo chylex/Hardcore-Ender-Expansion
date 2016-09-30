@@ -14,8 +14,8 @@ public class TileEntityEndermanHead extends TileEntityAbstractSynchronized{
 
 	@Override
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){
-		nbt.setByte("rot",rotation);
-		nbt.setByte("meta",meta);
+		nbt.setByte("rot", rotation);
+		nbt.setByte("meta", meta);
 		return nbt;
 	}
 

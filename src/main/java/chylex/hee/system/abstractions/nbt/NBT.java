@@ -52,16 +52,16 @@ public final class NBT{
 			this.callback = callback;
 		}
 		
-		@Override public void setTag(String key, NBTBase value){ super.setTag(key,value); callback.run(); }
-		@Override public void setByte(String key, byte value){ super.setByte(key,value); callback.run(); }
-		@Override public void setShort(String key, short value){ super.setShort(key,value); callback.run(); }
-		@Override public void setInteger(String key, int value){ super.setInteger(key,value); callback.run(); }
-		@Override public void setLong(String key, long value){ super.setLong(key,value); callback.run(); }
-		@Override public void setFloat(String key, float value){ super.setFloat(key,value); callback.run(); }
-		@Override public void setDouble(String key, double value){ super.setDouble(key,value); callback.run(); }
-		@Override public void setString(String key, String value){ super.setString(key,value); callback.run(); }
-		@Override public void setByteArray(String key, byte[] value){ super.setByteArray(key,value); callback.run(); }
-		@Override public void setIntArray(String key, int[] value){ super.setIntArray(key,value); callback.run(); }
+		@Override public void setTag(String key, NBTBase value){ super.setTag(key, value); callback.run(); }
+		@Override public void setByte(String key, byte value){ super.setByte(key, value); callback.run(); }
+		@Override public void setShort(String key, short value){ super.setShort(key, value); callback.run(); }
+		@Override public void setInteger(String key, int value){ super.setInteger(key, value); callback.run(); }
+		@Override public void setLong(String key, long value){ super.setLong(key, value); callback.run(); }
+		@Override public void setFloat(String key, float value){ super.setFloat(key, value); callback.run(); }
+		@Override public void setDouble(String key, double value){ super.setDouble(key, value); callback.run(); }
+		@Override public void setString(String key, String value){ super.setString(key, value); callback.run(); }
+		@Override public void setByteArray(String key, byte[] value){ super.setByteArray(key, value); callback.run(); }
+		@Override public void setIntArray(String key, int[] value){ super.setIntArray(key, value); callback.run(); }
 	}
 	
 	private NBT(){}

@@ -16,7 +16,7 @@ public class AltarItemRecipe{
 		this.output = output;
 		this.cost = (short)cost;
 		
-		NBT.item(input,true);
+		NBT.item(input, true);
 	}
 	
 	/**

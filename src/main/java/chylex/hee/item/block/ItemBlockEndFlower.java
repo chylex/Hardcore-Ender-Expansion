@@ -19,7 +19,7 @@ public class ItemBlockEndFlower extends ItemBlock{
 	
 	@Override
 	public IIcon getIconFromDamage(int damage){
-		return BlockList.death_flower.getIcon(2,damage);
+		return BlockList.death_flower.getIcon(2, damage);
 	}
 	
 	@Override
@@ -29,11 +29,11 @@ public class ItemBlockEndFlower extends ItemBlock{
 
 	@Override
 	public boolean onItemUseFirst(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (world.isRemote && Pos.at(x,y,z).checkBlock(world,Blocks.flower_pot,0)){
-			PacketPipeline.sendToServer(new S00DeathFlowerPot(Pos.at(x,y,z)));
+		if (world.isRemote && Pos.at(x, y, z).checkBlock(world, Blocks.flower_pot, 0)){
+			PacketPipeline.sendToServer(new S00DeathFlowerPot(Pos.at(x, y, z)));
 			return true;
 		}
 		
-		return super.onItemUseFirst(is,player,world,x,y,z,side,hitX,hitY,hitZ);
+		return super.onItemUseFirst(is, player, world, x, y, z, side, hitX, hitY, hitZ);
 	}
 }

@@ -14,7 +14,7 @@ public class StructureLaboratory extends AbstractIslandStructure{
 		Stopwatch.time("StructureLaboratory - generate plan");
 		
 		do{
-			if (plan.generate(world,rand)){
+			if (plan.generate(world, rand)){
 				--attemptsSuccess;
 				if ((bestPlan == null || plan.getScore() > bestPlan.getScore()))bestPlan = plan.copy();
 			}
@@ -25,7 +25,7 @@ public class StructureLaboratory extends AbstractIslandStructure{
 		if (bestPlan == null)return false;
 
 		Stopwatch.time("StructureLaboratory - generate blocks");
-		new LaboratoryGenerator(bestPlan).generateInWorld(world,rand);
+		new LaboratoryGenerator(bestPlan).generateInWorld(world, rand);
 		Stopwatch.finish("StructureLaboratory - generate blocks");
 		
 		return true;

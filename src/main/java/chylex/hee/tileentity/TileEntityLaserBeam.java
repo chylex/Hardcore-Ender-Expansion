@@ -23,15 +23,15 @@ public class TileEntityLaserBeam extends TileEntity{
 			Pos.at(this).setAir(worldObj);
 			double x = xCoord+0.5D, z = zCoord+0.5D;
 			
-			for(EntityPlayer player:EntitySelector.players(worldObj,AxisAlignedBB.getBoundingBox(x-1.5D,yCoord,z-1.5D,x+1.5D,yCoord+1D,z+1.5D))){
+			for(EntityPlayer player:EntitySelector.players(worldObj, AxisAlignedBB.getBoundingBox(x-1.5D, yCoord, z-1.5D, x+1.5D, yCoord+1D, z+1.5D))){
 				player.hurtResistantTime = 0;
-				player.attackEntityFrom(DamageSource.magic,ModCommonProxy.opMobs ? 5F : 3F);
+				player.attackEntityFrom(DamageSource.magic, ModCommonProxy.opMobs ? 5F : 3F);
 				player.hurtResistantTime = 0;
-				player.attackEntityFrom(DamageSource.generic,ModCommonProxy.opMobs ? 10F : 6F);
+				player.attackEntityFrom(DamageSource.generic, ModCommonProxy.opMobs ? 10F : 6F);
 				player.setFire(40);
 			}
 			
-			PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.LASER_BEAM_DESTROY,this));
+			PacketPipeline.sendToAllAround(this, 64D, new C20Effect(FXType.Basic.LASER_BEAM_DESTROY, this));
 		}
 	}
 	
@@ -46,8 +46,8 @@ public class TileEntityLaserBeam extends TileEntity{
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		nbt.setFloat("beamAng",beamAngle);
-		nbt.setInteger("ticksLeft",ticksLeft);
+		nbt.setFloat("beamAng", beamAngle);
+		nbt.setInteger("ticksLeft", ticksLeft);
 	}
 
 	@Override

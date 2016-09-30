@@ -11,7 +11,7 @@ public abstract class SaveFile{
 	}
 	
 	protected File getFile(File root){
-		return new File(root,filename);
+		return new File(root, filename);
 	}
 	
 	protected void setModified(){
@@ -27,7 +27,7 @@ public abstract class SaveFile{
 		
 		NBTCompound nbt = new NBTCompound();
 		onSave(nbt);
-		SaveData.saveFile(getFile(root),nbt);
+		SaveData.saveFile(getFile(root), nbt);
 	}
 	
 	public final void loadFromNBT(File root){

@@ -19,7 +19,7 @@ public final class CompendiumTabHandler{
 		int tabY = 0;
 		
 		for(KnowledgeCategory category:KnowledgeCategories.list){
-			categories.add(new CompendiumCategoryElement(category,tabY));
+			categories.add(new CompendiumCategoryElement(category, tabY));
 			tabY += 25;
 		}
 		
@@ -28,9 +28,9 @@ public final class CompendiumTabHandler{
 	
 	public boolean onMouseClick(int mouseX, int mouseY, int mouseButton){
 		for(CompendiumCategoryElement element:categories){
-			if (element.isMouseOver(mouseX,mouseY,element == selected)){
+			if (element.isMouseOver(mouseX, mouseY, element == selected)){
 				selected = element;
-				gui.moveToObject(element.category.getTargetObj(),true);
+				gui.moveToObject(element.category.getTargetObj(), true);
 				return true;
 			}
 		}
@@ -56,8 +56,8 @@ public final class CompendiumTabHandler{
 		}
 		
 		for(CompendiumCategoryElement element:categories){
-			element.render(gui,element == selected);
-			if (element.isMouseOver(mouseX,mouseY,element == selected))GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.category.getTranslatedTooltip());
+			element.render(gui, element == selected);
+			if (element.isMouseOver(mouseX, mouseY, element == selected))GuiItemRenderHelper.setupTooltip(mouseX, mouseY, element.category.getTranslatedTooltip());
 		}
 	}
 }

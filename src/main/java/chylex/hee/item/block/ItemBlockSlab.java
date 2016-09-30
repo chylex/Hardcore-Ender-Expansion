@@ -22,26 +22,26 @@ public class ItemBlockSlab extends ItemBlock{
 	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (is.stackSize == 0 || !player.canPlayerEdit(x,y,z,side,is))return false;
-		return tryPlaceSlab(is,player,world,x,y,z,side,true) || super.onItemUse(is,player,world,x,y,z,side,hitX,hitY,hitZ);
+		if (is.stackSize == 0 || !player.canPlayerEdit(x, y, z, side, is))return false;
+		return tryPlaceSlab(is, player, world, x, y, z, side, true) || super.onItemUse(is, player, world, x, y, z, side, hitX, hitY, hitZ);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean func_150936_a(World world, int x, int y, int z, int side, EntityPlayer player, ItemStack is){
-		return tryPlaceSlab(is,player,world,x,y,z,side,false) || super.func_150936_a(world,x,y,z,side,player,is);
+		return tryPlaceSlab(is, player, world, x, y, z, side, false) || super.func_150936_a(world, x, y, z, side, player, is);
 	}
 
 	private boolean tryPlaceSlab(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, boolean doPlace){
-		Pos pos = Pos.at(x,y,z);
+		Pos pos = Pos.at(x, y, z);
 		boolean isTopSlab = (pos.getMetadata(world)&8) != 0;
 		
 		if (!((side == 1 && !isTopSlab) || (side == 0 && isTopSlab)))pos = pos.offset(side);
 		
 		if (pos.getBlock(world) == field_150939_a){
-			if (doPlace && world.checkNoEntityCollision(full.block.getCollisionBoundingBoxFromPool(world,x,y,z)) && pos.setBlock(world,full)){
+			if (doPlace && world.checkNoEntityCollision(full.block.getCollisionBoundingBoxFromPool(world, x, y, z)) && pos.setBlock(world, full)){
 				SoundType sound = full.block.stepSound;
-				world.playSoundEffect(x+0.5D,y+0.5D,z+0.5D,sound.func_150496_b(),(sound.getVolume()+1F)*0.5F,sound.getPitch()*0.8F);
+				world.playSoundEffect(x+0.5D, y+0.5D, z+0.5D, sound.func_150496_b(), (sound.getVolume()+1F)*0.5F, sound.getPitch()*0.8F);
 				--is.stackSize;
 			}
 

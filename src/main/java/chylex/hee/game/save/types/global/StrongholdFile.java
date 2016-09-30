@@ -14,17 +14,17 @@ public class StrongholdFile extends SaveFile{
 	}
 	
 	public void addChunkPos(int chunkX, int chunkZ){
-		chunkPositions.add(Pos.at(chunkX,0,chunkZ));
+		chunkPositions.add(Pos.at(chunkX, 0, chunkZ));
 		setModified();
 	}
 	
 	public boolean checkChunkPos(int chunkX, int chunkZ){
-		return chunkPositions.contains(Pos.at(chunkX,0,chunkZ));
+		return chunkPositions.contains(Pos.at(chunkX, 0, chunkZ));
 	}
 
 	@Override
 	protected void onSave(NBTCompound nbt){
-		nbt.writeList("list",chunkPositions.stream().mapToLong(Pos::toLong));
+		nbt.writeList("list", chunkPositions.stream().mapToLong(Pos::toLong));
 	}
 	
 	@Override

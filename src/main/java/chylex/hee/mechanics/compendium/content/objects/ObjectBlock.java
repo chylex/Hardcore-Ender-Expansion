@@ -13,22 +13,22 @@ public class ObjectBlock implements IObjectHolder<BlockInfo>{
 	
 	public ObjectBlock(BlockInfo info){
 		this.info = info;
-		this.displayIS = new ItemStack(info.block,info.meta);
+		this.displayIS = new ItemStack(info.block, info.meta);
 	}
 	
 	public ObjectBlock(Block block){
-		this.info = new BlockInfo(block,wildcard);
+		this.info = new BlockInfo(block, wildcard);
 		this.displayIS = new ItemStack(block);
 	}
 	
 	public ObjectBlock(Block block, int metadata){
-		this.info = new BlockInfo(block,metadata);
-		this.displayIS = new ItemStack(block,1,metadata == wildcard ? 0 : metadata);
+		this.info = new BlockInfo(block, metadata);
+		this.displayIS = new ItemStack(block, 1, metadata == wildcard ? 0 : metadata);
 	}
 	
 	public ObjectBlock(Block block, int displayMetadata, boolean useWildcard){
-		this.info = new BlockInfo(block,useWildcard ? wildcard : displayMetadata);
-		this.displayIS = new ItemStack(block,1,displayMetadata);
+		this.info = new BlockInfo(block, useWildcard ? wildcard : displayMetadata);
+		this.displayIS = new ItemStack(block, 1, displayMetadata);
 	}
 	
 	@Override

@@ -48,8 +48,8 @@ public class GuiModTransition extends GuiScreen{
 	
 	@Override
 	public void initGui(){
-		buttonList.add(new GuiButton(1,width/2-154,height-38,150,20,I18n.format("gui.yes")));
-		buttonList.add(new GuiButton(2,width/2+4,height-38,150,20,I18n.format("gui.no")));
+		buttonList.add(new GuiButton(1, width/2-154, height-38, 150, 20, I18n.format("gui.yes")));
+		buttonList.add(new GuiButton(2, width/2+4, height-38, 150, 20, I18n.format("gui.no")));
 	}
 	
 	@Override
@@ -68,7 +68,7 @@ public class GuiModTransition extends GuiScreen{
 					URI uri = URI.create("https://github.com/chylex/Hardcore-Ender-Expansion/");
 					if (java.awt.Desktop.isDesktopSupported())java.awt.Desktop.getDesktop().browse(uri);
 				}catch(Throwable t){
-					Log.throwable(t,"Could not open website.");
+					Log.throwable(t, "Could not open website.");
 				}
 				
 				break;
@@ -86,7 +86,7 @@ public class GuiModTransition extends GuiScreen{
 				try{
 					ModTransition.doConvertWorld(file);
 				}catch(IOException e){
-					Log.throwable(e,"Could not convert world - $0",file.getName());
+					Log.throwable(e, "Could not convert world - $0", file.getName());
 					++failed;
 				}
 			}
@@ -99,8 +99,8 @@ public class GuiModTransition extends GuiScreen{
 				build.append("report it to the Hardcore Ender Expansion issue tracker.");
 				
 				renderString = build.toString().split("\\n");
-				buttonList.add(new GuiButton(3,width/2-154,height-38,150,20,I18n.format("gui.openHeeTracker")));
-				buttonList.add(new GuiButton(2,width/2+4,height-38,150,20,I18n.format("gui.back")));
+				buttonList.add(new GuiButton(3, width/2-154, height-38, 150, 20, I18n.format("gui.openHeeTracker")));
+				buttonList.add(new GuiButton(2, width/2+4, height-38, 150, 20, I18n.format("gui.back")));
 			}
 			else mc.displayGuiScreen(worldMenu);
 			
@@ -113,10 +113,10 @@ public class GuiModTransition extends GuiScreen{
 		drawDefaultBackground();
 		
 		int y = (height/2-(10*renderString.length)/2)-25;
-		for(String line:renderString)drawCenteredString(fontRendererObj,line,width/2,y += 10,0xFFFFFF);
+		for(String line:renderString)drawCenteredString(fontRendererObj, line, width/2, y += 10, 0xFFFFFF);
 		
 		if (runUpdates == 1)runUpdates = 2;
 		
-		super.drawScreen(mouseX,mouseY,partialTickTime);
+		super.drawScreen(mouseX, mouseY, partialTickTime);
 	}
 }

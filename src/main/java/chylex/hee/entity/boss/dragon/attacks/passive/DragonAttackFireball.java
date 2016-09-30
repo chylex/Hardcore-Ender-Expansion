@@ -7,7 +7,7 @@ public class DragonAttackFireball extends DragonPassiveAttackBase{
 	private int timer;
 	
 	public DragonAttackFireball(EntityBossDragon dragon, int attackId){
-		super(dragon,attackId);
+		super(dragon, attackId);
 	}
 	
 	@Override

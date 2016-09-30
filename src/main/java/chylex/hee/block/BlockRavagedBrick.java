@@ -43,18 +43,18 @@ public class BlockRavagedBrick extends Block implements IBlockSubtypes{
 		int spawnerCount = 0;
 		
 		for(TileEntity tile:list){
-			if (tile.blockType == BlockList.custom_spawner && MathUtil.distance(x-tile.xCoord,z-tile.zCoord) < 260)++spawnerCount;
+			if (tile.blockType == BlockList.custom_spawner && MathUtil.distance(x-tile.xCoord, z-tile.zCoord) < 260)++spawnerCount;
 		}
 		
-		if (spawnerCount > 24)world.spawnParticle("reddust",x-0.2D+world.rand.nextDouble()*1.4D,y-0.2D+world.rand.nextDouble()*1.4D,z-0.2D+world.rand.nextDouble()*1.4D,1D,0.2D,0.2D);
+		if (spawnerCount > 24)world.spawnParticle("reddust", x-0.2D+world.rand.nextDouble()*1.4D, y-0.2D+world.rand.nextDouble()*1.4D, z-0.2D+world.rand.nextDouble()*1.4D, 1D, 0.2D, 0.2D);
 		
-		return spawnerCount <= 24 ? blockHardness : blockHardness+(3F+(float)Math.pow(spawnerCount-24,0.8D)*1.5F);
+		return spawnerCount <= 24 ? blockHardness : blockHardness+(3F+(float)Math.pow(spawnerCount-24, 0.8D)*1.5F);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 0; a < metaAmount; a++)list.add(new ItemStack(item,1,a));
+		for(int a = 0; a < metaAmount; a++)list.add(new ItemStack(item, 1, a));
 	}
 	
 	@Override

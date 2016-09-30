@@ -21,6 +21,6 @@ public class BlobGeneratorSingle extends BlobGenerator{
 
 	@Override
 	public void generate(StructureWorldBlob world, Random rand){
-		generateBlob(world,0D,world.getCenterY(),0D,radius.generate(rand));
+		generateBlob(world, 0D, world.getCenterY(), 0D, radius.generate(rand));
 	}
 }

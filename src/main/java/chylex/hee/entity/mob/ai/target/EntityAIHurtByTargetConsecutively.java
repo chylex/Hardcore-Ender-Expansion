@@ -19,7 +19,7 @@ public class EntityAIHurtByTargetConsecutively extends EntityAIAbstractTarget{
 	private int counterTimer = 100;
 	
 	public EntityAIHurtByTargetConsecutively(EntityCreature owner){
-		super(owner,false,false);
+		super(owner, false, false);
 		setMutexBits(AIUtil.mutexTarget);
 	}
 	

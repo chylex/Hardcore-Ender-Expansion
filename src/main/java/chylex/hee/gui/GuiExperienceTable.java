@@ -10,10 +10,10 @@ public class GuiExperienceTable extends GuiAbstractTable{
 	private static final ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/experience_table.png");
 
 	public GuiExperienceTable(InventoryPlayer inv, TileEntityExperienceTable tile){
-		super(new ContainerExperienceTable(inv,tile),tile);
-		setupProgressBar(75,34);
-		setupEnergyIcon(37,37);
-		setupStardustText(52,53);
+		super(new ContainerExperienceTable(inv, tile), tile);
+		setupProgressBar(75, 34);
+		setupEnergyIcon(37, 37);
+		setupStardustText(52, 53);
 	}
 
 	@Override

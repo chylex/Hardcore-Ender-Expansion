@@ -16,7 +16,7 @@ import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import com.google.common.collect.ImmutableList;
 
 public final class EnhancementRegistry{
-	private static final Map<Item,EnhancementData> registry = new HashMap<>(16);
+	private static final Map<Item, EnhancementData> registry = new HashMap<>(16);
 	
 	public static void init(){
 		BrewingStandEnhancements.register();
@@ -30,13 +30,13 @@ public final class EnhancementRegistry{
 	
 	public static <T extends Enum<T>> EnhancementData registerEnhancement(Block[] blocks, Class<T> enumCls){
 		EnhancementData data = new EnhancementData(enumCls);
-		for(Block block:blocks)registry.put(Item.getItemFromBlock(block),data);
+		for(Block block:blocks)registry.put(Item.getItemFromBlock(block), data);
 		return data;
 	}
 	
 	public static <T extends Enum<T>> EnhancementData registerEnhancement(Item[] items, Class<T> enumCls){
 		EnhancementData data = new EnhancementData(enumCls);
-		for(Item item:items)registry.put(item,data);
+		for(Item item:items)registry.put(item, data);
 		return data;
 	}
 	
@@ -57,11 +57,11 @@ public final class EnhancementRegistry{
 	}
 	
 	public static <T extends Enum<T>> EnhancementList<T> getEnhancementList(ItemStack is){
-		return new EnhancementList.LinkedItemStack<>(registry.get(is.getItem()).getEnhancementClass(),is);
+		return new EnhancementList.LinkedItemStack<>(registry.get(is.getItem()).getEnhancementClass(), is);
 	}
 	
 	public static String getEnhancementName(Enum enhancementEnum){
-		return enhancementEnum.name().substring(0,1).toUpperCase(Locale.ENGLISH)+enhancementEnum.name().substring(1).toLowerCase(Locale.ENGLISH).replace('_',' ');
+		return enhancementEnum.name().substring(0, 1).toUpperCase(Locale.ENGLISH)+enhancementEnum.name().substring(1).toLowerCase(Locale.ENGLISH).replace('_', ' ');
 	}
 	
 	private EnhancementRegistry(){}

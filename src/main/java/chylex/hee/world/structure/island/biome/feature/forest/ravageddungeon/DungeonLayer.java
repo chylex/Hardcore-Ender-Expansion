@@ -16,7 +16,7 @@ public final class DungeonLayer{
 	
 	public DungeonLayer(int width, int height, TIntHashSet blockedLocs){
 		elementArray = new DungeonElementType[width][height];
-		elementList = new DungeonElementList(width,height);
+		elementList = new DungeonElementList(width, height);
 		
 		for(int xx = 0; xx < width; xx++){
 			for(int yy = 0; yy < height; yy++)elementArray[xx][yy] = DungeonElementType.EMPTY;
@@ -32,18 +32,18 @@ public final class DungeonLayer{
 		this.entranceX = this.x = (byte)x;
 		this.entranceY = this.y = (byte)y;
 		elementArray[x][y] = DungeonElementType.ENTRANCE;
-		elementList.add(new DungeonElement(x,y,DungeonElementType.ENTRANCE));
+		elementList.add(new DungeonElement(x, y, DungeonElementType.ENTRANCE));
 	}
 	
 	public void createDescend(int x, int y){
-		if (elementList.getTypeAt(x,y) != DungeonElementType.ROOM)throw new IllegalStateException("Cannot create descend, invalid dungeon element!");
+		if (elementList.getTypeAt(x, y) != DungeonElementType.ROOM)throw new IllegalStateException("Cannot create descend, invalid dungeon element!");
 		
 		DungeonElement descend;
 		elementArray[x][y] = DungeonElementType.DESCEND;
-		elementList.add(descend = new DungeonElement(x,y,DungeonElementType.DESCEND));
+		elementList.add(descend = new DungeonElement(x, y, DungeonElementType.DESCEND));
 		
 		for(DungeonDir dir:DungeonDir.values){
-			DungeonElement element = elementList.getAt(x+dir.addX*2,y+dir.addY*2);
+			DungeonElement element = elementList.getAt(x+dir.addX*2, y+dir.addY*2);
 			
 			if (element != null){
 				descend.connect(dir);
@@ -56,13 +56,13 @@ public final class DungeonLayer{
 		this.entranceX = this.x = (byte)x;
 		this.entranceY = this.y = (byte)y;
 		elementArray[x][y] = DungeonElementType.DESCENDBOTTOM;
-		elementList.add(new DungeonElement(x,y,DungeonElementType.DESCENDBOTTOM));
+		elementList.add(new DungeonElement(x, y, DungeonElementType.DESCENDBOTTOM));
 	}
 	
 	public void createEnd(int x, int y){
-		if (elementList.getTypeAt(x,y) != DungeonElementType.ROOM)throw new IllegalStateException("Cannot create end, invalid dungeon element!");
+		if (elementList.getTypeAt(x, y) != DungeonElementType.ROOM)throw new IllegalStateException("Cannot create end, invalid dungeon element!");
 		
-		Set<DungeonElement> connected = elementList.getGrouped(elementList.getAt(x,y));
+		Set<DungeonElement> connected = elementList.getGrouped(elementList.getAt(x, y));
 		if (connected.size() != 4)throw new IllegalStateException("Cannot create end, invalid dungeon element size!");
 		
 		List<DungeonElement> endElements = new ArrayList<>();
@@ -70,7 +70,7 @@ public final class DungeonLayer{
 		for(DungeonElement element:connected){
 			elementList.remove(element);
 			
-			DungeonElement newElement = new DungeonElement(element.x,element.y,DungeonElementType.END);
+			DungeonElement newElement = new DungeonElement(element.x, element.y, DungeonElementType.END);
 			elementArray[element.x][element.y] = DungeonElementType.END;
 			endElements.add(newElement);
 			elementList.add(newElement);
@@ -82,7 +82,7 @@ public final class DungeonLayer{
 		
 		for(DungeonElement endElement:endElements){
 			for(DungeonDir dir:DungeonDir.values){
-				if (elementList.getTypeAt(endElement.x+dir.addX*2,endElement.y+dir.addY*2) == DungeonElementType.END){
+				if (elementList.getTypeAt(endElement.x+dir.addX*2, endElement.y+dir.addY*2) == DungeonElementType.END){
 					endElement.connect(dir);
 				}
 			}
@@ -93,14 +93,14 @@ public final class DungeonLayer{
 		int amount = elementArray[x][y] == DungeonElementType.ROOM ? 2 : 1;
 		int prevX = x, prevY = y;
 		
-		if (move(dir,amount)){
+		if (move(dir, amount)){
 			if (elementArray[x][y] == DungeonElementType.EMPTY){
 				elementArray[x][y] = DungeonElementType.HALLWAY;
-				elementList.add(new DungeonElement(x,y,DungeonElementType.HALLWAY).connect(dir.reversed()));
-				if (elementList.getAt(prevX,prevY) != null)elementList.getAt(prevX,prevY).connect(dir);
+				elementList.add(new DungeonElement(x, y, DungeonElementType.HALLWAY).connect(dir.reversed()));
+				if (elementList.getAt(prevX, prevY) != null)elementList.getAt(prevX, prevY).connect(dir);
 				return true;
 			}
-			else move(dir.reversed(),amount);
+			else move(dir.reversed(), amount);
 		}
 		
 		return false;
@@ -110,7 +110,7 @@ public final class DungeonLayer{
 		byte tempX = x, tempY = y;
 		boolean res = false;
 		
-		if (move(dir,2) && check(x-1,y-1) && check(x+1,y+1)){
+		if (move(dir, 2) && check(x-1, y-1) && check(x+1, y+1)){
 			for(int xx = x-1; xx <= x+1; xx++){
 				for(int yy = y-1; yy <= y+1; yy++){
 					if (elementArray[xx][yy] != DungeonElementType.EMPTY || blockedLocs.contains(xx+yy*width)){
@@ -135,10 +135,10 @@ public final class DungeonLayer{
 		
 		int prevX = x, prevY = y;
 		
-		if (move(dir,2)){
-			addRoomAt(x,y);
-			elementList.getAt(x,y).connect(dir.reversed());
-			DungeonElement prevElement = elementList.getAt(prevX,prevY);
+		if (move(dir, 2)){
+			addRoomAt(x, y);
+			elementList.getAt(x, y).connect(dir.reversed());
+			DungeonElement prevElement = elementList.getAt(prevX, prevY);
 			if (prevElement != null)prevElement.connect(dir);
 			
 			RoomCombo shape = DungeonElementType.RoomCombo.random(rand);
@@ -155,9 +155,9 @@ public final class DungeonLayer{
 							default:
 						}
 
-						move(dir,1);
+						move(dir, 1);
 						if (canGenerateRoom(dir)){
-							move(dir,2);
+							move(dir, 2);
 							rooms.add(new byte[]{ x, y });
 						}
 						
@@ -168,13 +168,13 @@ public final class DungeonLayer{
 						boolean turnWay = rand.nextBoolean();
 						
 						for(int a = 0; a < (shape == RoomCombo.TURN ? 2 : 3); a++){
-							move(dir,1);
+							move(dir, 1);
 							if (!canGenerateRoom(dir)){
 								rooms.clear();
 								break;
 							}
 							
-							move(dir,2);
+							move(dir, 2);
 							rooms.add(new byte[]{ x, y });
 							dir = turnWay ? dir.rotatedLeft() : dir.rotatedRight();
 						}
@@ -184,7 +184,7 @@ public final class DungeonLayer{
 					default:
 				}
 				
-				for(byte[] loc:rooms)addRoomAt(loc[0],loc[1]);
+				for(byte[] loc:rooms)addRoomAt(loc[0], loc[1]);
 				
 				rooms.add(new byte[]{ origX, origY });
 				
@@ -197,7 +197,7 @@ public final class DungeonLayer{
 							xx = loc[0]+testDir.addX*3;
 							yy = loc[1]+testDir.addY*3;
 							
-							if (elementList.getTypeAt(xx,yy) == DungeonElementType.ROOM){
+							if (elementList.getTypeAt(xx, yy) == DungeonElementType.ROOM){
 								found = false;
 								
 								for(byte[] testLoc:rooms){
@@ -207,14 +207,14 @@ public final class DungeonLayer{
 									}
 								}
 								
-								if (found)elementList.getAt(loc[0],loc[1]).connect(testDir);
+								if (found)elementList.getAt(loc[0], loc[1]).connect(testDir);
 							}
 						}
 					}
 				}
 				
 				byte[] moveTo = rooms.get(rand.nextInt(rooms.size()));
-				moveToElement(elementList.getAt(moveTo[0],moveTo[1]));
+				moveToElement(elementList.getAt(moveTo[0], moveTo[1]));
 				
 				return rooms.size();
 			}
@@ -231,7 +231,7 @@ public final class DungeonLayer{
 			}
 		}
 		
-		elementList.add(new DungeonElement(x,y,DungeonElementType.ROOM));
+		elementList.add(new DungeonElement(x, y, DungeonElementType.ROOM));
 	}
 	
 	public DungeonElementList getElements(){
@@ -256,7 +256,7 @@ public final class DungeonLayer{
 		x += dir.addX*amount;
 		y += dir.addY*amount;
 		
-		if (check(x,y))return true;
+		if (check(x, y))return true;
 		x -= dir.addX*amount;
 		y -= dir.addY*amount;
 		return false;

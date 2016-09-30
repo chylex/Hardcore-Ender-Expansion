@@ -34,7 +34,7 @@ public class FXEvents{
 		if (heldItem != null && heldItem.getItem() == ItemList.scorching_pickaxe && (ItemScorchingPickaxe.isBlockValid(e.block) || e.block == BlockList.ravaged_brick)){
 			Random rand = e.entity.worldObj.rand;
 			Minecraft mc = Minecraft.getMinecraft();
-			for(int fx = 0; fx < 5-2*mc.gameSettings.particleSetting; fx++)HardcoreEnderExpansion.fx.flame(e.x-0.2D+rand.nextDouble()*1.4D,e.y-0.2D+rand.nextDouble()*1.4D,e.z-0.2D+rand.nextDouble()*1.4D,6);
+			for(int fx = 0; fx < 5-2*mc.gameSettings.particleSetting; fx++)HardcoreEnderExpansion.fx.flame(e.x-0.2D+rand.nextDouble()*1.4D, e.y-0.2D+rand.nextDouble()*1.4D, e.z-0.2D+rand.nextDouble()*1.4D, 6);
 		}
 	}
 	
@@ -47,11 +47,11 @@ public class FXEvents{
 		double voidFactor = EndTerritory.getVoidFactor(player);
 		
 		if (voidFactor > 0.25D){
-			int factor = Math.min(150,MathUtil.floor(voidFactor*50F));
-			double dist = 16D-Math.min(voidFactor*2D,8D);
+			int factor = Math.min(150, MathUtil.floor(voidFactor*50F));
+			double dist = 16D-Math.min(voidFactor*2D, 8D);
 			
 			for(int a = 5+factor/5+rand.nextInt(1+factor); a > 0; a--){
-				HardcoreEnderExpansion.fx.global("aura",player.posX+(rand.nextDouble()-0.5D)*dist,player.posY+(rand.nextDouble()-0.5D)*dist,player.posZ+(rand.nextDouble()-0.5D)*dist,0D,0D,0D);
+				HardcoreEnderExpansion.fx.global("aura", player.posX+(rand.nextDouble()-0.5D)*dist, player.posY+(rand.nextDouble()-0.5D)*dist, player.posZ+(rand.nextDouble()-0.5D)*dist, 0D, 0D, 0D);
 			}
 		}
 	}

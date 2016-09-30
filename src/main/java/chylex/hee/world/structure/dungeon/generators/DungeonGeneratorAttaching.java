@@ -27,7 +27,7 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	public DungeonGeneratorAttaching(StructureDungeon<?> dungeon){
 		super(dungeon);
 		this.available = new WeightedList<>(dungeon.pieces);
-		this.generatedCount = new TObjectIntHashMap<>(dungeon.pieces.size(),Constants.DEFAULT_LOAD_FACTOR,0);
+		this.generatedCount = new TObjectIntHashMap<>(dungeon.pieces.size(), Constants.DEFAULT_LOAD_FACTOR, 0);
 	}
 	
 	/**
@@ -44,8 +44,8 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 				StructureDungeonPieceArray nextArray = selectNextPiece(rand);
 				if (nextArray == null)break;
 				
-				for(StructureDungeonPiece nextPiece:CollectionUtil.shuffled(nextArray.toList(),rand)){
-					if (tryGeneratePiece(nextPiece,rand)){
+				for(StructureDungeonPiece nextPiece:CollectionUtil.shuffled(nextArray.toList(), rand)){
+					if (tryGeneratePiece(nextPiece, rand)){
 						if (generated.size() >= targetAmount)cycleAttempt = Integer.MAX_VALUE-1;
 						break;
 					}
@@ -57,8 +57,8 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 		if (!dungeon.pieces.stream().allMatch(array -> array.amount.in(generatedCount.get(array))))return false;
 		
 		for(StructureDungeonPieceInst pieceInst:generated){
-			pieceInst.clearArea(world,rand);
-			pieceInst.generatePiece(world,rand);
+			pieceInst.clearArea(world, rand);
+			pieceInst.generatePiece(world, rand);
 		}
 		
 		return true;
@@ -77,9 +77,9 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	 */
 	@Override
 	protected StructureDungeonPieceInst addPiece(StructureDungeonPiece piece, Pos position){
-		StructureDungeonPieceInst inst = super.addPiece(piece,position);
+		StructureDungeonPieceInst inst = super.addPiece(piece, position);
 		StructureDungeonPieceArray parentArray = piece.getParentArray();
-		if (generatedCount.adjustOrPutValue(parentArray,1,1) >= parentArray.amount.max)available.remove(parentArray);
+		if (generatedCount.adjustOrPutValue(parentArray, 1, 1) >= parentArray.amount.max)available.remove(parentArray);
 		return inst;
 	}
 	
@@ -93,8 +93,8 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 			StructureDungeonPieceInst target = generated.getRandomItem(rand);
 			if (target == null)break;
 			
-			for(Connection targetConnection:CollectionUtil.shuffled(target.findConnections(sourceConnection.facing,piece.type),rand)){
-				if (tryConnectPieces(piece,sourceConnection,target,targetConnection))return true;
+			for(Connection targetConnection:CollectionUtil.shuffled(target.findConnections(sourceConnection.facing, piece.type), rand)){
+				if (tryConnectPieces(piece, sourceConnection, target, targetConnection))return true;
 			}
 		}
 		

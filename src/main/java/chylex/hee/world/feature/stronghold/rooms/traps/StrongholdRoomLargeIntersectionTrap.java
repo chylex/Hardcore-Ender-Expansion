@@ -20,10 +20,10 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 public class StrongholdRoomLargeIntersectionTrap extends StrongholdRoomLargeIntersection{
 	@Override
 	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
-		super.generate(inst,world,rand,x,y,z);
+		super.generate(inst, world, rand, x, y, z);
 		
 		// spawner
-		world.addEntity(new EntityTechnicalTrigger(null,x+maxX/2+0.5F,y+1,z+maxZ/2+0.5F,new TriggerSilverfishBlocks()));
+		world.addEntity(new EntityTechnicalTrigger(null, x+maxX/2+0.5F, y+1, z+maxZ/2+0.5F, new TriggerSilverfishBlocks()));
 	}
 	
 	public static class TriggerSilverfishBlocks extends TriggerBase{
@@ -36,26 +36,26 @@ public class StrongholdRoomLargeIntersectionTrap extends StrongholdRoomLargeInte
 			if (++checkTimer > 10){
 				checkTimer = 0;
 				
-				if (world.getClosestPlayerToEntity(entity,5D) == null)return;
+				if (world.getClosestPlayerToEntity(entity, 5D) == null)return;
 				
 				PosMutable mpos = new PosMutable();
 				
-				List<EntityPlayer> players = EntitySelector.players(world,entity.boundingBox.expand(8.5D,4.5D,8.5D).offset(0D,2D,0D));
+				List<EntityPlayer> players = EntitySelector.players(world, entity.boundingBox.expand(8.5D, 4.5D, 8.5D).offset(0D, 2D, 0D));
 				if (players.isEmpty())return;
 				
 				for(int attempt = 0, spawnsLeft = 3+rand.nextInt(3)+world.difficultySetting.getDifficultyId(); attempt < 500; attempt++){
-					mpos.set(entity).move(rand.nextInt(9)-4,rand.nextInt(4),rand.nextInt(9)-4);
+					mpos.set(entity).move(rand.nextInt(9)-4, rand.nextInt(4), rand.nextInt(9)-4);
 					
 					if (mpos.getBlock(world) == Blocks.stonebrick || mpos.getBlock(world) == Blocks.monster_egg){
 						EntityMobSilverfish silverfish = new EntityMobSilverfish(entity.worldObj);
-						silverfish.setLocationAndAngles(mpos.x+0.5D,mpos.y,mpos.z+0.5D,rand.nextFloat()*360F-180F,0F);
+						silverfish.setLocationAndAngles(mpos.x+0.5D, mpos.y, mpos.z+0.5D, rand.nextFloat()*360F-180F, 0F);
 						silverfish.setAttackTarget(players.get(rand.nextInt(players.size())));
 						silverfish.setCanHideInBlocks(false);
 						silverfish.setCanSummonSilverfish(true);
 						entity.worldObj.spawnEntityInWorld(silverfish);
 						
-						mpos.breakBlock(entity.worldObj,false);
-						PacketPipeline.sendToAllAround(silverfish,64D,new C21EffectEntity(FXType.Entity.ENTITY_EXPLOSION_PARTICLE,silverfish));
+						mpos.breakBlock(entity.worldObj, false);
+						PacketPipeline.sendToAllAround(silverfish, 64D, new C21EffectEntity(FXType.Entity.ENTITY_EXPLOSION_PARTICLE, silverfish));
 						
 						if (--spawnsLeft == 0)break;
 					}

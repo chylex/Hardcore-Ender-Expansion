@@ -17,7 +17,7 @@ public class EntityAIWanderConstantly extends EntityAIBase{
 
 	@Override
 	public boolean shouldExecute(){
-		return (this.targetPosition = RandomPositionGenerator.findRandomTarget(entity,10,7)) != null;
+		return (this.targetPosition = RandomPositionGenerator.findRandomTarget(entity, 10, 7)) != null;
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class EntityAIWanderConstantly extends EntityAIBase{
 
 	@Override
 	public void startExecuting(){
-		entity.getNavigator().tryMoveToXYZ(targetPosition.xCoord,targetPosition.yCoord,targetPosition.zCoord,speed);
+		entity.getNavigator().tryMoveToXYZ(targetPosition.xCoord, targetPosition.yCoord, targetPosition.zCoord, speed);
 	}
 	
 	@Override

@@ -37,7 +37,7 @@ public final class KnowledgeNotification{
 		}
 		
 		GL.enableRescaleNormal();
-		CompendiumObjectElement.renderObject(obj,x,MathUtil.ceil(y-(yOffPrev+(yOff-yOffPrev)*partialTickTime)),CompendiumEventsClient.getClientData(),gui,false);
+		CompendiumObjectElement.renderObject(obj, x, MathUtil.ceil(y-(yOffPrev+(yOff-yOffPrev)*partialTickTime)), CompendiumEventsClient.getClientData(), gui, false);
 		GL.disableRescaleNormal();
 		
 		return false;

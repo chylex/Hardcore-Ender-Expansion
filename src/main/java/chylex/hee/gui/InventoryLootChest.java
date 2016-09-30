@@ -10,7 +10,7 @@ public class InventoryLootChest extends InventoryBasic{
 	private final TileEntityLootChest chest;
 	
 	public InventoryLootChest(TileEntityLootChest chest){
-		super("container.lootChest",false,27);
+		super("container.lootChest", false, 27);
 		this.chest = chest;
 		
 		Optional.ofNullable(chest.getInventoryNameIfPresent()).ifPresent(name -> func_110133_a(name)); // OBFUSCATED setInventoryName
@@ -21,7 +21,7 @@ public class InventoryLootChest extends InventoryBasic{
 		
 		for(int slot = 0; slot < sourceInventory.getSizeInventory(); slot++){
 			ItemStack is = sourceInventory.getStackInSlot(slot);
-			if (is != null)setInventorySlotContents(slot,is.copy());
+			if (is != null)setInventorySlotContents(slot, is.copy());
 		}
 	}
 	
@@ -44,6 +44,6 @@ public class InventoryLootChest extends InventoryBasic{
 	
 	@Override
 	public String getInventoryName(){
-		return Objects.firstNonNull(chest.getInventoryNameIfPresent(),super.getInventoryName());
+		return Objects.firstNonNull(chest.getInventoryNameIfPresent(), super.getInventoryName());
 	}
 }

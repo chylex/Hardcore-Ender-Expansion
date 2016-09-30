@@ -53,7 +53,7 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	private boolean isCategoryObject;
 	
 	public KnowledgeObject(T holder){
-		this(holder,holder.getDisplayItemStack().getDisplayName());
+		this(holder, holder.getDisplayItemStack().getDisplayName());
 	}
 	
 	public KnowledgeObject(T holder, String unlocalizedTooltip){
@@ -65,7 +65,7 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		this.fragments = new LinkedHashSet<>(6);
 		this.parentLineNodes = CollectionUtil.newList(new short[]{ 0, 0 });
 		this.childLineNodes = CollectionUtil.newList(new short[]{ 0, 0 });
-		allObjects.put(globalID,this);
+		allObjects.put(globalID, this);
 	}
 	
 	// Category
@@ -184,20 +184,20 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		for(int childIndex = 0; childIndex < childLineNodes.size()-1; childIndex++){
 			lastChildNode = childLineNodes.get(childIndex);
 			node = childLineNodes.get(childIndex+1);
-			callback.call(x+lastChildNode[0],y+lastChildNode[1],x+node[0],y+node[1]);
+			callback.call(x+lastChildNode[0], y+lastChildNode[1], x+node[0], y+node[1]);
 		}
 		
 		lastChildNode = childLineNodes.get(childLineNodes.size()-1);
 		
 		for(KnowledgeObject<?> child:children){
 			node = child.parentLineNodes.get(child.parentLineNodes.size()-1);
-			callback.call(x+lastChildNode[0],y+lastChildNode[1],child.x+node[0],child.y+node[1]);
+			callback.call(x+lastChildNode[0], y+lastChildNode[1], child.x+node[0], child.y+node[1]);
 			
 			short[] prevParentNode = node;
 			
 			for(int parentIndex = child.parentLineNodes.size()-2; parentIndex >= 0; parentIndex--){
 				node = child.parentLineNodes.get(parentIndex);
-				callback.call(child.x+prevParentNode[0],child.y+prevParentNode[1],child.x+node[0],child.y+node[1]);
+				callback.call(child.x+prevParentNode[0], child.y+prevParentNode[1], child.x+node[0], child.y+node[1]);
 				prevParentNode = child.parentLineNodes.get(parentIndex);
 			}
 		}

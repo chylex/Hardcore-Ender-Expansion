@@ -11,7 +11,7 @@ public enum BrewingStandEnhancements{
 	public static void register(){
 		EnhancementData<BrewingStandEnhancements> data = EnhancementRegistry.registerEnhancement(new Item[]{
 			ItemList.enhanced_brewing_stand, Item.getItemFromBlock(BlockList.enhanced_brewing_stand)
-		},BrewingStandEnhancements.class);
+		}, BrewingStandEnhancements.class);
 		
 		//
 	}

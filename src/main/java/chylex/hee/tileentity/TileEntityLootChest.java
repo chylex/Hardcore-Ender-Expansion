@@ -17,7 +17,7 @@ import chylex.hee.system.util.MathUtil;
 
 public class TileEntityLootChest extends TileEntity{
 	private final InventoryLootChest sourceInventory;
-	private final Map<String,InventoryLootChest> inventories;
+	private final Map<String, InventoryLootChest> inventories;
 	
 	public float lidAnim;
 	public float prevLidAnim;
@@ -34,20 +34,20 @@ public class TileEntityLootChest extends TileEntity{
 	public void updateEntity(){
 		super.updateEntity();
 
-		if (++ticksExisted%80 == 0)worldObj.addBlockEvent(xCoord,yCoord,zCoord,BlockList.loot_chest,1,openedAmount);
+		if (++ticksExisted%80 == 0)worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockList.loot_chest, 1, openedAmount);
 
 		prevLidAnim = lidAnim;
 
 		if (openedAmount > 0 && lidAnim == 0F){
-			worldObj.playSoundEffect(xCoord+0.5D,yCoord+0.5D,zCoord+0.5D,"random.chestopen",0.5F,worldObj.rand.nextFloat()*0.1F+0.9F);
+			worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "random.chestopen", 0.5F, worldObj.rand.nextFloat()*0.1F+0.9F);
 		}
 
 		if (openedAmount == 0 && lidAnim > 0F || openedAmount > 0 && lidAnim < 1F){
 			float oldAnim = lidAnim;
-			lidAnim = MathUtil.clamp(openedAmount > 0 ? lidAnim+0.1F : lidAnim-0.1F,0F,1F);
+			lidAnim = MathUtil.clamp(openedAmount > 0 ? lidAnim+0.1F : lidAnim-0.1F, 0F, 1F);
 
 			if (lidAnim < 0.5F && oldAnim >= 0.5F){
-				worldObj.playSoundEffect(xCoord+0.5D,yCoord+0.5D,zCoord+0.5D,"random.chestclosed",0.5F,worldObj.rand.nextFloat()*0.1F+0.9F);
+				worldObj.playSoundEffect(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D, "random.chestclosed", 0.5F, worldObj.rand.nextFloat()*0.1F+0.9F);
 			}
 		}
 	}
@@ -58,7 +58,7 @@ public class TileEntityLootChest extends TileEntity{
 			openedAmount = eventData;
 			return true;
 		}
-		else return super.receiveClientEvent(eventId,eventData);
+		else return super.receiveClientEvent(eventId, eventData);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class TileEntityLootChest extends TileEntity{
 	}
 	
 	public InventoryLootChest getInventoryFor(EntityPlayer player){
-		return player.capabilities.isCreativeMode ? sourceInventory : inventories.computeIfAbsent(PlayerDataHandler.getID(player),id -> new InventoryLootChest(this,sourceInventory));
+		return player.capabilities.isCreativeMode ? sourceInventory : inventories.computeIfAbsent(PlayerDataHandler.getID(player), id -> new InventoryLootChest(this, sourceInventory));
 	}
 	
 	public InventoryLootChest getSourceInventory(){
@@ -78,8 +78,8 @@ public class TileEntityLootChest extends TileEntity{
 	@Override
 	public Packet getDescriptionPacket(){
 		NBTTagCompound packetTag = new NBTTagCompound();
-		if (customName != null)packetTag.setString("customName",customName);
-		return new S35PacketUpdateTileEntity(xCoord,yCoord,zCoord,0,packetTag);
+		if (customName != null)packetTag.setString("customName", customName);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, packetTag);
 	}
 	
 	@Override
@@ -91,13 +91,13 @@ public class TileEntityLootChest extends TileEntity{
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		NBT.wrap(nbt).writeInventory("sourceInv",sourceInventory);
+		NBT.wrap(nbt).writeInventory("sourceInv", sourceInventory);
 		
 		NBTCompound playerTag = new NBTCompound();
-		for(Entry<String,InventoryLootChest> entry:inventories.entrySet())playerTag.writeInventory(entry.getKey(),entry.getValue());
-		nbt.setTag("playerInv",playerTag.getUnderlyingTag());
+		for(Entry<String, InventoryLootChest> entry:inventories.entrySet())playerTag.writeInventory(entry.getKey(), entry.getValue());
+		nbt.setTag("playerInv", playerTag.getUnderlyingTag());
 		
-		if (customName != null)nbt.setString("customName",customName);
+		if (customName != null)nbt.setString("customName", customName);
 	}
 	
 	@Override
@@ -105,14 +105,14 @@ public class TileEntityLootChest extends TileEntity{
 		super.readFromNBT(nbt);
 		NBTCompound tag = NBT.wrap(nbt);
 		
-		tag.readInventory("sourceInv",sourceInventory);
+		tag.readInventory("sourceInv", sourceInventory);
 		
 		NBTCompound playerTag = tag.getCompound("playerInv");
 		
 		for(String id:playerTag.keySet()){
 			InventoryLootChest inv = new InventoryLootChest(this);
-			playerTag.readInventory(id,inv);
-			inventories.put(id,inv);
+			playerTag.readInventory(id, inv);
+			inventories.put(id, inv);
 		}
 		
 		if (nbt.hasKey("customName"))customName = nbt.getString("customName");
@@ -120,16 +120,16 @@ public class TileEntityLootChest extends TileEntity{
 
 	public void addPlayerToOpenList(){
 		++openedAmount;
-		worldObj.addBlockEvent(xCoord,yCoord,zCoord,BlockList.loot_chest,1,openedAmount);
+		worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockList.loot_chest, 1, openedAmount);
 	}
 
 	public void removePlayerFromOpenList(){
 		--openedAmount;
-		worldObj.addBlockEvent(xCoord,yCoord,zCoord,BlockList.loot_chest,1,openedAmount);
+		worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockList.loot_chest, 1, openedAmount);
 	}
 
 	public boolean canPlayerUse(EntityPlayer player){
-		return worldObj.getTileEntity(xCoord,yCoord,zCoord) != this ? false : player.getDistanceSq(xCoord+0.5D,yCoord+0.5D,zCoord+0.5D) <= 64D;
+		return worldObj.getTileEntity(xCoord, yCoord, zCoord) != this ? false : player.getDistanceSq(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D) <= 64D;
 	}
 	
 	public void setCustomInventoryName(String customName){

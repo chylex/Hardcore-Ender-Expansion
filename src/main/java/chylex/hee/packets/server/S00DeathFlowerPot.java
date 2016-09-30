@@ -29,12 +29,12 @@ public class S00DeathFlowerPot extends AbstractServerPacket{
 
 	@Override
 	protected void handle(EntityPlayerMP player){
-		if (pos.checkBlock(player.worldObj,Blocks.flower_pot,0)){
+		if (pos.checkBlock(player.worldObj, Blocks.flower_pot, 0)){
 			ItemStack is = player.inventory.getCurrentItem();
 			
 			if (is != null && is.getItem() == Item.getItemFromBlock(BlockList.death_flower)){
 				if (!player.capabilities.isCreativeMode)--is.stackSize;
-				pos.setBlock(player.worldObj,BlockList.death_flower_pot,is.getItemDamage());
+				pos.setBlock(player.worldObj, BlockList.death_flower_pot, is.getItemDamage());
 			}
 		}
 	}

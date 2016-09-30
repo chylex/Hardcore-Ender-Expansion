@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 public class SlotShowCase extends Slot{
 	public SlotShowCase(IInventory inv, int id, int x, int z){
-		super(inv,id,x,z);
+		super(inv, id, x, z);
 	}
 	
 	@Override

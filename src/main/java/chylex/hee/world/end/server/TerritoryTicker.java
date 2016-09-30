@@ -18,12 +18,12 @@ public final class TerritoryTicker{
 		WorldFile file = SaveData.global(WorldFile.class);
 		
 		this.nbt = file.getTerritoryData(hash);
-		territory.properties.setupBehaviorList(behaviorList,territory,file.getTerritoryVariations(hash),centerPos,file.isTerritoryRare(hash));
+		territory.properties.setupBehaviorList(behaviorList, territory, file.getTerritoryVariations(hash), centerPos, file.isTerritoryRare(hash));
 	}
 	
 	public void onTick(World world){
 		for(ITerritoryBehavior behavior:behaviorList){
-			behavior.tick(world,nbt);
+			behavior.tick(world, nbt);
 		}
 	}
 }

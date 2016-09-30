@@ -33,14 +33,14 @@ final class VersionEntry implements Comparable<VersionEntry>{
 		String tmp = modVersion;
 		String[] idSplit = versionIdentifier.split(" - ");
 		
-		if (idSplit.length != 2)Log.error("Incorrect version identifier: $0",versionIdentifier);
+		if (idSplit.length != 2)Log.error("Incorrect version identifier: $0", versionIdentifier);
 		else{
 			tmp = idSplit[1];
 			
 			try{
 				i = Byte.parseByte(idSplit[0]);
 			}catch(NumberFormatException e){
-				Log.error("Incorrect version identifier: $0",versionIdentifier);
+				Log.error("Incorrect version identifier: $0", versionIdentifier);
 			}
 		}
 		
@@ -49,21 +49,21 @@ final class VersionEntry implements Comparable<VersionEntry>{
 	}
 	
 	public boolean isSupportedByMC(String mcVersion){
-		return ArrayUtils.contains(mcVersions,mcVersion);
+		return ArrayUtils.contains(mcVersions, mcVersion);
 	}
 	
 	public Calendar convertReleaseDate(){
 		Calendar cal = Calendar.getInstance();
 		cal.clear();
 		
-		String[] info = StringUtils.split(releaseDate,' ');
+		String[] info = StringUtils.split(releaseDate, ' ');
 		if (info.length != 3)return cal;
 		
-		int day = DragonUtil.tryParse(info[0],cal.get(Calendar.DAY_OF_MONTH));
-		int month = ArrayUtils.indexOf(new String[]{ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },info[1]);
-		int year = DragonUtil.tryParse(info[2],cal.get(Calendar.YEAR));
+		int day = DragonUtil.tryParse(info[0], cal.get(Calendar.DAY_OF_MONTH));
+		int month = ArrayUtils.indexOf(new String[]{ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }, info[1]);
+		int year = DragonUtil.tryParse(info[2], cal.get(Calendar.YEAR));
 		
-		cal.set(year,month == ArrayUtils.INDEX_NOT_FOUND ? cal.get(Calendar.MONTH) : month,day);
+		cal.set(year, month == ArrayUtils.INDEX_NOT_FOUND ? cal.get(Calendar.MONTH) : month, day);
 		return cal;
 	}
 

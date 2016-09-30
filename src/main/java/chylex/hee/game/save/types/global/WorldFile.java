@@ -28,8 +28,8 @@ public class WorldFile extends SaveFile{
 	private final TObjectIntHashMap<EndTerritory> territories = new TObjectIntHashMap<>(1);
 	private final TLongHashSet rareTerritories = new TLongHashSet(10);
 	
-	private final TLongIntHashMap territoryVariations = new TLongIntHashMap(1,Constants.DEFAULT_LOAD_FACTOR,0L,0);
-	private final TLongLongHashMap territoryPos = new TLongLongHashMap(1,Constants.DEFAULT_LOAD_FACTOR,0L,0L);
+	private final TLongIntHashMap territoryVariations = new TLongIntHashMap(1, Constants.DEFAULT_LOAD_FACTOR, 0L, 0);
+	private final TLongLongHashMap territoryPos = new TLongLongHashMap(1, Constants.DEFAULT_LOAD_FACTOR, 0L, 0L);
 	private final TLongObjectHashMap<NBTCompound> territoryData = new TLongObjectHashMap<>(1);
 	
 	private Pos voidPortalPos;
@@ -40,7 +40,7 @@ public class WorldFile extends SaveFile{
 	
 	public int increment(EndTerritory territory){
 		setModified();
-		return territories.adjustOrPutValue(territory,1,1)-1;
+		return territories.adjustOrPutValue(territory, 1, 1)-1;
 	}
 	
 	public void setTerritoryRare(long hash){
@@ -57,7 +57,7 @@ public class WorldFile extends SaveFile{
 		EndTerritory territory = EndTerritory.getFromHash(hash).orElse(null);
 		if (territory == null)return;
 		
-		territoryVariations.put(hash,territory.properties.serialize(variations));
+		territoryVariations.put(hash, territory.properties.serialize(variations));
 		setModified();
 	}
 	
@@ -67,7 +67,7 @@ public class WorldFile extends SaveFile{
 	}
 	
 	public void setTerritoryPos(long hash, Pos spawnPoint){
-		territoryPos.put(hash,spawnPoint.toLong());
+		territoryPos.put(hash, spawnPoint.toLong());
 		setModified();
 	}
 	
@@ -77,7 +77,7 @@ public class WorldFile extends SaveFile{
 	
 	public NBTCompound getTerritoryData(long hash){
 		NBTCompound tag = territoryData.get(hash);
-		if (tag == null)territoryData.put(hash,tag = NBT.callback(this::setModified));
+		if (tag == null)territoryData.put(hash, tag = NBT.callback(this::setModified));
 		
 		return tag;
 	}
@@ -92,7 +92,7 @@ public class WorldFile extends SaveFile{
 
 	@Override
 	protected void onSave(NBTCompound nbt){
-		if (voidPortalPos != null)nbt.setLong("voidPortal",voidPortalPos.toLong());
+		if (voidPortalPos != null)nbt.setLong("voidPortal", voidPortalPos.toLong());
 		
 		NBTCompound territoryTag = new NBTCompound();
 		NBTCompound territoryVariationsTag = new NBTCompound();
@@ -100,34 +100,34 @@ public class WorldFile extends SaveFile{
 		NBTCompound territoryDataTag = new NBTCompound();
 		NBTList rareTerritoriesTag = new NBTList();
 		
-		for(EndTerritory territory:territories.keySet())territoryTag.setInt(serializeByte((byte)territory.ordinal()),territories.get(territory));
+		for(EndTerritory territory:territories.keySet())territoryTag.setInt(serializeByte((byte)territory.ordinal()), territories.get(territory));
 		
 		for(TLongIntIterator iter = territoryVariations.iterator(); iter.hasNext();){
 			iter.advance();
-			territoryVariationsTag.setInt(serializeLong(iter.key()),iter.value());
+			territoryVariationsTag.setInt(serializeLong(iter.key()), iter.value());
 		}
 		
 		for(TLongLongIterator iter = territoryPos.iterator(); iter.hasNext();){
 			iter.advance();
-			territoryPosTag.setLong(serializeLong(iter.key()),iter.value());
+			territoryPosTag.setLong(serializeLong(iter.key()), iter.value());
 		}
 		
 		for(TLongObjectIterator<NBTCompound> iter = territoryData.iterator(); iter.hasNext();){
 			iter.advance();
 			
 			if (iter.value().isEmpty())iter.remove();
-			else territoryDataTag.setCompound(serializeLong(iter.key()),iter.value());
+			else territoryDataTag.setCompound(serializeLong(iter.key()), iter.value());
 		}
 		
 		for(TLongIterator iter = rareTerritories.iterator(); iter.hasNext();){
 			rareTerritoriesTag.appendTag(new NBTTagLong(iter.next()));
 		}
 		
-		nbt.setCompound("territories",territoryTag);
-		nbt.setCompound("tvar",territoryVariationsTag);
-		nbt.setCompound("tpos",territoryPosTag);
-		nbt.setCompound("tdata",territoryDataTag);
-		nbt.setList("trare",rareTerritoriesTag);
+		nbt.setCompound("territories", territoryTag);
+		nbt.setCompound("tvar", territoryVariationsTag);
+		nbt.setCompound("tpos", territoryPosTag);
+		nbt.setCompound("tdata", territoryDataTag);
+		nbt.setList("trare", rareTerritoriesTag);
 	}
 
 	@Override
@@ -146,20 +146,20 @@ public class WorldFile extends SaveFile{
 		territoryData.ensureCapacity(territoryDataTag.size());
 		
 		territoryTag.forEachInt((key, value) -> {
-			EndTerritory territory = CollectionUtil.get(EndTerritory.values,deserializeByte(key)).orElse(null);
+			EndTerritory territory = CollectionUtil.get(EndTerritory.values, deserializeByte(key)).orElse(null);
 			
-			if (territory == null)Log.reportedError("Unknown territory $0 in WorldFile.",key);
-			else territories.put(territory,value);
+			if (territory == null)Log.reportedError("Unknown territory $0 in WorldFile.", key);
+			else territories.put(territory, value);
 		});
 		
-		territoryVariationsTag.forEachInt((key, value) -> territoryVariations.put(deserializeLong(key),value));
-		territoryPosTag.forEachLong((key, value) -> territoryPos.put(deserializeLong(key),value));
-		territoryDataTag.forEachCompound((key, value) -> territoryData.put(deserializeLong(key),value));
+		territoryVariationsTag.forEachInt((key, value) -> territoryVariations.put(deserializeLong(key), value));
+		territoryPosTag.forEachLong((key, value) -> territoryPos.put(deserializeLong(key), value));
+		territoryDataTag.forEachCompound((key, value) -> territoryData.put(deserializeLong(key), value));
 		rareTerritoriesTag.readLongs().forEach(rareTerritories::add);
 	}
 	
 	private static final String serializeByte(byte value){
-		return new String(new byte[]{ value },StandardCharsets.ISO_8859_1);
+		return new String(new byte[]{ value }, StandardCharsets.ISO_8859_1);
 	}
 	
 	private static final byte deserializeByte(String str){
@@ -167,7 +167,7 @@ public class WorldFile extends SaveFile{
 	}
 	
 	private static final String serializeLong(long value){
-		return new String(Longs.toByteArray(value),StandardCharsets.ISO_8859_1);
+		return new String(Longs.toByteArray(value), StandardCharsets.ISO_8859_1);
 	}
 	
 	private static final long deserializeLong(String str){

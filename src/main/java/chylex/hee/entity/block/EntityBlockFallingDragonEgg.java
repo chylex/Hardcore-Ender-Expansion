@@ -12,11 +12,11 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 	}
 
 	public EntityBlockFallingDragonEgg(World world, double x, double y, double z){
-		super(world,x,y,z,Blocks.dragon_egg);
+		super(world, x, y, z, Blocks.dragon_egg);
 		preventEntitySpawning = true;
-		setSize(0.98F,0.98F);
+		setSize(0.98F, 0.98F);
 		yOffset = height/2F;
-		setPosition(x,y,z);
+		setPosition(x, y, z);
 		motionX = motionY = motionZ = 0D;
 		prevPosX = x;
 		prevPosY = y;
@@ -35,7 +35,7 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 		prevPosZ = posZ;
 		field_145812_b++;
 		motionY -= 0.09D;
-		moveEntity(motionX,motionY,motionZ);
+		moveEntity(motionX, motionY, motionZ);
 		motionX *= 0.9D;
 		motionY *= 0.9D;
 		motionZ *= 0.9D;
@@ -48,7 +48,7 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 		
 		if (onGround){
 			if (pos.getBlock(worldObj) != Blocks.piston_extension){
-				pos.setBlock(worldObj,func_145805_f()); // OBFUSCATED get block
+				pos.setBlock(worldObj, func_145805_f()); // OBFUSCATED get block
 			}
 			
 			setDead();

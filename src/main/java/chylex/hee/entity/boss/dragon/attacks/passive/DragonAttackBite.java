@@ -5,7 +5,7 @@ public class DragonAttackBite extends DragonPassiveAttackBase{
 	private int biteCooldown, biteCounter;
 	
 	public DragonAttackBite(EntityBossDragon dragon, int attackId){
-		super(dragon,attackId);
+		super(dragon, attackId);
 	}
 	
 	@Override

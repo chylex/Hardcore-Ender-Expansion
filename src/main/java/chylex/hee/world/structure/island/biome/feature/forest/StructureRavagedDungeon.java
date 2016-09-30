@@ -29,13 +29,13 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 		int y = 25;
 		
 		while(++y < 80){
-			if (world.getBlock(islandCenterX,y,islandCenterZ) == surface())break;
+			if (world.getBlock(islandCenterX, y, islandCenterZ) == surface())break;
 		}
 		
 		if (y >= 80)return false;
 		
 		Stopwatch.time("RavagedDungeonGen");
-		RavagedDungeonGenerator gen = new RavagedDungeonGenerator(dungW,dungH,3,rand);
+		RavagedDungeonGenerator gen = new RavagedDungeonGenerator(dungW, dungH, 3, rand);
 
 		int xx, zz, yy, worldX, worldZ, th = hallHeight+1, layer, visibility;
 		for(xx = 0; xx < dungW; xx++){
@@ -47,17 +47,17 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 				for(layer = 0; layer < 3; layer++){
 					visibility = 0;
 					
-					if (world.getBlock(worldX-scaleHalf-1,yy-1,worldZ) != Blocks.end_stone)++visibility;
-					if (world.getBlock(worldX+scaleHalf+1,yy-1,worldZ) != Blocks.end_stone)++visibility;
-					if (world.getBlock(worldX-scaleHalf-1,yy+th+1,worldZ) != Blocks.end_stone)++visibility;
-					if (world.getBlock(worldX+scaleHalf+1,yy+th+1,worldZ) != Blocks.end_stone)++visibility;
-					if (world.getBlock(worldX,yy-1,worldZ-scaleHalf-1) != Blocks.end_stone)++visibility;
-					if (world.getBlock(worldX,yy-1,worldZ+scaleHalf+1) != Blocks.end_stone)++visibility;
-					if (world.getBlock(worldX,yy+th+1,worldZ-scaleHalf-1) != Blocks.end_stone)++visibility;
-					if (world.getBlock(worldX,yy+th+1,worldZ+scaleHalf+1) != Blocks.end_stone)++visibility;
-					if (world.getBlock(worldX,yy+(hallHeight>>1),worldZ) != Blocks.end_stone)++visibility;
+					if (world.getBlock(worldX-scaleHalf-1, yy-1, worldZ) != Blocks.end_stone)++visibility;
+					if (world.getBlock(worldX+scaleHalf+1, yy-1, worldZ) != Blocks.end_stone)++visibility;
+					if (world.getBlock(worldX-scaleHalf-1, yy+th+1, worldZ) != Blocks.end_stone)++visibility;
+					if (world.getBlock(worldX+scaleHalf+1, yy+th+1, worldZ) != Blocks.end_stone)++visibility;
+					if (world.getBlock(worldX, yy-1, worldZ-scaleHalf-1) != Blocks.end_stone)++visibility;
+					if (world.getBlock(worldX, yy-1, worldZ+scaleHalf+1) != Blocks.end_stone)++visibility;
+					if (world.getBlock(worldX, yy+th+1, worldZ-scaleHalf-1) != Blocks.end_stone)++visibility;
+					if (world.getBlock(worldX, yy+th+1, worldZ+scaleHalf+1) != Blocks.end_stone)++visibility;
+					if (world.getBlock(worldX, yy+(hallHeight>>1), worldZ) != Blocks.end_stone)++visibility;
 					
-					if (visibility > 3 && rand.nextInt(4) != 0)gen.blockLocation(layer,xx,zz);
+					if (visibility > 3 && rand.nextInt(4) != 0)gen.blockLocation(layer, xx, zz);
 					
 					yy -= hallHeight+2;
 				}
@@ -74,17 +74,17 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 		for(int a = 0; a < gen.layers.length; a++){
 			DungeonElementList elements = gen.layers[a].getElements();
 			
-			if (a == 0)y = generateEntrance(rand,elements,elements.getAll(DungeonElementType.ENTRANCE).get(0),y);
-			if (a == gen.layers.length-1)generateEnd(rand,elements,elements.getAll(DungeonElementType.END),y);
+			if (a == 0)y = generateEntrance(rand, elements, elements.getAll(DungeonElementType.ENTRANCE).get(0), y);
+			if (a == gen.layers.length-1)generateEnd(rand, elements, elements.getAll(DungeonElementType.END), y);
 			
 			List<DungeonElement> hallways = elements.getAll(DungeonElementType.HALLWAY);
-			for(DungeonElement hallway:hallways)generateHallwayWithoutConnections(rand,elements,hallway,y);
-			for(DungeonElement hallway:hallways)generateConnections(elements,hallway,y);
+			for(DungeonElement hallway:hallways)generateHallwayWithoutConnections(rand, elements, hallway, y);
+			for(DungeonElement hallway:hallways)generateConnections(elements, hallway, y);
 			
-			for(DungeonElement room:elements.getAll(DungeonElementType.ROOM))generateRoom(rand,elements,room,y);
+			for(DungeonElement room:elements.getAll(DungeonElementType.ROOM))generateRoom(rand, elements, room, y);
 			
-			if (a < gen.layers.length-1)generateDescendRoom(rand,elements,elements.getAll(DungeonElementType.DESCEND).get(0),y);
-			if (a > 0)generateConnections(elements,elements.getAll(DungeonElementType.DESCENDBOTTOM).get(0),y);
+			if (a < gen.layers.length-1)generateDescendRoom(rand, elements, elements.getAll(DungeonElementType.DESCEND).get(0), y);
+			if (a > 0)generateConnections(elements, elements.getAll(DungeonElementType.DESCENDBOTTOM).get(0), y);
 			
 			y -= hallHeight+2;
 		}
@@ -99,23 +99,23 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 	 
 	
 	private int generateEntrance(Random rand, DungeonElementList elements, DungeonElement entrance, int y){
-		placer.generateEntrance(world,rand,getElementX(entrance),y,getElementZ(entrance),maxEntranceHeight,entrance);
-		generateConnections(elements,entrance,y-maxEntranceHeight);
+		placer.generateEntrance(world, rand, getElementX(entrance), y, getElementZ(entrance), maxEntranceHeight, entrance);
+		generateConnections(elements, entrance, y-maxEntranceHeight);
 		return y-maxEntranceHeight;
 	}
 	
 	private void generateDescendRoom(Random rand, DungeonElementList elements, DungeonElement descend, int y){
-		placer.generateDescend(world,rand,getElementX(descend),y,getElementZ(descend),descend);
-		generateConnections(elements,descend,y);
+		placer.generateDescend(world, rand, getElementX(descend), y, getElementZ(descend), descend);
+		generateConnections(elements, descend, y);
 	}
 	
 	private void generateHallwayWithoutConnections(Random rand, DungeonElementList elements, DungeonElement hallway, int y){
-		placer.generateHallway(world,rand,getElementX(hallway),y,getElementZ(hallway),hallway);
+		placer.generateHallway(world, rand, getElementX(hallway), y, getElementZ(hallway), hallway);
 	}
 	
 	private void generateRoom(Random rand, DungeonElementList elements, DungeonElement room, int y){
-		placer.generateRoom(world,rand,getElementX(room),y,getElementZ(room),room);
-		generateConnections(elements,room,y);
+		placer.generateRoom(world, rand, getElementX(room), y, getElementZ(room), room);
+		generateConnections(elements, room, y);
 	}
 	
 	private void generateEnd(Random rand, DungeonElementList elements, List<DungeonElement> end, int y){
@@ -128,9 +128,9 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 			z[a] = getElementZ(end.get(a));
 		}
 
-		placer.generateEndLayout(world,rand,x,y,z,end);
-		for(DungeonElement endElement:end)generateConnections(elements,endElement,y); // generate connections first only in end room
-		placer.generateEndContent(world,rand,x,y,z,end);
+		placer.generateEndLayout(world, rand, x, y, z, end);
+		for(DungeonElement endElement:end)generateConnections(elements, endElement, y); // generate connections first only in end room
+		placer.generateEndContent(world, rand, x, y, z, end);
 	}
 	
 	private void generateConnections(DungeonElementList elements, DungeonElement element, int y){
@@ -146,7 +146,7 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 				for(int yy = y+1; yy <= y+hallHeight; yy++){
 					for(int xx = px-Math.abs(dir.addY); xx <= px+Math.abs(dir.addY); xx++){
 						for(int zz = pz-Math.abs(dir.addX); zz <= pz+Math.abs(dir.addX); zz++){
-							world.setBlock(xx,yy,zz,Blocks.air);
+							world.setBlock(xx, yy, zz, Blocks.air);
 						}
 					}
 				}

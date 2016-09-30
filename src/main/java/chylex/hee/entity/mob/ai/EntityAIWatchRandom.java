@@ -48,6 +48,6 @@ public class EntityAIWatchRandom extends EntityAIBase{
 	@Override
 	public void updateTask(){
 		--timeLeft;
-		entity.getLookHelper().setLookPosition(entity.posX+lookOffset.x,entity.posY+entity.getEyeHeight()+lookOffset.y,entity.posZ+lookOffset.z,10F,entity.getVerticalFaceSpeed());
+		entity.getLookHelper().setLookPosition(entity.posX+lookOffset.x, entity.posY+entity.getEyeHeight()+lookOffset.y, entity.posZ+lookOffset.z, 10F, entity.getVerticalFaceSpeed());
 	}
 }

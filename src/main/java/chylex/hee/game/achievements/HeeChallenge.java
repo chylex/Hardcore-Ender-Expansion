@@ -13,7 +13,7 @@ public class HeeChallenge extends HeeAchievement{
 	private final String achievementId;
 
 	public HeeChallenge(String statId, String achievementId, int x, int y, ItemStack is){
-		super(statId,achievementId,x,y,is,null);
+		super(statId, achievementId, x, y, is, null);
 		this.achievementId = achievementId;
 		setSpecial();
 	}
@@ -24,7 +24,7 @@ public class HeeChallenge extends HeeAchievement{
 		
 		IChatComponent component = statName.createCopy();
 		component.getChatStyle().setColor(EnumChatFormatting.GRAY);
-		component.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ACHIEVEMENT,new ChatComponentText(this.statId)));
+		component.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ACHIEVEMENT, new ChatComponentText(this.statId)));
 		component.getChatStyle().setColor(getSpecial() ? EnumChatFormatting.DARK_PURPLE : EnumChatFormatting.GREEN);
 		return component;
 	}

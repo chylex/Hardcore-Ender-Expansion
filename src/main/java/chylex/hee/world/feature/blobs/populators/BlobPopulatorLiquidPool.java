@@ -27,7 +27,7 @@ public class BlobPopulatorLiquidPool extends BlobPopulator{
 	}
 	
 	public BlobPopulatorLiquidPool setAmount(int min, int max){
-		this.amount = new RangeGenerator(min,max,RandomAmount.linear);
+		this.amount = new RangeGenerator(min, max, RandomAmount.linear);
 		return this;
 	}
 	
@@ -52,13 +52,13 @@ public class BlobPopulatorLiquidPool extends BlobPopulator{
 		while(--attempts >= 0 && poolsLeft > 0){
 			Pos pos = endStone.remove(rand.nextInt(endStone.size()));
 			
-			if (canBeChanged(world,pos)){
+			if (canBeChanged(world, pos)){
 				Set<Pos> fillBlocks = new HashSet<>();
-				fillRecursive(world,pos,fillBlocks);
+				fillRecursive(world, pos, fillBlocks);
 				
 				if (fillBlocks.size() >= minBlocks){
 					for(Pos toFill:fillBlocks){
-						world.setBlock(toFill,block);
+						world.setBlock(toFill, block);
 					}
 					
 					--poolsLeft;
@@ -68,10 +68,10 @@ public class BlobPopulatorLiquidPool extends BlobPopulator{
 	}
 	
 	private void fillRecursive(StructureWorldBlob world, Pos pos, Set<Pos> fill){
-		if (!canBeChanged(world,pos) || !fill.add(pos))return;
+		if (!canBeChanged(world, pos) || !fill.add(pos))return;
 		
 		for(Facing4 facing:Facing4.list){
-			fillRecursive(world,pos.offset(facing),fill);
+			fillRecursive(world, pos.offset(facing), fill);
 		}
 	}
 	

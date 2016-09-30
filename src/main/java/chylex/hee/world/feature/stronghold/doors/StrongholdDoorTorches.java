@@ -22,12 +22,12 @@ public class StrongholdDoorTorches extends StrongholdDoor{
 
 	@Override
 	protected void generateDoor(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
-		PosMutable mpos = new PosMutable(x+maxX/2,y+3,z+maxZ/2);
+		PosMutable mpos = new PosMutable(x+maxX/2, y+3, z+maxZ/2);
 		
 		mpos.move(facing.rotateLeft());
-		world.setAttentionWhore(mpos.x,mpos.y,mpos.z,new BlockInfo(Blocks.torch,Meta.getTorch(facing.rotateLeft())));
+		world.setAttentionWhore(mpos.x, mpos.y, mpos.z, new BlockInfo(Blocks.torch, Meta.getTorch(facing.rotateLeft())));
 		
-		mpos.move(facing.rotateRight(),2);
-		world.setAttentionWhore(mpos.x,mpos.y,mpos.z,new BlockInfo(Blocks.torch,Meta.getTorch(facing.rotateRight())));
+		mpos.move(facing.rotateRight(), 2);
+		world.setAttentionWhore(mpos.x, mpos.y, mpos.z, new BlockInfo(Blocks.torch, Meta.getTorch(facing.rotateRight())));
 	}
 }

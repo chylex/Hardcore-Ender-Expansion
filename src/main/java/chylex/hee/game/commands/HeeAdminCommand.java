@@ -40,27 +40,27 @@ public class HeeAdminCommand extends BaseCommand{
 	public HeeAdminCommand(){
 		super("heeadmin");
 		
-		sub.add(new SubCommand("help","<page>",0,false){
+		sub.add(new SubCommand("help", "<page>", 0, false){
 			@Override
 			void run(ICommandSender sender, String[] args){}
 		});
 		
-		sub.add(new SubCommand("version",0,false){
+		sub.add(new SubCommand("version", 0, false){
 			@Override
 			void run(ICommandSender sender, String[] args){
-				sendMessage(sender,DARK_PURPLE+"Hardcore Ender Expansion");
-				sendMessage(sender,LIGHT_PURPLE+"Version: "+RESET+HardcoreEnderExpansion.modVersion+"/"+HardcoreEnderExpansion.buildId);
-				sendMessage(sender,LIGHT_PURPLE+"Mod file: "+RESET+(Log.isDeobfEnvironment ? "<deobf>" : HardcoreEnderExpansion.sourceFile.getName()));
+				sendMessage(sender, DARK_PURPLE+"Hardcore Ender Expansion");
+				sendMessage(sender, LIGHT_PURPLE+"Version: "+RESET+HardcoreEnderExpansion.modVersion+"/"+HardcoreEnderExpansion.buildId);
+				sendMessage(sender, LIGHT_PURPLE+"Mod file: "+RESET+(Log.isDeobfEnvironment ? "<deobf>" : HardcoreEnderExpansion.sourceFile.getName()));
 				
 				if (UpdateNotificationManager.enableNotifications || UpdateNotificationManager.enableBuildCheck){
-					sendMessage(sender,LIGHT_PURPLE+"Available for: "+RESET+UpdateNotificationManager.mcVersions);
-					sendMessage(sender,LIGHT_PURPLE+"Release date: "+RESET+UpdateNotificationManager.releaseDate);
+					sendMessage(sender, LIGHT_PURPLE+"Available for: "+RESET+UpdateNotificationManager.mcVersions);
+					sendMessage(sender, LIGHT_PURPLE+"Release date: "+RESET+UpdateNotificationManager.releaseDate);
 				}
-				else sendMessage(sender,GRAY+"Update information unavailable, notifications are disabled.");
+				else sendMessage(sender, GRAY+"Update information unavailable, notifications are disabled.");
 			}
 		});
 		
-		sub.add(new SubCommand("kill-bosses",0,true){
+		sub.add(new SubCommand("kill-bosses", 0, true){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				int counter = 0;
@@ -72,55 +72,55 @@ public class HeeAdminCommand extends BaseCommand{
 					}
 				}
 				
-				sendMessage(sender,pre+"Killed "+counter+" entit"+(counter == 1 ? "y" : "ies")+".");
+				sendMessage(sender, pre+"Killed "+counter+" entit"+(counter == 1 ? "y" : "ies")+".");
 			}
 		});
 		
-		sub.add(new SubCommand("compendium-set-points","<pts>",1,true){
+		sub.add(new SubCommand("compendium-set-points", "<pts>", 1, true){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				EntityPlayer player = (EntityPlayer)sender;
-				int amount = DragonUtil.tryParse(args[0],-1);
+				int amount = DragonUtil.tryParse(args[0], -1);
 				
 				if (amount == -1){
-					sendMessage(sender,"Invalid number.");
+					sendMessage(sender, "Invalid number.");
 					return;
 				}
 				
 				CompendiumFile file = CompendiumEvents.getPlayerData(player);
 				file.offsetPoints(-file.getPoints()+amount);
 				
-				PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
-				sendMessage(sender,"Compendium points updated.");
+				PacketPipeline.sendToPlayer(player, new C19CompendiumData(player));
+				sendMessage(sender, "Compendium points updated.");
 			}
 		});
 		
-		sub.add(new SubCommand("compendium-unlock-all",0,true){
+		sub.add(new SubCommand("compendium-unlock-all", 0, true){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				EntityPlayer player = (EntityPlayer)sender;
 				CompendiumFile file = CompendiumEvents.getPlayerData(player);
 				
-				for(KnowledgeObject<?> object:KnowledgeObject.getAllObjects())file.tryDiscoverObject(player,object,true);
+				for(KnowledgeObject<?> object:KnowledgeObject.getAllObjects())file.tryDiscoverObject(player, object, true);
 				for(KnowledgeFragment fragment:KnowledgeFragment.getUnlockableFragments())file.unlockFragment(fragment);
 				
-				PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
-				sendMessage(sender,pre+"Compendium data unlocked.");
+				PacketPipeline.sendToPlayer(player, new C19CompendiumData(player));
+				sendMessage(sender, pre+"Compendium data unlocked.");
 			}
 		});
 		
-		sub.add(new SubCommand("compendium-reset",0,true){
+		sub.add(new SubCommand("compendium-reset", 0, true){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				EntityPlayer player = (EntityPlayer)sender;
 				CompendiumEvents.getPlayerData(player).reset();
 				
-				PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
-				sendMessage(sender,pre+"Compendium data reset.");
+				PacketPipeline.sendToPlayer(player, new C19CompendiumData(player));
+				sendMessage(sender, pre+"Compendium data reset.");
 			}
 		});
 		
-		sub.add(new SubCommand("spawn-entity","<endercrystal|tokenholder>",1,true){
+		sub.add(new SubCommand("spawn-entity", "<endercrystal|tokenholder>", 1, true){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				EntityPlayer player = (EntityPlayer)sender;
@@ -131,61 +131,61 @@ public class HeeAdminCommand extends BaseCommand{
 					case "tokenholder": e = new EntityBlockTokenHolder(player.worldObj); break;
 				}
 				
-				if (e == null)sendMessage(sender,pre+"Unknown entity.");
+				if (e == null)sendMessage(sender, pre+"Unknown entity.");
 				else{
-					e.setPosition(player.posX,player.posY,player.posZ);
+					e.setPosition(player.posX, player.posY, player.posZ);
 					player.worldObj.spawnEntityInWorld(e);
-					sendMessage(sender,pre+"Entity spawned.");
+					sendMessage(sender, pre+"Entity spawned.");
 				}
 			}
 		});
 		
-		sub.add(new SubCommand("causatum-check",0,true){
+		sub.add(new SubCommand("causatum-check", 0, true){
 			@Override
 			void run(ICommandSender sender, String[] args){
-				CausatumFile file = SaveData.player((EntityPlayer)sender,CausatumFile.class);
-				sendMessage(sender,DARK_PURPLE+"Ender Causatum");
-				// TODO sendMessage(sender,LIGHT_PURPLE+"[TOTAL] "+RESET+file.getTotalLevel(((EntityPlayer)sender)));
+				CausatumFile file = SaveData.player((EntityPlayer)sender, CausatumFile.class);
+				sendMessage(sender, DARK_PURPLE+"Ender Causatum");
+				// TODO sendMessage(sender, LIGHT_PURPLE+"[TOTAL] "+RESET+file.getTotalLevel(((EntityPlayer)sender)));
 				
 				// TODO UUID id = ((EntityPlayer)sender).getUniqueID();
-				// TODO for(CausatumMeters meter:CausatumMeters.values())sendMessage(sender,LIGHT_PURPLE+"["+meter.name()+"] "+RESET+file.getLevel(id,meter));
+				// TODO for(CausatumMeters meter:CausatumMeters.values())sendMessage(sender, LIGHT_PURPLE+"["+meter.name()+"] "+RESET+file.getLevel(id, meter));
 			}
 		});
 		
-		sub.add(new SubCommand("dragon-set-angry",0,false){
+		sub.add(new SubCommand("dragon-set-angry", 0, false){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				EntityBossDragon dragon = HeeDebugCommand.getDragon();
 				
-				if (dragon == null)sendMessage(sender,pre+"Dragon is not loaded.");
+				if (dragon == null)sendMessage(sender, pre+"Dragon is not loaded.");
 				else{
 					dragon.setAngry(true);
-					sendMessage(sender,pre+"Dragon state updated.");
+					sendMessage(sender, pre+"Dragon state updated.");
 				}
 			}
 		});
 		
-		sub.add(new SubCommand("dragon-set-attack","<none|divebomb|fireburst|punch|summoning|bloodlust>",1,false){
+		sub.add(new SubCommand("dragon-set-attack", "<none|divebomb|fireburst|punch|summoning|bloodlust>", 1, false){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				EntityBossDragon dragon = HeeDebugCommand.getDragon();
 				if (dragon == null){
-					sendMessage(sender,"Dragon not loaded.");
+					sendMessage(sender, "Dragon not loaded.");
 					return;
 				}
 				
 				String[] ids = new String[]{ "none", "divebomb", "fireburst", "punch", "summoning", "bloodlust" };
-				DragonSpecialAttackBase att = dragon.attacks.getSpecialAttackById(ArrayUtils.indexOf(ids,args[0]));
+				DragonSpecialAttackBase att = dragon.attacks.getSpecialAttackById(ArrayUtils.indexOf(ids, args[0]));
 				
 				if (att != null){
 					dragon.forceSpecialAttack(att);
-					sendMessage(sender,pre+"Dragon attack set.");
+					sendMessage(sender, pre+"Dragon attack set.");
 				}
-				else sendMessage(sender,pre+"Attack not found.");
+				else sendMessage(sender, pre+"Attack not found.");
 			}
 		});
 		
-		sub.add(new SubCommand("purify-loaded-curses",0,true){
+		sub.add(new SubCommand("purify-loaded-curses", 0, true){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				int counter = 0;
@@ -198,11 +198,11 @@ public class HeeAdminCommand extends BaseCommand{
 					}
 				}
 				
-				sendMessage(sender,pre+"Purified "+counter+" curse"+(counter == 1 ? "." : "es."));
+				sendMessage(sender, pre+"Purified "+counter+" curse"+(counter == 1 ? "." : "es."));
 			}
 		});
 		
-		sub.add(new SubCommand("tp-overworld",0,true){
+		sub.add(new SubCommand("tp-overworld", 0, true){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				((EntityPlayerMP)sender).timeUntilPortal = 10;
@@ -210,50 +210,50 @@ public class HeeAdminCommand extends BaseCommand{
 			}
 		});
 		
-		sub.add(new SubCommand("achievement-unlock","<id>",1,true){
+		sub.add(new SubCommand("achievement-unlock", "<id>", 1, true){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				for(Achievement achievement:(List<Achievement>)AchievementList.achievementList){
 					if (achievement.statId.equals(args[0])){
-						((EntityPlayer)sender).addStat(achievement,1);
-						sendMessage(sender,pre+"Attempted to unlock.");
+						((EntityPlayer)sender).addStat(achievement, 1);
+						sendMessage(sender, pre+"Attempted to unlock.");
 						return;
 					}
 				}
 				
-				sendMessage(sender,pre+"Achievement not found.");
+				sendMessage(sender, pre+"Achievement not found.");
 			}
 		});
 	}
 	
 	@Override
 	public void processCommand(ICommandSender sender, String[] args){
-		int helpPage = args.length == 0 ? 0 : args[0].equalsIgnoreCase("help") ? DragonUtil.tryParse(args.length == 2 ? args[1] : "1",1)-1 : -1;
+		int helpPage = args.length == 0 ? 0 : args[0].equalsIgnoreCase("help") ? DragonUtil.tryParse(args.length == 2 ? args[1] : "1", 1)-1 : -1;
 		
 		if (helpPage >= 0){
 			final int cmdsPerPage = 7;
 			int pages = MathUtil.ceil(sub.size()/(float)cmdsPerPage);
 			if (helpPage >= pages-1)helpPage = pages-1;
 			
-			sendMessage(sender,GREEN+"[Hardcore Ender Expansion] page "+(helpPage+1)+"/"+pages);
+			sendMessage(sender, GREEN+"[Hardcore Ender Expansion] page "+(helpPage+1)+"/"+pages);
 			
-			for(int a = helpPage*cmdsPerPage; a < Math.min((helpPage+1)*cmdsPerPage,sub.size()); a++){
+			for(int a = helpPage*cmdsPerPage; a < Math.min((helpPage+1)*cmdsPerPage, sub.size()); a++){
 				SubCommand cmd = sub.get(a);
-				sendMessage(sender,"/heeadmin "+cmd.name+(cmd.arguments == null ? "" : " "+cmd.arguments));
+				sendMessage(sender, "/heeadmin "+cmd.name+(cmd.arguments == null ? "" : " "+cmd.arguments));
 			}
 		}
 		else{
 			for(SubCommand cmd:sub){
 				if (cmd.name.equalsIgnoreCase(args[0])){
-					if (args.length <= cmd.argCount)sendMessage(sender,pre+"Invalid amount of parameters.");
-					else if (cmd.requiresPlayer && !(sender instanceof EntityPlayer))sendMessage(sender,pre+"You need to be in-game to invoke this command.");
-					else cmd.run(sender,ArrayUtils.remove(args,0));
+					if (args.length <= cmd.argCount)sendMessage(sender, pre+"Invalid amount of parameters.");
+					else if (cmd.requiresPlayer && !(sender instanceof EntityPlayer))sendMessage(sender, pre+"You need to be in-game to invoke this command.");
+					else cmd.run(sender, ArrayUtils.remove(args, 0));
 					
 					return;
 				}
 			}
 			
-			sendMessage(sender,pre+"Unknown command.");
+			sendMessage(sender, pre+"Unknown command.");
 		}
 	}
 }

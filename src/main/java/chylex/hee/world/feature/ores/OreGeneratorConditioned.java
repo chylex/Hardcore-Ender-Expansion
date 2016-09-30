@@ -11,11 +11,11 @@ public abstract class OreGeneratorConditioned implements IOreGenerator{
 	
 	@Override
 	public void generate(GenerateOres gen, StructureWorld world, Random rand, int x, int y, int z, int ores){
-		wrapped.generate(gen,world,rand,x,y,z,ores);
+		wrapped.generate(gen, world, rand, x, y, z, ores);
 	}
 	
 	@Override
 	public boolean canPlaceAt(GenerateOres gen, StructureWorld world, Random rand, int x, int y, int z){
-		return wrapped.canPlaceAt(gen,world,rand,x,y,z);
+		return wrapped.canPlaceAt(gen, world, rand, x, y, z);
 	}
 }

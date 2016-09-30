@@ -19,7 +19,7 @@ public class ItemInfestationRemedy extends Item{
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		player.setItemInUse(is,getMaxItemUseDuration(is));
+		player.setItemInUse(is, getMaxItemUseDuration(is));
 		return is;
 	}
 	

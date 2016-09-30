@@ -35,18 +35,18 @@ import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.tileentity.*;
 
 public final class BlockList{
-	private static final Map<String,Block> blocks = new HashMap<>();
-	private static final Map<String,Class<? extends ItemBlock>> itemBlocks = new HashMap<>();
+	private static final Map<String, Block> blocks = new HashMap<>();
+	private static final Map<String, Class<? extends ItemBlock>> itemBlocks = new HashMap<>();
 	
 	public static final Random blockRandom = new Random();
 	
 	private static void register(String blockIdentifier, Block block){
-		blocks.put(blockIdentifier,block);
+		blocks.put(blockIdentifier, block);
 	}
 	
 	private static void setItemClass(String blockIdentifier, Class<? extends ItemBlock> itemBlockClass){
 		if (!blocks.containsKey(blockIdentifier))throw new IllegalArgumentException("Block '"+blockIdentifier+"' was not found in the registry!");
-		itemBlocks.put(blockIdentifier,itemBlockClass);
+		itemBlocks.put(blockIdentifier, itemBlockClass);
 	}
 	
 	public static Block getBlock(String identifier){
@@ -149,16 +149,16 @@ public final class BlockList{
 		register("stone_brick_wall", stone_brick_wall = new BlockStoneBrickWall().setBlockName("stoneBrickWall"));
 		register("ethereal_lantern", ethereal_lantern = new BlockBasic(Material.glass).setHardness(0.5F).setResistance(0.25F).setLightLevel(1F).setBlockName("etherealLantern").setBlockTextureName("hardcoreenderexpansion:ethereal_lantern"));
 		register("gloomrock", gloomrock = new BlockGloomrock().setHardness(5F).setResistance(7F).setStepSound(Block.soundTypeStone).setBlockName("gloomrock"));
-		register("gloomrock_smooth_slab", gloomrock_smooth_slab = new BlockBasicSlab(gloomrock,BlockGloomrock.State.SMOOTH.value).setBlockName("gloomrockSmoothSlab"));
-		register("gloomrock_smooth_stairs", gloomrock_smooth_stairs = new BlockBasicStairs(gloomrock,BlockGloomrock.State.SMOOTH.value).setBlockName("gloomrockSmoothStairs"));
-		register("gloomrock_brick_slab", gloomrock_brick_slab = new BlockBasicSlab(gloomrock,BlockGloomrock.State.BRICK.value).setBlockName("gloomrockBrickSlab"));
-		register("gloomrock_brick_stairs", gloomrock_brick_stairs = new BlockBasicStairs(gloomrock,BlockGloomrock.State.BRICK.value).setBlockName("gloomrockBrickStairs"));
+		register("gloomrock_smooth_slab", gloomrock_smooth_slab = new BlockBasicSlab(gloomrock, BlockGloomrock.State.SMOOTH.value).setBlockName("gloomrockSmoothSlab"));
+		register("gloomrock_smooth_stairs", gloomrock_smooth_stairs = new BlockBasicStairs(gloomrock, BlockGloomrock.State.SMOOTH.value).setBlockName("gloomrockSmoothStairs"));
+		register("gloomrock_brick_slab", gloomrock_brick_slab = new BlockBasicSlab(gloomrock, BlockGloomrock.State.BRICK.value).setBlockName("gloomrockBrickSlab"));
+		register("gloomrock_brick_stairs", gloomrock_brick_stairs = new BlockBasicStairs(gloomrock, BlockGloomrock.State.BRICK.value).setBlockName("gloomrockBrickStairs"));
 		register("gloomtorch", gloomtorch = new BlockGloomtorch().setLightLevel(0.875F).setBlockName("gloomtorch").setBlockTextureName("hardcoreenderexpansion:gloomtorch"));
 		register("dark_loam", dark_loam = new BlockBasic(Material.sand).setHardness(0.5F).setResistance(0F).setStepSound(Block.soundTypeGravel).setBlockName("darkLoam").setBlockTextureName("hardcoreenderexpansion:dark_loam"));
 		register("dark_loam_slab", dark_loam_slab = new BlockBasicSlab(dark_loam).setBlockName("darkLoamSlab"));
 		register("ravish_brick", ravish_brick = new BlockBasic(Material.rock).setHardness(3F).setResistance(24F).setStepSound(Block.soundTypePiston).setBlockName("ravishBrick").setBlockTextureName("hardcoreenderexpansion:ravish_brick"));
 		register("obsidian_end", obsidian_falling = new BlockObsidianEnd().setHardness(50F).setResistance(2000F).setStepSound(Block.soundTypeStone).setBlockName("obsidianEnd").setBlockTextureName("obsidian"));
-		register("obsidian_stairs", obsidian_stairs = new BlockBasicStairs(Blocks.obsidian,0).setBlockName("obsidianStairs"));
+		register("obsidian_stairs", obsidian_stairs = new BlockBasicStairs(Blocks.obsidian, 0).setBlockName("obsidianStairs"));
 		register("obsidian_special", obsidian_special = new BlockObsidianSpecial(false).setHardness(28F).setResistance(2000F).setStepSound(Block.soundTypeStone).setBlockName("obsidianSpecial").setBlockTextureName("hardcoreenderexpansion:obsidian_smooth"));
 		register("obsidian_special_glow", obsidian_special_glow = new BlockObsidianSpecial(true).setHardness(28F).setResistance(2000F).setLightLevel(1F).setStepSound(Block.soundTypeStone).setBlockName("obsidianSpecial").setBlockTextureName("hardcoreenderexpansion:obsidian_smooth"));
 		register("end_stone_terrain", end_terrain = new BlockEndstoneTerrain().setHardness(2.5F).setResistance(15F).setStepSound(Block.soundTypeStone).setBlockName("endStoneTerrain"));
@@ -167,7 +167,7 @@ public final class BlockList{
 		register("ravaged_brick_glow", ravaged_brick_glow = new BlockBasic(Material.rock).setHardness(1F).setResistance(6F).setLightLevel(1F).setStepSound(Block.soundTypePiston).setBlockName("ravagedBrickGlow").setBlockTextureName("hardcoreenderexpansion:ravaged_brick_glow"));
 		register("ravaged_brick_slab", ravaged_brick_slab = new BlockBasicSlab(ravaged_brick).setBlockName("ravagedBrickSlab"));
 		register("ravaged_brick_stairs", ravaged_brick_stairs = new BlockBasicStairs(ravaged_brick).setBlockName("ravagedBrickStairs"));
-		register("ravaged_brick_fence", ravaged_brick_fence = new BlockFence("hardcoreenderexpansion:ravaged_brick",Material.rock).setHardness(1.5F).setResistance(6F).setStepSound(Block.soundTypePiston).setBlockName("ravagedBrickFence"));
+		register("ravaged_brick_fence", ravaged_brick_fence = new BlockFence("hardcoreenderexpansion:ravaged_brick", Material.rock).setHardness(1.5F).setResistance(6F).setStepSound(Block.soundTypePiston).setBlockName("ravagedBrickFence"));
 		register("dungeon_puzzle", dungeon_puzzle = new BlockDungeonPuzzle().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeMetal).setBlockName("dungeonPuzzle"));
 		register("cinder", cinder = new BlockBasic(Material.rock).setHardness(1F).setResistance(10F).setStepSound(Block.soundTypeStone).setBlockName("cinder").setBlockTextureName("hardcoreenderexpansion:cinder"));
 		register("persegrit", persegrit = new BlockPersegrit().setHardness(4F).setResistance(0.2F).setStepSound(Block.soundTypeGravel).setBlockName("persegrit").setBlockTextureName("hardcoreenderexpansion:persegrit"));
@@ -253,22 +253,22 @@ public final class BlockList{
 		
 		Blocks.end_portal.setBlockName("endPortal");
 		
-		for(Entry<String,Block> entry:BlockList.blocks.entrySet()){
-			GameRegistryUtil.registerBlock(entry.getValue(),entry.getKey(),itemBlocks.getOrDefault(entry.getKey(),ItemBlock.class));
+		for(Entry<String, Block> entry:BlockList.blocks.entrySet()){
+			GameRegistryUtil.registerBlock(entry.getValue(), entry.getKey(), itemBlocks.getOrDefault(entry.getKey(), ItemBlock.class));
 		}
 		
 		ModCreativeTab.tabMain.list.add(
-			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
-			ethereal_lantern,gloomrock,gloomrock_smooth_slab,gloomrock_smooth_stairs,gloomrock_brick_slab,gloomrock_brick_stairs,gloomtorch,
-			end_portal_frame,void_portal_frame,Blocks.end_stone,dark_loam,dark_loam_slab,ravish_brick,
-			essence_altar,decomposition_table,experience_table,accumulation_table,extraction_table,loot_chest,
-			end_powder_ore,endium_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
+			Blocks.dragon_egg, obsidian_falling, obsidian_special, obsidian_special_glow, obsidian_stairs,
+			ethereal_lantern, gloomrock, gloomrock_smooth_slab, gloomrock_smooth_stairs, gloomrock_brick_slab, gloomrock_brick_stairs, gloomtorch,
+			end_portal_frame, void_portal_frame, Blocks.end_stone, dark_loam, dark_loam_slab, ravish_brick,
+			essence_altar, decomposition_table, experience_table, accumulation_table, extraction_table, loot_chest,
+			end_powder_ore, endium_ore, stardust_ore, igneous_rock_ore, instability_orb_ore, energy_cluster,
 			endium_block,
-			sphalerite,end_terrain,spooky_log,spooky_leaves,
-			ravaged_brick,ravaged_brick_smooth,ravaged_brick_glow,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_fence,
-			dungeon_puzzle,cinder,persegrit,laboratory_obsidian,laboratory_floor,laboratory_stairs,laboratory_glass,
+			sphalerite, end_terrain, spooky_log, spooky_leaves,
+			ravaged_brick, ravaged_brick_smooth, ravaged_brick_glow, ravaged_brick_slab, ravaged_brick_stairs, ravaged_brick_fence,
+			dungeon_puzzle, cinder, persegrit, laboratory_obsidian, laboratory_floor, laboratory_stairs, laboratory_glass,
 			stone_brick_wall,
-			/* TODO SANCTUARY sacred_stone,*/dry_vine,ancient_web,ravish_bell,crossed_decoration,death_flower
+			/* TODO SANCTUARY sacred_stone, */dry_vine, ancient_web, ravish_bell, crossed_decoration, death_flower
 		);
 		
 		if (Log.isDeobfEnvironment)ModCreativeTab.tabMain.list.add(special_effects);

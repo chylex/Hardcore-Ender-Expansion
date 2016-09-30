@@ -18,7 +18,7 @@ public final class LaboratoryGenerator{
 		this.roomElements = plan.roomElements;
 		
 		for(LaboratoryElement element:plan.elements){
-			elements.put((element.x+ComponentIsland.halfSize)*(ComponentIsland.size+1)+element.z,element);
+			elements.put((element.x+ComponentIsland.halfSize)*(ComponentIsland.size+1)+element.z, element);
 		}
 	}
 	
@@ -29,8 +29,8 @@ public final class LaboratoryGenerator{
 		List<int[]> stairs = new ArrayList<>();
 		
 		for(LaboratoryElement room:roomElements){
-			if (room.type == LaboratoryElementType.SMALL_ROOM)LaboratoryElementPlacer.generateSmallRoom(world,rand,room.x,room.y,room.z);
-			else LaboratoryElementPlacer.generateLargeRoom(world,rand,room.x,room.y,room.z);
+			if (room.type == LaboratoryElementType.SMALL_ROOM)LaboratoryElementPlacer.generateSmallRoom(world, rand, room.x, room.y, room.z);
+			else LaboratoryElementPlacer.generateLargeRoom(world, rand, room.x, room.y, room.z);
 		}
 		
 		for(LaboratoryElement room:roomElements){
@@ -45,7 +45,7 @@ public final class LaboratoryGenerator{
 					yy = room.y;
 					dist = 1;
 					
-					LaboratoryElementPlacer.generateRoomEntrance(world,rand,fromX-offX,yy,fromZ-offZ,offX != 0);
+					LaboratoryElementPlacer.generateRoomEntrance(world, rand, fromX-offX, yy, fromZ-offZ, offX != 0);
 					CycleProtection.setCounter(512);
 					
 					while(CycleProtection.proceed()){
@@ -53,13 +53,13 @@ public final class LaboratoryGenerator{
 						zz += offZ;
 						++dist;
 						
-						LaboratoryElement hall = getAt(xx,zz);
+						LaboratoryElement hall = getAt(xx, zz);
 						
 						if (hall == null){
 							LaboratoryElement nextRoom = null;
 							
 							for(int test = 0, tx = xx, tz = zz; test < 16; test++){
-								LaboratoryElement element = getAt(tx += offX,tz += offZ);
+								LaboratoryElement element = getAt(tx += offX, tz += offZ);
 								
 								if (element != null){
 									nextRoom = element;
@@ -78,7 +78,7 @@ public final class LaboratoryGenerator{
 								stairs.add(new int[]{ xx, yy, zz, nextRoom.y-yy, dir });
 							}
 							
-							LaboratoryElementPlacer.generateHall(world,rand,fromX,fromZ,xx-offX,zz-offZ,yy,offX != 0);
+							LaboratoryElementPlacer.generateHall(world, rand, fromX, fromZ, xx-offX, zz-offZ, yy, offX != 0);
 							
 							if (nextRoom.y != yy){
 								xx += offX;
@@ -86,11 +86,11 @@ public final class LaboratoryGenerator{
 								yy = nextRoom.y;
 							}
 							
-							LaboratoryElementPlacer.generateRoomEntrance(world,rand,xx,yy,zz,offX != 0);
+							LaboratoryElementPlacer.generateRoomEntrance(world, rand, xx, yy, zz, offX != 0);
 							break;
 						}
 						else if (hall.y != yy){
-							LaboratoryElementPlacer.generateHall(world,rand,fromX,fromZ,xx-offX,zz-offZ,yy,offX != 0);
+							LaboratoryElementPlacer.generateHall(world, rand, fromX, fromZ, xx-offX, zz-offZ, yy, offX != 0);
 							stairs.add(new int[]{ xx, yy, zz, hall.y-yy, dir });
 							fromX = xx += offX;
 							fromZ = zz += offZ;
@@ -106,7 +106,7 @@ public final class LaboratoryGenerator{
 					dist += room.type.halfSizeX*offX+room.type.halfSizeZ*offZ-1;
 					
 					while(--dist >= 0){
-						LaboratoryElement ele = getAt(xx,zz);
+						LaboratoryElement ele = getAt(xx, zz);
 						
 						if (ele != null && ele.type.isRoom()){
 							ele.connected[Direction.rotateOpposite[dir]] = false;
@@ -122,11 +122,11 @@ public final class LaboratoryGenerator{
 		}
 		
 		for(LaboratoryElement room:roomElements){
-			if (room.type == LaboratoryElementType.SMALL_ROOM)LaboratoryContent.populateSmallRoom(world,rand,room.x,room.y,room.z);
-			else LaboratoryContent.populateLargeRoom(world,rand,room.x,room.y,room.z);
+			if (room.type == LaboratoryElementType.SMALL_ROOM)LaboratoryContent.populateSmallRoom(world, rand, room.x, room.y, room.z);
+			else LaboratoryContent.populateLargeRoom(world, rand, room.x, room.y, room.z);
 		}
 		
-		for(int[] array:stairs)LaboratoryElementPlacer.generateHallStairs(world,rand,array[0],array[1],array[2],Direction.offsetX[array[4]],array[3],Direction.offsetZ[array[4]]);
+		for(int[] array:stairs)LaboratoryElementPlacer.generateHallStairs(world, rand, array[0], array[1], array[2], Direction.offsetX[array[4]], array[3], Direction.offsetZ[array[4]]);
 	}
 	
 	private LaboratoryElement getAt(int x, int z){

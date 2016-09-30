@@ -78,26 +78,26 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 			float revLayer = getRevLayer(layer);
 			float scale = getScale(layer);
 			
-			GL.translate(globalX,(float)((topY/(offY+revLayer+ActiveRenderInfo.objectY))+y+0.75F),globalZ);
+			GL.translate(globalX, (float)((topY/(offY+revLayer+ActiveRenderInfo.objectY))+y+0.75F), globalZ);
 
 			if (layer == 0){
 				bindTexture(texPortalBackground);
-				GL.setBlendFunc(GL.SRC_ALPHA,GL.ONE_MINUS_SRC_ALPHA);
+				GL.setBlendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
 			}
 
 			if (layer >= 1){
 				bindTexture(texPortalLayers);
-				if (layer == 1)GL.setBlendFunc(GL.ONE,GL.ONE);
+				if (layer == 1)GL.setBlendFunc(GL.ONE, GL.ONE);
 			}
 			
-			GL11.glTexGeni(GL11.GL_S,GL11.GL_TEXTURE_GEN_MODE,GL11.GL_OBJECT_LINEAR);
-			GL11.glTexGeni(GL11.GL_T,GL11.GL_TEXTURE_GEN_MODE,GL11.GL_OBJECT_LINEAR);
-			GL11.glTexGeni(GL11.GL_R,GL11.GL_TEXTURE_GEN_MODE,GL11.GL_OBJECT_LINEAR);
-			GL11.glTexGeni(GL11.GL_Q,GL11.GL_TEXTURE_GEN_MODE,GL11.GL_EYE_LINEAR);
-			GL11.glTexGen(GL11.GL_S,GL11.GL_OBJECT_PLANE,updateBuffer(1F,0F,0F,0F));
-			GL11.glTexGen(GL11.GL_T,GL11.GL_OBJECT_PLANE,updateBuffer(0F,0F,1F,0F));
-			GL11.glTexGen(GL11.GL_R,GL11.GL_OBJECT_PLANE,updateBuffer(0F,0F,0F,1F));
-			GL11.glTexGen(GL11.GL_Q,GL11.GL_EYE_PLANE,updateBuffer(0F,1F,0F,0F));
+			GL11.glTexGeni(GL11.GL_S, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
+			GL11.glTexGeni(GL11.GL_T, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
+			GL11.glTexGeni(GL11.GL_R, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
+			GL11.glTexGeni(GL11.GL_Q, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_EYE_LINEAR);
+			GL11.glTexGen(GL11.GL_S, GL11.GL_OBJECT_PLANE, updateBuffer(1F, 0F, 0F, 0F));
+			GL11.glTexGen(GL11.GL_T, GL11.GL_OBJECT_PLANE, updateBuffer(0F, 0F, 1F, 0F));
+			GL11.glTexGen(GL11.GL_R, GL11.GL_OBJECT_PLANE, updateBuffer(0F, 0F, 0F, 1F));
+			GL11.glTexGen(GL11.GL_Q, GL11.GL_EYE_PLANE, updateBuffer(0F, 1F, 0F, 0F));
 			GL11.glEnable(GL11.GL_TEXTURE_GEN_S);
 			GL11.glEnable(GL11.GL_TEXTURE_GEN_T);
 			GL11.glEnable(GL11.GL_TEXTURE_GEN_R);
@@ -107,25 +107,25 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 			GL.setMatrixMode(GL.TEXTURE);
 			GL.pushMatrix();
 			GL.loadIdentity();
-			GL.translate(0F,getTranslation(),0F);
-			GL.scale(scale,scale,scale);
-			GL.translate(0.5F,0.5F,0F);
-			GL.rotate((layer*layer*4321+layer*9)*2F,0F,0F,1F);
-			GL.translate(-globalX-0.5F,-globalZ-0.5F,-globalY);
+			GL.translate(0F, getTranslation(), 0F);
+			GL.scale(scale, scale, scale);
+			GL.translate(0.5F, 0.5F, 0F);
+			GL.rotate((layer*layer*4321+layer*9)*2F, 0F, 0F, 1F);
+			GL.translate(-globalX-0.5F, -globalZ-0.5F, -globalY);
 			
 			float posAdjustment = revLayer/(offY+ActiveRenderInfo.objectY);
-			GL.translate(ActiveRenderInfo.objectX*posAdjustment,ActiveRenderInfo.objectZ*posAdjustment,-globalY);
+			GL.translate(ActiveRenderInfo.objectX*posAdjustment, ActiveRenderInfo.objectZ*posAdjustment, -globalY);
 
 			colorMp = layer == 0 ? 0.1F : 1F/(revLayer+1F);
 			generateColors(layer);
 
 			Tessellator tessellator = Tessellator.instance;
 			tessellator.startDrawingQuads();
-			tessellator.setColorRGBA_F(red*colorMp,green*colorMp,blue*colorMp,1F);
-			tessellator.addVertex(x,y+0.75F,z);
-			tessellator.addVertex(x,y+0.75F,z+1D);
-			tessellator.addVertex(x+1D,y+0.75F,z+1D);
-			tessellator.addVertex(x+1D,y+0.75F,z);
+			tessellator.setColorRGBA_F(red*colorMp, green*colorMp, blue*colorMp, 1F);
+			tessellator.addVertex(x, y+0.75F, z);
+			tessellator.addVertex(x, y+0.75F, z+1D);
+			tessellator.addVertex(x+1D, y+0.75F, z+1D);
+			tessellator.addVertex(x+1D, y+0.75F, z);
 			tessellator.draw();
 			GL.popMatrix();
 			GL.setMatrixMode(GL.MODELVIEW);

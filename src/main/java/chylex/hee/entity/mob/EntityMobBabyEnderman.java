@@ -58,7 +58,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	public EntityMobBabyEnderman(World world){
 		super(world);
-		setSize(0.5F,1.26F);
+		setSize(0.5F, 1.26F);
 		stepHeight = 1F;
 		
 		for(ItemPriorityLevel level:ItemPriorityLevel.values)itemPriorities.add(level);
@@ -67,15 +67,15 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 			index2 = rand.nextInt(size);
 			
 			if (index1 == index2)continue;
-			Collections.swap(itemPriorities,index1,index2);
+			Collections.swap(itemPriorities, index1, index2);
 		}
 	}
 	
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		EntityAttributes.setValue(this,EntityAttributes.maxHealth,ModCommonProxy.opMobs ? 15D : 11D);
-		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,ModCommonProxy.opMobs ? 0.75D : 0.7D);
+		EntityAttributes.setValue(this, EntityAttributes.maxHealth, ModCommonProxy.opMobs ? 15D : 11D);
+		EntityAttributes.setValue(this, EntityAttributes.movementSpeed, ModCommonProxy.opMobs ? 0.75D : 0.7D);
 	}
 	
 	@Override
@@ -93,7 +93,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	@Override
 	public void onUpdate(){
 		if (!worldObj.isRemote && worldObj.difficultySetting == EnumDifficulty.PEACEFUL){
-			if (isCarrying())entityDropItem(getCarrying(),0F);
+			if (isCarrying())entityDropItem(getCarrying(), 0F);
 			setDead();
 			return;
 		}
@@ -104,21 +104,21 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	@Override
 	public void onLivingUpdate(){
 		if (isWet()){
-			attackEntityFrom(DamageSource.drown,1F);
+			attackEntityFrom(DamageSource.drown, 1F);
 		}
 		
 		isJumping = false;
 
 		if (entityToAttack != null){
-			faceEntity(entityToAttack,100F,100F);
+			faceEntity(entityToAttack, 100F, 100F);
 		}
 		
 		boolean hasIS = isCarrying();
 		
 		if (!worldObj.isRemote){
 			if (target == null){
-				if (!hasIS && !isScared && rand.nextInt(550) == 0 && WorldUtil.getRuleBool(worldObj,GameRule.MOB_GRIEFING)){ // set target
-					CollectionUtil.random(EntitySelector.players(worldObj,boundingBox.expand(6D,3D,6D)),rand).ifPresent(player -> {
+				if (!hasIS && !isScared && rand.nextInt(550) == 0 && WorldUtil.getRuleBool(worldObj, GameRule.MOB_GRIEFING)){ // set target
+					CollectionUtil.random(EntitySelector.players(worldObj, boundingBox.expand(6D, 3D, 6D)), rand).ifPresent(player -> {
 						target = player;
 						ItemStack headArmor = target.getCurrentArmor(3);
 						
@@ -127,7 +127,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 					});
 				}
 				else{ // find stuff on the ground
-					List<EntityItem> list = EntitySelector.type(worldObj,EntityItem.class,boundingBox.expand(1D,0D,1D));
+					List<EntityItem> list = EntitySelector.type(worldObj, EntityItem.class, boundingBox.expand(1D, 0D, 1D));
 					
 					if (!list.isEmpty() && ++itemDecisionTimer > rand.nextInt(70)+15){
 						int carryingLevelIndex = itemPriorities.indexOf(carryingLevel);
@@ -139,7 +139,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 							if (level.isValid(is)){
 								if (itemPriorities.indexOf(level) < carryingLevelIndex){
 									if (hasIS){
-										EntityItem newItem = new EntityItem(worldObj,posX,posY,posZ,getCarrying());
+										EntityItem newItem = new EntityItem(worldObj, posX, posY, posZ, getCarrying());
 										float power = 0.3F, yawRadians = (float)Math.toRadians(rotationYaw), randomAngle = rand.nextFloat()*(float)Math.PI*2F;
 										
 										newItem.motionX = (-MathHelper.sin(yawRadians)*MathHelper.cos(yawRadians)*power);
@@ -169,7 +169,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 			else{
 				if (--attentionLossTimer < -124 || target.isDead)target = null; // is target dead
 				else if (!hasIS && getDistanceToEntity(target) < 1.8D){ // steal from target
-					for(int attempt = 0,slot; attempt < 60; attempt++){
+					for(int attempt = 0, slot; attempt < 60; attempt++){
 						slot = rand.nextInt(target.inventory.mainInventory.length);
 						if (slot == target.inventory.currentItem)continue;
 						
@@ -181,7 +181,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 							
 							if (--target.inventory.mainInventory[slot].stackSize == 0){
 								target.inventory.mainInventory[slot] = null;
-								PacketPipeline.sendToPlayer(target,new C00ClearInventorySlot(slot));
+								PacketPipeline.sendToPlayer(target, new C00ClearInventorySlot(slot));
 							}
 							
 							break;
@@ -192,12 +192,12 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 					PosMutable mpos = new PosMutable();
 					
 					for(int pathatt = 0; pathatt < 100; pathatt++){
-						double ang = rand.nextDouble()*2D*Math.PI,len = 8D+rand.nextDouble()*6D;
-						mpos.set(posX+Math.cos(ang)*len,posY+rand.nextInt(4)-2,posZ+Math.sin(ang)*len);
+						double ang = rand.nextDouble()*2D*Math.PI, len = 8D+rand.nextDouble()*6D;
+						mpos.set(posX+Math.cos(ang)*len, posY+rand.nextInt(4)-2, posZ+Math.sin(ang)*len);
 						
 						Block low = mpos.getBlock(worldObj);
 						if ((low.getMaterial() == Material.air || low == BlockList.crossed_decoration) && mpos.moveUp().getMaterial(worldObj) == Material.air){
-							escapePath = worldObj.getEntityPathToXYZ(this,mpos.x,mpos.y,mpos.z,16F,false,true,false,false);
+							escapePath = worldObj.getEntityPathToXYZ(this, mpos.x, mpos.y, mpos.z, 16F, false, true, false, false);
 							break;
 						}
 					}
@@ -215,18 +215,18 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		boolean flag = super.attackEntityFrom(source,amount);
-		// TODO if (flag)CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount);
+		boolean flag = super.attackEntityFrom(source, amount);
+		// TODO if (flag)CausatumUtils.increase(source, CausatumMeters.END_MOB_DAMAGE, amount);
 		
 		if (flag && !isFamilyChosen && !worldObj.isRemote && source.getEntity() instanceof EntityPlayer){
-			List<EntityEnderman> endermanList = worldObj.getEntitiesWithinAABB(EntityEnderman.class,boundingBox.expand(32D,32D,32D));
+			List<EntityEnderman> endermanList = worldObj.getEntitiesWithinAABB(EntityEnderman.class, boundingBox.expand(32D, 32D, 32D));
 			endermanList.sort((e1, e2) -> ((Float)e1.getDistanceToEntity(this)).compareTo(e2.getDistanceToEntity(this)));
 			
-			int familySize = Math.min(endermanList.size(),2+rand.nextInt(3)+rand.nextInt(2));
+			int familySize = Math.min(endermanList.size(), 2+rand.nextInt(3)+rand.nextInt(2));
 			for(int a = 0; a < familySize; a++){
 				/* TODO
 				 * change AI of EntityMobEnderman instead
-				EntityMobAngryEnderman angryEnderman = new EntityMobAngryEnderman(worldObj,orig.posX,orig.posY,orig.posZ);
+				EntityMobAngryEnderman angryEnderman = new EntityMobAngryEnderman(worldObj, orig.posX, orig.posY, orig.posZ);
 				angryEnderman.copyLocationAndAnglesFrom(orig);
 				// TODO no longer works angryEnderman.setTarget(source.getEntity());
 				
@@ -264,7 +264,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
-		if (isCarrying())entityDropItem(getCarrying(),0F);
+		if (isCarrying())entityDropItem(getCarrying(), 0F);
 	}
 	
 	@Override
@@ -278,7 +278,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	}
 	
 	public void setCarriedItemStack(ItemStack is){
-		entityData.setItemStack(Data.HELD_ITEM,is);
+		entityData.setItemStack(Data.HELD_ITEM, is);
 		
 		for(ItemPriorityLevel level:itemPriorities){
 			if (level.isValid(is)){
@@ -290,8 +290,8 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	@Override
 	public void setEquipmentDropChance(int slot, float chance){
-		super.setEquipmentDropChance(slot,chance);
-		if (MathUtil.floatEquals(chance,0F) && !isDead)setDead(); // autospawner protection
+		super.setEquipmentDropChance(slot, chance);
+		if (MathUtil.floatEquals(chance, 0F) && !isDead)setDead(); // autospawner protection
 	}
 	
 	@Override
@@ -299,15 +299,15 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		super.writeEntityToNBT(nbt);
 		
 		// item priority list
-		NBT.wrap(nbt).writeList("priorities",itemPriorities.stream().map(ItemPriorityLevel::name).map(NBTTagString::new));
+		NBT.wrap(nbt).writeList("priorities", itemPriorities.stream().map(ItemPriorityLevel::name).map(NBTTagString::new));
 		
 		// carried item
 		ItemStack is = getCarrying();
-		if (is != null)nbt.setTag("carrying",is.writeToNBT(new NBTTagCompound()));
+		if (is != null)nbt.setTag("carrying", is.writeToNBT(new NBTTagCompound()));
 		
 		// other
-		nbt.setBoolean("isFamilyChosen",isFamilyChosen);
-		nbt.setBoolean("isScared",isScared);
+		nbt.setBoolean("isFamilyChosen", isFamilyChosen);
+		nbt.setBoolean("isScared", isScared);
 	}
 	
 	@Override
@@ -319,7 +319,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		
 		if (!tagPriorities.isEmpty()){
 			itemPriorities.clear();
-			tagPriorities.readStrings().map(name -> EnumUtils.getEnum(ItemPriorityLevel.class,name)).filter(Objects::nonNull).forEach(itemPriorities::add);
+			tagPriorities.readStrings().map(name -> EnumUtils.getEnum(ItemPriorityLevel.class, name)).filter(Objects::nonNull).forEach(itemPriorities::add);
 		}
 		
 		// carried item

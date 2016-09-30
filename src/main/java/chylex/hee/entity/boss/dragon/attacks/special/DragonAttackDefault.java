@@ -23,7 +23,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 	private boolean stealthInProgress;
 	
 	public DragonAttackDefault(EntityBossDragon dragon, int attackId){
-		super(dragon,attackId,-1);
+		super(dragon, attackId, -1);
 	}
 	
 	@Override
@@ -43,15 +43,15 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 		if (!stealthInProgress && dragon.target == null && (targetCooldown == 0 || --targetCooldown == 0)){
 			int healthPerc = dragon.attacks.getHealthPercentage();
 			int viablePlayers = dragon.attacks.getViablePlayers().size();
-			int attackChance = Math.min(170,(dragon.angryStatus ? 45 : 5)+getDifficulty()*5+Math.min(viablePlayers,5)*14+(ModCommonProxy.opMobs ? 10 : 0)+(50-(healthPerc>>1)));
+			int attackChance = Math.min(170, (dragon.angryStatus ? 45 : 5)+getDifficulty()*5+Math.min(viablePlayers, 5)*14+(ModCommonProxy.opMobs ? 10 : 0)+(50-(healthPerc>>1)));
 			
 			if ((nextTargetTimer < 80 && rand.nextInt(260-attackChance) == 0) || nextTargetTimer <= 0 || --nextTargetTimer <= 0){
-				nextTargetTimer = 150+rand.nextInt(40)+(healthPerc>>2)+(dragon.angryStatus ? 0 : 35)-getDifficulty()*6-Math.min(dragon.worldObj.playerEntities.size(),5)*5;
+				nextTargetTimer = 150+rand.nextInt(40)+(healthPerc>>2)+(dragon.angryStatus ? 0 : 35)-getDifficulty()*6-Math.min(dragon.worldObj.playerEntities.size(), 5)*5;
 				dragon.trySetTarget(dragon.attacks.getRandomPlayer());
 			}
 			
-			DebugBoard.updateValue("TargetChance",260-attackChance);
-			DebugBoard.updateValue("NextTargetTimer",nextTargetTimer);
+			DebugBoard.updateValue("TargetChance", 260-attackChance);
+			DebugBoard.updateValue("NextTargetTimer", nextTargetTimer);
 		}
 		
 		/*
@@ -63,7 +63,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 				for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
 					UUID id = player.getUniqueID();
 					
-					if (getVision(dragon,player) && seesDragon.adjustOrPutValue(id,(byte)1,(byte)1) > 4+(getDifficulty()>>1)){
+					if (getVision(dragon, player) && seesDragon.adjustOrPutValue(id, (byte)1, (byte)1) > 4+(getDifficulty()>>1)){
 						overrideTarget = player;
 						isOverriding = stealthInProgress = true;
 						seesDragon.clear();
@@ -78,7 +78,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 				dragon.attacks.biteClosePlayers();
 				isOverriding = stealthInProgress = false;
 				overrideTarget = null;
-				dragon.rewards.addHandicap(0.3F,false);
+				dragon.rewards.addHandicap(0.3F, false);
 			}
 		}
 		else stealthInProgress = false;
@@ -93,7 +93,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 	}
 
 	private boolean getVision(EntityLivingBase target, EntityLivingBase vision){
-		return DragonUtil.canEntitySeePoint(vision,target.posX,target.posY,target.posZ,16F);
+		return DragonUtil.canEntitySeePoint(vision, target.posX, target.posY, target.posZ, 16F);
 	}
 	
 	@Override

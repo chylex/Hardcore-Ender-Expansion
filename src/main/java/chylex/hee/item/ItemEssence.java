@@ -27,7 +27,7 @@ public class ItemEssence extends Item{
 	public void getSubItems(Item item, CreativeTabs tab, List list){
 		for(EssenceType essenceType:EssenceType.values()){
 			if (essenceType == EssenceType.INVALID)continue;
-			list.add(new ItemStack(item,1,essenceType.id-1));
+			list.add(new ItemStack(item, 1, essenceType.id-1));
 		}
 	}
 	
@@ -52,7 +52,7 @@ public class ItemEssence extends Item{
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IIcon getIconFromDamage(int damage){
-		return CollectionUtil.getClamp(iconArray,damage);
+		return CollectionUtil.getClamp(iconArray, damage);
 	}
 	
 	@SideOnly(Side.CLIENT)

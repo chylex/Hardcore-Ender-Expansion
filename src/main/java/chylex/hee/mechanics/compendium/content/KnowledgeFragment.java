@@ -24,11 +24,11 @@ public abstract class KnowledgeFragment<T extends KnowledgeFragment>{
 	
 	public KnowledgeFragment(int globalID){
 		this.globalID = globalID;
-		allFragments.put(globalID,this);
+		allFragments.put(globalID, this);
 	}
 	
 	public T setType(KnowledgeFragmentType type){
-		return setType(type,0);
+		return setType(type, 0);
 	}
 	
 	public T setType(KnowledgeFragmentType type, int price){

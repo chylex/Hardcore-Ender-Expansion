@@ -73,37 +73,37 @@ public final class ModTransition{
 	}
 	
 	public static boolean shouldConvertWorld(File root){
-		return !new File(root,"hee2").isDirectory() && new File(root,"DIM1").isDirectory(); // DIM1 should always be there, but convert vanilla worlds too
+		return !new File(root, "hee2").isDirectory() && new File(root, "DIM1").isDirectory(); // DIM1 should always be there, but convert vanilla worlds too
 	}
 	
 	public static void doConvertWorld(File root) throws IOException{ // TODO re-test player data
 		Pos worldSpawnPoint;
 		
-		File levelDat = new File(root,"level.dat");
+		File levelDat = new File(root, "level.dat");
 		NBTTagCompound levelDatNBT;
 		
 		try(FileInputStream fileStreamIn = new FileInputStream(levelDat)){
 			levelDatNBT = CompressedStreamTools.readCompressed(fileStreamIn);
 			
 			NBTTagCompound data = levelDatNBT.getCompoundTag("Data");
-			worldSpawnPoint = new Pos(data.getInteger("SpawnX"),worldSpawnY,data.getInteger("SpawnZ"));
+			worldSpawnPoint = new Pos(data.getInteger("SpawnX"), worldSpawnY, data.getInteger("SpawnZ"));
 		}
 		
-		FileUtils.deleteDirectory(new File(root,"DIM1"));
-		FileUtils.deleteDirectory(new File(root,"hee"));
+		FileUtils.deleteDirectory(new File(root, "DIM1"));
+		FileUtils.deleteDirectory(new File(root, "hee"));
 		
-		try(DirectoryStream<Path> stream = Files.newDirectoryStream(new File(root,"playerdata").toPath(),"*.dat")){
+		try(DirectoryStream<Path> stream = Files.newDirectoryStream(new File(root, "playerdata").toPath(), "*.dat")){
 			for(Iterator<Path> iter = stream.iterator(); iter.hasNext();){
 				File file = iter.next().toFile();
 				NBTTagCompound nbt;
 				
 				try(FileInputStream fileStreamIn = new FileInputStream(file)){
 					nbt = CompressedStreamTools.readCompressed(fileStreamIn);
-					convertPlayerTag(nbt,worldSpawnPoint);
+					convertPlayerTag(nbt, worldSpawnPoint);
 				}
 				
 				try(FileOutputStream fileStreamOut = new FileOutputStream(file)){
-					CompressedStreamTools.writeCompressed(nbt,fileStreamOut);
+					CompressedStreamTools.writeCompressed(nbt, fileStreamOut);
 				}
 			}
 		}
@@ -112,15 +112,15 @@ public final class ModTransition{
 		
 		if (dataTag.hasKey("Player")){
 			NBTTagCompound playerNBT = dataTag.getCompoundTag("Player");
-			convertPlayerTag(playerNBT,worldSpawnPoint);
-			dataTag.setTag("Player",playerNBT);
+			convertPlayerTag(playerNBT, worldSpawnPoint);
+			dataTag.setTag("Player", playerNBT);
 		}
 		
 		try(FileOutputStream fileStreamOut = new FileOutputStream(levelDat)){
-			CompressedStreamTools.writeCompressed(levelDatNBT,fileStreamOut);
+			CompressedStreamTools.writeCompressed(levelDatNBT, fileStreamOut);
 		}
 		
-		new File(root,"hee2").mkdir();
+		new File(root, "hee2").mkdir();
 	}
 	
 	private static void convertPlayerTag(NBTTagCompound nbt, Pos spawnPoint){
@@ -129,15 +129,15 @@ public final class ModTransition{
 		nbt.removeTag("HEE");
 		
 		if (nbt.getInteger("Dimension") == 1){
-			nbt.setInteger("Dimension",0);
+			nbt.setInteger("Dimension", 0);
 			
-			if (nbt.hasKey("SpawnY"))spawnPoint = new Pos(nbt.getInteger("SpawnX"),nbt.getInteger("SpawnY"),nbt.getInteger("SpawnZ"));
+			if (nbt.hasKey("SpawnY"))spawnPoint = new Pos(nbt.getInteger("SpawnX"), nbt.getInteger("SpawnY"), nbt.getInteger("SpawnZ"));
 			
 			NBTTagList posTag = new NBTTagList();
 			posTag.appendTag(new NBTTagDouble(spawnPoint.getX()+0.5D));
 			posTag.appendTag(new NBTTagDouble(spawnPoint.getY()));
 			posTag.appendTag(new NBTTagDouble(spawnPoint.getZ()+0.5D));
-			nbt.setTag("Pos",posTag);
+			nbt.setTag("Pos", posTag);
 		}
 	}
 	
@@ -152,7 +152,7 @@ public final class ModTransition{
 			try{
 				doConvertWorld(root);
 			}catch(IOException ex){
-				throw new RuntimeException("Could not convert the server world!",ex);
+				throw new RuntimeException("Could not convert the server world!", ex);
 			}
 		}
 	}
@@ -169,7 +169,7 @@ public final class ModTransition{
 			try{
 				saveList = mc.getSaveLoader().getSaveList();
 			}catch(AnvilConverterException ex){
-				mc.displayGuiScreen(new GuiErrorScreen("Unable to load worlds",ex.getMessage()));
+				mc.displayGuiScreen(new GuiErrorScreen("Unable to load worlds", ex.getMessage()));
 				return;
 			}
 			
@@ -179,11 +179,11 @@ public final class ModTransition{
 				String name = save.getFileName();
 				if (name == null)continue; // happens to WorldX from alpha days, if this happens the world is too old to not break anyways
 				
-				File root = new File(FMLClientHandler.instance().getSavesDir(),name);
+				File root = new File(FMLClientHandler.instance().getSavesDir(), name);
 				if (shouldConvertWorld(root))toUpdate.add(root);
 			}
 			
-			if (!toUpdate.isEmpty())e.gui = new GuiModTransition(mc.currentScreen,e.gui,toUpdate);
+			if (!toUpdate.isEmpty())e.gui = new GuiModTransition(mc.currentScreen, e.gui, toUpdate);
 		}
 	}
 	
@@ -191,8 +191,8 @@ public final class ModTransition{
 	public void onPlayerLoggedIn(PlayerLoggedInEvent e){ // TODO test
 		final EntityPlayer player = e.player;
 		
-		if (player.dimension == 0 && MathUtil.floatEquals(worldSpawnY,(float)player.posY)){
-			player.setPositionAndUpdate(player.posX,Pos.getTopBlock(player.worldObj,MathUtil.floor(player.posX),MathUtil.floor(player.posZ)).getY()+0.01D,player.posZ);
+		if (player.dimension == 0 && MathUtil.floatEquals(worldSpawnY, (float)player.posY)){
+			player.setPositionAndUpdate(player.posX, Pos.getTopBlock(player.worldObj, MathUtil.floor(player.posX), MathUtil.floor(player.posZ)).getY()+0.01D, player.posZ);
 		}
 	}
 }

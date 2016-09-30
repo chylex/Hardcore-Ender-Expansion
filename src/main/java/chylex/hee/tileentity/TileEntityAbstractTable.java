@@ -63,7 +63,7 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	}
 	
 	protected final void updateComparatorStatus(){
-		if (worldObj != null)worldObj.func_147453_f(xCoord,yCoord,zCoord,blockType);
+		if (worldObj != null)worldObj.func_147453_f(xCoord, yCoord, zCoord, blockType);
 	}
 	
 	protected final void resetTable(){
@@ -106,13 +106,13 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	@SideOnly(Side.CLIENT)
 	public final int getScaledStoredEnergyClient(int scale){
 		float maxEnergy = getMaxStoredEnergy();
-		return MathUtil.floatEquals(maxEnergy,0F) ? -1 : MathUtil.ceil(storedEnergy*(double)scale/maxEnergy);
+		return MathUtil.floatEquals(maxEnergy, 0F) ? -1 : MathUtil.ceil(storedEnergy*(double)scale/maxEnergy);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		if (!MathUtil.floatEquals(storedEnergy,0F))nbt.setFloat("storedEng",storedEnergy);
+		if (!MathUtil.floatEquals(storedEnergy, 0F))nbt.setFloat("storedEng", storedEnergy);
 	}
 
 	@Override

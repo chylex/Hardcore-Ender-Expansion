@@ -17,12 +17,12 @@ public class EntityAltarOrbFX extends EntityFX{
 	private static final ResourceLocation tex = new ResourceLocation("hardcoreenderexpansion:textures/particles/altar_orb.png");
 	
 	private final Vec movementVec;
-	private double trueX,trueY,trueZ,targetX,targetY,targetZ;
-	private float offsetDistance,offsetAngle[];
+	private double trueX, trueY, trueZ, targetX, targetY, targetZ;
+	private float offsetDistance, offsetAngle[];
 	private byte offsetAngleMode[];
 	
 	public EntityAltarOrbFX(World world, double x, double y, double z, double targetX, double targetY, double targetZ, EssenceType essenceType){
-		super(world,x,y,z,0D,0D,0D);
+		super(world, x, y, z, 0D, 0D, 0D);
 		this.trueX = x;
 		this.trueY = y;
 		this.trueZ = z;
@@ -36,7 +36,7 @@ public class EntityAltarOrbFX extends EntityFX{
 		particleBlue = essenceType.glyphColors[2];
 		particleAlpha = 1F;
 		
-		movementVec = Vec.xyz(targetX-posX,targetY-posY,targetZ-posZ).normalized().multiplied(0.065D);
+		movementVec = Vec.xyz(targetX-posX, targetY-posY, targetZ-posZ).normalized().multiplied(0.065D);
 		
 		offsetAngle = new float[3];
 		offsetAngleMode = new byte[3];
@@ -83,19 +83,19 @@ public class EntityAltarOrbFX extends EntityFX{
 			  y = (float)(prevPosY+(posY-prevPosY)*partialTickTime-interpPosY),
 			  z = (float)(prevPosZ+(posZ-prevPosZ)*partialTickTime-interpPosZ);
 		
-		GL.enableBlend(GL.SRC_ALPHA,GL.ONE);
+		GL.enableBlend(GL.SRC_ALPHA, GL.ONE);
 		GL.disableDepthMask();
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 		RenderHelper.disableStandardItemLighting();
 		
 		tessellator.startDrawingQuads();
-		tessellator.setColorRGBA_F(particleRed,particleGreen,particleBlue,particleAlpha);
-		tessellator.setNormal(0F,1F,0F);
+		tessellator.setColorRGBA_F(particleRed, particleGreen, particleBlue, particleAlpha);
+		tessellator.setNormal(0F, 1F, 0F);
 		tessellator.setBrightness(240);
-		tessellator.addVertexWithUV(x-rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z-rotZ*particleScale-rotXY*particleScale,1F,1F);
-		tessellator.addVertexWithUV(x-rotX*particleScale+rotYZ*particleScale,y+rotXZ*particleScale,z-rotZ*particleScale+rotXY*particleScale,1F,0F);
-		tessellator.addVertexWithUV(x+rotX*particleScale+rotYZ*particleScale,y+rotXZ*particleScale,z+rotZ*particleScale+rotXY*particleScale,0F,0F);
-		tessellator.addVertexWithUV(x+rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z+rotZ*particleScale-rotXY*particleScale,0F,1F);
+		tessellator.addVertexWithUV(x-rotX*particleScale-rotYZ*particleScale, y-rotXZ*particleScale, z-rotZ*particleScale-rotXY*particleScale, 1F, 1F);
+		tessellator.addVertexWithUV(x-rotX*particleScale+rotYZ*particleScale, y+rotXZ*particleScale, z-rotZ*particleScale+rotXY*particleScale, 1F, 0F);
+		tessellator.addVertexWithUV(x+rotX*particleScale+rotYZ*particleScale, y+rotXZ*particleScale, z+rotZ*particleScale+rotXY*particleScale, 0F, 0F);
+		tessellator.addVertexWithUV(x+rotX*particleScale-rotYZ*particleScale, y-rotXZ*particleScale, z+rotZ*particleScale-rotXY*particleScale, 0F, 1F);
 		tessellator.draw();
 		
 		GL.disableBlend();

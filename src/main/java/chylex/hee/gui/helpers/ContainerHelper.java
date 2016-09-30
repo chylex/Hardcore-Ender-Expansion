@@ -12,7 +12,7 @@ public final class ContainerHelper{
 		for(int slot = 0; slot < container.inventorySlots.size(); slot++){
 			ItemStack is1 = ((Slot)container.inventorySlots.get(slot)).getStack();
 			ItemStack is2 = (ItemStack)container.inventoryItemStacks.get(slot);
-			if (!ItemStack.areItemStacksEqual(is1,is2))return true;
+			if (!ItemStack.areItemStacksEqual(is1, is2))return true;
 		}
 		
 		return false;
@@ -20,10 +20,10 @@ public final class ContainerHelper{
 	
 	public static void addPlayerInventorySlots(Container container, IInventory inventory, int offsetX, int offsetY){
 		for(int row = 0; row < 3; row++){
-			for(int col = 0; col < 9; col++)addSlotToContainer(container,new Slot(inventory,col+row*9+9,8+col*18+offsetX,84+row*18+offsetY));
+			for(int col = 0; col < 9; col++)addSlotToContainer(container, new Slot(inventory, col+row*9+9, 8+col*18+offsetX, 84+row*18+offsetY));
 		}
 
-		for(int col = 0; col < 9; col++)addSlotToContainer(container,new Slot(inventory,col,8+col*18+offsetX,142+offsetY));
+		for(int col = 0; col < 9; col++)addSlotToContainer(container, new Slot(inventory, col, 8+col*18+offsetX, 142+offsetY));
 	}
 	
 	public static void addSlotToContainer(Container container, Slot slot){
@@ -38,20 +38,20 @@ public final class ContainerHelper{
 	
 	public static ItemStack transferStack(Container container, IMergeItemStack merge, int slotsBase, int slotId){
 		ItemStack isCopy = null;
-		Slot slot = getSlot(container,slotId);
+		Slot slot = getSlot(container, slotId);
 		
 		if (slot != null && slot.getHasStack()){
 			ItemStack is = slot.getStack();
 			isCopy = is.copy();
 
 			if (slotId < slotsBase){
-				if (!merge.call(is,slotsBase,container.inventorySlots.size(),true))return null;
+				if (!merge.call(is, slotsBase, container.inventorySlots.size(), true))return null;
 			}
 			else{
 				boolean merged = false;
 				
 				for(int testSlot = 0; testSlot < slotsBase && is.stackSize > 0; testSlot++){
-					merged |= getSlot(container,testSlot).isItemValid(is) && merge.call(is,testSlot,testSlot+1,false);
+					merged |= getSlot(container, testSlot).isItemValid(is) && merge.call(is, testSlot, testSlot+1, false);
 				}
 				
 				if (!merged)return null;

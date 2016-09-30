@@ -18,18 +18,18 @@ public class CharmRecipe{
 	}
 	
 	public CharmRecipe rune(RuneType rune){
-		return rune(rune,1);
+		return rune(rune, 1);
 	}
 	
 	public CharmRecipe rune(RuneType rune, int amount){
 		if (runes.containsKey(rune))runeAmount -= runes.remove(rune);
-		runes.put(rune,(byte)amount);
+		runes.put(rune, (byte)amount);
 		runeAmount += amount;
 		return this;
 	}
 	
 	public CharmRecipe prop(String name, float value){
-		properties.put(name,value);
+		properties.put(name, value);
 		return this;
 	}
 	
@@ -54,9 +54,9 @@ public class CharmRecipe{
 		return runeList.isEmpty();
 	}
 	
-	public Map<RuneType,Byte> getRunes(){
-		Map<RuneType,Byte> runes = new HashMap<>();
-		for(RuneType type:this.runes.keySet())runes.put(type,this.runes.get(type));
+	public Map<RuneType, Byte> getRunes(){
+		Map<RuneType, Byte> runes = new HashMap<>();
+		for(RuneType type:this.runes.keySet())runes.put(type, this.runes.get(type));
 		return runes;
 	}
 }

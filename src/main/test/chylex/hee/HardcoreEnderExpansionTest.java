@@ -26,7 +26,7 @@ public class HardcoreEnderExpansionTest{
 			UnitTester.finalizeEventTests();
 		}
 		catch(Throwable t){
-			FMLCommonHandler.instance().raiseException(t,"Error running LoadComplete event in Hardcore Ender Expansion!",true);
+			FMLCommonHandler.instance().raiseException(t, "Error running LoadComplete event in Hardcore Ender Expansion!", true);
 		}
 	}
 }

@@ -32,9 +32,9 @@ public class EntityAIHideInBlock extends EntityAIAbstractContinuous{
 		
 		Pos pos = Pos.at(entity).offset(entity.getRNG().nextInt(6));
 		
-		if (ArrayUtils.contains(validBlocks,pos.getBlock(entity.worldObj))){
-			pos.setBlock(entity.worldObj,handler.hide(pos.getInfo(entity.worldObj)));
-			PacketPipeline.sendToAllAround(entity,64D,new C21EffectEntity(FXType.Entity.ENTITY_EXPLOSION_PARTICLE,entity));
+		if (ArrayUtils.contains(validBlocks, pos.getBlock(entity.worldObj))){
+			pos.setBlock(entity.worldObj, handler.hide(pos.getInfo(entity.worldObj)));
+			PacketPipeline.sendToAllAround(entity, 64D, new C21EffectEntity(FXType.Entity.ENTITY_EXPLOSION_PARTICLE, entity));
 			entity.setDead();
 		}
 	}

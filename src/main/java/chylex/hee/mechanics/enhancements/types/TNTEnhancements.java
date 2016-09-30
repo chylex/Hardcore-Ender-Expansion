@@ -12,7 +12,7 @@ public enum TNTEnhancements{
 	public static void register(){
 		EnhancementData<TNTEnhancements> data = EnhancementRegistry.registerEnhancement(new Block[]{
 			Blocks.tnt, BlockList.enhanced_tnt
-		},TNTEnhancements.class);
+		}, TNTEnhancements.class);
 		
 		data.setTransformationItem(Item.getItemFromBlock(BlockList.enhanced_tnt));
 		

@@ -30,7 +30,7 @@ public class TileEntityCustomSpawner extends TileEntity{
 			case BlockCustomSpawner.metaRavagedSilverfish: logic = new SilverfishRavagedSpawnerLogic(this); break;
 			// TODO case BlockCustomSpawner.metaBlobEnderman: logic = new BlobEndermanSpawnerLogic(this); break;
 			default:
-				Log.error("Unable to find spawner logic $0, this is not supposed to happen! Substituting empty logic to prevent crashes.",id);
+				Log.error("Unable to find spawner logic $0, this is not supposed to happen! Substituting empty logic to prevent crashes.", id);
 				logic = new CustomSpawnerLogic.BrokenSpawnerLogic(this);
 		}
 		
@@ -39,7 +39,7 @@ public class TileEntityCustomSpawner extends TileEntity{
 	
 	@Override
 	public void updateEntity(){
-		if (actualPos == null)actualPos = Pos.at(xCoord,yCoord,zCoord);
+		if (actualPos == null)actualPos = Pos.at(xCoord, yCoord, zCoord);
 		else if (xCoord == actualPos.getX() && yCoord == actualPos.getY() && zCoord == actualPos.getZ())logic.updateSpawner();
 		
 		super.updateEntity();
@@ -51,19 +51,19 @@ public class TileEntityCustomSpawner extends TileEntity{
 		writeToNBT(tag);
 		tag.removeTag("SpawnPotentials");
 		tag.removeTag("actualPos");
-		return new S35PacketUpdateTileEntity(xCoord,yCoord,zCoord,1,tag);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tag);
 	}
 
 	@Override
 	public boolean receiveClientEvent(int eventNb, int arg){
-		return logic.setDelayToMin(eventNb) || super.receiveClientEvent(eventNb,arg);
+		return logic.setDelayToMin(eventNb) || super.receiveClientEvent(eventNb, arg);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		nbt.setByte("logicId",logicId);
-		nbt.setLong("actualPos",actualPos.toLong());
+		nbt.setByte("logicId", logicId);
+		nbt.setLong("actualPos", actualPos.toLong());
 		logic.writeToNBT(nbt);
 	}
 	

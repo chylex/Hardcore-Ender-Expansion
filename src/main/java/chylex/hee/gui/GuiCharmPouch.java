@@ -19,20 +19,20 @@ public class GuiCharmPouch extends GuiContainer{
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		String s = I18n.format("container.charmPouch");
-		fontRendererObj.drawString(s,(xSize>>2)-(fontRendererObj.getStringWidth(s)>>1)+1,6,0x404040);
+		fontRendererObj.drawString(s, (xSize>>2)-(fontRendererObj.getStringWidth(s)>>1)+1, 6, 0x404040);
 		
 		s = I18n.format("container.runeCrafting");
-		fontRendererObj.drawString(s,3*(xSize>>2)-(fontRendererObj.getStringWidth(s)>>1)-1,6,0x404040);
+		fontRendererObj.drawString(s, 3*(xSize>>2)-(fontRendererObj.getStringWidth(s)>>1)-1, 6, 0x404040);
 		
-		fontRendererObj.drawString(I18n.format("container.inventory"),8,ySize-96+2,0x404040);
+		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize-96+2, 0x404040);
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTickTime, int mouseX, int mouseY){
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 		mc.getTextureManager().bindTexture(guiResource);
 		
 		int guiX = (width-xSize)>>1, guiY = (height-ySize)>>1;
-		drawTexturedModalRect(guiX,guiY,0,0,xSize,ySize);
+		drawTexturedModalRect(guiX, guiY, 0, 0, xSize, ySize);
 	}
 }

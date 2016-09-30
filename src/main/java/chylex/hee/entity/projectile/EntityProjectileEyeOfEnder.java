@@ -40,12 +40,12 @@ public class EntityProjectileEyeOfEnder extends Entity{
 	
 	public EntityProjectileEyeOfEnder(World world){
 		super(world);
-		setSize(0.5F,1F);
+		setSize(0.5F, 1F);
 	}
 	
 	public EntityProjectileEyeOfEnder(World world, Entity thrower){
 		this(world);
-		setPosition(thrower.posX+MathUtil.lendirx(1D,-thrower.rotationYaw),thrower.posY+1.1D+MathUtil.lendirx(1D,-thrower.rotationPitch),thrower.posZ+MathUtil.lendiry(1D,-thrower.rotationYaw));
+		setPosition(thrower.posX+MathUtil.lendirx(1D, -thrower.rotationYaw), thrower.posY+1.1D+MathUtil.lendirx(1D, -thrower.rotationPitch), thrower.posZ+MathUtil.lendiry(1D, -thrower.rotationYaw));
 	}
 
 	@Override
@@ -62,13 +62,13 @@ public class EntityProjectileEyeOfEnder extends Entity{
 		++timer;
 		
 		if (worldObj.provider.dimensionId != 0){
-			if (timer == 1 && worldObj.isRemote)FXHelper.create("smoke").pos(posX,posY+getRenderOffset()+0.2F,posZ).fluctuatePos(0.15D).fluctuateMotion(0.1D).spawn(rand,8);
+			if (timer == 1 && worldObj.isRemote)FXHelper.create("smoke").pos(posX, posY+getRenderOffset()+0.2F, posZ).fluctuatePos(0.15D).fluctuateMotion(0.1D).spawn(rand, 8);
 			else if (timer > 60 && !worldObj.isRemote){
-				EntityItem item = new EntityItem(worldObj,posX,posY+getRenderOffset(),posZ,new ItemStack(Items.ender_eye));
+				EntityItem item = new EntityItem(worldObj, posX, posY+getRenderOffset(), posZ, new ItemStack(Items.ender_eye));
 				item.delayBeforeCanPickup = 10;
 				worldObj.spawnEntityInWorld(item);
 				
-				PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.POP,posX,posY,posZ,1.5F,1F+rand.nextFloat()*0.25F));
+				PacketPipeline.sendToAllAround(this, 64D, new C08PlaySound(C08PlaySound.POP, posX, posY, posZ, 1.5F, 1F+rand.nextFloat()*0.25F));
 				setDead();
 			}
 			
@@ -80,7 +80,7 @@ public class EntityProjectileEyeOfEnder extends Entity{
 			strongholdZ = entityData.getInt(Data.STRONGHOLD_Z);
 			maxTerrainY = entityData.getShort(Data.TERRAIN_HEIGHT);
 			
-			Vec vec = Vec.xz(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ).normalized();
+			Vec vec = Vec.xz(strongholdX+0.5D-posX, strongholdZ+0.5D-posZ).normalized();
 			moveX = vec.x*0.27D;
 			moveZ = vec.z*0.27D;
 		}
@@ -89,10 +89,10 @@ public class EntityProjectileEyeOfEnder extends Entity{
 			
 			if (!center.equals(prevBlockPos)){
 				Set<Pos> checkedBlocks = new HashSet<>(); // y = 0
-				Vec perpendicular = Vec.xz(-moveZ*3D,moveX*3D);
+				Vec perpendicular = Vec.xz(-moveZ*3D, moveX*3D);
 				
 				for(int line = -1; line <= 1; line++){
-					Vec vec = Vec.xz(posX+line*perpendicular.x,posZ+line*perpendicular.z);
+					Vec vec = Vec.xz(posX+line*perpendicular.x, posZ+line*perpendicular.z);
 					
 					for(int distance = 0; distance < 12; distance++){
 						vec.x += moveX*4D;
@@ -102,15 +102,15 @@ public class EntityProjectileEyeOfEnder extends Entity{
 				}
 				
 				targetY = 2.5D+checkedBlocks.stream()
-				.map(pos -> 1+Pos.getTopBlock(worldObj,pos.getX(),pos.getZ(),maxTerrainY,info -> isConsideredSolid(info)).getY())
-				.sorted((i1, i2) -> Integer.compare(i2,i1))
+				.map(pos -> 1+Pos.getTopBlock(worldObj, pos.getX(), pos.getZ(), maxTerrainY, info -> isConsideredSolid(info)).getY())
+				.sorted((i1, i2) -> Integer.compare(i2, i1))
 				.limit(1+(checkedBlocks.size()/4))
 				.mapToInt(height -> height).average().orElse(posY);
 				
 				prevBlockPos = center;
 			}
 			
-			if (MathUtil.distance(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ) < 7D){
+			if (MathUtil.distance(strongholdX+0.5D-posX, strongholdZ+0.5D-posZ) < 7D){
 				if (speed > 0F)speed -= 0.04F;
 			}
 			else{
@@ -120,42 +120,42 @@ public class EntityProjectileEyeOfEnder extends Entity{
 				if (speed > 0.7F && targetY-posY > 4D)speed -= 0.05F;
 			}
 			
-			setPosition(posX+moveX*speed,posY+(targetY-posY)*(timer < 100 ? speed : 1F)*0.03D,posZ+moveZ*speed);
+			setPosition(posX+moveX*speed, posY+(targetY-posY)*(timer < 100 ? speed : 1F)*0.03D, posZ+moveZ*speed);
 		}
 		
 		if (!worldObj.isRemote){
 			if (timer == 1){
-				Optional<ChunkCoordIntPair> stronghold = WorldGenStronghold.findNearestStronghold(MathUtil.floor(posX)>>4,MathUtil.floor(posZ)>>4,worldObj);
+				Optional<ChunkCoordIntPair> stronghold = WorldGenStronghold.findNearestStronghold(MathUtil.floor(posX)>>4, MathUtil.floor(posZ)>>4, worldObj);
 				
 				if (stronghold.isPresent()){
-					entityData.setInt(Data.STRONGHOLD_X,16*stronghold.get().chunkXPos+8);
-					entityData.setInt(Data.STRONGHOLD_Z,16*stronghold.get().chunkZPos+8);
-					entityData.setShort(Data.TERRAIN_HEIGHT,worldObj.getWorldInfo().getTerrainType() == WorldType.AMPLIFIED ? 256 : 128); // ignore floating islands from other mods
+					entityData.setInt(Data.STRONGHOLD_X, 16*stronghold.get().chunkXPos+8);
+					entityData.setInt(Data.STRONGHOLD_Z, 16*stronghold.get().chunkZPos+8);
+					entityData.setShort(Data.TERRAIN_HEIGHT, worldObj.getWorldInfo().getTerrainType() == WorldType.AMPLIFIED ? 256 : 128); // ignore floating islands from other mods
 					foundStronghold = true;
 				}
 			}
 			else if (timer == 35 && !foundStronghold)setDead();
 			else{
-				if (MathUtil.distance(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ) < 7D){
+				if (MathUtil.distance(strongholdX+0.5D-posX, strongholdZ+0.5D-posZ) < 7D){
 					if (timer < 500)timer = 500;
 					
 					if (timer > 580){
-						EntityItem item = new EntityItem(worldObj,posX,posY+getRenderOffset(),posZ,new ItemStack(Items.ender_eye));
+						EntityItem item = new EntityItem(worldObj, posX, posY+getRenderOffset(), posZ, new ItemStack(Items.ender_eye));
 						item.delayBeforeCanPickup = 10;
 						worldObj.spawnEntityInWorld(item);
 						
-						PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.POP,posX,posY,posZ,1.5F,1F+rand.nextFloat()*0.25F));
+						PacketPipeline.sendToAllAround(this, 64D, new C08PlaySound(C08PlaySound.POP, posX, posY, posZ, 1.5F, 1F+rand.nextFloat()*0.25F));
 						setDead();
 					}
 				}
 				else if (timer > 440 && timer > 440+rand.nextInt(100)){
-					PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ENDER_EYE_BREAK,posX,posY+getRenderOffset(),posZ,0F,0F));
+					PacketPipeline.sendToAllAround(this, 64D, new C21EffectEntity(FXType.Entity.ENDER_EYE_BREAK, posX, posY+getRenderOffset(), posZ, 0F, 0F));
 					setDead();
 				}
 			}
 		}
 		else{
-			if (timer == 1)FXHelper.create("smoke").pos(posX,posY+getRenderOffset()+0.2F,posZ).fluctuatePos(0.15D).fluctuateMotion(0.1D).spawn(rand,8);
+			if (timer == 1)FXHelper.create("smoke").pos(posX, posY+getRenderOffset()+0.2F, posZ).fluctuatePos(0.15D).fluctuateMotion(0.1D).spawn(rand, 8);
 			else if (timer > 30){
 				float r, g, b;
 				
@@ -170,7 +170,7 @@ public class EntityProjectileEyeOfEnder extends Entity{
 					b = 0.3F+rand.nextFloat()*0.1F;
 				}
 				
-				FXHelper.create("glitter").pos(posX-moveX*1.5D*speed,posY+getRenderOffset(),posZ-moveZ*1.5D*speed).fluctuatePos(0.15D).motion(0D,-0.025D,0D).fluctuateMotion(0.02D).paramColor(r,g,b).spawn(rand,3);
+				FXHelper.create("glitter").pos(posX-moveX*1.5D*speed, posY+getRenderOffset(), posZ-moveZ*1.5D*speed).fluctuatePos(0.15D).motion(0D, -0.025D, 0D).fluctuateMotion(0.02D).paramColor(r, g, b).spawn(rand, 3);
 			}
 		}
 	}
@@ -185,7 +185,7 @@ public class EntityProjectileEyeOfEnder extends Entity{
 	
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt){
-		nbt.setShort("eoetim",(short)timer);
+		nbt.setShort("eoetim", (short)timer);
 	}
 	
 	@Override

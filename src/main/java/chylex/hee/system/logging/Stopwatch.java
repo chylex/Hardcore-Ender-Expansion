@@ -9,14 +9,14 @@ import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 public final class Stopwatch{
 	public static boolean isEnabled = true;
 	
-	private static final Map<String,StopwatchHandler> runningStopwatches = new HashMap<>();
-	private static final DecimalFormat numberFormat = new DecimalFormat("#.##",DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+	private static final Map<String, StopwatchHandler> runningStopwatches = new HashMap<>();
+	private static final DecimalFormat numberFormat = new DecimalFormat("#.##", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 	private static final double toMillis = 0.000001D;
 	
 	public static void time(String identifier){
 		if (!Log.isDebugEnabled() || !isEnabled)return;
 		
-		if (!runningStopwatches.containsKey(identifier))runningStopwatches.put(identifier,new BasicTimer());
+		if (!runningStopwatches.containsKey(identifier))runningStopwatches.put(identifier, new BasicTimer());
 		runningStopwatches.get(identifier).onStart();
 	}
 	
@@ -24,7 +24,7 @@ public final class Stopwatch{
 		if (!Log.isDebugEnabled() || !isEnabled)return;
 		
 		StopwatchHandler timer = runningStopwatches.get(identifier);
-		if (timer == null || !(timer instanceof ThresholdTimer))runningStopwatches.put(identifier,timer = new ThresholdTimer());
+		if (timer == null || !(timer instanceof ThresholdTimer))runningStopwatches.put(identifier, timer = new ThresholdTimer());
 		
 		((ThresholdTimer)timer).setThreshold(threshold);
 		timer.onStart();
@@ -34,7 +34,7 @@ public final class Stopwatch{
 		if (!Log.isDebugEnabled() || !isEnabled)return;
 		
 		StopwatchHandler timer = runningStopwatches.get(identifier);
-		if (timer == null || !(timer instanceof AveragingTimer))runningStopwatches.put(identifier,timer = new AveragingTimer());
+		if (timer == null || !(timer instanceof AveragingTimer))runningStopwatches.put(identifier, timer = new AveragingTimer());
 
 		((AveragingTimer)timer).setCount(count);
 		timer.onStart();
@@ -67,7 +67,7 @@ public final class Stopwatch{
 		@Override
 		public void onFinish(String identifier){
 			double time = (System.nanoTime()-startTime)*toMillis;
-			Log.debug("Stopwatch $0 finished in $2 ~ $1 ms.",identifier,Math.round(time),numberFormat.format(time));
+			Log.debug("Stopwatch $0 finished in $2 ~ $1 ms.", identifier, Math.round(time), numberFormat.format(time));
 		}
 	}
 	
@@ -81,7 +81,7 @@ public final class Stopwatch{
 		@Override
 		public void onFinish(String identifier){
 			double time = (System.nanoTime()-startTime)*toMillis;
-			if (time >= threshold)Log.debug("Stopwatch $0 finished above threshold in $2 ~ $1 ms.",identifier,Math.round(time),numberFormat.format(time));
+			if (time >= threshold)Log.debug("Stopwatch $0 finished above threshold in $2 ~ $1 ms.", identifier, Math.round(time), numberFormat.format(time));
 		}
 	}
 	
@@ -104,7 +104,7 @@ public final class Stopwatch{
 			
 			if (--currentCounter == 0 && count > 0){
 				double time = (totalTime*toMillis)/count;
-				Log.debug("Stopwatch $0 finished in averagely $2 ~ $1 ms.",identifier,Math.round(time),numberFormat.format(time));
+				Log.debug("Stopwatch $0 finished in averagely $2 ~ $1 ms.", identifier, Math.round(time), numberFormat.format(time));
 				
 				currentCounter = count;
 				totalTime = 0L;
@@ -119,7 +119,7 @@ public final class Stopwatch{
 			
 			for(int a = 1; a <= 10; a++){
 				try{
-					Stopwatch.timeAverage("Stopwatch - test average",10);
+					Stopwatch.timeAverage("Stopwatch - test average", 10);
 					Thread.sleep(10L*a);
 					Stopwatch.finish("Stopwatch - test average");
 				}catch(InterruptedException e){}

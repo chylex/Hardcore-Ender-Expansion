@@ -37,7 +37,7 @@ public abstract class EntityAIAbstractWatching extends EntityAIBase{
 	
 	@Override
 	public void updateTask(){
-		entity.getLookHelper().setLookPosition(watchedEntity.posX,watchedEntity.posY+watchedEntity.getEyeHeight(),watchedEntity.posZ,getHeadRotationSpeed(),entity.getVerticalFaceSpeed());
+		entity.getLookHelper().setLookPosition(watchedEntity.posX, watchedEntity.posY+watchedEntity.getEyeHeight(), watchedEntity.posZ, getHeadRotationSpeed(), entity.getVerticalFaceSpeed());
 	}
 	
 	@Override

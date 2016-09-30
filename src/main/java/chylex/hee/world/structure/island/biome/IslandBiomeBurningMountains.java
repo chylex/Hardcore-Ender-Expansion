@@ -6,8 +6,8 @@ import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 
 public class IslandBiomeBurningMountains extends IslandBiomeBase{
-	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(1,8);
-	public static final BiomeContentVariation MINE = new BiomeContentVariation(5,6);
+	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(1, 8);
+	public static final BiomeContentVariation MINE = new BiomeContentVariation(5, 6);
 	
 	public static final BiomeRandomDeviation EXCESSIVE_CINDER = new BiomeRandomDeviation("ExcessiveCinder", SCORCHING);
 	public static final BiomeRandomDeviation SINGLE_LAVA_ONLY = new BiomeRandomDeviation("SingleLava", SCORCHING);
@@ -28,12 +28,12 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 		randomDeviations.add(DEEP_RESOURCE_PITS);
 		
 		/*getSpawnEntries(SCORCHING).add(new SpawnEntry[]{
-			new SpawnEntry(EntityMobFireGolem.class,14,10),
-			new SpawnEntry(EntityMobScorchingLens.class,10,6)
+			new SpawnEntry(EntityMobFireGolem.class, 14, 10),
+			new SpawnEntry(EntityMobScorchingLens.class, 10, 6)
 		});
 		
 		getSpawnEntries(MINE).add(new SpawnEntry[]{
-			new SpawnEntry(EntityMobHauntedMiner.class,20,10)
+			new SpawnEntry(EntityMobHauntedMiner.class, 20, 10)
 		});*/
 	}
 

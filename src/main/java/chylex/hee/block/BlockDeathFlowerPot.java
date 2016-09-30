@@ -18,29 +18,29 @@ public class BlockDeathFlowerPot extends BlockFlowerPot{
 	
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
-		((BlockDeathFlower)BlockList.death_flower).updateFlowerLogic(world,x,y,z,rand);
+		((BlockDeathFlower)BlockList.death_flower).updateFlowerLogic(world, x, y, z, rand);
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
-		return BlockList.death_flower.onBlockActivated(world,x,y,z,player,side,hitX,hitY,hitZ);
+		return BlockList.death_flower.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
 	}
 
 	@Override
 	public int getDamageValue(World world, int x, int y, int z){
-		return Pos.at(x,y,z).getMetadata(world);
+		return Pos.at(x, y, z).getMetadata(world);
 	}
 
 	@Override
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune){
-		super.dropBlockAsItemWithChance(world,x,y,z,0,chance,fortune);
-		dropBlockAsItem(world,x,y,z,new ItemStack(BlockList.death_flower,1,meta));
+		super.dropBlockAsItemWithChance(world, x, y, z, 0, chance, fortune);
+		dropBlockAsItem(world, x, y, z, new ItemStack(BlockList.death_flower, 1, meta));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		BlockList.death_flower.randomDisplayTick(world,x,y,z,rand);
+		BlockList.death_flower.randomDisplayTick(world, x, y, z, rand);
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class BlockDeathFlowerPot extends BlockFlowerPot{
 	}
 
 	public static ItemStack getPlantForMeta(int meta){
-		return new ItemStack(BlockList.death_flower,1,meta);
+		return new ItemStack(BlockList.death_flower, 1, meta);
 	}
 
 	public static int getMetaForPlant(ItemStack is){

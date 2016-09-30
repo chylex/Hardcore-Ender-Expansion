@@ -15,7 +15,7 @@ public abstract class BlockAbstractInventory extends BlockContainer{
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta){
-		TileEntity tile = world.getTileEntity(x,y,z);
+		TileEntity tile = world.getTileEntity(x, y, z);
 
 		if (tile instanceof IInventory){
 			IInventory inv = (IInventory)tile;
@@ -28,7 +28,7 @@ public abstract class BlockAbstractInventory extends BlockContainer{
 				float offY = world.rand.nextFloat()*0.8F+0.1F;
 				float offZ = world.rand.nextFloat()*0.8F+0.1F;
 
-				EntityItem entityItem = new EntityItem(world,x+offX,y+offY,z+offZ,is.copy());
+				EntityItem entityItem = new EntityItem(world, x+offX, y+offY, z+offZ, is.copy());
 				entityItem.motionX = world.rand.nextGaussian()*0.05F;
 				entityItem.motionY = world.rand.nextGaussian()*0.05F+0.2F;
 				entityItem.motionZ = world.rand.nextGaussian()*0.05F;
@@ -36,6 +36,6 @@ public abstract class BlockAbstractInventory extends BlockContainer{
 			}
 		}
 
-		super.breakBlock(world,x,y,z,block,meta);
+		super.breakBlock(world, x, y, z, block, meta);
 	}
 }

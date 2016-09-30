@@ -20,7 +20,7 @@ public final class BiomeInteractionsInfestedForest{
 		public void init(){
 			treesLeft = (byte)(1+rand.nextInt(3+rand.nextInt(4+rand.nextInt(5))));
 			
-			List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class,getIslandBoundingBox());
+			List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getIslandBoundingBox());
 			
 			if (players.isEmpty()){
 				entity.setDead();
@@ -33,14 +33,14 @@ public final class BiomeInteractionsInfestedForest{
 				EntityPlayer player = players.get(rand.nextInt(amt));
 				x = (int)player.posX+rand.nextInt(2*dist)-dist;
 				z = (int)player.posZ+rand.nextInt(2*dist)-dist;
-				y = world.getHeightValue(x,z);
+				y = world.getHeightValue(x, z);
 				
-				if (world.getClosestPlayer(x+0.5D,y-8,z+0.5D,24D) == null)continue;
+				if (world.getClosestPlayer(x+0.5D, y-8, z+0.5D, 24D) == null)continue;
 				
 				boolean foundLog = false;
 				
 				for(int yy = y; yy > y-10; yy--){
-					if (world.getBlock(x,y,z) == BlockList.spooky_log)foundLog = true;
+					if (world.getBlock(x, y, z) == BlockList.spooky_log)foundLog = true;
 					else if (foundLog){
 						attempt = 33;
 						y = yy+1;
@@ -53,15 +53,15 @@ public final class BiomeInteractionsInfestedForest{
 		@Override
 		public void update(){
 			if (--timer < 0){
-				if (world.getBlock(x,y,z) == BlockList.spooky_log){
-					if (rand.nextInt(8) == 0 && WorldUtil.getRuleBool(world,GameRule.DO_TILE_DROPS)){
-						EntityItem item = new EntityItem(world,x+rand.nextFloat()*0.7F+0.15F,y+rand.nextFloat()*0.7F+0.15F,z+rand.nextFloat()*0.7F+0.15F,new ItemStack(ItemList.dry_splinter));
+				if (world.getBlock(x, y, z) == BlockList.spooky_log){
+					if (rand.nextInt(8) == 0 && WorldUtil.getRuleBool(world, GameRule.DO_TILE_DROPS)){
+						EntityItem item = new EntityItem(world, x+rand.nextFloat()*0.7F+0.15F, y+rand.nextFloat()*0.7F+0.15F, z+rand.nextFloat()*0.7F+0.15F, new ItemStack(ItemList.dry_splinter));
 						item.delayBeforeCanPickup = 10;
 						world.spawnEntityInWorld(item);
 					}
 					
-					world.playAuxSFX(2001,x,y,z,Block.getIdFromBlock(BlockList.spooky_log));
-					world.setBlockToAir(x,y,z);
+					world.playAuxSFX(2001, x, y, z, Block.getIdFromBlock(BlockList.spooky_log));
+					world.setBlockToAir(x, y, z);
 					++y;
 					timer = 3;
 				}
@@ -73,11 +73,11 @@ public final class BiomeInteractionsInfestedForest{
 					for(int attempt = 0, xx, yy, zz; attempt < 64; attempt++){
 						xx = x+rand.nextInt(11)-5;
 						zz = z+rand.nextInt(11)-5;
-						yy = world.getHeightValue(xx,zz);
+						yy = world.getHeightValue(xx, zz);
 						boolean foundLog = false;
 						
 						for(int yAttempt = 0; yAttempt < 10; yAttempt++){
-							if (world.getBlock(xx,--yy,zz) == BlockList.spooky_log)foundLog = true;
+							if (world.getBlock(xx, --yy, zz) == BlockList.spooky_log)foundLog = true;
 							else if (foundLog){
 								attempt = 65;
 								x = xx;
@@ -95,11 +95,11 @@ public final class BiomeInteractionsInfestedForest{
 
 		@Override
 		public void saveToNBT(NBTTagCompound nbt){
-			nbt.setByte("left",treesLeft);
-			nbt.setByte("tim",timer);
-			nbt.setInteger("x",x);
-			nbt.setInteger("y",y);
-			nbt.setInteger("z",z);
+			nbt.setByte("left", treesLeft);
+			nbt.setByte("tim", timer);
+			nbt.setInteger("x", x);
+			nbt.setInteger("y", y);
+			nbt.setInteger("z", z);
 		}
 
 		@Override

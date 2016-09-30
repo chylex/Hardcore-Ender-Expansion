@@ -16,7 +16,7 @@ public class EnhancementIngredient{
 	}
 	
 	public int getAmount(int level, int stackSize){
-		return MathUtil.ceil(getAmountFloat(level)*Math.pow(stackSize,0.9D));
+		return MathUtil.ceil(getAmountFloat(level)*Math.pow(stackSize, 0.9D));
 	}
 	
 	private float getAmountFloat(int level){

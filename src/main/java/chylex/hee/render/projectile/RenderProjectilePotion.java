@@ -10,7 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderProjectilePotion extends RenderProjectileBase{
 	@Override
 	protected void render(Entity entity){
-		renderIcon(Tessellator.instance,((EntityProjectilePotion)entity).getPotionItem().getIconFromDamageForRenderPass(1,0));
-		renderIcon(Tessellator.instance,ItemPotion.func_94589_d("bottle_splash")); // OBFUSCATED get potion icon
+		renderIcon(Tessellator.instance, ((EntityProjectilePotion)entity).getPotionItem().getIconFromDamageForRenderPass(1, 0));
+		renderIcon(Tessellator.instance, ItemPotion.func_94589_d("bottle_splash")); // OBFUSCATED get potion icon
 	}
 }

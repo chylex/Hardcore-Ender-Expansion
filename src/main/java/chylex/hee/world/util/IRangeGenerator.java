@@ -9,7 +9,7 @@ public interface IRangeGenerator{
 		private final RandomAmount distribution;
 		
 		public RangeGenerator(int min, int max, RandomAmount distribution){
-			this.range = new Range(min,max);
+			this.range = new Range(min, max);
 			this.distribution = distribution;
 		}
 		
@@ -20,7 +20,7 @@ public interface IRangeGenerator{
 		
 		@Override
 		public int next(Random rand){
-			return distribution.generate(rand,range.min,range.max);
+			return distribution.generate(rand, range.min, range.max);
 		}
 	}
 }

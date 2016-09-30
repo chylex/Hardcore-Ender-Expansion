@@ -26,24 +26,24 @@ public class RenderProjectileFiendFireball extends Render{
 		
 		GL.pushMatrix();
 		bindEntityTexture(entity);
-		GL.translate(getX(fireball,partialTickTime),y,getZ(fireball,partialTickTime));
+		GL.translate(getX(fireball, partialTickTime), y, getZ(fireball, partialTickTime));
 		GL.enableRescaleNormal();
-		GL.scale(scale,scale,scale);
+		GL.scale(scale, scale, scale);
 		
 		IIcon iicon = Items.fire_charge.getIconFromDamage(0);
 		Tessellator tessellator = Tessellator.instance;
 		float minU = iicon.getMinU(), maxU = iicon.getMaxU();
 		float minV = iicon.getMinV(), maxV = iicon.getMaxV();
 		
-		GL.rotate(180F-renderManager.playerViewY,0F,1F,0F);
-		GL.rotate(-renderManager.playerViewX,1F,0F,0F);
+		GL.rotate(180F-renderManager.playerViewY, 0F, 1F, 0F);
+		GL.rotate(-renderManager.playerViewX, 1F, 0F, 0F);
 		
 		tessellator.startDrawingQuads();
-		tessellator.setNormal(0F,1F,0F);
-		tessellator.addVertexWithUV(-0.5F,-0.25F,0D,minU,maxV);
-		tessellator.addVertexWithUV(0.5F,-0.25F,0D,maxU,maxV);
-		tessellator.addVertexWithUV(0.5F,0.75F,0D,maxU,minV);
-		tessellator.addVertexWithUV(-0.5F,0.75F,0D,minU,minV);
+		tessellator.setNormal(0F, 1F, 0F);
+		tessellator.addVertexWithUV(-0.5F, -0.25F, 0D, minU, maxV);
+		tessellator.addVertexWithUV(0.5F, -0.25F, 0D, maxU, maxV);
+		tessellator.addVertexWithUV(0.5F, 0.75F, 0D, maxU, minV);
+		tessellator.addVertexWithUV(-0.5F, 0.75F, 0D, minU, minV);
 		tessellator.draw();
 		
 		GL.disableRescaleNormal();
@@ -53,7 +53,7 @@ public class RenderProjectileFiendFireball extends Render{
 	@Override
 	public void doRenderShadowAndFire(Entity entity, double x, double y, double z, float rotationYaw, float partialTickTime){
 		EntityProjectileFiendFireball fireball = (EntityProjectileFiendFireball)entity;
-		super.doRenderShadowAndFire(entity,getX(fireball,partialTickTime),y,getZ(fireball,partialTickTime),rotationYaw,partialTickTime);
+		super.doRenderShadowAndFire(entity, getX(fireball, partialTickTime), y, getZ(fireball, partialTickTime), rotationYaw, partialTickTime);
 	}
 
 	@Override

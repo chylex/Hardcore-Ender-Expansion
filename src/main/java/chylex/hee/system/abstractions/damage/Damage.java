@@ -17,15 +17,15 @@ public final class Damage implements IDamage{
 	
 	public static Damage vanillaGeneric(float amount){
 		return new Damage(amount)
-			.addModifiers(IDamageModifier.difficultyScaling,IDamageModifier.blocking)
-			.addModifiers(IDamageModifier.armorProtection,IDamageModifier.enchantmentProtection,IDamageModifier.potionProtection);
+			.addModifiers(IDamageModifier.difficultyScaling, IDamageModifier.blocking)
+			.addModifiers(IDamageModifier.armorProtection, IDamageModifier.enchantmentProtection, IDamageModifier.potionProtection);
 	}
 	
 	public static Damage vanillaMob(EntityMob cause){
-		return new Damage((float)EntityAttributes.getValue(cause,EntityAttributes.attackDamage))
-			.addModifiers(IDamageModifier.peacefulExclusion,IDamageModifier.difficultyScaling)
-			.addModifiers(IDamageModifier.armorProtection,IDamageModifier.enchantmentProtection,IDamageModifier.potionProtection)
-			.addModifiers(IDamageModifier.blocking,IDamageModifier.thorns)
+		return new Damage((float)EntityAttributes.getValue(cause, EntityAttributes.attackDamage))
+			.addModifiers(IDamageModifier.peacefulExclusion, IDamageModifier.difficultyScaling)
+			.addModifiers(IDamageModifier.armorProtection, IDamageModifier.enchantmentProtection, IDamageModifier.potionProtection)
+			.addModifiers(IDamageModifier.blocking, IDamageModifier.thorns)
 			.setSource(cause);
 	}
 	
@@ -68,8 +68,8 @@ public final class Damage implements IDamage{
 		float amount = baseAmount;
 		
 		for(IDamageModifier modifier:modifiers){
-			amount = modifier.modify(amount,target,damageSource,postProcessors);
-			if (MathUtil.floatEquals(amount,0F))break;
+			amount = modifier.modify(amount, target, damageSource, postProcessors);
+			if (MathUtil.floatEquals(amount, 0F))break;
 		}
 		
 		return amount;
@@ -82,9 +82,9 @@ public final class Damage implements IDamage{
 		DamageSource damageSource = createDamageSource();
 		List<IDamagePostProcessor> postProcessors = new ArrayList<>();
 		
-		float amount = calculateAmount(target,damageSource,postProcessors);
+		float amount = calculateAmount(target, damageSource, postProcessors);
 		
-		if (!MathUtil.floatEquals(amount,0F) && target.attackEntityFrom(damageSource,amount)){
+		if (!MathUtil.floatEquals(amount, 0F) && target.attackEntityFrom(damageSource, amount)){
 			for(IDamagePostProcessor postProcessor:postProcessors)postProcessor.run(amount);
 			return true;
 		}
@@ -94,8 +94,8 @@ public final class Damage implements IDamage{
 	private DamageSource createDamageSource(){
 		if (source != null){
 			if (indirectSource == null)return new DamagedByEntity(source);
-			else return new DamagedByEntity.Indirect(source,indirectSource).setProjectile();
+			else return new DamagedByEntity.Indirect(source, indirectSource).setProjectile();
 		}
-		else return new DamagedBy(Objects.firstNonNull(sourceName,"generic"));
+		else return new DamagedBy(Objects.firstNonNull(sourceName, "generic"));
 	}
 }

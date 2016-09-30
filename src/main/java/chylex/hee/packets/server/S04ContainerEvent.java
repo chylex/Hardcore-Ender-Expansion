@@ -25,6 +25,6 @@ public class S04ContainerEvent extends AbstractServerPacket{
 
 	@Override
 	protected void handle(EntityPlayerMP player){
-		if (player.openContainer instanceof IContainerEventHandler)((IContainerEventHandler)player.openContainer).onEvent(player,eventID);
+		if (player.openContainer instanceof IContainerEventHandler)((IContainerEventHandler)player.openContainer).onEvent(player, eventID);
 	}
 }

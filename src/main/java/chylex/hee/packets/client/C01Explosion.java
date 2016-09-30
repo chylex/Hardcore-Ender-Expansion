@@ -29,7 +29,7 @@ public class C01Explosion extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		new Explosion(player.worldObj,buffer).triggerClient();
+		new Explosion(player.worldObj, buffer).triggerClient();
 		buffer = null;
 	}
 }

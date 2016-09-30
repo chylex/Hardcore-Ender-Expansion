@@ -13,7 +13,7 @@ public class EntityAIResetTarget extends EntityAITarget{
 	private Predicate<EntityLivingBase> conditions = target -> target.isEntityAlive();
 	
 	public EntityAIResetTarget(EntityCreature owner){
-		super(owner,false,false);
+		super(owner, false, false);
 	}
 
 	@Override

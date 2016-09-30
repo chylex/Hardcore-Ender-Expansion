@@ -20,19 +20,19 @@ public final class AchievementEvents{
 	}
 	
 	public static void addDelayedAchievement(UUID id, Achievement achievement){
-		instance.delayedAchievements.put(id,achievement);
+		instance.delayedAchievements.put(id, achievement);
 	}
 	
-	private ArrayListMultimap<UUID,Achievement> delayedAchievements = ArrayListMultimap.create();
+	private ArrayListMultimap<UUID, Achievement> delayedAchievements = ArrayListMultimap.create();
 
 	private AchievementEvents(){}
 	
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerLoggedInEvent e){
-		// TODO if (e.player.dimension == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.GO_INTO_THE_END,1);
+		// TODO if (e.player.dimension == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.GO_INTO_THE_END, 1);
 		
 		/* TODO if (!delayedAchievements.isEmpty() && delayedAchievements.containsKey(e.player.getUniqueID())){
-			for(Achievement achievement:delayedAchievements.removeAll(e.player.getUniqueID()))e.player.addStat(achievement,1);
+			for(Achievement achievement:delayedAchievements.removeAll(e.player.getUniqueID()))e.player.addStat(achievement, 1);
 			SaveData.<QuickSaveFile>global(QuickSaveFile.class).setModified();
 		}*/
 	}
@@ -40,8 +40,8 @@ public final class AchievementEvents{
 	/* TODO @SubscribeEvent
 	public void onPlayerChangedDimension(PlayerChangedDimensionEvent e){
 		if (e.toDim == 1){
-			if (WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.GO_INTO_THE_END,1);
-			CausatumUtils.increase(e.player,CausatumMeters.OVERWORLD_PORTAL,100);
+			if (WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.GO_INTO_THE_END, 1);
+			CausatumUtils.increase(e.player, CausatumMeters.OVERWORLD_PORTAL, 100);
 		}
 	}*/
 	
@@ -50,15 +50,15 @@ public final class AchievementEvents{
 		ItemStack is = e.pickedUp.getEntityItem();
 		Item item = is.getItem();
 		
-		if (item == ItemList.end_powder)e.player.addStat(AchievementManager.END_POWDER,1);
-		else if (item == ItemList.stardust)e.player.addStat(AchievementManager.STARDUST,1);
-		else if (item == ItemList.endium_ingot)e.player.addStat(AchievementManager.ENDIUM_INGOT,1);
-		else if (item == ItemList.essence && is.getItemDamage() == EssenceType.FIERY.getItemDamage())e.player.addStat(AchievementManager.FIERY_ESSSENCE,1);
+		if (item == ItemList.end_powder)e.player.addStat(AchievementManager.END_POWDER, 1);
+		else if (item == ItemList.stardust)e.player.addStat(AchievementManager.STARDUST, 1);
+		else if (item == ItemList.endium_ingot)e.player.addStat(AchievementManager.ENDIUM_INGOT, 1);
+		else if (item == ItemList.essence && is.getItemDamage() == EssenceType.FIERY.getItemDamage())e.player.addStat(AchievementManager.FIERY_ESSSENCE, 1);
 	}
 	
 	@SubscribeEvent
 	public void onItemSmelted(ItemSmeltedEvent e){
-		if (e.smelting.getItem() == ItemList.endium_ingot)e.player.addStat(AchievementManager.ENDIUM_INGOT,1);
+		if (e.smelting.getItem() == ItemList.endium_ingot)e.player.addStat(AchievementManager.ENDIUM_INGOT, 1);
 	}
 	
 	/* TODO @SubscribeEvent
@@ -76,7 +76,7 @@ public final class AchievementEvents{
 	@SubscribeEvent
 	public void onPlayerInteract(PlayerInteractEvent e){
 		World world = e.entityPlayer.worldObj;
-		PosMutable tmpPos = new PosMutable(e.x,e.y,e.z);
+		PosMutable tmpPos = new PosMutable(e.x, e.y, e.z);
 		
 		if (e.action != Action.RIGHT_CLICK_BLOCK || world.isRemote || e.entityPlayer.dimension != 1 || tmpPos.getBlock(world) != Blocks.bed)return;
 		
@@ -90,15 +90,15 @@ public final class AchievementEvents{
 		
 		int dir = tmpPos.getMetadata(world)&3;
 		
-		if (tmpPos.move(BlockBed.field_149981_a[dir][0],0,BlockBed.field_149981_a[dir][1]).getBlock(world) == Blocks.bed){
+		if (tmpPos.move(BlockBed.field_149981_a[dir][0], 0, BlockBed.field_149981_a[dir][1]).getBlock(world) == Blocks.bed){
 			tmpPos.setAir(world);
 			dX = (dX+tmpPos.x+0.5D)/2D;
 			dY = (dY+tmpPos.y+0.5D)/2D;
 			dZ = (dZ+tmpPos.z+0.5D)/2D;
 		}
 
-		world.newExplosion(null,dX,dY,dZ,5F,true,true);
-		if (dragon.getHealth() <= 0F)e.entityPlayer.addStat(AchievementManager.CHALLENGE_BEDEXPLODE,1);
+		world.newExplosion(null, dX, dY, dZ, 5F, true, true);
+		if (dragon.getHealth() <= 0F)e.entityPlayer.addStat(AchievementManager.CHALLENGE_BEDEXPLODE, 1);
 	}
 	
 	private EntityBossDragon getDragon(World world){

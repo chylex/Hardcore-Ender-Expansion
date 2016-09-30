@@ -14,28 +14,28 @@ public class RenderTexturedMob extends RenderLiving{
 	private final float scale;
 	
 	public RenderTexturedMob(ModelBase model, float shadowSize, String texture, float scale){
-		super(model,shadowSize);
+		super(model, shadowSize);
 		this.tex = new ResourceLocation("hardcoreenderexpansion:textures/entity/"+texture);
 		this.scale = scale;
 	}
 	
 	public RenderTexturedMob(ModelBase model, float shadowSize, String texture){
-		this(model,shadowSize,texture,1F);
+		this(model, shadowSize, texture, 1F);
 	}
 	
 	public RenderTexturedMob(ModelBase model, float shadowSize, String domain, String texture, float scale){
-		super(model,shadowSize);
+		super(model, shadowSize);
 		this.tex = new ResourceLocation((domain.isEmpty() ? "" : domain+":")+"textures/entity/"+texture);
 		this.scale = scale;
 	}
 	
 	public RenderTexturedMob(ModelBase model, float shadowSize, String domain, String texture){
-		this(model,shadowSize,domain,texture,1F);
+		this(model, shadowSize, domain, texture, 1F);
 	}
 	
 	@Override
 	protected void preRenderCallback(EntityLivingBase entity, float partialTickTime){
-		GL.scale(scale,scale,scale);
+		GL.scale(scale, scale, scale);
 	}
 
 	@Override

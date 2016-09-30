@@ -25,12 +25,12 @@ public class EntityItemInstabilityOrb extends EntityItem{
 	}
 	
 	public EntityItemInstabilityOrb(World world, double x, double y, double z, ItemStack is){
-		super(world,x,y,z,is);
+		super(world, x, y, z, is);
 		
 		for(int a = 0; a < is.stackSize-1; a++){
 			ItemStack newIS = is.copy();
 			newIS.stackSize = 1;
-			EntityItem item = new EntityItemInstabilityOrb(world,x,y,z,newIS);
+			EntityItem item = new EntityItemInstabilityOrb(world, x, y, z, newIS);
 			item.delayBeforeCanPickup = 40;
 			world.spawnEntityInWorld(item);
 		}
@@ -48,20 +48,20 @@ public class EntityItemInstabilityOrb extends EntityItem{
 		}
 		else{
 			int chance = age/17-7;
-			for(int a = 0; a < Math.min(7,(chance <= 0 ? (rand.nextInt(Math.abs(chance)+1) == 0 ? 1 : 0) : chance)); a++){
+			for(int a = 0; a < Math.min(7, (chance <= 0 ? (rand.nextInt(Math.abs(chance)+1) == 0 ? 1 : 0) : chance)); a++){
 				HardcoreEnderExpansion.fx.instability(this);
 			}
 			
-			if (rand.nextInt(3+Math.max(0,(int)((680F-age)/70F))) == 0)worldObj.playSound(posX,posY,posZ,"random.pop",0.15F+rand.nextFloat()*0.1F,0.7F+rand.nextFloat()*0.6F,false);
+			if (rand.nextInt(3+Math.max(0, (int)((680F-age)/70F))) == 0)worldObj.playSound(posX, posY, posZ, "random.pop", 0.15F+rand.nextFloat()*0.1F, 0.7F+rand.nextFloat()*0.6F, false);
 		}
 	}
 	
 	private void detonate(){
 		if (rand.nextInt(6) == 0){
-			Explosion explosion = new Explosion(worldObj,posX,posY,posZ,2.8F+rand.nextFloat()*0.8F,this){
+			Explosion explosion = new Explosion(worldObj, posX, posY, posZ, 2.8F+rand.nextFloat()*0.8F, this){
 				@Override
 				protected void onDamageEntity(Entity entity, double blastPower, DamageSource source){
-					if (!(entity instanceof EntityLiving))super.onDamageEntity(entity,blastPower,source);
+					if (!(entity instanceof EntityLiving))super.onDamageEntity(entity, blastPower, source);
 				}
 			};
 			
@@ -79,12 +79,12 @@ public class EntityItemInstabilityOrb extends EntityItem{
 			
 			try{
 				Entity e = (Entity)cls.getConstructor(World.class).newInstance(worldObj);
-				e.setPositionAndRotation(posX,posY,posZ,rand.nextFloat()*360F-180F,0F);
+				e.setPositionAndRotation(posX, posY, posZ, rand.nextFloat()*360F-180F, 0F);
 				worldObj.spawnEntityInWorld(e);
 				
-				PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ORB_TRANSFORMATION,e));
+				PacketPipeline.sendToAllAround(this, 64D, new C21EffectEntity(FXType.Entity.ORB_TRANSFORMATION, e));
 			}catch(Exception ex){
-				Log.throwable(ex,"Error spawning entity $0 in EntityItemInstabilityOrb",cls == null ? "<null>" : cls.getSimpleName());
+				Log.throwable(ex, "Error spawning entity $0 in EntityItemInstabilityOrb", cls == null ? "<null>" : cls.getSimpleName());
 			}
 		}
 		else{
@@ -97,22 +97,22 @@ public class EntityItemInstabilityOrb extends EntityItem{
 					ChestGenHooks.STRONGHOLD_LIBRARY, ChestGenHooks.STRONGHOLD_CORRIDOR
 				};
 				
-				WeightedRandomChestContent[] content = ChestGenHooks.getItems(list[rand.nextInt(list.length)],rand);
+				WeightedRandomChestContent[] content = ChestGenHooks.getItems(list[rand.nextInt(list.length)], rand);
 				if (content.length == 0)return;
 				
 				ItemStack is = content[rand.nextInt(content.length)].theItemId;
-				item = new WeightedItem(is.getItem(),is.getItemDamage(),1);
+				item = new WeightedItem(is.getItem(), is.getItemDamage(), 1);
 			}
 			
-			int meta = RandUtil.anyOf(rand,item.getDamageValues(),0);
+			int meta = RandUtil.anyOf(rand, item.getDamageValues(), 0);
 			if (meta == 32767)meta = 0;
 			
-			EntityItem entityitem = new EntityItem(worldObj,posX,posY,posZ,new ItemStack(item.getItem(),1,meta));
+			EntityItem entityitem = new EntityItem(worldObj, posX, posY, posZ, new ItemStack(item.getItem(), 1, meta));
 			entityitem.motionX = entityitem.motionY = entityitem.motionZ = 0D;
 			entityitem.delayBeforeCanPickup = 10;
 			worldObj.spawnEntityInWorld(entityitem);
 			
-			PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ORB_TRANSFORMATION,posX,posY,posZ,0.25F,0.4F));
+			PacketPipeline.sendToAllAround(this, 64D, new C21EffectEntity(FXType.Entity.ORB_TRANSFORMATION, posX, posY, posZ, 0.25F, 0.4F));
 		}
 		
 		setDead();
@@ -132,6 +132,6 @@ public class EntityItemInstabilityOrb extends EntityItem{
 			}
 		}
 		
-		return super.attackEntityFrom(source,amount);
+		return super.attackEntityFrom(source, amount);
 	}
 }

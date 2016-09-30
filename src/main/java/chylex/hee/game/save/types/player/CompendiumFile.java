@@ -31,12 +31,12 @@ public class CompendiumFile extends PlayerFile{
 	private final Set<KnowledgeObject<? extends IObjectHolder<?>>> discoveredObjects = new HashSet<>(32);
 	
 	public CompendiumFile(String filename){
-		super("compendium",filename);
+		super("compendium", filename);
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public CompendiumFile(NBTCompound nbt){
-		super("","");
+		super("", "");
 		onLoad(nbt);
 	}
 	
@@ -47,7 +47,7 @@ public class CompendiumFile extends PlayerFile{
 	}
 	
 	public void offsetPoints(int amount){
-		points = MathUtil.clamp(points+amount,0,Short.MAX_VALUE);
+		points = MathUtil.clamp(points+amount, 0, Short.MAX_VALUE);
 		setModified();
 	}
 	
@@ -56,7 +56,7 @@ public class CompendiumFile extends PlayerFile{
 	public boolean tryDiscoverObject(EntityPlayer player, KnowledgeObject<? extends IObjectHolder<?>> obj, boolean forceManual){
 		if ((obj.canBeDiscovered() || forceManual) && unlockObject(obj)){
 			points += obj.getReward();
-			PacketPipeline.sendToPlayer(player,new C19CompendiumData(this,obj));
+			PacketPipeline.sendToPlayer(player, new C19CompendiumData(this, obj));
 			return true;
 		}
 		else return false;
@@ -79,14 +79,14 @@ public class CompendiumFile extends PlayerFile{
 		int lowest = distanceLimit;
 		
 		for(KnowledgeObject<? extends IObjectHolder<?>> parent:obj.getParents()){
-			lowest = Math.min(lowest,getDiscoveryDistanceInner(parent,currentDistance+1));
+			lowest = Math.min(lowest, getDiscoveryDistanceInner(parent, currentDistance+1));
 		}
 		
 		return lowest;
 	}
 	
 	public int getDiscoveryDistance(KnowledgeObject<? extends IObjectHolder<?>> obj){
-		return getDiscoveryDistanceInner(obj,0);
+		return getDiscoveryDistanceInner(obj, 0);
 	}
 	
 	// Fragments
@@ -94,7 +94,7 @@ public class CompendiumFile extends PlayerFile{
 	public boolean tryPurchaseFragment(EntityPlayer player, KnowledgeFragment fragment){
 		if (points >= fragment.getPrice() && unlockFragment(fragment)){
 			offsetPoints(-fragment.getPrice());
-			PacketPipeline.sendToPlayer(player,new C19CompendiumData(this));
+			PacketPipeline.sendToPlayer(player, new C19CompendiumData(this));
 			return true;
 		}
 		else return false;
@@ -104,7 +104,7 @@ public class CompendiumFile extends PlayerFile{
 		if (fragment.getType() != KnowledgeFragmentType.HINT)return false;
 		
 		if (extraFragments.add(fragment.globalID)){
-			PacketPipeline.sendToPlayer(player,new C19CompendiumData(this));
+			PacketPipeline.sendToPlayer(player, new C19CompendiumData(this));
 			return true;
 		}
 		else return false;
@@ -145,9 +145,9 @@ public class CompendiumFile extends PlayerFile{
 	
 	@Override
 	public void onSave(NBTCompound nbt){
-		nbt.setShort("pts",(short)points);
-		nbt.setTag("efg",new NBTTagIntArray(extraFragments.toArray()));
-		nbt.writeList("obj",discoveredObjects.stream().map(KnowledgeSerialization::serialize).map(NBTTagString::new));
+		nbt.setShort("pts", (short)points);
+		nbt.setTag("efg", new NBTTagIntArray(extraFragments.toArray()));
+		nbt.writeList("obj", discoveredObjects.stream().map(KnowledgeSerialization::serialize).map(NBTTagString::new));
 		
 		StringBuilder build = new StringBuilder();
 		
@@ -155,7 +155,7 @@ public class CompendiumFile extends PlayerFile{
 			build.append((char)(32+range.lowerEndpoint().shortValue())).append((char)(32+range.upperEndpoint().shortValue()));
 		}
 		
-		nbt.setString("rfg",build.toString());
+		nbt.setString("rfg", build.toString());
 	}
 
 	@Override
@@ -172,7 +172,7 @@ public class CompendiumFile extends PlayerFile{
 		String src = nbt.getString("rfg");
 		
 		for(int chr = 0; chr < src.length()-1; chr += 2){
-			readFragments.add(Range.closedOpen(src.charAt(chr)-32,src.charAt(chr+1)-32)); // closedOpen because ranges be weird
+			readFragments.add(Range.closedOpen(src.charAt(chr)-32, src.charAt(chr+1)-32)); // closedOpen because ranges be weird
 		}
 	}
 }

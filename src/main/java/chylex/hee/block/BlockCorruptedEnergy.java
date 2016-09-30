@@ -30,8 +30,8 @@ public class BlockCorruptedEnergy extends Block{
 	private static final Material corruptedEnergy = new MaterialCorruptedEnergy();
 	
 	public static final BlockInfo getCorruptedEnergy(int level){
-		if (level >= 16)return new BlockInfo(BlockList.corrupted_energy_high,MathUtil.clamp(level-16,0,15));
-		else if (level >= 0)return new BlockInfo(BlockList.corrupted_energy_low,MathUtil.clamp(level,0,15));
+		if (level >= 16)return new BlockInfo(BlockList.corrupted_energy_high, MathUtil.clamp(level-16, 0, 15));
+		else if (level >= 0)return new BlockInfo(BlockList.corrupted_energy_low, MathUtil.clamp(level, 0, 15));
 		else return BlockInfo.air;
 	}
 	
@@ -45,21 +45,21 @@ public class BlockCorruptedEnergy extends Block{
 	
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
-		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 	}
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
-		Pos pos = Pos.at(x,y,z);
+		Pos pos = Pos.at(x, y, z);
 		int level = (isHighLevel ? 16 : 0)+pos.getMetadata(world);
 		
 		if (world.isRemote){
 			for(int a = MathUtil.floor(rand.nextFloat()+level/8F); a > 0; a--){
-				HardcoreEnderExpansion.fx.corruptedEnergy(x,y,z);
-				HardcoreEnderExpansion.fx.enderGoo(x,y,z);
+				HardcoreEnderExpansion.fx.corruptedEnergy(x, y, z);
+				HardcoreEnderExpansion.fx.enderGoo(x, y, z);
 			}
 			
-			if (world.rand.nextInt(Math.max(3,7-level/5)) == 0)FXHelper.create("explosion").pos(x,y,z).fluctuateMotion(0.5D).spawn(rand,1);
+			if (world.rand.nextInt(Math.max(3, 7-level/5)) == 0)FXHelper.create("explosion").pos(x, y, z).fluctuateMotion(0.5D).spawn(rand, 1);
 			return;
 		}
 		
@@ -68,17 +68,17 @@ public class BlockCorruptedEnergy extends Block{
 				Facing6 side = Facing6.random(rand);
 				Pos spreadPos = pos.offset(side);
 				
-				if (spreadPos.isAir(world))spreadPos.setBlock(world,getCorruptedEnergy(level-1-rand.nextInt(2)));
+				if (spreadPos.isAir(world))spreadPos.setBlock(world, getCorruptedEnergy(level-1-rand.nextInt(2)));
 				else{
 					spreadPos = spreadPos.offset(side);
-					if (spreadPos.isAir(world))spreadPos.setBlock(world,getCorruptedEnergy(level-2-rand.nextInt(2)));
+					if (spreadPos.isAir(world))spreadPos.setBlock(world, getCorruptedEnergy(level-2-rand.nextInt(2)));
 				}
 			}
 		}
 		
-		if (rand.nextInt(3) != 0)pos.setBlock(world,getCorruptedEnergy(level-1));
+		if (rand.nextInt(3) != 0)pos.setBlock(world, getCorruptedEnergy(level-1));
 		
-		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 	}
 	
 	@Override
@@ -89,11 +89,11 @@ public class BlockCorruptedEnergy extends Block{
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
 		if (entity instanceof EntityLivingBase && !GlobalMobData.isCorruptedEnergyTolerant((EntityLivingBase)entity) && ((EntityLivingBase)entity).getHealth() > 0F){
-			int level = (isHighLevel ? 16 : 0)+Pos.at(x,y,z).getMetadata(world);
+			int level = (isHighLevel ? 16 : 0)+Pos.at(x, y, z).getMetadata(world);
 			
 			MultiDamage.from(
-				Damage.base(0.8F).addModifiers(IDamageModifier.difficultyScaling,IDamageModifier.armorProtection,IDamageModifier.enchantmentProtection),
-				ForcedDamage.from(Damage.base(0.5F+level/15F).addModifiers(IDamageModifier.nudityDanger,IDamageModifier.magicDamage,IDamageModifier.rapidDamage(3)))
+				Damage.base(0.8F).addModifiers(IDamageModifier.difficultyScaling, IDamageModifier.armorProtection, IDamageModifier.enchantmentProtection),
+				ForcedDamage.from(Damage.base(0.5F+level/15F).addModifiers(IDamageModifier.nudityDanger, IDamageModifier.magicDamage, IDamageModifier.rapidDamage(3)))
 			).deal(entity);
 		}
 	}
@@ -140,8 +140,8 @@ public class BlockCorruptedEnergy extends Block{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.corruptedEnergy(x,y,z);
-		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.enderGoo(x,y,z);
-		if (world.rand.nextInt(30) == 0)FXHelper.create("explosion").pos(x,y,z).fluctuateMotion(0.5D).spawn(rand,1);
+		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.corruptedEnergy(x, y, z);
+		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.enderGoo(x, y, z);
+		if (world.rand.nextInt(30) == 0)FXHelper.create("explosion").pos(x, y, z).fluctuateMotion(0.5D).spawn(rand, 1);
 	}
 }

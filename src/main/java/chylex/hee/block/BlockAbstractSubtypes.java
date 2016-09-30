@@ -35,13 +35,13 @@ public abstract class BlockAbstractSubtypes extends Block implements IBlockSubty
 	@Override
 	@SideOnly(Side.CLIENT)
 	public final void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int meta = 0; meta < count; meta++)list.add(new ItemStack(item,1,meta));
+		for(int meta = 0; meta < count; meta++)list.add(new ItemStack(item, 1, meta));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return CollectionUtil.getClamp(iconArray,meta);
+		return CollectionUtil.getClamp(iconArray, meta);
 	}
 	
 	@Override

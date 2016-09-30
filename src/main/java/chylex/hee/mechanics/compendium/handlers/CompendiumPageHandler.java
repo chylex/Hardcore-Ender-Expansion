@@ -30,7 +30,7 @@ public class CompendiumPageHandler{
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
 	
 	private final GuiEnderCompendium gui;
-	private final TByteObjectHashMap<Map<KnowledgeFragment,Boolean>> currentObjectPages = new TByteObjectHashMap<>(5);
+	private final TByteObjectHashMap<Map<KnowledgeFragment, Boolean>> currentObjectPages = new TByteObjectHashMap<>(5);
 	private final List<CompendiumPurchaseElement> purchaseElements = new ArrayList<>(2);
 	private final GuiButtonPageArrow[] pageArrows = new GuiButtonPageArrow[2];
 	private final byte[] pageArrowIds = new byte[2];
@@ -51,8 +51,8 @@ public class CompendiumPageHandler{
 		innerX = pageX+17;
 		innerY = pageY+20;
 				
-		buttonList.add(pageArrows[0] = new GuiButtonPageArrow(this.pageArrowIds[0] = (byte)leftArrowId,pageX+pageWidth/2-(pageWidth*3/10)-10,pageY+pageHeight-32,false));
-		buttonList.add(pageArrows[1] = new GuiButtonPageArrow(this.pageArrowIds[1] = (byte)rightArrowId,pageX+pageWidth/2+(pageWidth*3/10)-10,pageY+pageHeight-32,true));
+		buttonList.add(pageArrows[0] = new GuiButtonPageArrow(this.pageArrowIds[0] = (byte)leftArrowId, pageX+pageWidth/2-(pageWidth*3/10)-10, pageY+pageHeight-32, false));
+		buttonList.add(pageArrows[1] = new GuiButtonPageArrow(this.pageArrowIds[1] = (byte)rightArrowId, pageX+pageWidth/2+(pageWidth*3/10)-10, pageY+pageHeight-32, true));
 		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
 		
 		onRefresh();
@@ -72,9 +72,9 @@ public class CompendiumPageHandler{
 	}
 	
 	public boolean onMouseClick(int mouseX, int mouseY, int mouseButton){
-		if (currentObject != null && isMouseInside(mouseX,mouseY)){
+		if (currentObject != null && isMouseInside(mouseX, mouseY)){
 			for(CompendiumPurchaseElement element:purchaseElements){
-				if (element.isMouseOver(mouseX,mouseY)){
+				if (element.isMouseOver(mouseX, mouseY)){
 					if (compendiumFile.getPoints() >= element.price)GuiEnderCompendium.sendPacketToServer(new S02CompendiumPurchase(element.fragment));
 					return true;
 				}
@@ -82,9 +82,9 @@ public class CompendiumPageHandler{
 			
 			int y = innerY;
 			
-			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
-				if (entry.getKey().onClick(gui,innerX,y,mouseX,mouseY,mouseButton,entry.getValue()))return true;
-				y += 8+entry.getKey().getHeight(gui,entry.getValue());
+			for(Entry<KnowledgeFragment, Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
+				if (entry.getKey().onClick(gui, innerX, y, mouseX, mouseY, mouseButton, entry.getValue()))return true;
+				y += 8+entry.getKey().getHeight(gui, entry.getValue());
 			}
 		}
 		
@@ -92,7 +92,7 @@ public class CompendiumPageHandler{
 	}
 	
 	public boolean onMouseWheel(int mouseX, int mouseY, int value){
-		if (currentObject != null && isMouseInside(mouseX,mouseY)){
+		if (currentObject != null && isMouseInside(mouseX, mouseY)){
 			changePage(value < 0);
 			return true;
 		}
@@ -134,25 +134,25 @@ public class CompendiumPageHandler{
 		byte page = 0;
 		int yy = 0, height = 0;
 		boolean isUnlocked = false;
-		Map<KnowledgeFragment,Boolean> pageMap = new LinkedHashMap<>();
+		Map<KnowledgeFragment, Boolean> pageMap = new LinkedHashMap<>();
 		Iterator<KnowledgeFragment> iter = currentObject.getFragments().iterator();
 		
 		while(true){
 			KnowledgeFragment fragment = iter.hasNext() ? iter.next() : null;
 			
-			if (fragment == null || yy+(height = 8+fragment.getHeight(gui,isUnlocked = compendiumFile.canSeeFragment(obj,fragment))) > innerHeight){
-				currentObjectPages.put(page++,pageMap);
+			if (fragment == null || yy+(height = 8+fragment.getHeight(gui, isUnlocked = compendiumFile.canSeeFragment(obj, fragment))) > innerHeight){
+				currentObjectPages.put(page++, pageMap);
 				
 				if (fragment == null)break;
 				else{
 					pageMap = new LinkedHashMap<>();
-					pageMap.put(fragment,isUnlocked);
+					pageMap.put(fragment, isUnlocked);
 					yy = height;
 					continue;
 				}
 			}
 			
-			pageMap.put(fragment,isUnlocked);
+			pageMap.put(fragment, isUnlocked);
 			yy += height;
 		}
 		
@@ -160,7 +160,7 @@ public class CompendiumPageHandler{
 	}
 	
 	public void changePage(boolean next){
-		pageIndex = next ? Math.min(currentObjectPages.size()-1,pageIndex+1) : Math.max(0,pageIndex-1);
+		pageIndex = next ? Math.min(currentObjectPages.size()-1, pageIndex+1) : Math.max(0, pageIndex-1);
 		onRefresh();
 	}
 	
@@ -169,7 +169,7 @@ public class CompendiumPageHandler{
 		
 		if (currentObject != null){
 			Set<KnowledgeFragment> fragments = currentObjectPages.get((byte)pageIndex).keySet();
-			Set<KnowledgeFragment> unread = fragments.stream().filter(fragment -> !compendiumFile.hasReadFragment(fragment) && compendiumFile.canSeeFragment(currentObject,fragment)).collect(Collectors.toSet());
+			Set<KnowledgeFragment> unread = fragments.stream().filter(fragment -> !compendiumFile.hasReadFragment(fragment) && compendiumFile.canSeeFragment(currentObject, fragment)).collect(Collectors.toSet());
 			
 			if (!unread.isEmpty()){
 				for(KnowledgeFragment fragment:unread)compendiumFile.markFragmentAsRead((short)fragment.globalID);
@@ -179,9 +179,9 @@ public class CompendiumPageHandler{
 			if (compendiumFile.isDiscovered(currentObject)){
 				int yy = innerY+12, height;
 				
-				for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
-					height = entry.getKey().getHeight(gui,entry.getValue());
-					if (!entry.getValue() && entry.getKey().getPrice() != 0)purchaseElements.add(new CompendiumPurchaseElement(entry.getKey(),pageX+pageWidth/2,yy+height/2));
+				for(Entry<KnowledgeFragment, Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
+					height = entry.getKey().getHeight(gui, entry.getValue());
+					if (!entry.getValue() && entry.getKey().getPrice() != 0)purchaseElements.add(new CompendiumPurchaseElement(entry.getKey(), pageX+pageWidth/2, yy+height/2));
 					yy += 8+height;
 				}
 			}
@@ -194,42 +194,42 @@ public class CompendiumPageHandler{
 		if (currentObject == null)return;
 		
 		GL.disableDepthTest();
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 		RenderHelper.disableStandardItemLighting();
 		
 		gui.mc.getTextureManager().bindTexture(texPage);
-		gui.drawTexturedModalRect(pageX,pageY,0,0,pageWidth,pageHeight);
+		gui.drawTexturedModalRect(pageX, pageY, 0, 0, pageWidth, pageHeight);
 		
 		final int distance = 16;
 		int titleWidth = (currentObject.isHidden() ? 0 : distance+12)+gui.mc.fontRenderer.getStringWidth(currentObject.getTranslatedTooltip());
 		int left = (gui.width-titleWidth)/2+(currentObject.isHidden() ? 0 : 4);
 		
-		gui.mc.fontRenderer.drawString(currentObject.getTranslatedTooltip(),left+(currentObject.isHidden() ? 0 : distance),innerY,0x404040);
+		gui.mc.fontRenderer.drawString(currentObject.getTranslatedTooltip(), left+(currentObject.isHidden() ? 0 : distance), innerY, 0x404040);
 		
 		if (!currentObject.isHidden()){
 			int iconY = innerY-5;
 			RenderHelper.enableGUIStandardItemLighting();
 			GL.pushMatrix();
-			GL.translate(left+8,iconY+8,0F);
-			GL.scale(0.75F,0.75F,1F);
-			GL.translate(-left-8,-iconY-8,0F);
-			GL.translate(0F,0.5F,0F);
-			GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),currentObject.holder.getDisplayItemStack(),left,iconY,true);
+			GL.translate(left+8, iconY+8, 0F);
+			GL.scale(0.75F, 0.75F, 1F);
+			GL.translate(-left-8, -iconY-8, 0F);
+			GL.translate(0F, 0.5F, 0F);
+			GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer, gui.mc.getTextureManager(), currentObject.holder.getDisplayItemStack(), left, iconY, true);
 			GL.popMatrix();
 		}
 		
 		int x = innerX, y = innerY+12;
 		
-		for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
-			entry.getKey().onRender(gui,x,y,mouseX,mouseY,entry.getValue());
-			y += 8+entry.getKey().getHeight(gui,entry.getValue());
+		for(Entry<KnowledgeFragment, Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
+			entry.getKey().onRender(gui, x, y, mouseX, mouseY, entry.getValue());
+			y += 8+entry.getKey().getHeight(gui, entry.getValue());
 		}
 		
 		for(int a = 0; a < 2; a++)pageArrows[a].visible = true;
 		pageArrows[0].visible = pageIndex > 0;
 		pageArrows[1].visible = pageIndex < currentObjectPages.size()-1;
 		
-		for(CompendiumPurchaseElement element:purchaseElements)element.render(gui,compendiumFile,mouseX,mouseY);
+		for(CompendiumPurchaseElement element:purchaseElements)element.render(gui, compendiumFile, mouseX, mouseY);
 
 		GL.enableDepthTest();
 	}

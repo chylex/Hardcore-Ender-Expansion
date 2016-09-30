@@ -43,14 +43,14 @@ public interface IDamageModifier{
 						
 						if (armorIS.length > 0){
 							int damage = MathUtil.ceil(finalAmount*0.33F);
-							RandUtil.anyOf(target.worldObj.rand,armorIS).damageItem(damage,(EntityPlayer)target);
-							RandUtil.anyOf(target.worldObj.rand,armorIS).damageItem(damage,(EntityPlayer)target);
+							RandUtil.anyOf(target.worldObj.rand, armorIS).damageItem(damage, (EntityPlayer)target);
+							RandUtil.anyOf(target.worldObj.rand, armorIS).damageItem(damage, (EntityPlayer)target);
 						}
 					}
 				});
 			}
 			
-			return amount*((26F-Math.min(20,armor))/26F);
+			return amount*((26F-Math.min(20, armor))/26F);
 		},
 		
 		magicDamage = (amount, target, source, postProcessors) -> {
@@ -64,18 +64,18 @@ public interface IDamageModifier{
 				int maxValue = 0;
 				
 				for(int attempt = 0; attempt < 3; attempt++){
-					maxValue = Math.max(maxValue,EnchantmentHelper.getEnchantmentModifierDamage(((EntityPlayer)target).inventory.armorInventory,source));
+					maxValue = Math.max(maxValue, EnchantmentHelper.getEnchantmentModifierDamage(((EntityPlayer)target).inventory.armorInventory, source));
 				}
 				
 				if (maxValue > 0){
-					amount *= 1F-((float)Math.pow(Math.min(25,maxValue),1.1D)/44F);
+					amount *= 1F-((float)Math.pow(Math.min(25, maxValue), 1.1D)/44F);
 					
 					ItemStack[] enchArmor = Arrays.stream(((EntityPlayer)target).inventory.armorInventory).filter(is -> {
 						return is != null && EnchantmentHelper.getEnchantments(is).keySet().stream().anyMatch(enchID -> Enchantment.enchantmentsList[(int)enchID] instanceof EnchantmentProtection);
 					}).toArray(ItemStack[]::new);
 					
 					if (enchArmor.length > 0){
-						RandUtil.anyOf(target.worldObj.rand,enchArmor).damageItem(1,(EntityPlayer)target);
+						RandUtil.anyOf(target.worldObj.rand, enchArmor).damageItem(1, (EntityPlayer)target);
 					}
 				}
 			}
@@ -85,7 +85,7 @@ public interface IDamageModifier{
 		
 		potionProtection = (amount, target, source, postProcessors) -> {
 			if (target instanceof EntityLivingBase && ((EntityLivingBase)target).isPotionActive(Potion.resistance)){
-				amount *= 1F-0.15F*Math.min(((EntityLivingBase)target).getActivePotionEffect(Potion.resistance).getAmplifier()+1,5);
+				amount *= 1F-0.15F*Math.min(((EntityLivingBase)target).getActivePotionEffect(Potion.resistance).getAmplifier()+1, 5);
 			}
 			
 			return amount;
@@ -144,12 +144,12 @@ public interface IDamageModifier{
 				final double motX = livingTarget.motionX, motY = livingTarget.motionY, motZ = livingTarget.motionZ;
 				
 				postProcessors.add(finalAmount -> {
-					Vec vec = Vec.xz(target.posX-sourceEntity.posX,target.posZ-sourceEntity.posZ).normalized();
+					Vec vec = Vec.xz(target.posX-sourceEntity.posX, target.posZ-sourceEntity.posZ).normalized();
 					
 					target.motionX = motX+vec.x*0.5D*multiplier;
-					target.motionY = motY+(MathUtil.floatEquals(multiplier,0F) ? 0F : multiplier < 1F ? 0.25D+0.15D*multiplier : 0.4D+0.1D*multiplier);
+					target.motionY = motY+(MathUtil.floatEquals(multiplier, 0F) ? 0F : multiplier < 1F ? 0.25D+0.15D*multiplier : 0.4D+0.1D*multiplier);
 					target.motionZ = motZ+vec.z*0.5D*multiplier;
-					if (target instanceof EntityPlayer)PacketPipeline.sendToPlayer((EntityPlayer)target,new C06SetPlayerVelocity(target.motionX,target.motionY,target.motionZ));
+					if (target instanceof EntityPlayer)PacketPipeline.sendToPlayer((EntityPlayer)target, new C06SetPlayerVelocity(target.motionX, target.motionY, target.motionZ));
 					
 					sourceEntity.motionX *= 0.6D;
 					sourceEntity.motionZ *= 0.6D;

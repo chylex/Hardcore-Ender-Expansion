@@ -10,7 +10,7 @@ public enum TransferenceGemEnhancements{
 	public static void register(){
 		EnhancementData<TransferenceGemEnhancements> data = EnhancementRegistry.registerEnhancement(new Item[]{
 			ItemList.transference_gem
-		},TransferenceGemEnhancements.class);
+		}, TransferenceGemEnhancements.class);
 		
 		//
 	}

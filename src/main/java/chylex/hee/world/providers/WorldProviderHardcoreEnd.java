@@ -20,7 +20,7 @@ public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	
 	@Override
 	public IChunkProvider createChunkGenerator(){
-		return new ChunkProviderHardcoreEnd(worldObj,worldObj.getSeed());
+		return new ChunkProviderHardcoreEnd(worldObj, worldObj.getSeed());
 	}
 	
 	@Override

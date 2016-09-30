@@ -44,12 +44,12 @@ public class BlockAncientCobweb extends BlockWeb{
 	
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune){
-		return drops.generateLoot(new LootBlockInfo(this,meta,fortune),world.rand);
+		return drops.generateLoot(new LootBlockInfo(this, meta, fortune), world.rand);
 	}
 	
 	@SubscribeEvent
 	public void onBreakSpeed(BreakSpeed e){
-		if (e.block == this && canHarvestBlock(e.entityPlayer,e.metadata))e.newSpeed *= 15F;
+		if (e.block == this && canHarvestBlock(e.entityPlayer, e.metadata))e.newSpeed *= 15F;
 	}
 	
 	@Override

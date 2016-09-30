@@ -20,11 +20,11 @@ public class ItemBlockEnhanceableTile extends ItemBlock{
 	
 	@Override
 	public boolean placeBlockAt(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata){
-		if (super.placeBlockAt(is,player,world,x,y,z,side,hitX,hitY,hitZ,metadata)){
-			IEnhanceableTile tile = (IEnhanceableTile)world.getTileEntity(x,y,z);
+		if (super.placeBlockAt(is, player, world, x, y, z, side, hitX, hitY, hitZ, metadata)){
+			IEnhanceableTile tile = (IEnhanceableTile)world.getTileEntity(x, y, z);
 			if (tile != null)tile.getEnhancements().replace(EnhancementRegistry.getEnhancementList(is));
 			
-			FXHelper.create("portalbig").pos(Pos.at(x,y,z)).fluctuatePos(0.65D).fluctuateMotion(0.02D).paramSingle(0.075F+world.rand.nextFloat()*0.05F).spawn(world.rand,15);
+			FXHelper.create("portalbig").pos(Pos.at(x, y, z)).fluctuatePos(0.65D).fluctuateMotion(0.02D).paramSingle(0.075F+world.rand.nextFloat()*0.05F).spawn(world.rand, 15);
 			return true;
 		}
 		else return false;
@@ -39,6 +39,6 @@ public class ItemBlockEnhanceableTile extends ItemBlock{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		EnhancementRegistry.getEnhancementList(is).addTooltip(textLines,EnumChatFormatting.YELLOW);
+		EnhancementRegistry.getEnhancementList(is).addTooltip(textLines, EnumChatFormatting.YELLOW);
 	}
 }

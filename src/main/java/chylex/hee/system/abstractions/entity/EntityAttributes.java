@@ -45,7 +45,7 @@ public final class EntityAttributes{
 	}
 	
 	public static AttributeModifier createModifier(String name, Operation operation, double value){
-		return new AttributeModifierBuilder(name).setValue(operation,value).build();
+		return new AttributeModifierBuilder(name).setValue(operation, value).build();
 	}
 	
 	public static class AttributeModifierBuilder{
@@ -70,7 +70,7 @@ public final class EntityAttributes{
 		}
 		
 		public AttributeModifier build(){
-			AttributeModifier modifier = new AttributeModifier(UUID.nameUUIDFromBytes(name.getBytes(StandardCharsets.US_ASCII)),name,value,operation.ordinal());
+			AttributeModifier modifier = new AttributeModifier(UUID.nameUUIDFromBytes(name.getBytes(StandardCharsets.US_ASCII)), name, value, operation.ordinal());
 			modifier.setSaved(isSaved);
 			return modifier;
 		}

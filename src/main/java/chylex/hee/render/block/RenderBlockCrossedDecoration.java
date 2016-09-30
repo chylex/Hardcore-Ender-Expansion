@@ -19,8 +19,8 @@ public class RenderBlockCrossedDecoration implements ISimpleBlockRenderingHandle
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer){
 		Tessellator tessellator = Tessellator.instance;
-		tessellator.setBrightness(block.getMixedBrightnessForBlock(world,x,y,z));
-		int colorMultiplier = block.colorMultiplier(world,x,y,z);
+		tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
+		int colorMultiplier = block.colorMultiplier(world, x, y, z);
 		float r = (colorMultiplier>>16&255)/255F,
 			  g = (colorMultiplier>>8&255)/255F,
 			  b = (colorMultiplier&255)/255F;
@@ -31,13 +31,13 @@ public class RenderBlockCrossedDecoration implements ISimpleBlockRenderingHandle
 			b = (r*30F+b*70F)/100F;
 		}
 
-		tessellator.setColorOpaque_F(r,g,b);
+		tessellator.setColorOpaque_F(r, g, b);
 		double posX = x, posY = y, posZ = z;
 
 		long offsetSeed = (x*3129871L)^z*116129781L^y;
 		offsetSeed = offsetSeed*offsetSeed*42317861L+offsetSeed*11L;
 		
-		int meta = world.getBlockMetadata(x,y,z);
+		int meta = world.getBlockMetadata(x, y, z);
 		float scale = 1F, xzScaleMp = 0.45F;
 		
 		switch(meta){
@@ -66,14 +66,14 @@ public class RenderBlockCrossedDecoration implements ISimpleBlockRenderingHandle
 				break;
 		}
 
-		drawCrossedSquares(block,meta,posX,posY,posZ,scale,xzScaleMp,renderer);
+		drawCrossedSquares(block, meta, posX, posY, posZ, scale, xzScaleMp, renderer);
 
 		return true;
 	}
 
 	private void drawCrossedSquares(Block block, int meta, double x, double y, double z, float scale, float xzScaleMp, RenderBlocks renderer){
 		Tessellator tessellator = Tessellator.instance;
-		IIcon icon = renderer.getBlockIconFromSideAndMetadata(block,0,meta);
+		IIcon icon = renderer.getBlockIconFromSideAndMetadata(block, 0, meta);
 
 		double iconU1 = icon.getMinU();
 		double iconV1 = icon.getMinV();
@@ -85,22 +85,22 @@ public class RenderBlockCrossedDecoration implements ISimpleBlockRenderingHandle
 		double minZ = z+0.5D-finalScale;
 		double maxZ = z+0.5D+finalScale;
 
-		tessellator.addVertexWithUV(minX,y+scale,minZ,iconU1,iconV1);
-		tessellator.addVertexWithUV(minX,y,minZ,iconU1,iconV2);
-		tessellator.addVertexWithUV(maxX,y,maxZ,iconU2,iconV2);
-		tessellator.addVertexWithUV(maxX,y+scale,maxZ,iconU2,iconV1);
-		tessellator.addVertexWithUV(maxX,y+scale,maxZ,iconU1,iconV1);
-		tessellator.addVertexWithUV(maxX,y,maxZ,iconU1,iconV2);
-		tessellator.addVertexWithUV(minX,y,minZ,iconU2,iconV2);
-		tessellator.addVertexWithUV(minX,y+scale,minZ,iconU2,iconV1);
-		tessellator.addVertexWithUV(minX,y+scale,maxZ,iconU1,iconV1);
-		tessellator.addVertexWithUV(minX,y,maxZ,iconU1,iconV2);
-		tessellator.addVertexWithUV(maxX,y,minZ,iconU2,iconV2);
-		tessellator.addVertexWithUV(maxX,y+scale,minZ,iconU2,iconV1);
-		tessellator.addVertexWithUV(maxX,y+scale,minZ,iconU1,iconV1);
-		tessellator.addVertexWithUV(maxX,y,minZ,iconU1,iconV2);
-		tessellator.addVertexWithUV(minX,y,maxZ,iconU2,iconV2);
-		tessellator.addVertexWithUV(minX,y+scale,maxZ,iconU2,iconV1);
+		tessellator.addVertexWithUV(minX, y+scale, minZ, iconU1, iconV1);
+		tessellator.addVertexWithUV(minX, y, minZ, iconU1, iconV2);
+		tessellator.addVertexWithUV(maxX, y, maxZ, iconU2, iconV2);
+		tessellator.addVertexWithUV(maxX, y+scale, maxZ, iconU2, iconV1);
+		tessellator.addVertexWithUV(maxX, y+scale, maxZ, iconU1, iconV1);
+		tessellator.addVertexWithUV(maxX, y, maxZ, iconU1, iconV2);
+		tessellator.addVertexWithUV(minX, y, minZ, iconU2, iconV2);
+		tessellator.addVertexWithUV(minX, y+scale, minZ, iconU2, iconV1);
+		tessellator.addVertexWithUV(minX, y+scale, maxZ, iconU1, iconV1);
+		tessellator.addVertexWithUV(minX, y, maxZ, iconU1, iconV2);
+		tessellator.addVertexWithUV(maxX, y, minZ, iconU2, iconV2);
+		tessellator.addVertexWithUV(maxX, y+scale, minZ, iconU2, iconV1);
+		tessellator.addVertexWithUV(maxX, y+scale, minZ, iconU1, iconV1);
+		tessellator.addVertexWithUV(maxX, y, minZ, iconU1, iconV2);
+		tessellator.addVertexWithUV(minX, y, maxZ, iconU2, iconV2);
+		tessellator.addVertexWithUV(minX, y+scale, maxZ, iconU2, iconV1);
 	}
 
 	@Override

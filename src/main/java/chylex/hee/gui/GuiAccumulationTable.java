@@ -10,9 +10,9 @@ public class GuiAccumulationTable extends GuiAbstractTable{
 	private static final ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/accumulation_table.png");
 
 	public GuiAccumulationTable(InventoryPlayer inv, TileEntityAccumulationTable tile){
-		super(new ContainerAccumulationTable(inv,tile),tile);
-		setupEnergyIcon(36,37);
-		setupEnergyStorage(51,18);
+		super(new ContainerAccumulationTable(inv, tile), tile);
+		setupEnergyIcon(36, 37);
+		setupEnergyStorage(51, 18);
 	}
 
 	@Override

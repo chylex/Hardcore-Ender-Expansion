@@ -25,16 +25,16 @@ public class BlockCustomSpawner extends BlockMobSpawner{
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block oldBlock, int oldMeta){
 		if (!world.isRemote){
-			TileEntityCustomSpawner spawner = (TileEntityCustomSpawner)world.getTileEntity(x,y,z);
+			TileEntityCustomSpawner spawner = (TileEntityCustomSpawner)world.getTileEntity(x, y, z);
 			if (spawner != null)spawner.getSpawnerLogic().onBlockBreak();
 		}
 		
-		super.breakBlock(world,x,y,z,oldBlock,oldMeta);
+		super.breakBlock(world, x, y, z, oldBlock, oldMeta);
 	}
 	
 	@Override
 	public final void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta){
-		super.harvestBlock(world,player,x,y,z,meta);
+		super.harvestBlock(world, player, x, y, z, meta);
 		int causatum = -1;
 		
 		switch(meta){
@@ -44,6 +44,6 @@ public class BlockCustomSpawner extends BlockMobSpawner{
 			case BlockCustomSpawner.metaBlobEnderman: causatum = 25; break;
 		}
 		
-		// TODO if (causatum != -1)CausatumUtils.increase(player,CausatumMeters.END_SPAWNER_MINING,causatum);
+		// TODO if (causatum != -1)CausatumUtils.increase(player, CausatumMeters.END_SPAWNER_MINING, causatum);
 	}
 }

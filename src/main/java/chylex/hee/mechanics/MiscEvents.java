@@ -29,16 +29,16 @@ public class MiscEvents{
 			World world = e.world;
 			
 			if (held.getItem() == Items.ender_pearl && e.entityPlayer.capabilities.isCreativeMode){
-				world.playSoundAtEntity(e.entity,"random.bow",0.5F,0.4F/(world.rand.nextFloat()*0.4F+0.8F));
-				world.spawnEntityInWorld(new EntityEnderPearl(world,e.entityLiving));
+				world.playSoundAtEntity(e.entity, "random.bow", 0.5F, 0.4F/(world.rand.nextFloat()*0.4F+0.8F));
+				world.spawnEntityInWorld(new EntityEnderPearl(world, e.entityLiving));
 				e.setCanceled(true);
 			}
 			else if (held.getItem() == Items.ender_eye){
-				world.playSoundAtEntity(e.entity,"random.bow",0.5F,0.4F/(world.rand.nextFloat()*0.4F+0.8F));
-				world.playAuxSFXAtEntity(null,1002,(int)e.entity.posX,(int)e.entity.posY,(int)e.entity.posZ,0);
+				world.playSoundAtEntity(e.entity, "random.bow", 0.5F, 0.4F/(world.rand.nextFloat()*0.4F+0.8F));
+				world.playAuxSFXAtEntity(null, 1002, (int)e.entity.posX, (int)e.entity.posY, (int)e.entity.posZ, 0);
 				
 				if (!e.entityPlayer.capabilities.isCreativeMode)--held.stackSize;
-				world.spawnEntityInWorld(new EntityProjectileEyeOfEnder(world,e.entity));
+				world.spawnEntityInWorld(new EntityProjectileEyeOfEnder(world, e.entity));
 				
 				e.setCanceled(true);
 			}
@@ -47,7 +47,7 @@ public class MiscEvents{
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerRespawn(PlayerRespawnEvent e){
-		SaveData.player(e.player,RespawnFile.class).loadInventory(e.player);
+		SaveData.player(e.player, RespawnFile.class).loadInventory(e.player);
 	}
 	
 	/*
@@ -63,9 +63,9 @@ public class MiscEvents{
 			ItemStack is = itemFrame.getDisplayedItem();
 			
 			if (is == null || is.getItem() != ItemList.transference_gem || e.entityPlayer.isSneaking())return;
-			else if (EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.TOUCH)){
-				is = ((ItemTransferenceGem)ItemList.transference_gem).tryTeleportEntity(is,e.entityPlayer,e.entityPlayer);
-				ItemUtil.getTagRoot(is,false).removeTag("cooldown");
+			else if (EnhancementHandler.hasEnhancement(is, TransferenceGemEnhancements.TOUCH)){
+				is = ((ItemTransferenceGem)ItemList.transference_gem).tryTeleportEntity(is, e.entityPlayer, e.entityPlayer);
+				ItemUtil.getTagRoot(is, false).removeTag("cooldown");
 				
 				itemFrame.setDisplayedItem(is);
 				e.setCanceled(true);

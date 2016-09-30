@@ -18,51 +18,51 @@ public class ModelHauntedMiner extends ModelBase{
 		textureWidth = 64;
 		textureHeight = 64;
 
-		head = new ModelRenderer(this,18,0);
-		head.addBox(-3.5F,-6.5F,-4.5F,7,7,7);
-		head.setRotationPoint(0F,-9F,-1F);
-		setRotation(head,0F,0F,0F);
+		head = new ModelRenderer(this, 18, 0);
+		head.addBox(-3.5F, -6.5F, -4.5F, 7, 7, 7);
+		head.setRotationPoint(0F, -9F, -1F);
+		setRotation(head, 0F, 0F, 0F);
 		
-		chest = new ModelRenderer(this,11,15);
-		chest.addBox(-6.5F,-8.5F,-4.5F,13,6,8);
-		chest.setRotationPoint(0F,0F,0F);
-		setRotation(chest,0F,0F,0F);
+		chest = new ModelRenderer(this, 11, 15);
+		chest.addBox(-6.5F, -8.5F, -4.5F, 13, 6, 8);
+		chest.setRotationPoint(0F, 0F, 0F);
+		setRotation(chest, 0F, 0F, 0F);
 		
-		torso = new ModelRenderer(this,16,30);
-		torso.addBox(-4.5F,-2.5F,-3.5F,9,4,7);
-		torso.setRotationPoint(0F,0F,0F);
-		setRotation(torso,0F,0F,0F);
+		torso = new ModelRenderer(this, 16, 30);
+		torso.addBox(-4.5F, -2.5F, -3.5F, 9, 4, 7);
+		torso.setRotationPoint(0F, 0F, 0F);
+		setRotation(torso, 0F, 0F, 0F);
 		
-		bottom = new ModelRenderer(this,23,42);
-		bottom.addBox(-2.5F,1.5F,-2F,5,2,4);
-		bottom.setRotationPoint(0F,0F,0F);
-		setRotation(bottom,0F,0F,0F);
+		bottom = new ModelRenderer(this, 23, 42);
+		bottom.addBox(-2.5F, 1.5F, -2F, 5, 2, 4);
+		bottom.setRotationPoint(0F, 0F, 0F);
+		setRotation(bottom, 0F, 0F, 0F);
 		
-		rightArm = new ModelRenderer(this,0,42);
-		rightArm.addBox(-4.5F,-2.5F,-8.5F,5,5,11);
-		rightArm.setRotationPoint(-7F,-5F,0F);
-		setRotation(rightArm,0F,0F,0F);
+		rightArm = new ModelRenderer(this, 0, 42);
+		rightArm.addBox(-4.5F, -2.5F, -8.5F, 5, 5, 11);
+		rightArm.setRotationPoint(-7F, -5F, 0F);
+		setRotation(rightArm, 0F, 0F, 0F);
 		
-		rightHand = new ModelRenderer(this,0,34);
-		rightHand.addBox(-3.5F,-1.5F,-12.5F,1,3,4);
-		setRotation(rightHand,0F,0F,0F);
+		rightHand = new ModelRenderer(this, 0, 34);
+		rightHand.addBox(-3.5F, -1.5F, -12.5F, 1, 3, 4);
+		setRotation(rightHand, 0F, 0F, 0F);
 		
-		rightThumb = new ModelRenderer(this,0,29);
-		rightThumb.addBox(-1.5F,-1.5F,-11.5F,1,1,3);
-		setRotation(rightThumb,0F,0F,0F);
+		rightThumb = new ModelRenderer(this, 0, 29);
+		rightThumb.addBox(-1.5F, -1.5F, -11.5F, 1, 1, 3);
+		setRotation(rightThumb, 0F, 0F, 0F);
 		
-		leftArm = new ModelRenderer(this,32,42);
-		leftArm.addBox(-0.5F,-2.5F,-8.5F,5,5,11);
-		leftArm.setRotationPoint(7F,-5F,0F);
-		setRotation(leftArm,0F,0F,0F);
+		leftArm = new ModelRenderer(this, 32, 42);
+		leftArm.addBox(-0.5F, -2.5F, -8.5F, 5, 5, 11);
+		leftArm.setRotationPoint(7F, -5F, 0F);
+		setRotation(leftArm, 0F, 0F, 0F);
 		
-		leftHand = new ModelRenderer(this,54,34);
-		leftHand.addBox(2.5F,-1.5F,-12.5F,1,3,4);
-		setRotation(leftHand,0F,0F,0F);
+		leftHand = new ModelRenderer(this, 54, 34);
+		leftHand.addBox(2.5F, -1.5F, -12.5F, 1, 3, 4);
+		setRotation(leftHand, 0F, 0F, 0F);
 		
-		leftThumb = new ModelRenderer(this,56,29);
-		leftThumb.addBox(0.5F,-1.5F,-11.5F,1,1,3);
-		setRotation(leftThumb,0F,0F,0F);
+		leftThumb = new ModelRenderer(this, 56, 29);
+		leftThumb.addBox(0.5F, -1.5F, -11.5F, 1, 1, 3);
+		setRotation(leftThumb, 0F, 0F, 0F);
 		
 		chest.addChild(torso);
 		chest.addChild(bottom);
@@ -75,10 +75,10 @@ public class ModelHauntedMiner extends ModelBase{
 
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		GL.translate(0F,1.3F,0F);
-		if (((EntityLiving)entity).hurtTime > 0)GL.color(0.5F,0.4F,0.4F);
-		super.render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
-		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+		GL.translate(0F, 1.3F, 0F);
+		if (((EntityLiving)entity).hurtTime > 0)GL.color(0.5F, 0.4F, 0.4F);
+		super.render(entity, limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel);
+		setRotationAngles(limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel, entity);
 		
 		head.render(unitPixel);
 		chest.render(unitPixel);
@@ -94,7 +94,7 @@ public class ModelHauntedMiner extends ModelBase{
 	
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
-		super.setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+		super.setRotationAngles(limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel, entity);
 		
 		float yawRad = MathUtil.toRad(rotationYaw),
 			  pitchRad = MathUtil.toRad(rotationPitch);

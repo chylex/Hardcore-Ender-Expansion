@@ -26,8 +26,8 @@ public final class CurseEvents{
 			long tim = nbt.getLong("HEE_C9_l");
 			
 			if (tim != 0L && e.entity.worldObj.getTotalWorldTime()-tim < 5){
-				source.attackEntityFrom(DamageSource.causeMobDamage(e.entityLiving),e.ammount*0.5F);
-				nbt.setBoolean("HEE_C9_a",true);
+				source.attackEntityFrom(DamageSource.causeMobDamage(e.entityLiving), e.ammount*0.5F);
+				nbt.setBoolean("HEE_C9_a", true);
 				e.ammount = 0F;
 				e.setCanceled(true);
 			}

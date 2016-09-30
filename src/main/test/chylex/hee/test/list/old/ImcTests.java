@@ -41,14 +41,14 @@ public class ImcTests{
 			"HEE:World:BiomeMobAdd { 'biome': 'InfestedForest.Ravaged', 'mob': { 'id': 'Silverfish', 'limit': 32, 'weight': 10 } }",
 			
 			"HEE:System:DisableIntegration { 'modid': 'NotEnoughItems' }"
-		})HeeIMC.acceptString("UnitTester",msgs.replace('\'','"'));
+		})HeeIMC.acceptString("UnitTester", msgs.replace('\'', '"'));
 	}
 	
 	@UnitTest
 	public void testImcsDragonEssence(){
-		// TODO Assert.equal(DragonEssenceHandler.recipes.size(),3);
-		// TODO Assert.equal(DragonEssenceHandler.recipes.get(1).input.getItem(),Items.ender_eye);
-		// TODO Assert.equal(DragonEssenceHandler.recipes.get(2).cost,15);
+		// TODO Assert.equal(DragonEssenceHandler.recipes.size(), 3);
+		// TODO Assert.equal(DragonEssenceHandler.recipes.get(1).input.getItem(), Items.ender_eye);
+		// TODO Assert.equal(DragonEssenceHandler.recipes.get(2).cost, 15);
 		
 		ItemStack tear = new ItemStack(Items.ghast_tear);
 		
@@ -66,31 +66,31 @@ public class ImcTests{
 	
 	@UnitTest
 	public void testImcsOrb(){
-		Assert.contains(OrbSpawnableMobs.classList,EntityVillager.class);
-		Assert.notContains(OrbSpawnableMobs.classList,EntityWither.class);
-		// TODO Assert.contains(OrbSpawnableMobs.classList,EntityCreeper.class);
+		Assert.contains(OrbSpawnableMobs.classList, EntityVillager.class);
+		Assert.notContains(OrbSpawnableMobs.classList, EntityWither.class);
+		// TODO Assert.contains(OrbSpawnableMobs.classList, EntityCreeper.class);
 	}
 	
 	@UnitTest
 	public void testImcTables(){
-		Assert.isNull(StardustDecomposition.getRandomRecipeIngredientsFor(new ItemStack(Blocks.dispenser),new Random()));
-		Assert.notNull(StardustDecomposition.getRandomRecipeIngredientsFor(new ItemStack(Items.bow),new Random()));
+		Assert.isNull(StardustDecomposition.getRandomRecipeIngredientsFor(new ItemStack(Blocks.dispenser), new Random()));
+		Assert.notNull(StardustDecomposition.getRandomRecipeIngredientsFor(new ItemStack(Items.bow), new Random()));
 		
-		Assert.equal(EnergyValues.getItemEnergy(new ItemStack(Items.coal,1,1)),EnergyValues.unit*5.4F);
-		Assert.equal(EnergyValues.getItemEnergy(new ItemStack(Items.coal,1,0)),0F); // make sure it only takes charcoal
+		Assert.equal(EnergyValues.getItemEnergy(new ItemStack(Items.coal, 1, 1)), EnergyValues.unit*5.4F);
+		Assert.equal(EnergyValues.getItemEnergy(new ItemStack(Items.coal, 1, 0)), 0F); // make sure it only takes charcoal
 		
-		Assert.equal(TileEntityExperienceTable.getDirectExperience(new ItemStack(Items.coal,1,0)),12);
-		Assert.equal(TileEntityExperienceTable.getDirectExperience(new ItemStack(Items.coal,1,1)),12); // make sure it takes all damage values
+		Assert.equal(TileEntityExperienceTable.getDirectExperience(new ItemStack(Items.coal, 1, 0)), 12);
+		Assert.equal(TileEntityExperienceTable.getDirectExperience(new ItemStack(Items.coal, 1, 1)), 12); // make sure it takes all damage values
 	}
 	/* TODO
 	@UnitTest
 	public void testImcWorld(){
-		Assert.equal(ComponentTower.lootFuel.size(),2,"Unexpected list size, expected $2, got $1. List: "+ComponentTower.lootFuel);
+		Assert.equal(ComponentTower.lootFuel.size(), 2, "Unexpected list size, expected $2, got $1. List: "+ComponentTower.lootFuel);
 		
 		SpawnEntry entry = IslandBiomeBase.infestedForest.getSpawnEntries(IslandBiomeInfestedForest.RAVAGED).get(0);
-		Assert.equal(entry.getMobClass(),EntitySilverfish.class,"Unexpected entry data, expected $2, got $1.");
-		Assert.equal(entry.getMaxAmount(),32,"Unexpected entry data, expected $2, got $1.");
-		Assert.equal(entry.getWeight(),10,"Unexpected entry data, expected $2, got $1.");
+		Assert.equal(entry.getMobClass(), EntitySilverfish.class, "Unexpected entry data, expected $2, got $1.");
+		Assert.equal(entry.getMaxAmount(), 32, "Unexpected entry data, expected $2, got $1.");
+		Assert.equal(entry.getWeight(), 10, "Unexpected entry data, expected $2, got $1.");
 		
 		Random rand = new Random();
 		
@@ -98,7 +98,7 @@ public class ImcTests{
 			ItemStack is = ComponentTower.lootTower.generateIS(rand);
 			
 			if (is.getItem() == Items.dye){
-				Assert.equal(is.stackSize,2,"Unexpected loot stack size, expected $2, got $1.");
+				Assert.equal(is.stackSize, 2, "Unexpected loot stack size, expected $2, got $1.");
 				return;
 			}
 		}
@@ -108,6 +108,6 @@ public class ImcTests{
 	
 	@UnitTest
 	public void testImcSystem(){
-		// TODO Assert.contains(ModIntegrationManager.blacklistedMods,"NotEnoughItems");
+		// TODO Assert.contains(ModIntegrationManager.blacklistedMods, "NotEnoughItems");
 	}
 }

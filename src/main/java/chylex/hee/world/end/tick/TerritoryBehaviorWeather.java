@@ -19,19 +19,19 @@ public class TerritoryBehaviorWeather implements ITerritoryBehavior{
 		final int chunkRad = territory.createBoundingBox().x2;
 		final PosMutable mpos = new PosMutable();
 		
-		final Function<World,Pos> locationSelector = world -> {
-			mpos.set(centerPos).move(world.rand.nextInt(chunkRad*2+1)-chunkRad,0,world.rand.nextInt(chunkRad*2+1)-chunkRad);
-			mpos.y = world.getPrecipitationHeight(mpos.getX(),mpos.getZ());
+		final Function<World, Pos> locationSelector = world -> {
+			mpos.set(centerPos).move(world.rand.nextInt(chunkRad*2+1)-chunkRad, 0, world.rand.nextInt(chunkRad*2+1)-chunkRad);
+			mpos.y = world.getPrecipitationHeight(mpos.getX(), mpos.getZ());
 			return mpos;
 		};
 		
-		TerritoryBehaviorWeather behavior = new TerritoryBehaviorWeather(territory,centerPos,locationSelector,weatherConstructor);
+		TerritoryBehaviorWeather behavior = new TerritoryBehaviorWeather(territory, centerPos, locationSelector, weatherConstructor);
 		behavior.addCondition(pos -> pos.getY() > 0);
 		return behavior;
 	}
 	
 	private final Pos centerPos;
-	private final Function<World,Pos> locationSelector;
+	private final Function<World, Pos> locationSelector;
 	private final IWeatherEntityConstructor<?> weatherConstructor;
 	private final int packetDistance;
 	
@@ -43,7 +43,7 @@ public class TerritoryBehaviorWeather implements ITerritoryBehavior{
 	
 	private int delayLeft;
 	
-	public TerritoryBehaviorWeather(EndTerritory territory, Pos centerPos, Function<World,Pos> locationSelector, IWeatherEntityConstructor<?> weatherConstructor){
+	public TerritoryBehaviorWeather(EndTerritory territory, Pos centerPos, Function<World, Pos> locationSelector, IWeatherEntityConstructor<?> weatherConstructor){
 		this.centerPos = centerPos;
 		this.locationSelector = locationSelector;
 		this.weatherConstructor = weatherConstructor;
@@ -69,7 +69,7 @@ public class TerritoryBehaviorWeather implements ITerritoryBehavior{
 	}
 	
 	public void setDelayAfterTrigger(int minDelay, int maxDelay){
-		this.delayGenerator = new RangeGenerator(minDelay,maxDelay,RandomAmount.linear);
+		this.delayGenerator = new RangeGenerator(minDelay, maxDelay, RandomAmount.linear);
 	}
 	
 	public void addCondition(Predicate<Pos> condition){
@@ -93,10 +93,10 @@ public class TerritoryBehaviorWeather implements ITerritoryBehavior{
 					Pos pos = locationSelector.apply(world);
 					
 					if (effectSpawnCondition.test(pos)){
-						EntityWeatherEffect eff = weatherConstructor.construct(world,pos.getX()+world.rand.nextDouble(),pos.getY()+world.rand.nextDouble(),pos.getZ()+world.rand.nextDouble());
+						EntityWeatherEffect eff = weatherConstructor.construct(world, pos.getX()+world.rand.nextDouble(), pos.getY()+world.rand.nextDouble(), pos.getZ()+world.rand.nextDouble());
 						
 						world.addWeatherEffect(eff);
-						PacketPipeline.sendToAllAround(world.provider.dimensionId,centerPos,packetDistance,new C05CustomWeather(eff));
+						PacketPipeline.sendToAllAround(world.provider.dimensionId, centerPos, packetDistance, new C05CustomWeather(eff));
 						
 						spawned = true;
 						break;

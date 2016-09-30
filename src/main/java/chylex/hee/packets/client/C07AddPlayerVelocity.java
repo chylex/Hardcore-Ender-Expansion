@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class C07AddPlayerVelocity extends AbstractClientPacket{
-	private double velX,velY,velZ;
+	private double velX, velY, velZ;
 	
 	public C07AddPlayerVelocity(){}
 	

@@ -26,7 +26,7 @@ public class GuiAchievementsCustom extends GuiAchievements{
 	private byte screenType; // 0 = achievements, 1 = challenges
 	
 	public GuiAchievementsCustom(GuiScreen parent, StatFileWriter statWriter){
-		super(parent,new ShowAllReadStatFile(statWriter));
+		super(parent, new ShowAllReadStatFile(statWriter));
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class GuiAchievementsCustom extends GuiAchievements{
 			}
 		}
 		
-		buttonList.add(new GuiButton(10,(width-field_146555_f)/2+24,height/2+74,125,20,I18n.format("achievement.viewChallenges")));
+		buttonList.add(new GuiButton(10, (width-field_146555_f)/2+24, height/2+74, 125, 20, I18n.format("achievement.viewChallenges")));
 	}
 	
 	private void loadPage(){
@@ -82,12 +82,12 @@ public class GuiAchievementsCustom extends GuiAchievements{
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
 		if (buttonId == 0 && achievements != null && screenType == 0){
 			if (mouseX < width/2-113 || mouseX > width/2+113 || mouseY < height/2-84 || mouseY > height/2+68){
-				super.mouseClicked(mouseX,mouseY,buttonId);
+				super.mouseClicked(mouseX, mouseY, buttonId);
 				return;
 			}
 			
-			int offsetX = MathUtil.clamp(MathUtil.floor(field_146567_u),AchievementList.minDisplayColumn*24-112,AchievementList.maxDisplayColumn*24-78); // OBFUSCATED viewportX
-			int offsetY = MathUtil.clamp(MathUtil.floor(field_146566_v),AchievementList.minDisplayRow*24-112,AchievementList.maxDisplayRow*24-78); // OBFUSCATED viewportY
+			int offsetX = MathUtil.clamp(MathUtil.floor(field_146567_u), AchievementList.minDisplayColumn*24-112, AchievementList.maxDisplayColumn*24-78); // OBFUSCATED viewportX
+			int offsetY = MathUtil.clamp(MathUtil.floor(field_146566_v), AchievementList.minDisplayRow*24-112, AchievementList.maxDisplayRow*24-78); // OBFUSCATED viewportY
 			
 			int centerX = (width-field_146555_f)/2+16; // OBFUSCATED viewportWidth, 256
 			int centerY = (height-field_146557_g)/2+17; // OBFUSCATED viewportHeight, 202
@@ -110,7 +110,7 @@ public class GuiAchievementsCustom extends GuiAchievements{
 			mc.displayGuiScreen(field_146562_a); // OBFUSCATED parentScreen
 		}
 		
-		super.mouseClicked(mouseX,mouseY,buttonId);
+		super.mouseClicked(mouseX, mouseY, buttonId);
 	}
 	
 	@Override
@@ -129,9 +129,9 @@ public class GuiAchievementsCustom extends GuiAchievements{
 			if (wheel < 0)field_146570_r += 0.5F;
 			else if (wheel > 0)field_146570_r -= 0.5F;
 			
-			field_146570_r = MathUtil.clamp(field_146570_r,1F,2F);
+			field_146570_r = MathUtil.clamp(field_146570_r, 1F, 2F);
 	
-			if (!MathUtil.floatEquals(field_146570_r,prevScale)){
+			if (!MathUtil.floatEquals(field_146570_r, prevScale)){
 				field_146567_u -= ((field_146570_r*field_146555_f)-(prevScale*field_146555_f))*0.5F;
 				field_146566_v -= ((field_146570_r*field_146557_g)-(prevScale*field_146557_g))*0.5F;
 				field_146565_w = field_146569_s = field_146567_u;
@@ -139,7 +139,7 @@ public class GuiAchievementsCustom extends GuiAchievements{
 			}
 		}
 		
-		super.drawScreen(mouseX,mouseY,partialTickTime);
+		super.drawScreen(mouseX, mouseY, partialTickTime);
 	}
 	
 	static final class ShowAllReadStatFile extends StatFileWriter{

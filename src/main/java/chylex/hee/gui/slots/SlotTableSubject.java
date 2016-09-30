@@ -6,7 +6,7 @@ public class SlotTableSubject extends Slot{
 	private final IInventoryInvalidateable inv;
 	
 	public SlotTableSubject(IInventoryInvalidateable inv, int id, int x, int z){
-		super(inv,id,x,z);
+		super(inv, id, x, z);
 		this.inv = inv;
 	}
 	

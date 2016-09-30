@@ -41,7 +41,7 @@ public class BlockEndPortalCustom extends BlockEndPortal{
 	
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
-		Pos pos = Pos.at(x,y,z);
+		Pos pos = Pos.at(x, y, z);
 		int meta = pos.getMetadata(world);
 		
 		if (meta != Meta.endPortalActive && meta != Meta.endPortalDisabled)pos.setAir(world);
@@ -50,15 +50,15 @@ public class BlockEndPortalCustom extends BlockEndPortal{
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
 		if (entity.posY <= y+0.05D && entity instanceof EntityPlayerMP){
-			Pos pos = Pos.at(x,y,z);
+			Pos pos = Pos.at(x, y, z);
 			int meta = pos.getMetadata(world);
 			EntityPlayerMP player = (EntityPlayerMP)entity;
 			
 			if (meta == Meta.endPortalActive){
 				if (portalStatus.onTouch(player)){
 					if (world.provider.dimensionId == 0){
-						SaveData.player(player,PortalFile.class).setStrongholdPos(findCenterPortalBlock(world,pos));
-						Causatum.progress(player,Progress.INTO_THE_END);
+						SaveData.player(player, PortalFile.class).setStrongholdPos(findCenterPortalBlock(world, pos));
+						Causatum.progress(player, Progress.INTO_THE_END);
 						TeleportHandler.toEnd(player);
 					}
 					else TeleportHandler.toOverworld(player);
@@ -78,26 +78,26 @@ public class BlockEndPortalCustom extends BlockEndPortal{
 	
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
-		world.scheduleBlockUpdate(x,y,z,this,1);
+		world.scheduleBlockUpdate(x, y, z, this, 1);
 	}
 	
 	@Override
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB checkAABB, List list, Entity entity){
-		AxisAlignedBB collisionBox = AxisAlignedBB.getBoundingBox(x,y,z,x+1D,y+0.025D,z+1D);
+		AxisAlignedBB collisionBox = AxisAlignedBB.getBoundingBox(x, y, z, x+1D, y+0.025D, z+1D);
 		if (checkAABB.intersectsWith(collisionBox))list.add(collisionBox);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
-		return new ItemStack(this,1,Pos.at(x,y,z).getMetadata(world));
+		return new ItemStack(this, 1, Pos.at(x, y, z).getMetadata(world));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		if (Pos.at(x,y,z).getMetadata(world) == Meta.endPortalActive && rand.nextInt(7) == 0){
-			world.spawnParticle("smoke",x+rand.nextDouble(),y+0.25D,z+rand.nextDouble(),0D,0D,0D);
+		if (Pos.at(x, y, z).getMetadata(world) == Meta.endPortalActive && rand.nextInt(7) == 0){
+			world.spawnParticle("smoke", x+rand.nextDouble(), y+0.25D, z+rand.nextDouble(), 0D, 0D, 0D);
 		}
 	}
 	
@@ -114,6 +114,6 @@ public class BlockEndPortalCustom extends BlockEndPortal{
 		while(pos2.move(Facing4.EAST_POSX).getBlock(world) == this);
 		pos2.move(Facing4.WEST_NEGX);
 		
-		return pos1.offset((pos2.getX()-pos1.getX())/2,0,(pos2.getZ()-pos1.getZ())/2);
+		return pos1.offset((pos2.getX()-pos1.getX())/2, 0, (pos2.getZ()-pos1.getZ())/2);
 	}
 }

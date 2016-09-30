@@ -8,13 +8,13 @@ import chylex.hee.api.message.utils.RunEvent;
 import com.google.common.collect.ImmutableMap;
 
 public final class MessageRegistry{
-	private static Map<String,MessagePattern> registry;
-	private static Map<String,RunEvent> events;
+	private static Map<String, MessagePattern> registry;
+	private static Map<String, RunEvent> events;
 	
 	public static MessagePattern register(String key, IMessageHandler handler, RunEvent event){
 		MessagePattern pattern = new MessagePattern(handler);
-		if (registry.put(key,pattern) != null)throw new IllegalArgumentException("Cannot register duplicate IMC message key: "+key);
-		events.put(key,event);
+		if (registry.put(key, pattern) != null)throw new IllegalArgumentException("Cannot register duplicate IMC message key: "+key);
+		events.put(key, event);
 		return pattern;
 	}
 	
@@ -22,7 +22,7 @@ public final class MessageRegistry{
 		MessagePattern pattern = registry.get(key);
 		
 		if (pattern == null){
-			MessageLogger.logError("Message key not found: $0",key);
+			MessageLogger.logError("Message key not found: $0", key);
 			return false;
 		}
 		

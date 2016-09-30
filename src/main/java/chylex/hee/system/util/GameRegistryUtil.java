@@ -17,23 +17,23 @@ import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 
 public final class GameRegistryUtil{
 	public static void registerBlock(Block block, String name, Class<? extends ItemBlock> itemBlockClass){
-		GameRegistry.registerBlock(block,itemBlockClass,name);
+		GameRegistry.registerBlock(block, itemBlockClass, name);
 	}
 	
 	public static void registerItem(Item item, String name){
-		GameRegistry.registerItem(item,name,"HardcoreEnderExpansion");
+		GameRegistry.registerItem(item, name, "HardcoreEnderExpansion");
 	}
 	
 	public static void registerTileEntity(Class<? extends TileEntity> tileEntityClass, String name){
-		GameRegistry.registerTileEntity(tileEntityClass,"HardcoreEnderExpansion:"+name);
+		GameRegistry.registerTileEntity(tileEntityClass, "HardcoreEnderExpansion:"+name);
 	}
 	
 	public static void registerEntity(Class<? extends Entity> entityClass, String entityName, int id, int trackingRange){
-		EntityRegistry.registerModEntity(entityClass,entityName,id,HardcoreEnderExpansion.instance,trackingRange,1,true);
+		EntityRegistry.registerModEntity(entityClass, entityName, id, HardcoreEnderExpansion.instance, trackingRange, 1, true);
 	}
 	
 	public static void registerEntity(Class<? extends Entity> entityClass, String entityName, int id, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates){
-		EntityRegistry.registerModEntity(entityClass,entityName,id,HardcoreEnderExpansion.instance,trackingRange,updateFrequency,sendsVelocityUpdates);
+		EntityRegistry.registerModEntity(entityClass, entityName, id, HardcoreEnderExpansion.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
 	}
 	
 	public static void replaceVanillaEntity(Class<? extends Entity> newEntityClass, int entityId){
@@ -43,11 +43,11 @@ public final class GameRegistryUtil{
 			throw new IllegalStateException("Error replacing entity with ID "+entityId+", entity entry missing!");
 		}
 		
-		EntityList.addMapping(newEntityClass,name,entityId);
+		EntityList.addMapping(newEntityClass, name, entityId);
 	}
 	
 	public static void addSmeltingRecipe(ItemStack input, ItemStack output, float experience){
-		FurnaceRecipes.smelting().func_151394_a(input,output,experience);
+		FurnaceRecipes.smelting().func_151394_a(input, output, experience);
 	}
 	
 	public static Iterable<Block> getBlocks(){

@@ -32,7 +32,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	public static final Fluid fluid = new Fluid("enderGoo").setDensity(1500).setTemperature(220).setViscosity(1500);
 	
 	public BlockEnderGoo(){
-		super(fluid,enderGoo);
+		super(fluid, enderGoo);
 		disableStats();
 		
 		setQuantaPerBlock(5);
@@ -42,16 +42,16 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
-		if (!world.blockExists(x-1,y,z-1) || !world.blockExists(x+1,y,z+1)){
-			world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+		if (!world.blockExists(x-1, y, z-1) || !world.blockExists(x+1, y, z+1)){
+			world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 			return;
 		}
 		
-		super.updateTick(world,x,y,z,rand);
+		super.updateTick(world, x, y, z, rand);
 		
 		if (shouldBattleWater){
 			PosMutable mpos = new PosMutable();
-			Pos currentPos = Pos.at(x,y,z);
+			Pos currentPos = Pos.at(x, y, z);
 			int meta = currentPos.getMetadata(world);
 			
 			for(Facing6 facing:Facing6.list){
@@ -59,16 +59,16 @@ public class BlockEnderGoo extends BlockFluidClassic{
 				
 				if (mpos.getMaterial(world) != Material.water)continue;
 				
-				if ((rand.nextInt(Math.max(1,10-meta-(world.provider.dimensionId == 1 ? 7 : 0)+(facing.getY() != 0 ? 2 : 0))) == 0)){
-					mpos.setBlock(world,this,Math.max(2,mpos.getMetadata(world)));
+				if ((rand.nextInt(Math.max(1, 10-meta-(world.provider.dimensionId == 1 ? 7 : 0)+(facing.getY() != 0 ? 2 : 0))) == 0)){
+					mpos.setBlock(world, this, Math.max(2, mpos.getMetadata(world)));
 					if (rand.nextInt(6-meta) == 0)mpos.setAir(world);
 				}
 				else if (world.provider.dimensionId != 1 && rand.nextInt(4) != 0){
-					currentPos.setBlock(world,Blocks.flowing_water,2);
+					currentPos.setBlock(world, Blocks.flowing_water, 2);
 					
 					for(int b = 0; b < 2+rand.nextInt(5); b++){
 						mpos.set(currentPos).move(Facing6.random(rand));
-						if (mpos.getBlock(world) == this)mpos.setBlock(world,Blocks.flowing_water,2);
+						if (mpos.getBlock(world) == this)mpos.setBlock(world, Blocks.flowing_water, 2);
 					}
 					
 					return;
@@ -84,20 +84,20 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
 		if (!world.isRemote && entity instanceof EntityLivingBase && !GlobalMobData.isEnderGooTolerant((EntityLivingBase)entity)){
 			EntityLivingBase e = (EntityLivingBase)entity;
-			e.addPotionEffect(new PotionEffect(Potion.weakness.id,5,1,false));
-			e.addPotionEffect(new PotionEffect(Potion.digSlowdown.id,5,1,false));
+			e.addPotionEffect(new PotionEffect(Potion.weakness.id, 5, 1, false));
+			e.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 5, 1, false));
 			
 			PotionEffect eff = e.getActivePotionEffect(Potion.poison);
-			if (eff == null)e.addPotionEffect(eff = new PotionEffect(Potion.poison.id,100,2,false));
+			if (eff == null)e.addPotionEffect(eff = new PotionEffect(Potion.poison.id, 100, 2, false));
 			
-			if (eff.getDuration() < 102)eff.combine(new PotionEffect(Potion.poison.id,eff.getDuration()+17,eff.getAmplifier(),eff.getIsAmbient()));
+			if (eff.getDuration() < 102)eff.combine(new PotionEffect(Potion.poison.id, eff.getDuration()+17, eff.getAmplifier(), eff.getIsAmbient()));
 			// TODO FIX THE POISON MESS SOMEHOW ALSO MOTION RANDOMLY BREAKS HALP
 			
-			Vec3 vec = Vec3.createVectorHelper(0D,0D,0D);
-			super.velocityToAddToEntity(world,x,y,z,entity,vec); // UPD breaks with removed vec mutability in 1.8
+			Vec3 vec = Vec3.createVectorHelper(0D, 0D, 0D);
+			super.velocityToAddToEntity(world, x, y, z, entity, vec); // UPD breaks with removed vec mutability in 1.8
 			vec.normalize(); // TODO SHOULD THIS ASSIGN TO VEC WHAT IS THIS
 			
-			entity.addVelocity(vec.xCoord*0.0075D,vec.yCoord*0.005D,vec.zCoord*0.0075D);
+			entity.addVelocity(vec.xCoord*0.0075D, vec.yCoord*0.005D, vec.zCoord*0.0075D);
 			entity.motionX *= 0.25D;
 			entity.motionY *= 0.45D;
 			entity.motionZ *= 0.25D;
@@ -107,7 +107,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		HardcoreEnderExpansion.fx.enderGoo(x,y,z);
+		HardcoreEnderExpansion.fx.enderGoo(x, y, z);
 	}
 	
 	@SubscribeEvent

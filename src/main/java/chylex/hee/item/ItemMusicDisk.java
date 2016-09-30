@@ -27,10 +27,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemMusicDisk extends ItemRecord{
-	private static final List<Pair<String,ResourceLocation>> musicInfo = new ArrayList<>();
+	private static final List<Pair<String, ResourceLocation>> musicInfo = new ArrayList<>();
 	
 	private static void registerMusicDisk(String title, String resourceName){
-		musicInfo.add(Pair.of("qwertygiy - "+title,new ResourceLocation("hardcoreenderexpansion",resourceName)));
+		musicInfo.add(Pair.of("qwertygiy - "+title, new ResourceLocation("hardcoreenderexpansion", resourceName)));
 	}
 	
 	static{
@@ -51,11 +51,11 @@ public class ItemMusicDisk extends ItemRecord{
 	}
 	
 	public static String getRecordTitle(int damage){
-		return CollectionUtil.getClamp(musicInfo,damage).getLeft();
+		return CollectionUtil.getClamp(musicInfo, damage).getLeft();
 	}
 	
 	public static ResourceLocation getRecordResource(int damage){
-		return CollectionUtil.getClamp(musicInfo,damage).getRight();
+		return CollectionUtil.getClamp(musicInfo, damage).getRight();
 	}
 	
 	private IIcon[] iconArray;
@@ -67,20 +67,20 @@ public class ItemMusicDisk extends ItemRecord{
 
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		Pos pos = Pos.at(x,y,z);
+		Pos pos = Pos.at(x, y, z);
 		
 		Block block = pos.getBlock(world);
 		if (!(block instanceof BlockJukebox))return false;
 		
-		Optional<TileEntityJukebox> tile = pos.castTileEntity(world,TileEntityJukebox.class);
+		Optional<TileEntityJukebox> tile = pos.castTileEntity(world, TileEntityJukebox.class);
 		if (!tile.isPresent())return false;
 		
 		TileEntityJukebox jukebox = tile.get();
 		if (jukebox.func_145856_a() != null)return false;
 		
 		if (!world.isRemote){
-			((BlockJukebox)block).func_149926_b(world,x,y,z,is);
-			PacketPipeline.sendToDimension(world.provider.dimensionId,new C02PlayRecord(pos,(byte)is.getItemDamage()));
+			((BlockJukebox)block).func_149926_b(world, x, y, z, is);
+			PacketPipeline.sendToDimension(world.provider.dimensionId, new C02PlayRecord(pos, (byte)is.getItemDamage()));
 			--is.stackSize;
 		}
 		
@@ -90,7 +90,7 @@ public class ItemMusicDisk extends ItemRecord{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int damage){
-		return CollectionUtil.getClamp(iconArray,damage);
+		return CollectionUtil.getClamp(iconArray, damage);
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class ItemMusicDisk extends ItemRecord{
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list){
 		for(int a = 0; a < musicInfo.size(); a++){
-			list.add(new ItemStack(item,1,a));
+			list.add(new ItemStack(item, 1, a));
 		}
 	}
 	

@@ -35,13 +35,13 @@ public class GuiItemViewer extends GuiScreen{
 			if (item == null)continue;
 			
 			List<ItemStack> is = new ArrayList<>();
-			item.getSubItems(item,null,is);
+			item.getSubItems(item, null, is);
 			toRender.addAll(is);
 		}
 
 		for(Item item:ItemList.getAllItems()){
 			List<ItemStack> is = new ArrayList<>();
-			item.getSubItems(item,null,is);
+			item.getSubItems(item, null, is);
 			toRender.addAll(is);
 		}
 	}
@@ -57,14 +57,14 @@ public class GuiItemViewer extends GuiScreen{
 		
 		int wheel = Mouse.getDWheel();
 		if (wheel < 0)yStart += 12;
-		else if (wheel > 0)yStart = Math.max(0,yStart-12);
+		else if (wheel > 0)yStart = Math.max(0, yStart-12);
 		
 		GL.enableRescaleNormal();
-		GL.scale(8F,8F,8F);
+		GL.scale(8F, 8F, 8F);
 		
 		for(int a = yStart, xx = 0, yy = 0; a < toRender.size(); a++){
-			drawRect(2+xx*17,2+yy*17,1+(xx+1)*17,1+(yy+1)*17,(255<<24)|(180<<16)|(180<<8)|180);
-			GuiItemRenderHelper.renderItemIntoGUI(mc.getTextureManager(),toRender.get(a),2+xx*17,2+yy*17);
+			drawRect(2+xx*17, 2+yy*17, 1+(xx+1)*17, 1+(yy+1)*17, (255<<24)|(180<<16)|(180<<8)|180);
+			GuiItemRenderHelper.renderItemIntoGUI(mc.getTextureManager(), toRender.get(a), 2+xx*17, 2+yy*17);
 			
 			if (++xx == 12){
 				++yy;

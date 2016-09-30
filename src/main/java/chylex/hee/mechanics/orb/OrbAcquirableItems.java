@@ -40,21 +40,21 @@ public final class OrbAcquirableItems{
 			if (biome == null)continue;
 			else if (biome.biomeID >= 128)break;
 			
-			idList.add(new WeightedItem(biome.topBlock,0,34));
-			idList.add(new WeightedItem(biome.fillerBlock,0,34));
+			idList.add(new WeightedItem(biome.topBlock, 0, 34));
+			idList.add(new WeightedItem(biome.fillerBlock, 0, 34));
 		}
 		
 		Throwable lastThrowable = null;
 		
-		for(Iterator<Entry<ItemStack,ItemStack>> iter = FurnaceRecipes.smelting().getSmeltingList().entrySet().iterator(); iter.hasNext();){
-			Entry<ItemStack,ItemStack> entry = iter.next();
+		for(Iterator<Entry<ItemStack, ItemStack>> iter = FurnaceRecipes.smelting().getSmeltingList().entrySet().iterator(); iter.hasNext();){
+			Entry<ItemStack, ItemStack> entry = iter.next();
 			
 			try{
 				int weight = 30-(int)(7F*FurnaceRecipes.smelting().func_151398_b(entry.getValue())); // OBFUSCATED get experience amount
-				idList.add(new WeightedItem(entry.getKey().getItem(),0,weight));
-				idList.add(new WeightedItem(entry.getValue().getItem(),0,weight));
+				idList.add(new WeightedItem(entry.getKey().getItem(), 0, weight));
+				idList.add(new WeightedItem(entry.getValue().getItem(), 0, weight));
 			}catch(Throwable t){
-				Log.error("[HEE-ORB] Corrupted furnace recipe: $0 <= $1",toString(entry.getValue()),toString(entry.getKey()));
+				Log.error("[HEE-ORB] Corrupted furnace recipe: $0 <= $1", toString(entry.getValue()), toString(entry.getKey()));
 				if (overrideRemoveBrokenRecipes)iter.remove();
 				lastThrowable = t;
 				proceed = false;
@@ -68,49 +68,49 @@ public final class OrbAcquirableItems{
 			try{
 				if (cls == ShapedRecipes.class){
 					ShapedRecipes shaped = (ShapedRecipes)recipe;
-					addItemToList(shaped.getRecipeOutput(),21-shaped.recipeWidth*2-shaped.recipeHeight*2);
-					for(ItemStack is:shaped.recipeItems)addItemToList(is,23-shaped.recipeWidth*2-shaped.recipeHeight*2);
+					addItemToList(shaped.getRecipeOutput(), 21-shaped.recipeWidth*2-shaped.recipeHeight*2);
+					for(ItemStack is:shaped.recipeItems)addItemToList(is, 23-shaped.recipeWidth*2-shaped.recipeHeight*2);
 				}
 				else if (cls == ShapelessRecipes.class){
-					addItemToList(recipe.getRecipeOutput(),24-recipe.getRecipeSize()*2);
-					for(ItemStack item:(List<ItemStack>)((ShapelessRecipes)recipe).recipeItems)addItemToList(item,25-recipe.getRecipeSize()*2);
+					addItemToList(recipe.getRecipeOutput(), 24-recipe.getRecipeSize()*2);
+					for(ItemStack item:(List<ItemStack>)((ShapelessRecipes)recipe).recipeItems)addItemToList(item, 25-recipe.getRecipeSize()*2);
 				}
 				else if (cls == ShapedOreRecipe.class){
 					ShapedOreRecipe shaped = (ShapedOreRecipe)recipe;
 					int amt = DragonUtil.getNonNullValues(shaped.getInput()).length;
 					
-					addItemToList(shaped.getRecipeOutput(),20-amt*2);
+					addItemToList(shaped.getRecipeOutput(), 20-amt*2);
 					
 					for(Object obj:shaped.getInput()){
-						if (obj instanceof ItemStack)addItemToList((ItemStack)obj,19-amt*2);
+						if (obj instanceof ItemStack)addItemToList((ItemStack)obj, 19-amt*2);
 						else if (obj instanceof ArrayList){
 							ArrayList list = (ArrayList)obj;
 							int len = list.size();
 							
-							for(ItemStack listObj:(ArrayList<ItemStack>)list)addItemToList(listObj,Math.max(2,19-amt*2-((len-1)*3)));
+							for(ItemStack listObj:(ArrayList<ItemStack>)list)addItemToList(listObj, Math.max(2, 19-amt*2-((len-1)*3)));
 						}
 					}
 				}
 				else if (cls == ShapelessOreRecipe.class){
 					int amt = recipe.getRecipeSize();
 					
-					addItemToList(recipe.getRecipeOutput(),23-amt*2);
+					addItemToList(recipe.getRecipeOutput(), 23-amt*2);
 	
 					for(Object obj:((ShapelessOreRecipe)recipe).getInput()){
-						if (obj instanceof ItemStack)addItemToList((ItemStack)obj,24-amt*2);
+						if (obj instanceof ItemStack)addItemToList((ItemStack)obj, 24-amt*2);
 						else if (obj instanceof ArrayList){
 							ArrayList list = (ArrayList)obj;
 							int len = list.size();
 							
-							for(ItemStack listObj:(ArrayList<ItemStack>)list)addItemToList(listObj,Math.max(2,24-amt*2-((len-1)*3)));
+							for(ItemStack listObj:(ArrayList<ItemStack>)list)addItemToList(listObj, Math.max(2, 24-amt*2-((len-1)*3)));
 						}
 					}
 				}
 			}catch(Throwable t){
-				if (cls == ShapedRecipes.class)Log.error("[HEE-ORB] Corrupted shaped recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapedRecipes)recipe).recipeItems));
-				else if (cls == ShapelessRecipes.class)Log.error("[HEE-ORB] Corrupted shapeless recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapelessRecipes)recipe).recipeItems));
-				else if (cls == ShapedOreRecipe.class)Log.error("[HEE-ORB] Corrupted shaped ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapedOreRecipe)recipe).getInput()));
-				else if (cls == ShapelessOreRecipe.class)Log.error("[HEE-ORB] Corrupted shapeless ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapelessOreRecipe)recipe).getInput()));
+				if (cls == ShapedRecipes.class)Log.error("[HEE-ORB] Corrupted shaped recipe: $0 <= $1", toString(recipe.getRecipeOutput()), toString(((ShapedRecipes)recipe).recipeItems));
+				else if (cls == ShapelessRecipes.class)Log.error("[HEE-ORB] Corrupted shapeless recipe: $0 <= $1", toString(recipe.getRecipeOutput()), toString(((ShapelessRecipes)recipe).recipeItems));
+				else if (cls == ShapedOreRecipe.class)Log.error("[HEE-ORB] Corrupted shaped ore recipe: $0 <= $1", toString(recipe.getRecipeOutput()), toString(((ShapedOreRecipe)recipe).getInput()));
+				else if (cls == ShapelessOreRecipe.class)Log.error("[HEE-ORB] Corrupted shapeless ore recipe: $0 <= $1", toString(recipe.getRecipeOutput()), toString(((ShapelessOreRecipe)recipe).getInput()));
 				
 				if (overrideRemoveBrokenRecipes)iter.remove();
 				lastThrowable = t;
@@ -155,13 +155,13 @@ public final class OrbAcquirableItems{
 		if (is == null || is.hasTagCompound() || weight <= 0)return;
 		if (is.getItem() == null)is.isItemDamaged(); // throws NPE
 	
-		idList.add(new WeightedItem(is.getItem(),is.getItemDamage(),weight));
+		idList.add(new WeightedItem(is.getItem(), is.getItemDamage(), weight));
 	}
 	
 	private static String toString(ItemStack is){
 		if (is == null)return "<critical:stack null>";
 		else if (is.getItem() == null)return "<error:null>";
-		else return "["+getModID(is)+"]"+(is.stackSize > 9 ? is.toString().substring(3).replace('@','/') : is.toString().substring(2)).replace('@','/');
+		else return "["+getModID(is)+"]"+(is.stackSize > 9 ? is.toString().substring(3).replace('@', '/') : is.toString().substring(2)).replace('@', '/');
 	}
 	
 	private static String toString(List list){
@@ -187,7 +187,7 @@ public final class OrbAcquirableItems{
 			else newArray[a] = "<unknown-cls "+array[a].getClass().getSimpleName()+">";
 		}
 		
-		return ArrayUtils.toString(newArray).replace(",",", ");
+		return ArrayUtils.toString(newArray).replace(", ", ", ");
 	}
 	
 	private OrbAcquirableItems(){}

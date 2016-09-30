@@ -27,18 +27,18 @@ public class ContainerEndPowderEnhancements extends Container implements IContai
 	public final IEnhanceableTile enhanceableTile;
 	
 	public ContainerEndPowderEnhancements(InventoryPlayer inv, IEnhanceableTile tileOptional){
-		containerInv = new InventoryBasic("",false,1);
+		containerInv = new InventoryBasic("", false, 1);
 		this.enhanceableTile = tileOptional;
 		
 		if (isEnhancingTile()){
-			addSlotToContainer(new SlotShowCase(containerInv,0,80,8));
-			containerInv.setInventorySlotContents(0,IEnhanceableTile.createItemStack(tileOptional));
+			addSlotToContainer(new SlotShowCase(containerInv, 0, 80, 8));
+			containerInv.setInventorySlotContents(0, IEnhanceableTile.createItemStack(tileOptional));
 		}
 		else{
-			addSlotToContainer(new SlotEnhancementsSubject(containerInv,0,80,8));
+			addSlotToContainer(new SlotEnhancementsSubject(containerInv, 0, 80, 8));
 		}
 		
-		ContainerHelper.addPlayerInventorySlots(this,inv,0,28);
+		ContainerHelper.addPlayerInventorySlots(this, inv, 0, 28);
 		owner = inv.player;
 	}
 	
@@ -49,13 +49,13 @@ public class ContainerEndPowderEnhancements extends Container implements IContai
 	
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotId){
-		return ContainerHelper.transferStack(this,this::mergeItemStack,containerInv.getSizeInventory(),slotId); // TODO test
+		return ContainerHelper.transferStack(this, this::mergeItemStack, containerInv.getSizeInventory(), slotId); // TODO test
 	}
 	
 	@Override
 	public void onContainerClosed(EntityPlayer player){
 		super.onContainerClosed(player);
-		if (!isEnhancingTile() && containerInv.getStackInSlot(0) != null)player.dropPlayerItemWithRandomChoice(containerInv.getStackInSlot(0),false);
+		if (!isEnhancingTile() && containerInv.getStackInSlot(0) != null)player.dropPlayerItemWithRandomChoice(containerInv.getStackInSlot(0), false);
 	}
 	
 	@Override
@@ -82,20 +82,20 @@ public class ContainerEndPowderEnhancements extends Container implements IContai
 	
 	private TObjectIntHashMap<EnhancementIngredient> getIngredientMap(final EnhancementData<?>.EnhancementInfo info, final int level){
 		TObjectIntHashMap<EnhancementIngredient> ingredientMap = new TObjectIntHashMap<>(4);
-		info.getIngredients(level,getStackSize()).forEach(ingredient -> ingredientMap.put(ingredient,ingredient.getAmount(level,getStackSize())));
+		info.getIngredients(level, getStackSize()).forEach(ingredient -> ingredientMap.put(ingredient, ingredient.getAmount(level, getStackSize())));
 		return ingredientMap;
 	}
 	
 	public Collection<EnhancementIngredient> getMissingUpgradeIngredients(final EnhancementData<?>.EnhancementInfo info){
-		TObjectIntHashMap<EnhancementIngredient> left = getIngredientMap(info,getEnhancements().get(info.getEnhancement())+1);
+		TObjectIntHashMap<EnhancementIngredient> left = getIngredientMap(info, getEnhancements().get(info.getEnhancement())+1);
 		
 		Arrays.stream(owner.inventory.mainInventory).filter(is -> is != null).map(is -> is.copy()).forEach(is -> {
 			for(TObjectIntIterator<EnhancementIngredient> iter = left.iterator(); iter.hasNext();){
 				iter.advance();
 				
 				if (iter.key().selector.isValid(is)){
-					int newValue = Math.max(0,iter.value()-is.stackSize);
-					is.stackSize = Math.max(0,is.stackSize-iter.value());
+					int newValue = Math.max(0, iter.value()-is.stackSize);
+					is.stackSize = Math.max(0, is.stackSize-iter.value());
 					
 					if (newValue == 0)iter.remove();
 					else iter.setValue(newValue);
@@ -113,7 +113,7 @@ public class ContainerEndPowderEnhancements extends Container implements IContai
 		if (!getMissingUpgradeIngredients(info).isEmpty())return false;
 		
 		EnhancementList enhancements = getEnhancements();
-		TObjectIntHashMap<EnhancementIngredient> left = getIngredientMap(info,enhancements.get(info.getEnhancement())+1);
+		TObjectIntHashMap<EnhancementIngredient> left = getIngredientMap(info, enhancements.get(info.getEnhancement())+1);
 		
 		for(int slot = 0; slot < owner.inventory.mainInventory.length; slot++){
 			ItemStack is = owner.inventory.mainInventory[slot];
@@ -123,7 +123,7 @@ public class ContainerEndPowderEnhancements extends Container implements IContai
 				iter.advance();
 				
 				if (iter.key().selector.isValid(is)){
-					int newValue = Math.max(0,iter.value()-is.stackSize);
+					int newValue = Math.max(0, iter.value()-is.stackSize);
 					if ((is.stackSize -= iter.value()) <= 0)owner.inventory.mainInventory[slot] = null;
 					
 					if (newValue == 0)iter.remove();

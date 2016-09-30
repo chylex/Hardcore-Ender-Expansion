@@ -35,7 +35,7 @@ public class S01CompendiumReadFragments extends AbstractServerPacket{
 
 	@Override
 	protected void handle(EntityPlayerMP player){
-		for(short id:fragments.toArray())SaveData.player(player,CompendiumFile.class).markFragmentAsRead(id);
-		if (!MinecraftServer.getServer().isDedicatedServer())PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.RESTORE_COMPENDIUM_PAUSE));
+		for(short id:fragments.toArray())SaveData.player(player, CompendiumFile.class).markFragmentAsRead(id);
+		if (!MinecraftServer.getServer().isDedicatedServer())PacketPipeline.sendToPlayer(player, new C09SimpleEvent(EventType.RESTORE_COMPENDIUM_PAUSE));
 	}
 }

@@ -36,8 +36,8 @@ public class BlobPopulatorCover extends BlobPopulator{
 		for(int x = area.x1; x <= area.x2; x++){
 			for(int z = area.z1; z <= area.z2; z++){
 				if (chance == 1D || rand.nextFloat() < chance){
-					int y = world.getTopY(x,z,Blocks.end_stone);
-					if (y != -1)world.setBlock(x,replaceTop ? y : y+1,z,block);
+					int y = world.getTopY(x, z, Blocks.end_stone);
+					if (y != -1)world.setBlock(x, replaceTop ? y : y+1, z, block);
 				}
 			}
 		}

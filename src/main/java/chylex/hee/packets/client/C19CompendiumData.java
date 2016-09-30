@@ -61,7 +61,7 @@ public class C19CompendiumData extends AbstractClientPacket{
 		byte[] compressed = buffer.readBytes(len).array();
 		
 		try{
-			file = new CompendiumFile(NBT.wrap(CompressedStreamTools.func_152457_a(compressed,new NBTSizeTracker(2097152L))));
+			file = new CompendiumFile(NBT.wrap(CompressedStreamTools.func_152457_a(compressed, new NBTSizeTracker(2097152L))));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -77,7 +77,7 @@ public class C19CompendiumData extends AbstractClientPacket{
 		
 		if (discovered != null){
 			OverlayManager.addNotification(discovered);
-			player.worldObj.playSound(player.posX,player.posY,player.posZ,"hardcoreenderexpansion:player.random.pageflip",0.25F,0.5F*((player.getRNG().nextFloat()-player.getRNG().nextFloat())*0.7F+1.6F),false);
+			player.worldObj.playSound(player.posX, player.posY, player.posZ, "hardcoreenderexpansion:player.random.pageflip", 0.25F, 0.5F*((player.getRNG().nextFloat()-player.getRNG().nextFloat())*0.7F+1.6F), false);
 		}
 		
 		GuiEnderCompendium.pausesGame = GuiEnderCompendium.wasPaused;

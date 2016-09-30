@@ -74,7 +74,7 @@ public class ExpiringSet<E> extends AbstractSet<E>{
 		long time = System.nanoTime();
 		if (time < oldestEntry)oldestEntry = time;
 		if (expired(e))internal.remove(e);
-		return internal.put(e,time) == internal.getNoEntryValue();
+		return internal.put(e, time) == internal.getNoEntryValue();
 	}
 
 	@Override

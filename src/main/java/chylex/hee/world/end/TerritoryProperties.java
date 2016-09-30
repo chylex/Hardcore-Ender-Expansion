@@ -36,11 +36,11 @@ public abstract class TerritoryProperties<T extends Enum<T>>{
 	// SETUP
 	
 	protected final void addCommonVariation(T variation, int weight){
-		this.variationsCommon.add(variation,weight);
+		this.variationsCommon.add(variation, weight);
 	}
 	
 	protected final void addRareVariation(T variation, int weight){
-		this.variationsRare.add(variation,weight);
+		this.variationsRare.add(variation, weight);
 	}
 	
 	protected final void setCommonAmount(IRangeGenerator rangeGenerator){
@@ -49,11 +49,11 @@ public abstract class TerritoryProperties<T extends Enum<T>>{
 	}
 	
 	protected final void setCommonAmount(RandomAmount amountAlgo){
-		setCommonAmount(new RangeGenerator(0,variationsCommon.size(),amountAlgo));
+		setCommonAmount(new RangeGenerator(0, variationsCommon.size(), amountAlgo));
 	}
 	
 	protected final void setCommonAmount(RandomAmount amountAlgo, int max){
-		setCommonAmount(new RangeGenerator(0,max,amountAlgo));
+		setCommonAmount(new RangeGenerator(0, max, amountAlgo));
 	}
 	
 	protected final void setRareAmount(IRangeGenerator rangeGenerator){
@@ -62,11 +62,11 @@ public abstract class TerritoryProperties<T extends Enum<T>>{
 	}
 	
 	protected final void setRareAmount(RandomAmount amountAlgo){
-		setRareAmount(new RangeGenerator(0,variationsRare.size(),amountAlgo));
+		setRareAmount(new RangeGenerator(0, variationsRare.size(), amountAlgo));
 	}
 	
 	protected final void setRareAmount(RandomAmount amountAlgo, int max){
-		setRareAmount(new RangeGenerator(0,max,amountAlgo));
+		setRareAmount(new RangeGenerator(0, max, amountAlgo));
 	}
 	
 	// HANDLING

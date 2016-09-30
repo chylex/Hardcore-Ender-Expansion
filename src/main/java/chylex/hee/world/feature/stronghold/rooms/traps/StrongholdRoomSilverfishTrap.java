@@ -16,12 +16,12 @@ import chylex.hee.world.util.Size;
 
 public class StrongholdRoomSilverfishTrap extends StrongholdRoom{
 	public StrongholdRoomSilverfishTrap(){
-		super(new Size(13,7,13));
+		super(new Size(13, 7, 13));
 	}
 
 	@Override
 	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
-		super.generate(inst,world,rand,x,y,z);
+		super.generate(inst, world, rand, x, y, z);
 		
 		PosMutable mpos = new PosMutable();
 		
@@ -29,20 +29,20 @@ public class StrongholdRoomSilverfishTrap extends StrongholdRoom{
 		for(int cornerX = 0; cornerX < 2; cornerX++){
 			for(int cornerZ = 0; cornerZ < 2; cornerZ++){
 				mpos.setX(x+3+6*cornerX).setZ(z+1+10*cornerZ);
-				placeLine(world,rand,placeStoneBrick,mpos.x,y+1,mpos.z,mpos.x,y+maxY-1,mpos.z);
+				placeLine(world, rand, placeStoneBrick, mpos.x, y+1, mpos.z, mpos.x, y+maxY-1, mpos.z);
 				mpos.setX(x+3+6*cornerX).setZ(z+2+8*cornerZ);
-				placeLine(world,rand,placeStoneBrick,mpos.x,y+2,mpos.z,mpos.x,y+maxY-1,mpos.z);
+				placeLine(world, rand, placeStoneBrick, mpos.x, y+2, mpos.z, mpos.x, y+maxY-1, mpos.z);
 				mpos.setX(x+3+6*cornerX).setZ(z+3+6*cornerZ);
-				placeLine(world,rand,placeStoneBrick,mpos.x,y+1,mpos.z,mpos.x,y+maxY-1,mpos.z);
+				placeLine(world, rand, placeStoneBrick, mpos.x, y+1, mpos.z, mpos.x, y+maxY-1, mpos.z);
 				mpos.setX(x+2+8*cornerX).setZ(z+3+6*cornerZ);
-				placeLine(world,rand,placeStoneBrick,mpos.x,y+2,mpos.z,mpos.x,y+maxY-1,mpos.z);
+				placeLine(world, rand, placeStoneBrick, mpos.x, y+2, mpos.z, mpos.x, y+maxY-1, mpos.z);
 				mpos.setX(x+1+10*cornerX).setZ(z+3+6*cornerZ);
-				placeLine(world,rand,placeStoneBrick,mpos.x,y+1,mpos.z,mpos.x,y+maxY-1,mpos.z);
+				placeLine(world, rand, placeStoneBrick, mpos.x, y+1, mpos.z, mpos.x, y+maxY-1, mpos.z);
 			}
 		}
 		
 		// spawner
-		world.addEntity(new EntityTechnicalTrigger(null,x+maxX/2+0.5F,y+1,z+maxZ/2+0.5F,new TriggerSilverfish()));
+		world.addEntity(new EntityTechnicalTrigger(null, x+maxX/2+0.5F, y+1, z+maxZ/2+0.5F, new TriggerSilverfish()));
 	}
 	
 	public static class TriggerSilverfish extends TriggerBase{
@@ -54,12 +54,12 @@ public class StrongholdRoomSilverfishTrap extends StrongholdRoom{
 			if (world.difficultySetting == EnumDifficulty.PEACEFUL)return;
 			
 			if (spawnsLeft != -1){
-				List<EntityPlayer> players = EntitySelector.players(world,entity.boundingBox.expand(7D,4.5D,7D).offset(0D,2D,0D));
+				List<EntityPlayer> players = EntitySelector.players(world, entity.boundingBox.expand(7D, 4.5D, 7D).offset(0D, 2D, 0D));
 				if (players.isEmpty() || rand.nextInt(3) != 0)return;
 				
 				for(int cycle = 0; cycle < 1+rand.nextInt(2); cycle++){
 					EntityMobSilverfish silverfish = new EntityMobSilverfish(world);
-					silverfish.setPositionAndRotation(entity.posX+4.5D*(rand.nextInt(2)*2-1),entity.posY+4D,entity.posZ+4.5D*(rand.nextInt(2)*2-1),rand.nextFloat()*360F-180F,0F);
+					silverfish.setPositionAndRotation(entity.posX+4.5D*(rand.nextInt(2)*2-1), entity.posY+4D, entity.posZ+4.5D*(rand.nextInt(2)*2-1), rand.nextFloat()*360F-180F, 0F);
 					silverfish.setAttackTarget(players.get(rand.nextInt(players.size())));
 					silverfish.setCanSummonSilverfish(false);
 					silverfish.setCanHideInBlocks(false);
@@ -73,7 +73,7 @@ public class StrongholdRoomSilverfishTrap extends StrongholdRoom{
 			}
 			else if (++checkTimer > 10){
 				checkTimer = 0;
-				if (world.getClosestPlayerToEntity(entity,5.5D) != null)spawnsLeft = 6+world.difficultySetting.getDifficultyId()*2+rand.nextInt(4);
+				if (world.getClosestPlayerToEntity(entity, 5.5D) != null)spawnsLeft = 6+world.difficultySetting.getDifficultyId()*2+rand.nextInt(4);
 			}
 		}
 	}

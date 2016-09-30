@@ -28,7 +28,7 @@ public class BlockDryVine extends BlockVine{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return Blocks.vine.getIcon(side,meta);
+		return Blocks.vine.getIcon(side, meta);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class BlockDryVine extends BlockVine{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z){
-		return recolor(super.colorMultiplier(world,x,y,z));
+		return recolor(super.colorMultiplier(world, x, y, z));
 	}
 
 	@Override

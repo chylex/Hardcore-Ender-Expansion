@@ -43,7 +43,7 @@ public final class OverlayManager{
 	public static void addNotification(final KnowledgeObject<?> obj){
 		hasNotification = true;
 		
-		IntStream.range(0,notifications.length).filter(index -> notifications[index] == null).findFirst().ifPresent(index -> {
+		IntStream.range(0, notifications.length).filter(index -> notifications[index] == null).findFirst().ifPresent(index -> {
 			notifications[index] = new KnowledgeNotification(obj);
 		});
 	}
@@ -70,21 +70,21 @@ public final class OverlayManager{
 			GL.disableDepthTest();
 			GL.disableDepthMask();
 			GL.enableBlendAlpha();
-			GL.color(1F,1F,1F,1F);
+			GL.color(1F, 1F, 1F, 1F);
 			
 			mc.getTextureManager().bindTexture(texGoo);
 			Tessellator tessellator = Tessellator.instance;
 			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(0D,h,-90D,0D,1D);
-			tessellator.addVertexWithUV(w,h,-90D,1D,1D);
-			tessellator.addVertexWithUV(w,0D,-90D,1D,0D);
-			tessellator.addVertexWithUV(0D,0D,-90D,0D,0D);
+			tessellator.addVertexWithUV(0D, h, -90D, 0D, 1D);
+			tessellator.addVertexWithUV(w, h, -90D, 1D, 1D);
+			tessellator.addVertexWithUV(w, 0D, -90D, 1D, 0D);
+			tessellator.addVertexWithUV(0D, 0D, -90D, 0D, 0D);
 			tessellator.draw();
 			
 			GL.enableDepthMask();
 			GL.enableDepthTest();
 			GL.enableAlphaTest();
-			GL.color(1F,1F,1F,1F);
+			GL.color(1F, 1F, 1F, 1F);
 		}
 	}
 	
@@ -97,11 +97,11 @@ public final class OverlayManager{
 			achievementOverlay.update();
 			
 			if (hasNotification){
-				GL.color(1F,1F,1F,1F);
+				GL.color(1F, 1F, 1F, 1F);
 				GL.disableDepthTest();
 				
 				for(int ind = 0; ind < notifications.length; ind++){
-					if (notifications[ind] != null && notifications[ind].render(mc.ingameGUI,e.partialTicks,e.resolution.getScaledWidth()-13-24*ind,e.resolution.getScaledHeight()+12)){
+					if (notifications[ind] != null && notifications[ind].render(mc.ingameGUI, e.partialTicks, e.resolution.getScaledWidth()-13-24*ind, e.resolution.getScaledHeight()+12)){
 						notifications[ind] = null;
 						if (Arrays.stream(notifications).allMatch(Objects::isNull))hasNotification = false;
 					}
@@ -116,15 +116,15 @@ public final class OverlayManager{
 				int y = e.resolution.getScaledHeight()>>1;
 				
 				GL.enableBlendAlpha();
-				GL.color(1F,1F,1F,1F);
+				GL.color(1F, 1F, 1F, 1F);
 				
 				EnergyClusterData data = clusterLookedAt.getData().orElse(null);
 				
 				if (data != null){
-					drawStringCentered(font,I18n.format("energy.overlay.title"),x,y-40,255,255,255);
-					drawStringCentered(font,StringUtils.replaceOnce(I18n.format("energy.overlay.holding"),"$",DragonUtil.formatTwoPlaces.format(data.getEnergyLevel())),x,y-30,220,220,220);
-					drawStringCentered(font,StringUtils.replaceOnce(I18n.format("energy.overlay.regen"),"$",DragonUtil.formatTwoPlaces.format(data.getMaxLevel())),x,y-20,220,220,220);
-					drawStringCentered(font,I18n.format(data.getHealth().translationText),x,y-10,data.getHealth().color);
+					drawStringCentered(font, I18n.format("energy.overlay.title"), x, y-40, 255, 255, 255);
+					drawStringCentered(font, StringUtils.replaceOnce(I18n.format("energy.overlay.holding"), "$", DragonUtil.formatTwoPlaces.format(data.getEnergyLevel())), x, y-30, 220, 220, 220);
+					drawStringCentered(font, StringUtils.replaceOnce(I18n.format("energy.overlay.regen"), "$", DragonUtil.formatTwoPlaces.format(data.getMaxLevel())), x, y-20, 220, 220, 220);
+					drawStringCentered(font, I18n.format(data.getHealth().translationText), x, y-10, data.getHealth().color);
 				}
 
 				GL.disableBlend();
@@ -134,18 +134,18 @@ public final class OverlayManager{
 	}
 	
 	private void drawStringCentered(FontRenderer font, String text, int x, int y, int red, int green, int blue){
-		font.drawStringWithShadow(text,x-(font.getStringWidth(text)>>1),y-(font.FONT_HEIGHT>>1),220<<24|red<<16|green<<8|blue);
+		font.drawStringWithShadow(text, x-(font.getStringWidth(text)>>1), y-(font.FONT_HEIGHT>>1), 220<<24|red<<16|green<<8|blue);
 	}
 	
 	private void drawStringCentered(FontRenderer font, String text, int x, int y, int color){
-		font.drawStringWithShadow(text,x-(font.getStringWidth(text)>>1),y-(font.FONT_HEIGHT>>1),color);
+		font.drawStringWithShadow(text, x-(font.getStringWidth(text)>>1), y-(font.FONT_HEIGHT>>1), color);
 	}
 	
 	@SubscribeEvent
 	public void onRenderBlockOutline(DrawBlockHighlightEvent e){
 		if (e.target.typeOfHit != MovingObjectType.BLOCK)return; // why the fuck is this getting called for entities
 		
-		tmpPos.set(e.target.blockX,e.target.blockY,e.target.blockZ);
+		tmpPos.set(e.target.blockX, e.target.blockY, e.target.blockZ);
 		
 		if (tmpPos.getBlock(e.player.worldObj) == BlockList.energy_cluster){
 			clusterLookedAt = (TileEntityEnergyCluster)tmpPos.getTileEntity(e.player.worldObj);

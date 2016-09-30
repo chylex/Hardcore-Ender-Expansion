@@ -20,7 +20,7 @@ public final class AchievementManager{
 	
 	private static final List<HeeAchievement> achievements = new ArrayList<>();
 	private static final List<HeeAchievement> challenges = new ArrayList<>();
-	public static final Map<String,String> challengeStrings = new HashMap<>();
+	public static final Map<String, String> challengeStrings = new HashMap<>();
 	
 	public static final HeeAchievement
 		/*  8 */ ENDER_COMPENDIUM = addAchievement(8, "enderCompendium", -2, -1, ItemList.special_effects, ItemSpecialEffects.achievementCompendiumIcon, null),
@@ -68,36 +68,36 @@ public final class AchievementManager{
 	}
 	
 	public static void register(){
-		AchievementPage.registerAchievementPage(new AchievementPage(achievementScreenName,achievements.toArray(new Achievement[achievements.size()])));
-		AchievementPage.registerAchievementPage(new AchievementPage(challengeScreenName,challenges.toArray(new Achievement[challenges.size()])));
+		AchievementPage.registerAchievementPage(new AchievementPage(achievementScreenName, achievements.toArray(new Achievement[achievements.size()])));
+		AchievementPage.registerAchievementPage(new AchievementPage(challengeScreenName, challenges.toArray(new Achievement[challenges.size()])));
 	}
 	
 	private static HeeAchievement addAchievement(int id, String stringId, int x, int y, Block block, Achievement parentAchievement){
-		return addAchievement(id,stringId,x,y,new ItemStack(block),parentAchievement);
+		return addAchievement(id, stringId, x, y, new ItemStack(block), parentAchievement);
 	}
 	
 	private static HeeAchievement addAchievement(int id, String stringId, int x, int y, Block block, int metadata, Achievement parentAchievement){
-		return addAchievement(id,stringId,x,y,new ItemStack(block,1,metadata),parentAchievement);
+		return addAchievement(id, stringId, x, y, new ItemStack(block, 1, metadata), parentAchievement);
 	}
 	
 	private static HeeAchievement addAchievement(int id, String stringId, int x, int y, Item item, Achievement parentAchievement){
-		return addAchievement(id,stringId,x,y,new ItemStack(item),parentAchievement);
+		return addAchievement(id, stringId, x, y, new ItemStack(item), parentAchievement);
 	}
 	
 	private static HeeAchievement addAchievement(int id, String stringId, int x, int y, Item item, int damage, Achievement parentAchievement){
-		return addAchievement(id,stringId,x,y,new ItemStack(item,1,damage),parentAchievement);
+		return addAchievement(id, stringId, x, y, new ItemStack(item, 1, damage), parentAchievement);
 	}
 
 	private static HeeAchievement addAchievement(int id, String stringId, int x, int y, ItemStack is, Achievement parentAchievement){
-		HeeAchievement achievement = (HeeAchievement)new HeeAchievement("achievement.hee2."+id,stringId,x,y,is,parentAchievement).registerStat();
+		HeeAchievement achievement = (HeeAchievement)new HeeAchievement("achievement.hee2."+id, stringId, x, y, is, parentAchievement).registerStat();
 		achievements.add(achievement);
 		return achievement;
 	}
 	
 	private static HeeAchievement addChallenge(int id, String stringId, String difficultyLevel){
-		HeeChallenge challenge = (HeeChallenge)new HeeChallenge("achievement.hee2.ch."+id,stringId,-1+(id%2 == 0 ? 0 : 1),-2+id,new ItemStack(Items.diamond_sword)).registerStat();
+		HeeChallenge challenge = (HeeChallenge)new HeeChallenge("achievement.hee2.ch."+id, stringId, -1+(id%2 == 0 ? 0 : 1), -2+id, new ItemStack(Items.diamond_sword)).registerStat();
 		challenges.add(challenge);
-		challengeStrings.put(stringId,difficultyLevel);
+		challengeStrings.put(stringId, difficultyLevel);
 		return challenge;
 	}
 }

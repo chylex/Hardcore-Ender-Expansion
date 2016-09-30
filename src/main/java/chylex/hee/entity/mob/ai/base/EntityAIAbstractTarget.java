@@ -11,7 +11,7 @@ public abstract class EntityAIAbstractTarget extends EntityAITarget{
 	private final EntityAIResetTarget reset;
 	
 	public EntityAIAbstractTarget(EntityCreature owner, boolean shouldCheckSight, boolean nearbyOnly){
-		super(owner,shouldCheckSight,nearbyOnly);
+		super(owner, shouldCheckSight, nearbyOnly);
 		setMutexBits(AIUtil.mutexTarget);
 		
 		if (taskOwner.targetTasks.taskEntries.isEmpty() || !(((EntityAITaskEntry)taskOwner.targetTasks.taskEntries.get(0)).action instanceof EntityAIResetTarget)){

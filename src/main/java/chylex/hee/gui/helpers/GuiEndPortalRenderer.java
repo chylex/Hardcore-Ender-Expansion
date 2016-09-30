@@ -48,14 +48,14 @@ public final class GuiEndPortalRenderer{
 				gui.mc.getTextureManager().bindTexture(texPortalSky);
 				colorMultiplier = 0.1F;
 				scale = 1.125F;
-				GL.setBlendFunc(GL.SRC_ALPHA,GL.ONE_MINUS_SRC_ALPHA);
+				GL.setBlendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
 			}
 
 			if (layer >= 1){
 				gui.mc.getTextureManager().bindTexture(texPortal);
 				
 				if (layer == 1){
-					GL.setBlendFunc(GL.ONE,GL.ONE);
+					GL.setBlendFunc(GL.ONE, GL.ONE);
 					scale = 0.2F;
 				}
 			}
@@ -69,18 +69,18 @@ public final class GuiEndPortalRenderer{
 			GL.pushMatrix();
 			GL.loadIdentity();
 
-			GL.translate(0F,layerMp*(prevPortalTranslation+(portalTranslation-prevPortalTranslation)*partialTickTime)*0.00002F,0F);
-			GL.scale(scale,scale,1F);
-			GL.scale(1F+revLayer*0.15F,1F+revLayer*0.15F,1F);
-			GL.translate(0.5F,0.5F,0F);
-			GL.rotate((layer*layer*4321+layer*9)*4F+180F,0F,0F,1F);
+			GL.translate(0F, layerMp*(prevPortalTranslation+(portalTranslation-prevPortalTranslation)*partialTickTime)*0.00002F, 0F);
+			GL.scale(scale, scale, 1F);
+			GL.scale(1F+revLayer*0.15F, 1F+revLayer*0.15F, 1F);
+			GL.translate(0.5F, 0.5F, 0F);
+			GL.rotate((layer*layer*4321+layer*9)*4F+180F, 0F, 0F, 1F);
 			
-			GL.translate(x*0.0025F*layerMp,y*0.0025F*layerMp,0F);
-			GL.translate(0.5F*div,0.5F,0F);
-			GL.scale(4F*portalScale,4F*portalScale,1F);
-			GL.translate(-0.5F*div,-0.5F,0F);
+			GL.translate(x*0.0025F*layerMp, y*0.0025F*layerMp, 0F);
+			GL.translate(0.5F*div, 0.5F, 0F);
+			GL.scale(4F*portalScale, 4F*portalScale, 1F);
+			GL.translate(-0.5F*div, -0.5F, 0F);
 			
-			GL.scale(div,1F,1F);
+			GL.scale(div, 1F, 1F);
 			
 			Tessellator tessellator = Tessellator.instance;
 			tessellator.startDrawingQuads();
@@ -90,11 +90,11 @@ public final class GuiEndPortalRenderer{
 			float blue = consistentRandom.nextFloat()*0.5F+0.5F;
 			if (layer == 0)red = green = blue = 1F;
 
-			tessellator.setColorRGBA_F(red*colorMultiplier,green*colorMultiplier,blue*colorMultiplier,1F);
-			tessellator.addVertexWithUV(hw-portalWidthHalf,hh+portalHeightHalf+portalTopOffset,0D,0D,1D);
-			tessellator.addVertexWithUV(hw+portalWidthHalf,hh+portalHeightHalf+portalTopOffset,0D,1D,1D);
-			tessellator.addVertexWithUV(hw+portalWidthHalf,hh-portalHeightHalf+portalTopOffset,0D,1D,0D);
-			tessellator.addVertexWithUV(hw-portalWidthHalf,hh-portalHeightHalf+portalTopOffset,0D,0D,0D);
+			tessellator.setColorRGBA_F(red*colorMultiplier, green*colorMultiplier, blue*colorMultiplier, 1F);
+			tessellator.addVertexWithUV(hw-portalWidthHalf, hh+portalHeightHalf+portalTopOffset, 0D, 0D, 1D);
+			tessellator.addVertexWithUV(hw+portalWidthHalf, hh+portalHeightHalf+portalTopOffset, 0D, 1D, 1D);
+			tessellator.addVertexWithUV(hw+portalWidthHalf, hh-portalHeightHalf+portalTopOffset, 0D, 1D, 0D);
+			tessellator.addVertexWithUV(hw-portalWidthHalf, hh-portalHeightHalf+portalTopOffset, 0D, 0D, 0D);
 			tessellator.draw();
 			GL.popMatrix();
 			GL.setMatrixMode(GL.MODELVIEW);

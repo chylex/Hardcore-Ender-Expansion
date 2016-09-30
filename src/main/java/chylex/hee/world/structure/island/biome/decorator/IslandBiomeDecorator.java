@@ -28,7 +28,7 @@ public abstract class IslandBiomeDecorator{
 	}
 	
 	protected final boolean generateStructure(AbstractIslandStructure structure){
-		return structure.generateInWorld(world,rand,getBiome());
+		return structure.generateInWorld(world, rand, getBiome());
 	}
 	
 	protected final int getRandomXZ(Random rand, int distFromEdges){

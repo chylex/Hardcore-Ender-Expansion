@@ -19,23 +19,23 @@ public class CaveGenerator{
 			z = centerZ+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*radY*(rand.nextDouble()*0.1D+0.9D));
 			y = centerY+rand.nextInt(radY*2)-radY;
 			
-			generateNode(rand,x,y,z,rand.nextFloat()*0.45F+2.65F,biome.getCaveBranchingChance(),Vec3.createVectorHelper(rand.nextBoolean()?(centerX-x):(x-centerX),(centerY-y)*rand.nextDouble()*4D,rand.nextBoolean()?(centerZ-z):(z-centerZ)).normalize(),0);
+			generateNode(rand, x, y, z, rand.nextFloat()*0.45F+2.65F, biome.getCaveBranchingChance(), Vec3.createVectorHelper(rand.nextBoolean()?(centerX-x):(x-centerX), (centerY-y)*rand.nextDouble()*4D, rand.nextBoolean()?(centerZ-z):(z-centerZ)).normalize(), 0);
 		}
 	}
 	
 	public void generate(LargeStructureWorld world){
-		for(BlockPosM loc:airList)world.setBlock(loc.x,loc.y,loc.z,Blocks.air);
+		for(BlockPosM loc:airList)world.setBlock(loc.x, loc.y, loc.z, Blocks.air);
 		for(BlockPosM loc:clusterList){
 			boolean foundSolid = false;
 			
 			for(int py = loc.y-5; py <= loc.y+5; py++){
-				if (!world.isAir(loc.x,py,loc.z)){
+				if (!world.isAir(loc.x, py, loc.z)){
 					foundSolid = true;
 					break;
 				}
 			}
 			
-			if (foundSolid)world.setBlock(loc.x,loc.y,loc.z,BlockList.energy_cluster);
+			if (foundSolid)world.setBlock(loc.x, loc.y, loc.z, BlockList.energy_cluster);
 		}
 	}
 	
@@ -53,10 +53,10 @@ public class CaveGenerator{
 			y += vec.yCoord;
 			z += vec.zCoord;
 			
-			if (!createAirBlob(rand,MathUtil.floor(x),MathUtil.floor(y),MathUtil.floor(z),rad))break;
+			if (!createAirBlob(rand, MathUtil.floor(x), MathUtil.floor(y), MathUtil.floor(z), rad))break;
 			
 			if (rand.nextFloat() < branchingChance){
-				generateNode(rand,x,y,z,rad-rand.nextFloat()*0.15F,branchingChance*0.75F,Vec3.createVectorHelper(vec.xCoord+0.8F*(rand.nextDouble()-0.5D),vec.yCoord+0.4F*(rand.nextDouble()-0.5D),vec.zCoord+0.8F*(rand.nextDouble()-0.5D)),iteration+1);
+				generateNode(rand, x, y, z, rad-rand.nextFloat()*0.15F, branchingChance*0.75F, Vec3.createVectorHelper(vec.xCoord+0.8F*(rand.nextDouble()-0.5D), vec.yCoord+0.4F*(rand.nextDouble()-0.5D), vec.zCoord+0.8F*(rand.nextDouble()-0.5D)), iteration+1);
 			}
 		}
 	}
@@ -72,9 +72,9 @@ public class CaveGenerator{
 				for(int zz = z-intrad; zz <= z+intrad; zz++){
 					if (xx <= centerX-radX || xx >= centerX+radX || yy <= centerY-radY || yy >= centerY+radY || zz <= centerZ-radZ || zz >= centerZ+radZ)continue;
 					
-					if (getDistance(xx-x,yy-y,zz-z) < rad+rand.nextFloat()*0.15F){
+					if (getDistance(xx-x, yy-y, zz-z) < rad+rand.nextFloat()*0.15F){
 						onePlaced = true;
-						airList.add(new BlockPosM(xx,yy,zz));
+						airList.add(new BlockPosM(xx, yy, zz));
 					}
 				}
 			}
@@ -84,7 +84,7 @@ public class CaveGenerator{
 			int xx = x+rand.nextInt(intrad)-rand.nextInt(intrad),
 				yy = y+rand.nextInt(intrad)-rand.nextInt(intrad),
 				zz = z+rand.nextInt(intrad)-rand.nextInt(intrad);
-			if ((getDistance(xx-x,yy-y,zz-z) < rad*0.5F || rand.nextInt(8) == 0))clusterList.add(new BlockPosM(xx,yy,zz));
+			if ((getDistance(xx-x, yy-y, zz-z) < rad*0.5F || rand.nextInt(8) == 0))clusterList.add(new BlockPosM(xx, yy, zz));
 		}
 		
 		return onePlaced;

@@ -20,74 +20,74 @@ public class ModelEnderGuardian extends ModelBase{
 		textureWidth = 128;
 		textureHeight = 64;
 		
-		rightHorn = new ModelRenderer(this,63,32);
-		rightHorn.addBox(-4F,-11F,-6F,2,1,6);
-		rightHorn.setRotationPoint(0F,-18F,0F);
-		rightHorn.setTextureSize(128,64);
+		rightHorn = new ModelRenderer(this, 63, 32);
+		rightHorn.addBox(-4F, -11F, -6F, 2, 1, 6);
+		rightHorn.setRotationPoint(0F, -18F, 0F);
+		rightHorn.setTextureSize(128, 64);
 		rightHorn.mirror = true;
-		setRotation(rightHorn,0F,0F,0F);
+		setRotation(rightHorn, 0F, 0F, 0F);
 		
-		leftHorn = new ModelRenderer(this,62,32);
-		leftHorn.addBox(2F,-11F,-6F,2,1,6);
-		leftHorn.setRotationPoint(0F,-18F,0F);
-		leftHorn.setTextureSize(128,64);
+		leftHorn = new ModelRenderer(this, 62, 32);
+		leftHorn.addBox(2F, -11F, -6F, 2, 1, 6);
+		leftHorn.setRotationPoint(0F, -18F, 0F);
+		leftHorn.setTextureSize(128, 64);
 		leftHorn.mirror = true;
-		setRotation(leftHorn,0F,0F,0F);
+		setRotation(leftHorn, 0F, 0F, 0F);
 
-		head = new ModelRenderer(this,0,0);
-		head.addBox(-5F,-6F,-8F,10,10,10);
-		head.setRotationPoint(0F,-22F,0F);
-		head.setTextureSize(128,64);
+		head = new ModelRenderer(this, 0, 0);
+		head.addBox(-5F, -6F, -8F, 10, 10, 10);
+		head.setRotationPoint(0F, -22F, 0F);
+		head.setTextureSize(128, 64);
 		head.mirror = true;
-		setRotation(head,0F,0F,0F);
+		setRotation(head, 0F, 0F, 0F);
 		
-		bodyTop = new ModelRenderer(this,62,0);
-		bodyTop.addBox(-8F,0F,-4F,16,19,12);
-		bodyTop.setRotationPoint(0F,-18F,0F);
-		bodyTop.setTextureSize(128,64);
+		bodyTop = new ModelRenderer(this, 62, 0);
+		bodyTop.addBox(-8F, 0F, -4F, 16, 19, 12);
+		bodyTop.setRotationPoint(0F, -18F, 0F);
+		bodyTop.setTextureSize(128, 64);
 		bodyTop.mirror = true;
-		setRotation(bodyTop,0F,0F,0F);
+		setRotation(bodyTop, 0F, 0F, 0F);
 		
-		bodyBottom = new ModelRenderer(this,0,21);
-		bodyBottom.addBox(-6F,17F,-3F,12,6,10);
-		bodyBottom.setRotationPoint(0F,-16F,0F);
-		bodyBottom.setTextureSize(128,64);
+		bodyBottom = new ModelRenderer(this, 0, 21);
+		bodyBottom.addBox(-6F, 17F, -3F, 12, 6, 10);
+		bodyBottom.setRotationPoint(0F, -16F, 0F);
+		bodyBottom.setTextureSize(128, 64);
 		bodyBottom.mirror = true;
-		setRotation(bodyBottom,0F,0F,0F);
+		setRotation(bodyBottom, 0F, 0F, 0F);
 		
-		rightArm = new ModelRenderer(this,45,0);
-		rightArm.addBox(-4F,-2F,-2F,4,28,4);
-		rightArm.setRotationPoint(-8F,-14F,2F);
-		rightArm.setTextureSize(128,64);
+		rightArm = new ModelRenderer(this, 45, 0);
+		rightArm.addBox(-4F, -2F, -2F, 4, 28, 4);
+		rightArm.setRotationPoint(-8F, -14F, 2F);
+		rightArm.setTextureSize(128, 64);
 		rightArm.mirror = true;
-		setRotation(rightArm,0F,0F,0F);
+		setRotation(rightArm, 0F, 0F, 0F);
 		
-		leftArm = new ModelRenderer(this,45,0);
-		leftArm.addBox(0F,-2F,-2F,4,28,4);
-		leftArm.setRotationPoint(8F,-14F,2F);
-		leftArm.setTextureSize(128,64);
+		leftArm = new ModelRenderer(this, 45, 0);
+		leftArm.addBox(0F, -2F, -2F, 4, 28, 4);
+		leftArm.setRotationPoint(8F, -14F, 2F);
+		leftArm.setTextureSize(128, 64);
 		leftArm.mirror = true;
-		setRotation(leftArm,0F,0F,0F);
+		setRotation(leftArm, 0F, 0F, 0F);
 		
-		rightLeg = new ModelRenderer(this,45,33);
-		rightLeg.addBox(-2F,0F,-2F,4,17,4);
-		rightLeg.setRotationPoint(-4F,7F,3F);
-		rightLeg.setTextureSize(128,64);
+		rightLeg = new ModelRenderer(this, 45, 33);
+		rightLeg.addBox(-2F, 0F, -2F, 4, 17, 4);
+		rightLeg.setRotationPoint(-4F, 7F, 3F);
+		rightLeg.setTextureSize(128, 64);
 		rightLeg.mirror = true;
-		setRotation(rightLeg,0F,0F,0F);
+		setRotation(rightLeg, 0F, 0F, 0F);
 		
-		leftLeg = new ModelRenderer(this,45,33);
-		leftLeg.addBox(-2F,0F,-2F,4,17,4);
-		leftLeg.setRotationPoint(4F,7F,3F);
-		leftLeg.setTextureSize(128,64);
+		leftLeg = new ModelRenderer(this, 45, 33);
+		leftLeg.addBox(-2F, 0F, -2F, 4, 17, 4);
+		leftLeg.setRotationPoint(4F, 7F, 3F);
+		leftLeg.setTextureSize(128, 64);
 		leftLeg.mirror = true;
-		setRotation(leftLeg,0F,0F,0F);
+		setRotation(leftLeg, 0F, 0F, 0F);
 	}
 
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		super.render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
-		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+		super.render(entity, limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel);
+		setRotationAngles(limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel, entity);
 		
 		rightHorn.render(unitPixel);
 		leftHorn.render(unitPixel);
@@ -140,8 +140,8 @@ public class ModelEnderGuardian extends ModelBase{
 		int attack = ((EntityMobEnderGuardian)entity).getAttackTimerClient();
 		
 		if (attack > 0){
-			rightArm.rotateAngleX = (-2F+1.5F*adjustAnimation(attack-partialTickTime,8F))*0.5F;
-			leftArm.rotateAngleX = (-2F+1.5F*adjustAnimation(attack-partialTickTime,8F))*0.5F;
+			rightArm.rotateAngleX = (-2F+1.5F*adjustAnimation(attack-partialTickTime, 8F))*0.5F;
+			leftArm.rotateAngleX = (-2F+1.5F*adjustAnimation(attack-partialTickTime, 8F))*0.5F;
 		}
 	}
 	

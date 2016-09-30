@@ -10,11 +10,11 @@ public class StructureWorldLazy extends StructureWorld{
 	private boolean sendToWatchers;
 	
 	public StructureWorldLazy(World world, int radX, int sizeY, int radZ){
-		super(world,radX,sizeY,radZ);
+		super(world, radX, sizeY, radZ);
 	}
 	
 	public StructureWorldLazy(int radX, int sizeY, int radZ){
-		super(null,radX,sizeY,radZ);
+		super(null, radX, sizeY, radZ);
 	}
 	
 	/**
@@ -33,10 +33,10 @@ public class StructureWorldLazy extends StructureWorld{
 			for(x = -radX; x <= radX; x++){
 				for(y = 0; y < sizeY; y++){
 					if (blocks[++index] != null){
-						pos.set(centerX+x,bottomY+y,centerZ+z);
+						pos.set(centerX+x, bottomY+y, centerZ+z);
 						
-						if (world.getChunkFromBlockCoords(pos.x,pos.z).func_150807_a(pos.x&15,pos.y,pos.z&15,blocks[index],metadata[index]) && sendToWatchers){
-							world.markBlockForUpdate(pos.x,pos.y,pos.z);
+						if (world.getChunkFromBlockCoords(pos.x, pos.z).func_150807_a(pos.x&15, pos.y, pos.z&15, blocks[index], metadata[index]) && sendToWatchers){
+							world.markBlockForUpdate(pos.x, pos.y, pos.z);
 						}
 					}
 				}

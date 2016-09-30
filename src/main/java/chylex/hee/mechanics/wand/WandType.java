@@ -2,9 +2,9 @@ package chylex.hee.mechanics.wand;
 import net.minecraft.item.ItemStack;
 
 public enum WandType{
-	BASIC(2,13),
-	ADVANCED(3,17),
-	EPIC(4,25);
+	BASIC(2, 13),
+	ADVANCED(3, 17),
+	EPIC(4, 25);
 	
 	public static WandType[] values = values();
 	

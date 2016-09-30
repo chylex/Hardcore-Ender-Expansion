@@ -28,7 +28,7 @@ public class BlockBasicWall extends BlockWall{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return baseBlock.getIcon(side,baseMeta);
+		return baseBlock.getIcon(side, baseMeta);
 	}
 	
 	@Override

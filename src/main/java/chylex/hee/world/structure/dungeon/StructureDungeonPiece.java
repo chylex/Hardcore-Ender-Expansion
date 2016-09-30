@@ -41,7 +41,7 @@ public abstract class StructureDungeonPiece extends StructurePiece{
 	 * Adds connection facing outside of the piece bounding box.
 	 */
 	protected void addConnection(Facing4 facing, int offsetX, int offsetY, int offsetZ, IConnectWith canConnect){
-		connections.add(new Connection(facing,offsetX,offsetY,offsetZ,canConnect));
+		connections.add(new Connection(facing, offsetX, offsetY, offsetZ, canConnect));
 	}
 	
 	public ImmutableList<Connection> getConnections(){
@@ -77,7 +77,7 @@ public abstract class StructureDungeonPiece extends StructurePiece{
 	}
 	
 	public void clearArea(StructureWorld world, Random rand, final BoundingBox box){
-		placeCube(world,rand,placeAir,box.x1,box.y1,box.z1,box.x2,box.y2,box.z2);
+		placeCube(world, rand, placeAir, box.x1, box.y1, box.z1, box.x2, box.y2, box.z2);
 	}
 	
 	public abstract void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, final int x, final int y, final int z);

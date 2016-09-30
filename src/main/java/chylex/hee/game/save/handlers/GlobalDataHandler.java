@@ -6,7 +6,7 @@ import chylex.hee.game.save.ISaveDataHandler;
 import chylex.hee.game.save.SaveFile;
 
 public final class GlobalDataHandler implements ISaveDataHandler{
-	private final Map<Class<? extends SaveFile>,SaveFile> cache = new IdentityHashMap<>();
+	private final Map<Class<? extends SaveFile>, SaveFile> cache = new IdentityHashMap<>();
 	private File root;
 	
 	@Override
@@ -23,10 +23,10 @@ public final class GlobalDataHandler implements ISaveDataHandler{
 		
 		if (savefile == null){
 			try{
-				cache.put(cls,savefile = cls.newInstance());
+				cache.put(cls, savefile = cls.newInstance());
 				savefile.loadFromNBT(root);
 			}catch(Exception e){
-				throw new RuntimeException("Could not construct a new instance of SaveFile - "+cls.getName(),e);
+				throw new RuntimeException("Could not construct a new instance of SaveFile - "+cls.getName(), e);
 			}
 		}
 		

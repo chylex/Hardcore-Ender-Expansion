@@ -12,7 +12,7 @@ import com.google.common.collect.ImmutableList;
 
 public class EnhancementData<T extends Enum<T>>{
 	private final Class<T> enumCls;
-	private final EnumMap<T,EnhancementInfo> infoMap;
+	private final EnumMap<T, EnhancementInfo> infoMap;
 	private ImmutableList<EnhancementInfo> infoImmutableList;
 	private Item transform;
 	
@@ -24,7 +24,7 @@ public class EnhancementData<T extends Enum<T>>{
 	
 	public EnhancementInfo register(T enhancement){
 		EnhancementInfo info = new EnhancementInfo(enhancement);
-		infoMap.put(enhancement,info);
+		infoMap.put(enhancement, info);
 		infoImmutableList = ImmutableList.copyOf(infoMap.values());
 		return info;
 	}
@@ -63,33 +63,33 @@ public class EnhancementData<T extends Enum<T>>{
 		}
 		
 		public EnhancementInfo addPowder(int baseAmount, IIngredientAmount amountFunc){
-			ingredients.add(new EnhancementIngredient(new SimpleItemSelector(ItemList.end_powder),baseAmount,amountFunc,1));
+			ingredients.add(new EnhancementIngredient(new SimpleItemSelector(ItemList.end_powder), baseAmount, amountFunc, 1));
 			return this;
 		}
 		
 		public EnhancementInfo addIngredient(Block block, int baseAmount, IIngredientAmount amountFunc){
-			return addIngredient(new SimpleItemSelector(block),baseAmount,amountFunc,1);
+			return addIngredient(new SimpleItemSelector(block), baseAmount, amountFunc, 1);
 		}
 		
 		public EnhancementInfo addIngredient(Block block, int baseAmount, IIngredientAmount amountFunc, int minLevel){
-			return addIngredient(new SimpleItemSelector(block),baseAmount,amountFunc,minLevel);
+			return addIngredient(new SimpleItemSelector(block), baseAmount, amountFunc, minLevel);
 		}
 		
 		public EnhancementInfo addIngredient(Item item, int baseAmount, IIngredientAmount amountFunc){
-			return addIngredient(new SimpleItemSelector(item),baseAmount,amountFunc,1);
+			return addIngredient(new SimpleItemSelector(item), baseAmount, amountFunc, 1);
 		}
 		
 		public EnhancementInfo addIngredient(Item item, int baseAmount, IIngredientAmount amountFunc, int minLevel){
-			return addIngredient(new SimpleItemSelector(item),baseAmount,amountFunc,minLevel);
+			return addIngredient(new SimpleItemSelector(item), baseAmount, amountFunc, minLevel);
 		}
 		
 		public EnhancementInfo addIngredient(IRepresentativeItemSelector selector, int baseAmount, IIngredientAmount amountFunc, int minLevel){
-			ingredients.add(new EnhancementIngredient(selector,baseAmount,amountFunc,minLevel));
+			ingredients.add(new EnhancementIngredient(selector, baseAmount, amountFunc, minLevel));
 			return this;
 		}
 		
 		public List<EnhancementIngredient> getIngredients(int level, int stackSize){
-			return level <= maxLevel ? ingredients.stream().filter(ingredient -> ingredient.getAmount(level,stackSize) > 0).collect(Collectors.toList()) : new ArrayList<>(0);
+			return level <= maxLevel ? ingredients.stream().filter(ingredient -> ingredient.getAmount(level, stackSize) > 0).collect(Collectors.toList()) : new ArrayList<>(0);
 		}
 		
 		public EnhancementInfo setMaxLevel(int maxLevel){

@@ -18,10 +18,10 @@ public abstract class PreconditionComposite<T> extends Precondition<T>{
 		};
 	}
 	
-	private final Map<String,Precondition> conditions = new HashMap<>();
+	private final Map<String, Precondition> conditions = new HashMap<>();
 	
 	public final void addCondition(String property, Precondition condition){
-		conditions.put(property,condition);
+		conditions.put(property, condition);
 	}
 	
 	public final <R> Precondition<R> getCondition(String property){
@@ -37,15 +37,15 @@ public abstract class PreconditionComposite<T> extends Precondition<T>{
 	public final boolean checkValue(NBTBase tag){
 		NBTTagCompound compound = (NBTTagCompound)tag;
 		
-		for(Entry<String,Precondition> entry:conditions.entrySet()){
+		for(Entry<String, Precondition> entry:conditions.entrySet()){
 			NBTBase compTag = compound.getTag(entry.getKey());
 			
 			if (!entry.getValue().checkType(compTag)){
-				MessageLogger.logError("Incorrect type of tag $0. || $1",entry.getKey(),compTag == null ? "<null>" : (compTag.toString()+"/"+compTag.getId()));
+				MessageLogger.logError("Incorrect type of tag $0. || $1", entry.getKey(), compTag == null ? "<null>" : (compTag.toString()+"/"+compTag.getId()));
 				return false;
 			}
 			else if (!entry.getValue().checkValue(compTag)){
-				MessageLogger.logError("Incorrect value for tag $0. || $1",entry.getKey(),compTag == null ? "<null>" : compTag.toString());
+				MessageLogger.logError("Incorrect value for tag $0. || $1", entry.getKey(), compTag == null ? "<null>" : compTag.toString());
 				return false;
 			}
 		}
@@ -55,7 +55,7 @@ public abstract class PreconditionComposite<T> extends Precondition<T>{
 	
 	@Override
 	public final T getValue(NBTBase tag){
-		return getValue(new MessageRunner(this,(NBTTagCompound)tag));
+		return getValue(new MessageRunner(this, (NBTTagCompound)tag));
 	}
 	
 	public abstract T getValue(MessageRunner runner);

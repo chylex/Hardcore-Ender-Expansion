@@ -29,17 +29,17 @@ public final class CompendiumEvents{
 	}
 	
 	public static CompendiumFile getPlayerData(EntityPlayer player){
-		return SaveData.player(player,CompendiumFile.class);
+		return SaveData.player(player, CompendiumFile.class);
 	}
 	
 	public static boolean tryDiscover(EntityPlayer player, Object obj){
 		KnowledgeObject knowledgeObj = KnowledgeObject.fromObject(obj);
-		return knowledgeObj != null && getPlayerData(player).tryDiscoverObject(player,knowledgeObj,false);
+		return knowledgeObj != null && getPlayerData(player).tryDiscoverObject(player, knowledgeObj, false);
 	}
 	
 	public static boolean tryDiscover(EntityPlayer player, ItemStack is){
 		KnowledgeObject knowledgeObj = KnowledgeObject.fromObject(is);
-		return knowledgeObj != null && getPlayerData(player).tryDiscoverObject(player,knowledgeObj,false);
+		return knowledgeObj != null && getPlayerData(player).tryDiscoverObject(player, knowledgeObj, false);
 	}
 
 	private final ExpiringSet<UUID> playerLivingTicks = new ExpiringSet<>();
@@ -52,7 +52,7 @@ public final class CompendiumEvents{
 	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent e){
-		PacketPipeline.sendToPlayer(e.player,new C19CompendiumData(e.player));
+		PacketPipeline.sendToPlayer(e.player, new C19CompendiumData(e.player));
 	}
 	
 	@SubscribeEvent
@@ -62,12 +62,12 @@ public final class CompendiumEvents{
 	
 	@SubscribeEvent
 	public void onItemPickup(ItemPickupEvent e){
-		if (e.player != null && !e.player.worldObj.isRemote)tryDiscover(e.player,e.pickedUp.getEntityItem());
+		if (e.player != null && !e.player.worldObj.isRemote)tryDiscover(e.player, e.pickedUp.getEntityItem());
 	}
 	
 	@SubscribeEvent
 	public void onItemCrafted(ItemCraftedEvent e){
-		if (e.player != null && !e.player.worldObj.isRemote)tryDiscover(e.player,e.crafting);
+		if (e.player != null && !e.player.worldObj.isRemote)tryDiscover(e.player, e.crafting);
 	}
 	
 	@SubscribeEvent
@@ -75,7 +75,7 @@ public final class CompendiumEvents{
 		if (e.phase != Phase.START || e.player.worldObj.isRemote || !playerLivingTicks.update(e.player.getGameProfile().getId()))return;
 		
 		KnowledgeObject<?> obj = KnowledgeUtils.getObservedObject(e.player);
-		if (obj != null)getPlayerData(e.player).tryDiscoverObject(e.player,obj,false);
+		if (obj != null)getPlayerData(e.player).tryDiscoverObject(e.player, obj, false);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -85,7 +85,7 @@ public final class CompendiumEvents{
 		
 		if (e.canInteractWith && !world.isRemote && player.openContainer != player.inventoryContainer && playerContainerTicks.update(player.getGameProfile().getId())){
 			for(Slot slot:(List<Slot>)player.openContainer.inventorySlots){
-				if (slot.getHasStack())tryDiscover(player,slot.getStack());
+				if (slot.getHasStack())tryDiscover(player, slot.getStack());
 			}
 		}
 	}

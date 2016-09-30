@@ -13,10 +13,10 @@ import chylex.hee.world.util.Direction;
 public class StructureLavaPool extends AbstractIslandStructure{
 	@Override
 	protected boolean generate(Random rand){
-		int x = getRandomXZ(rand,12), z = getRandomXZ(rand,12), y = 25+rand.nextInt(50);
+		int x = getRandomXZ(rand, 12), z = getRandomXZ(rand, 12), y = 25+rand.nextInt(50);
 		
-		while(world.isAir(x,--y,z) && y > 10);
-		if (world.getBlock(x,y,z) != surface())return false;
+		while(world.isAir(x, --y, z) && y > 10);
+		if (world.getBlock(x, y, z) != surface())return false;
 		
 		Set<BlockPosM> lavaBlocks = new HashSet<BlockPosM>();
 		
@@ -30,38 +30,38 @@ public class StructureLavaPool extends AbstractIslandStructure{
 			for(int ix = (int)(px-rad)-1; ix <= (int)(px+rad)+1; ix++){
 				for(int iz = (int)(pz-rad)-1; iz <= (int)(pz+rad)+1; iz++){
 					if (MathUtil.square(ix-px)+MathUtil.square(iz-pz) <= radSq){
-						lavaBlocks.add(new BlockPosM(ix,y,iz));
+						lavaBlocks.add(new BlockPosM(ix, y, iz));
 					}
 				}
 			}
 		}
 		
 		for(BlockPosM lava:lavaBlocks){
-			if (world.getBlock(lava.x,lava.y,lava.z) != surface() || world.isAir(lava.x,lava.y-1,lava.z) ||
-				world.isAir(lava.x-1,lava.y,lava.z) || world.isAir(lava.x+1,lava.y,lava.z) ||
-				world.isAir(lava.x,lava.y,lava.z-1) || world.isAir(lava.x,lava.y,lava.z+1))return false;
+			if (world.getBlock(lava.x, lava.y, lava.z) != surface() || world.isAir(lava.x, lava.y-1, lava.z) ||
+				world.isAir(lava.x-1, lava.y, lava.z) || world.isAir(lava.x+1, lava.y, lava.z) ||
+				world.isAir(lava.x, lava.y, lava.z-1) || world.isAir(lava.x, lava.y, lava.z+1))return false;
 		}
 		
-		for(BlockPosM lava:lavaBlocks)world.setBlock(lava.x,lava.y,lava.z,Blocks.lava);
+		for(BlockPosM lava:lavaBlocks)world.setBlock(lava.x, lava.y, lava.z, Blocks.lava);
 		
 		for(int yOff = 1; yOff < 3+rand.nextInt(2); yOff++){
 			for(int pass = 0; pass < 3; pass++){
 				for(Iterator<BlockPosM> iter = lavaBlocks.iterator(); iter.hasNext();){
 					BlockPosM lava = iter.next();
 					
-					if (world.isAir(lava.x,lava.y-yOff-1,lava.z))iter.remove();
+					if (world.isAir(lava.x, lava.y-yOff-1, lava.z))iter.remove();
 					else if (rand.nextBoolean() || rand.nextBoolean()){
 						int surrounding = 0;
 						
 						for(int dir = 0; dir < 4; dir++){
-							surrounding += world.getBlock(lava.x+Direction.offsetX[dir],lava.y,lava.z+Direction.offsetZ[dir]) == Blocks.lava ? 1 : 0;
+							surrounding += world.getBlock(lava.x+Direction.offsetX[dir], lava.y, lava.z+Direction.offsetZ[dir]) == Blocks.lava ? 1 : 0;
 						}
 						
 						if (surrounding <= 3)iter.remove();
 					}
 				}
 				
-				for(BlockPosM lava:lavaBlocks)world.setBlock(lava.x,lava.y-yOff,lava.z,Blocks.lava);
+				for(BlockPosM lava:lavaBlocks)world.setBlock(lava.x, lava.y-yOff, lava.z, Blocks.lava);
 			}
 		}
 		

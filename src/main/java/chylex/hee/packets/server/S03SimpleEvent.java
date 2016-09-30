@@ -34,7 +34,7 @@ public class S03SimpleEvent extends AbstractServerPacket{
 		if (type == null)return;
 		
 		switch(type){
-			case OPEN_COMPENDIUM: player.addStat(AchievementManager.ENDER_COMPENDIUM,1); break;
+			case OPEN_COMPENDIUM: player.addStat(AchievementManager.ENDER_COMPENDIUM, 1); break;
 			case OPEN_COMPENDIUM_HELP: /* TODO CompendiumEvents.getPlayerData(player).setSeenHelp();*/ break;
 		}
 	}

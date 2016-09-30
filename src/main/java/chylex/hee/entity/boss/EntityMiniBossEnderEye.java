@@ -46,33 +46,33 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	
 	public EntityMiniBossEnderEye(World world){
 		super(world);
-		setSize(1.25F,1.25F);
+		setSize(1.25F, 1.25F);
 		experienceValue = 35;
 		scoreValue = 25;
 		isImmuneToFire = true;
 		ignoreFrustumCheck = true;
 		
-		RandomNameGenerator.generateEntityName(this,rand.nextInt(3)+4);
+		RandomNameGenerator.generateEntityName(this, rand.nextInt(3)+4);
 	}
 	
 	public EntityMiniBossEnderEye(World world, double x, double y, double z){
 		this(world);
-		setPosition(x,y,z);
+		setPosition(x, y, z);
 	}
 	
 	@Override
 	protected void entityInit(){
 		super.entityInit();
 		entityData = new EntityDataWatcher(this);
-		entityData.addBoolean(Data.ASLEEP,true);
+		entityData.addBoolean(Data.ASLEEP, true);
 		entityData.addByte(Data.ANIMATION_TIME);
 	}
 	
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		EntityAttributes.setValue(this,EntityAttributes.maxHealth,ModCommonProxy.opMobs ? 350D : 250D);
-		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,1.8D);
+		EntityAttributes.setValue(this, EntityAttributes.maxHealth, ModCommonProxy.opMobs ? 350D : 250D);
+		EntityAttributes.setValue(this, EntityAttributes.movementSpeed, 1.8D);
 		
 	}
 	
@@ -100,7 +100,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					attackType = null;
 				}
 				else{
-					List<EntityPlayer> nearPlayers = EntitySelector.players(worldObj,boundingBox.expand(8D,4D,8D));
+					List<EntityPlayer> nearPlayers = EntitySelector.players(worldObj, boundingBox.expand(8D, 4D, 8D));
 					
 					if (!nearPlayers.isEmpty()){
 						target = nearPlayers.get(0);
@@ -117,8 +117,8 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 				
 				double distance = Math.sqrt(diffX*diffX+diffZ*diffZ);
 				
-				rotationYaw = DragonUtil.rotateSmoothly(rotationYaw,(float)(MathUtil.toDeg(Math.atan2(diffZ,diffX)))-270F,6F);
-				rotationPitch = DragonUtil.rotateSmoothly(rotationPitch,(float)(-(MathUtil.toDeg(Math.atan2(diffY,distance)))),8F);
+				rotationYaw = DragonUtil.rotateSmoothly(rotationYaw, (float)(MathUtil.toDeg(Math.atan2(diffZ, diffX)))-270F, 6F);
+				rotationPitch = DragonUtil.rotateSmoothly(rotationPitch, (float)(-(MathUtil.toDeg(Math.atan2(diffY, distance)))), 8F);
 				
 				byte attackAnim = getAttackAnimationTime();
 				if (attackAnim == 0 && --attackTimer<-100){
@@ -142,32 +142,32 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					 */
 					if (attackType == AttackType.Poof){
 						if (attackAnim == 34){
-							if (WorldUtil.getRuleBool(worldObj,GameRule.MOB_GRIEFING)){
+							if (WorldUtil.getRuleBool(worldObj, GameRule.MOB_GRIEFING)){
 								PosMutable mpos = new PosMutable();
 								
 								for(int a = 0, hits = 0; a < 200 && hits < 16+worldObj.difficultySetting.getDifficultyId(); a++){
-									Block block = mpos.set(this).move(rand.nextInt(15)-7,rand.nextInt(8)-4,rand.nextInt(15)-7).getBlock(worldObj);
+									Block block = mpos.set(this).move(rand.nextInt(15)-7, rand.nextInt(8)-4, rand.nextInt(15)-7).getBlock(worldObj);
 									
-									if (block.getMaterial() != Material.air && block.getBlockHardness(worldObj,mpos.x,mpos.y,mpos.z) != -1F){
+									if (block.getMaterial() != Material.air && block.getBlockHardness(worldObj, mpos.x, mpos.y, mpos.z) != -1F){
 										mpos.setAir(worldObj);
-										worldObj.playAuxSFX(2001,mpos.x,mpos.y,mpos.z,Block.getIdFromBlock(Blocks.obsidian));
+										worldObj.playAuxSFX(2001, mpos.x, mpos.y, mpos.z, Block.getIdFromBlock(Blocks.obsidian));
 										++hits;
 									}
 								}
 							}
 							
-							for(EntityPlayer player:EntitySelector.players(worldObj,boundingBox.expand(6D,6D,6D))){
-								Vec vec = Vec.between(this,player).normalized().multiplied(player.isBlocking() ? 1.4D : 2.4D);
+							for(EntityPlayer player:EntitySelector.players(worldObj, boundingBox.expand(6D, 6D, 6D))){
+								Vec vec = Vec.between(this, player).normalized().multiplied(player.isBlocking() ? 1.4D : 2.4D);
 								
-								PacketPipeline.sendToPlayer(player,new C07AddPlayerVelocity(vec.x,0.34D,vec.z));
+								PacketPipeline.sendToPlayer(player, new C07AddPlayerVelocity(vec.x, 0.34D, vec.z));
 								player.motionX += vec.x;
 								player.motionY += 0.34D;
 								player.motionZ += vec.z;
 								
-								// TODO player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.difficultySetting));
+								// TODO player.attackEntityFrom(new DamageSourceMobUnscaled(this), DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F, worldObj.difficultySetting));
 							}
 							
-							PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_POOF,posX,posY,posZ,1F,rand.nextFloat()*0.2F+0.9F));
+							PacketPipeline.sendToAllAround(this, 64D, new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_POOF, posX, posY, posZ, 1F, rand.nextFloat()*0.2F+0.9F));
 						}
 					}
 					/*
@@ -175,15 +175,15 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					 */
 					else if (attackType == AttackType.Nausea){
 						if (attackAnim == 17){
-							for(EntityPlayer player:EntitySelector.players(worldObj,boundingBox.expand(6D,6D,6D)))player.addPotionEffect(new PotionEffect(Potion.confusion.id,220,0,true));
+							for(EntityPlayer player:EntitySelector.players(worldObj, boundingBox.expand(6D, 6D, 6D)))player.addPotionEffect(new PotionEffect(Potion.confusion.id, 220, 0, true));
 						}
 						else if (attackAnim == 19){
-							PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_CONFUSION,posX,posY,posZ,1F,rand.nextFloat()*0.2F+0.9F));
+							PacketPipeline.sendToAllAround(this, 64D, new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_CONFUSION, posX, posY, posZ, 1F, rand.nextFloat()*0.2F+0.9F));
 						}
 						else if (attackAnim == 26){
-							for(EntityPlayer player:EntitySelector.players(worldObj,boundingBox.expand(6D,6D,6D))){
-								player.addPotionEffect(new PotionEffect(Potion.blindness.id,160,0,true));
-								player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id,120,0,true));
+							for(EntityPlayer player:EntitySelector.players(worldObj, boundingBox.expand(6D, 6D, 6D))){
+								player.addPotionEffect(new PotionEffect(Potion.blindness.id, 160, 0, true));
+								player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 120, 0, true));
 							}
 						}
 					}
@@ -196,7 +196,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 							int myY = MathUtil.floor(posY), attempt, minY;
 							
 							for(attempt = 0; attempt < 12; attempt++){
-								mpos.set(this).move(rand.nextInt(17)-8,0,rand.nextInt(17)-8).setY(myY);
+								mpos.set(this).move(rand.nextInt(17)-8, 0, rand.nextInt(17)-8).setY(myY);
 								
 								if (!mpos.isAir(worldObj))continue;
 								
@@ -215,17 +215,17 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 								
 								for(mpos.y = minY+1; mpos.y < laserTopY; mpos.y++){
 									if (!mpos.isAir(worldObj))break;
-									mpos.setBlock(worldObj,BlockList.laser_beam);
-									mpos.castTileEntity(worldObj,TileEntityLaserBeam.class).ifPresent(beam -> beam.setTicksLeft(102-attackAnim));
+									mpos.setBlock(worldObj, BlockList.laser_beam);
+									mpos.castTileEntity(worldObj, TileEntityLaserBeam.class).ifPresent(beam -> beam.setTicksLeft(102-attackAnim));
 								}
 								
-								PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_LASER_ADD,posX,posY,posZ,0.85F,rand.nextFloat()*0.1F+0.95F));
+								PacketPipeline.sendToAllAround(this, 64D, new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_LASER_ADD, posX, posY, posZ, 0.85F, rand.nextFloat()*0.1F+0.95F));
 								break;
 							}
 						}
 						else if (attackAnim == 102){
 							laserTopY = 0;
-							PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_LASER_END,posX,posY,posZ,1F,rand.nextFloat()*0.2F+0.9F));
+							PacketPipeline.sendToAllAround(this, 64D, new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_LASER_END, posX, posY, posZ, 1F, rand.nextFloat()*0.2F+0.9F));
 						}
 					}
 					/*
@@ -237,8 +237,8 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					double yD = (posY+height*0.5F)-(target.boundingBox.minY+target.height+0.4D);
 					if (Math.abs(yD) >= 0.8D)motionY -= Math.abs(yD)*0.005D*Math.signum(yD);
 					
-					if (distance >= 3D)setMoveForward((float)EntityAttributes.getValue(this,EntityAttributes.movementSpeed));
-					else if (Math.abs(yD) < 1D)/*TODO*/;//target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 6F : 3F,worldObj.difficultySetting));
+					if (distance >= 3D)setMoveForward((float)EntityAttributes.getValue(this, EntityAttributes.movementSpeed));
+					else if (Math.abs(yD) < 1D)/*TODO*/;//target.attackEntityFrom(new DamageSourceMobUnscaled(this), DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 6F : 3F, worldObj.difficultySetting));
 					
 					if (target.isDead)target = null;
 				}
@@ -260,16 +260,16 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 				PosMutable mpos = new PosMutable();
 				
 				for(int a = 0, hits = 0; a < 400 && hits < 5+worldObj.difficultySetting.getDifficultyId()*10+(ModCommonProxy.opMobs ? 30 : 0); a++){
-					mpos.set(this).move(rand.nextInt(15)-7,rand.nextInt(8)-4,rand.nextInt(15)-7);
+					mpos.set(this).move(rand.nextInt(15)-7, rand.nextInt(8)-4, rand.nextInt(15)-7);
 					
 					Block block = mpos.getBlock(worldObj);
 					
 					if (block != Blocks.air){
-						float hardness = block.getBlockHardness(worldObj,mpos.x,mpos.y,mpos.z);
+						float hardness = block.getBlockHardness(worldObj, mpos.x, mpos.y, mpos.z);
 						
 						if (hardness != -1F && hardness <= 5F){
 							mpos.setAir(worldObj);
-							worldObj.playAuxSFX(2001,mpos.x,mpos.y,mpos.z,Block.getIdFromBlock(Blocks.obsidian));
+							worldObj.playAuxSFX(2001, mpos.x, mpos.y, mpos.z, Block.getIdFromBlock(Blocks.obsidian));
 							++hits;
 						}
 					}
@@ -279,11 +279,11 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 		
 		if (amount < 7F)return true;
 		
-		amount = 7F+Math.min((amount-7F)*0.5F,5F);
+		amount = 7F+Math.min((amount-7F)*0.5F, 5F);
 		if (getAttackAnimationTime() > 0)amount *= 0.275F;
 		
-		if (super.attackEntityFrom(source,amount)){
-			// TODO CausatumUtils.increase(source,CausatumMeters.ENDER_EYE_DAMAGE,amount*2F);
+		if (super.attackEntityFrom(source, amount)){
+			// TODO CausatumUtils.increase(source, CausatumMeters.ENDER_EYE_DAMAGE, amount*2F);
 			return true;
 		}
 		else return false;
@@ -292,7 +292,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	@Override
 	public void onDeath(DamageSource source){
 		if (source.getEntity() instanceof EntityPlayer){
-			((EntityPlayer)source.getEntity()).addStat(AchievementManager.ENDER_EYE_KILL,1);
+			((EntityPlayer)source.getEntity()).addStat(AchievementManager.ENDER_EYE_KILL, 1);
 		}
 		
 		super.onDeath(source);
@@ -312,14 +312,14 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	
 	@Override
 	public void addVelocity(double xVelocity, double yVelocity, double zVelocity){
-		super.addVelocity(xVelocity/10D,yVelocity/10D,zVelocity/10D);
+		super.addVelocity(xVelocity/10D, yVelocity/10D, zVelocity/10D);
 	}
 	
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
-		dropItem(Items.ender_eye,1);
-		dropItem(Item.getItemFromBlock(Blocks.obsidian),rand.nextInt(4+looting)+3);
-		dropItem(ItemList.spatial_dash_gem,1);
+		dropItem(Items.ender_eye, 1);
+		dropItem(Item.getItemFromBlock(Blocks.obsidian), rand.nextInt(4+looting)+3);
+		dropItem(ItemList.spatial_dash_gem, 1);
 	}
 	
 	@Override
@@ -333,7 +333,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	}
 	
 	public void setIsAsleep(boolean isAsleep){
-		entityData.setBoolean(Data.ASLEEP,isAsleep);
+		entityData.setBoolean(Data.ASLEEP, isAsleep);
 	}
 	
 	public boolean isAsleep(){
@@ -341,7 +341,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	}
 	
 	public void setAttackAnimationTime(byte time){
-		entityData.setByte(Data.ANIMATION_TIME,time);
+		entityData.setByte(Data.ANIMATION_TIME, time);
 	}
 	
 	public byte getAttackAnimationTime(){
@@ -388,9 +388,9 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 }
 
 enum AttackType{
-	Poof(0,35),
-	Nausea(1,32),
-	LaserBeams(2,104);
+	Poof(0, 35),
+	Nausea(1, 32),
+	LaserBeams(2, 104);
 	
 	private byte id, length;
 	

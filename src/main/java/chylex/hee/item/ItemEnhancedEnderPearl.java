@@ -13,9 +13,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemEnhancedEnderPearl extends ItemEnderPearl{
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		world.playSoundAtEntity(player,"random.bow",0.5F,0.4F/(itemRand.nextFloat()*0.4F+0.8F));
+		world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F/(itemRand.nextFloat()*0.4F+0.8F));
 
-		if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectileEnhancedEnderPearl(world,player,EnhancementRegistry.getEnhancementList(is)));
+		if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectileEnhancedEnderPearl(world, player, EnhancementRegistry.getEnhancementList(is)));
 		if (!player.capabilities.isCreativeMode)--is.stackSize;
 		return is;
 	}
@@ -29,6 +29,6 @@ public class ItemEnhancedEnderPearl extends ItemEnderPearl{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		EnhancementRegistry.getEnhancementList(is).addTooltip(textLines,EnumChatFormatting.YELLOW);
+		EnhancementRegistry.getEnhancementList(is).addTooltip(textLines, EnumChatFormatting.YELLOW);
 	}
 }

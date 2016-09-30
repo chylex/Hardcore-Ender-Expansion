@@ -42,13 +42,13 @@ public class BlockSacredStone extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return CollectionUtil.getClamp(iconArray,meta);
+		return CollectionUtil.getClamp(iconArray, meta);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 0; a < iconArray.length; a++)list.add(new ItemStack(item,1,a));
+		for(int a = 0; a < iconArray.length; a++)list.add(new ItemStack(item, 1, a));
 	}
 	
 	@Override

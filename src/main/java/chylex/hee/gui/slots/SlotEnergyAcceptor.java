@@ -6,7 +6,7 @@ import chylex.hee.item.ItemAbstractEnergyAcceptor;
 
 public class SlotEnergyAcceptor extends Slot{
 	public SlotEnergyAcceptor(IInventory inv, int id, int x, int z){
-		super(inv,id,x,z);
+		super(inv, id, x, z);
 	}
 
 	@Override

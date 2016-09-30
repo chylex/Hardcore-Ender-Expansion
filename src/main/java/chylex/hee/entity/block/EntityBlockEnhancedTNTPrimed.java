@@ -32,7 +32,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	}
 
 	public EntityBlockEnhancedTNTPrimed(World world, double x, double y, double z, EntityLivingBase igniter, EnhancementList<TNTEnhancements> enhancements){
-		super(world,x,y,z,igniter);
+		super(world, x, y, z, igniter);
 		this.enhancements = enhancements;
 		
 		/* TODO if (tntEnhancements.contains(TNTEnhancements.NOCLIP)){
@@ -53,7 +53,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		prevPosZ = posZ;
 		
 		motionY -= 0.04D;
-		moveEntity(motionX,motionY,motionZ);
+		moveEntity(motionX, motionY, motionZ);
 		motionX *= 0.98D;
 		motionY *= 0.98D;
 		motionZ *= 0.98D;
@@ -75,7 +75,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		
 		if (--fuse <= 0 && !worldObj.isRemote){
 			setDead();
-			Explosion explosion = new Explosion(worldObj,posX,posY,posZ,enhancements.has(TNTEnhancements.EXTRA_POWER) ? 5.2F : 4F,this);
+			Explosion explosion = new Explosion(worldObj, posX, posY, posZ, enhancements.has(TNTEnhancements.EXTRA_POWER) ? 5.2F : 4F, this);
 			explosion.damageBlocks = !enhancements.has(TNTEnhancements.NO_BLOCK_DAMAGE);
 			explosion.damageEntities = !enhancements.has(TNTEnhancements.NO_ENTITY_DAMAGE);
 			explosion.spawnFire = enhancements.has(TNTEnhancements.FIRE);
@@ -83,26 +83,26 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		}
 		else{
 			HardcoreEnderExpansion.fx.setLimiter();
-			HardcoreEnderExpansion.fx.global("smoke",posX,posY+0.5D,posZ,0D,0D,0D);
+			HardcoreEnderExpansion.fx.global("smoke", posX, posY+0.5D, posZ, 0D, 0D, 0D);
 			HardcoreEnderExpansion.fx.reset();
 		}
 		
-		setPosition(posX,posY,posZ);
+		setPosition(posX, posY, posZ);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int par9){
 		if (worldObj.loadedEntityList.size() > 500)return; // let client handle motion if there's too much TNT, looks a bit better
-		setPosition(x,y,z);
-		setRotation(yaw,pitch);
+		setPosition(x, y, z);
+		setRotation(yaw, pitch);
 	}
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setString("enhancements2",enhancements.serialize());
-		nbt.setBoolean("wentIntoWall",wentIntoWall);
+		nbt.setString("enhancements2", enhancements.serialize());
+		nbt.setBoolean("wentIntoWall", wentIntoWall);
 	}
 
 	@Override

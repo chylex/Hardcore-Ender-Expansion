@@ -20,7 +20,7 @@ public class C17AltarRuneItemEffect extends AbstractClientPacket{
 	public C17AltarRuneItemEffect(){}
 	
 	public C17AltarRuneItemEffect(TileEntityEssenceAltar altar, byte runeArrayIndex){
-		this.pos = Pos.at(altar.xCoord,altar.yCoord,altar.zCoord);
+		this.pos = Pos.at(altar.xCoord, altar.yCoord, altar.zCoord);
 		this.essenceId = altar.getEssenceType().id;
 		this.runeArrayIndex = runeArrayIndex;
 	}
@@ -46,9 +46,9 @@ public class C17AltarRuneItemEffect extends AbstractClientPacket{
 		
 		for(int a = 0; a < 42; a++){
 			Vec vec = Vec.xzRandom(rand);
-			HardcoreEnderExpansion.fx.item(is,pos.getX()+0.5D+rand.nextDouble()*0.4D-0.2D,pos.getY()+1.1D+rand.nextDouble()*0.4D,pos.getZ()+0.5D+rand.nextDouble()*0.2D-0.1D,vec.x*0.1D,0.1D,vec.z*0.1D);
+			HardcoreEnderExpansion.fx.item(is, pos.getX()+0.5D+rand.nextDouble()*0.4D-0.2D, pos.getY()+1.1D+rand.nextDouble()*0.4D, pos.getZ()+0.5D+rand.nextDouble()*0.2D-0.1D, vec.x*0.1D, 0.1D, vec.z*0.1D);
 		}
 		
-		player.worldObj.playSound(pos.getX(),pos.getY(),pos.getZ(),runeItem.soundEffect,1F,0.9F+rand.nextFloat()*0.1F,false);
+		player.worldObj.playSound(pos.getX(), pos.getY(), pos.getZ(), runeItem.soundEffect, 1F, 0.9F+rand.nextFloat()*0.1F, false);
 	}
 }

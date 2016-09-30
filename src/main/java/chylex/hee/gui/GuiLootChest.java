@@ -16,7 +16,7 @@ public class GuiLootChest extends GuiContainer{
 	private final int inventoryHeight;
 	
 	public GuiLootChest(InventoryPlayer inventory, InventoryLootChest chest){
-		super(new ContainerLootChest(inventory,chest));
+		super(new ContainerLootChest(inventory, chest));
 		this.invPlayer = inventory;
 		this.invLootChest = chest;
 		inventoryHeight = chest.getSizeInventory()*2;
@@ -25,17 +25,17 @@ public class GuiLootChest extends GuiContainer{
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-		fontRendererObj.drawString(invPlayer.player.capabilities.isCreativeMode ? I18n.format("container.lootChest.editing") : I18n.format(invLootChest.getInventoryName()),8,6,(64<<16)|(64<<8)|64);
-		fontRendererObj.drawString(invPlayer.hasCustomInventoryName() ? invPlayer.getInventoryName() : I18n.format(invPlayer.getInventoryName()),8,ySize-94,(64<<16)|(64<<8)|64);
+		fontRendererObj.drawString(invPlayer.player.capabilities.isCreativeMode ? I18n.format("container.lootChest.editing") : I18n.format(invLootChest.getInventoryName()), 8, 6, (64<<16)|(64<<8)|64);
+		fontRendererObj.drawString(invPlayer.hasCustomInventoryName() ? invPlayer.getInventoryName() : I18n.format(invPlayer.getInventoryName()), 8, ySize-94, (64<<16)|(64<<8)|64);
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTickTime, int mouseX, int mouseY){
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 		mc.getTextureManager().bindTexture(texChest);
 		
 		int x = (width-xSize)>>1, y = (height-ySize)>>1;
-		drawTexturedModalRect(x,y,0,0,xSize,inventoryHeight+17);
-		drawTexturedModalRect(x,y+inventoryHeight+17,0,126,xSize,96);
+		drawTexturedModalRect(x, y, 0, 0, xSize, inventoryHeight+17);
+		drawTexturedModalRect(x, y+inventoryHeight+17, 0, 126, xSize, 96);
 	}
 }

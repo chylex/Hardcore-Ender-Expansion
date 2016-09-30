@@ -19,7 +19,7 @@ public class EntityAIRandomTarget<T extends EntityLivingBase> extends EntityAIAb
 	private Predicate<T> predicate;
 	
 	public EntityAIRandomTarget(EntityCreature owner, Class<T> targetClass){
-		super(owner,false,false);
+		super(owner, false, false);
 		this.targetClass = targetClass;
 		this.setMutexBits(AIUtil.mutexTarget);
 	}
@@ -33,7 +33,7 @@ public class EntityAIRandomTarget<T extends EntityLivingBase> extends EntityAIAb
 	protected EntityLivingBase findNewTarget(){
 		double maxDist = getTargetDistance();
 		
-		List<T> entities = EntitySelector.type(taskOwner.worldObj,targetClass,taskOwner.boundingBox.expand(maxDist,maxDist*0.5D,maxDist));
+		List<T> entities = EntitySelector.type(taskOwner.worldObj, targetClass, taskOwner.boundingBox.expand(maxDist, maxDist*0.5D, maxDist));
 		
 		Stream<T> stream = entities.stream().filter(entity -> entity.getDistanceSqToEntity(taskOwner) <= maxDist*maxDist);
 		if (predicate != null)stream = stream.filter(predicate);

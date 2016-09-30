@@ -17,11 +17,11 @@ public class RenderProjectileCurse extends RenderProjectileBase{
 		if (type == null)return;
 		
 		int col = type.getColor(0);
-		GL.color(((col>>16)&255)/255F,((col>>8)&255)/255F,(col&255)/255F);
-		renderIcon(Tessellator.instance,ItemList.curse.getIconFromDamageForRenderPass(type.damage,0));
+		GL.color(((col>>16)&255)/255F, ((col>>8)&255)/255F, (col&255)/255F);
+		renderIcon(Tessellator.instance, ItemList.curse.getIconFromDamageForRenderPass(type.damage, 0));
 		
 		col = type.getColor(1);
-		GL.color(((col>>16)&255)/255F,((col>>8)&255)/255F,(col&255)/255F);
-		renderIcon(Tessellator.instance,ItemList.curse.getIconFromDamageForRenderPass(type.damage,1));
+		GL.color(((col>>16)&255)/255F, ((col>>8)&255)/255F, (col&255)/255F);
+		renderIcon(Tessellator.instance, ItemList.curse.getIconFromDamageForRenderPass(type.damage, 1));
 	}
 }

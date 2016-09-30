@@ -48,15 +48,15 @@ public final class MusicManager{
 			Class<? extends MusicTicker> tickerClass = mc.mcMusicTicker.getClass();
 			
 			if (ignoredTickers.contains(tickerClass.getName())){
-				Log.warn("Another mod has already replaced the music system: $0",tickerClass.getName());
+				Log.warn("Another mod has already replaced the music system: $0", tickerClass.getName());
 			}
 			else if (tickerClass == MusicTicker.class){
-				mc.mcMusicTicker = new CustomMusicTicker(mc,null);
+				mc.mcMusicTicker = new CustomMusicTicker(mc, null);
 				Log.info("Successfully replaced music system.");
 			}
 			else{
-				mc.mcMusicTicker = new CustomMusicTicker(mc,mc.mcMusicTicker);
-				Log.info("Successfully wrapped a music system replaced by another mod: $0",tickerClass.getName());
+				mc.mcMusicTicker = new CustomMusicTicker(mc, mc.mcMusicTicker);
+				Log.info("Successfully wrapped a music system replaced by another mod: $0", tickerClass.getName());
 			}
 			
 			hasLoaded = true;

@@ -28,7 +28,7 @@ public abstract class ItemAbstractPotion extends Item{
 
 	@Override
 	public final ItemStack onEaten(ItemStack is, World world, EntityPlayer player){
-		if (!world.isRemote)applyEffectDrunk(is,world,player);
+		if (!world.isRemote)applyEffectDrunk(is, world, player);
 
 		if (!player.capabilities.isCreativeMode){
 			if (--is.stackSize <= 0)return new ItemStack(Items.glass_bottle);
@@ -43,13 +43,13 @@ public abstract class ItemAbstractPotion extends Item{
 		if (is.getItemDamage() == 1){
 			if (!player.capabilities.isCreativeMode)--is.stackSize;
 			
-			world.playSoundAtEntity(player,"random.bow",0.5F,0.4F/(itemRand.nextFloat()*0.4F+0.8F));
-			if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectilePotion(world,player,this));
+			world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F/(itemRand.nextFloat()*0.4F+0.8F));
+			if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectilePotion(world, player, this));
 			
 			return is;
 		}
 		
-		player.setItemInUse(is,getMaxItemUseDuration(is));
+		player.setItemInUse(is, getMaxItemUseDuration(is));
 		return is;
 	}
 	
@@ -89,8 +89,8 @@ public abstract class ItemAbstractPotion extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public final void getSubItems(Item item, CreativeTabs tab, List list){
-		list.add(new ItemStack(item,1,0));
-		list.add(new ItemStack(item,1,1));
+		list.add(new ItemStack(item, 1, 0));
+		list.add(new ItemStack(item, 1, 1));
 	}
 
 	@Override

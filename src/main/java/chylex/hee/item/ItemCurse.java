@@ -36,19 +36,19 @@ public class ItemCurse extends Item{
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (is.stackSize == 0)return false;
 		
-		Pos pos = Pos.at(x,y,z);
+		Pos pos = Pos.at(x, y, z);
 		
 		Block block = pos.getBlock(world);
-		if (block != Blocks.vine && block != Blocks.tallgrass && block != Blocks.deadbush && !block.isReplaceable(world,x,y,z))pos = pos.offset(side);
+		if (block != Blocks.vine && block != Blocks.tallgrass && block != Blocks.deadbush && !block.isReplaceable(world, x, y, z))pos = pos.offset(side);
 		
 		CurseType type = CurseType.getFromDamage(is.getItemDamage());
 		if (type == null)return false;
 		
 		if (!world.isRemote){
-			world.spawnEntityInWorld(new EntityTechnicalCurseBlock(world,pos,PlayerDataHandler.getID(player),type,CurseType.isEternal(is.getItemDamage())));
+			world.spawnEntityInWorld(new EntityTechnicalCurseBlock(world, pos, PlayerDataHandler.getID(player), type, CurseType.isEternal(is.getItemDamage())));
 			--is.stackSize;
 		}
-		else world.playSound(pos.getX()+0.5D,pos.getY(),pos.getZ()+0.5D,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+itemRand.nextFloat()*0.2F,false);
+		else world.playSound(pos.getX()+0.5D, pos.getY(), pos.getZ()+0.5D, "hardcoreenderexpansion:mob.random.curse", 0.8F, 0.9F+itemRand.nextFloat()*0.2F, false);
 		
 		return true;
 	}
@@ -58,10 +58,10 @@ public class ItemCurse extends Item{
 		CurseType type = CurseType.getFromDamage(is.getItemDamage());
 		if (type == null)return false;
 		
-		if (!player.worldObj.isRemote)player.worldObj.spawnEntityInWorld(new EntityTechnicalCurseEntity(player.worldObj,entity,type,CurseType.isEternal(is.getItemDamage())));
+		if (!player.worldObj.isRemote)player.worldObj.spawnEntityInWorld(new EntityTechnicalCurseEntity(player.worldObj, entity, type, CurseType.isEternal(is.getItemDamage())));
 		else{
-			player.worldObj.playSound(entity.posX,entity.posY,entity.posZ,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+itemRand.nextFloat()*0.2F,false);
-			for(int a = 0; a < 40; a++)HardcoreEnderExpansion.fx.curse(entity.posX+(itemRand.nextDouble()-0.5D)*1.5D,entity.posY+(itemRand.nextDouble()-0.5D)*1.5D,entity.posZ+(itemRand.nextDouble()-0.5D)*1.5D,type);
+			player.worldObj.playSound(entity.posX, entity.posY, entity.posZ, "hardcoreenderexpansion:mob.random.curse", 0.8F, 0.9F+itemRand.nextFloat()*0.2F, false);
+			for(int a = 0; a < 40; a++)HardcoreEnderExpansion.fx.curse(entity.posX+(itemRand.nextDouble()-0.5D)*1.5D, entity.posY+(itemRand.nextDouble()-0.5D)*1.5D, entity.posZ+(itemRand.nextDouble()-0.5D)*1.5D, type);
 		}
 		
 		return true;
@@ -72,20 +72,20 @@ public class ItemCurse extends Item{
 		CurseType type = CurseType.getFromDamage(is.getItemDamage());
 		if (type == null)return is;
 			
-		if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectileCurse(world,player,type,CurseType.isEternal(is.getItemDamage())));
+		if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectileCurse(world, player, type, CurseType.isEternal(is.getItemDamage())));
 		if (!player.capabilities.isCreativeMode)--is.stackSize;
 		return is;
 	}
 	
 	@Override
 	public void onCreated(ItemStack is, World world, EntityPlayer player){
-		player.addStat(AchievementManager.CURSE,1);
+		player.addStat(AchievementManager.CURSE, 1);
 	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		CurseType type = CurseType.getFromDamage(is.getItemDamage());
-		return "item.curse."+(type == null ? "invalid" : type.name().toLowerCase(Locale.ENGLISH).replaceAll("_",""));
+		return "item.curse."+(type == null ? "invalid" : type.name().toLowerCase(Locale.ENGLISH).replaceAll("_", ""));
 	}
 	
 	@Override
@@ -98,8 +98,8 @@ public class ItemCurse extends Item{
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tabs, List list){
 		for(CurseType type:CurseType.values()){
-			list.add(new ItemStack(item,1,type.damage));
-			list.add(new ItemStack(item,1,type.damage|0b100000000));
+			list.add(new ItemStack(item, 1, type.damage));
+			list.add(new ItemStack(item, 1, type.damage|0b100000000));
 		}
 	}
 	

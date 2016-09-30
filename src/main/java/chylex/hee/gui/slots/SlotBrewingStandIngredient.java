@@ -7,7 +7,7 @@ import chylex.hee.mechanics.brewing.PotionTypes;
 
 public class SlotBrewingStandIngredient extends Slot{
 	public SlotBrewingStandIngredient(IInventory inv, int id, int x, int z){
-		super(inv,id,x,z);
+		super(inv, id, x, z);
 	}
 
 	@Override

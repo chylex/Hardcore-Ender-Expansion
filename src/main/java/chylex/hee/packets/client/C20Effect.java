@@ -24,15 +24,15 @@ public class C20Effect extends AbstractClientPacket{
 	}
 	
 	public C20Effect(FXType.Basic type, Pos pos){
-		this(type,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D);
+		this(type, pos.getX()+0.5D, pos.getY()+0.5D, pos.getZ()+0.5D);
 	}
 	
 	public C20Effect(FXType.Basic type, Entity entity){
-		this(type,entity.posX,entity.posY,entity.posZ);
+		this(type, entity.posX, entity.posY, entity.posZ);
 	}
 	
 	public C20Effect(FXType.Basic type, TileEntity tile){
-		this(type,tile.xCoord+0.5D,tile.yCoord+0.5D,tile.zCoord+0.5D);
+		this(type, tile.xCoord+0.5D, tile.yCoord+0.5D, tile.zCoord+0.5D);
 	}
 
 	@Override
@@ -55,6 +55,6 @@ public class C20Effect extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		if (type != null)FXHandler.handleBasic(player.worldObj,player,type,x,y,z);
+		if (type != null)FXHandler.handleBasic(player.worldObj, player, type, x, y, z);
 	}
 }

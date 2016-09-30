@@ -20,20 +20,20 @@ public abstract class StructureBase<T extends IStructureGenerator>{
 	
 	public boolean tryGenerateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ, int maxAttempts){
 		for(int attempt = 0; attempt < maxAttempts; attempt++){
-			if (generateInWorld(world,rand,centerX,bottomY,centerZ))return true;
+			if (generateInWorld(world, rand, centerX, bottomY, centerZ))return true;
 		}
 		
 		return false;
 	}
 	
 	protected boolean generateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ){
-		StructureWorld structureWorld = new StructureWorld(world,radX,sizeY,radZ);
+		StructureWorld structureWorld = new StructureWorld(world, radX, sizeY, radZ);
 		
 		T generator = createGenerator();
 		if (generatorSetup != null)generatorSetup.accept(generator);
 		
-		if (!generator.generate(structureWorld,rand))return false;
-		structureWorld.generateInWorld(world,rand,centerX,bottomY,centerZ);
+		if (!generator.generate(structureWorld, rand))return false;
+		structureWorld.generateInWorld(world, rand, centerX, bottomY, centerZ);
 		return true;
 	}
 	

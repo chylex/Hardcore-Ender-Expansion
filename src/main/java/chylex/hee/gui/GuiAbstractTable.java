@@ -47,15 +47,15 @@ public abstract class GuiAbstractTable extends GuiContainer{
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		String s = table.hasCustomInventoryName() ? table.getInventoryName() : I18n.format(table.getInventoryName());
-		fontRendererObj.drawString(s,(xSize>>1)-(fontRendererObj.getStringWidth(s)>>1),6,0x404040);
-		fontRendererObj.drawString(I18n.format("container.inventory"),8,ySize-94,0x404040);
+		fontRendererObj.drawString(s, (xSize>>1)-(fontRendererObj.getStringWidth(s)>>1), 6, 0x404040);
+		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize-94, 0x404040);
 		
 		if (stardustTextX != -1){
 			int stardustReq = table.getRequiredStardust();
 			
 			GL.disableDepthTest();
 			itemRender.zLevel = zLevel = 300F;
-			fontRendererObj.drawStringWithShadow((table.getHoldingStardust() < stardustReq ? EnumChatFormatting.YELLOW : EnumChatFormatting.WHITE)+String.valueOf(stardustReq),stardustTextX,stardustTextY,0x404040);
+			fontRendererObj.drawStringWithShadow((table.getHoldingStardust() < stardustReq ? EnumChatFormatting.YELLOW : EnumChatFormatting.WHITE)+String.valueOf(stardustReq), stardustTextX, stardustTextY, 0x404040);
 			itemRender.zLevel = zLevel = 0F;
 			GL.enableDepthTest();
 		}
@@ -63,22 +63,22 @@ public abstract class GuiAbstractTable extends GuiContainer{
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float renderPartialTicks, int mouseX, int mouseY){
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 		mc.getTextureManager().bindTexture(getBackgroundTexture());
 		
 		int guiX = (width-xSize)>>1, guiY = (height-ySize)>>1;
-		drawTexturedModalRect(guiX,guiY,0,0,xSize,ySize);
+		drawTexturedModalRect(guiX, guiY, 0, 0, xSize, ySize);
 		
 		if (progressBarX != -1){
 			int bar = table.getScaledTimeClient(24);
-			if (bar > -1)drawTexturedModalRect(guiX+progressBarX,guiY+progressBarY,176,0,bar+1,16);
+			if (bar > -1)drawTexturedModalRect(guiX+progressBarX, guiY+progressBarY, 176, 0, bar+1, 16);
 		}
 		
-		if (energyIconX != -1 && table.hasInsufficientEnergyClient())drawTexturedModalRect(guiX+energyIconX,guiY+energyIconY,176,18,10,11);
+		if (energyIconX != -1 && table.hasInsufficientEnergyClient())drawTexturedModalRect(guiX+energyIconX, guiY+energyIconY, 176, 18, 10, 11);
 		
 		if (energyStorageX != -1){
 			int energy = table.getScaledStoredEnergyClient(49)-1;
-			if (energy > -1)drawTexturedModalRect(guiX+energyStorageX,guiY+energyStorageY+49-energy,176,39-energy%10,16,energy);
+			if (energy > -1)drawTexturedModalRect(guiX+energyStorageX, guiY+energyStorageY+49-energy, 176, 39-energy%10, 16, energy);
 		}
 	}
 }

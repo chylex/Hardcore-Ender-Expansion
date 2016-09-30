@@ -25,12 +25,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public final class Baconizer{
-	private static final Pattern lcword = Pattern.compile("\\b([a-z]+?)\\b",Pattern.MULTILINE),
-								 fcword = Pattern.compile("\\b([A-Z][a-z]+?)\\b",Pattern.MULTILINE),
-								 ucword = Pattern.compile("\\b([A-Z]+?)\\b",Pattern.MULTILINE);
+	private static final Pattern lcword = Pattern.compile("\\b([a-z]+?)\\b", Pattern.MULTILINE),
+								 fcword = Pattern.compile("\\b([A-Z][a-z]+?)\\b", Pattern.MULTILINE),
+								 ucword = Pattern.compile("\\b([A-Z]+?)\\b", Pattern.MULTILINE);
 	
 	@SideOnly(Side.CLIENT)
-	private static Map<Class<?>,ResourceLocation> renderers;
+	private static Map<Class<?>, ResourceLocation> renderers;
 
 	@SideOnly(Side.CLIENT)
 	public static void load(){
@@ -58,10 +58,10 @@ public final class Baconizer{
 		
 		renderers = new HashMap<>();
 		
-		baconizeMob(RenderMobEnderman.class,"enderman");
-		baconizeMob(RenderMobBabyEnderman.class,"enderman");
-		baconizeMob(RenderMobInfestedBat.class,"bat_infested");
-		baconizeMob(RenderBossDragon.class,"dragon");
+		baconizeMob(RenderMobEnderman.class, "enderman");
+		baconizeMob(RenderMobBabyEnderman.class, "enderman");
+		baconizeMob(RenderMobInfestedBat.class, "bat_infested");
+		baconizeMob(RenderBossDragon.class, "dragon");
 	}
 	
 	private static void baconizeBlocks(Block[] blocks){
@@ -73,11 +73,11 @@ public final class Baconizer{
 	}
 	
 	private static void baconizeMob(Class<?> cls, String texName){
-		renderers.put(cls,new ResourceLocation("hardcoreenderexpansion:textures/entity/bacon/"+texName+".png"));
+		renderers.put(cls, new ResourceLocation("hardcoreenderexpansion:textures/entity/bacon/"+texName+".png"));
 	}
 	
 	public static String mobName(String name){
-		return ModCommonProxy.hardcoreEnderbacon ? name.substring(0,name.length()-4)+"bacon.name" : name;
+		return ModCommonProxy.hardcoreEnderbacon ? name.substring(0, name.length()-4)+"bacon.name" : name;
 	}
 	
 	public static ResourceLocation mobTexture(Render renderer, ResourceLocation defLoc){

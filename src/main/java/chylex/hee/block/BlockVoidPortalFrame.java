@@ -27,12 +27,12 @@ public class BlockVoidPortalFrame extends Block{
 	
 	public BlockVoidPortalFrame(){
 		super(Material.rock);
-		setBlockBounds(0F,0F,0F,1F,0.8125F,1F);
+		setBlockBounds(0F, 0F, 0F, 1F, 0.8125F, 1F);
 	}
 	
 	@Override
 	public int getDamageValue(World world, int x, int y, int z){
-		return Pos.at(x,y,z).getMetadata(world);
+		return Pos.at(x, y, z).getMetadata(world);
 	}
 	
 	@Override
@@ -47,17 +47,17 @@ public class BlockVoidPortalFrame extends Block{
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
-		if (!world.isRemote && Pos.at(x,y,z).getMetadata(world) == Meta.voidPortalFrameStorage){
-			player.openGui(HardcoreEnderExpansion.instance,8,world,x,y,z);
+		if (!world.isRemote && Pos.at(x, y, z).getMetadata(world) == Meta.voidPortalFrameStorage){
+			player.openGui(HardcoreEnderExpansion.instance, 8, world, x, y, z);
 			
-			if (!BlockVoidPortal.getData(world,x,y,z).isPresent()){
-				final Pos pos = Pos.at(x,y,z);
+			if (!BlockVoidPortal.getData(world, x, y, z).isPresent()){
+				final Pos pos = Pos.at(x, y, z);
 				
 				Arrays.stream(Facing4.list).filter(facing -> pos.offset(facing).getBlock(world) == BlockList.void_portal).findAny().ifPresent(facing -> {
-					Pos entityPos = pos.offset(facing,3);
+					Pos entityPos = pos.offset(facing, 3);
 					
 					EntityTechnicalVoidPortal voidPortalEntity = new EntityTechnicalVoidPortal(world);
-					voidPortalEntity.setPosition(entityPos.getX()+0.5D,entityPos.getY(),entityPos.getZ()+0.5D);
+					voidPortalEntity.setPosition(entityPos.getX()+0.5D, entityPos.getY(), entityPos.getZ()+0.5D);
 					world.spawnEntityInWorld(voidPortalEntity);
 				});
 			}
@@ -69,15 +69,15 @@ public class BlockVoidPortalFrame extends Block{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return side == 0 ? Blocks.end_stone.getIcon(0,0) :
+		return side == 0 ? Blocks.end_stone.getIcon(0, 0) :
 			   side == 1 ? (meta == Meta.voidPortalFrameStorage ? iconTopStorage : iconTopPlain) : blockIcon;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public final void getSubBlocks(Item item, CreativeTabs tab, List list){
-		list.add(new ItemStack(item,1,Meta.voidPortalFramePlain));
-		list.add(new ItemStack(item,1,Meta.voidPortalFrameStorage));
+		list.add(new ItemStack(item, 1, Meta.voidPortalFramePlain));
+		list.add(new ItemStack(item, 1, Meta.voidPortalFrameStorage));
 	}
 	
 	@Override

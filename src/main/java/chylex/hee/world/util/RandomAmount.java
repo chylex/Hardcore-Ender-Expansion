@@ -24,11 +24,11 @@ public interface RandomAmount{
 		},
 		
 		aroundCenter = (rand, min, max) -> {
-			return MathUtil.clamp((int)Math.round(min+(max-min)*0.5D+(rand.nextDouble()-0.5D)*rand.nextDouble()*(1+max-min)),min,max);
+			return MathUtil.clamp((int)Math.round(min+(max-min)*0.5D+(rand.nextDouble()-0.5D)*rand.nextDouble()*(1+max-min)), min, max);
 		},
 		
 		gaussian = (rand, min, max) -> {
-			return min+(int)Math.round(MathUtil.clamp(rand.nextGaussian()*0.5D,0D,1D)*(max-min));
+			return min+(int)Math.round(MathUtil.clamp(rand.nextGaussian()*0.5D, 0D, 1D)*(max-min));
 		};
 	
 	public static final HeeTest $debugTest = new HeeTest(){
@@ -51,12 +51,12 @@ public interface RandomAmount{
 				map.clear();
 				
 				for(int a = 0; a < 10000; a++){
-					int val = algo.generate(rand,1,10);
-					map.adjustOrPutValue(val,1,1);
+					int val = algo.generate(rand, 1, 10);
+					map.adjustOrPutValue(val, 1, 1);
 				}
 				
 				Log.debug("== Algorithm - "+algoNames[index]+" ==");
-				for(int a = -1; a < 11; a++)Log.debug("$0 ... $1",a+1,map.get(a+1));
+				for(int a = -1; a < 11; a++)Log.debug("$0 ... $1", a+1, map.get(a+1));
 				
 				++index;
 			}

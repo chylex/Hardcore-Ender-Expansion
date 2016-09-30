@@ -8,12 +8,12 @@ import java.util.Random;
 import java.util.Set;
 
 public final class DungeonElementList{
-	private final EnumMap<DungeonElementType,List<DungeonElement>> data = new EnumMap<>(DungeonElementType.class);
+	private final EnumMap<DungeonElementType, List<DungeonElement>> data = new EnumMap<>(DungeonElementType.class);
 	private final DungeonElement[] locReference;
 	private final byte width;
 	
 	public DungeonElementList(int width, int height){
-		for(DungeonElementType type:DungeonElementType.values())data.put(type,new ArrayList<DungeonElement>());
+		for(DungeonElementType type:DungeonElementType.values())data.put(type, new ArrayList<DungeonElement>());
 		this.locReference = new DungeonElement[width*height];
 		this.width = (byte)width;
 	}
@@ -49,7 +49,7 @@ public final class DungeonElementList{
 	}
 	
 	public DungeonElementType getTypeAt(int x, int y){
-		DungeonElement element = getAt(x,y);
+		DungeonElement element = getAt(x, y);
 		
 		if (element == null)return DungeonElementType.EMPTY;
 		else return element.type;
@@ -57,7 +57,7 @@ public final class DungeonElementList{
 	
 	public Set<DungeonElement> getGrouped(DungeonElement element){
 		Set<DungeonElement> list = new HashSet<>();
-		addElementAndGrouped(element,list);
+		addElementAndGrouped(element, list);
 		return list;
 	}
 	
@@ -66,9 +66,9 @@ public final class DungeonElementList{
 		
 		for(DungeonDir dir:DungeonDir.values){
 			if (element.checkConnection(dir)){
-				DungeonElement connectedElement = getAt(element.x+dir.addX*element.size,element.y+dir.addY*element.size);
+				DungeonElement connectedElement = getAt(element.x+dir.addX*element.size, element.y+dir.addY*element.size);
 				
-				if (connectedElement != null && connectedElement.type == element.type && !set.contains(connectedElement))addElementAndGrouped(connectedElement,set);
+				if (connectedElement != null && connectedElement.type == element.type && !set.contains(connectedElement))addElementAndGrouped(connectedElement, set);
 			}
 		}
 		

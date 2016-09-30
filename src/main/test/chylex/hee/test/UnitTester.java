@@ -22,7 +22,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 
 public final class UnitTester{
 	private static final String prefix = "[UNIT] ";
-	private static final Multimap<RunTime,Method> registryTests = HashMultimap.create();
+	private static final Multimap<RunTime, Method> registryTests = HashMultimap.create();
 	
 	private static boolean isLoaded, ingameTestsOnly;
 	private static int menuDisplayOk, menuDisplayFailed;
@@ -37,12 +37,12 @@ public final class UnitTester{
 			
 			for(ClassInfo clsInfo:ClassPath.from(UnitTester.class.getClassLoader()).getTopLevelClassesRecursive(basePackage)){
 				Class<?> cls = clsInfo.load();
-				String clsName = clsInfo.getName().substring(basePackage.length()+1).replace('.','/');
+				String clsName = clsInfo.getName().substring(basePackage.length()+1).replace('.', '/');
 				
 				try{
 					cls.getConstructor();
 				}catch(Exception e){
-					Log.error(prefix+"Error registering unit test class $0, a no-arg constructor is required!",clsName);
+					Log.error(prefix+"Error registering unit test class $0, a no-arg constructor is required!", clsName);
 					continue;
 				}
 					
@@ -51,30 +51,30 @@ public final class UnitTester{
 					
 					if (test != null){
 						if ((method.getModifiers()&Modifier.STATIC) == Modifier.STATIC){
-							Log.error(prefix+"Error registering unit test method $0.$1, the test methods cannot be static!",clsName,method.getName());
+							Log.error(prefix+"Error registering unit test method $0.$1, the test methods cannot be static!", clsName, method.getName());
 							continue;
 						}
 						
 						if (test.runTime() != RunTime.INGAME && !test.trigger().isEmpty()){
-							Log.error(prefix+"Error registering unit test method $0.$1, cannot use $2 run time with a trigger!",clsName,method.getName(),test.runTime());
+							Log.error(prefix+"Error registering unit test method $0.$1, cannot use $2 run time with a trigger!", clsName, method.getName(), test.runTime());
 							continue;
 						}
 						
-						registryTests.put(test.runTime(),method);
+						registryTests.put(test.runTime(), method);
 						
-						Log.debug(prefix+"Registered a test method: $0.$1",clsName,method.getName());
+						Log.debug(prefix+"Registered a test method: $0.$1", clsName, method.getName());
 					}
 				}
 			}
 
 			isLoaded = true;
 		}catch(IOException e){
-			Log.throwable(e,prefix+"Error loading unit tests!");
+			Log.throwable(e, prefix+"Error loading unit tests!");
 		}
 	}
 	
 	public static void trigger(RunTime time){
-		trigger(time,"");
+		trigger(time, "");
 	}
 	
 	public static void trigger(RunTime time, String trigger){
@@ -83,9 +83,9 @@ public final class UnitTester{
 		Set<Method> tests = registryTests.get(time).stream().filter(test -> trigger.equals(test.getAnnotation(UnitTest.class).trigger())).collect(Collectors.toSet());
 		if (tests.isEmpty())return;
 		
-		Log.debug(prefix+"Running $0 unit test(s)...",tests.size());
+		Log.debug(prefix+"Running $0 unit test(s)...", tests.size());
 		
-		Map<Class<?>,Object> objects = new HashMap<>();
+		Map<Class<?>, Object> objects = new HashMap<>();
 		int[] data = new int[]{ 0, 0 };
 		
 		Assert.setSuccessCallback(() -> {
@@ -97,13 +97,13 @@ public final class UnitTester{
 			try{
 				final Class<?> cls = method.getDeclaringClass();
 				Object obj = objects.get(cls);
-				if (obj == null)objects.put(cls,obj = cls.newInstance());
+				if (obj == null)objects.put(cls, obj = cls.newInstance());
 				
 				Assert.setFailCallback(ex -> {
 					String methodName = method.getName();
 					int line = Arrays.stream(ex.getStackTrace()).filter(ele -> ele.getMethodName().equals(methodName)).findFirst().map(ele -> ele.getLineNumber()).orElse(0);
 					
-					Log.error(prefix+"Unit test ($0.java:$2)~$1 failed: $3",cls.getSimpleName(),methodName,line,ex.getMessage());
+					Log.error(prefix+"Unit test ($0.java:$2)~$1 failed: $3", cls.getSimpleName(), methodName, line, ex.getMessage());
 					++menuDisplayFailed;
 					++data[1];
 				});
@@ -111,17 +111,17 @@ public final class UnitTester{
 				try{
 					method.invoke(obj);
 				}catch(Exception e){
-					Log.throwable(e,prefix+"Error running a unit test!");
+					Log.throwable(e, prefix+"Error running a unit test!");
 					++menuDisplayFailed;
 					++data[1];
 				}
 			}catch(Exception e){
-				Log.throwable(e,prefix+"Error running a unit test!");
+				Log.throwable(e, prefix+"Error running a unit test!");
 			}
 		}
 		
-		if (time == RunTime.INGAME)Log.reportedDebug(prefix+"Finished unit tests: $0 succeeded, $1 failed.",data[0],data[1]);
-		else Log.debug(prefix+"Finished unit tests: $0 succeeded, $1 failed.",data[0],data[1]);
+		if (time == RunTime.INGAME)Log.reportedDebug(prefix+"Finished unit tests: $0 succeeded, $1 failed.", data[0], data[1]);
+		else Log.debug(prefix+"Finished unit tests: $0 succeeded, $1 failed.", data[0], data[1]);
 	}
 	
 	public static void finalizeEventTests() throws Throwable{
@@ -135,15 +135,15 @@ public final class UnitTester{
 		
 		Field field = FMLCommonHandler.class.getDeclaredField("brandings");
 		field.setAccessible(true);
-		field.set(FMLCommonHandler.instance(),unitDataList.build());
+		field.set(FMLCommonHandler.instance(), unitDataList.build());
 		
 		field = FMLCommonHandler.class.getDeclaredField("brandingsNoMC");
 		field.setAccessible(true);
-		field.set(FMLCommonHandler.instance(),unitDataList.build());
+		field.set(FMLCommonHandler.instance(), unitDataList.build());
 		
 		field = ForgeVersion.class.getDeclaredField("status");
 		field.setAccessible(true);
-		field.set(null,ForgeVersion.Status.UP_TO_DATE);
+		field.set(null, ForgeVersion.Status.UP_TO_DATE);
 	}
 	
 	private UnitTester(){}

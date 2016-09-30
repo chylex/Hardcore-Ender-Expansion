@@ -47,7 +47,7 @@ public class PacketPipeline{
 	}
 	
 	private FMLEventChannel eventDrivenChannel;
-	private EnumMap<Side,FMLEmbeddedChannel> channels;
+	private EnumMap<Side, FMLEmbeddedChannel> channels;
 
 	private final TByteObjectHashMap<Class<? extends AbstractPacket>> idToPacket = new TByteObjectHashMap<>();
 	private final TObjectByteHashMap<Class<? extends AbstractPacket>> packetToId = new TObjectByteHashMap<>();
@@ -71,13 +71,13 @@ public class PacketPipeline{
 			List<String> classes = new ArrayList<>();
 			
 			if (sourceFile.isDirectory()){
-				File root = Paths.get(sourceFile.getPath(),"chylex","hee","packets").toFile();
+				File root = Paths.get(sourceFile.getPath(), "chylex", "hee", "packets").toFile();
 				
-				for(String name:new File(root,"client").list()){
+				for(String name:new File(root, "client").list()){
 					if (name.startsWith("C"))classes.add("chylex.hee.packets.client."+FilenameUtils.removeExtension(name));
 				}
 				
-				for(String name:new File(root,"server").list()){
+				for(String name:new File(root, "server").list()){
 					if (name.startsWith("S"))classes.add("chylex.hee.packets.server."+FilenameUtils.removeExtension(name));
 				}
 			}
@@ -88,7 +88,7 @@ public class PacketPipeline{
 						
 						if (name.startsWith("chylex/hee/packets/")){
 							if (name.startsWith("chylex/hee/packets/client/C") || name.startsWith("chylex/hee/packets/server/S")){
-								classes.add(FilenameUtils.removeExtension(name.replace('/','.')));
+								classes.add(FilenameUtils.removeExtension(name.replace('/', '.')));
 							}
 						}
 					}
@@ -99,24 +99,24 @@ public class PacketPipeline{
 			
 			Collections.sort(classes);
 			
-			for(String cls:classes)registerPacket(++id,(Class<? extends AbstractPacket>)Class.forName(cls));
+			for(String cls:classes)registerPacket(++id, (Class<? extends AbstractPacket>)Class.forName(cls));
 		}catch(NoSuchFieldException | IllegalArgumentException | IllegalAccessException | IOException | ClassNotFoundException e){
-			throw new RuntimeException("Unable to load the Packet system!",e);
+			throw new RuntimeException("Unable to load the Packet system!", e);
 		}
 		
 		Stopwatch.finish("PacketPipeline");
 	}
 	
 	private void registerPacket(int id, Class<? extends AbstractPacket> cls){
-		idToPacket.put((byte)id,cls);
-		packetToId.put(cls,(byte)id);
+		idToPacket.put((byte)id, cls);
+		packetToId.put(cls, (byte)id);
 	}
 
 	private FMLProxyPacket writePacket(AbstractPacket packet){
 		ByteBuf buffer = Unpooled.buffer();
 		buffer.writeByte(packetToId.get(packet.getClass()));
 		packet.write(buffer);
-		return new FMLProxyPacket(buffer,channelName);
+		return new FMLProxyPacket(buffer, channelName);
 	}
 	
 	private void readPacket(FMLProxyPacket fmlPacket, Side side){
@@ -128,11 +128,11 @@ public class PacketPipeline{
 			
 			switch(side){
 				case CLIENT:
-					packet.handle(Side.CLIENT,getClientPlayer());
+					packet.handle(Side.CLIENT, getClientPlayer());
 					break;
 
 				case SERVER:
-					packet.handle(Side.SERVER,((NetHandlerPlayServer)fmlPacket.handler()).playerEntity);
+					packet.handle(Side.SERVER, ((NetHandlerPlayServer)fmlPacket.handler()).playerEntity);
 					break;
 			}
 		}catch(InstantiationException | IllegalAccessException e){
@@ -149,12 +149,12 @@ public class PacketPipeline{
 	
 	@SubscribeEvent
 	public void onClientPacketReceived(ClientCustomPacketEvent e){
-		readPacket(e.packet,Side.CLIENT);
+		readPacket(e.packet, Side.CLIENT);
 	}
 	
 	@SubscribeEvent
 	public void onServerPacketReceived(ServerCustomPacketEvent e){
-		readPacket(e.packet,Side.SERVER);
+		readPacket(e.packet, Side.SERVER);
 	}
 	
 	public static void sendToAll(AbstractPacket packet){
@@ -173,28 +173,28 @@ public class PacketPipeline{
 	public static void sendToAllAround(int dimension, double x, double y, double z, double range, AbstractPacket packet){
 		FMLEmbeddedChannel channel = instance.channels.get(Side.SERVER);
 		channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(OutboundTarget.ALLAROUNDPOINT);
-		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new TargetPoint(dimension,x,y,z,range));
+		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new TargetPoint(dimension, x, y, z, range));
 		channel.writeAndFlush(instance.writePacket(packet)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
 	}
 	
 	public static void sendToAllAround(int dimension, Pos pos, double range, AbstractPacket packet){
 		FMLEmbeddedChannel channel = instance.channels.get(Side.SERVER);
 		channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(OutboundTarget.ALLAROUNDPOINT);
-		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new TargetPoint(dimension,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D,range));
+		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new TargetPoint(dimension, pos.getX()+0.5D, pos.getY()+0.5D, pos.getZ()+0.5D, range));
 		channel.writeAndFlush(instance.writePacket(packet)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
 	}
 	
 	public static void sendToAllAround(Entity entity, double range, AbstractPacket packet){
 		FMLEmbeddedChannel channel = instance.channels.get(Side.SERVER);
 		channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(OutboundTarget.ALLAROUNDPOINT);
-		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new TargetPoint(entity.dimension,entity.posX,entity.posY,entity.posZ,range));
+		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, range));
 		channel.writeAndFlush(instance.writePacket(packet)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
 	}
 	
 	public static void sendToAllAround(TileEntity tile, double range, AbstractPacket packet){
 		FMLEmbeddedChannel channel = instance.channels.get(Side.SERVER);
 		channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(OutboundTarget.ALLAROUNDPOINT);
-		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new TargetPoint(tile.getWorldObj().provider.dimensionId,tile.xCoord+0.5D,tile.yCoord+0.5D,tile.zCoord+0.5D,range));
+		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new TargetPoint(tile.getWorldObj().provider.dimensionId, tile.xCoord+0.5D, tile.yCoord+0.5D, tile.zCoord+0.5D, range));
 		channel.writeAndFlush(instance.writePacket(packet)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
 	}
 	

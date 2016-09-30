@@ -16,13 +16,13 @@ public class ContainerAmuletOfRecovery extends ContainerChest implements IContai
 	private final IInventory amuletInv;
 	
 	public ContainerAmuletOfRecovery(EntityPlayer player){
-		super(player.inventory,ItemAmuletOfRecovery.getAmuletInventory(player.getHeldItem()));
+		super(player.inventory, ItemAmuletOfRecovery.getAmuletInventory(player.getHeldItem()));
 		
 		this.player = player;
 		this.amuletInv = getLowerChestInventory();
 		
 		for(int a = 0, numRows = amuletInv.getSizeInventory()/9; a < numRows; a++){
-			for(int b = 0; b < 9; b++)inventorySlots.set(b+9*a,new SlotReadOnly((Slot)inventorySlots.get(b+9*a)));
+			for(int b = 0; b < 9; b++)inventorySlots.set(b+9*a, new SlotReadOnly((Slot)inventorySlots.get(b+9*a)));
 		}
 	}
 	
@@ -39,7 +39,7 @@ public class ContainerAmuletOfRecovery extends ContainerChest implements IContai
 				return;
 			}
 			else if (ContainerHelper.hasChanged(this)){
-				ItemAmuletOfRecovery.setAmuletInventory(player.getHeldItem(),amuletInv);
+				ItemAmuletOfRecovery.setAmuletInventory(player.getHeldItem(), amuletInv);
 			}
 		}
 		
@@ -53,28 +53,28 @@ public class ContainerAmuletOfRecovery extends ContainerChest implements IContai
 		InventoryPlayer playerInv = this.player.inventory;
 		
 		for(int slot = 0; slot < 4; slot++){
-			tryMoveSlot(3-slot,slot,playerInv.armorInventory);
+			tryMoveSlot(3-slot, slot, playerInv.armorInventory);
 		}
 		
 		for(int slot = 9; slot < 36; slot++){
-			tryMoveSlot(slot,slot,playerInv.mainInventory);
+			tryMoveSlot(slot, slot, playerInv.mainInventory);
 		}
 		
 		for(int slot = 0; slot < 9; slot++){
-			tryMoveSlot(36+slot,slot,playerInv.mainInventory);
+			tryMoveSlot(36+slot, slot, playerInv.mainInventory);
 		}
 	}
 	
 	private void tryMoveSlot(int sourceSlot, int targetSlot, ItemStack[] target){
 		if (amuletInv.getStackInSlot(sourceSlot) != null && target[targetSlot] == null){
 			target[targetSlot] = amuletInv.getStackInSlot(sourceSlot);
-			amuletInv.setInventorySlotContents(sourceSlot,null);
+			amuletInv.setInventorySlotContents(sourceSlot, null);
 		}
 	}
 	
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotId){
-		return ContainerHelper.transferStack(this,this::mergeItemStack,amuletInv.getSizeInventory(),slotId); // TODO test
+		return ContainerHelper.transferStack(this, this::mergeItemStack, amuletInv.getSizeInventory(), slotId); // TODO test
 	}
 	
 	@Override

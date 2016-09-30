@@ -10,7 +10,7 @@ import chylex.hee.system.abstractions.entity.EntitySelector;
 public class ItemPotionOfPurity extends ItemAbstractPotion{
 	@Override
 	public void applyEffectDrunk(ItemStack is, World world, EntityPlayer player){
-		for(EntityTechnicalCurseEntity curse:EntitySelector.type(world,EntityTechnicalCurseEntity.class,player.boundingBox.expand(0.5D,0.5D,0.5D))){
+		for(EntityTechnicalCurseEntity curse:EntitySelector.type(world, EntityTechnicalCurseEntity.class, player.boundingBox.expand(0.5D, 0.5D, 0.5D))){
 			if (curse.compareTarget(player)){
 				curse.setDead();
 				curse.onPurify();

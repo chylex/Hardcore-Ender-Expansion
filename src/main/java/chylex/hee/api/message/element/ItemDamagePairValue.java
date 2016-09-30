@@ -11,8 +11,8 @@ public class ItemDamagePairValue extends PreconditionComposite<ItemDamagePair>{
 	}
 	
 	private ItemDamagePairValue(){
-		addCondition("id",ItemStackValue.itemString);
-		addCondition("damage",Optional.of(IntValue.any(),-1));
+		addCondition("id", ItemStackValue.itemString);
+		addCondition("damage", Optional.of(IntValue.any(), -1));
 	}
 	
 	@Override
@@ -21,6 +21,6 @@ public class ItemDamagePairValue extends PreconditionComposite<ItemDamagePair>{
 		if (item == null)throw new IllegalStateException("Failed constructing an ItemDamagePair from IMC, item is null.");
 		
 		int damage = runner.getInt("damage");
-		return new ItemDamagePair(item,damage < 0 ? -1 : damage);
+		return new ItemDamagePair(item, damage < 0 ? -1 : damage);
 	}
 }

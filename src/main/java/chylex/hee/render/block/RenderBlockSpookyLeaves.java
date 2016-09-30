@@ -18,8 +18,8 @@ public class RenderBlockSpookyLeaves implements ISimpleBlockRenderingHandler{
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer){
 		Tessellator tessellator = Tessellator.instance;
-		tessellator.setBrightness(block.getMixedBrightnessForBlock(world,x,y,z));
-		int colorMultiplier = block.colorMultiplier(world,x,y,z);
+		tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
+		int colorMultiplier = block.colorMultiplier(world, x, y, z);
 		float r = (colorMultiplier>>16&255)/255F,
 			  g = (colorMultiplier>>8&255)/255F,
 			  b = (colorMultiplier&255)/255F;
@@ -30,7 +30,7 @@ public class RenderBlockSpookyLeaves implements ISimpleBlockRenderingHandler{
 			b = (r*30F+b*70F)/100F;
 		}
 
-		tessellator.setColorOpaque_F(r,g,b);
+		tessellator.setColorOpaque_F(r, g, b);
 		double posX = x, posY = y, posZ = z;
 
 		long offsetSeed = (x*3129871L)^z*116129781L^y;
@@ -40,14 +40,14 @@ public class RenderBlockSpookyLeaves implements ISimpleBlockRenderingHandler{
 		posY += (((offsetSeed>>20&15L)/15F)-1D)*0.15D;
 		posZ += (((offsetSeed>>24&15L)/15F)-0.5D)*0.2D;
 
-		drawCrossedSquares(block,world.getBlockMetadata(x,y,z),posX,posY,posZ,scale,renderer);
+		drawCrossedSquares(block, world.getBlockMetadata(x, y, z), posX, posY, posZ, scale, renderer);
 
 		return true;
 	}
 
 	private void drawCrossedSquares(Block block, int meta, double x, double y, double z, float scale, RenderBlocks renderer){
 		Tessellator tessellator = Tessellator.instance;
-		IIcon icon = renderer.getBlockIconFromSideAndMetadata(block,0,meta);
+		IIcon icon = renderer.getBlockIconFromSideAndMetadata(block, 0, meta);
 
 		long offsetSeed = (long)(x*3129871)^(long)z*116129781L^(long)y;
 		offsetSeed = offsetSeed*offsetSeed*42317861L+offsetSeed*11L;
@@ -69,22 +69,22 @@ public class RenderBlockSpookyLeaves implements ISimpleBlockRenderingHandler{
 		minZ -= zOffset;
 		maxZ += zOffset;
 
-		tessellator.addVertexWithUV(minX,y+scale,minZ,iconU1,iconV1);
-		tessellator.addVertexWithUV(minX,y,minZ,iconU1,iconV2);
-		tessellator.addVertexWithUV(maxX,y,maxZ,iconU2,iconV2);
-		tessellator.addVertexWithUV(maxX,y+scale,maxZ,iconU2,iconV1);
-		tessellator.addVertexWithUV(maxX,y+scale,maxZ,iconU1,iconV1);
-		tessellator.addVertexWithUV(maxX,y,maxZ,iconU1,iconV2);
-		tessellator.addVertexWithUV(minX,y,minZ,iconU2,iconV2);
-		tessellator.addVertexWithUV(minX,y+scale,minZ,iconU2,iconV1);
-		tessellator.addVertexWithUV(minX,y+scale,maxZ,iconU1,iconV1);
-		tessellator.addVertexWithUV(minX,y,maxZ,iconU1,iconV2);
-		tessellator.addVertexWithUV(maxX,y,minZ,iconU2,iconV2);
-		tessellator.addVertexWithUV(maxX,y+scale,minZ,iconU2,iconV1);
-		tessellator.addVertexWithUV(maxX,y+scale,minZ,iconU1,iconV1);
-		tessellator.addVertexWithUV(maxX,y,minZ,iconU1,iconV2);
-		tessellator.addVertexWithUV(minX,y,maxZ,iconU2,iconV2);
-		tessellator.addVertexWithUV(minX,y+scale,maxZ,iconU2,iconV1);
+		tessellator.addVertexWithUV(minX, y+scale, minZ, iconU1, iconV1);
+		tessellator.addVertexWithUV(minX, y, minZ, iconU1, iconV2);
+		tessellator.addVertexWithUV(maxX, y, maxZ, iconU2, iconV2);
+		tessellator.addVertexWithUV(maxX, y+scale, maxZ, iconU2, iconV1);
+		tessellator.addVertexWithUV(maxX, y+scale, maxZ, iconU1, iconV1);
+		tessellator.addVertexWithUV(maxX, y, maxZ, iconU1, iconV2);
+		tessellator.addVertexWithUV(minX, y, minZ, iconU2, iconV2);
+		tessellator.addVertexWithUV(minX, y+scale, minZ, iconU2, iconV1);
+		tessellator.addVertexWithUV(minX, y+scale, maxZ, iconU1, iconV1);
+		tessellator.addVertexWithUV(minX, y, maxZ, iconU1, iconV2);
+		tessellator.addVertexWithUV(maxX, y, minZ, iconU2, iconV2);
+		tessellator.addVertexWithUV(maxX, y+scale, minZ, iconU2, iconV1);
+		tessellator.addVertexWithUV(maxX, y+scale, minZ, iconU1, iconV1);
+		tessellator.addVertexWithUV(maxX, y, minZ, iconU1, iconV2);
+		tessellator.addVertexWithUV(minX, y, maxZ, iconU2, iconV2);
+		tessellator.addVertexWithUV(minX, y+scale, maxZ, iconU2, iconV1);
 	}
 
 	@Override

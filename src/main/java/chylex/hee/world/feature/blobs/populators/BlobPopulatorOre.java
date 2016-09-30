@@ -17,6 +17,6 @@ public class BlobPopulatorOre extends BlobPopulator{
 	
 	@Override
 	public void populate(StructureWorldBlob world, Random rand){
-		oreGenerator.generateFull(world,rand);
+		oreGenerator.generateFull(world, rand);
 	}
 }

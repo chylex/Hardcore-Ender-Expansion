@@ -20,22 +20,22 @@ public class StructureResourcePit extends AbstractIslandStructure{
 		}
 		
 		for(int attempt = 0, x, z; attempt < 60; attempt++){
-			x = getRandomXZ(rand,8);
-			z = getRandomXZ(rand,8);
+			x = getRandomXZ(rand, 8);
+			z = getRandomXZ(rand, 8);
 			
 			// CHECK AREA
 			
 			boolean canGenerate = true;
 			int maxy = 0;
 			
-			for(int a = 0,toph,btmh = 0; a < 4; a++){
-				if ((toph = world.getHighestY(x+xOff[a],z+zOff[a])) == 0){
+			for(int a = 0, toph, btmh = 0; a < 4; a++){
+				if ((toph = world.getHighestY(x+xOff[a], z+zOff[a])) == 0){
 					canGenerate = false;
 					break;
 				}
 				
 				for(int y = 0; y < toph; y++){
-					if (!world.isAir(x,y,z)){
+					if (!world.isAir(x, y, z)){
 						btmh = y;
 						break;
 					}
@@ -55,19 +55,19 @@ public class StructureResourcePit extends AbstractIslandStructure{
 			for(int py = maxy; py > maxy-height-rand.nextInt(4); py--){
 				for(int px = -irad; px <= irad; px++){
 					for(int pz = -irad; pz <= irad; pz++){
-						if (holes[px+irad][pz+irad])world.setBlock(x+px,py,z+pz,py < maxy-height+3 ? Blocks.flowing_lava : Blocks.air,0,py < maxy-height+3);
+						if (holes[px+irad][pz+irad])world.setBlock(x+px, py, z+pz, py < maxy-height+3 ? Blocks.flowing_lava : Blocks.air, 0, py < maxy-height+3);
 					}
 				}
 			}
 			
-			for(int featureAttempt = 0,placed = 0,max = 25+rand.nextInt(18),px,py,pz; featureAttempt < 580+height*5+irad*irad*4 && placed < max+rand.nextInt(8); featureAttempt++){
+			for(int featureAttempt = 0, placed = 0, max = 25+rand.nextInt(18), px, py, pz; featureAttempt < 580+height*5+irad*irad*4 && placed < max+rand.nextInt(8); featureAttempt++){
 				px = x+rand.nextInt(irad+1)-rand.nextInt(irad+1);
-				py = Math.min(maxy-1,(int)(maxy-height+Math.abs(rand.nextGaussian()*height*0.65D)));
+				py = Math.min(maxy-1, (int)(maxy-height+Math.abs(rand.nextGaussian()*height*0.65D)));
 				pz = z+rand.nextInt(irad+1)-rand.nextInt(irad+1);
 				
-				if (world.getBlock(px,py,pz) == Blocks.end_stone && (world.isAir(px-1,py,pz) || world.isAir(px+1,py,pz) || world.isAir(px,py,pz-1) || world.isAir(px,py,pz+1))){
-					if (rand.nextInt(9) <= 7)world.setBlock(px,py,pz,getOre(rand));
-					else world.setBlock(px,py,pz,Blocks.flowing_lava,0,true);
+				if (world.getBlock(px, py, pz) == Blocks.end_stone && (world.isAir(px-1, py, pz) || world.isAir(px+1, py, pz) || world.isAir(px, py, pz-1) || world.isAir(px, py, pz+1))){
+					if (rand.nextInt(9) <= 7)world.setBlock(px, py, pz, getOre(rand));
+					else world.setBlock(px, py, pz, Blocks.flowing_lava, 0, true);
 					++placed;
 				}
 			}

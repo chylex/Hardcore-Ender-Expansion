@@ -26,7 +26,7 @@ public class BlobPopulatorLiquidStream extends BlobPopulator{
 	}
 	
 	public BlobPopulatorLiquidStream setAmount(int min, int max){
-		this.amount = new RangeGenerator(min,max,RandomAmount.linear);
+		this.amount = new RangeGenerator(min, max, RandomAmount.linear);
 		return this;
 	}
 	
@@ -55,32 +55,32 @@ public class BlobPopulatorLiquidStream extends BlobPopulator{
 		for(int attempt = 0; attempt < attempts; attempt++){
 			Pos pos = endStoneBlocks.remove(rand.nextInt(endStoneBlocks.size())); // size never gets to 0
 			
-			Facing4 facing = findStreamStart(world,pos);
+			Facing4 facing = findStreamStart(world, pos);
 			if (facing == null)continue;
 			
 			if (strictFlowCheck){
 				pos = pos.offset(facing);
 				int y = pos.getY();
 				
-				while(--y > 0 && !isContained(world,pos.getX(),y,pos.getZ()));
+				while(--y > 0 && !isContained(world, pos.getX(), y, pos.getZ()));
 				if (y == 0)continue;
 				
 				y = pos.getY();
 				
-				while(--y > 0 && !isContained(world,pos.getX(),y,pos.getZ()))world.setAir(pos.getX(),y,pos.getZ());
-				world.setAir(pos.getX(),y,pos.getZ());
+				while(--y > 0 && !isContained(world, pos.getX(), y, pos.getZ()))world.setAir(pos.getX(), y, pos.getZ());
+				world.setAir(pos.getX(), y, pos.getZ());
 				
 				pos = pos.offset(facing.opposite());
-				world.setBlock(pos,block);
+				world.setBlock(pos, block);
 			}
 			else{
-				world.setBlock(pos,block);
+				world.setBlock(pos, block);
 				
 				pos = pos.offset(facing);
 				int y = pos.getY();
 				
-				while(--y > 0 && !isContained(world,pos.getX(),y,pos.getZ()))world.setAir(pos.getX(),y,pos.getZ());
-				world.setAir(pos.getX(),y,pos.getZ());
+				while(--y > 0 && !isContained(world, pos.getX(), y, pos.getZ()))world.setAir(pos.getX(), y, pos.getZ());
+				world.setAir(pos.getX(), y, pos.getZ());
 			}
 			
 			if (--targetAmount <= 0)return;
@@ -88,8 +88,8 @@ public class BlobPopulatorLiquidStream extends BlobPopulator{
 	}
 	
 	private @Nullable Facing4 findStreamStart(StructureWorldBlob world, Pos pos){
-		if (!(canHaveAirAbove || world.getBlock(pos.getX(),pos.getY()+1,pos.getZ()) == Blocks.end_stone))return null;
-		if (world.isAir(pos.getX(),pos.getY()-1,pos.getZ()))return null;
+		if (!(canHaveAirAbove || world.getBlock(pos.getX(), pos.getY()+1, pos.getZ()) == Blocks.end_stone))return null;
+		if (world.isAir(pos.getX(), pos.getY()-1, pos.getZ()))return null;
 		
 		Facing4 suitable = null;
 		
@@ -105,7 +105,7 @@ public class BlobPopulatorLiquidStream extends BlobPopulator{
 	
 	private boolean isContained(StructureWorldBlob world, int x, int y, int z){
 		for(Facing4 facing:Facing4.list){
-			if (world.getBlock(x+facing.getX(),y,z+facing.getZ()) != Blocks.end_stone)return false;
+			if (world.getBlock(x+facing.getX(), y, z+facing.getZ()) != Blocks.end_stone)return false;
 		}
 		
 		return true;

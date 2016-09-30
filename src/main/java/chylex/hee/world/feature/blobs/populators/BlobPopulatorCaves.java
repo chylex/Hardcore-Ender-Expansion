@@ -15,9 +15,9 @@ import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 import chylex.hee.world.util.RandomAmount;
 
 public class BlobPopulatorCaves extends BlobPopulator{
-	private static final IRangeGenerator zero = new RangeGenerator(0,0,RandomAmount.exact);
+	private static final IRangeGenerator zero = new RangeGenerator(0, 0, RandomAmount.exact);
 	
-	private final List<Pair<Vec,Double>> tmpCavePositions = new ArrayList<>();
+	private final List<Pair<Vec, Double>> tmpCavePositions = new ArrayList<>();
 	private BoundingBox tmpArea;
 	
 	private IRandGenerator radiusMain = rand -> 0D, radiusMinorMp = rand -> 1D;
@@ -38,7 +38,7 @@ public class BlobPopulatorCaves extends BlobPopulator{
 	}
 	
 	public BlobPopulatorCaves setMainAmount(int minAmount, int maxAmount){
-		this.amountMain = new RangeGenerator(minAmount,maxAmount,RandomAmount.linear);
+		this.amountMain = new RangeGenerator(minAmount, maxAmount, RandomAmount.linear);
 		return this;
 	}
 	
@@ -48,7 +48,7 @@ public class BlobPopulatorCaves extends BlobPopulator{
 	}
 	
 	public BlobPopulatorCaves setMinorAmount(int minAmount, int maxAmount){
-		this.amountMinor = new RangeGenerator(minAmount,maxAmount,RandomAmount.linear);
+		this.amountMinor = new RangeGenerator(minAmount, maxAmount, RandomAmount.linear);
 		return this;
 	}
 	
@@ -88,7 +88,7 @@ public class BlobPopulatorCaves extends BlobPopulator{
 	}
 	
 	public BlobPopulatorCaves setMainCycles(int minCycles, int maxCycles){
-		this.cyclesMain = new RangeGenerator(minCycles,maxCycles,RandomAmount.linear);
+		this.cyclesMain = new RangeGenerator(minCycles, maxCycles, RandomAmount.linear);
 		return this;
 	}
 	
@@ -98,7 +98,7 @@ public class BlobPopulatorCaves extends BlobPopulator{
 	}
 	
 	public BlobPopulatorCaves setMinorCycles(int minCycles, int maxCycles){
-		this.cyclesMinor = new RangeGenerator(minCycles,maxCycles,RandomAmount.linear);
+		this.cyclesMinor = new RangeGenerator(minCycles, maxCycles, RandomAmount.linear);
 		return this;
 	}
 
@@ -110,15 +110,15 @@ public class BlobPopulatorCaves extends BlobPopulator{
 		int mainAttempts = mainLeft*3, minorAttempts = minorLeft*3;
 		
 		while(--mainAttempts >= 0 && mainLeft > 0){
-			if (generateCave(world,rand,findNewPosition(world,rand),radiusMain.generate(rand),cyclesMain.next(rand))){
+			if (generateCave(world, rand, findNewPosition(world, rand), radiusMain.generate(rand), cyclesMain.next(rand))){
 				--mainLeft;
 			}
 		}
 		
 		while(--minorAttempts >= 0 && minorLeft > 0 && !tmpCavePositions.isEmpty()){
-			Pair<Vec,Double> cave = CollectionUtil.randomOrNull(tmpCavePositions,rand);
+			Pair<Vec, Double> cave = CollectionUtil.randomOrNull(tmpCavePositions, rand);
 			
-			if (generateCave(world,rand,cave.getKey(),cave.getValue().doubleValue()*radiusMinorMp.generate(rand),cyclesMinor.next(rand))){
+			if (generateCave(world, rand, cave.getKey(), cave.getValue().doubleValue()*radiusMinorMp.generate(rand), cyclesMinor.next(rand))){
 				--minorLeft;
 			}
 		}
@@ -137,7 +137,7 @@ public class BlobPopulatorCaves extends BlobPopulator{
 				tmpArea.z1+rand.nextInt(1+tmpArea.z2-tmpArea.z1)+rand.nextDouble()
 			);
 			
-			if (isNearEndStone(world,lastPos,4D))return lastPos;
+			if (isNearEndStone(world, lastPos, 4D))return lastPos;
 		}
 		
 		return lastPos;
@@ -148,16 +148,16 @@ public class BlobPopulatorCaves extends BlobPopulator{
 		boolean wasNearEndStone = false;
 		
 		while(--cycles >= 0){
-			if (isNearEndStone(world,pos,radius)){
+			if (isNearEndStone(world, pos, radius)){
 				wasNearEndStone = true;
-				tmpCavePositions.add(Pair.of(pos.copy(),radius));
+				tmpCavePositions.add(Pair.of(pos.copy(), radius));
 			}
 			
-			generateBlob(world,pos.x,pos.y,pos.z,radius,Blocks.air);
+			generateBlob(world, pos.x, pos.y, pos.z, radius, Blocks.air);
 			pos.moveBy(dir);
 			
 			if (rand.nextInt(3) == 0){
-				dir = dir.offset(Vec.xyzRandom(rand),rand.nextDouble()*4D).normalized();
+				dir = dir.offset(Vec.xyzRandom(rand), rand.nextDouble()*4D).normalized();
 			}
 		}
 		
@@ -165,7 +165,7 @@ public class BlobPopulatorCaves extends BlobPopulator{
 	}
 	
 	private boolean isNearEndStone(StructureWorldBlob world, Vec pos, double radius){
-		if (world.getBlock(MathUtil.floor(pos.x),MathUtil.floor(pos.y),MathUtil.floor(pos.z)) == Blocks.end_stone)return true;
+		if (world.getBlock(MathUtil.floor(pos.x), MathUtil.floor(pos.y), MathUtil.floor(pos.z)) == Blocks.end_stone)return true;
 		
 		for(Facing6 facing:Facing6.list){
 			if (world.getBlock(MathUtil.floor(pos.x+radius*facing.getX()),

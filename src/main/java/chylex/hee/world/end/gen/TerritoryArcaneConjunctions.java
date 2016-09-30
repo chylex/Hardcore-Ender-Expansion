@@ -14,7 +14,7 @@ import chylex.hee.world.util.BoundingBox;
 
 public class TerritoryArcaneConjunctions extends TerritoryGenerator{
 	public TerritoryArcaneConjunctions(EndTerritory territory, EnumSet variations, StructureWorld world, Random rand){
-		super(territory,variations,world,rand);
+		super(territory, variations, world, rand);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class TerritoryArcaneConjunctions extends TerritoryGenerator{
 			);
 			
 			if (!generatedBlobs.contains(pos)){
-				generateBlob(pos.getX(),pos.getY()-radOffset,pos.getZ(),rad,0.85F,0F);
+				generateBlob(pos.getX(), pos.getY()-radOffset, pos.getZ(), rad, 0.85F, 0F);
 				generatedBlobs.add(pos);
 				blob++;
 			}
@@ -64,31 +64,31 @@ public class TerritoryArcaneConjunctions extends TerritoryGenerator{
 				}
 			}
 			
-			if (targetPos != null && closest < 64D)generateConnection(pos,targetPos);
+			if (targetPos != null && closest < 64D)generateConnection(pos, targetPos);
 		}
 	}
 	
 	private final void generateBlob(final int x, final int y, final int z, final double rad, final float cutOffTop, final float cutOffBottom){ // TODO fix cutOffBottom
 		double radSq = MathUtil.square(rad+0.5D);
 		int dist = MathUtil.ceil(radSq);
-		Pos center = Pos.at(x,y,z);
+		Pos center = Pos.at(x, y, z);
 		
-		Pos.forEachBlock(center.offset(-dist,-dist,-dist),center.offset(dist,dist,dist),pos -> {
-			if (MathUtil.distanceSquared(pos.x-x,pos.y-y,pos.z-z) <= radSq && pos.y < y+rad*cutOffTop && pos.y > y-rad*(1F-cutOffBottom)){
-				world.setBlock(pos,Blocks.end_stone);
+		Pos.forEachBlock(center.offset(-dist, -dist, -dist), center.offset(dist, dist, dist), pos -> {
+			if (MathUtil.distanceSquared(pos.x-x, pos.y-y, pos.z-z) <= radSq && pos.y < y+rad*cutOffTop && pos.y > y-rad*(1F-cutOffBottom)){
+				world.setBlock(pos, Blocks.end_stone);
 			}
 		});
 	}
 	
 	private final void generateConnection(Pos startPos, Pos endPos){
-		Vec pos = Vec.xyz(startPos.getX()+0.5D,startPos.getY()+0.5D,startPos.getZ()+0.5D);
-		Vec dir = Vec.xyz(endPos.getX()-startPos.getX(),endPos.getY()-startPos.getY(),endPos.getZ()-startPos.getZ());
+		Vec pos = Vec.xyz(startPos.getX()+0.5D, startPos.getY()+0.5D, startPos.getZ()+0.5D);
+		Vec dir = Vec.xyz(endPos.getX()-startPos.getX(), endPos.getY()-startPos.getY(), endPos.getZ()-startPos.getZ());
 		
 		int length = MathUtil.floor(dir.length())*2;
 		dir = dir.normalized().multiplied(0.5D);
 		
 		for(int a = 0; a < length; a++){
-			generateBlob(MathUtil.floor(pos.x),MathUtil.floor(pos.y),MathUtil.floor(pos.z),0.35D+0.75D*rand.nextDouble(),0.95F,0.95F);
+			generateBlob(MathUtil.floor(pos.x), MathUtil.floor(pos.y), MathUtil.floor(pos.z), 0.35D+0.75D*rand.nextDouble(), 0.95F, 0.95F);
 			pos.moveBy(dir);
 		}
 	}

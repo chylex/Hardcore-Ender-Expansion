@@ -43,10 +43,10 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			// THORNY BUSHES
 			if (moreBushes || rand.nextBoolean()){
 				for(int attempt = 0; attempt < 18; attempt++){
-					int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = world.getHighestY(xx,zz);
+					int xx = getRandomXZ(rand, 0), zz = getRandomXZ(rand, 0), yy = world.getHighestY(xx, zz);
 					
-					if (world.getBlock(xx,yy,zz) == topBlock && world.isAir(xx,yy+1,zz)){
-						world.setBlock(xx,yy,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataThornBush);
+					if (world.getBlock(xx, yy, zz) == topBlock && world.isAir(xx, yy+1, zz)){
+						world.setBlock(xx, yy, zz, BlockList.crossed_decoration, BlockCrossedDecoration.dataThornBush);
 						if (!data.hasDeviation(MORE_THORNY_BUSHES) && rand.nextInt(5) <= 1)break;
 					}
 				}
@@ -54,25 +54,25 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			
 			// INFESTED GRASS
 			for(int attempt = 0; attempt < 100; attempt++){
-				int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = attempt > 70 ? 10+rand.nextInt(50) : world.getHighestY(xx,zz);
-				if (world.getBlock(xx,yy,zz) == topBlock && world.isAir(xx,yy+1,zz)){
-					world.setBlock(xx,yy+1,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedGrass);
+				int xx = getRandomXZ(rand, 0), zz = getRandomXZ(rand, 0), yy = attempt > 70 ? 10+rand.nextInt(50) : world.getHighestY(xx, zz);
+				if (world.getBlock(xx, yy, zz) == topBlock && world.isAir(xx, yy+1, zz)){
+					world.setBlock(xx, yy+1, zz, BlockList.crossed_decoration, BlockCrossedDecoration.dataInfestedGrass);
 				}
 			}
 			
 			// INFESTED FERNS
 			for(int attempt = 0; attempt < 85; attempt++){
-				int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = attempt > 60 ? 10+rand.nextInt(50) : world.getHighestY(xx,zz);
-				if (world.getBlock(xx,yy,zz) == topBlock && world.isAir(xx,yy+1,zz)){
-					world.setBlock(xx,yy+1,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedFern);
+				int xx = getRandomXZ(rand, 0), zz = getRandomXZ(rand, 0), yy = attempt > 60 ? 10+rand.nextInt(50) : world.getHighestY(xx, zz);
+				if (world.getBlock(xx, yy, zz) == topBlock && world.isAir(xx, yy+1, zz)){
+					world.setBlock(xx, yy+1, zz, BlockList.crossed_decoration, BlockCrossedDecoration.dataInfestedFern);
 				}
 			}
 			
 			// INFESTED TALL GRASS
 			for(int attempt = 0; attempt < 80; attempt++){
-				int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = attempt > 50 ? 10+rand.nextInt(50) : world.getHighestY(xx,zz);
-				if (world.getBlock(xx,yy,zz) == topBlock && world.isAir(xx,yy+1,zz)){
-					world.setBlock(xx,yy+1,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedTallgrass);
+				int xx = getRandomXZ(rand, 0), zz = getRandomXZ(rand, 0), yy = attempt > 50 ? 10+rand.nextInt(50) : world.getHighestY(xx, zz);
+				if (world.getBlock(xx, yy, zz) == topBlock && world.isAir(xx, yy+1, zz)){
+					world.setBlock(xx, yy+1, zz, BlockList.crossed_decoration, BlockCrossedDecoration.dataInfestedTallgrass);
 				}
 			}
 		}
@@ -98,13 +98,13 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		
 		// PATCHES OF INFESTED GRASS, TALL GRASS AND FERNS
 		for(int pick = 0, pickAmount = rand.nextInt(50)+240; pick < pickAmount; pick++){
-			int xx = getRandomXZ(rand,48),
-				zz = getRandomXZ(rand,48),
+			int xx = getRandomXZ(rand, 48),
+				zz = getRandomXZ(rand, 48),
 				yy = 8+rand.nextInt(30),
 				type = rand.nextInt(3);
 			
 			for(int yTest = 0; yTest < 40; yTest++){
-				if (world.getBlock(xx,yy++,zz) == topBlock || yy >= 60)break;
+				if (world.getBlock(xx, yy++, zz) == topBlock || yy >= 60)break;
 			}
 			
 			for(int attempt = 0, attemptAmount = 70+rand.nextInt(80), px, py, pz, meta; attempt < attemptAmount; attempt++){
@@ -112,7 +112,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 				py = yy+rand.nextInt(4+(attempt>>5))-rand.nextInt(4+(attempt>>5));
 				pz = zz+rand.nextInt(4+(attempt>>2))-rand.nextInt(4+(attempt>>2));
 				
-				if (world.getBlock(px,py,pz) == topBlock && world.isAir(px,py+1,pz)){
+				if (world.getBlock(px, py, pz) == topBlock && world.isAir(px, py+1, pz)){
 					meta = (type == 0 ? BlockCrossedDecoration.dataInfestedTallgrass : type == 1 ? BlockCrossedDecoration.dataInfestedGrass : BlockCrossedDecoration.dataInfestedFern);
 					
 					if (rand.nextInt(8) == 0){
@@ -120,7 +120,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 						meta = (newType == 0 ? BlockCrossedDecoration.dataInfestedTallgrass : newType == 1 ? BlockCrossedDecoration.dataInfestedGrass : BlockCrossedDecoration.dataInfestedFern);
 					}
 					
-					world.setBlock(px,py+1,pz,BlockList.crossed_decoration,meta);
+					world.setBlock(px, py+1, pz, BlockList.crossed_decoration, meta);
 				}
 			}
 		}
@@ -131,9 +131,9 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 				for(int attempt = 0, type; attempt < 120; attempt++){
 					int xx = cx*16+rand.nextInt(16), zz = cz*16+rand.nextInt(16), yy = 10+rand.nextInt(50);
 					
-					if (world.getBlock(xx,yy-1,zz) == topBlock){
+					if (world.getBlock(xx, yy-1, zz) == topBlock){
 						type = rand.nextInt(3);
-						world.setBlock(xx,yy,zz,BlockList.crossed_decoration,type == 0 ? BlockCrossedDecoration.dataInfestedTallgrass : type == 1 ? BlockCrossedDecoration.dataInfestedGrass : BlockCrossedDecoration.dataInfestedFern);
+						world.setBlock(xx, yy, zz, BlockList.crossed_decoration, type == 0 ? BlockCrossedDecoration.dataInfestedTallgrass : type == 1 ? BlockCrossedDecoration.dataInfestedGrass : BlockCrossedDecoration.dataInfestedFern);
 					}
 				}
 			}
@@ -165,14 +165,14 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 
 		// CLUSTERS OF RUIN PILLARS
 		for(int bulkAttempt = 0, bulk = 0; bulkAttempt < 18 && bulk < 4+rand.nextInt(3); bulkAttempt++){
-			int xx = getRandomXZ(rand,16);
-			int zz = getRandomXZ(rand,16);
+			int xx = getRandomXZ(rand, 16);
+			int zz = getRandomXZ(rand, 16);
 			int yy = 10+rand.nextInt(30);
 			
 			boolean generates = false;
 			
 			for(int testY = 0; testY < 40; testY++, yy++){
-				if (world.getBlock(xx,yy,zz) == topBlock){
+				if (world.getBlock(xx, yy, zz) == topBlock){
 					generates = true;
 					break;
 				}
@@ -191,9 +191,9 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 				if (Math.abs(px-xx) > 25 || Math.abs(pz-zz) > 25)continue;
 				
 				for(py = yy-1-rand.nextInt(4); py < yy+4; py++){
-					if (world.getBlock(px,py,pz) == topBlock){
+					if (world.getBlock(px, py, pz) == topBlock){
 						genRuinPillar.setIsDeep(rand.nextInt(6) == 0);
-						genRuinPillar.setForcedCoords(px,py+1,pz);
+						genRuinPillar.setForcedCoords(px, py+1, pz);
 						generateStructure(genRuinPillar);
 						break;
 					}
@@ -205,8 +205,8 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		
 		// COBWEBS
 		for(int attempt = 0; attempt < 1000; attempt++){
-			int xx = getRandomXZ(rand,0);
-			int zz = getRandomXZ(rand,0);
+			int xx = getRandomXZ(rand, 0);
+			int zz = getRandomXZ(rand, 0);
 			int yy = 0, yAttempt, checkX, checkZ;
 			
 			boolean canGenerate = false;
@@ -214,7 +214,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			for(yAttempt = 0; yAttempt < 15; yAttempt++){
 				yy = 15+rand.nextInt(45);
 				
-				if (world.isAir(xx,yy,zz)){
+				if (world.isAir(xx, yy, zz)){
 					canGenerate = true;
 					break;
 				}
@@ -224,8 +224,8 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			
 			for(checkX = xx-2; checkX <= xx+2; checkX++){
 				for(checkZ = zz-2; checkZ <= zz+2; checkZ++){
-					if (!world.isAir(checkX,yy,checkZ)){
-						world.setBlock(xx,yy,zz,Blocks.web);
+					if (!world.isAir(checkX, yy, checkZ)){
+						world.setBlock(xx, yy, zz, Blocks.web);
 						checkX += 9;
 						break;
 					}

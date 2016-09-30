@@ -32,7 +32,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockVoidPortal extends BlockEndPortal implements IBlockSubtypes{
 	public static Optional<EntityTechnicalVoidPortal> getData(World world, int x, int y, int z){
-		return CollectionUtil.get(EntitySelector.type(world,EntityTechnicalVoidPortal.class,AxisAlignedBB.getBoundingBox(x-4.5D,y-1D,z-4.5D,x+5.5D,y+1D,z+5.5D)),0);
+		return CollectionUtil.get(EntitySelector.type(world, EntityTechnicalVoidPortal.class, AxisAlignedBB.getBoundingBox(x-4.5D, y-1D, z-4.5D, x+5.5D, y+1D, z+5.5D)), 0);
 	}
 	
 	private final EntityPortalStatus portalStatus = new EntityPortalStatus();
@@ -49,7 +49,7 @@ public class BlockVoidPortal extends BlockEndPortal implements IBlockSubtypes{
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
 		if (entity.posY <= y+0.05D && entity instanceof EntityPlayerMP){
-			Pos pos = Pos.at(x,y,z);
+			Pos pos = Pos.at(x, y, z);
 			int meta = pos.getMetadata(world);
 			EntityPlayerMP player = (EntityPlayerMP)entity;
 			
@@ -59,23 +59,23 @@ public class BlockVoidPortal extends BlockEndPortal implements IBlockSubtypes{
 					if (voidPortal == null)return;
 					
 					player.mountEntity(null);
-					player.setPositionAndUpdate(voidPortal.getX()+0.5D,voidPortal.getY()+1D,voidPortal.getZ()+0.5D);
+					player.setPositionAndUpdate(voidPortal.getX()+0.5D, voidPortal.getY()+1D, voidPortal.getZ()+0.5D);
 				}
 				else if (meta == Meta.voidPortalTravel){
-					ItemStack tokenIS = getData(world,x,y,z).map(data -> data.getActiveToken()).orElse(null);
+					ItemStack tokenIS = getData(world, x, y, z).map(data -> data.getActiveToken()).orElse(null);
 					if (tokenIS == null)return;
 					
 					EndTerritory territory = ItemPortalToken.getTerritory(tokenIS);
 					if (territory == null || !territory.canGenerate())return;
 					
-					ItemPortalToken.generateTerritory(tokenIS,world).ifPresent(targetPos -> {
+					ItemPortalToken.generateTerritory(tokenIS, world).ifPresent(targetPos -> {
 						player.mountEntity(null);
 						
-						if (EntitySelector.players(world,new BoundingBox(targetPos,targetPos).toAABB()).isEmpty()){
-							player.setPositionAndUpdate(targetPos.getX()+0.5D,targetPos.getY()+1D,targetPos.getZ()+0.5D);
+						if (EntitySelector.players(world, new BoundingBox(targetPos, targetPos).toAABB()).isEmpty()){
+							player.setPositionAndUpdate(targetPos.getX()+0.5D, targetPos.getY()+1D, targetPos.getZ()+0.5D);
 						}
 						else{
-							player.setPositionAndUpdate(targetPos.getX()-0.7D+world.rand.nextDouble()*2.4D,targetPos.getY()+1D,targetPos.getZ()-0.7D+world.rand.nextDouble()*2.4D);
+							player.setPositionAndUpdate(targetPos.getX()-0.7D+world.rand.nextDouble()*2.4D, targetPos.getY()+1D, targetPos.getZ()-0.7D+world.rand.nextDouble()*2.4D);
 						}
 					});
 				}
@@ -85,7 +85,7 @@ public class BlockVoidPortal extends BlockEndPortal implements IBlockSubtypes{
 	
 	@Override
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB checkAABB, List list, Entity entity){
-		AxisAlignedBB collisionBox = AxisAlignedBB.getBoundingBox(x,y,z,x+1D,y+0.025D,z+1D);
+		AxisAlignedBB collisionBox = AxisAlignedBB.getBoundingBox(x, y, z, x+1D, y+0.025D, z+1D);
 		if (checkAABB.intersectsWith(collisionBox))list.add(collisionBox);
 	}
 
@@ -100,15 +100,15 @@ public class BlockVoidPortal extends BlockEndPortal implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
-		return new ItemStack(this,1,Pos.at(x,y,z).getMetadata(world));
+		return new ItemStack(this, 1, Pos.at(x, y, z).getMetadata(world));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		list.add(new ItemStack(item,1,Meta.voidPortalTravel));
-		list.add(new ItemStack(item,1,Meta.voidPortalReturn));
-		list.add(new ItemStack(item,1,Meta.voidPortalDisabled));
+		list.add(new ItemStack(item, 1, Meta.voidPortalTravel));
+		list.add(new ItemStack(item, 1, Meta.voidPortalReturn));
+		list.add(new ItemStack(item, 1, Meta.voidPortalDisabled));
 	}
 	
 	@Override

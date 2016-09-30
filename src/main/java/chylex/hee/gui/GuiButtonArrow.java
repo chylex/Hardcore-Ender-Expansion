@@ -8,17 +8,17 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiButtonArrow extends GuiButtonSmall{
 	public GuiButtonArrow(int id, int x, int y){
-		super(id,x,y,11,11,"",false);
+		super(id, x, y, 11, 11, "", false);
 	}
 	
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY){
-		super.drawButton(mc,mouseX,mouseY);
+		super.drawButton(mc, mouseX, mouseY);
 		
 		if (visible){
-			if (!field_146123_n)GL.color(1F,1F,1F,1F);
+			if (!field_146123_n)GL.color(1F, 1F, 1F, 1F);
 			mc.getTextureManager().bindTexture(GuiHelper.texUtils);
-			drawTexturedModalRect(xPosition,yPosition,0,0,11,11);
+			drawTexturedModalRect(xPosition, yPosition, 0, 0, 11, 11);
 		}
 	}
 }

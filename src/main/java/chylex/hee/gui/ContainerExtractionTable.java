@@ -7,13 +7,13 @@ import chylex.hee.tileentity.TileEntityExtractionTable;
 
 public class ContainerExtractionTable extends ContainerAbstractTable{
 	public ContainerExtractionTable(InventoryPlayer inv, TileEntityExtractionTable tile){
-		super(inv,tile);
+		super(inv, tile);
 	}
 	
 	@Override
 	protected void registerSlots(){
-		addSlotToContainer(new SlotBasicItem(table,TileEntityExtractionTable.slotStardust,40,53,ItemList.stardust));
-		addSlotToContainer(new SlotBasicItem(table,TileEntityExtractionTable.slotOrb,121,53,ItemList.instability_orb,16));
-		addSlotToContainer(new SlotTableSubject(table,TileEntityExtractionTable.slotSubject,40,17));
+		addSlotToContainer(new SlotBasicItem(table, TileEntityExtractionTable.slotStardust, 40, 53, ItemList.stardust));
+		addSlotToContainer(new SlotBasicItem(table, TileEntityExtractionTable.slotOrb, 121, 53, ItemList.instability_orb, 16));
+		addSlotToContainer(new SlotTableSubject(table, TileEntityExtractionTable.slotSubject, 40, 17));
 	}
 }

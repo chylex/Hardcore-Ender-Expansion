@@ -14,18 +14,18 @@ public class BlobGeneratorChain extends BlobGeneratorAttaching{
 		if (blobsLeft < 0)return;
 		
 		double lastRad = radiusFirst.generate(rand);
-		Vec lastPos = Vec.xyz(0D,world.getCenterY(),0D);
+		Vec lastPos = Vec.xyz(0D, world.getCenterY(), 0D);
 		
-		generateBlob(world,lastPos.x,lastPos.y,lastPos.z,lastRad);
+		generateBlob(world, lastPos.x, lastPos.y, lastPos.z, lastRad);
 		
 		int attempts = (blobsLeft--)*3;
 		
 		while(--attempts > 0 && blobsLeft > 0){
 			double rad = radiusOther.generate(rand);
-			Vec pos = lastPos.offset(Vec.xyzRandom(rand),(lastRad+rad)*distance.generate(rand));
+			Vec pos = lastPos.offset(Vec.xyzRandom(rand), (lastRad+rad)*distance.generate(rand));
 			
-			if (isBlobInsideWorld(world,pos.x,pos.y,pos.z,rad)){
-				generateBlob(world,pos.x,pos.y,pos.z,rad);
+			if (isBlobInsideWorld(world, pos.x, pos.y, pos.z, rad)){
+				generateBlob(world, pos.x, pos.y, pos.z, rad);
 				--blobsLeft;
 				
 				lastRad = rad;

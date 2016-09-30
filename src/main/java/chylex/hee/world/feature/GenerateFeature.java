@@ -9,7 +9,7 @@ import chylex.hee.world.util.RandomAmount;
 
 public abstract class GenerateFeature{
 	protected int chunkSize = 16;
-	protected IRangeGenerator yGenerator = new RangeGenerator(0,256,RandomAmount.linear);
+	protected IRangeGenerator yGenerator = new RangeGenerator(0, 256, RandomAmount.linear);
 	
 	protected int attemptsPerChunk;
 	protected IRangeGenerator generatedPerChunk;
@@ -19,11 +19,11 @@ public abstract class GenerateFeature{
 	}
 	
 	public final void setY(int minY, int maxY){
-		this.yGenerator = new RangeGenerator(minY,maxY,RandomAmount.linear);
+		this.yGenerator = new RangeGenerator(minY, maxY, RandomAmount.linear);
 	}
 	
 	public final void setY(int minY, int maxY, RandomAmount distribution){
-		this.yGenerator = new RangeGenerator(minY,maxY,distribution);
+		this.yGenerator = new RangeGenerator(minY, maxY, distribution);
 	}
 	
 	public final void setY(IRangeGenerator yGenerator){
@@ -35,11 +35,11 @@ public abstract class GenerateFeature{
 	}
 	
 	public final void setGeneratedPerChunk(int min, int max){
-		this.generatedPerChunk = new RangeGenerator(min,max,RandomAmount.linear);
+		this.generatedPerChunk = new RangeGenerator(min, max, RandomAmount.linear);
 	}
 	
 	public final void setGeneratedPerChunk(int min, int max, RandomAmount distribution){
-		this.generatedPerChunk = new RangeGenerator(min,max,distribution);
+		this.generatedPerChunk = new RangeGenerator(min, max, distribution);
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public abstract class GenerateFeature{
 					int y = yGenerator.next(rand);
 					int z = worldBox.z1+chunkZ*chunkSize+rand.nextInt(chunkSize);
 					
-					if (tryGenerateFeature(world,rand,x,y,z))--featuresLeft;
+					if (tryGenerateFeature(world, rand, x, y, z))--featuresLeft;
 				}
 			}
 		}
@@ -74,7 +74,7 @@ public abstract class GenerateFeature{
 			int y = yGenerator.next(rand);
 			int z = worldBox.z1+edgeBlockDistance+rand.nextInt(worldBox.z2-worldBox.z1+1-2*edgeBlockDistance);
 			
-			if (tryGenerateFeature(world,rand,x,y,z))--featuresLeft;
+			if (tryGenerateFeature(world, rand, x, y, z))--featuresLeft;
 		}
 	}
 

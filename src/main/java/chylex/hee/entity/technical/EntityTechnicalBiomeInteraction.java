@@ -13,7 +13,7 @@ public class EntityTechnicalBiomeInteraction extends EntityTechnicalBase{
 	
 	public EntityTechnicalBiomeInteraction(World world, double x, double y, double z, AbstractBiomeInteraction interaction){
 		super(world);
-		setPosition(x,y,z);
+		setPosition(x, y, z);
 		this.interaction = interaction;
 		this.interaction.init(this);
 		this.interaction.init();
@@ -40,8 +40,8 @@ public class EntityTechnicalBiomeInteraction extends EntityTechnicalBase{
 		if (!worldObj.isRemote){
 			NBTTagCompound tag = new NBTTagCompound();
 			interaction.saveToNBT(tag);
-			nbt.setTag("interactionData",tag);
-			nbt.setString("interactionId",interaction.getIdentifier());
+			nbt.setTag("interactionData", tag);
+			nbt.setString("interactionId", interaction.getIdentifier());
 		}
 	}
 

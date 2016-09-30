@@ -23,7 +23,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public final class CompendiumObjectElement{
 	public enum ObjectShape{
-		PLAIN(150,0), IMPORTANT(150,27), SPECIAL(150,54);
+		PLAIN(150, 0), IMPORTANT(150, 27), SPECIAL(150, 54);
 		
 		final int x, y;
 		
@@ -34,14 +34,14 @@ public final class CompendiumObjectElement{
 	}
 	
 	private enum ObjectStatus{
-		NONE_UNLOCKED(255,255,255),
-		ALL_UNLOCKED(255,227,72,"ec.tooltip.allUnlocked"),
-		ALL_BUT_SECRET(92,255,72,"ec.tooltip.allButSecret"),
-		UNREAD_HINT(255,158,72,"ec.tooltip.unreadHint"),
-		HINTS_ONLY(255,158,72,"ec.tooltip.hintsOnly"),
-		ESSENTIAL_ONLY(72,188,255,"ec.tooltip.essentialOnly"),
-		VISIBLE_ONLY(132,72,255,"ec.tooltip.visibleOnly"),
-		DEFAULT(255,255,255);
+		NONE_UNLOCKED(255, 255, 255),
+		ALL_UNLOCKED(255, 227, 72, "ec.tooltip.allUnlocked"),
+		ALL_BUT_SECRET(92, 255, 72, "ec.tooltip.allButSecret"),
+		UNREAD_HINT(255, 158, 72, "ec.tooltip.unreadHint"),
+		HINTS_ONLY(255, 158, 72, "ec.tooltip.hintsOnly"),
+		ESSENTIAL_ONLY(72, 188, 255, "ec.tooltip.essentialOnly"),
+		VISIBLE_ONLY(132, 72, 255, "ec.tooltip.visibleOnly"),
+		DEFAULT(255, 255, 255);
 		
 		final float red, green, blue;
 		final String title;
@@ -54,7 +54,7 @@ public final class CompendiumObjectElement{
 		}
 		
 		private ObjectStatus(int red, int green, int blue){
-			this(red,green,blue,null);
+			this(red, green, blue, null);
 		}
 	}
 	
@@ -75,7 +75,7 @@ public final class CompendiumObjectElement{
 		final int color = (255<<24)|(224<<16)|(224<<8)|224;
 		
 		object.connectToChildren((x1, y1, x2, y2) -> {
-			if (!(y1 > yUpperBound || y2 < yLowerBound))GuiHelper.renderLine(offX+x1,y1,offX+x2,y2,color);
+			if (!(y1 > yUpperBound || y2 < yLowerBound))GuiHelper.renderLine(offX+x1, y1, offX+x2, y2, color);
 		});
 	}
 	
@@ -83,7 +83,7 @@ public final class CompendiumObjectElement{
 		int x = gui.width/2+object.getX(), y = object.getY();
 		if (y < yLowerBound || y > yUpperBound)return;
 		
-		hasUnreadFragments = object.getFragments().stream().anyMatch(fragment -> file.canSeeFragment(object,fragment) && !file.hasReadFragment(fragment));
+		hasUnreadFragments = object.getFragments().stream().anyMatch(fragment -> file.canSeeFragment(object, fragment) && !file.hasReadFragment(fragment));
 		
 		if (hasUnreadFragments){
 			long now = System.nanoTime();
@@ -94,7 +94,7 @@ public final class CompendiumObjectElement{
 			}
 		}
 		
-		renderObject(object,x,y,file,gui,blinkState);
+		renderObject(object, x, y, file, gui, blinkState);
 	}
 	
 	public boolean isVisible(CompendiumFile file){
@@ -107,14 +107,14 @@ public final class CompendiumObjectElement{
 	}
 	
 	public String getTooltip(CompendiumFile file){
-		ObjectStatus status = getStatus(object,file);
+		ObjectStatus status = getStatus(object, file);
 		return object.getTranslatedTooltip()+(status.title == null ? "" : "\n"+EnumChatFormatting.GRAY+I18n.format(status.title));
 	}
 	
 	private static ObjectStatus getStatus(KnowledgeObject<?> object, CompendiumFile file){
 		ObjectStatus outline = ObjectStatus.DEFAULT;
 		
-		Set<Entry<KnowledgeFragment,Boolean>> fragments = object.getFragments().stream().collect(Collectors.toMap(f -> f,f -> file.canSeeFragment(object,f))).entrySet();
+		Set<Entry<KnowledgeFragment, Boolean>> fragments = object.getFragments().stream().collect(Collectors.toMap(f -> f, f -> file.canSeeFragment(object, f))).entrySet();
 		Set<KnowledgeFragment> unlocked = fragments.stream().filter(entry -> entry.getValue().booleanValue()).map(entry -> entry.getKey()).collect(Collectors.toSet());
 		
 		if (unlocked.isEmpty())outline = ObjectStatus.NONE_UNLOCKED;
@@ -135,25 +135,25 @@ public final class CompendiumObjectElement{
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		ObjectShape shape = object.getShape();
-		ObjectStatus outline = getStatus(object,file);
+		ObjectStatus outline = getStatus(object, file);
 		
 		// render background
 		GL.enableBlendAlpha();
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 		
 		RenderHelper.disableStandardItemLighting();
 		mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
 		
-		gui.drawTexturedModalRect(x-13,y-13,outline == ObjectStatus.NONE_UNLOCKED && !file.isDiscovered(object) ? shape.x+27 : shape.x,shape.y,26,26);
+		gui.drawTexturedModalRect(x-13, y-13, outline == ObjectStatus.NONE_UNLOCKED && !file.isDiscovered(object) ? shape.x+27 : shape.x, shape.y, 26, 26);
 		
-		if (blink)GL.color(1F,1F,1F,1F);
-		else GL.color(outline.red,outline.green,outline.blue,1F);
+		if (blink)GL.color(1F, 1F, 1F, 1F);
+		else GL.color(outline.red, outline.green, outline.blue, 1F);
 		
-		gui.drawTexturedModalRect(x-13,y-13,shape.x+54,shape.y,26,26);
-		GL.color(1F,1F,1F,1F);
+		gui.drawTexturedModalRect(x-13, y-13, shape.x+54, shape.y, 26, 26);
+		GL.color(1F, 1F, 1F, 1F);
 		
 		// render item
 		RenderHelper.enableGUIStandardItemLighting();
-		GuiEnderCompendium.renderItem.renderItemIntoGUI(mc.fontRenderer,mc.getTextureManager(),object.holder.getDisplayItemStack(),x-8,y-8,true);
+		GuiEnderCompendium.renderItem.renderItemIntoGUI(mc.fontRenderer, mc.getTextureManager(), object.holder.getDisplayItemStack(), x-8, y-8, true);
 	}
 }

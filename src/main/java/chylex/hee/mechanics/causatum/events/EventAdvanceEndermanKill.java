@@ -27,7 +27,7 @@ public class EventAdvanceEndermanKill extends CausatumEventInstance{
 	private int timer;
 	
 	EventAdvanceEndermanKill(EventTypes eventType, EntityPlayerMP player){
-		super(eventType,player);
+		super(eventType, player);
 		this.totalAmount = 17+rand.nextInt(6);
 	}
 	
@@ -67,7 +67,7 @@ public class EventAdvanceEndermanKill extends CausatumEventInstance{
 			}
 			else if (timer == 28){
 				EntityPlayerMP player = getPlayer();
-				PacketPipeline.sendToAllAround(player,64D,new C08PlaySound(C08PlaySound.ENDERMAN_STARE,player.posX,player.posY,player.posZ,1.4F,1F));
+				PacketPipeline.sendToAllAround(player, 64D, new C08PlaySound(C08PlaySound.ENDERMAN_STARE, player.posX, player.posY, player.posZ, 1.4F, 1F));
 			}
 			else if (timer == 300){
 				startDespawning();
@@ -75,7 +75,7 @@ public class EventAdvanceEndermanKill extends CausatumEventInstance{
 			}
 			
 			if (timer >= 31 && timer < 200+rand.nextInt(40)){
-				if (endermen.size() < totalAmount && (timer == 18 || timer%27 == 0 || (timer%5 == 0 && rand.nextInt(Math.max(3,12-timer/10)) == 0))){
+				if (endermen.size() < totalAmount && (timer == 18 || timer%27 == 0 || (timer%5 == 0 && rand.nextInt(Math.max(3, 12-timer/10)) == 0))){
 					spawnEnderman();
 				}
 			}
@@ -102,14 +102,14 @@ public class EventAdvanceEndermanKill extends CausatumEventInstance{
 			
 			final Vec offset = Vec.xzRandom(rand);
 			final double dist = 5D+3D*rand.nextDouble();
-			enderman.setPosition(deadEnderman.x+offset.x*dist,MathUtil.floor(deadEnderman.y)+5,deadEnderman.z+offset.z*dist);
+			enderman.setPosition(deadEnderman.x+offset.x*dist, MathUtil.floor(deadEnderman.y)+5, deadEnderman.z+offset.z*dist);
 			
 			for(int yOff = 0; yOff < 8; yOff++){
-				enderman.setPosition(enderman.posX,enderman.posY-1,enderman.posZ);
+				enderman.setPosition(enderman.posX, enderman.posY-1, enderman.posZ);
 				if (mpos.set(enderman).moveDown().getMaterial(world).blocksMovement())break;
 			}
 			
-			if (world.checkNoEntityCollision(enderman.boundingBox) && world.getCollidingBoundingBoxes(enderman,enderman.boundingBox).isEmpty() &&
+			if (world.checkNoEntityCollision(enderman.boundingBox) && world.getCollidingBoundingBoxes(enderman, enderman.boundingBox).isEmpty() &&
 				!world.isAnyLiquid(enderman.boundingBox) && enderman.getDistanceSqToEntity(player) > 49D)break; // 7 blocks
 		}
 		
@@ -117,22 +117,22 @@ public class EventAdvanceEndermanKill extends CausatumEventInstance{
 		enderman.setControlledExternally();
 		enderman.setAggressive(true);
 		
-		enderman.getLookHelper().setLookPosition(player.posX,player.posY+player.getEyeHeight(),player.posZ,360F,180F);
+		enderman.getLookHelper().setLookPosition(player.posX, player.posY+player.getEyeHeight(), player.posZ, 360F, 180F);
 		enderman.getLookHelper().onUpdateLook();
 		enderman.rotationYaw = enderman.prevRotationYaw = enderman.rotationYawHead;
 		
 		AIUtil.clearEntityTasks(enderman);
 		EntityAITasks tasks = enderman.tasks;
 		
-		tasks.addTask(1,new EntityAISwimming(enderman));
-		tasks.addTask(2,new EntityAIWatchSuspicious(enderman,this::getPlayer));
+		tasks.addTask(1, new EntityAISwimming(enderman));
+		tasks.addTask(2, new EntityAIWatchSuspicious(enderman, this::getPlayer));
 		
-		EntityAttributes.applyModifier(enderman,EntityAttributes.movementSpeed,EntityMobEnderman.noMovementModifier);
+		EntityAttributes.applyModifier(enderman, EntityAttributes.movementSpeed, EntityMobEnderman.noMovementModifier);
 		
 		// spawn
 		world.spawnEntityInWorld(enderman);
 		endermen.add(enderman);
-		PacketPipeline.sendToAllAround(enderman,64D,new C21EffectEntity(FXType.Entity.SIMPLE_TELEPORT,enderman));
+		PacketPipeline.sendToAllAround(enderman, 64D, new C21EffectEntity(FXType.Entity.SIMPLE_TELEPORT, enderman));
 		return true;
 	}
 

@@ -22,12 +22,12 @@ public class RenderMobBabyEnderman extends AbstractRenderMobEnderman{
 		endermanModel.isCarrying = enderman.isCarrying();
 		
 		GL.pushMatrix();
-		GL.translate(x,y,z);
-		GL.scale(0.48F,0.48F,0.48F);
-		GL.translate(-x,-y,-z);
+		GL.translate(x, y, z);
+		GL.scale(0.48F, 0.48F, 0.48F);
+		GL.translate(-x, -y, -z);
 		GL.disableCullFace();
 		GL.setDepthFunc(GL.LEQUAL);
-		superDoRender(enderman,x,y,z,yaw,partialTickTime);
+		superDoRender(enderman, x, y, z, yaw, partialTickTime);
 		GL.enableCullFace();
 		GL.popMatrix();
 	}
@@ -43,22 +43,22 @@ public class RenderMobBabyEnderman extends AbstractRenderMobEnderman{
 		if (block != Blocks.bedrock){
 			GL.enableRescaleNormal();
 			GL.pushMatrix();
-			GL.translate(0F,0.6875F,-0.75F);
-			GL.rotate(20F,1F,0F,0F);
-			GL.rotate(45F,0F,1F,0F);
-			GL.scale(-0.5F,-0.5F,0.5F);
+			GL.translate(0F, 0.6875F, -0.75F);
+			GL.rotate(20F, 1F, 0F, 0F);
+			GL.rotate(45F, 0F, 1F, 0F);
+			GL.scale(-0.5F, -0.5F, 0.5F);
 			int brightness = ((Entity)enderman).getBrightnessForRender(partialTickTime);
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,brightness%65536F,brightness/65536F);
-			GL.color(1F,1F,1F,1F);
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, brightness%65536F, brightness/65536F);
+			GL.color(1F, 1F, 1F, 1F);
 			
 			if (is.getItemSpriteNumber() == 0){
 				bindTexture(TextureMap.locationBlocksTexture);
-				field_147909_c.renderBlockAsItem(block,is.getItemDamage(),1F);
+				field_147909_c.renderBlockAsItem(block, is.getItemDamage(), 1F);
 			}
 			else{
 				GL.pushMatrix();
-				GL.translate(0.2F,-0.3F,-0.3F);
-				renderManager.itemRenderer.renderItem((EntityLivingBase)enderman,is,0,ItemRenderType.ENTITY);
+				GL.translate(0.2F, -0.3F, -0.3F);
+				renderManager.itemRenderer.renderItem((EntityLivingBase)enderman, is, 0, ItemRenderType.ENTITY);
 				GL.popMatrix();
 			}
 			

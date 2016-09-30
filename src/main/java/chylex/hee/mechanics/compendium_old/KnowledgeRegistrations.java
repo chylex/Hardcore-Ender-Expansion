@@ -69,7 +69,7 @@ public final class KnowledgeRegistrations{/*
 		ESSENCE.setNonBuyable().setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 			new KnowledgeFragmentText(80).setPrice(2).setUnlockOnDiscovery(),
 			new KnowledgeFragmentText(81).setPrice(2).setUnlockCascade(704),
-			new KnowledgeFragmentText(82).setPrice(2).setUnlockCascade(614,623)
+			new KnowledgeFragmentText(82).setPrice(2).setUnlockCascade(614, 623)
 		});
 		
 		// ===
@@ -82,36 +82,36 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(713).setPrice(3).setUnlockRequirements(712)
 			}),
 			
-			ENDERMAN_HEAD.setPos(2,0).setUnlockPrice(5).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			ENDERMAN_HEAD.setPos(2, 0).setUnlockPrice(5).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(20).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(21).setPrice(2).setUnlockRequirements(20)
 			}),
 			
-			MUSIC_DISKS.setPos(4,0).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			MUSIC_DISKS.setPos(4, 0).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(30).setPrice(2)
 			}),
 			
-			END_PORTAL.setPos(2,6).setNonBuyable().setDiscoveryReward(28).addFragments(new KnowledgeFragment[]{
+			END_PORTAL.setPos(2, 6).setNonBuyable().setDiscoveryReward(28).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(1410).setNonBuyable().setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(1411).setNonBuyable().setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(1412).setNonBuyable().setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(1413).setNonBuyable().setUnlockOnDiscovery()
 			}),
 			
-			BASIC_ESSENCE_ALTAR.setPos(3,9).setNonBuyable().setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			BASIC_ESSENCE_ALTAR.setPos(3, 9).setNonBuyable().setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentCrafting(50).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(8).setUnlockCascade(42),
 				new KnowledgeFragmentText(51).setUnlockOnDiscovery().setPrice(5).setUnlockRequirements(50),
 				new KnowledgeFragmentText(52).setPrice(2).setUnlockRequirements(51)
 			}),
 			
-			ENDERMAN.setPos(1,3).setUnlockPrice(5).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			ENDERMAN.setPos(1, 3).setUnlockPrice(5).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(60).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(61).setPrice(2).setUnlockRequirements(60),
 				new KnowledgeFragmentText(62).setPrice(2).setUnlockRequirements(60),
 				new KnowledgeFragmentText(63).setPrice(3).setUnlockRequirements(60)
 			}),
 			
-			SILVERFISH.setPos(3,3).setUnlockPrice(5).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			SILVERFISH.setPos(3, 3).setUnlockPrice(5).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(70).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(71).setPrice(2).setUnlockRequirements(70),
 				new KnowledgeFragmentText(72).setPrice(3).setUnlockRequirements(71)
@@ -130,11 +130,11 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(755).setPrice(2).setUnlockRequirements(752)
 			}),
 			
-			END_STONE.setPos(0,0).setUnlockPrice(5).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			END_STONE.setPos(0, 0).setUnlockPrice(5).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(90).setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			FALLING_OBSIDIAN.setPos(2,0).setUnlockPrice(8).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			FALLING_OBSIDIAN.setPos(2, 0).setUnlockPrice(8).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(100).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(101).setPrice(2),
 				new KnowledgeFragmentText(102).setPrice(2).setUnlockRequirements(100),
@@ -142,45 +142,45 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(104).setPrice(2).setUnlockRequirements(100)
 			}),
 			
-			DRAGON_ESSENCE_ALTAR.setPos(3,10).setUnlockPrice(25).setDiscoveryReward(22).addFragments(new KnowledgeFragment[]{
+			DRAGON_ESSENCE_ALTAR.setPos(3, 10).setUnlockPrice(25).setDiscoveryReward(22).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(110).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(111).setPrice(8).setUnlockRequirements(110),
 				new KnowledgeFragmentText(112).setPrice(3).setUnlockRequirements(111),
 				new KnowledgeFragmentText(113).setPrice(5).setUnlockRequirements(110),
 				new KnowledgeFragmentText(114).setPrice(2).setUnlockRequirements(110),
-				new KnowledgeFragmentItemConversion(115).setItems(new ItemStack(Items.brewing_stand),new ItemStack(ItemList.enhanced_brewing_stand)).setPrice(3).setUnlockRequirements(114).setUnlockCascade(130),
-				// new KnowledgeFragmentItemConversion(116).setItems(new ItemStack(Items.ender_eye),new ItemStack(ItemList.temple_caller)).setNonBuyableRedirect(TEMPLE_CALLER), // 180
-				new KnowledgeFragmentItemConversion(117).setItems(new ItemStack(ItemList.ghost_amulet),new ItemStack(ItemList.ghost_amulet,1,1)).setNonBuyableRedirect(GHOST_AMULET), // 463
+				new KnowledgeFragmentItemConversion(115).setItems(new ItemStack(Items.brewing_stand), new ItemStack(ItemList.enhanced_brewing_stand)).setPrice(3).setUnlockRequirements(114).setUnlockCascade(130),
+				// new KnowledgeFragmentItemConversion(116).setItems(new ItemStack(Items.ender_eye), new ItemStack(ItemList.temple_caller)).setNonBuyableRedirect(TEMPLE_CALLER), // 180
+				new KnowledgeFragmentItemConversion(117).setItems(new ItemStack(ItemList.ghost_amulet), new ItemStack(ItemList.ghost_amulet, 1, 1)).setNonBuyableRedirect(GHOST_AMULET), // 463
 			}),
 			
-			END_POWDER_ORE.setPos(6,0).setUnlockPrice(15).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			END_POWDER_ORE.setPos(6, 0).setUnlockPrice(15).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(120).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(121).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(120),
 				new KnowledgeFragmentText(122).setPrice(5).setUnlockRequirements(120),
 				new KnowledgeFragmentText(123).setPrice(3).setUnlockRequirements(122)
 			}),
 			
-			ENHANCED_BREWING_STAND.setPos(4,12).setUnlockPrice(18).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			ENHANCED_BREWING_STAND.setPos(4, 12).setUnlockPrice(18).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(130).setPrice(3).setUnlockCascade(115),
 				new KnowledgeFragmentText(131).setPrice(2).setUnlockRequirements(130),
 				new KnowledgeFragmentText(132).setPrice(5).setUnlockRequirements(130).setUnlockCascade(166),
 				new KnowledgeFragmentText(137).setPrice(5).setUnlockRequirements(132),
 				new KnowledgeFragmentText(133).setPrice(2).setUnlockRequirements(130),
-				new KnowledgeFragmentItemConversion(134).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setNonBuyableRedirect(INSTABILITY_ORB), // 741
-				new KnowledgeFragmentItemConversion(135).setItems(new ItemStack(ItemList.silverfish_blood),new ItemStack(ItemList.infestation_remedy)).setNonBuyableRedirect(SILVERFISH), // 731
-				new KnowledgeFragmentItemConversion(136).setItems(new ItemStack(ItemList.ectoplasm),new ItemStack(ItemList.potion_of_purity)).setNonBuyableRedirect(ECTOPLASM) // 951
+				new KnowledgeFragmentItemConversion(134).setItems(new ItemStack(ItemList.instability_orb), new ItemStack(ItemList.potion_of_instability)).setNonBuyableRedirect(INSTABILITY_ORB), // 741
+				new KnowledgeFragmentItemConversion(135).setItems(new ItemStack(ItemList.silverfish_blood), new ItemStack(ItemList.infestation_remedy)).setNonBuyableRedirect(SILVERFISH), // 731
+				new KnowledgeFragmentItemConversion(136).setItems(new ItemStack(ItemList.ectoplasm), new ItemStack(ItemList.potion_of_purity)).setNonBuyableRedirect(ECTOPLASM) // 951
 			}),
 			
-			DRAGON_EGG.setPos(1,8).setUnlockPrice(12).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			DRAGON_EGG.setPos(1, 8).setUnlockPrice(12).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(150).setPrice(5).setUnlockOnDiscovery().setUnlockCascade(705),
 				new KnowledgeFragmentText(151).setPrice(2).setUnlockRequirements(150),
 				new KnowledgeFragmentText(152).setPrice(8).setUnlockRequirements(150),
 				new KnowledgeFragmentText(153).setPrice(3).setUnlockRequirements(150)
 			}),
 			
-			DRAGON_ESSENCE.setPos(3,8),
+			DRAGON_ESSENCE.setPos(3, 8),
 			
-			END_POWDER.setPos(8,0).setUnlockPrice(20).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			END_POWDER.setPos(8, 0).setUnlockPrice(20).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(160).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(161).setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(160),
 				new KnowledgeFragmentText(162).setPrice(2).setUnlockRequirements(161),
@@ -191,12 +191,12 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(167).setPrice(3).setUnlockCascade(244)
 			}),
 			
-			ENDER_DRAGON.setPos(1,3).setUnlockPrice(20).setDiscoveryReward(55).addFragments(new KnowledgeFragment[]{
+			ENDER_DRAGON.setPos(1, 3).setUnlockPrice(20).setDiscoveryReward(55).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(190).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(191).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(190).setUnlockCascade(751),
 				new KnowledgeFragmentText(192).setPrice(3).setUnlockRequirements(190),
 				new KnowledgeFragmentText(193).setPrice(3).setUnlockRequirements(191),
-				new KnowledgeFragmentText(194).setPrice(3).setUnlockRequirements(192,193),
+				new KnowledgeFragmentText(194).setPrice(3).setUnlockRequirements(192, 193),
 				new KnowledgeFragmentText(195).setPrice(3).setUnlockRequirements(194),
 				new KnowledgeFragmentText(196).setPrice(5).setUnlockRequirements(194),
 				new KnowledgeFragmentText(197).setPrice(2).setUnlockRequirements(196),
@@ -208,12 +208,12 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(705).setPrice(2).setUnlockRequirements(704).setUnlockCascade(150)
 			}),
 			
-			ANGRY_ENDERMAN.setPos(0,5).setUnlockPrice(8).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			ANGRY_ENDERMAN.setPos(0, 5).setUnlockPrice(8).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(200).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(201).setPrice(3).setUnlockRequirements(200)
 			}),
 			
-			VAMPIRE_BAT.setPos(2,5).setUnlockPrice(8).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			VAMPIRE_BAT.setPos(2, 5).setUnlockPrice(8).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(210).setPrice(5).setUnlockOnDiscovery().setUnlockCascade(703),
 				new KnowledgeFragmentText(211).setPrice(2).setUnlockRequirements(210),
 				new KnowledgeFragmentText(212).setPrice(3).setUnlockRequirements(210)
@@ -231,30 +231,30 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(224).setPrice(5).setUnlockRequirements(221)
 			}),
 			
-			IGNEOUS_ROCK_ORE.setPos(0,0).setUnlockPrice(10).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			IGNEOUS_ROCK_ORE.setPos(0, 0).setUnlockPrice(10).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(230).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(231).setPrice(2).setUnlockRequirements(230),
 				new KnowledgeFragmentText(232).setPrice(3).setUnlockRequirements(230)
 			}),
 			
-			DEATH_FLOWER.setPos(3,0).setUnlockPrice(15).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			DEATH_FLOWER.setPos(3, 0).setUnlockPrice(15).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(240).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(241).setPrice(2).setUnlockRequirements(240),
 				new KnowledgeFragmentText(242).setPrice(3).setUnlockRequirements(241),
 				new KnowledgeFragmentText(243).setPrice(5).setUnlockRequirements(241),
 				new KnowledgeFragmentText(244).setPrice(3).setUnlockRequirements(241).setUnlockCascade(167),
-				new KnowledgeFragmentCrafting(245).setRecipeFromRegistry(new ItemStack(Items.dye,2,13),new ItemStack[]{ new ItemStack(BlockList.death_flower,1,0) }).setPrice(2).setUnlockRequirements(240),
-				new KnowledgeFragmentCrafting(246).setRecipeFromRegistry(new ItemStack(Items.dye,2,8),new ItemStack[]{ new ItemStack(BlockList.death_flower,1,15) }).setPrice(2).setUnlockRequirements(243)
+				new KnowledgeFragmentCrafting(245).setRecipeFromRegistry(new ItemStack(Items.dye, 2, 13), new ItemStack[]{ new ItemStack(BlockList.death_flower, 1, 0) }).setPrice(2).setUnlockRequirements(240),
+				new KnowledgeFragmentCrafting(246).setRecipeFromRegistry(new ItemStack(Items.dye, 2, 8), new ItemStack[]{ new ItemStack(BlockList.death_flower, 1, 15) }).setPrice(2).setUnlockRequirements(243)
 			}),
 			
-			ENDER_GOO.setPos(6,0).setUnlockPrice(8).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			ENDER_GOO.setPos(6, 0).setUnlockPrice(8).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(250).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(251).setPrice(5).setUnlockRequirements(250),
 				new KnowledgeFragmentText(252).setPrice(2).setUnlockRequirements(251),
 				new KnowledgeFragmentText(253).setPrice(3).setUnlockRequirements(250)
 			}),
 			
-			IGNEOUS_ROCK.setPos(0,2).setUnlockPrice(18).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			IGNEOUS_ROCK.setPos(0, 2).setUnlockPrice(18).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(260).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(261).setPrice(2).setUnlockRequirements(260),
 				new KnowledgeFragmentText(262).setPrice(3).setUnlockRequirements(260),
@@ -274,35 +274,35 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(275).setPrice(2).setUnlockRequirements(272)
 			}),
 			
-			OBSIDIAN_STAIRS.setPos(3,4).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
+			OBSIDIAN_STAIRS.setPos(3, 4).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(280).setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_SMOOTH.setPos(1,0).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
+			OBSIDIAN_SMOOTH.setPos(1, 0).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(281).setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_CHISELED.setPos(3,0).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
+			OBSIDIAN_CHISELED.setPos(3, 0).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(282).setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_PILLAR.setPos(5,0).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
+			OBSIDIAN_PILLAR.setPos(5, 0).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(283).setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_SMOOTH_GLOWING.setPos(1,2).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
+			OBSIDIAN_SMOOTH_GLOWING.setPos(1, 2).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(284).setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_CHISELED_GLOWING.setPos(3,2).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
+			OBSIDIAN_CHISELED_GLOWING.setPos(3, 2).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(285).setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_PILLAR_GLOWING.setPos(5,2).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
+			OBSIDIAN_PILLAR_GLOWING.setPos(5, 2).setUnlockPrice(1).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(286).setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			ENERGY.setPos(3,16).setUnlockPrice(35).setDiscoveryReward(25).addFragments(new KnowledgeFragment[]{
+			ENERGY.setPos(3, 16).setUnlockPrice(35).setDiscoveryReward(25).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(890).setPrice(8),
 				new KnowledgeFragmentText(891).setPrice(5).setUnlockRequirements(890),
 				new KnowledgeFragmentText(892).setPrice(5).setUnlockRequirements(891),
@@ -316,19 +316,19 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(899).setPrice(5).setUnlockRequirements(891),
 			}),
 			
-			ENDIUM_ORE.setPos(0,12).setUnlockPrice(25).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			ENDIUM_ORE.setPos(0, 12).setUnlockPrice(25).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(760).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(761).setPrice(8).setUnlockOnDiscovery().setUnlockRequirements(760)
 			}),
 			
-			ENDIUM_BLOCK.setPos(4,11).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			ENDIUM_BLOCK.setPos(4, 11).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(770).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(771).setRecipeFromRegistry(new ItemStack(BlockList.endium_block)).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(770).setUnlockCascade(781),
 				// new KnowledgeFragmentCrafting(772).setRecipeFromRegistry(new ItemStack(BlockList.void_chest)).setNonBuyableRedirect(VOID_CHEST), // 801
 				new KnowledgeFragmentCrafting(773).setRecipeFromRegistry(new ItemStack(ItemList.blank_gem)).setNonBuyableRedirect(BLANK_GEM), // 1422
 			}),
 			
-			SPATIAL_DASH_GEM.setPos(6,7).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			SPATIAL_DASH_GEM.setPos(6, 7).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(290).setPrice(5).setUnlockOnDiscovery().setUnlockCascade(319),
 				new KnowledgeFragmentText(291).setPrice(2).setUnlockRequirements(290),
 				new KnowledgeFragmentText(292).setPrice(3).setUnlockRequirements(291),
@@ -337,13 +337,13 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentCrafting(295).setRecipeFromRegistry(new ItemStack(ItemList.spatial_dash_gem)).setNonBuyableRedirect(ARCANE_SHARD) // 1423
 			}),
 			
-			ENDIUM_INGOT.setPos(2,12).setUnlockPrice(30).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			ENDIUM_INGOT.setPos(2, 12).setUnlockPrice(30).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(780).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(781).setRecipeFromRegistry(new ItemStack(BlockList.endium_block)).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(780).setUnlockCascade(771),
 				// new KnowledgeFragmentCrafting(782).setRecipeFromRegistry(new ItemStack(ItemList.biome_compass)).setNonBuyableRedirect(BIOME_COMPASS) // 303
 			}),
 			
-			ENDER_EYE.setPos(3,7).setUnlockPrice(20).setDiscoveryReward(32).addFragments(new KnowledgeFragment[]{
+			ENDER_EYE.setPos(3, 7).setUnlockPrice(20).setDiscoveryReward(32).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(310).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(311).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(310),
 				new KnowledgeFragmentText(312).setPrice(3).setUnlockRequirements(311),
@@ -356,7 +356,7 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(319).setPrice(3).setUnlockRequirements(310).setUnlockCascade(290)
 			}),
 			
-			ANGRY_ENDERMAN_LINKED.setPos(0,7)
+			ANGRY_ENDERMAN_LINKED.setPos(0, 7)
 		});
 		
 		// ===
@@ -366,22 +366,22 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(320).setPrice(7)
 			}),
 			
-			SPHALERITE.setPos(0,0).setUnlockPrice(12).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
+			SPHALERITE.setPos(0, 0).setUnlockPrice(12).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(330).setPrice(4).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(331).setPrice(4).setUnlockOnDiscovery().setUnlockRequirements(330)
 			}),
 			
-			SPHALERITE_WITH_STARDUST.setPos(2,2).setUnlockPrice(12).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			SPHALERITE_WITH_STARDUST.setPos(2, 2).setUnlockPrice(12).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(340).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(341).setPrice(5).setUnlockRequirements(340),
 				new KnowledgeFragmentText(342).setPrice(4).setUnlockRequirements(341)
 			}),
 			
-			STARDUST.setPos(4,4).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			STARDUST.setPos(4, 4).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(350).setPrice(4).setUnlockOnDiscovery()
 			}),
 			
-			DECOMPOSITION_TABLE.setPos(5,7).setUnlockPrice(12).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
+			DECOMPOSITION_TABLE.setPos(5, 7).setUnlockPrice(12).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(880).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(881).setRecipeFromRegistry(new ItemStack(BlockList.decomposition_table)).setPrice(10).setUnlockRequirements(880),
 				new KnowledgeFragmentText(882).setPrice(4).setUnlockRequirements(880),
@@ -390,7 +390,7 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(885).setPrice(4).setUnlockRequirements(882)
 			}),
 			
-			EXPERIENCE_TABLE.setPos(7,7).setUnlockPrice(12).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
+			EXPERIENCE_TABLE.setPos(7, 7).setUnlockPrice(12).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(970).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(971).setRecipeFromRegistry(new ItemStack(BlockList.experience_table)).setPrice(10).setUnlockRequirements(970),
 				new KnowledgeFragmentText(972).setPrice(4).setUnlockRequirements(970),
@@ -398,14 +398,14 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(974).setPrice(4).setUnlockRequirements(973)
 			}),
 			
-			ACCUMULATION_TABLE.setPos(5,9).setUnlockPrice(18).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			ACCUMULATION_TABLE.setPos(5, 9).setUnlockPrice(18).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(980).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(981).setRecipeFromRegistry(new ItemStack(BlockList.accumulation_table)).setPrice(10).setUnlockRequirements(980),
 				new KnowledgeFragmentText(982).setPrice(4).setUnlockRequirements(980),
 				new KnowledgeFragmentText(983).setPrice(4).setUnlockRequirements(980)
 			}),
 			
-			EXTRACTION_TABLE.setPos(7,9).setUnlockPrice(18).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			EXTRACTION_TABLE.setPos(7, 9).setUnlockPrice(18).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(990).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(991).setRecipeFromRegistry(new ItemStack(BlockList.extraction_table)).setPrice(10).setUnlockRequirements(990),
 				new KnowledgeFragmentText(992).setPrice(5).setUnlockRequirements(990),
@@ -425,33 +425,33 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(723).setPrice(4).setUnlockRequirements(721)
 			}),
 			
-			INSTABILITY_ORB_ORE.setPos(0,3).setUnlockPrice(15).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			INSTABILITY_ORB_ORE.setPos(0, 3).setUnlockPrice(15).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(360).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(361).setPrice(4).setUnlockRequirements(360),
 				new KnowledgeFragmentText(362).setPrice(4).setUnlockRequirements(360),
 				new KnowledgeFragmentText(363).setPrice(5).setUnlockRequirements(362)
 			}),
 			
-			STARDUST_ORE.setPos(0,0).setUnlockPrice(15).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			STARDUST_ORE.setPos(0, 0).setUnlockPrice(15).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(370).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(371).setPrice(4).setUnlockRequirements(370),
 				new KnowledgeFragmentText(372).setPrice(4).setUnlockRequirements(371),
 				new KnowledgeFragmentText(373).setPrice(5).setUnlockRequirements(372)
 			}),
 			
-			INSTABILITY_ORB.setPos(2,3).setUnlockPrice(20).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			INSTABILITY_ORB.setPos(2, 3).setUnlockPrice(20).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(380).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(381).setPrice(7).setUnlockRequirements(380),
 				new KnowledgeFragmentText(382).setPrice(5).setUnlockRequirements(381),
 				new KnowledgeFragmentText(383).setNonBuyableRedirect(POTION_OF_INSTABILITY) // 741
 			}),
 			
-			POTION_OF_INSTABILITY.setPos(4,3).setUnlockPrice(15).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			POTION_OF_INSTABILITY.setPos(4, 3).setUnlockPrice(15).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(740).setPrice(7).setUnlockOnDiscovery(),
-				new KnowledgeFragmentItemConversion(741).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setPrice(3).setUnlockRequirements(740).setUnlockCascade(134,383)
+				new KnowledgeFragmentItemConversion(741).setItems(new ItemStack(ItemList.instability_orb), new ItemStack(ItemList.potion_of_instability)).setPrice(3).setUnlockRequirements(740).setUnlockCascade(134, 383)
 			}),
 			
-			STARDUST_LINKED.setPos(2,0)
+			STARDUST_LINKED.setPos(2, 0)
 		});
 		
 		// ===
@@ -466,41 +466,41 @@ public final class KnowledgeRegistrations{/*
 				// 395 reseved for third variation
 			}),
 			
-			INFESTED_END_STONE.setPos(0,0).setUnlockPrice(7).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			INFESTED_END_STONE.setPos(0, 0).setUnlockPrice(7).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(400).setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			INFESTED_GRASS.setPos(2,0).setUnlockPrice(2).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
+			INFESTED_GRASS.setPos(2, 0).setUnlockPrice(2).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(410).setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			INFESTED_TALL_GRASS.setPos(4,0).setUnlockPrice(2).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
+			INFESTED_TALL_GRASS.setPos(4, 0).setUnlockPrice(2).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(411).setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			INFESTED_FERN.setPos(6,0).setUnlockPrice(2).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
+			INFESTED_FERN.setPos(6, 0).setUnlockPrice(2).setDiscoveryReward(3).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(412).setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			INFESTATION_REMEDY.setPos(4,2).setUnlockPrice(12).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			INFESTATION_REMEDY.setPos(4, 2).setUnlockPrice(12).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(730).setPrice(7).setUnlockOnDiscovery(),
-				new KnowledgeFragmentItemConversion(731).setItems(new ItemStack(ItemList.silverfish_blood),new ItemStack(ItemList.infestation_remedy)).setPrice(2).setUnlockRequirements(730).setUnlockCascade(135),
+				new KnowledgeFragmentItemConversion(731).setItems(new ItemStack(ItemList.silverfish_blood), new ItemStack(ItemList.infestation_remedy)).setPrice(2).setUnlockRequirements(730).setUnlockCascade(135),
 			}),
 			
-			INFESTED_BAT.setPos(2,2).setUnlockPrice(8).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			INFESTED_BAT.setPos(2, 2).setUnlockPrice(8).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(480).setPrice(4).setUnlockOnDiscovery()
 			}),
 			
-			SILVERFISH_LINKED.setPos(0,2),
+			SILVERFISH_LINKED.setPos(0, 2),
 			
 			// =
 			
-			THORNY_BUSH.setPos(0,7).setUnlockPrice(8).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			THORNY_BUSH.setPos(0, 7).setUnlockPrice(8).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(420).setPrice(4).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(421).setPrice(4).setUnlockRequirements(420)
 			}),
 			
-			SPOOKY_LOG.setPos(2,8).setUnlockPrice(25).setDiscoveryReward(22).addFragments(new KnowledgeFragment[]{
+			SPOOKY_LOG.setPos(2, 8).setUnlockPrice(25).setDiscoveryReward(22).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(430).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(431).setPrice(4).setUnlockRequirements(430),
 				new KnowledgeFragmentText(432).setPrice(7).setUnlockRequirements(430).setUnlockCascade(451),
@@ -511,64 +511,64 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentCrafting(437).setRecipeFromRegistry(new ItemStack(BlockList.spooky_log)).setPrice(5).setUnlockRequirements(430).setUnlockCascade(452)
 			}),
 			
-			SPOOKY_LEAVES.setPos(2,6).setUnlockPrice(12).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			SPOOKY_LEAVES.setPos(2, 6).setUnlockPrice(12).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(440).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(441).setPrice(4).setUnlockRequirements(440),
 				new KnowledgeFragmentCrafting(442).setRecipeFromRegistry(new ItemStack(BlockList.spooky_leaves)).setPrice(5).setUnlockRequirements(440).setUnlockCascade(453)
 			}),
 			
-			DRY_SPLINTER.setPos(4,7).setUnlockPrice(15).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			DRY_SPLINTER.setPos(4, 7).setUnlockPrice(15).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(450).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(451).setPrice(3).setUnlockRequirements(450).setUnlockCascade(432),
 				new KnowledgeFragmentCrafting(452).setRecipeFromRegistry(new ItemStack(BlockList.spooky_log)).setPrice(5).setUnlockRequirements(450).setUnlockCascade(437),
 				new KnowledgeFragmentCrafting(453).setRecipeFromRegistry(new ItemStack(BlockList.spooky_leaves)).setPrice(5).setUnlockRequirements(450).setUnlockCascade(442)
 			}),
 			
-			GHOST_AMULET.setPos(7,7).setUnlockPrice(24).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			GHOST_AMULET.setPos(7, 7).setUnlockPrice(24).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(460).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(461).setPrice(10).setUnlockRequirements(460).setUnlockCascade(436),
 				new KnowledgeFragmentText(462).setPrice(10).setUnlockRequirements(460),
 				new KnowledgeFragmentText(463).setPrice(7).setUnlockRequirements(462).setUnlockCascade(117)
 			}),
 			
-			ECTOPLASM.setPos(9,7).setUnlockPrice(35).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			ECTOPLASM.setPos(9, 7).setUnlockPrice(35).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(470).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(471).setRecipeFromRegistry(new ItemStack(ItemList.spectral_tear)).setNonBuyableRedirect(SPECTRAL_TEAR) // 921
 			}),
 			
-			SPECTRAL_TEAR.setPos(9,9).setUnlockPrice(10).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
+			SPECTRAL_TEAR.setPos(9, 9).setUnlockPrice(10).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
 				 new KnowledgeFragmentText(920).setPrice(5).setUnlockOnDiscovery(),
 				 new KnowledgeFragmentCrafting(921).setRecipeFromRegistry(new ItemStack(ItemList.spectral_tear)).setPrice(7).setUnlockRequirements(920).setUnlockCascade(471),
 				 new KnowledgeFragmentCrafting(922).setRecipeFromRegistry(new ItemStack(ItemList.living_matter)).setNonBuyableRedirect(LIVING_MATTER) // 931
 			}),
 			
-			LIVING_MATTER.setPos(11,9).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			LIVING_MATTER.setPos(11, 9).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(930).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(931).setRecipeFromRegistry(new ItemStack(ItemList.living_matter)).setPrice(10).setUnlockRequirements(930).setUnlockCascade(922)
 			}),
 			
-			CURSE.setPos(13,9).setUnlockPrice(40).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			CURSE.setPos(13, 9).setUnlockPrice(40).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(940).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(941).setPrice(7).setUnlockRequirements(940),
 				new KnowledgeFragmentText(942).setPrice(5).setUnlockRequirements(941),
 				new KnowledgeFragmentText(943).setPrice(5).setUnlockRequirements(941),
 				new KnowledgeFragmentText(944).setPrice(4).setUnlockRequirements(943),
 				new KnowledgeFragmentText(945).setPrice(7).setUnlockRequirements(941)
-			}).addFragments(KnowledgeUtils.createCurseFragments(1300,941)),
+			}).addFragments(KnowledgeUtils.createCurseFragments(1300, 941)),
 			
-			POTION_OF_PURITY.setPos(15,8).setUnlockPrice(15).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			POTION_OF_PURITY.setPos(15, 8).setUnlockPrice(15).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(950).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(951).setPrice(5).setUnlockRequirements(950).setUnlockCascade(136)
 			}),
 			
-			CURSE_AMULET.setPos(15,10).setUnlockPrice(10).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			CURSE_AMULET.setPos(15, 10).setUnlockPrice(10).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(1400).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(1401).setPrice(4).setUnlockRequirements(1400)
 			}),
 			
 			// =
 			
-			RAVAGED_DUNGEON.setPos(4,13).setUnlockPrice(30).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			RAVAGED_DUNGEON.setPos(4, 13).setUnlockPrice(30).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(490).setPrice(7),
 				new KnowledgeFragmentText(491).setPrice(5).setUnlockRequirements(490),
 				new KnowledgeFragmentText(492).setPrice(4).setUnlockRequirements(491),
@@ -576,53 +576,53 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(494).setPrice(4).setUnlockRequirements(492)
 			}),
 			
-			RAVAGED_BRICK.setPos(4,15).setUnlockPrice(10).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			RAVAGED_BRICK.setPos(4, 15).setUnlockPrice(10).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(500).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(501).setPrice(4).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(505).setPrice(7).setUnlockRequirements(500),
-				new KnowledgeFragmentCrafting(502).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_stairs,4)).setPrice(4).setUnlockRequirements(500).setUnlockCascade(513),
-				new KnowledgeFragmentCrafting(503).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_slab,6)).setPrice(4).setUnlockRequirements(500).setUnlockCascade(515),
-				new KnowledgeFragmentCrafting(504).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_fence,6)).setPrice(4).setUnlockRequirements(500).setUnlockCascade(517)
+				new KnowledgeFragmentCrafting(502).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_stairs, 4)).setPrice(4).setUnlockRequirements(500).setUnlockCascade(513),
+				new KnowledgeFragmentCrafting(503).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_slab, 6)).setPrice(4).setUnlockRequirements(500).setUnlockCascade(515),
+				new KnowledgeFragmentCrafting(504).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_fence, 6)).setPrice(4).setUnlockRequirements(500).setUnlockCascade(517)
 			}),
 			
-			RAVAGED_BRICK_GLOWING.setPos(6,15).setUnlockPrice(2).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			RAVAGED_BRICK_GLOWING.setPos(6, 15).setUnlockPrice(2).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(510).setPrice(5).setUnlockOnDiscovery()
 			}),
 			
-			RAVAGED_BRICK_STAIRS.setPos(2,15).setUnlockPrice(2).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			RAVAGED_BRICK_STAIRS.setPos(2, 15).setUnlockPrice(2).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(512).setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(513).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_stairs,4)).setPrice(4).setUnlockRequirements(512).setUnlockCascade(502)
+				new KnowledgeFragmentCrafting(513).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_stairs, 4)).setPrice(4).setUnlockRequirements(512).setUnlockCascade(502)
 			}),
 			
-			RAVAGED_BRICK_SLAB.setPos(0,15).setUnlockPrice(2).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			RAVAGED_BRICK_SLAB.setPos(0, 15).setUnlockPrice(2).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(514).setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(515).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_slab,6)).setPrice(4).setUnlockRequirements(514).setUnlockCascade(503)
+				new KnowledgeFragmentCrafting(515).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_slab, 6)).setPrice(4).setUnlockRequirements(514).setUnlockCascade(503)
 			}),
 			
-			RAVAGED_BRICK_FENCE.setPos(8,15).setUnlockPrice(2).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			RAVAGED_BRICK_FENCE.setPos(8, 15).setUnlockPrice(2).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(516).setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(517).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_fence,6)).setPrice(4).setUnlockRequirements(516).setUnlockCascade(504)
+				new KnowledgeFragmentCrafting(517).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_fence, 6)).setPrice(4).setUnlockRequirements(516).setUnlockCascade(504)
 			}),
 			
-			CHARM_POUCH.setPos(7,18).setUnlockPrice(40).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			CHARM_POUCH.setPos(7, 18).setUnlockPrice(40).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(520).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(521).setRecipeFromRegistry(new ItemStack(ItemList.charm_pouch)).setPrice(10).setUnlockRequirements(520).setUnlockCascade(533),
 				new KnowledgeFragmentText(522).setPrice(5).setUnlockRequirements(520)
 			}),
 			
-			RUNES.setPos(3,18).setUnlockPrice(25).setDiscoveryReward(18).addFragments(new KnowledgeFragment[]{
+			RUNES.setPos(3, 18).setUnlockPrice(25).setDiscoveryReward(18).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(530).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(531).setPrice(5).setUnlockRequirements(530),
 				new KnowledgeFragmentText(532).setPrice(5).setUnlockRequirements(530),
 				new KnowledgeFragmentCrafting(533).setRecipeFromRegistry(new ItemStack(ItemList.charm_pouch)).setNonBuyableRedirect(CHARM_POUCH) // 521
 			}),
 			
-			CHARMS.setPos(5,18).setUnlockPrice(35).setDiscoveryReward(25).addFragments(new KnowledgeFragment[]{
+			CHARMS.setPos(5, 18).setUnlockPrice(35).setDiscoveryReward(25).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(540).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(541).setPrice(7).setUnlockRequirements(540)
-			}).addFragments(KnowledgeUtils.createCharmFragments(1000,541)),
+			}).addFragments(KnowledgeUtils.createCharmFragments(1000, 541)),
 			
-			LOUSE.setPos(1,18).setUnlockPrice(15).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			LOUSE.setPos(1, 18).setUnlockPrice(15).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(550).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(551).setPrice(5).setUnlockRequirements(550),
 				new KnowledgeFragmentText(552).setPrice(7).setUnlockRequirements(551),
@@ -638,53 +638,53 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(563).setPrice(15).setUnlockRequirements(561)
 			}),
 			
-			BURNED_END_STONE.setPos(0,0).setUnlockPrice(5).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			BURNED_END_STONE.setPos(0, 0).setUnlockPrice(5).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(570).setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			FLAMEWEED_1.setPos(5,0).setUnlockPrice(3).setDiscoveryReward(4).addFragments(new KnowledgeFragment[]{
+			FLAMEWEED_1.setPos(5, 0).setUnlockPrice(3).setDiscoveryReward(4).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(582).setPrice(4).setUnlockOnDiscovery()
 			}),
 			
-			FLAMEWEED_2.setPos(7,0).setUnlockPrice(3).setDiscoveryReward(4).addFragments(new KnowledgeFragment[]{
+			FLAMEWEED_2.setPos(7, 0).setUnlockPrice(3).setDiscoveryReward(4).addFragments(new KnowledgeFragment[]{
 				FLAMEWEED_1.getFragments().iterator().next()
 			}),
 			
-			FLAMEWEED_3.setPos(9,0).setUnlockPrice(3).setDiscoveryReward(4).addFragments(new KnowledgeFragment[]{
+			FLAMEWEED_3.setPos(9, 0).setUnlockPrice(3).setDiscoveryReward(4).addFragments(new KnowledgeFragment[]{
 				FLAMEWEED_1.getFragments().iterator().next()
 			}),
 			
-			IGNEOUS_ROCK_ORE_LINKED.setPos(2,0),
+			IGNEOUS_ROCK_ORE_LINKED.setPos(2, 0),
 			
-			IGNEOUS_ROCK_LINKED.setPos(2,2),
+			IGNEOUS_ROCK_LINKED.setPos(2, 2),
 			
 			// =
 			
-			CINDER.setPos(0,7).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			CINDER.setPos(0, 7).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(590).setPrice(5).setUnlockOnDiscovery()
 			}),
 			
-			LILYFIRE.setPos(13,7).setUnlockPrice(4).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			LILYFIRE.setPos(13, 7).setUnlockPrice(4).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(580).setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(581).setRecipeFromRegistry(new ItemStack(Items.dye,2,14),new ItemStack[]{ new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire) }).setPrice(4).setUnlockRequirements(580)
+				new KnowledgeFragmentCrafting(581).setRecipeFromRegistry(new ItemStack(Items.dye, 2, 14), new ItemStack[]{ new ItemStack(BlockList.crossed_decoration, 1, BlockCrossedDecoration.dataLilyFire) }).setPrice(4).setUnlockRequirements(580)
 			}),
 			
-			DUNGEON_PUZZLE.setPos(10,7).setUnlockPrice(15).setDiscoveryReward(25).addFragments(new KnowledgeFragment[]{
+			DUNGEON_PUZZLE.setPos(10, 7).setUnlockPrice(15).setDiscoveryReward(25).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(900).setPrice(10).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(901).setPrice(7).setUnlockRequirements(900),
 				new KnowledgeFragmentText(902).setPrice(7).setUnlockRequirements(901),
 				new KnowledgeFragmentText(903).setPrice(10).setUnlockRequirements(901)
 			}),
 			
-			FIERY_ESSENCE_ALTAR.setPos(5,9).setUnlockPrice(25).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			FIERY_ESSENCE_ALTAR.setPos(5, 9).setUnlockPrice(25).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(600).setPrice(10).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(601).setPrice(8).setUnlockRequirements(600),
 				new KnowledgeFragmentText(602).setPrice(5).setUnlockRequirements(600)
 			}),
 			
-			FIERY_ESSENCE.setPos(5,7),
+			FIERY_ESSENCE.setPos(5, 7),
 			
-			FIRE_GOLEM.setPos(2,6).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			FIRE_GOLEM.setPos(2, 6).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(610).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(611).setPrice(4).setUnlockRequirements(610),
 				new KnowledgeFragmentText(612).setPrice(5).setUnlockRequirements(611),
@@ -692,14 +692,14 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(614).setPrice(5).setUnlockRequirements(610).setUnlockCascade(82)
 			}),
 			
-			SCORCHING_LENS.setPos(2,8).setUnlockPrice(20).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			SCORCHING_LENS.setPos(2, 8).setUnlockPrice(20).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(620).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(621).setPrice(4).setUnlockRequirements(620),
 				new KnowledgeFragmentText(622).setPrice(5).setUnlockRequirements(621),
 				new KnowledgeFragmentText(623).setPrice(5).setUnlockRequirements(620).setUnlockCascade(82)
 			}),
 			
-			FIRE_FIEND.setPos(8,7).setUnlockPrice(30).setDiscoveryReward(18).addFragments(new KnowledgeFragment[]{
+			FIRE_FIEND.setPos(8, 7).setUnlockPrice(30).setDiscoveryReward(18).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(910).setPrice(10).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(911).setPrice(5).setUnlockRequirements(910),
 				new KnowledgeFragmentText(912).setPrice(4).setUnlockRequirements(910),
@@ -712,19 +712,19 @@ public final class KnowledgeRegistrations{/*
 			
 			// =
 			
-			INFERNIUM.setPos(2,13).setUnlockPrice(15).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			INFERNIUM.setPos(2, 13).setUnlockPrice(15).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(630).setPrice(7).setUnlockOnDiscovery().setUnlockCascade(657),
 				new KnowledgeFragmentCrafting(631).setRecipeFromRegistry(new ItemStack(ItemList.scorching_pickaxe)).setNonBuyableRedirect(SCORCHING_PICKAXE) // 643
 			}),
 			
-			SCORCHING_PICKAXE.setPos(4,13).setUnlockPrice(40).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			SCORCHING_PICKAXE.setPos(4, 13).setUnlockPrice(40).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(640).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(641).setPrice(7).setUnlockRequirements(640),
 				new KnowledgeFragmentText(642).setPrice(5).setUnlockRequirements(641),
 				new KnowledgeFragmentCrafting(643).setRecipeFromRegistry(new ItemStack(ItemList.scorching_pickaxe)).setPrice(10).setUnlockRequirements(640).setUnlockCascade(631)
 			}),
 			
-			HAUNTED_MINER.setPos(0,13).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			HAUNTED_MINER.setPos(0, 13).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(650).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(651).setPrice(7).setUnlockRequirements(651),
 				new KnowledgeFragmentText(652).setPrice(4).setUnlockRequirements(650),
@@ -745,38 +745,38 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(665).setPrice(7).setUnlockRequirements(661).setUnlockCascade(810)
 			}),
 			
-			ENCHANTED_END_STONE.setPos(0,0).setUnlockPrice(5).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			ENCHANTED_END_STONE.setPos(0, 0).setUnlockPrice(5).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(670).setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			FALLING_OBSIDIAN_LINKED.setPos(2,0),
+			FALLING_OBSIDIAN_LINKED.setPos(2, 0),
 			
-			PERSEGRIT.setPos(4,0).setUnlockPrice(7).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			PERSEGRIT.setPos(4, 0).setUnlockPrice(7).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(810).setPrice(5).setUnlockOnDiscovery().setUnlockCascade(665),
 				new KnowledgeFragmentText(811).setPrice(5).setUnlockRequirements(810),
 				new KnowledgeFragmentText(812).setPrice(2).setUnlockRequirements(810)
 			}),
 			
-			ENDERMAN_LINKED.setPos(0,2),
+			ENDERMAN_LINKED.setPos(0, 2),
 			
 			// =
 			
-			ARCANE_SHARD.setPos(5,6).setUnlockPrice(28).setDiscoveryReward(27).addFragments(new KnowledgeFragment[]{
+			ARCANE_SHARD.setPos(5, 6).setUnlockPrice(28).setDiscoveryReward(27).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(1420).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(1421).setPrice(2),
-				new KnowledgeFragmentCrafting(1422).setRecipeFromRegistry(new ItemStack(ItemList.blank_gem)).setPrice(5).setUnlockCascade(773,1431),
+				new KnowledgeFragmentCrafting(1422).setRecipeFromRegistry(new ItemStack(ItemList.blank_gem)).setPrice(5).setUnlockCascade(773, 1431),
 				new KnowledgeFragmentCrafting(1423).setRecipeFromRegistry(new ItemStack(ItemList.spatial_dash_gem)).setPrice(7).setUnlockCascade(295),
 				new KnowledgeFragmentCrafting(1424).setRecipeFromRegistry(new ItemStack(ItemList.transference_gem)).setPrice(7).setUnlockCascade(1441)
 			}),
 			
-			BLANK_GEM.setPos(7,6).setUnlockPrice(15).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			BLANK_GEM.setPos(7, 6).setUnlockPrice(15).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(1430).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(1431).setRecipeFromRegistry(new ItemStack(ItemList.blank_gem)).setNonBuyableRedirect(ARCANE_SHARD), // 1422
 			}),
 			
-			SPATIAL_DASH_GEM_LINKED.setPos(9,6),
+			SPATIAL_DASH_GEM_LINKED.setPos(9, 6),
 			
-			TRANSFERENCE_GEM.setPos(11,6).setUnlockPrice(20).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			TRANSFERENCE_GEM.setPos(11, 6).setUnlockPrice(20).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(1440).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(1441).setRecipeFromRegistry(new ItemStack(ItemList.transference_gem)).setNonBuyableRedirect(ARCANE_SHARD), // 1424
 				new KnowledgeFragmentText(1442).setPrice(5).setUnlockRequirements(1440),
@@ -786,7 +786,7 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(1446).setPrice(5).setUnlockRequirements(1443)
 			}),
 			
-			BABY_ENDERMAN.setPos(0,6).setUnlockPrice(25).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			BABY_ENDERMAN.setPos(0, 6).setUnlockPrice(25).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(680).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(681).setPrice(4).setUnlockRequirements(680),
 				new KnowledgeFragmentText(682).setPrice(4).setUnlockRequirements(680),
@@ -794,7 +794,7 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(684).setPrice(5).setUnlockRequirements(682)
 			}),
 			
-			HOMELAND_ENDERMAN.setPos(2,6).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			HOMELAND_ENDERMAN.setPos(2, 6).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(790).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(791).setPrice(5).setUnlockRequirements(790),
 				new KnowledgeFragmentText(792).setPrice(5).setUnlockRequirements(791),
@@ -803,64 +803,64 @@ public final class KnowledgeRegistrations{/*
 			
 			// =
 			
-			LABORATORY.setPos(3,10).setUnlockPrice(30).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			LABORATORY.setPos(3, 10).setUnlockPrice(30).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(1460).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(1461).setPrice(5).setUnlockRequirements(1460),
 				new KnowledgeFragmentText(1462).setPrice(5).setUnlockRequirements(1461),
 				new KnowledgeFragmentText(1463).setPrice(5).setUnlockRequirements(1462)
 			}),
 			
-			LABORATORY_OBSIDIAN.setPos(0,12).setUnlockPrice(5).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			LABORATORY_OBSIDIAN.setPos(0, 12).setUnlockPrice(5).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(1450).setPrice(4).setUnlockOnDiscovery()
 			}),
 			
-			LABORATORY_GLASS.setPos(2,12).setUnlockPrice(5).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			LABORATORY_GLASS.setPos(2, 12).setUnlockPrice(5).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(1451).setPrice(4).setUnlockOnDiscovery()
 			}),
 			
-			LABORATORY_FLOOR.setPos(4,12).setUnlockPrice(5).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			LABORATORY_FLOOR.setPos(4, 12).setUnlockPrice(5).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(1452).setPrice(4).setUnlockOnDiscovery()
 			}),
 			
-			LABORATORY_STAIRS.setPos(6,12).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			LABORATORY_STAIRS.setPos(6, 12).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(1453).setPrice(4).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_FRAGMENT.setPos(2,15).setUnlockPrice(15).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			OBSIDIAN_FRAGMENT.setPos(2, 15).setUnlockPrice(15).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(820).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(821).setRecipeFromRegistry(new ItemStack(ItemList.obsidian_rod)).setNonBuyableRedirect(OBSIDIAN_ROD), // 831
 				new KnowledgeFragmentCrafting(822).setRecipeFromRegistry(new ItemStack(Blocks.obsidian)).setPrice(5).setUnlockRequirements(820),
-				new KnowledgeFragmentCrafting(823).setRecipeFromRegistry(new ItemStack(BlockList.obsidian_special,1,0)).setPrice(4).setUnlockRequirements(822),
-				new KnowledgeFragmentCrafting(824).setRecipeFromRegistry(new ItemStack(BlockList.obsidian_special,1,1)).setPrice(4).setUnlockRequirements(822),
-				new KnowledgeFragmentCrafting(825).setRecipeFromRegistry(new ItemStack(BlockList.obsidian_special,1,2)).setPrice(4).setUnlockRequirements(822),
+				new KnowledgeFragmentCrafting(823).setRecipeFromRegistry(new ItemStack(BlockList.obsidian_special, 1, 0)).setPrice(4).setUnlockRequirements(822),
+				new KnowledgeFragmentCrafting(824).setRecipeFromRegistry(new ItemStack(BlockList.obsidian_special, 1, 1)).setPrice(4).setUnlockRequirements(822),
+				new KnowledgeFragmentCrafting(825).setRecipeFromRegistry(new ItemStack(BlockList.obsidian_special, 1, 2)).setPrice(4).setUnlockRequirements(822),
 			}),
 			
-			OBSIDIAN_ROD.setPos(4,15).setUnlockPrice(7).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			OBSIDIAN_ROD.setPos(4, 15).setUnlockPrice(7).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(830).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(831).setRecipeFromRegistry(new ItemStack(ItemList.obsidian_rod)).setPrice(5).setUnlockRequirements(830).setUnlockCascade(821),
 				new KnowledgeFragmentCrafting(832).setRecipeFromRegistry(new ItemStack(ItemList.energy_receptacle)).setNonBuyableRedirect(ENERGY_WAND) // 851
 			}),
 			
-			AURICION.setPos(12,15).setUnlockPrice(7).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			AURICION.setPos(12, 15).setUnlockPrice(7).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(870).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(871).setPrice(5).setUnlockRequirements(870),
 				new KnowledgeFragmentCrafting(872).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand_core)).setPrice(7).setUnlockRequirements(870).setUnlockCascade(841)
 			}),
 			
-			ENERGY_WAND_CORE.setPos(10,15).setUnlockPrice(7).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			ENERGY_WAND_CORE.setPos(10, 15).setUnlockPrice(7).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(840).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(841).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand_core)).setPrice(7).setUnlockRequirements(840).setUnlockCascade(872),
 				new KnowledgeFragmentCrafting(842).setRecipeFromRegistry(new ItemStack(ItemList.energy_receptacle)).setNonBuyableRedirect(ENERGY_WAND) // 851
 			}),
 			
-			ENERGY_WAND.setPos(7,15).setUnlockPrice(35).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			ENERGY_WAND.setPos(7, 15).setUnlockPrice(35).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(850).setPrice(7).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(851).setRecipeFromRegistry(new ItemStack(ItemList.energy_receptacle)).setPrice(10).setUnlockRequirements(850).setUnlockCascade(832,842),
+				new KnowledgeFragmentCrafting(851).setRecipeFromRegistry(new ItemStack(ItemList.energy_receptacle)).setPrice(10).setUnlockRequirements(850).setUnlockCascade(832, 842),
 				new KnowledgeFragmentText(852).setPrice(7).setUnlockRequirements(850),
 				new KnowledgeFragmentText(853).setPrice(5).setUnlockRequirements(852)
 			}),
 			
-			ENDER_GUARDIAN.setPos(0,15).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			ENDER_GUARDIAN.setPos(0, 15).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(690).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(691).setPrice(5).setUnlockRequirements(690),
 				new KnowledgeFragmentText(692).setPrice(7).setUnlockRequirements(690),
@@ -868,7 +868,7 @@ public final class KnowledgeRegistrations{/*
 				new KnowledgeFragmentText(693).setPrice(5).setUnlockRequirements(690)
 			}),
 			
-			ENDERMAGE.setPos(14,15).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			ENDERMAGE.setPos(14, 15).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(860).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(861).setPrice(5).setUnlockRequirements(860),
 				new KnowledgeFragmentText(862).setPrice(7).setUnlockRequirements(860),
@@ -920,15 +920,15 @@ public final class KnowledgeRegistrations{/*
 				totalReward += obj.getDiscoveryReward();
 			}
 			
-			Log.debug("Knowledge Object amount: $0",amtObjects);
-			Log.debug("Knowledge Fragment amount: $0",amtFragments);
-			Log.debug("Total Object price: $0",totalObjPrice);
-			Log.debug("Total Fragment price: $0",totalFragPrice);
-			Log.debug("Total Fragment price, excluding cascaded: $0",totalFragPriceExcCascaded);
-			Log.debug("Total Fragment price, excluding discovery: $0",totalFragPriceExcDiscovery);
-			Log.debug("Total Fragment price, excluding all: $0",totalFragPriceExcCascaded-(totalFragPrice-totalFragPriceExcDiscovery));
-			Log.debug("Total real price: $0",totalObjPrice+totalFragPriceExcCascaded-(totalFragPrice-totalFragPriceExcDiscovery));
-			Log.debug("Total discovery reward: $0",totalReward);
+			Log.debug("Knowledge Object amount: $0", amtObjects);
+			Log.debug("Knowledge Fragment amount: $0", amtFragments);
+			Log.debug("Total Object price: $0", totalObjPrice);
+			Log.debug("Total Fragment price: $0", totalFragPrice);
+			Log.debug("Total Fragment price, excluding cascaded: $0", totalFragPriceExcCascaded);
+			Log.debug("Total Fragment price, excluding discovery: $0", totalFragPriceExcDiscovery);
+			Log.debug("Total Fragment price, excluding all: $0", totalFragPriceExcCascaded-(totalFragPrice-totalFragPriceExcDiscovery));
+			Log.debug("Total real price: $0", totalObjPrice+totalFragPriceExcCascaded-(totalFragPrice-totalFragPriceExcDiscovery));
+			Log.debug("Total discovery reward: $0", totalReward);
 			
 			Stopwatch.finish("KnowledgeRegistrations - Stats");
 		}
@@ -939,11 +939,11 @@ public final class KnowledgeRegistrations{/*
 	}
 	
 	public static KnowledgeObject<ObjectBlock> create(Block block, String tooltip){
-		return new KnowledgeObject<>(new ObjectBlock(block),tooltip);
+		return new KnowledgeObject<>(new ObjectBlock(block), tooltip);
 	}
 	
 	public static KnowledgeObject<ObjectBlock> create(Block block, int metadata){
-		return new KnowledgeObject<>(new ObjectBlock(block,metadata));
+		return new KnowledgeObject<>(new ObjectBlock(block, metadata));
 	}
 	
 	public static KnowledgeObject<ObjectItem> create(Item item){
@@ -951,7 +951,7 @@ public final class KnowledgeRegistrations{/*
 	}
 	
 	public static KnowledgeObject<ObjectItem> create(Item item, String tooltip){
-		return new KnowledgeObject<>(new ObjectItem(item),tooltip);
+		return new KnowledgeObject<>(new ObjectItem(item), tooltip);
 	}
 	
 	public static KnowledgeObject<ObjectMob> create(Class<? extends EntityLiving> mobClass){
@@ -959,7 +959,7 @@ public final class KnowledgeRegistrations{/*
 	}
 	
 	public static KnowledgeObject<ObjectDummy> dummy(String identifier, ItemStack itemToRender, String tooltip){
-		return new KnowledgeObject<>(new ObjectDummy(identifier),itemToRender,tooltip);
+		return new KnowledgeObject<>(new ObjectDummy(identifier), itemToRender, tooltip);
 	}
 	
 	public static KnowledgeObject<? extends IKnowledgeObjectInstance<?>> link(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object){
@@ -967,7 +967,7 @@ public final class KnowledgeRegistrations{/*
 	}
 	
 	public static KnowledgeObject<? extends IKnowledgeObjectInstance<?>> link(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object, ItemStack itemToRender, String tooltip){
-		return new LinkedKnowledgeObject<>(object,itemToRender,tooltip);
+		return new LinkedKnowledgeObject<>(object, itemToRender, tooltip);
 	}*/
 	
 	private KnowledgeRegistrations(){}

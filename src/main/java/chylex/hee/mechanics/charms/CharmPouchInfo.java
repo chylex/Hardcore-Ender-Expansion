@@ -8,7 +8,7 @@ import chylex.hee.item.ItemCharmPouch;
 
 public final class CharmPouchInfo{
 	public final long pouchID;
-	public final List<Pair<CharmType,CharmRecipe>> charms = new ArrayList<>(5);
+	public final List<Pair<CharmType, CharmRecipe>> charms = new ArrayList<>(5);
 	private long prevUpdateTime;
 	
 	public CharmPouchInfo(ItemStack is){

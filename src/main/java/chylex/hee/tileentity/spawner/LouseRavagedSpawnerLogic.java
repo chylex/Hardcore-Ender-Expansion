@@ -32,22 +32,22 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	protected AxisAlignedBB getSpawnerCheckBB(){
 		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
-		return AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(spawnRange*2D,2.5D,spawnRange*2D);
+		return AxisAlignedBB.getBoundingBox(sx, sy, sz, sx+1, sy+1, sz+1).expand(spawnRange*2D, 2.5D, spawnRange*2D);
 	}
 
 	@Override
 	protected boolean checkSpawnerConditions(){
 		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
-		return getSpawnerWorld().getEntitiesWithinAABB(EntityMobLouse.class,AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(10D,10D,10D)).size() <= 9;
+		return getSpawnerWorld().getEntitiesWithinAABB(EntityMobLouse.class, AxisAlignedBB.getBoundingBox(sx, sy, sz, sx+1, sy+1, sz+1).expand(10D, 10D, 10D)).size() <= 9;
 	}
 
 	@Override
 	protected boolean canMobSpawn(EntityLiving entity){
 		for(int spawnerY = getSpawnerY(), yy = spawnerY; yy > spawnerY-5; yy--){
-			if (!Pos.at(entity.posX,yy,entity.posZ).isAir(entity.worldObj) || yy == spawnerY-4){
-				entity.setLocationAndAngles(entity.posX,yy+1,entity.posZ,entity.rotationYaw,0F);
+			if (!Pos.at(entity.posX, yy, entity.posZ).isAir(entity.worldObj) || yy == spawnerY-4){
+				entity.setLocationAndAngles(entity.posX, yy+1, entity.posZ, entity.rotationYaw, 0F);
 				
-				if (entity.worldObj.checkNoEntityCollision(entity.boundingBox) && entity.worldObj.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty()){
+				if (entity.worldObj.checkNoEntityCollision(entity.boundingBox) && entity.worldObj.getCollidingBoundingBoxes(entity, entity.boundingBox).isEmpty()){
 					return true;
 				}
 			}
@@ -59,8 +59,8 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		if (louseData == null)louseData = new LouseSpawnData(0,getSpawnerWorld().rand);
-		nbt.setTag("louseData",louseData.writeToNBT(new NBTTagCompound()));
+		if (louseData == null)louseData = new LouseSpawnData(0, getSpawnerWorld().rand);
+		nbt.setTag("louseData", louseData.writeToNBT(new NBTTagCompound()));
 	}
 		
 	@Override
@@ -71,7 +71,7 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 
 	@Override
 	protected EntityLiving createMob(World world){
-		return new EntityMobLouse(world,louseData);
+		return new EntityMobLouse(world, louseData);
 	}
 	
 	public static final class LouseSpawnData{
@@ -105,11 +105,11 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 			if (level == 0 || rand.nextInt(3) != 0){ // one or two attributes, no abilities
 				int amt = ((level == 1 && rand.nextBoolean()) || (level == 2 && rand.nextInt(4) != 0)) ? 2 : 1;
 				
-				for(int a = 0; a < amt; a++)attributes.add(RandUtil.anyOf(rand,EnumLouseAttribute.values));
+				for(int a = 0; a < amt; a++)attributes.add(RandUtil.anyOf(rand, EnumLouseAttribute.values));
 			}
 			else{ // one attribute, one ability
-				attributes.add(RandUtil.anyOf(rand,EnumLouseAttribute.values));
-				abilities.add(RandUtil.anyOf(rand,EnumLouseAbility.values));
+				attributes.add(RandUtil.anyOf(rand, EnumLouseAttribute.values));
+				abilities.add(RandUtil.anyOf(rand, EnumLouseAbility.values));
 			}
 		}
 		
@@ -146,7 +146,7 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 						if (ordinal >= 0 && ordinal < EnumLouseAbility.values.length)abilities.add(EnumLouseAbility.values[ordinal]);
 					}
 				}catch(NumberFormatException e){
-					Log.throwable(e,"Invalid spawner data format: $0",serializedString);
+					Log.throwable(e, "Invalid spawner data format: $0", serializedString);
 				}
 				
 				this.level = lvl;
@@ -154,9 +154,9 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 		}
 		
 		public NBTTagCompound writeToNBT(NBTTagCompound tag){
-			tag.setByte("lvl",level);
-			for(EnumLouseAttribute attribute:attributes)tag.setBoolean("attr-"+attribute.name(),true);
-			for(EnumLouseAbility ability:abilities)tag.setBoolean("abil-"+ability.name(),true);
+			tag.setByte("lvl", level);
+			for(EnumLouseAttribute attribute:attributes)tag.setBoolean("attr-"+attribute.name(), true);
+			for(EnumLouseAbility ability:abilities)tag.setBoolean("abil-"+ability.name(), true);
 			return tag;
 		}
 		

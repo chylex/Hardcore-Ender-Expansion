@@ -27,21 +27,21 @@ public class BlockReplaceHelper{
 						String registryName = Block.blockRegistry.getNameForObject(block);
 						int id = Block.getIdFromBlock(block);
 						
-						Log.debug("Replacing block - $0/$1",id,registryName);
+						Log.debug("Replacing block - $0/$1", id, registryName);
 						
 						((ItemBlock)Item.getItemFromBlock(block)).field_150939_a = replacement;
 						
 						FMLControlledNamespacedRegistry<Block> registryBlocks = GameData.getBlockRegistry();
-						registryBlocks.registryObjects.put(registryName,replacement);
-						registryBlocks.underlyingIntegerMap.func_148746_a(replacement,id); // OBFUSCATED put object
+						registryBlocks.registryObjects.put(registryName, replacement);
+						registryBlocks.underlyingIntegerMap.func_148746_a(replacement, id); // OBFUSCATED put object
 						
 						blockField.setAccessible(true);
 						Unfinalizer.unfinalizeField(blockField);
-						blockField.set(null,replacement);
+						blockField.set(null, replacement);
 						
-						Method delegateNameMethod = replacement.delegate.getClass().getDeclaredMethod("setName",String.class);
+						Method delegateNameMethod = replacement.delegate.getClass().getDeclaredMethod("setName", String.class);
 						delegateNameMethod.setAccessible(true);
-						delegateNameMethod.invoke(replacement.delegate,toReplace.delegate.name());
+						delegateNameMethod.invoke(replacement.delegate, toReplace.delegate.name());
 						
 						classTest[0] = blockField.get(null).getClass();
 						classTest[1] = Block.blockRegistry.getObjectById(id).getClass();
@@ -56,12 +56,12 @@ public class BlockReplaceHelper{
 		
 		Stopwatch.finish("BlockReplace");
 		
-		Log.debug("Check field: $0",classTest[0]);
-		Log.debug("Check block registry: $0",classTest[1]);
-		Log.debug("Check item: $0",classTest[2]);
+		Log.debug("Check field: $0", classTest[0]);
+		Log.debug("Check block registry: $0", classTest[1]);
+		Log.debug("Check item: $0", classTest[2]);
 		
 		if (classTest[0] != classTest[1] || classTest[0] != classTest[2] || classTest[0] == null){
-			throw new RuntimeException("HardcoreEnderExpansion was unable to replace block "+toReplace.getUnlocalizedName()+"! Debug info to report: "+classTest[0]+","+classTest[1]+","+classTest[2],exception);
+			throw new RuntimeException("HardcoreEnderExpansion was unable to replace block "+toReplace.getUnlocalizedName()+"! Debug info to report: "+classTest[0]+", "+classTest[1]+", "+classTest[2], exception);
 		}
 	}
 }

@@ -17,13 +17,13 @@ import chylex.hee.system.collections.CollectionUtil;
  * Converts the current IRecipe mess into a unified system.
  */
 public final class RecipeUnifier{
-	private static final Function<? super Object,? extends ItemStack> mapToItemStack = obj -> {
+	private static final Function<? super Object, ? extends ItemStack> mapToItemStack = obj -> {
 		if (obj instanceof ItemStack)return (ItemStack)obj;
 		else if (obj instanceof ArrayList && !((ArrayList)obj).isEmpty())return (ItemStack)((ArrayList)obj).get(0);
 		else return null;
 	};
 	
-	private static final Function<? super Object,? extends ItemStack[]> mapToOreStack = obj -> {
+	private static final Function<? super Object, ? extends ItemStack[]> mapToOreStack = obj -> {
 		if (obj instanceof ItemStack)return new ItemStack[]{ (ItemStack)obj };
 		else if (obj instanceof ArrayList)return ((ArrayList<ItemStack>)obj).toArray(new ItemStack[((ArrayList)obj).size()]);
 		else return new ItemStack[0];
@@ -93,11 +93,11 @@ public final class RecipeUnifier{
 		}
 		
 		if (pad && ingredients != null){
-			ingredients = Arrays.copyOf(ingredients,9);
+			ingredients = Arrays.copyOf(ingredients, 9);
 			while(oreIngredients != null && oreIngredients.size() < 9)oreIngredients.add(new ItemStack[0]);
 		}
 		
-		return new Recipe(recipe.getRecipeOutput(),ingredients == null ? new ItemStack[0] : ingredients,oreIngredients,isShaped);
+		return new Recipe(recipe.getRecipeOutput(), ingredients == null ? new ItemStack[0] : ingredients, oreIngredients, isShaped);
 	}
 	
 	public static final class Recipe{

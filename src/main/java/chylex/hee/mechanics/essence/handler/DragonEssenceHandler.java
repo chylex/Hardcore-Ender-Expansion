@@ -35,7 +35,7 @@ import chylex.hee.tileentity.TileEntityEssenceAltar;
 public class DragonEssenceHandler extends AltarActionHandler{
 	public static final List<AltarItemRecipe> recipes = CollectionUtil.newList(new AltarItemRecipe[]{
 		new AltarItemRecipe(new ItemStack(Items.brewing_stand), new ItemStack(ItemList.enhanced_brewing_stand), 20),
-		new AltarItemRecipe(new ItemStack(ItemList.ghost_amulet,1,0), new ItemStack(ItemList.ghost_amulet,1,1), 8)
+		new AltarItemRecipe(new ItemStack(ItemList.ghost_amulet, 1, 0), new ItemStack(ItemList.ghost_amulet, 1, 1), 8)
 	});
 	
 	private AxisAlignedBB itemBoundingBox;
@@ -65,9 +65,9 @@ public class DragonEssenceHandler extends AltarActionHandler{
 			
 			World world = altar.getWorldObj();
 			
-			for(int xx = -range,id; xx <= range; xx++){
+			for(int xx = -range, id; xx <= range; xx++){
 				for(int zz = -range; zz <= range; zz++){
-					id = Block.getIdFromBlock(Pos.at(altar.xCoord+xx,altar.yCoord,altar.zCoord+zz).getBlock(world));
+					id = Block.getIdFromBlock(Pos.at(altar.xCoord+xx, altar.yCoord, altar.zCoord+zz).getBlock(world));
 					currentHash += ((4+xx)*7+(4+zz)+id)*262144L+(xx*id)+(zz*id);
 				}
 			}
@@ -76,18 +76,18 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				pedestalAreaHash = currentHash;
 				
 				pedestals.clear();
-				IdentityHashMap<Block,Byte> blockCounts = new IdentityHashMap<>();
+				IdentityHashMap<Block, Byte> blockCounts = new IdentityHashMap<>();
 				Block[][] blocks = new Block[range*2+1][range*2+1];
 				
 				Pos tilePos = Pos.at(altar);
 				
-				Pos.forEachBlock(tilePos.offset(-range,0,-range),tilePos.offset(range,0,range),pos -> { // TODO rework a bit?
+				Pos.forEachBlock(tilePos.offset(-range, 0, -range), tilePos.offset(range, 0, range), pos -> { // TODO rework a bit?
 					if (Math.abs(pos.x-tilePos.getX()) <= 1 && Math.abs(pos.z-tilePos.getZ()) <= 1)return;
-					if (!(pos.getUp().isAir(world) && hasCollisionBox(altar,pos.getX(),pos.getY(),pos.getZ())))return;
+					if (!(pos.getUp().isAir(world) && hasCollisionBox(altar, pos.getX(), pos.getY(), pos.getZ())))return;
 					
 					for(Facing4 facing:Facing4.list){
 						Pos offset = pos.offset(facing);
-						if (!(offset.isAir(world) || !hasCollisionBox(altar,offset.getX(),offset.getY(),offset.getZ())))return;
+						if (!(offset.isAir(world) || !hasCollisionBox(altar, offset.getX(), offset.getY(), offset.getZ())))return;
 					}
 					
 					Block block = pos.getBlock(world);
@@ -95,20 +95,20 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					
 					blocks[range+pos.getX()-tilePos.getX()][range+pos.getZ()-tilePos.getZ()] = block;
 					
-					if (blockCounts.containsKey(block))blockCounts.put(block,(byte)(blockCounts.get(block)+1));
-					else blockCounts.put(block,(byte)1);
+					if (blockCounts.containsKey(block))blockCounts.put(block, (byte)(blockCounts.get(block)+1));
+					else blockCounts.put(block, (byte)1);
 				});
 				
-				SortedSet<Entry<Block,Byte>> sorted = CollectionUtil.sortMapByValueDesc(blockCounts);
+				SortedSet<Entry<Block, Byte>> sorted = CollectionUtil.sortMapByValueDesc(blockCounts);
 				
-				for(Entry<Block,Byte> entry:sorted){
+				for(Entry<Block, Byte> entry:sorted){
 					if (entry.getValue() > maxPedestals)continue;
 					
 					for(int xx = -range; xx <= range; xx++){
 						for(int zz = -range; zz <= range; zz++){
 							if (blocks[range+xx][range+zz] != entry.getKey())continue;
 							
-							pedestals.add(Pos.at(altar.xCoord+xx,altar.yCoord,altar.zCoord+zz));
+							pedestals.add(Pos.at(altar.xCoord+xx, altar.yCoord, altar.zCoord+zz));
 						}
 					}
 					
@@ -118,17 +118,17 @@ public class DragonEssenceHandler extends AltarActionHandler{
 			
 			for(Pos pos:pedestals){
 				if (world.rand.nextInt(5) <= 1){
-					PacketPipeline.sendToAllAround(altar,64D,new C11ParticleAltarOrb(altar,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D));
+					PacketPipeline.sendToAllAround(altar, 64D, new C11ParticleAltarOrb(altar, pos.getX()+0.5D, pos.getY()+0.5D, pos.getZ()+0.5D));
 				}
 			}
 		}
 		
 		if (itemBoundingBox == null){
-			itemBoundingBox = AxisAlignedBB.getBoundingBox(altar.xCoord+0.5D-4.5D,altar.yCoord+0.9D,altar.zCoord+0.5D-4.5D,altar.xCoord+0.5+4.5D,altar.yCoord+1.6D,altar.zCoord+0.5D+4.5D);
+			itemBoundingBox = AxisAlignedBB.getBoundingBox(altar.xCoord+0.5D-4.5D, altar.yCoord+0.9D, altar.zCoord+0.5D-4.5D, altar.xCoord+0.5+4.5D, altar.yCoord+1.6D, altar.zCoord+0.5D+4.5D);
 		}
 
 		World world = altar.getWorldObj();
-		List<EntityItem> thrownItems = EntitySelector.type(world,EntityItem.class,itemBoundingBox);
+		List<EntityItem> thrownItems = EntitySelector.type(world, EntityItem.class, itemBoundingBox);
 		double targX, targY, targZ;
 		
 		for(EntityItem item:thrownItems){
@@ -138,9 +138,9 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				targZ = pos.getZ()+0.5D;
 				
 				if (Math.abs(item.posX-targX) > 0.001D || Math.abs(item.posY-targY) > 0.001D || Math.abs(item.posZ-targZ) > 0.001D){
-					if (EntitySelector.type(world,EntityItemAltar.class,AxisAlignedBB.getBoundingBox(targX,targY,targZ,targX,targY,targZ)).isEmpty() &&
+					if (EntitySelector.type(world, EntityItemAltar.class, AxisAlignedBB.getBoundingBox(targX, targY, targZ, targX, targY, targZ)).isEmpty() &&
 						Math.sqrt(MathUtil.square(targX-item.posX)+MathUtil.square(targY-item.posY)+MathUtil.square(targZ-item.posZ)) < 0.275D){
-						world.spawnEntityInWorld(new EntityItemAltar(world,targX,targY,targZ,item,EssenceType.DRAGON.id));
+						world.spawnEntityInWorld(new EntityItemAltar(world, targX, targY, targZ, item, EssenceType.DRAGON.id));
 					}
 				}
 				else if ((updatePedestalTimer&3) == 1 && item instanceof EntityItemAltar){
@@ -151,7 +151,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						updatePedestalItem(altarItem);
 						
 						if (world.rand.nextInt(5) == 0){
-							PacketPipeline.sendToAllAround(altar.getWorldObj().provider.dimensionId,targX,pos.getY()+0.5D,targZ,64D,new C11ParticleAltarOrb(targX,pos.getY()+0.5D,targZ,item.posX,item.posY+0.3D,item.posZ,altar.getEssenceType().id,(byte)1));
+							PacketPipeline.sendToAllAround(altar.getWorldObj().provider.dimensionId, targX, pos.getY()+0.5D, targZ, 64D, new C11ParticleAltarOrb(targX, pos.getY()+0.5D, targZ, item.posX, item.posY+0.3D, item.posZ, altar.getEssenceType().id, (byte)1));
 						}
 					}
 				}
@@ -160,8 +160,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	}
 	
 	public static boolean hasCollisionBox(TileEntityEssenceAltar altar, int x, int y, int z){
-		Block block = altar.getWorldObj().getBlock(x,y,z);
-		return block.getMaterial() == Material.air ? false : block.getCollisionBoundingBoxFromPool(altar.getWorldObj(),x,y,z) != null;
+		Block block = altar.getWorldObj().getBlock(x, y, z);
+		return block.getMaterial() == Material.air ? false : block.getCollisionBoundingBoxFromPool(altar.getWorldObj(), x, y, z) != null;
 	}
 	
 	private void updatePedestalItem(EntityItemAltar item){
@@ -181,10 +181,10 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						repairCounter = 0;
 					}
 					
-					if (updateItemCounter(is,"HEE_repair",1) < 18)continue;
-					updateItemCounter(is,"HEE_repair",0);
+					if (updateItemCounter(is, "HEE_repair", 1) < 18)continue;
+					updateItemCounter(is, "HEE_repair", 0);
 					
-					int amount = MathUtil.clamp(MathUtil.floor(Math.sqrt(is.getMaxDamage())*0.65D),1,is.getItemDamage());
+					int amount = MathUtil.clamp(MathUtil.floor(Math.sqrt(is.getMaxDamage())*0.65D), 1, is.getItemDamage());
 					is.setItemDamage(is.getItemDamage()-amount);
 					item.setSparkling();
 				}
@@ -197,8 +197,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		
 		else if (is.isItemEnchanted() && is.getItem() != Items.enchanted_book){
 			for(int b = /* TODO enhancements.contains(EssenceAltarEnhancements.SPEED) ? 2 : */1; b > 0; b--){
-				if (updateItemCounter(is,"HEE_enchant",1) < 280-is.getItem().getItemEnchantability()*5)return;
-				updateItemCounter(is,"HEE_enchant",0);
+				if (updateItemCounter(is, "HEE_enchant", 1) < 280-is.getItem().getItemEnchantability()*5)return;
+				updateItemCounter(is, "HEE_enchant", 0);
 				
 				NBTList enchants = is.hasTagCompound() ? new NBTList(is.getEnchantmentTagList()) : null;
 				if (enchants == null || enchants.isEmpty())return;
@@ -210,7 +210,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						Enchantment e = Enchantment.enchantmentsList[enchants.getCompound(a).getShort("id")];
 						if (e == null)continue;
 						
-						list.add(e,e.getWeight());
+						list.add(e, e.getWeight());
 					}
 					
 					if (list.isEmpty())continue; // the enchantments are no longer in the game
@@ -221,13 +221,13 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						NBTCompound tag = enchants.getCompound(a);
 						if (tag.getShort("id") != chosenEnchantment.effectId)continue;
 						
-						int level = tag.getShort("lvl"), cost = getEnchantmentCost(chosenEnchantment,level+1);
+						int level = tag.getShort("lvl"), cost = getEnchantmentCost(chosenEnchantment, level+1);
 						// TODO if (enhancements.contains(EssenceAltarEnhancements.EFFICIENCY))cost = MathUtil.ceil(cost*0.65F);
 						if (level >= chosenEnchantment.getMaxLevel() || altar.getEssenceLevel() < cost)continue;
 						
 						altar.drainEssence(cost);
-						tag.setShort("lvl",(short)(level+1));
-						NBT.item(is,true).setList("ench",enchants);
+						tag.setShort("lvl", (short)(level+1));
+						NBT.item(is, true).setList("ench", enchants);
 
 						item.setSparkling();
 						attempt = 999;
@@ -245,12 +245,12 @@ public class DragonEssenceHandler extends AltarActionHandler{
 			for(AltarItemRecipe recipe:recipes){
 				if (recipe.isApplicable(is)){
 					for(int a = /* TODO enhancements.contains(EssenceAltarEnhancements.SPEED) ? 2 : */1; a > 0; a--){
-						if (updateItemCounter(is,"HEE_transform",1) <= Math.max(MathUtil.ceil(recipe.cost*(/* TODO enhancements.contains(EssenceAltarEnhancements.EFFICIENCY) ? 0.65F : */1F)),recipe.cost>>1)){
+						if (updateItemCounter(is, "HEE_transform", 1) <= Math.max(MathUtil.ceil(recipe.cost*(/* TODO enhancements.contains(EssenceAltarEnhancements.EFFICIENCY) ? 0.65F : */1F)), recipe.cost>>1)){
 							altar.drainEssence(1);
 							continue;
 						}
 						
-						updateItemCounter(is,"HEE_transform",0);
+						updateItemCounter(is, "HEE_transform", 0);
 						recipe.doTransaction(item);
 						item.setSparkling();
 						break;
@@ -263,7 +263,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	}
 	
 	private int getEnchantmentCost(Enchantment ench, int level){
-		return MathUtil.floor(Math.max(1F,1F+(2F*level*((float)level/ench.getMaxLevel()))+(10-ench.getWeight())*0.2F));
+		return MathUtil.floor(Math.max(1F, 1F+(2F*level*((float)level/ench.getMaxLevel()))+(10-ench.getWeight())*0.2F));
 	}
 	
 	/**
@@ -271,7 +271,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	 * @return current value
 	 */
 	private short updateItemCounter(ItemStack is, String counterName, int operation){
-		NBTCompound tag = NBT.item(is,true);
+		NBTCompound tag = NBT.item(is, true);
 		
 		if (operation == 0){
 			tag.removeTag(counterName);
@@ -279,14 +279,14 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		}
 
 		short counter = tag.getShort(counterName);
-		if (operation == 1)tag.setShort(counterName,++counter);
+		if (operation == 1)tag.setShort(counterName, ++counter);
 		
 		return counter;
 	}
 	
 	@Override
 	public void onTileWriteToNBT(NBTTagCompound nbt){
-		nbt.setShort("D_repairCnt",repairCounter);
+		nbt.setShort("D_repairCnt", repairCounter);
 	}
 	
 	@Override

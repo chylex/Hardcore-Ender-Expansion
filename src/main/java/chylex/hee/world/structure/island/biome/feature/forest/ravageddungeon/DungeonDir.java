@@ -2,7 +2,7 @@ package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
 import java.util.Random;
 
 public enum DungeonDir{
-	UP(0,-1), DOWN(0,1), LEFT(-1,0), RIGHT(1,0);
+	UP(0, -1), DOWN(0, 1), LEFT(-1, 0), RIGHT(1, 0);
 	
 	public static final DungeonDir[] values = values();
 	

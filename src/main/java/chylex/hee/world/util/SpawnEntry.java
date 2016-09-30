@@ -17,21 +17,21 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 
 public class SpawnEntry<T extends EntityLiving>{
-	public static <T extends EntityLiving> Builder<T> create(Class<T> mobClass, Function<World,T> mobConstructor){
-		return new Builder<>(mobClass,mobConstructor);
+	public static <T extends EntityLiving> Builder<T> create(Class<T> mobClass, Function<World, T> mobConstructor){
+		return new Builder<>(mobClass, mobConstructor);
 	}
 
 	public static <T extends EntityLiving> Builder<T> create(Class<T> entityCls){
 		try{
-			final MethodHandle constructor = MethodHandles.lookup().findConstructor(entityCls,MethodType.methodType(entityCls,World.class));
+			final MethodHandle constructor = MethodHandles.lookup().findConstructor(entityCls, MethodType.methodType(entityCls, World.class));
 			
-			return new Builder<>(entityCls,world -> {
+			return new Builder<>(entityCls, world -> {
 				try{ return (T)constructor.invokeExact(world); }
 				catch(Throwable t){ return null; }
 			});
 		}catch(NoSuchMethodException|IllegalAccessException e){
 			e.printStackTrace();
-			Log.throwable(e,"Could not find constructor for entity $0.",entityCls.getName());
+			Log.throwable(e, "Could not find constructor for entity $0.", entityCls.getName());
 			return null;
 		}
 	}
@@ -40,14 +40,14 @@ public class SpawnEntry<T extends EntityLiving>{
 	
 	public static final class Builder<T extends EntityLiving>{
 		private final Class<T> mobClass;
-		private final Function<World,T> mobConstructor;
+		private final Function<World, T> mobConstructor;
 		private Consumer<T> locationFinder;
-		private Predicate<T> spawnCondition = entity -> entity.worldObj.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty();
+		private Predicate<T> spawnCondition = entity -> entity.worldObj.getCollidingBoundingBoxes(entity, entity.boundingBox).isEmpty();
 		
 		private IRangeGenerator groupSize;
 		private IGroupLocationFinder<T> groupLocationFinder;
 		
-		Builder(Class<T> mobClass, Function<World,T> mobConstructor){
+		Builder(Class<T> mobClass, Function<World, T> mobConstructor){
 			this.mobClass = mobClass;
 			this.mobConstructor = mobConstructor;
 		}
@@ -74,17 +74,17 @@ public class SpawnEntry<T extends EntityLiving>{
 		}
 		
 		public Builder<T> setSpawnPlayerDistance(double minDistance){
-			addSpawnCondition(entity -> entity.worldObj.getClosestPlayerToEntity(entity,minDistance) == null);
+			addSpawnCondition(entity -> entity.worldObj.getClosestPlayerToEntity(entity, minDistance) == null);
 			return this;
 		}
 		
 		public Builder<T> setGroupSize(int min, int max){
-			if (!(min == 1 && max == 1))this.groupSize = new RangeGenerator(min,max,RandomAmount.linear);
+			if (!(min == 1 && max == 1))this.groupSize = new RangeGenerator(min, max, RandomAmount.linear);
 			return this;
 		}
 		
 		public Builder<T> setGroupSize(int min, int max, RandomAmount distribution){
-			if (!(min == 1 && max == 1))this.groupSize = new RangeGenerator(min,max,distribution);
+			if (!(min == 1 && max == 1))this.groupSize = new RangeGenerator(min, max, distribution);
 			return this;
 		}
 		
@@ -102,7 +102,7 @@ public class SpawnEntry<T extends EntityLiving>{
 			if (locationFinder == null)throw new IllegalStateException("Spawn Entry has no location finder!");
 			if (groupSize != null && groupLocationFinder == null)throw new IllegalStateException("Group Spawn Entry has no group location finder!");
 			
-			return groupSize == null ? new SpawnEntry<>(mobClass,mobConstructor,locationFinder,spawnCondition) : new GroupSpawnEntry<>(mobClass,mobConstructor,locationFinder,spawnCondition,groupSize,groupLocationFinder);
+			return groupSize == null ? new SpawnEntry<>(mobClass, mobConstructor, locationFinder, spawnCondition) : new GroupSpawnEntry<>(mobClass, mobConstructor, locationFinder, spawnCondition, groupSize, groupLocationFinder);
 		}
 	}
 	
@@ -121,7 +121,7 @@ public class SpawnEntry<T extends EntityLiving>{
 	}
 	
 	public static final <T extends EntityLiving> Predicate<T> withBlocksNearby(final int maxDistance){
-		return withBlocksNearby(maxDistance,MathUtil.square(maxDistance*2+1));
+		return withBlocksNearby(maxDistance, MathUtil.square(maxDistance*2+1));
 	}
 	
 	public static final <T extends EntityLiving> Predicate<T> withBlocksNearby(final int maxDistance, final int attempts){
@@ -131,7 +131,7 @@ public class SpawnEntry<T extends EntityLiving>{
 			final Random rand = entity.getRNG();
 			
 			for(int attempt = 0; attempt < attempts; attempt++){
-				mpos.set(entity).move(rand.nextInt(maxDistance*2+1)-maxDistance,rand.nextInt(maxDistance*2+1)-maxDistance,rand.nextInt(maxDistance*2+1)-maxDistance);
+				mpos.set(entity).move(rand.nextInt(maxDistance*2+1)-maxDistance, rand.nextInt(maxDistance*2+1)-maxDistance, rand.nextInt(maxDistance*2+1)-maxDistance);
 				if (!mpos.isAir(entity.worldObj))return true;
 			}
 			
@@ -142,13 +142,13 @@ public class SpawnEntry<T extends EntityLiving>{
 	// Spawn Entry
 	
 	protected final Class<T> mobClass;
-	protected final Function<World,T> mobConstructor;
+	protected final Function<World, T> mobConstructor;
 	protected final Consumer<T> locationFinder;
 	protected final Predicate<T> spawnCondition;
 	
 	public final boolean isHostile;
 	
-	public SpawnEntry(Class<T> mobClass, Function<World,T> mobConstructor, Consumer<T> locationFinder, Predicate<T> spawnCondition){
+	public SpawnEntry(Class<T> mobClass, Function<World, T> mobConstructor, Consumer<T> locationFinder, Predicate<T> spawnCondition){
 		this.mobClass = mobClass;
 		this.mobConstructor = mobConstructor;
 		this.locationFinder = locationFinder;
@@ -181,8 +181,8 @@ public class SpawnEntry<T extends EntityLiving>{
 		private final IRangeGenerator groupSize;
 		private final IGroupLocationFinder<T> groupLocationFinder;
 		
-		public GroupSpawnEntry(Class<T> mobClass, Function<World,T> mobConstructor, Consumer<T> locationFinder, Predicate<T> spawnCondition, IRangeGenerator groupSize, IGroupLocationFinder<T> groupLocationFinder){
-			super(mobClass,mobConstructor,locationFinder,spawnCondition);
+		public GroupSpawnEntry(Class<T> mobClass, Function<World, T> mobConstructor, Consumer<T> locationFinder, Predicate<T> spawnCondition, IRangeGenerator groupSize, IGroupLocationFinder<T> groupLocationFinder){
+			super(mobClass, mobConstructor, locationFinder, spawnCondition);
 			this.groupSize = groupSize;
 			this.groupLocationFinder = groupLocationFinder;
 		}
@@ -192,14 +192,14 @@ public class SpawnEntry<T extends EntityLiving>{
 			int amount = groupSize.next(world.rand);
 			if (amount == 0)return null;
 			
-			T first = super.trySpawn(world,attempts);
+			T first = super.trySpawn(world, attempts);
 			if (first == null)return null;
 			
 			while(--amount > 0){
 				T entity = mobConstructor.apply(world);
 				
 				for(int attempt = 0; attempt < attempts; attempt++){
-					groupLocationFinder.accept(first,entity);
+					groupLocationFinder.accept(first, entity);
 					
 					if (spawnCondition.test(entity)){
 						world.spawnEntityInWorld(entity);
@@ -212,7 +212,7 @@ public class SpawnEntry<T extends EntityLiving>{
 		}
 	}
 	
-	public static interface IGroupLocationFinder<T extends EntityLiving> extends BiConsumer<T,T>{
+	public static interface IGroupLocationFinder<T extends EntityLiving> extends BiConsumer<T, T>{
 		@Override
 		public void accept(T parentEntity, T groupedEntity); // provide specific parameter names for convenience
 	}

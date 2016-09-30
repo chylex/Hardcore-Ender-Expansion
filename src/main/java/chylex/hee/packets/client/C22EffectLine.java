@@ -36,7 +36,7 @@ public class C22EffectLine extends AbstractClientPacket{
 	}
 	
 	public C22EffectLine(FXType.Line type, Entity entity1, Entity entity2){
-		this(type,entity1.posX,entity1.posY+entity2.height*0.5F,entity1.posZ,entity2.posX,entity2.posY+entity2.height*0.5F,entity2.posZ);
+		this(type, entity1.posX, entity1.posY+entity2.height*0.5F, entity1.posZ, entity2.posX, entity2.posY+entity2.height*0.5F, entity2.posZ);
 	}
 	
 	@Override
@@ -62,6 +62,6 @@ public class C22EffectLine extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		if (type != null)FXHandler.handleLine(player.worldObj,player,type,x1,y1,z1,x2,y2,z2);
+		if (type != null)FXHandler.handleLine(player.worldObj, player, type, x1, y1, z1, x2, y2, z2);
 	}
 }

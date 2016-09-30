@@ -24,13 +24,13 @@ public class EntityMobScorchingLens extends EntityMob{
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,0.42D);
-		EntityAttributes.setValue(this,EntityAttributes.maxHealth,ModCommonProxy.opMobs ? 32D : 18D);
+		EntityAttributes.setValue(this, EntityAttributes.movementSpeed, 0.42D);
+		EntityAttributes.setValue(this, EntityAttributes.maxHealth, ModCommonProxy.opMobs ? 32D : 18D);
 	}
 	
 	@Override
 	protected Entity findPlayerToAttack(){
-		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this,12D);
+		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this, 12D);
 		return player != null && canEntityBeSeen(player)?player:null;
 	}
 	
@@ -44,8 +44,8 @@ public class EntityMobScorchingLens extends EntityMob{
 				Vec3 look = getLookVec();
 				
 				worldObj.spawnEntityInWorld(new EntityProjectileFlamingBall(
-					worldObj,this,posX+look.xCoord*0.5F,posY+look.yCoord*0.5F+0.5D,posZ+look.zCoord*0.5F,
-					entityToAttack.posX-posX,entityToAttack.posY-posY+rand.nextDouble()*0.4D,entityToAttack.posZ-posZ
+					worldObj, this, posX+look.xCoord*0.5F, posY+look.yCoord*0.5F+0.5D, posZ+look.zCoord*0.5F,
+					entityToAttack.posX-posX, entityToAttack.posY-posY+rand.nextDouble()*0.4D, entityToAttack.posZ-posZ
 				));
 			}
 		}
@@ -58,9 +58,9 @@ public class EntityMobScorchingLens extends EntityMob{
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		if (super.attackEntityFrom(source,amount)){
+		if (super.attackEntityFrom(source, amount)){
 			if (entityToAttack instanceof IBossDisplayData)entityToAttack = null;
-			// TODO CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.25F);
+			// TODO CausatumUtils.increase(source, CausatumMeters.END_MOB_DAMAGE, amount*0.25F);
 			return true;
 		}
 		return false;
@@ -68,8 +68,8 @@ public class EntityMobScorchingLens extends EntityMob{
 	
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
-		dropItem(ItemList.igneous_rock,rand.nextInt(2)+rand.nextInt(2));
-		if (recentlyHit)entityDropItem(new ItemStack(ItemList.essence,rand.nextInt(5+looting),EssenceType.FIERY.getItemDamage()),0F);
+		dropItem(ItemList.igneous_rock, rand.nextInt(2)+rand.nextInt(2));
+		if (recentlyHit)entityDropItem(new ItemStack(ItemList.essence, rand.nextInt(5+looting), EssenceType.FIERY.getItemDamage()), 0F);
 	}
 	
 	@Override

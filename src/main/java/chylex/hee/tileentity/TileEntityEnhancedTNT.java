@@ -28,7 +28,7 @@ public class TileEntityEnhancedTNT extends TileEntity implements IEnhanceableTil
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		nbt.setString("enhancements2",enhancements.serialize());
+		nbt.setString("enhancements2", enhancements.serialize());
 	}
 	
 	@Override

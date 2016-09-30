@@ -23,7 +23,7 @@ public class EntityEnergyFX extends EntityFX{
 	private boolean checkBreaking ;
 	
 	private EntityEnergyFX(World world, double x, double y, double z, float red, float green, float blue){
-		super(world,x,y,z,0D,0D,0D);
+		super(world, x, y, z, 0D, 0D, 0D);
 		
 		indexX = (byte)rand.nextInt(4);
 		indexY = (byte)rand.nextInt(4);
@@ -38,7 +38,7 @@ public class EntityEnergyFX extends EntityFX{
 	}
 	
 	public EntityEnergyFX(World world, double x, double y, double z, float red, float green, float blue, EnergyClusterData data){
-		this(world,x+(world.rand.nextDouble()-0.5D)*0.005D*data.getEnergyLevel(),y+(world.rand.nextDouble()-0.5D)*0.005D*data.getEnergyLevel(),z+(world.rand.nextDouble()-0.5D)*0.005D*data.getEnergyLevel(),red,green,blue);
+		this(world, x+(world.rand.nextDouble()-0.5D)*0.005D*data.getEnergyLevel(), y+(world.rand.nextDouble()-0.5D)*0.005D*data.getEnergyLevel(), z+(world.rand.nextDouble()-0.5D)*0.005D*data.getEnergyLevel(), red, green, blue);
 		
 		particleScale = 0.075F+rand.nextFloat()*0.05F+0.005F*data.getEnergyLevel();
 		
@@ -51,12 +51,12 @@ public class EntityEnergyFX extends EntityFX{
 	}
 	
 	public EntityEnergyFX(World world, TileEntityEnergyCluster cluster){
-		this(world,cluster.xCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D,cluster.yCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D,cluster.zCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2),cluster.getData().get());
+		this(world, cluster.xCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D, cluster.yCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D, cluster.zCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D, cluster.getColor(0), cluster.getColor(1), cluster.getColor(2), cluster.getData().get());
 		this.checkBreaking = true;
 	}
 	
 	public EntityEnergyFX(World world, double x, double y, double z, float red, float green, float blue, double motionX, double motionY, double motionZ){
-		this(world,x,y,z,red,green,blue);
+		this(world, x, y, z, red, green, blue);
 		
 		this.motionX = motionX;
 		this.motionY = motionY;
@@ -65,7 +65,7 @@ public class EntityEnergyFX extends EntityFX{
 	}
 	
 	public EntityEnergyFX(World world, double x, double y, double z, float red, float green, float blue, double motionX, double motionY, double motionZ, float scale){
-		this(world,x,y,z,red,green,blue,motionX,motionY,motionZ);
+		this(world, x, y, z, red, green, blue, motionX, motionY, motionZ);
 		this.particleScale = scale;
 	}
 	
@@ -76,8 +76,8 @@ public class EntityEnergyFX extends EntityFX{
 		prevPosZ = posZ;
 		
 		if (++age > maxAge)setDead();
-		if (age < 20)particleAlpha = Math.min(1F,particleAlpha+rand.nextFloat()*0.2F);
-		if (age > maxAge-18)particleAlpha = Math.max(0F,particleAlpha-rand.nextFloat()*0.25F);
+		if (age < 20)particleAlpha = Math.min(1F, particleAlpha+rand.nextFloat()*0.2F);
+		if (age > maxAge-18)particleAlpha = Math.max(0F, particleAlpha-rand.nextFloat()*0.25F);
 		
 		posX += motionX;
 		posY += motionY;
@@ -116,18 +116,18 @@ public class EntityEnergyFX extends EntityFX{
 		GL.disableLighting();
 		GL.disableFog();
 		GL.disableAlphaTest();
-		GL.enableBlend(GL.SRC_ALPHA,GL.ONE);
-		GL.color(1F,1F,1F,1F);
+		GL.enableBlend(GL.SRC_ALPHA, GL.ONE);
+		GL.color(1F, 1F, 1F, 1F);
 		RenderHelper.disableStandardItemLighting();
 		
 		tessellator.startDrawingQuads();
-		tessellator.setColorRGBA_F(particleRed,particleGreen,particleBlue,particleAlpha);
-		tessellator.setNormal(0F,1F,0F);
+		tessellator.setColorRGBA_F(particleRed, particleGreen, particleBlue, particleAlpha);
+		tessellator.setNormal(0F, 1F, 0F);
 		tessellator.setBrightness(65);
-		tessellator.addVertexWithUV(x-rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z-rotZ*particleScale-rotXY*particleScale,right,bottom);
-		tessellator.addVertexWithUV(x-rotX*particleScale+rotYZ*particleScale,y+rotXZ*particleScale,z-rotZ*particleScale+rotXY*particleScale,right,top);
-		tessellator.addVertexWithUV(x+rotX*particleScale+rotYZ*particleScale,y+rotXZ*particleScale,z+rotZ*particleScale+rotXY*particleScale,left,top);
-		tessellator.addVertexWithUV(x+rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z+rotZ*particleScale-rotXY*particleScale,left,bottom);
+		tessellator.addVertexWithUV(x-rotX*particleScale-rotYZ*particleScale, y-rotXZ*particleScale, z-rotZ*particleScale-rotXY*particleScale, right, bottom);
+		tessellator.addVertexWithUV(x-rotX*particleScale+rotYZ*particleScale, y+rotXZ*particleScale, z-rotZ*particleScale+rotXY*particleScale, right, top);
+		tessellator.addVertexWithUV(x+rotX*particleScale+rotYZ*particleScale, y+rotXZ*particleScale, z+rotZ*particleScale+rotXY*particleScale, left, top);
+		tessellator.addVertexWithUV(x+rotX*particleScale-rotYZ*particleScale, y-rotXZ*particleScale, z+rotZ*particleScale-rotXY*particleScale, left, bottom);
 		tessellator.draw();
 		
 		GL.disableBlend();

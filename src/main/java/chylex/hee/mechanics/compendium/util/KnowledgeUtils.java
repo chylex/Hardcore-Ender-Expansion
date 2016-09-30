@@ -27,7 +27,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class KnowledgeUtils{
 	@SideOnly(Side.CLIENT)
 	public static List<String> getCompendiumTooltipClient(ItemStack is){
-		List<String> tooltip = is.getTooltip(Minecraft.getMinecraft().thePlayer,false);
+		List<String> tooltip = is.getTooltip(Minecraft.getMinecraft().thePlayer, false);
 		if (KnowledgeObject.fromObject(is) != null)tooltip.add(EnumChatFormatting.DARK_PURPLE+I18n.format("compendium.viewObject"));
 		return tooltip;
 	}
@@ -39,14 +39,14 @@ public class KnowledgeUtils{
 	
 	public static KnowledgeObject<? extends IObjectHolder<?>> getObservedObject(EntityPlayer player){
 		World world = player.worldObj;
-		Vec posVec = Vec.xyz(player.posX,(world.isRemote ? 1.5D : 0D)+player.boundingBox.minY+player.getEyeHeight()-(player.isSneaking() ? 0.08D : 0D),player.posZ);
+		Vec posVec = Vec.xyz(player.posX, (world.isRemote ? 1.5D : 0D)+player.boundingBox.minY+player.getEyeHeight()-(player.isSneaking() ? 0.08D : 0D), player.posZ);
 		Vec lookVec = Vec.from(player.getLookVec());
-		Vec interceptVec = posVec.offset(lookVec,10D);
+		Vec interceptVec = posVec.offset(lookVec, 10D);
 		
-		MovingObjectPosition mopBlock = world.rayTraceBlocks(posVec.toVec3(),interceptVec.toVec3(),true);
-		double distBlock = mopBlock != null && mopBlock.typeOfHit == MovingObjectType.BLOCK ? MathUtil.distance(mopBlock.blockX+0.5D-posVec.x,mopBlock.blockY+0.5D-posVec.y,mopBlock.blockZ+0.5D-posVec.z) : Double.MAX_VALUE;
+		MovingObjectPosition mopBlock = world.rayTraceBlocks(posVec.toVec3(), interceptVec.toVec3(), true);
+		double distBlock = mopBlock != null && mopBlock.typeOfHit == MovingObjectType.BLOCK ? MathUtil.distance(mopBlock.blockX+0.5D-posVec.x, mopBlock.blockY+0.5D-posVec.y, mopBlock.blockZ+0.5D-posVec.z) : Double.MAX_VALUE;
 		
-		List<Entity> list = EntitySelector.any(world,posVec.offset(lookVec,5D).toAABB().expand(6D,6D,6D));
+		List<Entity> list = EntitySelector.any(world, posVec.offset(lookVec, 5D).toAABB().expand(6D, 6D, 6D));
 		Entity tracedEntity = null;
 		double distEntity = Double.MAX_VALUE;
 		
@@ -54,7 +54,7 @@ public class KnowledgeUtils{
 			if (entity == player)continue;
 			
 			double size = entity.getCollisionBorderSize(), dist;
-			MovingObjectPosition mop = entity.boundingBox.expand(size,size,size).calculateIntercept(posVec.toVec3(),interceptVec.toVec3());
+			MovingObjectPosition mop = entity.boundingBox.expand(size, size, size).calculateIntercept(posVec.toVec3(), interceptVec.toVec3());
 
 			if (mop != null && (dist = posVec.distance(Vec.from(mop.hitVec))) < distEntity){
 				distEntity = dist;

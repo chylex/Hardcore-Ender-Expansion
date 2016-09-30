@@ -16,7 +16,7 @@ public class EntityProjectileSacredWand extends EntityThrowable{
 	}
 	
 	public EntityProjectileSacredWand(World world, EntityLivingBase owner, ItemStack wand){
-		super(world,owner);
+		super(world, owner);
 		this.wand = wand.copy();
 		motionX *= 2D;
 		motionY *= 2D;
@@ -29,7 +29,7 @@ public class EntityProjectileSacredWand extends EntityThrowable{
 	@Override
 	protected void onImpact(MovingObjectPosition mop){
 		if (mop.entityHit instanceof EntityLivingBase && getThrower() instanceof EntityPlayer){
-			ItemSacredWand.attackEntity(wand,(EntityPlayer)getThrower(),(EntityLivingBase)mop.entityHit,this);
+			ItemSacredWand.attackEntity(wand, (EntityPlayer)getThrower(), (EntityLivingBase)mop.entityHit, this);
 		}
 		
 		setDead();
@@ -43,7 +43,7 @@ public class EntityProjectileSacredWand extends EntityThrowable{
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setTag("wandIS",wand.writeToNBT(new NBTTagCompound()));
+		nbt.setTag("wandIS", wand.writeToNBT(new NBTTagCompound()));
 		nbt.removeTag("inTile");
 		nbt.removeTag("shake");
 	}

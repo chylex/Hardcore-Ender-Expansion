@@ -25,14 +25,14 @@ public class DragonChunkManager implements LoadingCallback{
 	
 	public static void register(){
 		GameRegistryUtil.registerEventHandler(instance);
-		ForgeChunkManager.setForcedChunkLoadingCallback(HardcoreEnderExpansion.instance,instance);
+		ForgeChunkManager.setForcedChunkLoadingCallback(HardcoreEnderExpansion.instance, instance);
 	}
 	
 	public static void ping(EntityBossDragon dragon){
 		Ticket ticket = instance.ticket;
 		
 		if (ticket == null){
-			ticket = instance.ticket = ForgeChunkManager.requestTicket(HardcoreEnderExpansion.instance,dragon.worldObj,Type.ENTITY);
+			ticket = instance.ticket = ForgeChunkManager.requestTicket(HardcoreEnderExpansion.instance, dragon.worldObj, Type.ENTITY);
 			Log.debug("Requested chunkloading ticket on dragon load.");
 			
 			if (ticket != null){
@@ -50,14 +50,14 @@ public class DragonChunkManager implements LoadingCallback{
 		instance.prevChunkX = dragon.chunkCoordX;
 		instance.prevChunkZ = dragon.chunkCoordZ;
 		
-		Stopwatch.timeAverage("DragonChunkManager - ping update",10);
+		Stopwatch.timeAverage("DragonChunkManager - ping update", 10);
 		
 		Set<ChunkCoordIntPair> oldChunks = ticket.getChunkList();
 		Set<ChunkCoordIntPair> updatedChunks = new HashSet<>();
 		
 		for(int xx = dragon.chunkCoordX-1; xx <= dragon.chunkCoordX+1; xx++){
 			for(int zz = dragon.chunkCoordZ-1; zz <= dragon.chunkCoordZ+1; zz++){
-				updatedChunks.add(new ChunkCoordIntPair(xx,zz));
+				updatedChunks.add(new ChunkCoordIntPair(xx, zz));
 			}
 		}
 		
@@ -72,8 +72,8 @@ public class DragonChunkManager implements LoadingCallback{
 			if (!updatedChunks.contains(pair))toUnload.add(pair);
 		}
 		
-		for(ChunkCoordIntPair unload:toUnload)ForgeChunkManager.unforceChunk(ticket,unload);
-		for(ChunkCoordIntPair load:toLoad)ForgeChunkManager.forceChunk(ticket,load);
+		for(ChunkCoordIntPair unload:toUnload)ForgeChunkManager.unforceChunk(ticket, unload);
+		for(ChunkCoordIntPair load:toLoad)ForgeChunkManager.forceChunk(ticket, load);
 		
 		Stopwatch.finish("DragonChunkManager - ping update");
 	}
@@ -81,7 +81,7 @@ public class DragonChunkManager implements LoadingCallback{
 	public static void release(EntityBossDragon dragon){
 		if (instance.ticket == null)return;
 		
-		SaveData.<DragonFile>global(DragonFile.class).setLastDragonChunk(dragon.chunkCoordX,dragon.chunkCoordZ);
+		SaveData.<DragonFile>global(DragonFile.class).setLastDragonChunk(dragon.chunkCoordX, dragon.chunkCoordZ);
 		ForgeChunkManager.releaseTicket(instance.ticket);
 		instance.ticket = null;
 		instance.clear();
@@ -94,7 +94,7 @@ public class DragonChunkManager implements LoadingCallback{
 	
 	@Override
 	public void ticketsLoaded(List<Ticket> tickets, World world){
-		Log.debug("Loaded dragon chunkloading tickets ($0).",tickets.size());
+		Log.debug("Loaded dragon chunkloading tickets ($0).", tickets.size());
 		
 		if (!tickets.isEmpty()){
 			ticket = tickets.get(0);
@@ -117,10 +117,10 @@ public class DragonChunkManager implements LoadingCallback{
 			// TODO if (file.isDragonDead())return;
 			
 			ChunkCoordIntPair chunk = file.getLastDragonChunk();
-			e.world.getChunkFromChunkCoords(chunk.chunkXPos,chunk.chunkZPos);
+			e.world.getChunkFromChunkCoords(chunk.chunkXPos, chunk.chunkZPos);
 			
 			int xx = chunk.chunkXPos*16, zz = chunk.chunkZPos*16;
-			List<EntityBossDragon> list = EntitySelector.type(e.world,EntityBossDragon.class,AxisAlignedBB.getBoundingBox(xx,-32,zz,xx+16,512,zz+16));
+			List<EntityBossDragon> list = EntitySelector.type(e.world, EntityBossDragon.class, AxisAlignedBB.getBoundingBox(xx, -32, zz, xx+16, 512, zz+16));
 			
 			if (!list.isEmpty()){
 				Log.debug("Loading dragon based on last stored chunk.");

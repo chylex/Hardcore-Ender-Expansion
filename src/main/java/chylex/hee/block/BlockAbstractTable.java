@@ -27,13 +27,13 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 	
 	@Override
 	public final boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
-		player.openGui(HardcoreEnderExpansion.instance,getGuiID(),world,x,y,z);
+		player.openGui(HardcoreEnderExpansion.instance, getGuiID(), world, x, y, z);
 		return true;
 	}
 	
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta){
-		TileEntity tile = world.getTileEntity(x,y,z);
+		TileEntity tile = world.getTileEntity(x, y, z);
 		
 		if (tile instanceof TileEntityAbstractTable){
 			TileEntityAbstractTable table = (TileEntityAbstractTable)tile;
@@ -42,14 +42,14 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 				float amount = table.getStoredEnergy();
 				
 				if (amount >= EnergyValues.min){
-					int energyMeta = Math.min(15,3+(int)(amount*0.8F));
+					int energyMeta = Math.min(15, 3+(int)(amount*0.8F));
 					PosMutable mpos = new PosMutable();
 					
 					for(int attempt = 0, placed = 0; attempt < 20 && placed < 3; attempt++){
-						mpos.set(x,y,z).move(world.rand.nextInt(9)-4,world.rand.nextInt(9)-4,world.rand.nextInt(9)-4);
+						mpos.set(x, y, z).move(world.rand.nextInt(9)-4, world.rand.nextInt(9)-4, world.rand.nextInt(9)-4);
 						
 						if (mpos.isAir(world)){
-							mpos.setBlock(world,BlockCorruptedEnergy.getCorruptedEnergy(energyMeta));
+							mpos.setBlock(world, BlockCorruptedEnergy.getCorruptedEnergy(energyMeta));
 							++placed;
 						}
 					}
@@ -57,7 +57,7 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 			}
 		}
 		
-		super.breakBlock(world,x,y,z,block,meta);
+		super.breakBlock(world, x, y, z, block, meta);
 	}
 	
 	@Override
@@ -67,7 +67,7 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 	
 	@Override
 	public int getComparatorInputOverride(World world, int x, int y, int z, int dir){
-		TileEntity tile = world.getTileEntity(x,y,z);
+		TileEntity tile = world.getTileEntity(x, y, z);
 		return tile == null || ((TileEntityAbstractTable)tile).isComparatorOn() ? 15 : 0;
 	}
 

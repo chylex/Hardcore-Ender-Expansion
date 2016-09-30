@@ -37,7 +37,7 @@ public class EntityAIMoveBlocksRandomly extends EntityAIAbstractContinuous{
 	
 	@Override
 	protected void tick(){
-		if (entity.getAttackTarget() != null || !WorldUtil.getRuleBool(entity.worldObj,GameRule.MOB_GRIEFING))return;
+		if (entity.getAttackTarget() != null || !WorldUtil.getRuleBool(entity.worldObj, GameRule.MOB_GRIEFING))return;
 		
 		Random rand = entity.getRNG();
 		BlockInfo holding = moveHandler.getCarryingBlock();
@@ -63,7 +63,7 @@ public class EntityAIMoveBlocksRandomly extends EntityAIAbstractContinuous{
 				
 				if (pos.isAir(entity.worldObj) && !below.isAir(entity.worldObj) && below.getBlock(entity.worldObj).renderAsNormalBlock()){
 					moveHandler.setCarryingBlock(null);
-					pos.setBlock(entity.worldObj,holding);
+					pos.setBlock(entity.worldObj, holding);
 					break;
 				}
 			}

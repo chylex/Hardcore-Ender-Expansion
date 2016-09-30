@@ -9,11 +9,11 @@ import chylex.hee.api.message.element.base.Precondition;
 
 public class ListValue<T> extends Precondition<List<T>>{
 	public static final ListValue<String> strings(Precondition<String> condition){
-		return new ListValue<>(NBT.TAG_STRING,condition);
+		return new ListValue<>(NBT.TAG_STRING, condition);
 	}
 	
 	public static final ListValue<NBTTagCompound> tags(Precondition<NBTTagCompound> condition){
-		return new ListValue<>(NBT.TAG_COMPOUND,condition);
+		return new ListValue<>(NBT.TAG_COMPOUND, condition);
 	}
 	
 	private final byte tagType;

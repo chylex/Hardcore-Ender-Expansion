@@ -31,10 +31,10 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 	
 	public EntityTechnicalCurseEntity(World world, EntityLivingBase target, CurseType type, boolean eternal){
 		super(world);
-		setPosition(target.posX,target.posY,target.posZ);
+		setPosition(target.posX, target.posY, target.posZ);
 		this.curseType = type;
 		this.eternal = eternal;
-		this.usesLeft = (byte)(target instanceof EntityPlayer ? ((eternal ? 2 : 1)*type.getUses(EnumCurseUse.PLAYER,rand)) : (eternal ? -1 : type.getUses(EnumCurseUse.ENTITY,rand)));
+		this.usesLeft = (byte)(target instanceof EntityPlayer ? ((eternal ? 2 : 1)*type.getUses(EnumCurseUse.PLAYER, rand)) : (eternal ? -1 : type.getUses(EnumCurseUse.ENTITY, rand)));
 		this.targetID = target.getUniqueID();
 		this.target = target;
 	}
@@ -63,35 +63,35 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 				double dist = HardcoreEnderExpansion.proxy.getClientSidePlayer().getDistanceToEntity(this);
 				if (dist > 32D)return;
 				
-				if (rand.nextInt(dist > 16D ? 3 : 2) == 0)HardcoreEnderExpansion.fx.curse(posX+(rand.nextDouble()-0.5D)*targetWidth*1.5D,posY+rand.nextDouble()*targetHeight,posZ+(rand.nextDouble()-0.5D)*targetWidth*1.5D,curseType);
+				if (rand.nextInt(dist > 16D ? 3 : 2) == 0)HardcoreEnderExpansion.fx.curse(posX+(rand.nextDouble()-0.5D)*targetWidth*1.5D, posY+rand.nextDouble()*targetHeight, posZ+(rand.nextDouble()-0.5D)*targetWidth*1.5D, curseType);
 			}
 			
 			return;
 		}
-		else if (ticksExisted == 1)entityData.setByte(Data.CURSE_TYPE,curseType.damage+1);
+		else if (ticksExisted == 1)entityData.setByte(Data.CURSE_TYPE, curseType.damage+1);
 		
 		if (target != null){
-			if (MathUtil.floatEquals(targetWidth,0F)){
-				entityData.setFloat(Data.TARGET_WIDTH,targetWidth = target.width);
-				entityData.setFloat(Data.TARGET_HEIGHT,targetHeight = target.height);
+			if (MathUtil.floatEquals(targetWidth, 0F)){
+				entityData.setFloat(Data.TARGET_WIDTH, targetWidth = target.width);
+				entityData.setFloat(Data.TARGET_HEIGHT, targetHeight = target.height);
 			}
 			
 			if (target.dimension != dimension){
-				setPosition(target.posX,target.posY,target.posZ);
+				setPosition(target.posX, target.posY, target.posZ);
 				travelToDimension(target.dimension);
 				return;
 			}
 			else if (target.isDead)setDead();
 			
-			setPosition(target.posX,target.posY,target.posZ);
+			setPosition(target.posX, target.posY, target.posZ);
 			
-			if (curseType.handler.tickEntity(target,this) && usesLeft != -1 && (--usesLeft <= 0 || (CurseEvents.hasAmulet(target) && --usesLeft <= 0))){
-				curseType.handler.end(target,this);
+			if (curseType.handler.tickEntity(target, this) && usesLeft != -1 && (--usesLeft <= 0 || (CurseEvents.hasAmulet(target) && --usesLeft <= 0))){
+				curseType.handler.end(target, this);
 				setDead();
 			}
 		}
 		else if (ticksExisted < 20){
-			for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox)){
+			for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox)){
 				if (entity.getUniqueID().equals(targetID) && entity instanceof EntityLivingBase){
 					target = (EntityLivingBase)entity;
 					break;
@@ -107,7 +107,7 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 	
 	@Override
 	public void onPurify(){
-		if (curseType != null && target != null)curseType.handler.end(target,this);
+		if (curseType != null && target != null)curseType.handler.end(target, this);
 	}
 	
 	@Override
@@ -117,11 +117,11 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt){
-		nbt.setByte("curse",curseType.damage);
-		nbt.setBoolean("eternal",eternal);
-		nbt.setByte("usesLeft",usesLeft);
-		nbt.setLong("targ1",targetID.getLeastSignificantBits());
-		nbt.setLong("targ2",targetID.getMostSignificantBits());
+		nbt.setByte("curse", curseType.damage);
+		nbt.setBoolean("eternal", eternal);
+		nbt.setByte("usesLeft", usesLeft);
+		nbt.setLong("targ1", targetID.getLeastSignificantBits());
+		nbt.setLong("targ2", targetID.getMostSignificantBits());
 	}
 
 	@Override
@@ -129,6 +129,6 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 		if ((curseType = CurseType.getFromDamage(nbt.getByte("curse"))) == null)setDead();
 		eternal = nbt.getBoolean("eternal");
 		usesLeft = nbt.getByte("usesLeft");
-		targetID = new UUID(nbt.getLong("targ2"),nbt.getLong("targ1"));
+		targetID = new UUID(nbt.getLong("targ2"), nbt.getLong("targ1"));
 	}
 }

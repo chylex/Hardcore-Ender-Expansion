@@ -16,7 +16,7 @@ public class ItemBlockWithTooltip extends ItemBlock{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		((IHaveTooltip)field_150939_a).addTooltip(is,player,textLines,showAdvancedInfo);
+		((IHaveTooltip)field_150939_a).addTooltip(is, player, textLines, showAdvancedInfo);
 	}
 	
 	public static interface IHaveTooltip{

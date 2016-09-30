@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class EnhancementList<T extends Enum<T>>{
 	private final Class<T> enumCls;
-	private final EnumMap<T,Byte> map;
+	private final EnumMap<T, Byte> map;
 	
 	public EnhancementList(Class<T> enumCls){
 		this.enumCls = enumCls;
@@ -32,20 +32,20 @@ public class EnhancementList<T extends Enum<T>>{
 	}
 	
 	public int get(T enhancement){
-		return map.getOrDefault(enhancement,(byte)0);
+		return map.getOrDefault(enhancement, (byte)0);
 	}
 	
 	public void set(T enhancement, int level){
-		map.put(enhancement,(byte)level);
+		map.put(enhancement, (byte)level);
 	}
 	
 	public void upgrade(T enhancement){
-		map.merge(enhancement,(byte)1,(prev, set) -> (byte)(prev+1));
+		map.merge(enhancement, (byte)1, (prev, set) -> (byte)(prev+1));
 	}
 	
 	public void replace(EnhancementList<T> replacement){
 		map.clear();
-		for(Entry<T,Byte> entry:replacement.map.entrySet())map.put(entry.getKey(),entry.getValue());
+		for(Entry<T, Byte> entry:replacement.map.entrySet())map.put(entry.getKey(), entry.getValue());
 	}
 	
 	public String serialize(){
@@ -55,11 +55,11 @@ public class EnhancementList<T extends Enum<T>>{
 	public void deserialize(String str){
 		map.clear();
 		
-		for(Entry<String,String> entry:Splitter.on(';').omitEmptyStrings().withKeyValueSeparator(':').split(str).entrySet()){
-			T enh = EnumUtils.getEnum(enumCls,entry.getKey());
-			byte lvl = (byte)DragonUtil.tryParse(entry.getValue(),0);
+		for(Entry<String, String> entry:Splitter.on(';').omitEmptyStrings().withKeyValueSeparator(':').split(str).entrySet()){
+			T enh = EnumUtils.getEnum(enumCls, entry.getKey());
+			byte lvl = (byte)DragonUtil.tryParse(entry.getValue(), 0);
 			
-			if (enh != null && lvl > 0)map.put(enh,Byte.valueOf(lvl));
+			if (enh != null && lvl > 0)map.put(enh, Byte.valueOf(lvl));
 		}
 	}
 	
@@ -67,7 +67,7 @@ public class EnhancementList<T extends Enum<T>>{
 	public void addTooltip(List<String> tooltipList, EnumChatFormatting color){
 		if (map.isEmpty())tooltipList.add(EnumChatFormatting.GRAY+I18n.format("enhancements.none"));
 		else{
-			for(Entry<T,Byte> entry:map.entrySet()){
+			for(Entry<T, Byte> entry:map.entrySet()){
 				tooltipList.add(color+EnhancementRegistry.getEnhancementName(entry.getKey())+" "+StatCollector.translateToLocal("enchantment.level."+entry.getValue()));
 			}
 		}
@@ -80,28 +80,28 @@ public class EnhancementList<T extends Enum<T>>{
 			super(enumCls);
 			this.linkedIS = linkedIS;
 			
-			String enhancementData = NBT.item(linkedIS,false).getString("enhancements2");
+			String enhancementData = NBT.item(linkedIS, false).getString("enhancements2");
 			if (!enhancementData.isEmpty())deserialize(enhancementData);
 		}
 		
 		@Override
 		public void set(T enhancement, int level){
-			super.set(enhancement,level);
-			NBT.item(linkedIS,true).setString("enhancements2",serialize());
+			super.set(enhancement, level);
+			NBT.item(linkedIS, true).setString("enhancements2", serialize());
 			linkedIS.func_150996_a(EnhancementRegistry.getItemTransformation(linkedIS.getItem()));
 		}
 		
 		@Override
 		public void upgrade(T enhancement){
 			super.upgrade(enhancement);
-			NBT.item(linkedIS,true).setString("enhancements2",serialize());
+			NBT.item(linkedIS, true).setString("enhancements2", serialize());
 			linkedIS.func_150996_a(EnhancementRegistry.getItemTransformation(linkedIS.getItem()));
 		}
 		
 		@Override
 		public void replace(EnhancementList<T> replacement){
 			super.replace(replacement);
-			NBT.item(linkedIS,true).setString("enhancements2",serialize());
+			NBT.item(linkedIS, true).setString("enhancements2", serialize());
 			linkedIS.func_150996_a(EnhancementRegistry.getItemTransformation(linkedIS.getItem()));
 		}
 	}

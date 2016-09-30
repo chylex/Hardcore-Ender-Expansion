@@ -13,7 +13,7 @@ public class EntityTechnicalTrigger extends EntityTechnicalBase{
 	
 	public EntityTechnicalTrigger(World world, double x, double y, double z, TriggerBase trigger){
 		super(world);
-		setPosition(x,y,z);
+		setPosition(x, y, z);
 		this.trigger = trigger;
 	}
 	
@@ -27,7 +27,7 @@ public class EntityTechnicalTrigger extends EntityTechnicalBase{
 		if (worldObj.isRemote)return;
 		
 		if (trigger == null)setDead();
-		else trigger.update(this,worldObj,rand);
+		else trigger.update(this, worldObj, rand);
 	}
 	
 	@Override
@@ -35,8 +35,8 @@ public class EntityTechnicalTrigger extends EntityTechnicalBase{
 		if (trigger != null){
 			NBTTagCompound tag = new NBTTagCompound();
 			trigger.save(tag);
-			nbt.setTag("triggerData",tag);
-			nbt.setString("triggerCls",trigger.getClass().getName());
+			nbt.setTag("triggerData", tag);
+			nbt.setString("triggerCls", trigger.getClass().getName());
 		}
 	}
 	
@@ -47,7 +47,7 @@ public class EntityTechnicalTrigger extends EntityTechnicalBase{
 			this.trigger = trigger.newInstance();
 			this.trigger.load(nbt.getCompoundTag("triggerData"));
 		}catch(Throwable t){
-			Log.throwable(t,"Unable to load a trigger entity: $0",nbt.getString("triggerCls"));
+			Log.throwable(t, "Unable to load a trigger entity: $0", nbt.getString("triggerCls"));
 			setDead();
 		}
 	}

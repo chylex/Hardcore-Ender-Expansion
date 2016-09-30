@@ -21,7 +21,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
-	public static final ItemStack lockedItem = new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark);
+	public static final ItemStack lockedItem = new ItemStack(ItemList.special_effects, 1, ItemSpecialEffects.questionMark);
 	
 	private static Recipe findRecipe(ItemStack outputToFind, @Nullable ItemStack[] matchIngredients){
 		List<IRecipe> list = CraftingManager.getInstance().getRecipeList();
@@ -29,12 +29,12 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 		for(int a = list.size()-1; a >= 0; a--){
 			IRecipe recipe = list.get(a);
 			
-			if (ItemStack.areItemStacksEqual(outputToFind,recipe.getRecipeOutput())){
+			if (ItemStack.areItemStacksEqual(outputToFind, recipe.getRecipeOutput())){
 				Recipe unified = new RecipeUnifier().unify(recipe);
 				ItemStack[] ingredients = unified.getIngredientArray();
 				
 				if (matchIngredients == null)return unified;
-				else if (matchIngredients.length == ingredients.length && IntStream.range(0,ingredients.length).allMatch(index ->
+				else if (matchIngredients.length == ingredients.length && IntStream.range(0, ingredients.length).allMatch(index ->
 					ingredients[index].getItem() == matchIngredients[index].getItem() &&
 					ingredients[index].getItemDamage() == matchIngredients[index].getItemDamage()
 				))return unified;
@@ -60,21 +60,21 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 	}
 	
 	public FragmentCrafting setRecipe(ItemStack outputToFind){
-		return setRecipe(outputToFind,null);
+		return setRecipe(outputToFind, null);
 	}
 	
 	public FragmentCrafting setRecipe(ItemStack outputToFind, @Nullable ItemStack[] matchIngredients){
 		this.findOutput = outputToFind;
 		this.findIngredients = matchIngredients;
 		
-		Recipe recipe = findRecipe(outputToFind,matchIngredients);
+		Recipe recipe = findRecipe(outputToFind, matchIngredients);
 		
 		if (recipe != null){
 			this.ingredients = recipe.getIngredientArray();
 			this.output = recipe.getOutput();
 			this.status = Status.UNVERIFIED;
 		}
-		else Log.warn("Could not find ItemStack $0 when registering recipe from registry.",outputToFind.toString());
+		else Log.warn("Could not find ItemStack $0 when registering recipe from registry.", outputToFind.toString());
 		
 		return this;
 	}
@@ -82,7 +82,7 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 	private void verifyRecipe(){
 		if (status != Status.UNVERIFIED)return;
 		
-		Recipe recipe = findRecipe(findOutput,findIngredients);
+		Recipe recipe = findRecipe(findOutput, findIngredients);
 		
 		if (recipe == null){
 			this.status = Status.REMOVED;
@@ -90,8 +90,8 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 			this.ingredients = null;
 			return;
 		}
-		else if (ItemStack.areItemStacksEqual(recipe.getOutput(),output) && ingredients != null && ingredients.length == recipe.getIngredientArray().length &&
-				IntStream.range(0,ingredients.length).allMatch(index -> ItemStack.areItemStacksEqual(ingredients[index],recipe.getIngredientArray()[index]))){
+		else if (ItemStack.areItemStacksEqual(recipe.getOutput(), output) && ingredients != null && ingredients.length == recipe.getIngredientArray().length &&
+				IntStream.range(0, ingredients.length).allMatch(index -> ItemStack.areItemStacksEqual(ingredients[index], recipe.getIngredientArray()[index]))){
 				status = Status.FINE;
 				return;
 		}
@@ -116,7 +116,7 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 		KnowledgeObject<?> obj = null;
 		
 		for(int a = 0, cnt = 0, xx = x, yy = y; a < ingredients.length; a++, xx += 19){
-			if (ingredients[a] != null && checkRect(mouseX,mouseY,xx+1,yy+1,17,17)){
+			if (ingredients[a] != null && checkRect(mouseX, mouseY, xx+1, yy+1, 17, 17)){
 				obj = KnowledgeObject.fromObject(ingredients[a]);
 				break;
 			}
@@ -128,7 +128,7 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 			}
 		}
 		
-		if (obj == null && checkRect(mouseX,mouseY,x+95,y+20,17,17)){
+		if (obj == null && checkRect(mouseX, mouseY, x+95, y+20, 17, 17)){
 			obj = KnowledgeObject.fromObject(output);
 		}
 		
@@ -144,17 +144,17 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 	@SideOnly(Side.CLIENT)
 	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		GL.enableDepthTest();
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragments);
-		gui.drawTexturedModalRect(x,y,0,0,88,58);
+		gui.drawTexturedModalRect(x, y, 0, 0, 88, 58);
 		
 		verifyRecipe();
 		
 		if (status != Status.FINE){
-			gui.mc.fontRenderer.drawString("?",x+107,y+8,255<<24);
+			gui.mc.fontRenderer.drawString("?", x+107, y+8, 255<<24);
 			
-			if (checkRect(mouseX,mouseY,x+106,y+7,6,9)){
-				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,I18n.format(status == Status.CHANGED ? "compendium.crafting.changed" : "compendium.crafting.removed"));
+			if (checkRect(mouseX, mouseY, x+106, y+7, 6, 9)){
+				GuiItemRenderHelper.setupTooltip(mouseX, mouseY, I18n.format(status == Status.CHANGED ? "compendium.crafting.changed" : "compendium.crafting.removed"));
 			}
 		}
 		
@@ -164,10 +164,10 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 		
 		for(int a = 0, cnt = 0, xx = x, yy = y; a < (isUnlocked ? ingredients.length : 9); a++, xx += 19){
 			if ((is = isUnlocked ? ingredients[a] : lockedItem) != null){
-				GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,xx+2,yy+2);
+				GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(), is, xx+2, yy+2);
 				
-				if (isUnlocked && checkRect(mouseX,mouseY,xx+1,yy+1,17,17)){
-					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,KnowledgeUtils.getCompendiumTooltipClient(is));
+				if (isUnlocked && checkRect(mouseX, mouseY, xx+1, yy+1, 17, 17)){
+					GuiItemRenderHelper.setupTooltip(mouseX, mouseY, KnowledgeUtils.getCompendiumTooltipClient(is));
 				}
 			}
 			
@@ -178,10 +178,10 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 			}
 		}
 		
-		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),output,x+96,y+21);
+		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(), output, x+96, y+21);
 		
-		if (isUnlocked && checkRect(mouseX,mouseY,x+95,y+20,17,17)){
-			GuiItemRenderHelper.setupTooltip(mouseX,mouseY,KnowledgeUtils.getCompendiumTooltipClient(output));
+		if (isUnlocked && checkRect(mouseX, mouseY, x+95, y+20, 17, 17)){
+			GuiItemRenderHelper.setupTooltip(mouseX, mouseY, KnowledgeUtils.getCompendiumTooltipClient(output));
 		}
 	}
 }

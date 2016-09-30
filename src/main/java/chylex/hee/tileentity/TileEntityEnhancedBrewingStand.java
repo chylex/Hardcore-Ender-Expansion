@@ -53,7 +53,7 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 		
 		if (filledSlots != filledSlotsCache){
 			filledSlotsCache = (byte)filledSlots;
-			Pos.at(this).setMetadata(worldObj,filledSlots,2);
+			Pos.at(this).setMetadata(worldObj, filledSlots, 2);
 		}
 	}
 	
@@ -70,11 +70,11 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 			if (slotItems[a] == null)continue;
 			++potionCount;
 			
-			if (!PotionTypes.canBeApplied(slotItems[3],slotItems[a],false/* TODO enhancements.contains(BrewingStandEnhancements.TIER)*/))return false;
-			requiredPowder += PotionTypes.getRequiredPowder(slotItems[3].getItem(),slotItems[a]);
+			if (!PotionTypes.canBeApplied(slotItems[3], slotItems[a], false/* TODO enhancements.contains(BrewingStandEnhancements.TIER)*/))return false;
+			requiredPowder += PotionTypes.getRequiredPowder(slotItems[3].getItem(), slotItems[a]);
 		}
 		
-		requiredPowder = (short)Math.min(requiredPowder*(potionCount == 2 ? 0.835F : potionCount == 3 ? 0.7F : 1F)*(/* TODO enhancements.contains(BrewingStandEnhancements.COST) ? 0.65F : */1F),69);
+		requiredPowder = (short)Math.min(requiredPowder*(potionCount == 2 ? 0.835F : potionCount == 3 ? 0.7F : 1F)*(/* TODO enhancements.contains(BrewingStandEnhancements.COST) ? 0.65F : */1F), 69);
 
 		if (potionCount == 0)return false;
 		return requiredPowder == 0 || (slotItems[4] != null && slotItems[4].stackSize >= requiredPowder);
@@ -86,8 +86,8 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 		for(int a = 0; a < 3; a++){
 			if (slotItems[a] == null)continue;
 			
-			slotItems[a] = PotionTypes.applyIngredientUnsafe(slotItems[3],slotItems[a]);
-			NBT.item(slotItems[a],true).setBool("hasPotionChanged",true);
+			slotItems[a] = PotionTypes.applyIngredientUnsafe(slotItems[3], slotItems[a]);
+			NBT.item(slotItems[a], true).setBool("hasPotionChanged", true);
 		}
 		
 		if (--slotItems[3].stackSize == 0)slotItems[3] = null;
@@ -121,7 +121,7 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack is){
-		return (is.getItem() == ItemList.end_powder && slot == 4) || super.isItemValidForSlot(slot,is);
+		return (is.getItem() == ItemList.end_powder && slot == 4) || super.isItemValidForSlot(slot, is);
 	}
 	
 	@Override
@@ -198,7 +198,7 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 
 	@Override
 	public int getBoostAmount(int essenceLevel){
-		return Math.min(brewTime-1,1+Math.min(7,essenceLevel>>6));
+		return Math.min(brewTime-1, 1+Math.min(7, essenceLevel>>6));
 	}
 
 	@Override
@@ -214,22 +214,22 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 		for(int i = 0; i < slotItems.length; ++i){
 			if (slotItems[i] != null){
 				NBTTagCompound tagSlot = new NBTTagCompound();
-				tagSlot.setByte("Slot",(byte)i);
+				tagSlot.setByte("Slot", (byte)i);
 				slotItems[i].writeToNBT(tagSlot);
 				tagItemList.appendTag(tagSlot);
 			}
 		}
-		nbt.setTag("hedItems",tagItemList);
+		nbt.setTag("hedItems", tagItemList);
 		
-		nbt.setShort("hedBrewTime",brewTime);
-		nbt.setString("enhancements2",enhancements.serialize());
+		nbt.setShort("hedBrewTime", brewTime);
+		nbt.setString("enhancements2", enhancements.serialize());
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
 		
-		NBTTagList tagItemList = nbt.getTagList("hedItems",Constants.NBT.TAG_COMPOUND);
+		NBTTagList tagItemList = nbt.getTagList("hedItems", Constants.NBT.TAG_COMPOUND);
 		slotItems = new ItemStack[this.getSizeInventory()];
 
 		for(int i = 0; i < tagItemList.tagCount(); ++i){

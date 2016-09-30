@@ -8,7 +8,7 @@ public class HeeAchievement extends Achievement{
 	private KnowledgeObject<? extends IObjectHolder<?>> knowledgeObj;
 	
 	public HeeAchievement(String statId, String achievementId, int x, int y, ItemStack is, Achievement parentAchievement){
-		super(statId,achievementId,x,y,is,parentAchievement);
+		super(statId, achievementId, x, y, is, parentAchievement);
 	}
 	
 	@Override

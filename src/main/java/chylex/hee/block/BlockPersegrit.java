@@ -42,13 +42,13 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return CollectionUtil.getClamp(iconArray,meta);
+		return CollectionUtil.getClamp(iconArray, meta);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 0; a < metaCount; a++)list.add(new ItemStack(item,1,a));
+		for(int a = 0; a < metaCount; a++)list.add(new ItemStack(item, 1, a));
 	}
 	
 	@Override
@@ -67,23 +67,23 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 	public static int getConnectionMeta(LargeStructureWorld world, Random rand, int x, int y, int z){
 		boolean l = false, r = false, t = false, b = false;
 		
-		if (world.getBlock(x,y-1,z) != BlockList.persegrit || world.getBlock(x,y+1,z) != BlockList.persegrit){ // xz plane
-			l = isConnectable(world,x-1,y,z);
-			r = isConnectable(world,x+1,y,z);
-			t = isConnectable(world,x,y,z-1);
-			b = isConnectable(world,x,y,z+1);
+		if (world.getBlock(x, y-1, z) != BlockList.persegrit || world.getBlock(x, y+1, z) != BlockList.persegrit){ // xz plane
+			l = isConnectable(world, x-1, y, z);
+			r = isConnectable(world, x+1, y, z);
+			t = isConnectable(world, x, y, z-1);
+			b = isConnectable(world, x, y, z+1);
 		}
-		else if (world.getBlock(x-1,y,z) != BlockList.persegrit || world.getBlock(x+1,y,z) != BlockList.persegrit){ // yz plane
-			l = isConnectable(world,x,y,z-1);
-			r = isConnectable(world,x,y,z+1);
-			t = isConnectable(world,x,y+1,z);
-			b = isConnectable(world,x,y-1,z);
+		else if (world.getBlock(x-1, y, z) != BlockList.persegrit || world.getBlock(x+1, y, z) != BlockList.persegrit){ // yz plane
+			l = isConnectable(world, x, y, z-1);
+			r = isConnectable(world, x, y, z+1);
+			t = isConnectable(world, x, y+1, z);
+			b = isConnectable(world, x, y-1, z);
 		}
-		else if (world.getBlock(x,y,z-1) != BlockList.persegrit || world.getBlock(x,y,z+1) != BlockList.persegrit){ // xy plane
-			l = isConnectable(world,x+1,y,z);
-			r = isConnectable(world,x-1,y,z);
-			t = isConnectable(world,x,y+1,z);
-			b = isConnectable(world,x,y-1,z);
+		else if (world.getBlock(x, y, z-1) != BlockList.persegrit || world.getBlock(x, y, z+1) != BlockList.persegrit){ // xy plane
+			l = isConnectable(world, x+1, y, z);
+			r = isConnectable(world, x-1, y, z);
+			t = isConnectable(world, x, y+1, z);
+			b = isConnectable(world, x, y-1, z);
 		}
 		
 		if (rand.nextBoolean()){
@@ -127,8 +127,8 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 	}
 	
 	public static boolean isConnectable(LargeStructureWorld world, int x, int y, int z){
-		if (world.getBlock(x,y,z) == BlockList.persegrit){
-			int meta = world.getMetadata(x,y,z);
+		if (world.getBlock(x, y, z) == BlockList.persegrit){
+			int meta = world.getMetadata(x, y, z);
 			
 			if (meta == 0)return false;
 			else if (meta >= 3 && meta <= 6){

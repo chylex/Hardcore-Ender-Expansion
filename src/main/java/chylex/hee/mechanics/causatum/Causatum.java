@@ -5,20 +5,20 @@ import chylex.hee.game.save.types.player.CausatumFile;
 
 public final class Causatum{
 	public static boolean progress(EntityPlayer player, Progress nextStage){
-		return SaveData.player(player,CausatumFile.class).tryProgress(nextStage);
+		return SaveData.player(player, CausatumFile.class).tryProgress(nextStage);
 	}
 	
 	public static boolean progress(EntityPlayer player, Progress nextStage, Actions advanceAction){
-		CausatumFile file = SaveData.player(player,CausatumFile.class);
+		CausatumFile file = SaveData.player(player, CausatumFile.class);
 		return file.tryProgress(nextStage) && file.tryTrigger(advanceAction);
 	}
 	
 	public static boolean trigger(EntityPlayer player, Actions action){
-		return SaveData.player(player,CausatumFile.class).tryTrigger(action);
+		return SaveData.player(player, CausatumFile.class).tryTrigger(action);
 	}
 	
 	public static boolean hasReached(EntityPlayer player, Progress stage){
-		return SaveData.player(player,CausatumFile.class).getStage().ordinal() >= stage.ordinal();
+		return SaveData.player(player, CausatumFile.class).getStage().ordinal() >= stage.ordinal();
 	}
 	
 	public enum Progress{
@@ -26,9 +26,9 @@ public final class Causatum{
 	}
 	
 	public enum Actions{ // TODO update
-		STAGE_ADVANCE_TO_ENDERMAN_KILLED(false,100),
+		STAGE_ADVANCE_TO_ENDERMAN_KILLED(false, 100),
 		
-		KILL_ENDERMAN(true,20);
+		KILL_ENDERMAN(true, 20);
 		
 		public final boolean canRepeat;
 		public final short levelIncrease;

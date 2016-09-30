@@ -7,7 +7,7 @@ public class SlotCharmPouchItem extends SlotBasicItem{
 	private final ContainerCharmPouch pouchContainer;
 	
 	public SlotCharmPouchItem(IInventory inv, ContainerCharmPouch pouchContainer, int id, int x, int z){
-		super(inv,id,x,z,ItemList.charm,1);
+		super(inv, id, x, z, ItemList.charm, 1);
 		this.pouchContainer = pouchContainer;
 	}
 	

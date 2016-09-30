@@ -16,13 +16,13 @@ public class SpawnEntryValue extends PreconditionComposite<SpawnEntry>{
 	});
 	
 	private SpawnEntryValue(){
-		addCondition("id",livingMobString);
-		addCondition("limit",IntValue.range(1,127));
-		addCondition("weight",IntValue.range(1,127));
+		addCondition("id", livingMobString);
+		addCondition("limit", IntValue.range(1, 127));
+		addCondition("weight", IntValue.range(1, 127));
 	}
 
 	@Override
 	public SpawnEntry getValue(MessageRunner runner){
-		return null; // TODO new SpawnEntry((Class<? extends EntityLiving>)EntityList.stringToClassMapping.get(runner.getString("id")),runner.getInt("limit"),runner.getInt("weight"));
+		return null; // TODO new SpawnEntry((Class<? extends EntityLiving>)EntityList.stringToClassMapping.get(runner.getString("id")), runner.getInt("limit"), runner.getInt("weight"));
 	}
 }

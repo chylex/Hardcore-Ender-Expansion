@@ -13,6 +13,6 @@ public class TileEntityVoidPortal extends TileEntity{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox(){
-		return AxisAlignedBB.getBoundingBox(xCoord,yCoord,zCoord,xCoord+1D,yCoord+1D,zCoord+1D);
+		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord+1D, yCoord+1D, zCoord+1D);
 	}
 }

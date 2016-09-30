@@ -34,24 +34,24 @@ public class RavagedDungeonGenerator{
 			while(++attemptLayer < 80){
 				hasSmallRoom = hasBlockRoom = false;
 				
-				dung = new DungeonLayer(width,height,blockedLocs.get(layer));
+				dung = new DungeonLayer(width, height, blockedLocs.get(layer));
 				
-				if (layer == 0)dung.createEntrance(rand.nextInt(width),rand.nextInt(height));
-				else dung.createDescendBottom(entranceX,entranceY);
+				if (layer == 0)dung.createEntrance(rand.nextInt(width), rand.nextInt(height));
+				else dung.createDescendBottom(entranceX, entranceY);
 				
 				switch(layer){
-					case 0: RoomCombo.setRoomWeights(25,5,0,0); break;
-					case 1: RoomCombo.setRoomWeights(25,8,2,1); break;
-					case 2: RoomCombo.setRoomWeights(25,9,2,3); break;
+					case 0: RoomCombo.setRoomWeights(25, 5, 0, 0); break;
+					case 1: RoomCombo.setRoomWeights(25, 8, 2, 1); break;
+					case 2: RoomCombo.setRoomWeights(25, 9, 2, 3); break;
 					default:
 				}
 				
 				DungeonElementList elements = dung.getElements();
 				
-				int iteration,attempt,attempts,path,pathLength,test;
-				DungeonDir dir,nextDir;
+				int iteration, attempt, attempts, path, pathLength, test;
+				DungeonDir dir, nextDir;
 				
-				for(iteration = 0; iteration < 1+Math.min(rand.nextInt(5),3); iteration++){
+				for(iteration = 0; iteration < 1+Math.min(rand.nextInt(5), 3); iteration++){
 					attempts = 18+rand.nextInt(10);
 					
 					for(attempt = 0; attempt < attempts; attempt++){
@@ -69,7 +69,7 @@ public class RavagedDungeonGenerator{
 							nextDir = test > 0 ? DungeonDir.random(rand) : (rand.nextBoolean() ? dir.rotatedLeft() : dir.rotatedRight());
 							
 							if (rand.nextFloat() > 0.78F && dung.canGenerateRoom(dir)){
-								int blocks = dung.addRoom(dir,rand);
+								int blocks = dung.addRoom(dir, rand);
 								
 								if (blocks > 0){
 									if (blocks == 1)hasSmallRoom = true;
@@ -89,7 +89,7 @@ public class RavagedDungeonGenerator{
 							if (++test > 4)break;
 						}
 						
-						DungeonElement element = elements.getRandom(rand.nextFloat() < 0.22F ? DungeonElementType.ROOM : DungeonElementType.HALLWAY,rand);
+						DungeonElement element = elements.getRandom(rand.nextFloat() < 0.22F ? DungeonElementType.ROOM : DungeonElementType.HALLWAY, rand);
 						if (element != null)dung.moveToElement(element);
 						else break;
 					}
@@ -97,15 +97,15 @@ public class RavagedDungeonGenerator{
 					dung.moveToEntrance();
 				}
 				
-				DungeonElement hallway1,hallway2;
+				DungeonElement hallway1, hallway2;
 				
 				for(attempt = 0; attempt < 15; attempt++){
-					hallway1 = elements.getRandom(DungeonElementType.HALLWAY,rand);
+					hallway1 = elements.getRandom(DungeonElementType.HALLWAY, rand);
 					if (hallway1 == null)break;
 					
 					for(int dirAttempt = 0; dirAttempt < 4; dirAttempt++){
 						DungeonDir checkDir = DungeonDir.values[rand.nextInt(DungeonDir.values.length)];
-						hallway2 = elements.getAt(hallway1.x+checkDir.addX,hallway1.y+checkDir.addY);
+						hallway2 = elements.getAt(hallway1.x+checkDir.addX, hallway1.y+checkDir.addY);
 						
 						if (hallway2 != null){
 							hallway1.connect(checkDir);
@@ -126,11 +126,11 @@ public class RavagedDungeonGenerator{
 						if (groupSize != 1)continue;
 						entranceX = room.x;
 						entranceY = room.y;
-						dung.createDescend(room.x,room.y);
+						dung.createDescend(room.x, room.y);
 					}
 					else if (layer == layers.length-1){
 						if (groupSize != 4)continue;
-						dung.createEnd(room.x,room.y);
+						dung.createEnd(room.x, room.y);
 					}
 					
 					layers[layer] = dung;

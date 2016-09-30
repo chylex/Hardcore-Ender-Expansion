@@ -24,7 +24,7 @@ public abstract class StructureDungeonGenerator implements IStructureGenerator{
 	 * Checks whether the area between two points is inside the structure and does not intersect any existing pieces.
 	 */
 	protected boolean canPlaceArea(Pos pos1, Pos pos2){
-		final BoundingBox box = new BoundingBox(pos1,pos2);
+		final BoundingBox box = new BoundingBox(pos1, pos2);
 		return box.isInside(dungeon.boundingBox) && !generated.stream().anyMatch(inst -> inst.boundingBox.intersects(box));
 	}
 	
@@ -33,9 +33,9 @@ public abstract class StructureDungeonGenerator implements IStructureGenerator{
 	 */
 	protected Pos alignConnections(StructureDungeonPieceInst targetPiece, Connection targetConnection, Connection sourceConnection){
 		Pos pos = targetPiece.boundingBox.getTopLeft();
-		pos = pos.offset(targetConnection.offsetX,targetConnection.offsetY,targetConnection.offsetZ);
-		pos = pos.offset(targetConnection.facing,1);
-		pos = pos.offset(-sourceConnection.offsetX,-sourceConnection.offsetY,-sourceConnection.offsetZ);
+		pos = pos.offset(targetConnection.offsetX, targetConnection.offsetY, targetConnection.offsetZ);
+		pos = pos.offset(targetConnection.facing, 1);
+		pos = pos.offset(-sourceConnection.offsetX, -sourceConnection.offsetY, -sourceConnection.offsetZ);
 		return pos;
 	}
 	
@@ -43,11 +43,11 @@ public abstract class StructureDungeonGenerator implements IStructureGenerator{
 	 * Tries to connect two pieces together. If it can be done, it adds the piece to the structure, uses up both connections and returns true.
 	 */
 	protected boolean tryConnectPieces(StructureDungeonPiece sourcePiece, Connection sourceConnection, StructureDungeonPieceInst targetPiece, Connection targetConnection){
-		Pos aligned = alignConnections(targetPiece,targetConnection,sourceConnection);
+		Pos aligned = alignConnections(targetPiece, targetConnection, sourceConnection);
 		
-		if (canPlaceArea(aligned,aligned.offset(targetPiece.piece.size.sizeX-1,targetPiece.piece.size.sizeY-1,targetPiece.piece.size.sizeZ-1))){
+		if (canPlaceArea(aligned, aligned.offset(targetPiece.piece.size.sizeX-1, targetPiece.piece.size.sizeY-1, targetPiece.piece.size.sizeZ-1))){
 			targetPiece.useConnection(targetConnection);
-			addPiece(sourcePiece,aligned).useConnection(sourceConnection);
+			addPiece(sourcePiece, aligned).useConnection(sourceConnection);
 			return true;
 		}
 		else return false;
@@ -58,14 +58,14 @@ public abstract class StructureDungeonGenerator implements IStructureGenerator{
 	 */
 	protected StructureDungeonPieceInst generateStartPiece(Random rand){
 		StructureDungeonPiece startPiece = dungeon.getStartingPiece().orElseGet(() -> selectNextPiece(rand)).getRandomPiece(rand);
-		return addPiece(startPiece,Pos.at(-startPiece.size.sizeX/2,dungeon.boundingBox.y2/2-startPiece.size.sizeY/2,-startPiece.size.sizeZ));
+		return addPiece(startPiece, Pos.at(-startPiece.size.sizeX/2, dungeon.boundingBox.y2/2-startPiece.size.sizeY/2, -startPiece.size.sizeZ));
 	}
 	
 	/**
 	 * Adds a new piece to the structure.
 	 */
 	protected StructureDungeonPieceInst addPiece(StructureDungeonPiece piece, Pos position){
-		StructureDungeonPieceInst inst = new StructureDungeonPieceInst(piece,position);
+		StructureDungeonPieceInst inst = new StructureDungeonPieceInst(piece, position);
 		generated.add(inst);
 		return inst;
 	}

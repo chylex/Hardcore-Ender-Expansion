@@ -11,7 +11,7 @@ public abstract class StrongholdRoomRelic extends StrongholdRoom{
 	private ItemStack relicItem;
 	
 	public StrongholdRoomRelic(Size size, @Nullable Facing4[] connectWith){
-		super(size,connectWith);
+		super(size, connectWith);
 	}
 	
 	public final StrongholdRoomRelic setRelicItem(ItemStack relicItem){
@@ -20,6 +20,6 @@ public abstract class StrongholdRoomRelic extends StrongholdRoom{
 	}
 	
 	protected final IStructureTileEntity getRelicGenerator(){
-		return (tile, random) -> ((TileEntityLootChest)tile).getSourceInventory().setInventorySlotContents(14,relicItem);
+		return (tile, random) -> ((TileEntityLootChest)tile).getSourceInventory().setInventorySlotContents(14, relicItem);
 	}
 }

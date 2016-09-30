@@ -3,7 +3,7 @@ import net.minecraft.block.Block.SoundType;
 
 public class SoundTypeSingle extends SoundType{
 	public SoundTypeSingle(String soundName, float volume, float pitch){
-		super(soundName,volume,pitch);
+		super(soundName, volume, pitch);
 	}
 	
 	@Override

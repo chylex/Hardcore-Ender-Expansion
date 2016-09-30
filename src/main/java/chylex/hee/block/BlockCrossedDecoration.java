@@ -43,13 +43,13 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	
 	public BlockCrossedDecoration(){
 		super(0);
-		setBlockBounds(0.1F,0.0F,0.1F,0.9F,0.8F,0.9F);
+		setBlockBounds(0.1F, 0.0F, 0.1F, 0.9F, 0.8F, 0.9F);
 	}
 	
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z){
-		return (world.getFullBlockLightValue(x,y,z) >= 8 || world.canBlockSeeTheSky(x,y,z) || world.provider.dimensionId == 1) &&
-			   (Pos.at(x,y-1,z).getBlock(world).canSustainPlant(world,x,y-1,z,ForgeDirection.UP,this));
+		return (world.getFullBlockLightValue(x, y, z) >= 8 || world.canBlockSeeTheSky(x, y, z) || world.provider.dimensionId == 1) &&
+			   (Pos.at(x, y-1, z).getBlock(world).canSustainPlant(world, x, y-1, z, ForgeDirection.UP, this));
 	}
 	
 	@Override
@@ -59,37 +59,37 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune){
-		return meta == dataLilyFire ? CollectionUtil.newList(new ItemStack(this,1,meta)) : new ArrayList<>();
+		return meta == dataLilyFire ? CollectionUtil.newList(new ItemStack(this, 1, meta)) : new ArrayList<>();
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z){
-		int meta = Pos.at(x,y,z).getMetadata(world);
+		int meta = Pos.at(x, y, z).getMetadata(world);
 		
-		if (meta == dataLilyFire)return AxisAlignedBB.getBoundingBox(x+0.3F,y,z+0.3F,x+0.7F,y+0.8F,z+0.7F);
-		else if (meta == dataShadowOrchid)return AxisAlignedBB.getBoundingBox(x+0.25F,y,z+0.25F,x+0.75F,y+0.95F,z+0.75F);
-		else return super.getSelectedBoundingBoxFromPool(world,x,y,z);
+		if (meta == dataLilyFire)return AxisAlignedBB.getBoundingBox(x+0.3F, y, z+0.3F, x+0.7F, y+0.8F, z+0.7F);
+		else if (meta == dataShadowOrchid)return AxisAlignedBB.getBoundingBox(x+0.25F, y, z+0.25F, x+0.75F, y+0.95F, z+0.75F);
+		else return super.getSelectedBoundingBoxFromPool(world, x, y, z);
 	}
 
 	@Override
 	public boolean isShearable(ItemStack item, IBlockAccess world, int x, int y, int z){
-		int meta = Pos.at(x,y,z).getMetadata(world);
+		int meta = Pos.at(x, y, z).getMetadata(world);
 		return meta != dataLilyFire;
 	}
 
 	@Override
 	public ArrayList<ItemStack> onSheared(ItemStack item, IBlockAccess world, int x, int y, int z, int fortune){
-		return CollectionUtil.newList(new ItemStack(this,1,Pos.at(x,y,z).getMetadata(world)));
+		return CollectionUtil.newList(new ItemStack(this, 1, Pos.at(x, y, z).getMetadata(world)));
 	}
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (!world.isRemote && Pos.at(x,y,z).getMetadata(world) == dataThornBush){
-			entity.attackEntityFrom(DamageSource.generic,1F);
+		if (!world.isRemote && Pos.at(x, y, z).getMetadata(world) == dataThornBush){
+			entity.attackEntityFrom(DamageSource.generic, 1F);
 			
 			if (world.rand.nextInt(80) == 0 && entity instanceof EntityLivingBase && !((EntityLivingBase)entity).isPotionActive(Potion.poison)){
-				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id,30+world.rand.nextInt(40),1,true));
+				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, 30+world.rand.nextInt(40), 1, true));
 			}
 		}
 	}
@@ -119,13 +119,13 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return CollectionUtil.getClamp(iconArray,meta);
+		return CollectionUtil.getClamp(iconArray, meta);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 2; a < decorTypes.length; a++)list.add(new ItemStack(item,1,a));
+		for(int a = 2; a < decorTypes.length; a++)list.add(new ItemStack(item, 1, a));
 	}
 
 	@Override

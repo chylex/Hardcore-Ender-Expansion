@@ -26,27 +26,27 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo{
-	private static final AttributeModifier dashModifier = EntityAttributes.createModifier("Guardian Dash",Operation.ADD_MULTIPLIED,1.2D);
+	private static final AttributeModifier dashModifier = EntityAttributes.createModifier("Guardian Dash", Operation.ADD_MULTIPLIED, 1.2D);
 	
 	private byte attackTimer, dashCooldown;
 	
 	public EntityMobEnderGuardian(World world){
 		super(world);
-		setSize(1.5F,3.2F);
+		setSize(1.5F, 3.2F);
 	}
 	
 	@Override
 	protected Entity findPlayerToAttack(){
-		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this,3D);
+		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this, 3D);
 		return player != null && canEntityBeSeen(player) ? player : null;
 	}
 	
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,ModCommonProxy.opMobs ? 0.7D : 0.65D);
-		EntityAttributes.setValue(this,EntityAttributes.maxHealth,ModCommonProxy.opMobs ? 100D : 80D);
-		EntityAttributes.setValue(this,EntityAttributes.attackDamage,ModCommonProxy.opMobs ? 25D : 17D);
+		EntityAttributes.setValue(this, EntityAttributes.movementSpeed, ModCommonProxy.opMobs ? 0.7D : 0.65D);
+		EntityAttributes.setValue(this, EntityAttributes.maxHealth, ModCommonProxy.opMobs ? 100D : 80D);
+		EntityAttributes.setValue(this, EntityAttributes.attackDamage, ModCommonProxy.opMobs ? 25D : 17D);
 	}
 	
 	@Override
@@ -57,31 +57,31 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 		
 		if (!worldObj.isRemote && !isDead){
 			if (dashCooldown > 0){
-				if (--dashCooldown == 70)EntityAttributes.removeModifier(this,EntityAttributes.movementSpeed,dashModifier);
+				if (--dashCooldown == 70)EntityAttributes.removeModifier(this, EntityAttributes.movementSpeed, dashModifier);
 				else if (dashCooldown > 1 && dashCooldown < 70 && ((ModCommonProxy.opMobs && rand.nextInt(3) == 0) || rand.nextInt(5) == 0))--dashCooldown;
 			}
-			else if (dashCooldown == 0 && entityToAttack != null && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) < 4D && Math.abs(posY-entityToAttack.posY) <= 3){
+			else if (dashCooldown == 0 && entityToAttack != null && MathUtil.distance(posX-entityToAttack.posX, posZ-entityToAttack.posZ) < 4D && Math.abs(posY-entityToAttack.posY) <= 3){
 				dashCooldown = 80;
-				EntityAttributes.applyModifier(this,EntityAttributes.movementSpeed,dashModifier);
-				PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ENDER_GUARDIAN_DASH,this));
+				EntityAttributes.applyModifier(this, EntityAttributes.movementSpeed, dashModifier);
+				PacketPipeline.sendToAllAround(this, 64D, new C21EffectEntity(FXType.Entity.ENDER_GUARDIAN_DASH, this));
 			}
 		}
 	}
 	
 	@Override
 	public float getAIMoveSpeed(){
-		return (float)EntityAttributes.getValue(this,EntityAttributes.movementSpeed)*0.3F;
+		return (float)EntityAttributes.getValue(this, EntityAttributes.movementSpeed)*0.3F;
 	}
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity){
 		attackTimer = 8;
-		worldObj.setEntityState(this,(byte)4);
+		worldObj.setEntityState(this, (byte)4);
 		
 		float damage = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue(); // TODO
 
-		if (entity.attackEntityFrom(DamageSource.causeMobDamage(this),damage)){
-			entity.addVelocity(-MathHelper.sin(MathUtil.toRad(rotationYaw))*1.7D,0.2D,MathHelper.cos(MathUtil.toRad(rotationYaw))*1.7D);
+		if (entity.attackEntityFrom(DamageSource.causeMobDamage(this), damage)){
+			entity.addVelocity(-MathHelper.sin(MathUtil.toRad(rotationYaw))*1.7D, 0.2D, MathHelper.cos(MathUtil.toRad(rotationYaw))*1.7D);
 			motionX *= 0.8D;
 			motionZ *= 0.8D;
 			
@@ -91,7 +91,7 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 				dashCooldown = 71;
 			}
 
-			EnchantmentHelper.func_151385_b(this,entity);
+			EnchantmentHelper.func_151385_b(this, entity);
 			return true;
 		}
 		else return false;
@@ -111,8 +111,8 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 		else if (source.isFireDamage() || source == DamageSource.drown)amount *= 0.2F;
 		else if (source == DamageSource.cactus)amount = 0F;
 		
-		if (amount >= 0.1F && super.attackEntityFrom(source,amount)){
-			// TODO CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.5F);
+		if (amount >= 0.1F && super.attackEntityFrom(source, amount)){
+			// TODO CausatumUtils.increase(source, CausatumMeters.END_MOB_DAMAGE, amount*0.5F);
 			return true;
 		}
 		else return false;
@@ -121,21 +121,21 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
 		int amount = rand.nextInt(2+looting)-rand.nextInt(2);
-		for(int a = 0; a < amount; a++)dropItem(Items.ender_pearl,1);
+		for(int a = 0; a < amount; a++)dropItem(Items.ender_pearl, 1);
 		
 		amount = 1+rand.nextInt(3+(looting>>1));
-		for(int a = 0; a < amount; a++)dropItem(Item.getItemFromBlock(Blocks.obsidian),1);
+		for(int a = 0; a < amount; a++)dropItem(Item.getItemFromBlock(Blocks.obsidian), 1);
 		
 		if (recentlyHit){
 			amount = rand.nextInt(4-rand.nextInt(3)+(looting>>1));
-			for(int a = 0; a < amount; a++)dropItem(ItemList.obsidian_fragment,1);
+			for(int a = 0; a < amount; a++)dropItem(ItemList.obsidian_fragment, 1);
 		}
 	}
 	
 	@Override
 	public void addVelocity(double xVelocity, double yVelocity, double zVelocity){
 		double mp = rand.nextInt(5) == 0 ? 0D : 0.3D+rand.nextDouble()*0.2D;
-		super.addVelocity(xVelocity*mp,yVelocity*mp,zVelocity*mp);
+		super.addVelocity(xVelocity*mp, yVelocity*mp, zVelocity*mp);
 	}
 	
 	@SideOnly(Side.CLIENT)

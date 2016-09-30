@@ -27,7 +27,7 @@ public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
 	}
 	
 	public void activate(ItemStack tokenIS){
-		entityData.setItemStack(Data.TOKEN,tokenIS); // no copy; the ItemStack is modified when the territory is first generated
+		entityData.setItemStack(Data.TOKEN, tokenIS); // no copy; the ItemStack is modified when the territory is first generated
 	}
 	
 	public @Nullable ItemStack getActiveToken(){
@@ -47,7 +47,7 @@ public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
 		if (!worldObj.isRemote && ticksExisted == 1){
 			SaveData.global(WorldFile.class).setVoidPortalPos(Pos.at(this));
 			
-			for(Entity entity:EntitySelector.type(worldObj,getClass(),boundingBox.expand(8D,8D,8D))){
+			for(Entity entity:EntitySelector.type(worldObj, getClass(), boundingBox.expand(8D, 8D, 8D))){
 				if (entity != this)entity.setDead();
 			}
 		}
@@ -68,11 +68,11 @@ public class EntityTechnicalVoidPortal extends EntityTechnicalBase{
 			
 			renderTranslation += speed*0.0015F;
 			
-			if (timer >= 240)renderAlpha = Math.min(1F,renderAlpha+0.05F);
-			if (timer <= 80)speed = Math.max(0F,speed-0.025F);
-			if (timer <= 45)renderAlpha = Math.max(0F,renderAlpha-0.025F);
+			if (timer >= 240)renderAlpha = Math.min(1F, renderAlpha+0.05F);
+			if (timer <= 80)speed = Math.max(0F, speed-0.025F);
+			if (timer <= 45)renderAlpha = Math.max(0F, renderAlpha-0.025F);
 			
-			if (timer == 10)entityData.setItemStack(Data.TOKEN,null);
+			if (timer == 10)entityData.setItemStack(Data.TOKEN, null);
 		}
 	}
 	

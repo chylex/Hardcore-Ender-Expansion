@@ -11,22 +11,22 @@ import chylex.hee.entity.block.EntityBlockFallingObsidian;
 public class BlockObsidianEnd extends BlockStone{
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
-		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 	}
 
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor){
-		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 	}
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
-		tryToFall(world,x,y,z);
+		tryToFall(world, x, y, z);
 	}
 
 	private void tryToFall(World world, int x, int y, int z){
-		if (BlockFalling.func_149831_e(world,x,y-1,z) && y >= 0 && !world.isRemote){
-			world.spawnEntityInWorld(new EntityBlockFallingObsidian(world,x+0.5F,y+0.5F,z+0.5F));
+		if (BlockFalling.func_149831_e(world, x, y-1, z) && y >= 0 && !world.isRemote){
+			world.spawnEntityInWorld(new EntityBlockFallingObsidian(world, x+0.5F, y+0.5F, z+0.5F));
 		}
 	}
 	

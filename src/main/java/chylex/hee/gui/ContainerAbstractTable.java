@@ -18,7 +18,7 @@ public abstract class ContainerAbstractTable extends Container{
 	public ContainerAbstractTable(InventoryPlayer inv, TileEntityAbstractTable table){
 		this.table = table;
 		registerSlots();
-		ContainerHelper.addPlayerInventorySlots(this,inv,0,0);
+		ContainerHelper.addPlayerInventorySlots(this, inv, 0, 0);
 	}
 	
 	protected abstract void registerSlots();
@@ -26,9 +26,9 @@ public abstract class ContainerAbstractTable extends Container{
 	@Override
 	public void addCraftingToCrafters(ICrafting crafter){
 		super.addCraftingToCrafters(crafter);
-		crafter.sendProgressBarUpdate(this,0,table.getRequiredStardust());
-		crafter.sendProgressBarUpdate(this,1,table.getTime());
-		crafter.sendProgressBarUpdate(this,2,Float.floatToIntBits(table.getStoredEnergy()));
+		crafter.sendProgressBarUpdate(this, 0, table.getRequiredStardust());
+		crafter.sendProgressBarUpdate(this, 1, table.getTime());
+		crafter.sendProgressBarUpdate(this, 2, Float.floatToIntBits(table.getStoredEnergy()));
 	}
 
 	@Override
@@ -37,9 +37,9 @@ public abstract class ContainerAbstractTable extends Container{
 
 		for(int i = 0; i < crafters.size(); i++){
 			ICrafting crafter = (ICrafting)crafters.get(i);
-			if (prevReqStardust != table.getRequiredStardust())crafter.sendProgressBarUpdate(this,0,table.getRequiredStardust());
-			if (prevTime != table.getTime())crafter.sendProgressBarUpdate(this,1,table.getTime());
-			if (!MathUtil.floatEquals(prevStoredEnergy,table.getStoredEnergy()))crafter.sendProgressBarUpdate(this,2,Float.floatToIntBits(table.getStoredEnergy()));
+			if (prevReqStardust != table.getRequiredStardust())crafter.sendProgressBarUpdate(this, 0, table.getRequiredStardust());
+			if (prevTime != table.getTime())crafter.sendProgressBarUpdate(this, 1, table.getTime());
+			if (!MathUtil.floatEquals(prevStoredEnergy, table.getStoredEnergy()))crafter.sendProgressBarUpdate(this, 2, Float.floatToIntBits(table.getStoredEnergy()));
 		}
 
 		prevReqStardust = table.getRequiredStardust();
@@ -49,7 +49,7 @@ public abstract class ContainerAbstractTable extends Container{
 	
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotId){
-		return ContainerHelper.transferStack(this,this::mergeItemStack,table.getSizeInventory(),slotId); // TODO test
+		return ContainerHelper.transferStack(this, this::mergeItemStack, table.getSizeInventory(), slotId); // TODO test
 	}
 
 	@Override

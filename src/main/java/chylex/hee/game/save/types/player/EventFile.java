@@ -12,7 +12,7 @@ public class EventFile extends PlayerFile{
 	private int compendiumEndermanHint;
 	
 	public EventFile(String filename){
-		super("events",filename);
+		super("events", filename);
 	}
 	
 	public void onEndermanAvoid(EntityPlayer target){
@@ -20,8 +20,8 @@ public class EventFile extends PlayerFile{
 		
 		if (++compendiumEndermanHint == 3+target.getRNG().nextInt(2)){
 			compendiumEndermanHint = -1;
-			CompendiumEvents.getPlayerData(target).tryUnlockHintFragment(target,KnowledgeFragment.fromID(100));
-			PacketPipeline.sendToPlayer(target,new C09SimpleEvent(EventType.TRIGGER_COMPENDIUM_HINT));
+			CompendiumEvents.getPlayerData(target).tryUnlockHintFragment(target, KnowledgeFragment.fromID(100));
+			PacketPipeline.sendToPlayer(target, new C09SimpleEvent(EventType.TRIGGER_COMPENDIUM_HINT));
 		}
 		
 		setModified();
@@ -29,7 +29,7 @@ public class EventFile extends PlayerFile{
 
 	@Override
 	protected void onSave(NBTCompound nbt){
-		nbt.setByte("compendiumHint1",(byte)compendiumEndermanHint);
+		nbt.setByte("compendiumHint1", (byte)compendiumEndermanHint);
 	}
 
 	@Override

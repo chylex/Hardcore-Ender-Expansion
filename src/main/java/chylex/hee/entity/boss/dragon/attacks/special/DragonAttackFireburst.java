@@ -17,7 +17,7 @@ public class DragonAttackFireburst extends DragonSpecialAttackBase{
 	private boolean ended;
 	
 	public DragonAttackFireburst(EntityBossDragon dragon, int attackId, int weight){
-		super(dragon,attackId,weight);
+		super(dragon, attackId, weight);
 	}
 	
 	@Override
@@ -39,18 +39,18 @@ public class DragonAttackFireburst extends DragonSpecialAttackBase{
 					ended = true;
 				}
 				else{
-					if (MathUtil.distance(dragon.targetX-dragon.posX,dragon.targetZ-dragon.posZ) < 60D){
+					if (MathUtil.distance(dragon.targetX-dragon.posX, dragon.targetZ-dragon.posZ) < 60D){
 						target = null;
 						waitTimer = 60;
 						
 						double dist = 10D;
-						Vec3 vec = Vec3.createVectorHelper(dragon.motionX,0D,dragon.motionZ).normalize();
+						Vec3 vec = Vec3.createVectorHelper(dragon.motionX, 0D, dragon.motionZ).normalize();
 						
 						for(int attempt = 0; attempt < 10; attempt++){
 							dragon.targetX = dragon.posX+vec.xCoord*dist+(rand.nextDouble()-0.5D)*4D;
 							dragon.targetZ = dragon.posZ+vec.zCoord*dist+(rand.nextDouble()-0.5D)*4D;
 							
-							if (MathUtil.distance(dragon.targetX-dragon.posX,dragon.targetZ-dragon.posZ) > 65D)break;
+							if (MathUtil.distance(dragon.targetX-dragon.posX, dragon.targetZ-dragon.posZ) > 65D)break;
 							else dist += 5D;
 						}
 					}
@@ -63,7 +63,7 @@ public class DragonAttackFireburst extends DragonSpecialAttackBase{
 			dragon.targetY = target.posY+10D;
 			dragon.targetZ = target.posZ;
 			
-			double dist = MathUtil.distance(dragon.targetX-dragon.posX,dragon.targetZ-dragon.posZ);
+			double dist = MathUtil.distance(dragon.targetX-dragon.posX, dragon.targetZ-dragon.posZ);
 			boolean stopShooting = false;
 			
 			if (dist < 90D && (waitTimer <= 0 || --waitTimer <= 0)){
@@ -81,7 +81,7 @@ public class DragonAttackFireburst extends DragonSpecialAttackBase{
 				shootTimer = shotAmount = 0;
 				target = null;
 				
-				if (++runCounter > 3+Math.min(4,dragon.attacks.getViablePlayers().size())){
+				if (++runCounter > 3+Math.min(4, dragon.attacks.getViablePlayers().size())){
 					ended = true;
 				}
 			}

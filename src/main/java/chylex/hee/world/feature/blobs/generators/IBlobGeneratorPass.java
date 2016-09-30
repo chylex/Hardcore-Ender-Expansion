@@ -8,14 +8,14 @@ public interface IBlobGeneratorPass{
 	void run(StructureWorldBlob world);
 	
 	static final IBlobGeneratorPass passSmoothing = world -> {
-		runSmoothingPass(world,4);
-		runSmoothingPass(world,5);
+		runSmoothingPass(world, 4);
+		runSmoothingPass(world, 5);
 	};
 	
 	static void runSmoothingPass(StructureWorldBlob world, final int airAmount){
 		for(Pos pos:world.getEndStoneBlocks()){
-			if (checkAdjacentAir(world,pos,airAmount)){
-				world.setBlock(pos,Blocks.air);
+			if (checkAdjacentAir(world, pos, airAmount)){
+				world.setBlock(pos, Blocks.air);
 			}
 		}
 	}

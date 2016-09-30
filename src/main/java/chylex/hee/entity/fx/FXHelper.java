@@ -33,15 +33,15 @@ public class FXHelper{ // TODO check what could be ported
 	}
 	
 	public FXHelper pos(int x, int y, int z){
-		return pos(x+0.5D,y+0.5D,z+0.5D);
+		return pos(x+0.5D, y+0.5D, z+0.5D);
 	}
 	
 	public FXHelper pos(Pos pos){
-		return pos(pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D);
+		return pos(pos.getX()+0.5D, pos.getY()+0.5D, pos.getZ()+0.5D);
 	}
 	
 	public FXHelper pos(Entity entity){
-		return pos(entity.posX,entity.posY,entity.posZ);
+		return pos(entity.posX, entity.posY, entity.posZ);
 	}
 	
 	public FXHelper fluctuatePos(final double maxAmount){
@@ -92,35 +92,35 @@ public class FXHelper{ // TODO check what could be ported
 			if (params == null){
 				fx.global(
 					type,
-					posX+posFluct.fluctuate(rand,Axis.X),
-					posY+posFluct.fluctuate(rand,Axis.Y),
-					posZ+posFluct.fluctuate(rand,Axis.Z),
-					motionX+motFluct.fluctuate(rand,Axis.X),
-					motionY+motFluct.fluctuate(rand,Axis.Y),
-					motionZ+motFluct.fluctuate(rand,Axis.Z)
+					posX+posFluct.fluctuate(rand, Axis.X),
+					posY+posFluct.fluctuate(rand, Axis.Y),
+					posZ+posFluct.fluctuate(rand, Axis.Z),
+					motionX+motFluct.fluctuate(rand, Axis.X),
+					motionY+motFluct.fluctuate(rand, Axis.Y),
+					motionZ+motFluct.fluctuate(rand, Axis.Z)
 				);
 			}
 			else if (params.length == 1){
 				fx.global(
 					type,
-					posX+posFluct.fluctuate(rand,Axis.X),
-					posY+posFluct.fluctuate(rand,Axis.Y),
-					posZ+posFluct.fluctuate(rand,Axis.Z),
-					motionX+motFluct.fluctuate(rand,Axis.X),
-					motionY+motFluct.fluctuate(rand,Axis.Y),
-					motionZ+motFluct.fluctuate(rand,Axis.Z),
+					posX+posFluct.fluctuate(rand, Axis.X),
+					posY+posFluct.fluctuate(rand, Axis.Y),
+					posZ+posFluct.fluctuate(rand, Axis.Z),
+					motionX+motFluct.fluctuate(rand, Axis.X),
+					motionY+motFluct.fluctuate(rand, Axis.Y),
+					motionZ+motFluct.fluctuate(rand, Axis.Z),
 					params[0]
 				);
 			}
 			else if (params.length == 3){
 				fx.global(
 					type,
-					posX+posFluct.fluctuate(rand,Axis.X),
-					posY+posFluct.fluctuate(rand,Axis.Y),
-					posZ+posFluct.fluctuate(rand,Axis.Z),
-					motionX+motFluct.fluctuate(rand,Axis.X),
-					motionY+motFluct.fluctuate(rand,Axis.Y),
-					motionZ+motFluct.fluctuate(rand,Axis.Z),
+					posX+posFluct.fluctuate(rand, Axis.X),
+					posY+posFluct.fluctuate(rand, Axis.Y),
+					posZ+posFluct.fluctuate(rand, Axis.Z),
+					motionX+motFluct.fluctuate(rand, Axis.X),
+					motionY+motFluct.fluctuate(rand, Axis.Y),
+					motionZ+motFluct.fluctuate(rand, Axis.Z),
 					params[0],
 					params[1],
 					params[2]

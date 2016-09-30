@@ -34,7 +34,7 @@ public class HeeDebugCommand extends BaseCommand{
 	@Override
 	public void processCommand(ICommandSender sender, String[] args){
 		if (!Log.isDebugEnabled()){
-			sendMessage(sender,"Debug mode is not enabled.");
+			sendMessage(sender, "Debug mode is not enabled.");
 			return;
 		}
 		
@@ -56,7 +56,7 @@ public class HeeDebugCommand extends BaseCommand{
 				"/heedebug test <testid>\n"+
 				"/heedebug unit [trigger]"
 				).split("\n")){
-				sendMessage(sender,s);
+				sendMessage(sender, s);
 			}
 		
 			return;
@@ -68,7 +68,7 @@ public class HeeDebugCommand extends BaseCommand{
 			
 			if (args[1].equals("null")){
 				dragon.target = null;
-				sendMessage(sender,"Target cancelled.");
+				sendMessage(sender, "Target cancelled.");
 				return;
 			}
 			
@@ -78,7 +78,7 @@ public class HeeDebugCommand extends BaseCommand{
 				dragon.trySetTarget(target);
 			}
 			else{
-				sendMessage(sender,"No such player.");
+				sendMessage(sender, "No such player.");
 				return;
 			}
 		}
@@ -86,7 +86,7 @@ public class HeeDebugCommand extends BaseCommand{
 			try{
 				overrideWingSpeed = Float.parseFloat(args[1]);
 			}catch(NumberFormatException e){
-				sendMessage(sender,"Invalid number.");
+				sendMessage(sender, "Invalid number.");
 			}
 		}
 		else if (args[0].equalsIgnoreCase("dragon-attack-end")){
@@ -127,7 +127,7 @@ public class HeeDebugCommand extends BaseCommand{
 		}
 		else if (args[0].equalsIgnoreCase("stick") && args.length >= 2 && sender instanceof EntityPlayer && ItemList.debug_stick != null){
 			ItemStack stick = new ItemStack(ItemList.debug_stick);
-			NBT.item(stick,true).setString("type",args[1]);
+			NBT.item(stick, true).setString("type", args[1]);
 			
 			EntityPlayer player = (EntityPlayer)sender;
 			player.inventory.mainInventory[player.inventory.currentItem] = stick;
@@ -146,12 +146,12 @@ public class HeeDebugCommand extends BaseCommand{
 						test.world = test.player.worldObj;
 						
 						try{
-							test.run(ArrayUtils.subarray(args,2,args.length));
-							sendMessage(sender,"Test completed.");
+							test.run(ArrayUtils.subarray(args, 2, args.length));
+							sendMessage(sender, "Test completed.");
 						}
 						catch(Throwable t){
 							t.printStackTrace();
-							sendMessage(sender,"Test failed.");
+							sendMessage(sender, "Test failed.");
 						}
 						
 						found = true;
@@ -159,11 +159,11 @@ public class HeeDebugCommand extends BaseCommand{
 					}
 				}
 				
-				if (!found)sendMessage(sender,"Test not found.");
+				if (!found)sendMessage(sender, "Test not found.");
 				
 				Stopwatch.finish("HeeDebugCommand - test");
 			}catch(Throwable t){
-				sendMessage(sender,"Test not found.");
+				sendMessage(sender, "Test not found.");
 			}
 			
 			return;
@@ -172,19 +172,19 @@ public class HeeDebugCommand extends BaseCommand{
 			StringBuilder build = new StringBuilder();
 			for(int a = 1; a < args.length; a++)build.append(args[a]).append(' ');
 			
-			UnitTester.trigger(RunTime.INGAME,args.length > 1 ? build.deleteCharAt(build.length()-1).toString() : "");
+			UnitTester.trigger(RunTime.INGAME, args.length > 1 ? build.deleteCharAt(build.length()-1).toString() : "");
 		}*/
 		else if (args[0].equalsIgnoreCase("tmp") && sender instanceof EntityPlayer){
 			EntityPlayer player = (EntityPlayer)sender;
 			// tmp command
-			SaveData.player(player,CompendiumFile.class).tryUnlockHintFragment(player,KnowledgeFragment.fromID(60));
+			SaveData.player(player, CompendiumFile.class).tryUnlockHintFragment(player, KnowledgeFragment.fromID(60));
 		}
 		else{
-			sendMessage(sender,"Unknown command.");
+			sendMessage(sender, "Unknown command.");
 			return;
 		}
 		
-		sendMessage(sender,"Request processed.");
+		sendMessage(sender, "Request processed.");
 	}
 	
 	public static final EntityBossDragon getDragon(){

@@ -36,7 +36,7 @@ public class BlockEndstoneTerrain extends Block implements IBlockSubtypes{
 	
 	@Override
 	public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z){
-		switch(Pos.at(x,y,z).getMetadata(world)){
+		switch(Pos.at(x, y, z).getMetadata(world)){
 			case metaInfested: return BlockList.blockRandom.nextInt(10) <= 2;
 			case metaBurned: return false;
 			case metaEnchanted:
@@ -64,7 +64,7 @@ public class BlockEndstoneTerrain extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 0; a < types.length; a++)list.add(new ItemStack(item,1,a));
+		for(int a = 0; a < types.length; a++)list.add(new ItemStack(item, 1, a));
 	}
 	
 	@Override

@@ -23,7 +23,7 @@ public class PlayerDataHandler implements ISaveDataHandler{
 		return ((PlayerIdProperty)player.getExtendedProperties(dataIdentifier)).id; // server only
 	}
 	
-	private final Map<String,PlayerFile> cache = new HashMap<>();
+	private final Map<String, PlayerFile> cache = new HashMap<>();
 	private File root;
 	
 	// ISaveDataHandler
@@ -36,12 +36,12 @@ public class PlayerDataHandler implements ISaveDataHandler{
 	@Override
 	public void clear(File root){
 		cache.clear();
-		this.root = new File(root,"players");
+		this.root = new File(root, "players");
 		if (!this.root.exists())this.root.mkdirs();
 	}
 	
 	public <T extends PlayerFile> T get(EntityPlayer player, Class<T> cls){
-		return get(getID(player),cls);
+		return get(getID(player), cls);
 	}
 	
 	public <T extends PlayerFile> T get(String playerID, Class<T> cls){
@@ -51,10 +51,10 @@ public class PlayerDataHandler implements ISaveDataHandler{
 		
 		if (savefile == null){
 			try{
-				cache.put(cacheKey,savefile = cls.getConstructor(String.class).newInstance(playerID+".nbt"));
+				cache.put(cacheKey, savefile = cls.getConstructor(String.class).newInstance(playerID+".nbt"));
 				savefile.loadFromNBT(root);
 			}catch(Exception e){
-				throw new RuntimeException("Could not construct a new instance of PlayerFile - "+cls.getName(),e);
+				throw new RuntimeException("Could not construct a new instance of PlayerFile - "+cls.getName(), e);
 			}
 		}
 		
@@ -71,7 +71,7 @@ public class PlayerDataHandler implements ISaveDataHandler{
 	@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing e){
 		if (e.entity.worldObj != null && !e.entity.worldObj.isRemote && e.entity instanceof EntityPlayer){
-			if (!e.entity.registerExtendedProperties(dataIdentifier,new PlayerIdProperty()).equals(dataIdentifier)){
+			if (!e.entity.registerExtendedProperties(dataIdentifier, new PlayerIdProperty()).equals(dataIdentifier)){
 				throw new IllegalStateException("Could not register extended player properties, likely due to the properties already being registered by another mod!");
 			}
 		}
@@ -91,12 +91,12 @@ public class PlayerDataHandler implements ISaveDataHandler{
 		
 		@Override
 		public void init(Entity entity, World world){
-			id = StringUtils.remove(UUID.randomUUID().toString(),'-');
+			id = StringUtils.remove(UUID.randomUUID().toString(), '-');
 		}
 		
 		@Override
 		public void saveNBTData(NBTTagCompound nbt){
-			nbt.setString("HEE2_PID",id);
+			nbt.setString("HEE2_PID", id);
 		}
 		
 		@Override

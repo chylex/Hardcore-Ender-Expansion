@@ -11,7 +11,7 @@ import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
 	private final List<PotionEffect> effects = new ArrayList<>();
-	private int minY,maxY;
+	private int minY, maxY;
 	
 	public TowerEndermanSpawnerLogic(TileEntityCustomSpawner spawnerTile){
 		super(spawnerTile);
@@ -40,13 +40,13 @@ public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
 	
 	@Override
 	protected AxisAlignedBB getSpawnerCheckBB(){
-		return AxisAlignedBB.getBoundingBox(getSpawnerX(),minY,getSpawnerZ(),getSpawnerX()+1,maxY,getSpawnerZ()+1).expand(spawnRange*2D,0.5D,spawnRange*2D);
+		return AxisAlignedBB.getBoundingBox(getSpawnerX(), minY, getSpawnerZ(), getSpawnerX()+1, maxY, getSpawnerZ()+1).expand(spawnRange*2D, 0.5D, spawnRange*2D);
 	}
 	
 	@Override
 	protected boolean canMobSpawn(EntityLiving entity){
 		for(int yy = minY; yy <= maxY; yy++){
-			entity.setLocationAndAngles(entity.posX,yy,entity.posZ,entity.rotationYaw,0F);
+			entity.setLocationAndAngles(entity.posX, yy, entity.posZ, entity.rotationYaw, 0F);
 			if (entity.getCanSpawnHere())return true;
 		}
 		
@@ -69,9 +69,9 @@ public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		NBT.wrap(nbt).writeList("spawnEffects",effects.stream().map(eff -> eff.writeCustomPotionEffectToNBT(new NBTTagCompound())));
-		nbt.setInteger("minY",minY);
-		nbt.setInteger("maxY",maxY);
+		NBT.wrap(nbt).writeList("spawnEffects", effects.stream().map(eff -> eff.writeCustomPotionEffectToNBT(new NBTTagCompound())));
+		nbt.setInteger("minY", minY);
+		nbt.setInteger("maxY", maxY);
 	}
 		
 	@Override

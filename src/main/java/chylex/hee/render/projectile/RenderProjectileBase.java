@@ -16,12 +16,12 @@ abstract class RenderProjectileBase extends Render{
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float rotationYaw, float partialTickTime){
 		GL.pushMatrix();
-		GL.translate(x,y,z);
+		GL.translate(x, y, z);
 		GL.enableRescaleNormal();
-		GL.scale(0.5F,0.5F,0.5F);
+		GL.scale(0.5F, 0.5F, 0.5F);
 		
-		GL.rotate(180F-renderManager.playerViewY,0F,1F,0F);
-		GL.rotate(-renderManager.playerViewX,1F,0F,0F);
+		GL.rotate(180F-renderManager.playerViewY, 0F, 1F, 0F);
+		GL.rotate(-renderManager.playerViewX, 1F, 0F, 0F);
 		
 		bindEntityTexture(entity);
 		render(entity);
@@ -36,15 +36,15 @@ abstract class RenderProjectileBase extends Render{
 	}
 	
 	protected static final void renderIcon(Tessellator tessellator, IIcon icon){
-		float minU = icon.getMinU(),maxU = icon.getMaxU(),
-			  minV = icon.getMinV(),maxV = icon.getMaxV();
+		float minU = icon.getMinU(), maxU = icon.getMaxU(),
+			  minV = icon.getMinV(), maxV = icon.getMaxV();
 
 		tessellator.startDrawingQuads();
-		tessellator.setNormal(0F,1F,0F);
-		tessellator.addVertexWithUV(-0.5F,-0.25F,0D,minU,maxV);
-		tessellator.addVertexWithUV(0.5F,-0.25F,0D,maxU,maxV);
-		tessellator.addVertexWithUV(0.5F,0.75F,0D,maxU,minV);
-		tessellator.addVertexWithUV(-0.5F,0.75F,0D,minU,minV);
+		tessellator.setNormal(0F, 1F, 0F);
+		tessellator.addVertexWithUV(-0.5F, -0.25F, 0D, minU, maxV);
+		tessellator.addVertexWithUV(0.5F, -0.25F, 0D, maxU, maxV);
+		tessellator.addVertexWithUV(0.5F, 0.75F, 0D, maxU, minV);
+		tessellator.addVertexWithUV(-0.5F, 0.75F, 0D, minU, minV);
 		tessellator.draw();
 	}
 }

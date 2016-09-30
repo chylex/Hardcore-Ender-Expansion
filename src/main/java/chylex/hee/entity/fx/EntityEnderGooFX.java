@@ -10,7 +10,7 @@ public class EntityEnderGooFX extends EntityLavaFX{
 	private final float lavaParticleScale;
 	
 	public EntityEnderGooFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ){
-		super(world,x,y,z);
+		super(world, x, y, z);
 		this.motionX = motionX;
 		this.motionY = motionY;
 		this.motionZ = motionZ;
@@ -27,7 +27,7 @@ public class EntityEnderGooFX extends EntityLavaFX{
 	public void renderParticle(Tessellator tessellator, float partialTickTime, float rotX, float rotXZ, float rotZ, float rotYZ, float rotXY){
 		float scale = (particleAge+partialTickTime)/particleMaxAge;
 		particleScale = lavaParticleScale*(1.0F-scale*scale);
-		super.renderParticle(tessellator,partialTickTime,rotX,rotXZ,rotZ,rotYZ,rotXY);
+		super.renderParticle(tessellator, partialTickTime, rotX, rotXZ, rotZ, rotYZ, rotXY);
 	}
 	
 	@Override
@@ -37,10 +37,10 @@ public class EntityEnderGooFX extends EntityLavaFX{
 		prevPosZ = posZ;
 
 		if (particleAge++ >= particleMaxAge)setDead();
-		if (rand.nextFloat() < 0.004F)worldObj.spawnParticle("smoke",posX,posY,posZ,motionX,motionY,motionZ);
+		if (rand.nextFloat() < 0.004F)worldObj.spawnParticle("smoke", posX, posY, posZ, motionX, motionY, motionZ);
 
 		motionY -= 0.005D;
-		moveEntity(motionX,motionY,motionZ);
+		moveEntity(motionX, motionY, motionZ);
 		
 		motionX *= 0.999D;
 		motionY *= 0.999D;

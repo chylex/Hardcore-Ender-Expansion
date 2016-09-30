@@ -16,36 +16,36 @@ public class ItemStackValue extends PreconditionComposite<ItemStack>{
 	
 	public static final StringValue itemString = StringValue.function(input -> getItemFromString(input) != null);
 	
-	public static final Pair<String,String> parseItemName(String fullName){
+	public static final Pair<String, String> parseItemName(String fullName){
 		String modid = "minecraft", name = "";
 		int colon = fullName.indexOf(':');
 		
 		if (colon == -1)name = fullName;
 		else{
-			modid = fullName.substring(0,colon);
+			modid = fullName.substring(0, colon);
 			name = fullName.substring(colon+1);
 			
 			if (modid.equals("~hee"))modid = "HardcoreEnderExpansion";
 		}
 		
-		return Pair.of(modid,name);
+		return Pair.of(modid, name);
 	}
 	
 	public static final Item getItemFromString(String input){
 		Block block = null;
 		Item item = null;
-		Pair<String,String> name = parseItemName(input);
+		Pair<String, String> name = parseItemName(input);
 		
-		if ((item = GameRegistry.findItem(name.getLeft(),name.getRight())) != null)return item;
-		else if ((block = GameRegistry.findBlock(name.getLeft(),name.getRight())) != null)return Item.getItemFromBlock(block);
+		if ((item = GameRegistry.findItem(name.getLeft(), name.getRight())) != null)return item;
+		else if ((block = GameRegistry.findBlock(name.getLeft(), name.getRight())) != null)return Item.getItemFromBlock(block);
 		else return null;
 	}
 	
 	private ItemStackValue(){
-		addCondition("id",itemString);
-		addCondition("damage",Optional.of(IntValue.range(0,Short.MAX_VALUE),0));
-		addCondition("count",Optional.of(IntValue.range(1,64),1));
-		addCondition("tag",Optional.of(NbtValue.any(),new NBTTagCompound()));
+		addCondition("id", itemString);
+		addCondition("damage", Optional.of(IntValue.range(0, Short.MAX_VALUE), 0));
+		addCondition("count", Optional.of(IntValue.range(1, 64), 1));
+		addCondition("tag", Optional.of(NbtValue.any(), new NBTTagCompound()));
 	}
 	
 	@Override

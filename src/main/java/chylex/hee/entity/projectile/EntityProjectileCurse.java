@@ -29,7 +29,7 @@ public class EntityProjectileCurse extends EntityThrowable{
 	}
 
 	public EntityProjectileCurse(World world, EntityPlayer thrower, CurseType type, boolean eternal){
-		super(world,thrower);
+		super(world, thrower);
 		this.throwerID = world.isRemote ? "" : PlayerDataHandler.getID(thrower);
 		this.curseType = type;
 		this.eternal = eternal;
@@ -54,42 +54,42 @@ public class EntityProjectileCurse extends EntityThrowable{
 			getType();
 			
 			if (curseType != null){
-				for(int a = 0; a < 1+rand.nextInt(2); a++)HardcoreEnderExpansion.fx.curse(posX+(rand.nextDouble()-0.5D)*0.15D,posY+(rand.nextDouble()-0.5D)*0.15D,posZ+(rand.nextDouble()-0.5D)*0.15D,curseType);
+				for(int a = 0; a < 1+rand.nextInt(2); a++)HardcoreEnderExpansion.fx.curse(posX+(rand.nextDouble()-0.5D)*0.15D, posY+(rand.nextDouble()-0.5D)*0.15D, posZ+(rand.nextDouble()-0.5D)*0.15D, curseType);
 			}
 		}
-		else if (ticksExisted == 1)entityData.setByte(Data.CURSE_TYPE,curseType.damage+1);
+		else if (ticksExisted == 1)entityData.setByte(Data.CURSE_TYPE, curseType.damage+1);
 	}
 	
 	@Override
 	protected void onImpact(MovingObjectPosition mop){
 		if (!worldObj.isRemote){
 			if (mop.typeOfHit == MovingObjectType.ENTITY){
-				for(EntityLivingBase entity:EntitySelector.living(worldObj,boundingBox.expand(4D,2D,4D))){
+				for(EntityLivingBase entity:EntitySelector.living(worldObj, boundingBox.expand(4D, 2D, 4D))){
 					if (getDistanceSqToEntity(entity) < 16D && entity != getThrower() && !(entity instanceof IBossDisplayData)){
-						worldObj.spawnEntityInWorld(new EntityTechnicalCurseEntity(worldObj,entity,curseType,eternal));
+						worldObj.spawnEntityInWorld(new EntityTechnicalCurseEntity(worldObj, entity, curseType, eternal));
 					}
 				}
 			}
 			else if (mop.typeOfHit == MovingObjectType.BLOCK){
 				Pos hitPos = Pos.at(mop);
-				if (hitPos.getBlock(worldObj).isReplaceable(worldObj,hitPos.getX(),hitPos.getY(),hitPos.getZ()))hitPos = hitPos.getDown();
-				worldObj.spawnEntityInWorld(new EntityTechnicalCurseBlock(worldObj,hitPos,throwerID,curseType,eternal));
+				if (hitPos.getBlock(worldObj).isReplaceable(worldObj, hitPos.getX(), hitPos.getY(), hitPos.getZ()))hitPos = hitPos.getDown();
+				worldObj.spawnEntityInWorld(new EntityTechnicalCurseBlock(worldObj, hitPos, throwerID, curseType, eternal));
 			}
 
 			setDead();
 		}
 		else if (curseType != null){
-			worldObj.playSound(posX,posY,posZ,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+rand.nextFloat()*0.2F,false);
-			for(int a = 0; a < 40; a++)HardcoreEnderExpansion.fx.curse(posX+(rand.nextDouble()-0.5D)*1.5D,posY+(rand.nextDouble()-0.5D)*1.5D,posZ+(rand.nextDouble()-0.5D)*1.5D,curseType);
+			worldObj.playSound(posX, posY, posZ, "hardcoreenderexpansion:mob.random.curse", 0.8F, 0.9F+rand.nextFloat()*0.2F, false);
+			for(int a = 0; a < 40; a++)HardcoreEnderExpansion.fx.curse(posX+(rand.nextDouble()-0.5D)*1.5D, posY+(rand.nextDouble()-0.5D)*1.5D, posZ+(rand.nextDouble()-0.5D)*1.5D, curseType);
 		}
 	}
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setByte("curse",curseType.damage);
-		nbt.setBoolean("eternal",eternal);
-		nbt.setString("thr",throwerID);
+		nbt.setByte("curse", curseType.damage);
+		nbt.setBoolean("eternal", eternal);
+		nbt.setString("thr", throwerID);
 	}
 	
 	@Override

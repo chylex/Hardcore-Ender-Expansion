@@ -24,7 +24,7 @@ public class CausatumFile extends PlayerFile{
 	private int level;
 	
 	public CausatumFile(String filename){
-		super("causatum",filename);
+		super("causatum", filename);
 	}
 	
 	public boolean tryProgress(Progress target){
@@ -46,7 +46,7 @@ public class CausatumFile extends PlayerFile{
 	}
 	
 	public @Nullable EventTypes findRandomEvent(Random rand){
-		Set<EventTypes> all = Arrays.stream(EventTypes.values()).filter(event -> event.canTrigger(progress,level) && event.isRandomEvent()).collect(Collectors.toSet());
+		Set<EventTypes> all = Arrays.stream(EventTypes.values()).filter(event -> event.canTrigger(progress, level) && event.isRandomEvent()).collect(Collectors.toSet());
 		if (all.isEmpty())return null;
 		
 		List<EventTypes> available = new ArrayList<>(all);
@@ -58,7 +58,7 @@ public class CausatumFile extends PlayerFile{
 			available = new ArrayList<>(all);
 		}
 		
-		return CollectionUtil.randomOrNull(available,rand);
+		return CollectionUtil.randomOrNull(available, rand);
 	}
 	
 	public void finishEvent(EventTypes event){
@@ -77,17 +77,17 @@ public class CausatumFile extends PlayerFile{
 
 	@Override
 	protected void onSave(NBTCompound nbt){
-		nbt.setInt("lvl",level);
-		nbt.setByte("prog",(byte)progress.ordinal());
-		nbt.writeList("uacts",ranUniqueActions.stream().map(Actions::name).map(NBTTagString::new));
-		nbt.writeList("evts",ranEvents.stream().map(EventTypes::name).map(NBTTagString::new));
+		nbt.setInt("lvl", level);
+		nbt.setByte("prog", (byte)progress.ordinal());
+		nbt.writeList("uacts", ranUniqueActions.stream().map(Actions::name).map(NBTTagString::new));
+		nbt.writeList("evts", ranEvents.stream().map(EventTypes::name).map(NBTTagString::new));
 	}
 
 	@Override
 	protected void onLoad(NBTCompound nbt){
 		level = nbt.getInt("lvl");
-		progress = CollectionUtil.get(Progress.values(),nbt.getByte("prog")).orElse(Progress.INITIAL);
-		nbt.getList("uacts").readStrings().map(name -> EnumUtils.getEnum(Actions.class,name)).filter(Objects::nonNull).forEach(ranUniqueActions::add);
-		nbt.getList("evts").readStrings().map(name -> EnumUtils.getEnum(EventTypes.class,name)).filter(Objects::nonNull).forEach(ranEvents::add);
+		progress = CollectionUtil.get(Progress.values(), nbt.getByte("prog")).orElse(Progress.INITIAL);
+		nbt.getList("uacts").readStrings().map(name -> EnumUtils.getEnum(Actions.class, name)).filter(Objects::nonNull).forEach(ranUniqueActions::add);
+		nbt.getList("evts").readStrings().map(name -> EnumUtils.getEnum(EventTypes.class, name)).filter(Objects::nonNull).forEach(ranEvents::add);
 	}
 }

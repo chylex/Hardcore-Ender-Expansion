@@ -113,6 +113,6 @@ public class C08PlaySound extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		if (soundId >= 0 && soundId < soundNames.length)player.worldObj.playSound(x,y,z,soundNames[soundId],volume,pitch,false);
+		if (soundId >= 0 && soundId < soundNames.length)player.worldObj.playSound(x, y, z, soundNames[soundId], volume, pitch, false);
 	}
 }

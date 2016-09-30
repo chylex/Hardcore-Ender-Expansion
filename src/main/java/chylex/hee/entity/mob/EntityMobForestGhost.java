@@ -14,7 +14,7 @@ public class EntityMobForestGhost extends EntityFlying implements IMob{
 	
 	public EntityMobForestGhost(World world){
 		super(world);
-		setSize(0.5F,0.5F);
+		setSize(0.5F, 0.5F);
 		noClip = true;
 		lifeLeft = 120;
 	}
@@ -28,7 +28,7 @@ public class EntityMobForestGhost extends EntityFlying implements IMob{
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
 		
-		if (--lifeLeft < -9 || target == null || target.isDead || DragonUtil.canEntitySeePoint(target,posX,posY,posZ,1D,true)){
+		if (--lifeLeft < -9 || target == null || target.isDead || DragonUtil.canEntitySeePoint(target, posX, posY, posZ, 1D, true)){
 			if (target != null){
 				PotionEffect blindness = target.getActivePotionEffect(Potion.blindness);
 				if (blindness != null && blindness.getDuration() <= 80)target.removePotionEffect(Potion.blindness.id);
@@ -43,12 +43,12 @@ public class EntityMobForestGhost extends EntityFlying implements IMob{
 			double dist = Math.sqrt(xDiff*xDiff+zDiff*zDiff);
 			
 			if (dist >= 1.9D){
-				rotationYaw = (float)(Math.atan2(zDiff,xDiff)*180D/Math.PI);
-				setPositionAndUpdate(posX+Math.cos(Math.toRadians(rotationYaw))*0.35D,posY,posZ+Math.sin(Math.toRadians(rotationYaw))*0.35D);
+				rotationYaw = (float)(Math.atan2(zDiff, xDiff)*180D/Math.PI);
+				setPositionAndUpdate(posX+Math.cos(Math.toRadians(rotationYaw))*0.35D, posY, posZ+Math.sin(Math.toRadians(rotationYaw))*0.35D);
 			}
-			else if (lifeLeft < 80)/*TODO*/;//target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 9F : 5F,worldObj.difficultySetting));
+			else if (lifeLeft < 80)/*TODO*/;//target.attackEntityFrom(new DamageSourceMobUnscaled(this), DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 9F : 5F, worldObj.difficultySetting));
 			
-			if (dist < 2.1D && lifeLeft < 80)target.addPotionEffect(new PotionEffect(Potion.blindness.id,80,0,true));
+			if (dist < 2.1D && lifeLeft < 80)target.addPotionEffect(new PotionEffect(Potion.blindness.id, 80, 0, true));
 		}
 	}
 	

@@ -11,11 +11,11 @@ public abstract class IntArrayValue extends Precondition<int[]>{
 	}
 	
 	public static final IntArrayValue condition(Precondition<Integer> condition){
-		return new IntArrayValueCondition(condition,IntValue.any());
+		return new IntArrayValueCondition(condition, IntValue.any());
 	}
 	
 	public static final IntArrayValue condition(Precondition<Integer> condition, Precondition<Integer> elementCount){
-		return new IntArrayValueCondition(condition,elementCount);
+		return new IntArrayValueCondition(condition, elementCount);
 	}
 	
 	IntArrayValue(){}

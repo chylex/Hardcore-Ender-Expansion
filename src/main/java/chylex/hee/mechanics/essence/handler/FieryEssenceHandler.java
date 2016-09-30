@@ -33,7 +33,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 		int level = altar.getEssenceLevel();
 		if (level == 0)return;
 		
-		int n = 35+Math.min(60,level>>3);
+		int n = 35+Math.min(60, level>>3);
 		boolean drained = false;
 		
 		int range = /* TODO enhancementList.contains(EssenceAltarEnhancements.RANGE) ? 16 : */12;
@@ -47,15 +47,15 @@ public class FieryEssenceHandler extends AltarActionHandler{
 			yy = altar.yCoord+world.rand.nextInt(5)-2;
 			zz = altar.zCoord+world.rand.nextInt(1+range)-(range>>1);
 			
-			Block block = altar.getWorldObj().getBlock(xx,yy,zz);
-			TileEntity tile = altar.getWorldObj().getTileEntity(xx,yy,zz);
+			Block block = altar.getWorldObj().getBlock(xx, yy, zz);
+			TileEntity tile = altar.getWorldObj().getTileEntity(xx, yy, zz);
 			drained = false;
 			
 			if (block == Blocks.furnace || block == Blocks.lit_furnace || tile instanceof TileEntityFurnace){
 				TileEntityFurnace furnace = (TileEntityFurnace)tile;
 				
 				if (furnace != null && canFurnaceSmelt(furnace)){
-					n = 1+Math.min(8,level>>6);
+					n = 1+Math.min(8, level>>6);
 					if (hasSpeedEnh)n = MathUtil.ceil(n*1.75D);
 					
 					for(int b = 0; b < n; b++){
@@ -63,7 +63,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 							boolean hasNoFuel = TileEntityFurnace.getItemBurnTime(furnace.getStackInSlot(1)) == 0 && furnace.furnaceBurnTime <= 100;
 							
 							if (hasNoFuel && !furnace.isBurning()){
-								if (block == Blocks.furnace)BlockFurnace.updateFurnaceBlockState(true,world,furnace.xCoord,furnace.yCoord,furnace.zCoord);
+								if (block == Blocks.furnace)BlockFurnace.updateFurnaceBlockState(true, world, furnace.xCoord, furnace.yCoord, furnace.zCoord);
 								furnace.markDirty();
 								furnace.furnaceBurnTime = 100;
 								furnace.currentItemBurnTime = 1600;
@@ -85,15 +85,15 @@ public class FieryEssenceHandler extends AltarActionHandler{
 						else break;
 					}
 					
-					if (drained && world.rand.nextInt(6+(n>>1)) <= 4)createOrbParticle(xx,yy,zz);
+					if (drained && world.rand.nextInt(6+(n>>1)) <= 4)createOrbParticle(xx, yy, zz);
 					return;
 				}
 			}
 			else if (block == Blocks.brewing_stand){
-				TileEntityBrewingStand stand = (TileEntityBrewingStand)altar.getWorldObj().getTileEntity(xx,yy,zz);
+				TileEntityBrewingStand stand = (TileEntityBrewingStand)altar.getWorldObj().getTileEntity(xx, yy, zz);
 				
 				if (stand != null && stand.getBrewTime() > 1 && stand.getBrewTime() != 400){
-					n = 1+Math.min(5,level>>6);
+					n = 1+Math.min(5, level>>6);
 					if (hasSpeedEnh)n = MathUtil.ceil(n*1.75D);
 					
 					for(int b = 0; b < n; b++){
@@ -136,12 +136,12 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	}
 	
 	private void createOrbParticle(int targetX, int targetY, int targetZ){
-		PacketPipeline.sendToAllAround(altar,64D,new C11ParticleAltarOrb(altar,targetX+0.5D,targetY+0.5D,targetZ+0.5D));
+		PacketPipeline.sendToAllAround(altar, 64D, new C11ParticleAltarOrb(altar, targetX+0.5D, targetY+0.5D, targetZ+0.5D));
 	}
 	
 	@Override
 	public void onTileWriteToNBT(NBTTagCompound nbt){
-		nbt.setShort("F_essenceUsageCnt",(short)essenceUsageCounter);
+		nbt.setShort("F_essenceUsageCnt", (short)essenceUsageCounter);
 	}
 	
 	@Override

@@ -31,35 +31,35 @@ public final class GL{
 	}
 	
 	public static void translate(float x, float y, float z){
-		GL11.glTranslatef(x,y,z);
+		GL11.glTranslatef(x, y, z);
 	}
 	
 	public static void translate(double x, double y, double z){
-		GL11.glTranslated(x,y,z);
+		GL11.glTranslated(x, y, z);
 	}
 	
 	public static void scale(float x, float y, float z){
-		GL11.glScalef(x,y,z);
+		GL11.glScalef(x, y, z);
 	}
 	
 	public static void scale(double x, double y, double z){
-		GL11.glScaled(x,y,z);
+		GL11.glScaled(x, y, z);
 	}
 	
 	public static void rotate(float angle, float x, float y, float z){
-		GL11.glRotatef(angle,x,y,z);
+		GL11.glRotatef(angle, x, y, z);
 	}
 	
 	public static void rotate(double angle, float x, float y, float z){
-		GL11.glRotated(angle,x,y,z);
+		GL11.glRotated(angle, x, y, z);
 	}
 	
 	public static void color(float red, float green, float blue){
-		GL11.glColor4f(red,green,blue,1F);
+		GL11.glColor4f(red, green, blue, 1F);
 	}
 	
 	public static void color(float red, float green, float blue, float alpha){
-		GL11.glColor4f(red,green,blue,alpha);
+		GL11.glColor4f(red, green, blue, alpha);
 	}
 	
 	public static void enableTexture2D(){
@@ -100,11 +100,11 @@ public final class GL{
 	
 	public static void enableAlphaTest(int func, float ref){
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		GL11.glAlphaFunc(func,ref);
+		GL11.glAlphaFunc(func, ref);
 	}
 	
 	public static void setAlphaFunc(int func, float ref){
-		GL11.glAlphaFunc(func,ref);
+		GL11.glAlphaFunc(func, ref);
 	}
 	
 	public static void disableAlphaTest(){
@@ -137,17 +137,17 @@ public final class GL{
 	
 	public static void enableBlend(int src, int dst){
 		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(src,dst);
+		GL11.glBlendFunc(src, dst);
 	}
 	
 	public static void enableBlend(int src, int dist, int srcAlpha, int dstAlpha){
 		GL11.glEnable(GL11.GL_BLEND);
-		OpenGlHelper.glBlendFunc(src,dist,srcAlpha,dstAlpha);
+		OpenGlHelper.glBlendFunc(src, dist, srcAlpha, dstAlpha);
 	}
 	
 	public static void enableBlendAlpha(){
 		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 	}
 	
 	public static void disableBlend(){
@@ -155,11 +155,11 @@ public final class GL{
 	}
 	
 	public static void setBlendFunc(int src, int dst){
-		GL11.glBlendFunc(src,dst);
+		GL11.glBlendFunc(src, dst);
 	}
 	
 	public static void setBlendFunc(int src, int dist, int srcAlpha, int dstAlpha){
-		OpenGlHelper.glBlendFunc(src,dist,srcAlpha,dstAlpha);
+		OpenGlHelper.glBlendFunc(src, dist, srcAlpha, dstAlpha);
 	}
 	
 	public static void disableFog(){

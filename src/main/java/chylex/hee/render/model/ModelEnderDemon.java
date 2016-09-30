@@ -9,9 +9,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelEnderDemon extends ModelBase{
-	private final ModelRenderer head,body;
-	private final ModelRenderer rightArm1,rightArm2,rightArm3,rightArm4;
-	private final ModelRenderer leftArm1,leftArm2,leftArm3,leftArm4;
+	private final ModelRenderer head, body;
+	private final ModelRenderer rightArm1, rightArm2, rightArm3, rightArm4;
+	private final ModelRenderer leftArm1, leftArm2, leftArm3, leftArm4;
 	
 	private float limbSwingMp = 1F;
 
@@ -19,82 +19,82 @@ public class ModelEnderDemon extends ModelBase{
 		textureWidth = 64;
 		textureHeight = 64;
 		
-		head = new ModelRenderer(this,0,0);
-		head.addBox(-4F,-8F,-8F,8,8,8);
-		head.setRotationPoint(0F,-14F,0F);
-		head.setTextureSize(64,64);
+		head = new ModelRenderer(this, 0, 0);
+		head.addBox(-4F, -8F, -8F, 8, 8, 8);
+		head.setRotationPoint(0F, -14F, 0F);
+		head.setTextureSize(64, 64);
 		head.mirror = true;
-		setRotation(head,0F,0F,0F);
+		setRotation(head, 0F, 0F, 0F);
 		
-		body = new ModelRenderer(this,0,17);
-		body.addBox(-3F,0F,-5F,6,20,7);
-		body.setRotationPoint(0F,-14F,0F);
-		body.setTextureSize(64,64);
+		body = new ModelRenderer(this, 0, 17);
+		body.addBox(-3F, 0F, -5F, 6, 20, 7);
+		body.setRotationPoint(0F, -14F, 0F);
+		body.setTextureSize(64, 64);
 		body.mirror = true;
-		setRotation(body,0F,0F,0F);
+		setRotation(body, 0F, 0F, 0F);
 		
-		rightArm1 = new ModelRenderer(this,56,0);
-		rightArm1.addBox(-1F,-2F,-1F,2,22,2);
-		rightArm1.setRotationPoint(-2F,-12F,3F);
-		rightArm1.setTextureSize(64,64);
+		rightArm1 = new ModelRenderer(this, 56, 0);
+		rightArm1.addBox(-1F, -2F, -1F, 2, 22, 2);
+		rightArm1.setRotationPoint(-2F, -12F, 3F);
+		rightArm1.setTextureSize(64, 64);
 		rightArm1.mirror = true;
-		setRotation(rightArm1,0F,0F,2.044824F);
+		setRotation(rightArm1, 0F, 0F, 2.044824F);
 		
-		leftArm1 = new ModelRenderer(this,56,0);
-		leftArm1.addBox(-1F,-2F,-1F,2,22,2);
-		leftArm1.setRotationPoint(2F,-12F,3F);
-		leftArm1.setTextureSize(64,64);
+		leftArm1 = new ModelRenderer(this, 56, 0);
+		leftArm1.addBox(-1F, -2F, -1F, 2, 22, 2);
+		leftArm1.setRotationPoint(2F, -12F, 3F);
+		leftArm1.setTextureSize(64, 64);
 		leftArm1.mirror = true;
-		setRotation(leftArm1,0F,0F,-1.933288F);
+		setRotation(leftArm1, 0F, 0F, -1.933288F);
 		leftArm1.mirror = false;
 		
-		rightArm2 = new ModelRenderer(this,47,0);
-		rightArm2.addBox(-1F,-1F,-1F,2,20,2);
-		rightArm2.setRotationPoint(-2F,-7.6F,3F);
-		rightArm2.setTextureSize(64,64);
+		rightArm2 = new ModelRenderer(this, 47, 0);
+		rightArm2.addBox(-1F, -1F, -1F, 2, 20, 2);
+		rightArm2.setRotationPoint(-2F, -7.6F, 3F);
+		rightArm2.setTextureSize(64, 64);
 		rightArm2.mirror = true;
-		setRotation(rightArm2,0F,0F,1.784573F);
+		setRotation(rightArm2, 0F, 0F, 1.784573F);
 		
-		leftArm2 = new ModelRenderer(this,47,0);
-		leftArm2.addBox(-1F,-2F,-1F,2,20,2);
-		leftArm2.setRotationPoint(2F,-7.6F,3F);
-		leftArm2.setTextureSize(64,64);
+		leftArm2 = new ModelRenderer(this, 47, 0);
+		leftArm2.addBox(-1F, -2F, -1F, 2, 20, 2);
+		leftArm2.setRotationPoint(2F, -7.6F, 3F);
+		leftArm2.setTextureSize(64, 64);
 		leftArm2.mirror = true;
-		setRotation(leftArm2,0F,0F,-1.747395F);
+		setRotation(leftArm2, 0F, 0F, -1.747395F);
 		
-		leftArm3 = new ModelRenderer(this,38,0);
-		leftArm3.addBox(-1F,-2F,-1F,2,23,2);
-		leftArm3.setRotationPoint(2F,-3F,3F);
-		leftArm3.setTextureSize(64,64);
+		leftArm3 = new ModelRenderer(this, 38, 0);
+		leftArm3.addBox(-1F, -2F, -1F, 2, 23, 2);
+		leftArm3.setRotationPoint(2F, -3F, 3F);
+		leftArm3.setTextureSize(64, 64);
 		leftArm3.mirror = true;
-		setRotation(leftArm3,0F,0F,-1.561502F);
+		setRotation(leftArm3, 0F, 0F, -1.561502F);
 		
-		rightArm3 = new ModelRenderer(this,38,0);
-		rightArm3.addBox(-1F,-2F,-1F,2,23,2);
-		rightArm3.setRotationPoint(-2F,-3F,3F);
-		rightArm3.setTextureSize(64,64);
+		rightArm3 = new ModelRenderer(this, 38, 0);
+		rightArm3.addBox(-1F, -2F, -1F, 2, 23, 2);
+		rightArm3.setRotationPoint(-2F, -3F, 3F);
+		rightArm3.setTextureSize(64, 64);
 		rightArm3.mirror = true;
-		setRotation(rightArm3,0F,0F,1.449966F);
+		setRotation(rightArm3, 0F, 0F, 1.449966F);
 		
-		rightArm4 = new ModelRenderer(this,47,23);
-		rightArm4.addBox(-1F,-2F,-1F,2,19,2);
-		rightArm4.setRotationPoint(-2F,2F,3F);
-		rightArm4.setTextureSize(64,64);
+		rightArm4 = new ModelRenderer(this, 47, 23);
+		rightArm4.addBox(-1F, -2F, -1F, 2, 19, 2);
+		rightArm4.setRotationPoint(-2F, 2F, 3F);
+		rightArm4.setTextureSize(64, 64);
 		rightArm4.mirror = true;
-		setRotation(rightArm4,0F,0F,1.115358F);
+		setRotation(rightArm4, 0F, 0F, 1.115358F);
 		
-		leftArm4 = new ModelRenderer(this,47,23);
-		leftArm4.addBox(-1F,-2F,-1F,2,19,2);
-		leftArm4.setRotationPoint(2F,2F,3F);
-		leftArm4.setTextureSize(64,64);
+		leftArm4 = new ModelRenderer(this, 47, 23);
+		leftArm4.addBox(-1F, -2F, -1F, 2, 19, 2);
+		leftArm4.setRotationPoint(2F, 2F, 3F);
+		leftArm4.setTextureSize(64, 64);
 		leftArm4.mirror = true;
-		setRotation(leftArm4,0F,0F,-1.07818F);
+		setRotation(leftArm4, 0F, 0F, -1.07818F);
 	}
 
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		super.render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
-		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+		super.render(entity, limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel);
+		setRotationAngles(limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel, entity);
 		
 		head.render(unitPixel);
 		body.render(unitPixel);
@@ -116,7 +116,7 @@ public class ModelEnderDemon extends ModelBase{
 	
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
-		super.setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+		super.setRotationAngles(limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel, entity);
 		
 		float yawRad = MathUtil.toRad(rotationYaw),
 			  pitchRad = MathUtil.toRad(-rotationPitch),

@@ -17,7 +17,7 @@ public class RenderTileVoidPortal extends RenderTilePortalBase{
 	
 	@Override
 	protected void onRender(){
-		EntityTechnicalVoidPortal data = BlockVoidPortal.getData(tile.getWorldObj(),tile.xCoord,tile.yCoord,tile.zCoord).orElse(null);
+		EntityTechnicalVoidPortal data = BlockVoidPortal.getData(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord).orElse(null);
 		
 		alpha = data == null ? 0F : data.prevRenderAlpha+(data.renderAlpha-data.prevRenderAlpha)*ptt;
 		translation = data == null ? 0F : data.prevRenderTranslation+(data.renderTranslation-data.prevRenderTranslation)*ptt;
@@ -43,7 +43,7 @@ public class RenderTileVoidPortal extends RenderTilePortalBase{
 		}
 		
 		if (tile.getBlockMetadata() == Meta.voidPortalReturn){
-			RenderTileEndPortal.setEndPortalColor(this,layer);
+			RenderTileEndPortal.setEndPortalColor(this, layer);
 			return;
 		}
 		
@@ -53,7 +53,7 @@ public class RenderTileVoidPortal extends RenderTilePortalBase{
 		}
 		
 		if (activeEnvironment != null){
-			activeEnvironment.generatePortalColor(color,layer,rand);
+			activeEnvironment.generatePortalColor(color, layer, rand);
 		}
 		
 		red = color[0];

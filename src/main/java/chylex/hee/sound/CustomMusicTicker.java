@@ -65,13 +65,13 @@ public final class CustomMusicTicker extends MusicTicker{
 	}
 	
 	private void updateCustomJukeboxMusic(){
-		boolean isTooFar = mc.thePlayer != null && mc.thePlayer.getDistance(currentMusic.getXPosF(),currentMusic.getYPosF(),currentMusic.getZPosF()) > 64D;
+		boolean isTooFar = mc.thePlayer != null && mc.thePlayer.getDistance(currentMusic.getXPosF(), currentMusic.getYPosF(), currentMusic.getZPosF()) > 64D;
 		
 		if (currentMusic == null || !mc.getSoundHandler().isSoundPlaying(currentMusic) || (isTooFar && --vanillaMusicTimer < 0) || mc.thePlayer == null){
 			if (mc.getSoundHandler().isSoundPlaying(currentMusic))mc.getSoundHandler().stopSound(currentMusic);
 			currentMusic = null;
 			playingCustomJukebox = false;
-			vanillaMusicTimer = Math.min(randomTimer(mc.func_147109_W()),vanillaMusicTimer);
+			vanillaMusicTimer = Math.min(randomTimer(mc.func_147109_W()), vanillaMusicTimer);
 		}
 		else if (!isTooFar)vanillaMusicTimer = 100;
 		
@@ -111,12 +111,12 @@ public final class CustomMusicTicker extends MusicTicker{
 			if (!type.getMusicTickerLocation().equals(currentMusic.getPositionedSoundLocation())){
 				mc.getSoundHandler().stopSound(currentMusic);
 				currentMusic = null;
-				vanillaMusicTimer = MusicManager.removeVanillaDelay ? getShortDelay() : MathHelper.getRandomIntegerInRange(rand,type.func_148634_b()/8,type.func_148634_b()/4);
+				vanillaMusicTimer = MusicManager.removeVanillaDelay ? getShortDelay() : MathHelper.getRandomIntegerInRange(rand, type.func_148634_b()/8, type.func_148634_b()/4);
 			}
 
 			if (!mc.getSoundHandler().isSoundPlaying(currentMusic) && (waitAfterNewSong < 0 || --waitAfterNewSong < 0)){
 				currentMusic = null;
-				vanillaMusicTimer = MusicManager.removeVanillaDelay ? getShortDelay() : Math.min(randomTimer(type),vanillaMusicTimer);
+				vanillaMusicTimer = MusicManager.removeVanillaDelay ? getShortDelay() : Math.min(randomTimer(type), vanillaMusicTimer);
 			}
 		}
 

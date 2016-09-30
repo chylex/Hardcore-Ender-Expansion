@@ -30,8 +30,8 @@ public class StructureIgneousRockOre extends AbstractIslandStructure{
 				py = y+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
 				pz = z+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
 				
-				if (world.getBlock(px,py,pz) == Blocks.end_stone){
-					world.setBlock(px,py,pz,BlockList.igneous_rock_ore);
+				if (world.getBlock(px, py, pz) == Blocks.end_stone){
+					world.setBlock(px, py, pz, BlockList.igneous_rock_ore);
 					++placed;
 				}
 			}

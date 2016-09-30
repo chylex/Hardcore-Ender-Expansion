@@ -17,7 +17,7 @@ public class EntityAIDirectLookTarget extends EntityAIAbstractTarget{
 	private int tickLimiter, lookTimer;
 	
 	public EntityAIDirectLookTarget(EntityCreature owner, ITargetOnDirectLook lookHandler){
-		super(owner,true,false);
+		super(owner, true, false);
 		this.lookHandler = lookHandler;
 	}
 	
@@ -31,10 +31,10 @@ public class EntityAIDirectLookTarget extends EntityAIAbstractTarget{
 		if (++tickLimiter < 2)return null;
 		tickLimiter = 0;
 		
-		for(EntityPlayer player:EntitySelector.players(taskOwner.worldObj,taskOwner.boundingBox.expand(maxDistance,maxDistance,maxDistance))){
-			double dist = MathUtil.distance(player.posX-taskOwner.posX,player.posY-taskOwner.posY,player.posZ-taskOwner.posZ);
+		for(EntityPlayer player:EntitySelector.players(taskOwner.worldObj, taskOwner.boundingBox.expand(maxDistance, maxDistance, maxDistance))){
+			double dist = MathUtil.distance(player.posX-taskOwner.posX, player.posY-taskOwner.posY, player.posZ-taskOwner.posZ);
 			
-			if (dist <= maxDistance && isPlayerLookingIntoEyes(player) && lookHandler.canTargetOnDirectLook(player,dist)){
+			if (dist <= maxDistance && isPlayerLookingIntoEyes(player) && lookHandler.canTargetOnDirectLook(player, dist)){
 				if (++lookTimer == 4){
 					lookTimer = 0;
 					return player;
@@ -51,7 +51,7 @@ public class EntityAIDirectLookTarget extends EntityAIAbstractTarget{
 		ItemStack headIS = target.inventory.armorInventory[3];
 		if (headIS != null && headIS.getItem() == Item.getItemFromBlock(Blocks.pumpkin))return false;
 		
-		Vec posDiff = Vec.between(target,taskOwner);
+		Vec posDiff = Vec.between(target, taskOwner);
 		posDiff.y += taskOwner.height*0.9D-target.getEyeHeight();
 		
 		double dist = posDiff.length();

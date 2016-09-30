@@ -17,7 +17,7 @@ public class RenderBlockGloomtorch implements ISimpleBlockRenderingHandler{
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer){
-		switch(CollectionUtil.get(Facing6.list,Pos.at(x,y,z).getMetadata(world)-1).orElse(Facing6.DOWN_NEGY)){
+		switch(CollectionUtil.get(Facing6.list, Pos.at(x, y, z).getMetadata(world)-1).orElse(Facing6.DOWN_NEGY)){
 			default: break;
 			
 			case UP_POSY:
@@ -54,7 +54,7 @@ public class RenderBlockGloomtorch implements ISimpleBlockRenderingHandler{
 				break;
 		}
 		
-		renderer.renderStandardBlock(block,x,y,z);
+		renderer.renderStandardBlock(block, x, y, z);
 		renderer.uvRotateSouth = renderer.uvRotateEast = renderer.uvRotateWest = 0;
 		renderer.uvRotateNorth = renderer.uvRotateTop = renderer.uvRotateBottom = 0;
 		return true;

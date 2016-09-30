@@ -19,7 +19,7 @@ public class EntityTechnicalPuzzleChain extends EntityTechnicalBase{
 	
 	public EntityTechnicalPuzzleChain(World world, Pos startPos, Facing4 dir){
 		super(world);
-		setPosition(startPos.getX()+0.5D,startPos.getY()+0.5D,startPos.getZ()+0.5D);
+		setPosition(startPos.getX()+0.5D, startPos.getY()+0.5D, startPos.getZ()+0.5D);
 		this.dir = dir;
 	}
 
@@ -31,17 +31,17 @@ public class EntityTechnicalPuzzleChain extends EntityTechnicalBase{
 		if (worldObj.isRemote)return;
 		
 		if (ticksExisted%8 == 1){
-			setPosition(posX+dir.getX(),posY,posZ+dir.getZ());
+			setPosition(posX+dir.getX(), posY, posZ+dir.getZ());
 			Pos pos = Pos.at(this);
 			
 			if (pos.getBlock(worldObj) == BlockList.dungeon_puzzle){
-				if (((BlockDungeonPuzzle)BlockList.dungeon_puzzle).updateChain(worldObj,pos,dir)){
-					PacketPipeline.sendToAllAround(dimension,pos,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,pos));
+				if (((BlockDungeonPuzzle)BlockList.dungeon_puzzle).updateChain(worldObj, pos, dir)){
+					PacketPipeline.sendToAllAround(dimension, pos, 64D, new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN, pos));
 				}
 				else setDead();
 			}
 			else{
-				((BlockDungeonPuzzle)BlockList.dungeon_puzzle).checkWinConditions(worldObj,pos.offset(dir.opposite()));
+				((BlockDungeonPuzzle)BlockList.dungeon_puzzle).checkWinConditions(worldObj, pos.offset(dir.opposite()));
 				setDead();
 			}
 		}
@@ -49,11 +49,11 @@ public class EntityTechnicalPuzzleChain extends EntityTechnicalBase{
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt){
-		nbt.setByte("chainDir",(byte)dir.ordinal());
+		nbt.setByte("chainDir", (byte)dir.ordinal());
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt){
-		dir = Facing4.list[MathUtil.clamp(nbt.getByte("chainDir"),0,Facing4.list.length-1)];
+		dir = Facing4.list[MathUtil.clamp(nbt.getByte("chainDir"), 0, Facing4.list.length-1)];
 	}
 }

@@ -31,39 +31,39 @@ public class RenderBossDragon extends RenderLiving{
 	private static final ResourceLocation texDeathExplosions = new ResourceLocation("textures/entity/enderdragon/dragon_exploding.png");
 
 	public RenderBossDragon(){
-		super(new ModelEnderDragon(),0.5F);
+		super(new ModelEnderDragon(), 0.5F);
 		setRenderPassModel(mainModel);
 	}
 
 	protected void rotateDragonBody(EntityBossDragon dragon, float entityTickTime, float yawOffset, float partialTickTime){
-		GL.rotate(-(float)dragon.getMovementOffsets(7,partialTickTime)[0],0F,1F,0F);
-		GL.rotate(10F*((float)(dragon.getMovementOffsets(5,partialTickTime)[1]-dragon.getMovementOffsets(10,partialTickTime)[1])),1F,0F,0F);
-		GL.translate(0F,0F,1F);
+		GL.rotate(-(float)dragon.getMovementOffsets(7, partialTickTime)[0], 0F, 1F, 0F);
+		GL.rotate(10F*((float)(dragon.getMovementOffsets(5, partialTickTime)[1]-dragon.getMovementOffsets(10, partialTickTime)[1])), 1F, 0F, 0F);
+		GL.translate(0F, 0F, 1F);
 
 		if (dragon.deathTime > 0){
-			GL.rotate(Math.min(1F,MathHelper.sqrt_float((dragon.deathTime+partialTickTime-1F)/20F*1.6F))*getDeathMaxRotation(dragon),0F,0F,1F);
+			GL.rotate(Math.min(1F, MathHelper.sqrt_float((dragon.deathTime+partialTickTime-1F)/20F*1.6F))*getDeathMaxRotation(dragon), 0F, 0F, 1F);
 		}
 	}
 
 	protected void renderDragonModel(EntityBossDragon dragon, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
 		if (dragon.deathTicks > 0){
 			GL.setDepthFunc(GL.LEQUAL);
-			GL.enableAlphaTest(GL.GREATER,dragon.deathTicks*0.005F);
+			GL.enableAlphaTest(GL.GREATER, dragon.deathTicks*0.005F);
 			bindTexture(texDeathExplosions);
-			mainModel.render(dragon,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
-			GL.setAlphaFunc(GL.GREATER,0.1F);
+			mainModel.render(dragon, limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel);
+			GL.setAlphaFunc(GL.GREATER, 0.1F);
 			GL.setDepthFunc(GL.EQUAL);
 		}
 
 		bindEntityTexture(dragon);
-		mainModel.render(dragon,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+		mainModel.render(dragon, limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel);
 
 		if (dragon.hurtTime > 0){
 			GL.setDepthFunc(GL.EQUAL);
 			GL.disableTexture2D();
 			GL.enableBlendAlpha();
-			GL.color(1F,0F,0F,0.5F);
-			mainModel.render(dragon,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+			GL.color(1F, 0F, 0F, 0.5F);
+			mainModel.render(dragon, limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel);
 			GL.enableTexture2D();
 			GL.disableBlend();
 			GL.setDepthFunc(GL.LEQUAL);
@@ -71,10 +71,10 @@ public class RenderBossDragon extends RenderLiving{
 	}
 
 	public void renderDragon(EntityBossDragon dragon, double x, double y, double z, float yaw, float partialTickTime){
-		BossStatus.setBossStatus(dragon,false);
+		BossStatus.setBossStatus(dragon, false);
 		BossStatus.bossName = (dragon.isAngry() ? EnumChatFormatting.LIGHT_PURPLE : "")+I18n.format(dragon.getCommandSenderName());
 		EndMusicType.update(dragon.isAngry() ? EndMusicType.DRAGON_ANGRY : EndMusicType.DRAGON_CALM);
-		super.doRender(dragon,x,y,z,yaw,partialTickTime);
+		super.doRender(dragon, x, y, z, yaw, partialTickTime);
 
 		if (dragon.healingEnderCrystal != null){
 			float animRot = dragon.healingEnderCrystal.innerRotation+partialTickTime;
@@ -86,9 +86,9 @@ public class RenderBossDragon extends RenderLiving{
 			float distXZ = MathHelper.sqrt_float(diffX*diffX+diffZ*diffZ);
 			float distXYZ = MathHelper.sqrt_float(diffX*diffX+diffY*diffY+diffZ*diffZ);
 			GL.pushMatrix();
-			GL.translate((float)x,(float)y+2F,(float)z);
-			GL.rotate(MathUtil.toDeg((float)-Math.atan2(diffZ,diffX))-90F,0F,1F,0F);
-			GL.rotate(MathUtil.toDeg((float)-Math.atan2(distXZ,diffY))-90F,1F,0F,0F);
+			GL.translate((float)x, (float)y+2F, (float)z);
+			GL.rotate(MathUtil.toDeg((float)-Math.atan2(diffZ, diffX))-90F, 0F, 1F, 0F);
+			GL.rotate(MathUtil.toDeg((float)-Math.atan2(distXZ, diffY))-90F, 1F, 0F, 0F);
 			Tessellator tessellator = Tessellator.instance;
 			RenderHelper.disableStandardItemLighting();
 			GL.disableCullFace();
@@ -104,9 +104,9 @@ public class RenderBossDragon extends RenderLiving{
 				float f12 = MathHelper.cos((i%sideAmount)*(float)Math.PI*2F/sideAmount)*0.75F;
 				float f13 = (i%sideAmount)/sideAmount;
 				tessellator.setColorOpaque_I(0);
-				tessellator.addVertexWithUV(f11*0.2F,f12*0.2F,0D,f13,textureV);
+				tessellator.addVertexWithUV(f11*0.2F, f12*0.2F, 0D, f13, textureV);
 				tessellator.setColorOpaque_I(16777215);
-				tessellator.addVertexWithUV(f11,f12,distXYZ,f13,animTime);
+				tessellator.addVertexWithUV(f11, f12, distXYZ, f13, animTime);
 			}
 
 			tessellator.draw();
@@ -118,7 +118,7 @@ public class RenderBossDragon extends RenderLiving{
 	}
 
 	protected void renderDragonDying(EntityBossDragon dragon, float partialTickTime){
-		super.renderEquippedItems(dragon,partialTickTime);
+		super.renderEquippedItems(dragon, partialTickTime);
 
 		if (dragon.deathTicks > 0){
 			Tessellator tessellator = Tessellator.instance;
@@ -131,30 +131,30 @@ public class RenderBossDragon extends RenderLiving{
 			
 			GL.disableTexture2D();
 			GL.setShadeModel(GL.SMOOTH);
-			GL.enableBlend(GL.SRC_ALPHA,GL.ONE);
+			GL.enableBlend(GL.SRC_ALPHA, GL.ONE);
 			GL.disableAlphaTest();
 			GL.enableCullFace();
 			GL.disableDepthMask();
 			GL.pushMatrix();
-			GL.translate(0F,-1F,-2F);
+			GL.translate(0F, -1F, -2F);
 
 			for(int beam = 0; beam < (animPerc+animPerc*animPerc)/2F*60F; ++beam){
-				GL.rotate(rand.nextFloat()*360F,1F,0F,0F);
-				GL.rotate(rand.nextFloat()*360F,0F,1F,0F);
-				GL.rotate(rand.nextFloat()*360F,0F,0F,1F);
-				GL.rotate(rand.nextFloat()*360F,1F,0F,0F);
-				GL.rotate(rand.nextFloat()*360F,0F,1F,0F);
-				GL.rotate(rand.nextFloat()*360F+animPerc*90F,0F,0F,1F);
+				GL.rotate(rand.nextFloat()*360F, 1F, 0F, 0F);
+				GL.rotate(rand.nextFloat()*360F, 0F, 1F, 0F);
+				GL.rotate(rand.nextFloat()*360F, 0F, 0F, 1F);
+				GL.rotate(rand.nextFloat()*360F, 1F, 0F, 0F);
+				GL.rotate(rand.nextFloat()*360F, 0F, 1F, 0F);
+				GL.rotate(rand.nextFloat()*360F+animPerc*90F, 0F, 0F, 1F);
 				tessellator.startDrawing(6);
 				float yRot = rand.nextFloat()*20F+5F+fade*10F;
 				float xzRot = rand.nextFloat()*2F+1F+fade*2F;
-				tessellator.setColorRGBA_I(16777215,(int)(255F*(1F-fade)));
-				tessellator.addVertex(0D,0D,0D);
-				tessellator.setColorRGBA_I(16711935,0);
-				tessellator.addVertex(-0.866D*xzRot,yRot,-0.5F*xzRot);
-				tessellator.addVertex(0.866D*xzRot,yRot,-0.5F*xzRot);
-				tessellator.addVertex(0D,yRot,xzRot);
-				tessellator.addVertex(-0.866D*xzRot,yRot,-0.5F*xzRot);
+				tessellator.setColorRGBA_I(16777215, (int)(255F*(1F-fade)));
+				tessellator.addVertex(0D, 0D, 0D);
+				tessellator.setColorRGBA_I(16711935, 0);
+				tessellator.addVertex(-0.866D*xzRot, yRot, -0.5F*xzRot);
+				tessellator.addVertex(0.866D*xzRot, yRot, -0.5F*xzRot);
+				tessellator.addVertex(0D, yRot, xzRot);
+				tessellator.addVertex(-0.866D*xzRot, yRot, -0.5F*xzRot);
 				tessellator.draw();
 			}
 
@@ -163,7 +163,7 @@ public class RenderBossDragon extends RenderLiving{
 			GL.disableCullFace();
 			GL.disableBlend();
 			GL.setShadeModel(GL.FLAT);
-			GL.color(1F,1F,1F,1F);
+			GL.color(1F, 1F, 1F, 1F);
 			GL.enableTexture2D();
 			GL.enableAlphaTest();
 			RenderHelper.enableStandardItemLighting();
@@ -175,55 +175,55 @@ public class RenderBossDragon extends RenderLiving{
 		if (pass != 0 || ModCommonProxy.hardcoreEnderbacon)return -1;
 		else{
 			bindTexture(texDragonEyes);
-			GL.enableBlend(GL.ONE,GL.ONE);
+			GL.enableBlend(GL.ONE, GL.ONE);
 			GL.disableAlphaTest();
 			GL.disableLighting();
 			GL.setDepthFunc(GL.EQUAL);
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,61680%65536,61680/65536);
-			GL.color(1F,1F,1F,1F);
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 61680%65536, 61680/65536);
+			GL.color(1F, 1F, 1F, 1F);
 			GL.enableLighting();
-			GL.color(1F,1F,1F,1F);
+			GL.color(1F, 1F, 1F, 1F);
 			return 1;
 		}
 	}
 
 	@Override
 	public void doRender(EntityLiving entity, double x, double y, double z, float yaw, float partialTickTime){
-		renderDragon((EntityBossDragon)entity,x,y,z,yaw,partialTickTime);
+		renderDragon((EntityBossDragon)entity, x, y, z, yaw, partialTickTime);
 	}
 
 	@Override
 	protected int shouldRenderPass(EntityLivingBase entity, int pass, float partialTickTime){
-		return renderGlow((EntityBossDragon)entity,pass,partialTickTime);
+		return renderGlow((EntityBossDragon)entity, pass, partialTickTime);
 	}
 
 	@Override
 	protected void renderEquippedItems(EntityLivingBase entity, float partialTickTime){
-		renderDragonDying((EntityBossDragon)entity,partialTickTime);
+		renderDragonDying((EntityBossDragon)entity, partialTickTime);
 	}
 
 	@Override
 	protected void rotateCorpse(EntityLivingBase entity, float entityTickTime, float yawOffset, float partialTickTime){
-		rotateDragonBody((EntityBossDragon)entity,entityTickTime,yawOffset,partialTickTime);
+		rotateDragonBody((EntityBossDragon)entity, entityTickTime, yawOffset, partialTickTime);
 	}
 
 	@Override
 	protected void renderModel(EntityLivingBase entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		renderDragonModel((EntityBossDragon)entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+		renderDragonModel((EntityBossDragon)entity, limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel);
 	}
 
 	@Override
 	public void doRender(EntityLivingBase entity, double x, double y, double z, float yaw, float partialTickTime){
-		renderDragon((EntityBossDragon)entity,x,y,z,yaw,partialTickTime);
+		renderDragon((EntityBossDragon)entity, x, y, z, yaw, partialTickTime);
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity){
-		return Baconizer.mobTexture(this,texDragon);
+		return Baconizer.mobTexture(this, texDragon);
 	}
 
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime){
-		renderDragon((EntityBossDragon)entity,x,y,z,yaw,partialTickTime);
+		renderDragon((EntityBossDragon)entity, x, y, z, yaw, partialTickTime);
 	}
 }

@@ -109,14 +109,14 @@ public final class ConfigHandler{
 			BiomeGenHardcoreEnd.overworldEndermanMultiplier = (float)getDecimal("overworldEndermanMultiplier", 1F, "Multiplies spawn weight of Endermen for each overworld biome (the weight is adjusted automatically).").setRequiresMcRestart(true).getDouble();
 			OrbAcquirableItems.overrideRemoveBrokenRecipes = getBool("overrideRemoveBrokenRecipes", false, "This will remove broken recipes that would normally crash the game. ALWAYS REPORT THE RECIPES TO THE AUTHORS OF THE BROKEN MODS FIRST!").setShowInGui(false).getBoolean();
 			
-			StardustDecomposition.addToBlacklist(new ItemPattern().setItemName("minecraft","fire"));
-			StardustDecomposition.addToBlacklist(new ItemPattern().setItemName("ExtraUtilities","unstableingot"));
-			StardustDecomposition.addToBlacklist(new ItemPattern().setItemName("witchery","*"));
+			StardustDecomposition.addToBlacklist(new ItemPattern().setItemName("minecraft", "fire"));
+			StardustDecomposition.addToBlacklist(new ItemPattern().setItemName("ExtraUtilities", "unstableingot"));
+			StardustDecomposition.addToBlacklist(new ItemPattern().setItemName("witchery", "*"));
 			
 			String[] imcs = getStringArray("IMC", new String[]{ "Write your message here" }, "List of IMC messages, documentation can be found on http://hee-api.chylex.com").setShowInGui(false).getStringList();
 			
 			if (!(imcs.length == 1 && (imcs[0].isEmpty() || imcs[0].equals("Write your message here")))){
-				for(String imc:imcs)HeeIMC.acceptString("[Configuration File]",imc);
+				for(String imc:imcs)HeeIMC.acceptString("[Configuration File]", imc);
 			}
 			
 			firstTimeGeneral = false;
@@ -128,22 +128,22 @@ public final class ConfigHandler{
 	// utility methods
 	
 	private boolean getBoolValue(String key, boolean defaultValue, String comment){
-		return config.get(currentCategory,key,defaultValue,comment).getBoolean();
+		return config.get(currentCategory, key, defaultValue, comment).getBoolean();
 	}
 	
 	private Property getBool(String key, boolean defaultValue, String comment){
-		return config.get(currentCategory,key,defaultValue,comment);
+		return config.get(currentCategory, key, defaultValue, comment);
 	}
 	
 	private Property getInt(String key, int defaultValue, String comment){
-		return config.get(currentCategory,key,defaultValue,comment);
+		return config.get(currentCategory, key, defaultValue, comment);
 	}
 	
 	private Property getDecimal(String key, float defaultValue, String comment){
-		return config.get(currentCategory,key,defaultValue,comment);
+		return config.get(currentCategory, key, defaultValue, comment);
 	}
 	
 	private Property getStringArray(String key, String[] defaultValue, String comment){
-		return config.get(currentCategory,key,defaultValue,comment);
+		return config.get(currentCategory, key, defaultValue, comment);
 	}
 }

@@ -37,11 +37,11 @@ public final class TerritoryEvents{
 	}
 	
 	private static AxisAlignedBB getTerritoryAABB(EndTerritory territory, Pos centerPos){ // TODO TEST THIS SEE BELOW
-		return territory.createBoundingBox().offset(centerPos).toAABB().expand(EndTerritory.chunksBetween*8D,512D,EndTerritory.chunksBetween*8D);
+		return territory.createBoundingBox().offset(centerPos).toAABB().expand(EndTerritory.chunksBetween*8D, 512D, EndTerritory.chunksBetween*8D);
 	}
 	
 	private final TLongObjectHashMap<TerritoryTicker> activeTickers = new TLongObjectHashMap<>(8);
-	private final TObjectLongHashMap<UUID> currentTerritory = new TObjectLongHashMap<>(8,Constants.DEFAULT_LOAD_FACTOR,Pos.at(0,4095,0).toLong());
+	private final TObjectLongHashMap<UUID> currentTerritory = new TObjectLongHashMap<>(8, Constants.DEFAULT_LOAD_FACTOR, Pos.at(0, 4095, 0).toLong());
 	private final TLongHashSet rareTerritories = new TLongHashSet(2);
 	private int tickLimiter;
 	
@@ -54,8 +54,8 @@ public final class TerritoryEvents{
 		double voidFactor = EndTerritory.getVoidFactor(e.player);
 		
 		if (voidFactor > 1.25D){
-			int rapidDmg = Math.min(5,MathUtil.floor((voidFactor-1D)*3.5F));
-			Damage.base(0.25F+(float)voidFactor*0.75F).setSource("outOfWorld").addModifiers(IDamageModifier.dealCreative,IDamageModifier.rapidDamage(rapidDmg)).deal(e.player);
+			int rapidDmg = Math.min(5, MathUtil.floor((voidFactor-1D)*3.5F));
+			Damage.base(0.25F+(float)voidFactor*0.75F).setSource("outOfWorld").addModifiers(IDamageModifier.dealCreative, IDamageModifier.rapidDamage(rapidDmg)).deal(e.player);
 		}
 		else if (voidFactor > 0.5D && e.player.worldObj.getTotalWorldTime()%25L == 0){
 			Damage.base(0.25F+(float)voidFactor*0.5F).setSource("outOfWorld").addModifiers(IDamageModifier.dealCreative).deal(e.player);
@@ -66,7 +66,7 @@ public final class TerritoryEvents{
 	public void onPlayerRespawn(PlayerRespawnEvent e){
 		if (e.player.dimension == 1 && !e.player.worldObj.isRemote){
 			e.player.timeUntilPortal = 10;
-			TeleportHandler.movePlayerToSpawn((EntityPlayerMP)e.player,e.player.worldObj);
+			TeleportHandler.movePlayerToSpawn((EntityPlayerMP)e.player, e.player.worldObj);
 		}
 	}
 	
@@ -75,14 +75,14 @@ public final class TerritoryEvents{
 		EntityPlayer player = e.player;
 		
 		if (player.dimension == 1 && !player.worldObj.isRemote){
-			Pair<Pos,EndTerritory> data = EndTerritory.findTerritoryCenter(player.posX,player.posZ); // TODO SERIOUSLY TEST THIS
+			Pair<Pos, EndTerritory> data = EndTerritory.findTerritoryCenter(player.posX, player.posZ); // TODO SERIOUSLY TEST THIS
 			if (data == null)return;
 			
 			final long hash = data.getRight().getHashFromPoint(data.getLeft());
 			
-			System.out.println(getTerritoryAABB(data.getRight(),data.getLeft())); // TODO HERE'S A PRINTOUT, HOPE YOU DON'T FORGET TO SEARCH FOR THOSE BEFORE RELEASING ANYTHING
+			System.out.println(getTerritoryAABB(data.getRight(), data.getLeft())); // TODO HERE'S A PRINTOUT, HOPE YOU DON'T FORGET TO SEARCH FOR THOSE BEFORE RELEASING ANYTHING
 			
-			if (rareTerritories.remove(hash) && EntitySelector.players(player.worldObj,getTerritoryAABB(data.getRight(),data.getLeft())).isEmpty()){
+			if (rareTerritories.remove(hash) && EntitySelector.players(player.worldObj, getTerritoryAABB(data.getRight(), data.getLeft())).isEmpty()){
 				currentTerritory.remove(player.getUniqueID());
 				activeTickers.remove(hash);
 			}
@@ -102,7 +102,7 @@ public final class TerritoryEvents{
 			TLongSet toDeactivate = new TLongHashSet(activeTickers.keySet());
 			
 			for(EntityPlayer player:EntitySelector.players(e.world)){
-				Pair<Pos,EndTerritory> data = EndTerritory.findTerritoryCenter(player.posX,player.posZ);
+				Pair<Pos, EndTerritory> data = EndTerritory.findTerritoryCenter(player.posX, player.posZ);
 				if (data == null)continue;
 				
 				final UUID playerID = player.getUniqueID();
@@ -114,12 +114,12 @@ public final class TerritoryEvents{
 						rareTerritories.add(hash);
 					}
 					
-					activeTickers.put(hash,new TerritoryTicker(data.getRight(),data.getLeft(),hash));
+					activeTickers.put(hash, new TerritoryTicker(data.getRight(), data.getLeft(), hash));
 				}
 				
 				if (currentTerritory.get(playerID) != hash){
-					currentTerritory.put(playerID,hash);
-					PacketPipeline.sendToPlayer(player,new C13TerritoryInfo(data.getRight(),SaveData.global(WorldFile.class).getTerritoryVariations(hash)));
+					currentTerritory.put(playerID, hash);
+					PacketPipeline.sendToPlayer(player, new C13TerritoryInfo(data.getRight(), SaveData.global(WorldFile.class).getTerritoryVariations(hash)));
 				}
 			}
 			
@@ -131,8 +131,8 @@ public final class TerritoryEvents{
 						Pos structurePos = territory.getStructurePosFromHash(hash);
 						StructureWorld world = territory.createWorld(e.world);
 						
-						world.clearArea(Blocks.air,0);
-						world.generateInWorld(e.world,null,structurePos.getX(),structurePos.getY(),structurePos.getZ());
+						world.clearArea(Blocks.air, 0);
+						world.generateInWorld(e.world, null, structurePos.getX(), structurePos.getY(), structurePos.getZ());
 					});
 				}
 				

@@ -18,21 +18,21 @@ public class ContainerVoidPortalTokens extends Container implements IContainerEv
 	private final Pos voidPortalPos;
 	
 	public ContainerVoidPortalTokens(EntityPlayer player, Pos voidPortalPos){
-		this.tokenInv = !player.worldObj.isRemote ? SaveData.player(player,PortalFile.class).getTokenInventory() : new InventoryBasic("",false,PortalFile.slots);
+		this.tokenInv = !player.worldObj.isRemote ? SaveData.player(player, PortalFile.class).getTokenInventory() : new InventoryBasic("", false, PortalFile.slots);
 		this.voidPortalPos = voidPortalPos;
 		
 		for(int a = 0, numRows = tokenInv.getSizeInventory()/9; a < numRows; a++){
 			for(int b = 0; b < 9; b++){
-				addSlotToContainer(new SlotBasicItem(tokenInv,b+9*a,8+b*18,18+a*18,ItemList.portal_token,1));
+				addSlotToContainer(new SlotBasicItem(tokenInv, b+9*a, 8+b*18, 18+a*18, ItemList.portal_token, 1));
 			}
 		}
 		
-		ContainerHelper.addPlayerInventorySlots(this,player.inventory,0,9);
+		ContainerHelper.addPlayerInventorySlots(this, player.inventory, 0, 9);
 	}
 	
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotId){
-		return ContainerHelper.transferStack(this,this::mergeItemStack,tokenInv.getSizeInventory(),slotId);
+		return ContainerHelper.transferStack(this, this::mergeItemStack, tokenInv.getSizeInventory(), slotId);
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class ContainerVoidPortalTokens extends Container implements IContainerEv
 	@Override
 	public void onEvent(EntityPlayer player, int eventID){
 		if (eventID >= 0 && eventID < tokenInv.getSizeInventory() && tokenInv.getStackInSlot(eventID) != null){
-			BlockVoidPortal.getData(player.worldObj,voidPortalPos.getX(),voidPortalPos.getY(),voidPortalPos.getZ()).ifPresent(data -> data.activate(tokenInv.getStackInSlot(eventID)));
+			BlockVoidPortal.getData(player.worldObj, voidPortalPos.getX(), voidPortalPos.getY(), voidPortalPos.getZ()).ifPresent(data -> data.activate(tokenInv.getStackInSlot(eventID)));
 			player.closeScreen();
 		}
 	}

@@ -28,8 +28,8 @@ public class ItemBlockEssenceAltar extends ItemBlockEnhanceableTile{
 	
 	@Override
 	public boolean placeBlockAt(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata){
-		if (super.placeBlockAt(is,player,world,x,y,z,side,hitX,hitY,hitZ,metadata)){
-			TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(x,y,z);
+		if (super.placeBlockAt(is, player, world, x, y, z, side, hitX, hitY, hitZ, metadata)){
+			TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(x, y, z);
 			if (altar != null)altar.loadFromDamage(metadata);
 			return true;
 		}

@@ -65,11 +65,11 @@ public class DragonAttackManager{
 	}
 	
 	public boolean isPlayerViable(EntityPlayer player){
-		return MathUtil.distance(player.posX,player.posZ) <= 160D;
+		return MathUtil.distance(player.posX, player.posZ) <= 160D;
 	}
 	
 	public List<EntityPlayer> getViablePlayers(){
-		List<EntityPlayer> players = EntitySelector.players(dragon.worldObj,AxisAlignedBB.getBoundingBox(-160D,-32D,-160D,160D,512D,160D));
+		List<EntityPlayer> players = EntitySelector.players(dragon.worldObj, AxisAlignedBB.getBoundingBox(-160D, -32D, -160D, 160D, 512D, 160D));
 		
 		if (players.size() > 1){
 			for(Iterator<EntityPlayer> iter = players.iterator(); iter.hasNext();){
@@ -93,7 +93,7 @@ public class DragonAttackManager{
 		else if (list.size() == 1)return list.get(0);
 		
 		WeightedMap<EntityPlayer> players = new WeightedMap<>(list.size());
-		for(EntityPlayer player:list)players.add(player,5+((int)player.getHealth()>>1)+(player.getTotalArmorValue()>>2));
+		for(EntityPlayer player:list)players.add(player, 5+((int)player.getHealth()>>1)+(player.getTotalArmorValue()>>2));
 		return players.getRandomItem(dragon.worldObj.rand);
 	}
 	
@@ -124,9 +124,9 @@ public class DragonAttackManager{
 	public boolean biteClosePlayers(){
 		boolean res = false;
 		
-		for(EntityPlayer player:EntitySelector.players(dragon.worldObj,dragon.dragonPartHead.boundingBox.expand(2.2D,1.5D,2.2D))){
+		for(EntityPlayer player:EntitySelector.players(dragon.worldObj, dragon.dragonPartHead.boundingBox.expand(2.2D, 1.5D, 2.2D))){
 			int diff = dragon.worldObj.difficultySetting.getDifficultyId(), rm;
-			player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs ? 14F : 9F)+diff);
+			player.attackEntityFrom(DamageSource.causeMobDamage(dragon), (ModCommonProxy.opMobs ? 14F : 9F)+diff);
 			
 			switch(diff){
 				case 3: rm = 31; break;
@@ -136,12 +136,12 @@ public class DragonAttackManager{
 			}
 			
 			if (dragon.worldObj.rand.nextInt(100) < rm){
-				player.addPotionEffect(new PotionEffect(Potion.poison.id,90+30*diff,ModCommonProxy.opMobs ? 1 : 0));
-				dragon.rewards.addHandicap(0.1F,false);
+				player.addPotionEffect(new PotionEffect(Potion.poison.id, 90+30*diff, ModCommonProxy.opMobs ? 1 : 0));
+				dragon.rewards.addHandicap(0.1F, false);
 				
 				if (dragon.worldObj.rand.nextInt(100) < 35+diff*12){
-					player.addPotionEffect(new PotionEffect(Potion.blindness.id,160+24*diff,0));
-					player.addPotionEffect(new PotionEffect(Potion.confusion.id,80+24*diff,0));
+					player.addPotionEffect(new PotionEffect(Potion.blindness.id, 160+24*diff, 0));
+					player.addPotionEffect(new PotionEffect(Potion.confusion.id, 80+24*diff, 0));
 				}
 			}
 			
@@ -157,7 +157,7 @@ public class DragonAttackManager{
 	
 	public NBTTagCompound writeToNBT(){
 		NBTTagCompound tag = new NBTTagCompound();
-		tag.setByteArray("attq",ArrayUtils.toPrimitive(specialAttackQueue.toArray(new Byte[specialAttackQueue.size()])));
+		tag.setByteArray("attq", ArrayUtils.toPrimitive(specialAttackQueue.toArray(new Byte[specialAttackQueue.size()])));
 		return tag;
 	}
 

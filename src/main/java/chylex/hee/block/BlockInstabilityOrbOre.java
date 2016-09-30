@@ -26,10 +26,10 @@ public class BlockInstabilityOrbOre extends BlockOre{
 
 		if (world.rand.nextInt(100) > 60-fortune*4){
 			ret.add(new ItemStack(ItemList.instability_orb));
-			dropXpOnBlockBreak(world,x,y,z,MathHelper.getRandomIntegerInRange(world.rand,6,9));
+			dropXpOnBlockBreak(world, x, y, z, MathHelper.getRandomIntegerInRange(world.rand, 6, 9));
 		}
 		else{
-			PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,32D,new C08PlaySound(C08PlaySound.GLASS_BREAK,x+0.5D,y+0.5D,z+0.5D,1F,world.rand.nextFloat()*0.1F+0.92F));
+			PacketPipeline.sendToAllAround(world.provider.dimensionId, x+0.5D, y+0.5D, z+0.5D, 32D, new C08PlaySound(C08PlaySound.GLASS_BREAK, x+0.5D, y+0.5D, z+0.5D, 1F, world.rand.nextFloat()*0.1F+0.92F));
 		}
 		
 		return ret;

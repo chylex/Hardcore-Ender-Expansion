@@ -79,7 +79,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 		int meta = pos.getMetadata(world), toggled = toggleState(meta);
 		
 		if (meta != toggled){
-			pos.setMetadata(world,toggled);
+			pos.setMetadata(world, toggled);
 			
 			int unlit = getUnlit(meta);
 			
@@ -92,7 +92,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 					int distrToggled = toggleState(distrMeta);
 					
 					if (distrToggled != distrMeta && offPos.getBlock(world) == this){
-						world.spawnEntityInWorld(new EntityTechnicalPuzzleChain(world,pos,facing));
+						world.spawnEntityInWorld(new EntityTechnicalPuzzleChain(world, pos, facing));
 					}
 				}
 			}
@@ -101,38 +101,38 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 					for(int zz = -1; zz <= 1; zz++){
 						if (xx == 0 && zz == 0)continue;
 						
-						Pos offPos = pos.offset(xx,0,zz);
+						Pos offPos = pos.offset(xx, 0, zz);
 						int distrMeta = offPos.getMetadata(world);
 						int distrToggled = toggleState(distrMeta);
 						
 						if (distrToggled != distrMeta && offPos.getBlock(world) == this){
-							PacketPipeline.sendToAllAround(world.provider.dimensionId,offPos,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,offPos));
-							offPos.setMetadata(world,distrToggled);
+							PacketPipeline.sendToAllAround(world.provider.dimensionId, offPos, 64D, new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN, offPos));
+							offPos.setMetadata(world, distrToggled);
 						}
 					}
 				}
 			}
 			else return true;
 			
-			PacketPipeline.sendToAllAround(world.provider.dimensionId,pos,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,pos));
+			PacketPipeline.sendToAllAround(world.provider.dimensionId, pos, 64D, new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN, pos));
 		}
 		
-		checkWinConditions(world,pos);
+		checkWinConditions(world, pos);
 		return false;
 	}
 	
 	public void checkWinConditions(World world, Pos pos){
-		if (EntitySelector.type(world,EntityTechnicalPuzzleChain.class,Pos.getBoundingBox(pos,pos).expand(maxDungeonSize-0.5D,0D,maxDungeonSize-0.5D)).size() == 1){
+		if (EntitySelector.type(world, EntityTechnicalPuzzleChain.class, Pos.getBoundingBox(pos, pos).expand(maxDungeonSize-0.5D, 0D, maxDungeonSize-0.5D)).size() == 1){
 			int y = pos.getY(), x = pos.getX(), z = pos.getZ(), minX = x, minZ = z, maxX = x, maxZ = z, cnt = 0;
 			PosMutable mpos = new PosMutable();
 			boolean isFinished = true;
 			
 			Stopwatch.time("BlockDungeonPuzzle - win detection - coords");
 			
-			while(mpos.set(--minX,y,z).getBlock(world) == this);
-			while(mpos.set(x,y,--minZ).getBlock(world) == this);
-			while(mpos.set(++maxX,y,z).getBlock(world) == this);
-			while(mpos.set(x,y,++maxZ).getBlock(world) == this);
+			while(mpos.set(--minX, y, z).getBlock(world) == this);
+			while(mpos.set(x, y, --minZ).getBlock(world) == this);
+			while(mpos.set(++maxX, y, z).getBlock(world) == this);
+			while(mpos.set(x, y, ++maxZ).getBlock(world) == this);
 			
 			++minX;
 			++minZ;
@@ -140,22 +140,22 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 			--maxZ;
 			
 			for(int px = minX, pz = z; px <= maxX; px++){
-				while(mpos.set(px,y,--pz).getBlock(world) == this);
+				while(mpos.set(px, y, --pz).getBlock(world) == this);
 				if (pz+1 < minZ)minZ = pz+1;
 				
 				pz = z;
 				
-				while(mpos.set(px,y,++pz).getBlock(world) == this);
+				while(mpos.set(px, y, ++pz).getBlock(world) == this);
 				if (pz-1 > maxZ)maxZ = pz-1;
 			}
 			
 			for(int pz = minZ, px = x; pz <= maxZ; pz++){
-				while(mpos.set(--px,y,pz).getBlock(world) == this);
+				while(mpos.set(--px, y, pz).getBlock(world) == this);
 				if (px+1 < minX)minX = px+1;
 				
 				px = x;
 				
-				while(mpos.set(++px,y,pz).getBlock(world) == this);
+				while(mpos.set(++px, y, pz).getBlock(world) == this);
 				if (px-1 > maxX)maxX = px-1;
 			}
 
@@ -169,7 +169,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 			
 			for(int xx = minX; xx <= maxX; xx++){
 				for(int zz = minZ; zz <= maxZ; zz++){
-					if (mpos.set(xx,y,zz).getBlock(world) != this)continue;
+					if (mpos.set(xx, y, zz).getBlock(world) != this)continue;
 					
 					++cnt;
 					
@@ -184,26 +184,26 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 			Stopwatch.finish("BlockDungeonPuzzle - win detection - conditions");
 			
 			if (isFinished && cnt > (maxX-minX+1)*(maxZ-minZ+1)*0.9D){
-				world.spawnEntityInWorld(new EntityTechnicalPuzzleSolved(world,minX+((maxX-minX+1)>>1),y,minZ+((maxZ-minZ+1)>>1),minX,minZ,maxX,maxZ));
+				world.spawnEntityInWorld(new EntityTechnicalPuzzleSolved(world, minX+((maxX-minX+1)>>1), y, minZ+((maxZ-minZ+1)>>1), minX, minZ, maxX, maxZ));
 			}
 		}
 	}
 	
 	@Override
 	public int getLightValue(IBlockAccess world, int x, int y, int z){
-		return Pos.at(x,y,z).getMetadata(world) == metaPortal ? 15 : super.getLightValue(world,x,y,z);
+		return Pos.at(x, y, z).getMetadata(world) == metaPortal ? 15 : super.getLightValue(world, x, y, z);
 	}
 	
 	@Override
 	public boolean onBlockEventReceived(World world, int x, int y, int z, int eventID, int eventData){
 		if (eventID == 69){
 			FXHelper.create("flame")
-			.pos(x+0.5D,y+(eventData == 0 ? 1.15D : 1D+world.rand.nextDouble()*2D),z+0.5D)
+			.pos(x+0.5D, y+(eventData == 0 ? 1.15D : 1D+world.rand.nextDouble()*2D), z+0.5D)
 			.fluctuatePos((rand, axis) -> axis == Axis.Y ? 0D : rand.nextDouble()-0.5D)
 			.fluctuateMotion(0.05D)
-			.spawn(world.rand,eventData == 0 ? 3 : 25);
+			.spawn(world.rand, eventData == 0 ? 3 : 25);
 			
-			world.playSoundEffect(x+0.5D,y+0.5D,z+0.5D,"random.fizz",0.5F,2.6F+(world.rand.nextFloat()-world.rand.nextFloat())*0.8F);
+			world.playSoundEffect(x+0.5D, y+0.5D, z+0.5D, "random.fizz", 0.5F, 2.6F+(world.rand.nextFloat()-world.rand.nextFloat())*0.8F);
 			return true;
 		}
 		else return false;
@@ -212,9 +212,9 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		if (Pos.at(x,y,z).getMetadata(world) == metaPortal){
-			for(int a = 0; a < 18; a++)HardcoreEnderExpansion.fx.global("portal",x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,0.6289F,0.3359F,0.0391F);
-			HardcoreEnderExpansion.fx.global("portal",x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,1F,1F,1F);
+		if (Pos.at(x, y, z).getMetadata(world) == metaPortal){
+			for(int a = 0; a < 18; a++)HardcoreEnderExpansion.fx.global("portal", x+0.5D+(rand.nextDouble()-0.5D)*0.3D, y+1D+rand.nextDouble()*2D, z+0.5D+(rand.nextDouble()-0.5D)*0.3D, (rand.nextDouble()-0.5D)*0.8D, (rand.nextDouble()-0.5D)*0.2D, (rand.nextDouble()-0.5D)*0.8D, 0.6289F, 0.3359F, 0.0391F);
+			HardcoreEnderExpansion.fx.global("portal", x+0.5D+(rand.nextDouble()-0.5D)*0.3D, y+1D+rand.nextDouble()*2D, z+0.5D+(rand.nextDouble()-0.5D)*0.3D, (rand.nextDouble()-0.5D)*0.8D, (rand.nextDouble()-0.5D)*0.2D, (rand.nextDouble()-0.5D)*0.8D, 1F, 1F, 1F);
 		}
 	}
 	
@@ -230,14 +230,14 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
-		int meta = Pos.at(x,y,z).getMetadata(world);
+		int meta = Pos.at(x, y, z).getMetadata(world);
 		if (meta == metaPortal)meta = metaDisabled;
-		return new ItemStack(this,1,meta);
+		return new ItemStack(this, 1, meta);
 	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		String name = CollectionUtil.getClamp(names,is.getItemDamage());
+		String name = CollectionUtil.getClamp(names, is.getItemDamage());
 		return name == null ? "" : "tile.dungeonPuzzle."+name;
 	}
 	
@@ -251,9 +251,9 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
 		for(byte meta:new byte[]{
-			metaWall, metaRock, metaCeiling, metaDisabled, metaTriggerUnlit, metaTriggerLit, metaChainedUnlit, metaChainedLit,
-			metaDistributorSpreadUnlit, metaDistributorSpreadLit, metaDistributorSquareUnlit, metaDistributorSquareLit,
-		})list.add(new ItemStack(item,1,meta));
+			metaWall, metaRock, metaCeiling, metaDisabled, metaTriggerUnlit, metaTriggerLit, metaChainedUnlit, metaChainedLit, 
+			metaDistributorSpreadUnlit, metaDistributorSpreadLit, metaDistributorSquareUnlit, metaDistributorSquareLit, 
+		})list.add(new ItemStack(item, 1, meta));
 	}
 	
 	@Override

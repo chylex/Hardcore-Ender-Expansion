@@ -6,7 +6,7 @@ import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 
 public class SlotEnhancementsSubject extends Slot{
 	public SlotEnhancementsSubject(IInventory inv, int id, int x, int z){
-		super(inv,id,x,z);
+		super(inv, id, x, z);
 	}
 
 	@Override

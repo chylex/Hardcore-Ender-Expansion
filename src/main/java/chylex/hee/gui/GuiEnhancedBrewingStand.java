@@ -15,36 +15,36 @@ public class GuiEnhancedBrewingStand extends GuiBrewingStand{
 	private TileEntityEnhancedBrewingStand brewingStand;
 	 
 	public GuiEnhancedBrewingStand(InventoryPlayer inv, TileEntityEnhancedBrewingStand tile){
-		super(inv,tile);
-		inventorySlots = new ContainerEnhancedBrewingStand(inv,tile);
+		super(inv, tile);
+		inventorySlots = new ContainerEnhancedBrewingStand(inv, tile);
 		ySize = 191;
 		brewingStand = tile;
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int y){
-		super.drawGuiContainerForegroundLayer(x,y);
+		super.drawGuiContainerForegroundLayer(x, y);
 		GL.disableDepthTest();
 		
 		int powderReq = brewingStand.getRequiredPowder();
 		
 		fontRendererObj.drawStringWithShadow(
 			(brewingStand.getHoldingPowder() < powderReq ? EnumChatFormatting.YELLOW : EnumChatFormatting.WHITE)+String.valueOf(powderReq),
-		81,ySize-114,0x404040);
+		81, ySize-114, 0x404040);
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float renderPartialTicks, int x, int y){
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 		mc.getTextureManager().bindTexture(guiResource);
 		int guiX = 1+(width-xSize)/2;
 		int guiY = (height-ySize)/2;
-		drawTexturedModalRect(guiX,guiY,0,0,xSize,ySize);
+		drawTexturedModalRect(guiX, guiY, 0, 0, xSize, ySize);
 		int brewTime = brewingStand.getBrewTime();
 
 		if (brewTime > 0){
 			int texPos = (int)(28F*(1F-(float)brewTime/brewingStand.getStartBrewTime()));
-			if (texPos > 0)drawTexturedModalRect(guiX+98,guiY+16,176,0,9,texPos);
+			if (texPos > 0)drawTexturedModalRect(guiX+98, guiY+16, 176, 0, 9, texPos);
 
 			switch(brewTime/2%7){
 				case 0: texPos = 29; break;
@@ -56,7 +56,7 @@ public class GuiEnhancedBrewingStand extends GuiBrewingStand{
 				case 6: texPos = 0;
 			}
 
-			if (texPos > 0)drawTexturedModalRect(guiX+66,guiY+14+29-texPos,185,29-texPos,12,texPos);
+			if (texPos > 0)drawTexturedModalRect(guiX+66, guiY+14+29-texPos, 185, 29-texPos, 12, texPos);
 		}
 	}
 }

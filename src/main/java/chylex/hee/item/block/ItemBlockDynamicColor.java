@@ -4,6 +4,6 @@ import net.minecraft.item.ItemColored;
 
 public class ItemBlockDynamicColor extends ItemColored{
 	public ItemBlockDynamicColor(Block sourceBlock){
-		super(sourceBlock,false);
+		super(sourceBlock, false);
 	}
 }

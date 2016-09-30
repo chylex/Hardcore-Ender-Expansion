@@ -10,7 +10,7 @@ public class HeeMessage{
 	
 	HeeMessage(String modid, String key, String data, NBTTagCompound nbt){
 		this.modid = modid;
-		this.key = StringUtils.removeStart(key,"HEE:");
+		this.key = StringUtils.removeStart(key, "HEE:");
 		this.data = data;
 		this.nbt = nbt;
 	}

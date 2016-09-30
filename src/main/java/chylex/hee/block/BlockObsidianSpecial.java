@@ -53,9 +53,9 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	
 	@Override
 	protected ItemStack createStackedBlock(int meta){
-		if (meta == metaPillarNS || meta == metaPillarEW)return new ItemStack(this,1,2);
-		else if (meta == metaSmoothParticlesD)return new ItemStack(this,1,0);
-		else if (meta == metaChiseledParticlesU)return new ItemStack(this,1,1);
+		if (meta == metaPillarNS || meta == metaPillarEW)return new ItemStack(this, 1, 2);
+		else if (meta == metaSmoothParticlesD)return new ItemStack(this, 1, 0);
+		else if (meta == metaChiseledParticlesU)return new ItemStack(this, 1, 1);
 		else return super.createStackedBlock(meta);
 	}
 	
@@ -76,17 +76,17 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		int meta = Pos.at(x,y,z).getMetadata(world);
+		int meta = Pos.at(x, y, z).getMetadata(world);
 		
 		if (meta == metaSmoothParticlesD){
 			for(int a = 0; a < 10; a++){
-				world.spawnParticle("portal",x+rand.nextFloat(),y-4F*rand.nextFloat(),z+rand.nextFloat(),0D,0D,0D);
-				world.spawnParticle("largesmoke",x+rand.nextFloat(),y-4F*rand.nextFloat(),z+rand.nextFloat(),0D,0D,0D);
+				world.spawnParticle("portal", x+rand.nextFloat(), y-4F*rand.nextFloat(), z+rand.nextFloat(), 0D, 0D, 0D);
+				world.spawnParticle("largesmoke", x+rand.nextFloat(), y-4F*rand.nextFloat(), z+rand.nextFloat(), 0D, 0D, 0D);
 			}
 		}
 		else if (meta == metaChiseledParticlesU){
 			for(int a = 0; a < 30; a++){
-				world.spawnParticle("portal",x+rand.nextFloat(),y+5F*rand.nextFloat(),z+rand.nextFloat(),0D,0D,0D);
+				world.spawnParticle("portal", x+rand.nextFloat(), y+5F*rand.nextFloat(), z+rand.nextFloat(), 0D, 0D, 0D);
 			}
 		}
 	}
@@ -94,9 +94,9 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		list.add(new ItemStack(item,1,0));
-		list.add(new ItemStack(item,1,1));
-		list.add(new ItemStack(item,1,2));
+		list.add(new ItemStack(item, 1, 0));
+		list.add(new ItemStack(item, 1, 1));
+		list.add(new ItemStack(item, 1, 2));
 	}
 
 	@Override

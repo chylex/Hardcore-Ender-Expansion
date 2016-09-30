@@ -34,7 +34,7 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 	private int attemptsPerMob = 15;
 	
 	private ToIntFunction<World> mobLimit = world -> 60;
-	private final TObjectIntHashMap<Class<? extends EntityLiving>> mobClassLimit = new TObjectIntHashMap(4,Constants.DEFAULT_LOAD_FACTOR,0);
+	private final TObjectIntHashMap<Class<? extends EntityLiving>> mobClassLimit = new TObjectIntHashMap(4, Constants.DEFAULT_LOAD_FACTOR, 0);
 	
 	private int tickLimiter;
 	
@@ -50,7 +50,7 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 	
 	public void addEntry(SpawnEntry.Builder<?> entryBuilder, int weight){
 		for(Consumer<SpawnEntry.Builder<?>> callback:entryBuilderModifiers)callback.accept(entryBuilder);
-		this.spawnEntries.add(entryBuilder.build(),weight);
+		this.spawnEntries.add(entryBuilder.build(), weight);
 	}
 	
 	public void setTickRate(int tickRate){
@@ -70,11 +70,11 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 	}
 	
 	public void setMobLimit(final int initialLimit, final int addPerPlayer, final int largestLimit){
-		this.mobLimit = world -> Math.min(largestLimit,initialLimit+EntitySelector.players(world,area.toAABB()).size()*addPerPlayer);
+		this.mobLimit = world -> Math.min(largestLimit, initialLimit+EntitySelector.players(world, area.toAABB()).size()*addPerPlayer);
 	}
 	
 	public void setMobClassLimit(Class<? extends EntityLiving> mobClass, final int maxMobs){
-		this.mobClassLimit.put(mobClass,maxMobs);
+		this.mobClassLimit.put(mobClass, maxMobs);
 	}
 	
 	// Ticking
@@ -84,10 +84,10 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 		if (++tickLimiter > tickRate){
 			tickLimiter = 0;
 			
-			List<EntityLiving> mobs = EntitySelector.mobs(world,area.toAABB());
+			List<EntityLiving> mobs = EntitySelector.mobs(world, area.toAABB());
 			if (mobs.size() >= mobLimit.applyAsInt(world))return;
 			
-			final Map<Class<? extends EntityLiving>,Integer> mobCounts = new HashMap<>(4);
+			final Map<Class<? extends EntityLiving>, Integer> mobCounts = new HashMap<>(4);
 			final boolean isPeaceful = world.difficultySetting == EnumDifficulty.PEACEFUL;
 			
 			for(int attempt = 0; attempt < attemptsPerTick; attempt++){
@@ -97,8 +97,8 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 				if (!isPeaceful || !entry.isHostile){
 					int limit = mobClassLimit.get(mobClass);
 					
-					if (limit == 0 || mobCounts.computeIfAbsent(mobClass,cls -> (int)mobs.stream().filter(entity -> entity.getClass() == mobClass).count()) < limit){
-						entry.trySpawn(world,attemptsPerMob);
+					if (limit == 0 || mobCounts.computeIfAbsent(mobClass, cls -> (int)mobs.stream().filter(entity -> entity.getClass() == mobClass).count()) < limit){
+						entry.trySpawn(world, attemptsPerMob);
 					}
 				}
 			}
@@ -112,9 +112,9 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 			final Random rand = entity.worldObj.rand;
 			final double posX = area.x1+rand.nextDouble()*(area.x2-area.x1);
 			final double posZ = area.z1+rand.nextDouble()*(area.z2-area.z1);
-			final int posY = Pos.getTopBlock(entity.worldObj,MathUtil.floor(posX),MathUtil.floor(posZ),area.y1+rand.nextInt(1+area.y2-area.y1),blockFinder).getY();
+			final int posY = Pos.getTopBlock(entity.worldObj, MathUtil.floor(posX), MathUtil.floor(posZ), area.y1+rand.nextInt(1+area.y2-area.y1), blockFinder).getY();
 			
-			entity.setPosition(posX,posY+1D,posZ);
+			entity.setPosition(posX, posY+1D, posZ);
 		};
 	}
 	
@@ -125,7 +125,7 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 	public <T extends EntityLiving> Consumer<T> spawnInAir(){
 		return entity -> {
 			final Random rand = entity.worldObj.rand;
-			entity.setPosition(area.x1+rand.nextDouble()*(area.x2-area.x1),area.y1+rand.nextDouble()*(area.y2-area.y1),area.z1+rand.nextDouble()*(area.z2-area.z1));
+			entity.setPosition(area.x1+rand.nextDouble()*(area.x2-area.x1), area.y1+rand.nextDouble()*(area.y2-area.y1), area.z1+rand.nextDouble()*(area.z2-area.z1));
 		};
 	}
 	
@@ -135,14 +135,14 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 			final Vec offset = Vec.xzRandom(rand).multiplied(minDistance+rand.nextDouble()*(maxDistance-minDistance));
 			final double posX = parentEntity.posX+offset.x;
 			final double posZ = parentEntity.posZ+offset.z;
-			final int posY = Pos.getTopBlock(parentEntity.worldObj,MathUtil.floor(posX),MathUtil.floor(posZ),MathUtil.floor(parentEntity.posY+maxDistance),blockFinder).getY();
+			final int posY = Pos.getTopBlock(parentEntity.worldObj, MathUtil.floor(posX), MathUtil.floor(posZ), MathUtil.floor(parentEntity.posY+maxDistance), blockFinder).getY();
 			
-			groupedEntity.setPosition(posX,posY+1D,posZ);
+			groupedEntity.setPosition(posX, posY+1D, posZ);
 		};
 	}
 	
 	public <T extends EntityLiving> IGroupLocationFinder<T> groupOnFloor(final double minDistance, final double maxDistance){
-		return groupOnFloor(minDistance,maxDistance,info -> info.block.getMaterial().blocksMovement());
+		return groupOnFloor(minDistance, maxDistance, info -> info.block.getMaterial().blocksMovement());
 	}
 	
 	public <T extends EntityLiving> IGroupLocationFinder<T> groupInAir(final double minDistance, final double maxDistance){
@@ -150,7 +150,7 @@ public class TerritoryBehaviorMobSpawner implements ITerritoryBehavior{
 			final Random rand = parentEntity.worldObj.rand;
 			final Vec offset = Vec.xyzRandom(rand).multiplied(minDistance+rand.nextDouble()*(maxDistance-minDistance));
 			
-			groupedEntity.setPosition(parentEntity.posX+offset.x,parentEntity.posY+offset.y,parentEntity.posZ+offset.z);
+			groupedEntity.setPosition(parentEntity.posX+offset.x, parentEntity.posY+offset.y, parentEntity.posZ+offset.z);
 		};
 	}
 }

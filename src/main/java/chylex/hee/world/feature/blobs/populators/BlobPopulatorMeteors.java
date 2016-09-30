@@ -20,7 +20,7 @@ public class BlobPopulatorMeteors extends BlobPopulator{
 	}
 	
 	public BlobPopulatorMeteors setAmount(int minAmount, int maxAmount){
-		this.amount = new RangeGenerator(minAmount,maxAmount,RandomAmount.linear);
+		this.amount = new RangeGenerator(minAmount, maxAmount, RandomAmount.linear);
 		return this;
 	}
 	
@@ -51,11 +51,11 @@ public class BlobPopulatorMeteors extends BlobPopulator{
 			double rad = radius.generate(rand);
 			Vec dir = Vec.xyzRandom(rand);
 			
-			Pos block = CollectionUtil.random(endStone,rand).orElseGet(() -> Pos.at(0,world.getCenterY(),0));
-			Vec pos = Vec.xyz(block.getX()+0.5D,block.getY()+0.5D,block.getZ()+0.5D).offset(dir,rad+2D+4D*rand.nextDouble());
+			Pos block = CollectionUtil.random(endStone, rand).orElseGet(() -> Pos.at(0, world.getCenterY(), 0));
+			Vec pos = Vec.xyz(block.getX()+0.5D, block.getY()+0.5D, block.getZ()+0.5D).offset(dir, rad+2D+4D*rand.nextDouble());
 			
-			if (isBlobSeparated(world,pos.x,pos.y,pos.z,rad) && isBlobInsideWorld(world,pos.x,pos.y,pos.z,rad)){
-				generateBlob(world,pos.x,pos.y,pos.z,rad);
+			if (isBlobSeparated(world, pos.x, pos.y, pos.z, rad) && isBlobInsideWorld(world, pos.x, pos.y, pos.z, rad)){
+				generateBlob(world, pos.x, pos.y, pos.z, rad);
 				--meteorsLeft;
 			}
 		}
@@ -65,16 +65,16 @@ public class BlobPopulatorMeteors extends BlobPopulator{
 		int ix = MathUtil.floor(x), iy = MathUtil.floor(y), iz = MathUtil.floor(z);
 		int irad = MathUtil.ceil(rad)+2, icorner = MathUtil.ceil((rad+2D)*0.707D);
 		
-		if (!world.isAir(ix,iy,iz))return false;
+		if (!world.isAir(ix, iy, iz))return false;
 		
 		for(Facing6 facing:Facing6.list){
-			if (!world.isAir(ix+facing.getX()*irad,iy+facing.getY()*irad,iz+facing.getZ()*irad))return false;
+			if (!world.isAir(ix+facing.getX()*irad, iy+facing.getY()*irad, iz+facing.getZ()*irad))return false;
 		}
 		
 		for(int cornerX = -1; cornerX <= 1; cornerX += 2){
 			for(int cornerY = -1; cornerY <= 1; cornerY += 2){
 				for(int cornerZ = -1; cornerZ <= 1; cornerZ += 2){
-					if (!world.isAir(ix+cornerX*icorner,iy+cornerY*icorner,iz+cornerZ*icorner))return false;
+					if (!world.isAir(ix+cornerX*icorner, iy+cornerY*icorner, iz+cornerZ*icorner))return false;
 				}
 			}
 		}

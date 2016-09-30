@@ -16,7 +16,7 @@ public class RenderWeatherLightningBoltPurple extends RenderLightningBolt{
 		
 		GL.disableTexture2D();
 		GL.disableLighting();
-		GL.enableBlend(GL.SRC_ALPHA,GL.ONE);
+		GL.enableBlend(GL.SRC_ALPHA, GL.ONE);
 		
 		double[] xOffsets = new double[8];
 		double[] zOffsets = new double[8];
@@ -65,7 +65,7 @@ public class RenderWeatherLightningBoltPurple extends RenderLightningBolt{
 					}
 
 					tessellator.startDrawing(5);
-					tessellator.setColorRGBA_F(0.33595F,0.08395F,0.43165F,0.4F);
+					tessellator.setColorRGBA_F(0.33595F, 0.08395F, 0.43165F, 0.4F);
 					double d9 = 0.1D+j*0.2D;
 
 					if (k == 0){
@@ -101,8 +101,8 @@ public class RenderWeatherLightningBoltPurple extends RenderLightningBolt{
 							d14 += d10*2D;
 						}
 
-						tessellator.addVertex(d13+d5,y+(j1*16),d14+d6);
-						tessellator.addVertex(d11+d7,y+((j1+1)*16),d12+d8);
+						tessellator.addVertex(d13+d5, y+(j1*16), d14+d6);
+						tessellator.addVertex(d11+d7, y+((j1+1)*16), d12+d8);
 					}
 
 					tessellator.draw();

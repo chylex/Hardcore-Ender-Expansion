@@ -25,7 +25,7 @@ public enum EssenceType{
 		new RuneItem(is -> is.getItem() == Items.map || is.getItem() == Items.filled_map, new ItemStack(Items.map), "hardcoreenderexpansion:player.random.pageflip"),
 		new RuneItem(Blocks.obsidian, "dig.stone"),
 		new RuneItem(Blocks.stonebrick, "dig.stone")
-	}, new float[]{ 0.4648F,0.1914F,0.5195F }),
+	}, new float[]{ 0.4648F, 0.1914F, 0.5195F }),
 
 	FIERY(2, "Fiery", FieryEssenceHandler::new, new RuneItem[]{
 		new RuneItem(ItemList.igneous_rock, "mob.ghast.fireball"),
@@ -38,7 +38,7 @@ public enum EssenceType{
 		new RuneItem(Items.brewing_stand, "dig.stone"),
 		new RuneItem(Items.flint_and_steel, "fire.ignite"),
 		new RuneItem(Blocks.coal_block, "dig.stone")
-	}, new float[]{ 0.5898F,0.4023F,0.125F }),
+	}, new float[]{ 0.5898F, 0.4023F, 0.125F }),
 	
 	SPECTRAL(3, "Spectral", AltarActionHandler::new, new RuneItem[]{
 		new RuneItem(Items.fish, "random.burp"),
@@ -49,16 +49,16 @@ public enum EssenceType{
 		new RuneItem(Items.spider_eye, "mob.spider.say"),
 		new RuneItem(Items.gold_ingot, "random.glass"),
 		new RuneItem(Items.egg, "mob.chicken.plop")
-	}, new float[]{ 0.1875F,0.1641F,0.5273F });
+	}, new float[]{ 0.1875F, 0.1641F, 0.5273F });
 	
 	public final byte id;
 	public final String essenceName;
 	public final String essenceNameLowercase;
-	public final Function<TileEntityEssenceAltar,? extends AltarActionHandler> actionHandler;
+	public final Function<TileEntityEssenceAltar, ? extends AltarActionHandler> actionHandler;
 	public final RuneItem[] itemsNeeded;
 	public final float[] glyphColors;
 	
-	private EssenceType(int id, String essenceName, Function<TileEntityEssenceAltar,? extends AltarActionHandler> actionHandler, RuneItem[] itemsNeeded, float[] glyphColors){
+	private EssenceType(int id, String essenceName, Function<TileEntityEssenceAltar, ? extends AltarActionHandler> actionHandler, RuneItem[] itemsNeeded, float[] glyphColors){
 		this.id = (byte)id;
 		this.essenceName = essenceName;
 		this.essenceNameLowercase = essenceName.toLowerCase(Locale.ENGLISH);

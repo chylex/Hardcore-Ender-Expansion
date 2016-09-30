@@ -18,13 +18,13 @@ public final class RandomChance{
 		
 		cubic2Incr = new RandomChance2(){
 			@Override public double calculate(double dist, double startDist, double endDist){
-				return dist < startDist ? 0D : dist > endDist ? 1D : Math.pow((dist-startDist)/(endDist-startDist),3);
+				return dist < startDist ? 0D : dist > endDist ? 1D : Math.pow((dist-startDist)/(endDist-startDist), 3);
 			}
 		},
 		
 		cubic2Decr = new RandomChance2(){
 			@Override public double calculate(double dist, double startDist, double endDist){
-				return dist < startDist || dist > endDist ? 0D : 1D-Math.pow((dist-startDist)/(endDist-startDist),3);
+				return dist < startDist || dist > endDist ? 0D : 1D-Math.pow((dist-startDist)/(endDist-startDist), 3);
 			}
 		};
 	
@@ -32,7 +32,7 @@ public final class RandomChance{
 	
 		linear3IncrDecr = new RandomChance3(){
 			@Override public double calculate(double dist, double startDist, double middleDist, double endDist){
-				return dist < startDist || dist > endDist ? 0D : dist < middleDist ? linear2Incr.calculate(dist,startDist,middleDist) : linear2Decr.calculate(dist,middleDist,endDist);
+				return dist < startDist || dist > endDist ? 0D : dist < middleDist ? linear2Incr.calculate(dist, startDist, middleDist) : linear2Decr.calculate(dist, middleDist, endDist);
 			}
 		};
 	

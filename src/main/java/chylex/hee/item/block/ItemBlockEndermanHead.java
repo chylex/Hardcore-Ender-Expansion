@@ -33,7 +33,7 @@ public class ItemBlockEndermanHead extends ItemBlock{
 		if (player.getCurrentArmor(armorSlot) == null){
 			ItemStack copy = is.copy();
 			copy.stackSize = 1;
-			player.setCurrentItemOrArmor(armorSlot+1,copy);
+			player.setCurrentItemOrArmor(armorSlot+1, copy);
 			--is.stackSize;
 		}
 
@@ -42,14 +42,14 @@ public class ItemBlockEndermanHead extends ItemBlock{
 	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		Pos pos = Pos.at(x,y,z);
+		Pos pos = Pos.at(x, y, z);
 		Facing6 sideFacing = Facing6.fromSide(side);
 		if (sideFacing == Facing6.DOWN_NEGY || !pos.getMaterial(world).isSolid())return false;
 		
 		pos = pos.offset(sideFacing);
-		if (!player.canPlayerEdit(pos.getX(),pos.getY(),pos.getZ(),side,is) || !BlockList.enderman_head.canPlaceBlockAt(world,pos.getX(),pos.getY(),pos.getZ()))return false;
+		if (!player.canPlayerEdit(pos.getX(), pos.getY(), pos.getZ(), side, is) || !BlockList.enderman_head.canPlaceBlockAt(world, pos.getX(), pos.getY(), pos.getZ()))return false;
 		
-		pos.setBlock(world,BlockList.enderman_head,side,2);
+		pos.setBlock(world, BlockList.enderman_head, side, 2);
 		TileEntityEndermanHead tile = (TileEntityEndermanHead)pos.getTileEntity(world);
 		
 		if (side == EnumFacing.UP.ordinal())tile.setRotation(MathHelper.floor_double((player.rotationYaw*16F/360F)+0.5D)&15);
@@ -77,7 +77,7 @@ public class ItemBlockEndermanHead extends ItemBlock{
 		ModClientProxy.endermanHeadModelBiped.isSneak = e.entityPlayer.isSneaking();
 		ModClientProxy.endermanHeadModelBiped.isRiding = e.entityPlayer.isRiding();
 		
-		GL.color(1F,1F,1F);
+		GL.color(1F, 1F, 1F);
 		e.result = e.stack.isItemEnchanted() ? 15 : 1;
 		
 		RenderItemEndermanHead.isRenderingArmor = true;

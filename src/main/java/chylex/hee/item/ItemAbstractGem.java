@@ -18,45 +18,45 @@ public abstract class ItemAbstractGem extends ItemAbstractEnergyAcceptor{
 	
 	@Override
 	public boolean canUse(ItemStack is){
-		return super.canUse(is) && !NBT.item(is,false).hasKey("cooldown");
+		return super.canUse(is) && !NBT.item(is, false).hasKey("cooldown");
 	}
 	
 	@Override
 	public void useEnergy(ItemStack is, EntityLivingBase owner){
-		super.useEnergy(is,owner);
-		NBT.item(is,true).setByte("cooldown",getCooldown());
+		super.useEnergy(is, owner);
+		NBT.item(is, true).setByte("cooldown", getCooldown());
 	}
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		NBTCompound tag = NBT.item(is,false);
+		NBTCompound tag = NBT.item(is, false);
 		
 		if (tag.hasKey("cooldown")){
 			byte cooldown = tag.getByte("cooldown");
 			
 			if (--cooldown <= 0)tag.removeTag("cooldown");
-			else tag.setByte("cooldown",cooldown);
+			else tag.setByte("cooldown", cooldown);
 		}
 		
-		super.onUpdate(is,world,entity,slot,isHeld);
+		super.onUpdate(is, world, entity, slot, isHeld);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack is, int pass){
-		return is.getItemDamage() == 32766 || !EnhancementRegistry.getEnhancementList(is).isEmpty() || super.hasEffect(is,pass);
+		return is.getItemDamage() == 32766 || !EnhancementRegistry.getEnhancementList(is).isEmpty() || super.hasEffect(is, pass);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		EnhancementRegistry.getEnhancementList(is).addTooltip(textLines,EnumChatFormatting.YELLOW);
+		EnhancementRegistry.getEnhancementList(is).addTooltip(textLines, EnumChatFormatting.YELLOW);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack is, int pass){
-		int shade = 255-MathUtil.ceil(95*(NBT.item(is,false).getByte("cooldown")/(float)getCooldown()));
+		int shade = 255-MathUtil.ceil(95*(NBT.item(is, false).getByte("cooldown")/(float)getCooldown()));
 		return shade<<16|shade<<8|shade;
 	}
 }

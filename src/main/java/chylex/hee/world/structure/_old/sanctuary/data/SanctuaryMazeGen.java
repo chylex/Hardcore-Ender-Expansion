@@ -24,7 +24,7 @@ public final class SanctuaryMazeGen{
 		if (x < 0 || z < 0 || x >= width || z >= depth)return false;
 		
 		for(Facing4 test:Facing4.list){
-			if (isOpen(x,z,test))return true;
+			if (isOpen(x, z, test))return true;
 		}
 		
 		return false;
@@ -35,7 +35,7 @@ public final class SanctuaryMazeGen{
 		int z2 = z+facing.getZ();
 		if (x2 < 0 || z2 < 0 || x2 >= width || z2 >= depth)return false;
 		
-		return x == x2 ? openZ[Math.min(z,z2)][x] : openX[Math.min(x,x2)][z];
+		return x == x2 ? openZ[Math.min(z, z2)][x] : openX[Math.min(x, x2)][z];
 	}
 	
 	boolean setOpen(int x, int z, Facing4 facing){
@@ -43,8 +43,8 @@ public final class SanctuaryMazeGen{
 		int z2 = z+facing.getZ();
 		if (x2 < 0 || z2 < 0 || x2 >= width || z2 >= depth)return false;
 		
-		if (x == x2)openZ[Math.min(z,z2)][x] = true;
-		else openX[Math.min(x,x2)][z] = true;
+		if (x == x2)openZ[Math.min(z, z2)][x] = true;
+		else openX[Math.min(x, x2)][z] = true;
 		
 		return true;
 	}
@@ -53,7 +53,7 @@ public final class SanctuaryMazeGen{
 		for(int x = 0; x < width; x++){
 			for(int z = 0; z < depth; z++){
 				for(int dir = 0; dir < Facing4.list.length; dir++){
-					if (isOpen(x,z,Facing4.list[dir]))break;
+					if (isOpen(x, z, Facing4.list[dir]))break;
 					if (dir == Facing4.list.length-1)return false;
 				}
 			}
@@ -63,7 +63,7 @@ public final class SanctuaryMazeGen{
 	}
 	
 	public static SanctuaryMazeGen generate(Random rand, int width, int depth){
-		SanctuaryMazeGen maze = new SanctuaryMazeGen(width,depth);
+		SanctuaryMazeGen maze = new SanctuaryMazeGen(width, depth);
 		CycleProtection.setCounter(4000);
 		
 		int x = 0, z = rand.nextInt(depth), test = 0;
@@ -73,7 +73,7 @@ public final class SanctuaryMazeGen{
 		while(!maze.isDone() && CycleProtection.proceed()){
 			dir = Facing4.list[rand.nextInt(Facing4.list.length)];
 			
-			if (!maze.hasConnections(x,z,dir) && maze.setOpen(x,z,dir)){
+			if (!maze.hasConnections(x, z, dir) && maze.setOpen(x, z, dir)){
 				used.add(new int[]{ x, z });
 				x += dir.getX();
 				z += dir.getZ();
@@ -91,7 +91,7 @@ public final class SanctuaryMazeGen{
 		for(int connect = 6+rand.nextInt(10); connect > 0; connect--){
 			x = rand.nextInt(width);
 			z = rand.nextInt(depth);
-			maze.setOpen(x,z,Facing4.list[rand.nextInt(Facing4.list.length)]);
+			maze.setOpen(x, z, Facing4.list[rand.nextInt(Facing4.list.length)]);
 		}
 		
 		return maze;

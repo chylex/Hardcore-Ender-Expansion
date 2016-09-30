@@ -19,14 +19,14 @@ public class StrongholdDoorGrates extends StrongholdDoor{
 
 	@Override
 	protected void generateDoor(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
-		PosMutable archPos = new PosMutable(x+maxX/2,0,z+maxZ/2);
+		PosMutable archPos = new PosMutable(x+maxX/2, 0, z+maxZ/2);
 		Facing4 perpendicular = facing.perpendicular();
 		
-		archPos.move(perpendicular,-1);
-		placeLine(world,rand,placeIronBars,archPos.x,y+1,archPos.z,archPos.x,y+3,archPos.z);
-		archPos.move(perpendicular,1);
-		placeBlock(world,rand,placeIronBars,archPos.x,y+3,archPos.z);
-		archPos.move(perpendicular,1);
-		placeLine(world,rand,placeIronBars,archPos.x,y+1,archPos.z,archPos.x,y+3,archPos.z);
+		archPos.move(perpendicular, -1);
+		placeLine(world, rand, placeIronBars, archPos.x, y+1, archPos.z, archPos.x, y+3, archPos.z);
+		archPos.move(perpendicular, 1);
+		placeBlock(world, rand, placeIronBars, archPos.x, y+3, archPos.z);
+		archPos.move(perpendicular, 1);
+		placeLine(world, rand, placeIronBars, archPos.x, y+1, archPos.z, archPos.x, y+3, archPos.z);
 	}
 }

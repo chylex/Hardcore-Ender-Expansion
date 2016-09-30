@@ -22,7 +22,7 @@ public class ItemRune extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list){
-		for(RuneType runeType:RuneType.values)list.add(new ItemStack(item,1,runeType.damage));
+		for(RuneType runeType:RuneType.values)list.add(new ItemStack(item, 1, runeType.damage));
 		
 	}
 	

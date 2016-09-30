@@ -17,13 +17,13 @@ public final class ImcEssenceHandlers extends ImcHandler{
 		ItemStack input = runner.getValue("input");
 		
 		for(AltarItemRecipe recipe:DragonEssenceHandler.recipes){
-			if (ItemStack.areItemStacksEqual(recipe.input,input) && ItemStack.areItemStackTagsEqual(recipe.input,input)){
+			if (ItemStack.areItemStacksEqual(recipe.input, input) && ItemStack.areItemStackTagsEqual(recipe.input, input)){
 				MessageLogger.logFail("Duplicate input item, ignoring.");
 				return;
 			}
 		}
 		
-		DragonEssenceHandler.recipes.add(new AltarItemRecipe(input,runner.getValue("output"),runner.getInt("cost")));
+		DragonEssenceHandler.recipes.add(new AltarItemRecipe(input, runner.getValue("output"), runner.getInt("cost")));
 		MessageLogger.logOk("Added 1 recipe.");
 	};
 
@@ -46,19 +46,19 @@ public final class ImcEssenceHandlers extends ImcHandler{
 		size = size-DragonEssenceHandler.recipes.size();
 		
 		if (size == 0)MessageLogger.logWarn("Did not find any items to remove.");
-		else MessageLogger.logOk("Removed $0 item(s).",size);
+		else MessageLogger.logOk("Removed $0 item(s).", size);
 	};
 	
 	@Override
 	public void register(){
-		register("DragonEssence:AddRecipe",dragonEssenceAdd,RunEvent.POSTINIT)
-		.addProp("input",ItemStackValue.any())
-		.addProp("output",ItemStackValue.any())
-		.addProp("cost",IntValue.positive());
+		register("DragonEssence:AddRecipe", dragonEssenceAdd, RunEvent.POSTINIT)
+		.addProp("input", ItemStackValue.any())
+		.addProp("output", ItemStackValue.any())
+		.addProp("cost", IntValue.positive());
 		
-		register("DragonEssence:RemoveRecipe",dragonEssenceRemove,RunEvent.POSTINIT)
-		.addProp("type",StringValue.one("input","output"))
-		.addProp("search",ItemPatternValue.any())
-		.addProp("limit",IntValue.positiveOrZero());
+		register("DragonEssence:RemoveRecipe", dragonEssenceRemove, RunEvent.POSTINIT)
+		.addProp("type", StringValue.one("input", "output"))
+		.addProp("search", ItemPatternValue.any())
+		.addProp("limit", IntValue.positiveOrZero());
 	}
 }

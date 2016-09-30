@@ -36,11 +36,11 @@ public class RenderMobLouse extends RenderLiving{
 	};
 
 	public RenderMobLouse(){
-		super(new ModelLouse(),0.4F);
+		super(new ModelLouse(), 0.4F);
 	}
 	
 	private enum RuneColor{
-		RED(0.4922F,0F,0F), YELLOW(0.4922F,0.4922F,0F), GREEN(0F,0.4922F,0F), BLUE(0F,0.369F,0.4922F), PURPLE(0.327F,0F,0.4922F), GRAY(0.4922F,0.4922F,0.4922F);
+		RED(0.4922F, 0F, 0F), YELLOW(0.4922F, 0.4922F, 0F), GREEN(0F, 0.4922F, 0F), BLUE(0F, 0.369F, 0.4922F), PURPLE(0.327F, 0F, 0.4922F), GRAY(0.4922F, 0.4922F, 0.4922F);
 		
 		public final float red, green, blue;
 		
@@ -64,7 +64,7 @@ public class RenderMobLouse extends RenderLiving{
 
 	@Override
 	protected void preRenderCallback(EntityLivingBase entity, float partialTickTime){
-		GL.scale(0.6F,0.6F,0.6F);
+		GL.scale(0.6F, 0.6F, 0.6F);
 	}
 	
 	@Override
@@ -99,13 +99,13 @@ public class RenderMobLouse extends RenderLiving{
 			for(EnumLouseAttribute attribute:attributes)rand.nextInt(1+attribute.ordinal());
 			for(EnumLouseAbility ability:abilities)rand.nextInt(1+ability.ordinal());
 			
-			bindTexture(RandUtil.anyOf(rand,pass == 1 ? texLouseRuneBottom : texLouseRuneTop));
+			bindTexture(RandUtil.anyOf(rand, pass == 1 ? texLouseRuneBottom : texLouseRuneTop));
 			GL.setMatrixMode(GL.TEXTURE);
 			GL.loadIdentity();
 			setRenderPassModel(mainModel);
 			GL.setMatrixMode(GL.MODELVIEW);
-			GL.enableBlend(GL.ONE,GL.ONE);
-			GL.color(color.red,color.green,color.blue,1F);
+			GL.enableBlend(GL.ONE, GL.ONE);
+			GL.color(color.red, color.green, color.blue, 1F);
 			
 			return 1;
 		}

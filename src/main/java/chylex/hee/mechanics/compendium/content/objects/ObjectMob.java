@@ -18,19 +18,19 @@ public class ObjectMob implements IObjectHolder<Class<? extends EntityLiving>>{
 		int spawnEggDamage = ItemSpawnEggs.getDamageForMob(mobClass);
 		
 		if (spawnEggDamage != -1){
-			is = new ItemStack(ItemList.spawn_eggs,1,spawnEggDamage);
+			is = new ItemStack(ItemList.spawn_eggs, 1, spawnEggDamage);
 			name = ItemSpawnEggs.getMobName(mobClass);
 		}
 		else{
-			OptionalInt dmg = IntStream.range(0,256).filter(id -> EntityList.getClassFromID(id) == mobClass).findAny();
+			OptionalInt dmg = IntStream.range(0, 256).filter(id -> EntityList.getClassFromID(id) == mobClass).findAny();
 			
-			if (dmg.isPresent())is = new ItemStack(Items.spawn_egg,1,dmg.getAsInt());
+			if (dmg.isPresent())is = new ItemStack(Items.spawn_egg, 1, dmg.getAsInt());
 			name = (String)EntityList.classToStringMapping.get(mobClass);
 		}
 		
 		if (is == null)is = new ItemStack(Blocks.bedrock);
 		
-		ItemUtil.setName(is,name);
+		ItemUtil.setName(is, name);
 		return is;
 	}
 	

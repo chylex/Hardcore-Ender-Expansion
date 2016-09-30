@@ -9,183 +9,183 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelLouse extends ModelBase{
-	private final ModelRenderer headMain,headFront,eyes;
-	private final ModelRenderer antR,antL,mandible;
+	private final ModelRenderer headMain, headFront, eyes;
+	private final ModelRenderer antR, antL, mandible;
 	private final ModelRenderer thx;
-	private final ModelRenderer legBase1,legBase2,legBase3;
-	private final ModelRenderer abMain,abSide,abBack;
-	private final ModelRenderer rFLeg1,rFLeg2,rFLeg3,rFLegClaw;
-	private final ModelRenderer rBLeg1,rBLeg2,rBLeg3,rBLegClaw;
-	private final ModelRenderer lBLeg1,lBLeg2,lBLeg3,lBLegClaw;
-	private final ModelRenderer lFLeg1,lFLeg2,lFLeg3,lFLegClaw;
-	private final ModelRenderer rMLeg2,rMLeg1,rMLeg3,rMLegClaw;
-	private final ModelRenderer lMLeg1,lMLeg2,lMLeg3,lMLegClaw;
+	private final ModelRenderer legBase1, legBase2, legBase3;
+	private final ModelRenderer abMain, abSide, abBack;
+	private final ModelRenderer rFLeg1, rFLeg2, rFLeg3, rFLegClaw;
+	private final ModelRenderer rBLeg1, rBLeg2, rBLeg3, rBLegClaw;
+	private final ModelRenderer lBLeg1, lBLeg2, lBLeg3, lBLegClaw;
+	private final ModelRenderer lFLeg1, lFLeg2, lFLeg3, lFLegClaw;
+	private final ModelRenderer rMLeg2, rMLeg1, rMLeg3, rMLegClaw;
+	private final ModelRenderer lMLeg1, lMLeg2, lMLeg3, lMLegClaw;
 
 	public ModelLouse(){
 		textureWidth = 64;
 		textureHeight = 128;
 
-		headMain = new ModelRenderer(this,15,0);
-		headMain.addBox(-2F,-1.5F,-4F,4,4,4);
-		headMain.setRotationPoint(0F,19F,-10F);
-		setRotation(headMain,0.0872665F,0F,0F);
+		headMain = new ModelRenderer(this, 15, 0);
+		headMain.addBox(-2F, -1.5F, -4F, 4, 4, 4);
+		headMain.setRotationPoint(0F, 19F, -10F);
+		setRotation(headMain, 0.0872665F, 0F, 0F);
 		
-		headFront = new ModelRenderer(this,39,0);
-		headFront.addBox(-1.5F,-1F,-6F,3,3,2);
-		setRotation(headFront,0F,0F,0F);
+		headFront = new ModelRenderer(this, 39, 0);
+		headFront.addBox(-1.5F, -1F, -6F, 3, 3, 2);
+		setRotation(headFront, 0F, 0F, 0F);
 		
-		eyes = new ModelRenderer(this,0,0);
-		eyes.addBox(-2.5F,-1F,-3F,5,2,2);
-		setRotation(eyes,0F,0F,0F);
+		eyes = new ModelRenderer(this, 0, 0);
+		eyes.addBox(-2.5F, -1F, -3F, 5, 2, 2);
+		setRotation(eyes, 0F, 0F, 0F);
 		
-		antR = new ModelRenderer(this,46,28);
-		antR.addBox(-10F,0.5F,-2.5F,7,1,1);
-		setRotation(antR,-0.0872665F,-0.8235988F,0F);
+		antR = new ModelRenderer(this, 46, 28);
+		antR.addBox(-10F, 0.5F, -2.5F, 7, 1, 1);
+		setRotation(antR, -0.0872665F, -0.8235988F, 0F);
 		
-		antL = new ModelRenderer(this,0,28);
-		antL.addBox(3F,0.5F,-2.5F,7,1,1);
-		setRotation(antL,-0.0872665F,0.8235988F,0F);
+		antL = new ModelRenderer(this, 0, 28);
+		antL.addBox(3F, 0.5F, -2.5F, 7, 1, 1);
+		setRotation(antL, -0.0872665F, 0.8235988F, 0F);
 		
-		mandible = new ModelRenderer(this,52,0);
-		mandible.addBox(-1F,0F,-7F,2,2,1);
-		setRotation(mandible,0F,0F,0F);
+		mandible = new ModelRenderer(this, 52, 0);
+		mandible.addBox(-1F, 0F, -7F, 2, 2, 1);
+		setRotation(mandible, 0F, 0F, 0F);
 		
-		thx = new ModelRenderer(this,11,9);
-		thx.addBox(-4F,-3F,-1F,8,6,12);
-		thx.setRotationPoint(0F,19.5F,-9F);
-		setRotation(thx,0F,0F,0F);
+		thx = new ModelRenderer(this, 11, 9);
+		thx.addBox(-4F, -3F, -1F, 8, 6, 12);
+		thx.setRotationPoint(0F, 19.5F, -9F);
+		setRotation(thx, 0F, 0F, 0F);
 		
-		legBase1 = new ModelRenderer(this,17,28);
-		legBase1.addBox(-5F,-2F,0F,10,4,4);
-		legBase1.setRotationPoint(0F,19.5F,-9F);
-		setRotation(legBase1,0F,0F,0F);
+		legBase1 = new ModelRenderer(this, 17, 28);
+		legBase1.addBox(-5F, -2F, 0F, 10, 4, 4);
+		legBase1.setRotationPoint(0F, 19.5F, -9F);
+		setRotation(legBase1, 0F, 0F, 0F);
 		
-		legBase2 = new ModelRenderer(this,16,37);
-		legBase2.addBox(-5.5F,-2F,5F,11,4,4);
-		legBase2.setRotationPoint(0F,19.5F,-9F);
-		setRotation(legBase2,0F,0F,0F);
+		legBase2 = new ModelRenderer(this, 16, 37);
+		legBase2.addBox(-5.5F, -2F, 5F, 11, 4, 4);
+		legBase2.setRotationPoint(0F, 19.5F, -9F);
+		setRotation(legBase2, 0F, 0F, 0F);
 		
-		legBase3 = new ModelRenderer(this,15,46);
-		legBase3.addBox(-6F,-2F,10F,12,4,4);
-		legBase3.setRotationPoint(0F,19.5F,-9F);
-		setRotation(legBase3,0F,0F,0F);
+		legBase3 = new ModelRenderer(this, 15, 46);
+		legBase3.addBox(-6F, -2F, 10F, 12, 4, 4);
+		legBase3.setRotationPoint(0F, 19.5F, -9F);
+		setRotation(legBase3, 0F, 0F, 0F);
 		
-		abMain = new ModelRenderer(this,6,55);
-		abMain.addBox(-4.5F,-4.5F,4F,9,7,16);
-		abMain.setRotationPoint(0F,20F,-2F);
-		setRotation(abMain,-0.0872665F,0F,0F);
+		abMain = new ModelRenderer(this, 6, 55);
+		abMain.addBox(-4.5F, -4.5F, 4F, 9, 7, 16);
+		abMain.setRotationPoint(0F, 20F, -2F);
+		setRotation(abMain, -0.0872665F, 0F, 0F);
 		
-		abSide = new ModelRenderer(this,5,79);
-		abSide.addBox(-7F,-2F,9F,14,4,12);
-		abSide.setRotationPoint(0F,19F,-4F);
-		setRotation(abSide,-0.0872665F,0F,0F);
+		abSide = new ModelRenderer(this, 5, 79);
+		abSide.addBox(-7F, -2F, 9F, 14, 4, 12);
+		abSide.setRotationPoint(0F, 19F, -4F);
+		setRotation(abSide, -0.0872665F, 0F, 0F);
 		
-		abBack = new ModelRenderer(this,23,96);
-		abBack.addBox(-3F,-2F,13F,6,4,2);
-		abBack.setRotationPoint(0F,20F,5F);
-		setRotation(abBack,-0.0872665F,0F,0F);
+		abBack = new ModelRenderer(this, 23, 96);
+		abBack.addBox(-3F, -2F, 13F, 6, 4, 2);
+		abBack.setRotationPoint(0F, 20F, 5F);
+		setRotation(abBack, -0.0872665F, 0F, 0F);
 		
-		rFLeg1 = new ModelRenderer(this,25,103);
-		rFLeg1.addBox(-1.033333F,-3F,-1F,2,4,2);
-		rFLeg1.setRotationPoint(-5F,20F,-7F);
-		setRotation(rFLeg1,0F,2.617994F,-0.8726646F);
+		rFLeg1 = new ModelRenderer(this, 25, 103);
+		rFLeg1.addBox(-1.033333F, -3F, -1F, 2, 4, 2);
+		rFLeg1.setRotationPoint(-5F, 20F, -7F);
+		setRotation(rFLeg1, 0F, 2.617994F, -0.8726646F);
 		
-		rFLeg2 = new ModelRenderer(this,25,110);
-		rFLeg2.addBox(1F,-3F,-1.5F,6,2,3);
-		setRotation(rFLeg2,0F,0F,-0.8726646F);
+		rFLeg2 = new ModelRenderer(this, 25, 110);
+		rFLeg2.addBox(1F, -3F, -1.5F, 6, 2, 3);
+		setRotation(rFLeg2, 0F, 0F, -0.8726646F);
 		
-		rFLeg3 = new ModelRenderer(this,25,116);
-		rFLeg3.addBox(2F,-7.5F,-1F,6,2,2);
-		setRotation(rFLeg3,0F,0F,0F);
+		rFLeg3 = new ModelRenderer(this, 25, 116);
+		rFLeg3.addBox(2F, -7.5F, -1F, 6, 2, 2);
+		setRotation(rFLeg3, 0F, 0F, 0F);
 		
-		rFLegClaw = new ModelRenderer(this,25,122);
-		rFLegClaw.addBox(8F,-7.5F,-0.5F,3,1,1);
-		setRotation(rFLegClaw,0F,0F,0F);
+		rFLegClaw = new ModelRenderer(this, 25, 122);
+		rFLegClaw.addBox(8F, -7.5F, -0.5F, 3, 1, 1);
+		setRotation(rFLegClaw, 0F, 0F, 0F);
 		
-		rBLeg1 = new ModelRenderer(this,25,103);
-		rBLeg1.addBox(-1.033333F,-3F,-1F,2,4,2);
-		rBLeg1.setRotationPoint(-6.5F,20F,3F);
-		setRotation(rBLeg1,0F,-2.617994F,-0.8726646F);
+		rBLeg1 = new ModelRenderer(this, 25, 103);
+		rBLeg1.addBox(-1.033333F, -3F, -1F, 2, 4, 2);
+		rBLeg1.setRotationPoint(-6.5F, 20F, 3F);
+		setRotation(rBLeg1, 0F, -2.617994F, -0.8726646F);
 		
-		rBLeg2 = new ModelRenderer(this,25,110);
-		rBLeg2.addBox(1F,-3F,-1.5F,6,2,3);
-		setRotation(rBLeg2,0F,0F,-0.8726646F);
+		rBLeg2 = new ModelRenderer(this, 25, 110);
+		rBLeg2.addBox(1F, -3F, -1.5F, 6, 2, 3);
+		setRotation(rBLeg2, 0F, 0F, -0.8726646F);
 		
-		rBLeg3 = new ModelRenderer(this,25,116);
-		rBLeg3.addBox(2F,-7.5F,-1F,6,2,2);
-		setRotation(rBLeg3,0F,0F,0F);
+		rBLeg3 = new ModelRenderer(this, 25, 116);
+		rBLeg3.addBox(2F, -7.5F, -1F, 6, 2, 2);
+		setRotation(rBLeg3, 0F, 0F, 0F);
 		
-		rBLegClaw = new ModelRenderer(this,25,122);
-		rBLegClaw.addBox(8F,-7.5F,-0.5F,3,1,1);
-		setRotation(rBLegClaw,0F,0F,0F);
+		rBLegClaw = new ModelRenderer(this, 25, 122);
+		rBLegClaw.addBox(8F, -7.5F, -0.5F, 3, 1, 1);
+		setRotation(rBLegClaw, 0F, 0F, 0F);
 		
-		lBLeg1 = new ModelRenderer(this,25,103);
-		lBLeg1.addBox(-1.033333F,-3F,-1F,2,4,2);
-		lBLeg1.setRotationPoint(6.5F,20F,3F);
-		setRotation(lBLeg1,0F,-0.5235988F,0.8726646F);
+		lBLeg1 = new ModelRenderer(this, 25, 103);
+		lBLeg1.addBox(-1.033333F, -3F, -1F, 2, 4, 2);
+		lBLeg1.setRotationPoint(6.5F, 20F, 3F);
+		setRotation(lBLeg1, 0F, -0.5235988F, 0.8726646F);
 		
-		lBLeg2 = new ModelRenderer(this,25,110);
-		lBLeg2.addBox(1F,-3F,-1.5F,6,2,3);
-		setRotation(lBLeg2,0F,0F,-0.8726646F);
+		lBLeg2 = new ModelRenderer(this, 25, 110);
+		lBLeg2.addBox(1F, -3F, -1.5F, 6, 2, 3);
+		setRotation(lBLeg2, 0F, 0F, -0.8726646F);
 		
-		lBLeg3 = new ModelRenderer(this,25,116);
-		lBLeg3.addBox(2F,-7.5F,-1F,6,2,2);
-		setRotation(lBLeg3,0F,0F,0F);
+		lBLeg3 = new ModelRenderer(this, 25, 116);
+		lBLeg3.addBox(2F, -7.5F, -1F, 6, 2, 2);
+		setRotation(lBLeg3, 0F, 0F, 0F);
 		
-		lBLegClaw = new ModelRenderer(this,25,122);
-		lBLegClaw.addBox(8F,-7.5F,-0.5F,3,1,1);
-		setRotation(lBLegClaw,0F,0F,0F);
+		lBLegClaw = new ModelRenderer(this, 25, 122);
+		lBLegClaw.addBox(8F, -7.5F, -0.5F, 3, 1, 1);
+		setRotation(lBLegClaw, 0F, 0F, 0F);
 		
-		lFLeg1 = new ModelRenderer(this,25,103);
-		lFLeg1.addBox(-1F,-3F,-1F,2,4,2);
-		lFLeg1.setRotationPoint(5F,20F,-7F);
-		setRotation(lFLeg1,0F,0.5235988F,0.8726646F);
+		lFLeg1 = new ModelRenderer(this, 25, 103);
+		lFLeg1.addBox(-1F, -3F, -1F, 2, 4, 2);
+		lFLeg1.setRotationPoint(5F, 20F, -7F);
+		setRotation(lFLeg1, 0F, 0.5235988F, 0.8726646F);
 		
-		lFLeg2 = new ModelRenderer(this,25,110);
-		lFLeg2.addBox(1F,-3F,-1.5F,6,2,3);
-		setRotation(lFLeg2,0F,0F,-0.8726646F);
+		lFLeg2 = new ModelRenderer(this, 25, 110);
+		lFLeg2.addBox(1F, -3F, -1.5F, 6, 2, 3);
+		setRotation(lFLeg2, 0F, 0F, -0.8726646F);
 		
-		lFLeg3 = new ModelRenderer(this,25,116);
-		lFLeg3.addBox(2F,-7.5F,-1F,6,2,2);
-		setRotation(lFLeg3,0F,0F,0F);
+		lFLeg3 = new ModelRenderer(this, 25, 116);
+		lFLeg3.addBox(2F, -7.5F, -1F, 6, 2, 2);
+		setRotation(lFLeg3, 0F, 0F, 0F);
 		
-		lFLegClaw = new ModelRenderer(this,25,122);
-		lFLegClaw.addBox(8F,-7.5F,-0.5F,3,1,1);
-		setRotation(lFLegClaw,0F,0F,0F);
+		lFLegClaw = new ModelRenderer(this, 25, 122);
+		lFLegClaw.addBox(8F, -7.5F, -0.5F, 3, 1, 1);
+		setRotation(lFLegClaw, 0F, 0F, 0F);
 		
-		rMLeg1 = new ModelRenderer(this,25,103);
-		rMLeg1.addBox(-1.033333F,-3F,-1F,2,4,2);
-		rMLeg1.setRotationPoint(-6F,20F,-2F);
-		setRotation(rMLeg1,0F,MathUtil.PI,-0.8726646F);
+		rMLeg1 = new ModelRenderer(this, 25, 103);
+		rMLeg1.addBox(-1.033333F, -3F, -1F, 2, 4, 2);
+		rMLeg1.setRotationPoint(-6F, 20F, -2F);
+		setRotation(rMLeg1, 0F, MathUtil.PI, -0.8726646F);
 		
-		rMLeg2 = new ModelRenderer(this,25,110);
-		rMLeg2.addBox(1F,-3F,-1.5F,6,2,3);
-		setRotation(rMLeg2,0F,0F,-0.8726646F);
+		rMLeg2 = new ModelRenderer(this, 25, 110);
+		rMLeg2.addBox(1F, -3F, -1.5F, 6, 2, 3);
+		setRotation(rMLeg2, 0F, 0F, -0.8726646F);
 		
-		rMLeg3 = new ModelRenderer(this,25,116);
-		rMLeg3.addBox(2F,-7.5F,-1F,6,2,2);
-		setRotation(rMLeg3,0F,0F,0F);
+		rMLeg3 = new ModelRenderer(this, 25, 116);
+		rMLeg3.addBox(2F, -7.5F, -1F, 6, 2, 2);
+		setRotation(rMLeg3, 0F, 0F, 0F);
 		
-		rMLegClaw = new ModelRenderer(this,25,122);
-		rMLegClaw.addBox(8F,-7.5F,-0.5F,3,1,1);
-		setRotation(rMLegClaw,0F,0F,0F);
+		rMLegClaw = new ModelRenderer(this, 25, 122);
+		rMLegClaw.addBox(8F, -7.5F, -0.5F, 3, 1, 1);
+		setRotation(rMLegClaw, 0F, 0F, 0F);
 		
-		lMLeg1 = new ModelRenderer(this,25,103);
-		lMLeg1.addBox(-1F,-3F,-1F,2,4,2);
-		lMLeg1.setRotationPoint(6F,20F,-2F);
-		setRotation(lMLeg1,0F,0F,0.8726646F);
+		lMLeg1 = new ModelRenderer(this, 25, 103);
+		lMLeg1.addBox(-1F, -3F, -1F, 2, 4, 2);
+		lMLeg1.setRotationPoint(6F, 20F, -2F);
+		setRotation(lMLeg1, 0F, 0F, 0.8726646F);
 		
-		lMLeg2 = new ModelRenderer(this,25,110);
-		lMLeg2.addBox(1F,-3F,-1.5F,6,2,3);
-		setRotation(lMLeg2,0F,0F,-0.8726646F);
+		lMLeg2 = new ModelRenderer(this, 25, 110);
+		lMLeg2.addBox(1F, -3F, -1.5F, 6, 2, 3);
+		setRotation(lMLeg2, 0F, 0F, -0.8726646F);
 		
-		lMLeg3 = new ModelRenderer(this,25,116);
-		lMLeg3.addBox(2F,-7.5F,-1F,6,2,2);
-		setRotation(lMLeg3,0F,0F,0F);
+		lMLeg3 = new ModelRenderer(this, 25, 116);
+		lMLeg3.addBox(2F, -7.5F, -1F, 6, 2, 2);
+		setRotation(lMLeg3, 0F, 0F, 0F);
 		
-		lMLegClaw = new ModelRenderer(this,25,122);
-		lMLegClaw.addBox(8F,-7.5F,-0.5F,3,1,1);
-		setRotation(lMLegClaw,0F,0F,0F);
+		lMLegClaw = new ModelRenderer(this, 25, 122);
+		lMLegClaw.addBox(8F, -7.5F, -0.5F, 3, 1, 1);
+		setRotation(lMLegClaw, 0F, 0F, 0F);
 		
 		rFLeg1.addChild(rFLeg2);
 		rFLeg1.addChild(rFLeg3);
@@ -220,8 +220,8 @@ public class ModelLouse extends ModelBase{
 
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		super.render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
-		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+		super.render(entity, limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel);
+		setRotationAngles(limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel, entity);
 		
 		headMain.render(unitPixel);
 
@@ -250,7 +250,7 @@ public class ModelLouse extends ModelBase{
 
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
-		super.setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+		super.setRotationAngles(limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel, entity);
 		float correction = 0.8726646F;
 		float legMovement = MathHelper.cos(limbSwing*2.5F)*0.9F*limbSwingAngle;
 		headMain.rotateAngleY = MathUtil.toRad(rotationYaw);

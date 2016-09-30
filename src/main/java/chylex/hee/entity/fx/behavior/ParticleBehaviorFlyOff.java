@@ -17,7 +17,7 @@ public class ParticleBehaviorFlyOff implements IParticleBehavior{
 		particle.prevPosY = particle.posY;
 		particle.prevPosZ = particle.posZ;
 		
-		particle.moveEntity(motionVec.x,motionVec.y,motionVec.z);
+		particle.moveEntity(motionVec.x, motionVec.y, motionVec.z);
 		
 		if (particle.worldObj.rand.nextInt(3) == 0){
 			Vec modifier = Vec.xyzRandom(particle.worldObj.rand).multiplied(particle.worldObj.rand.nextDouble());

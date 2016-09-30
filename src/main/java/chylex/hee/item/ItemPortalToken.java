@@ -28,19 +28,19 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemPortalToken extends Item{
 	public static final ItemStack forTerritory(EndTerritory territory, boolean isRare){
-		ItemStack is = new ItemStack(ItemList.portal_token,1,isRare ? 1 : 0);
-		NBT.item(is,true).setByte("territory",(byte)territory.ordinal());
+		ItemStack is = new ItemStack(ItemList.portal_token, 1, isRare ? 1 : 0);
+		NBT.item(is, true).setByte("territory", (byte)territory.ordinal());
 		return is;
 	}
 	
 	public static final ItemStack forTerritory(EndTerritory territory, boolean isRare, Random rand){
-		ItemStack is = forTerritory(territory,isRare);
-		NBT.item(is,true).setInt("variations",territory.properties.generateVariationsSerialized(rand,isRare));
+		ItemStack is = forTerritory(territory, isRare);
+		NBT.item(is, true).setInt("variations", territory.properties.generateVariationsSerialized(rand, isRare));
 		return is;
 	}
 	
 	public static final @Nullable EndTerritory getTerritory(ItemStack is){
-		return CollectionUtil.get(EndTerritory.values,NBT.item(is,false).getByte("territory")).orElse(null);
+		return CollectionUtil.get(EndTerritory.values, NBT.item(is, false).getByte("territory")).orElse(null);
 	}
 	
 	public static final boolean isRare(ItemStack is){
@@ -55,13 +55,13 @@ public class ItemPortalToken extends Item{
 		EndTerritory territory = getTerritory(is);
 		if (territory == null)return EmptyEnumSet.get();
 		
-		return territory.properties.deserialize(NBT.item(is,false).getInt("variations"));
+		return territory.properties.deserialize(NBT.item(is, false).getInt("variations"));
 	}
 	
 	public static final Optional<Pos> generateTerritory(ItemStack is, World world){
 		WorldFile file = SaveData.global(WorldFile.class);
 		
-		NBTCompound tag = NBT.item(is,true);
+		NBTCompound tag = NBT.item(is, true);
 		if (tag.hasKey("thash"))return Optional.of(file.getTerritoryPos(tag.getLong("thash")));
 		
 		EndTerritory territory = getTerritory(is);
@@ -71,17 +71,17 @@ public class ItemPortalToken extends Item{
 		final long hash = territory.getHashFromIndex(index);
 		
 		final EnumSet<? extends Enum<?>> variations = getVariations(is);
-		final Pos spawnPos = territory.generateTerritory(index,world,territory.createRandom(world.getSeed(),index),variations,isRare(is));
+		final Pos spawnPos = territory.generateTerritory(index, world, territory.createRandom(world.getSeed(), index), variations, isRare(is));
 		
 		if (isRare(is)){
 			file.setTerritoryRare(hash);
 			is.setItemDamage(2);
 		}
 		
-		file.setTerritoryPos(hash,spawnPos);
-		file.setTerritoryVariations(hash,variations);
+		file.setTerritoryPos(hash, spawnPos);
+		file.setTerritoryVariations(hash, variations);
 		
-		tag.setLong("thash",hash);
+		tag.setLong("thash", hash);
 		return Optional.of(spawnPos);
 	}
 	
@@ -100,7 +100,7 @@ public class ItemPortalToken extends Item{
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		if (!world.isRemote && player.capabilities.isCreativeMode && getTerritory(is) != null){
-			NBT.item(is,true).setInt("variations",getTerritory(is).properties.generateVariationsSerialized(world.rand,isRare(is)));
+			NBT.item(is, true).setInt("variations", getTerritory(is).properties.generateVariationsSerialized(world.rand, isRare(is)));
 		}
 		
 		return is;
@@ -109,10 +109,10 @@ public class ItemPortalToken extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		final int territory = NBT.item(is,false).getByte("territory");
+		final int territory = NBT.item(is, false).getByte("territory");
 		textLines.add(I18n.format("territory."+territory));
 		
-		final int variations = NBT.item(is,false).getInt("variations");
+		final int variations = NBT.item(is, false).getInt("variations");
 		
 		if (variations != 0){
 			BitStream.forInt(variations).forEach(ordinal -> {
@@ -126,8 +126,8 @@ public class ItemPortalToken extends Item{
 	public void getSubItems(Item item, CreativeTabs tab, List list){
 		for(EndTerritory territory:EndTerritory.values){
 			if (territory.canGenerate()){
-				list.add(forTerritory(territory,false));
-				list.add(forTerritory(territory,true));
+				list.add(forTerritory(territory, false));
+				list.add(forTerritory(territory, true));
 			}
 		}
 	}

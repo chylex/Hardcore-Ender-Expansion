@@ -23,20 +23,20 @@ public class RenderItemLootChest implements IItemRenderer{
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object...data){
-		GL.rotate(90F,0F,1F,0F);
-		GL.translate(-0.5F,-0.5F,-0.5F);
+		GL.rotate(90F, 0F, 1F, 0F);
+		GL.translate(-0.5F, -0.5F, -0.5F);
 		
 		if (type == ItemRenderType.EQUIPPED_FIRST_PERSON){
-			GL.translate(-0.55F,0.7F,0.25F);
+			GL.translate(-0.55F, 0.7F, 0.25F);
 		}
 		else if (type == ItemRenderType.EQUIPPED){
-			GL.translate(-0.5F,0.7F,0.5F);
+			GL.translate(-0.5F, 0.7F, 0.5F);
 		}
 		else if (type == ItemRenderType.INVENTORY){
 			if (Minecraft.getMinecraft().currentScreen instanceof GuiAchievements)RenderHelper.enableGUIStandardItemLighting();
 		}
 		
-		TileEntityRendererDispatcher.instance.renderTileEntityAt(chestRenderer,0D,0D,0D,0F);
+		TileEntityRendererDispatcher.instance.renderTileEntityAt(chestRenderer, 0D, 0D, 0D, 0F);
 		GL.enableRescaleNormal();
 	}
 }

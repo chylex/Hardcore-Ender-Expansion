@@ -12,16 +12,16 @@ import chylex.hee.system.abstractions.entity.EntitySelector;
 public class EntityProjectileCorruptedEnergy extends EntityFireball{
 	public EntityProjectileCorruptedEnergy(World world){
 		super(world);
-		setSize(0F,0F);
+		setSize(0F, 0F);
 	}
 	
 	public EntityProjectileCorruptedEnergy(World world, EntityLivingBase shooter, double x, double y, double z, Entity target){
-		super(world,shooter,1D,1D,1D);
-		setSize(0.25F,0.25F);
-		setPosition(x,y,z);
+		super(world, shooter, 1D, 1D, 1D);
+		setSize(0.25F, 0.25F);
+		setPosition(x, y, z);
 		
 		double speed = 0.21D+rand.nextDouble()*0.05D;
-		Vec3 motionVec = Vec3.createVectorHelper(target.posX-x,target.posY+target.height*0.5F-y,target.posZ-z).normalize();
+		Vec3 motionVec = Vec3.createVectorHelper(target.posX-x, target.posY+target.height*0.5F-y, target.posZ-z).normalize();
 		motionX = motionVec.xCoord*speed+rand.nextGaussian()*0.015D;
 		motionY = motionVec.yCoord*speed+rand.nextGaussian()*0.015D;
 		motionZ = motionVec.zCoord*speed+rand.nextGaussian()*0.015D;
@@ -37,12 +37,12 @@ public class EntityProjectileCorruptedEnergy extends EntityFireball{
 		}
 		
 		if (worldObj.isRemote){
-			if (ticksExisted == 1)worldObj.playSound(posX,posY,posZ,"hardcoreenderexpansion:mob.endermage.attack",1F,0.6F+rand.nextFloat()*1F,false);
+			if (ticksExisted == 1)worldObj.playSound(posX, posY, posZ, "hardcoreenderexpansion:mob.endermage.attack", 1F, 0.6F+rand.nextFloat()*1F, false);
 			return;
 		}
 		
 		if (ticksExisted % 3 == 0){
-			for(EntityLivingBase e:EntitySelector.living(worldObj,boundingBox.offset(0D,0.5D,0D).expand(1D,1D,1D))){
+			for(EntityLivingBase e:EntitySelector.living(worldObj, boundingBox.offset(0D, 0.5D, 0D).expand(1D, 1D, 1D))){
 				if (e.hurtResistantTime == 0 && !(e instanceof IIgnoreEnderGoo)){
 					// TODO MultiDamage.from(shootingEntity).addMagic(2F).addScaled(ModCommonProxy.opMobs ? 14F : 9F).attack(e);
 					e.hurtResistantTime = 5;

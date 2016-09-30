@@ -13,53 +13,53 @@ import chylex.hee.world.util.Size;
 
 public class StrongholdRoomSmallIntersection extends StrongholdRoom{
 	public StrongholdRoomSmallIntersection(){
-		super(new Size(9,6,9));
+		super(new Size(9, 6, 9));
 	}
 	
 	@Override
 	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
-		super.generate(inst,world,rand,x,y,z);
+		super.generate(inst, world, rand, x, y, z);
 		
 		PosMutable mpos = new PosMutable();
 		
 		for(Facing4 facing:Facing4.list){
 			Facing4 left = facing.rotateLeft(), right = facing.rotateRight();
 			
-			IBlockPicker placeStairRight = placeStoneBrickStairs(right,true);
-			IBlockPicker placeStairFront = placeStoneBrickStairs(facing,true);
+			IBlockPicker placeStairRight = placeStoneBrickStairs(right, true);
+			IBlockPicker placeStairFront = placeStoneBrickStairs(facing, true);
 			
 			// top stairs and brick blocks
-			mpos.set(x+maxX/2,0,z+maxZ/2).move(facing,3);
-			placeLine(world,rand,placeStoneBrickStairs(facing,true),mpos.x+left.getX(),y+4,mpos.z+left.getZ(),mpos.x+right.getX(),y+4,mpos.z+right.getZ());
+			mpos.set(x+maxX/2, 0, z+maxZ/2).move(facing, 3);
+			placeLine(world, rand, placeStoneBrickStairs(facing, true), mpos.x+left.getX(), y+4, mpos.z+left.getZ(), mpos.x+right.getX(), y+4, mpos.z+right.getZ());
 			
-			mpos.move(right,2);
-			placeBlock(world,rand,placeStoneBrickPlain,mpos.x,y+4,mpos.z);
+			mpos.move(right, 2);
+			placeBlock(world, rand, placeStoneBrickPlain, mpos.x, y+4, mpos.z);
 			mpos.move(right);
-			placeBlock(world,rand,placeStoneBrickPlain,mpos.x,y+4,mpos.z);
+			placeBlock(world, rand, placeStoneBrickPlain, mpos.x, y+4, mpos.z);
 			mpos.move(right.rotateRight());
-			placeBlock(world,rand,placeStoneBrickPlain,mpos.x,y+4,mpos.z);
+			placeBlock(world, rand, placeStoneBrickPlain, mpos.x, y+4, mpos.z);
 			
 			// corner column
-			mpos.set(x+maxX/2,0,z+maxZ/2).move(facing,3).move(right,3);
-			placeBlock(world,rand,placeStoneBrickPlain,mpos.x,y+3,mpos.z);
-			placeBlock(world,rand,placeStairRight,mpos.x,y+2,mpos.z);
-			placeBlock(world,rand,placeStairRight,mpos.x,y+1,mpos.z);
+			mpos.set(x+maxX/2, 0, z+maxZ/2).move(facing, 3).move(right, 3);
+			placeBlock(world, rand, placeStoneBrickPlain, mpos.x, y+3, mpos.z);
+			placeBlock(world, rand, placeStairRight, mpos.x, y+2, mpos.z);
+			placeBlock(world, rand, placeStairRight, mpos.x, y+1, mpos.z);
 			
 			// next-to-corner
-			mpos.set(x+maxX/2,0,z+maxZ/2).move(facing,3).move(right,2);
-			placeBlock(world,rand,placeStairFront,mpos.x,y+1,mpos.z);
-			placeBlock(world,rand,placeStairFront,mpos.x,y+2,mpos.z);
+			mpos.set(x+maxX/2, 0, z+maxZ/2).move(facing, 3).move(right, 2);
+			placeBlock(world, rand, placeStairFront, mpos.x, y+1, mpos.z);
+			placeBlock(world, rand, placeStairFront, mpos.x, y+2, mpos.z);
 			
 			mpos.move(right).move(right.rotateRight());
-			placeBlock(world,rand,placeStairRight,mpos.x,y+1,mpos.z);
-			placeBlock(world,rand,placeStairRight,mpos.x,y+2,mpos.z);
+			placeBlock(world, rand, placeStairRight, mpos.x, y+1, mpos.z);
+			placeBlock(world, rand, placeStairRight, mpos.x, y+2, mpos.z);
 			
-			placeBlock(world,rand,placeStairFront,mpos.x,y+3,mpos.z);
+			placeBlock(world, rand, placeStairFront, mpos.x, y+3, mpos.z);
 			mpos.move(left);
-			placeBlock(world,rand,placeStairFront,mpos.x,y+3,mpos.z);
-			world.setAttentionWhore(mpos.x,y+4,mpos.z,new BlockInfo(Blocks.torch,Meta.torchGround));
+			placeBlock(world, rand, placeStairFront, mpos.x, y+3, mpos.z);
+			world.setAttentionWhore(mpos.x, y+4, mpos.z, new BlockInfo(Blocks.torch, Meta.torchGround));
 			mpos.move(facing);
-			placeBlock(world,rand,placeStairRight,mpos.x,y+3,mpos.z);
+			placeBlock(world, rand, placeStairRight, mpos.x, y+3, mpos.z);
 		}
 	}
 }

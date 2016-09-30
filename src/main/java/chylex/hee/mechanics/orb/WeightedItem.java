@@ -15,7 +15,7 @@ public class WeightedItem implements IWeightProvider{
 	private int weight;
 	
 	public WeightedItem(Block block, int damage, int weight){
-		this(Item.getItemFromBlock(block),damage,weight);
+		this(Item.getItemFromBlock(block), damage, weight);
 	}
 	
 	public WeightedItem(Item item, int damage, int weight){
@@ -29,7 +29,7 @@ public class WeightedItem implements IWeightProvider{
 	}
 	
 	public void combineDamageValues(WeightedItem otherItem){
-		possibleDamageValues = ArrayUtils.addAll(possibleDamageValues,otherItem.possibleDamageValues);
+		possibleDamageValues = ArrayUtils.addAll(possibleDamageValues, otherItem.possibleDamageValues);
 	}
 	
 	public short[] getDamageValues(){
@@ -50,19 +50,19 @@ public class WeightedItem implements IWeightProvider{
 	 * removed. If no damage values are left or the pattern blacklists the item itself, it will return
 	 * true to signal it should be removed. It will also return the amount of removed damage values.
 	 */
-	public Pair<Integer,Boolean> runBlacklistPattern(ItemPattern pattern){
-		if (pattern.matchesAnyDamage() && pattern.matches(new ItemStack(item,1,0))){
-			return Pair.of(possibleDamageValues.length,true);
+	public Pair<Integer, Boolean> runBlacklistPattern(ItemPattern pattern){
+		if (pattern.matchesAnyDamage() && pattern.matches(new ItemStack(item, 1, 0))){
+			return Pair.of(possibleDamageValues.length, true);
 		}
 		
 		TShortArrayList dmgToRemove = new TShortArrayList(possibleDamageValues.length);
 		
 		for(short damage:possibleDamageValues){
-			if (pattern.matches(new ItemStack(item,1,damage)))dmgToRemove.add(damage);
+			if (pattern.matches(new ItemStack(item, 1, damage)))dmgToRemove.add(damage);
 		}
 		
-		possibleDamageValues = ArrayUtils.removeElements(possibleDamageValues,dmgToRemove.toArray());
-		return Pair.of(dmgToRemove.size(),possibleDamageValues.length == 0);
+		possibleDamageValues = ArrayUtils.removeElements(possibleDamageValues, dmgToRemove.toArray());
+		return Pair.of(dmgToRemove.size(), possibleDamageValues.length == 0);
 	}
 	
 	@Override

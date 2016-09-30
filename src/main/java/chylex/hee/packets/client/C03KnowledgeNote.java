@@ -28,7 +28,7 @@ public class C03KnowledgeNote extends AbstractClientPacket{
 
 	@Override
 	public void read(ByteBuf buffer){
-		category = CollectionUtil.get(LoreTexts.values(),buffer.readByte()).orElse(LoreTexts.UNKNOWN);
+		category = CollectionUtil.get(LoreTexts.values(), buffer.readByte()).orElse(LoreTexts.UNKNOWN);
 		index = buffer.readByte();
 		points = buffer.readShort();
 	}
@@ -36,6 +36,6 @@ public class C03KnowledgeNote extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		Minecraft.getMinecraft().displayGuiScreen(new GuiKnowledgeNote(category.getUnlocalizedName(index),points));
+		Minecraft.getMinecraft().displayGuiScreen(new GuiKnowledgeNote(category.getUnlocalizedName(index), points));
 	}
 }

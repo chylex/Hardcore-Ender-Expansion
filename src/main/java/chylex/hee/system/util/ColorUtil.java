@@ -28,8 +28,8 @@ public final class ColorUtil{
 	}
 	
 	public static float getHue(float red, float green, float blue){
-		float min = Math.min(red,Math.min(green,blue));
-		float max = Math.max(red,Math.max(green,blue));
+		float min = Math.min(red, Math.min(green, blue));
+		float max = Math.max(red, Math.max(green, blue));
 		float hue = 0F;
 		
 		if (max == red)hue = (green-blue)/(max-min);

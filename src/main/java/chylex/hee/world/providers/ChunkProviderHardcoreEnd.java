@@ -14,7 +14,7 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 	private final World world;
 	
 	public ChunkProviderHardcoreEnd(World world, long seed){
-		super(world,seed);
+		super(world, seed);
 		this.world = world;
 	}
 
@@ -25,7 +25,7 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 	public Chunk provideChunk(int x, int z){
 		endRNG.setSeed(x*341873128712L+z*132897987541L);
 		
-		Chunk chunk = new Chunk(world,new Block[32768],new byte[32768],x,z);
+		Chunk chunk = new Chunk(world, new Block[32768], new byte[32768], x, z);
 		for(int a = 0; a < chunk.getBiomeArray().length; a++)chunk.getBiomeArray()[a] = (byte)BiomeGenBase.sky.biomeID;
 		
 		chunk.generateSkylightMap();
@@ -34,7 +34,7 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 	
 	@Override
 	public void populate(IChunkProvider chunkProvider, int x, int z){
-		((BiomeGenHardcoreEnd)BiomeGenBase.sky).decorate(world,endRNG,x*16,z*16);
+		((BiomeGenHardcoreEnd)BiomeGenBase.sky).decorate(world, endRNG, x*16, z*16);
 	}
 	
 	@Override

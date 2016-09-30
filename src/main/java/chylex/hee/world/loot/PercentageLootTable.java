@@ -22,10 +22,10 @@ public class PercentageLootTable extends LootTable<PercentageLootItem>{
 		ArrayList<ItemStack> list = new ArrayList<>();
 		
 		for(LootItem loot:items){
-			ItemStack is = loot.generate(obj,rand);
+			ItemStack is = loot.generate(obj, rand);
 			
 			if (is != null){
-				for(IItemPostProcessor processor:postProcessors)is = processor.processItem(is,rand);
+				for(IItemPostProcessor processor:postProcessors)is = processor.processItem(is, rand);
 				list.add(is);
 			}
 		}
@@ -64,7 +64,7 @@ public class PercentageLootTable extends LootTable<PercentageLootItem>{
 		
 		@Override
 		public ItemStack generate(Object obj, Random rand){
-			ItemStack is = new ItemStack(item,0,damage == null ? 0 : damage.getDamage(obj,rand));
+			ItemStack is = new ItemStack(item, 0, damage == null ? 0 : damage.getDamage(obj, rand));
 			
 			float[] chances = chanceGenerator.getChances(obj);
 			if (chances.length == 0)return null;
@@ -74,7 +74,7 @@ public class PercentageLootTable extends LootTable<PercentageLootItem>{
 			
 			float randValue = rand.nextFloat();
 			
-			if (!MathUtil.floatEquals(sum,1F) && (randValue -= 1F-sum) < 0)return null;
+			if (!MathUtil.floatEquals(sum, 1F) && (randValue -= 1F-sum) < 0)return null;
 			
 			for(int index = 0; index < chances.length; index++){
 				if ((randValue -= chances[index]) < 0){

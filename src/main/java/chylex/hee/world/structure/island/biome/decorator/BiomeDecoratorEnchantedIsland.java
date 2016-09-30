@@ -42,7 +42,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		genCellar.setVariation(EnchantedIslandVariation.HOMELAND);
 		
 		for(int attempt = 0, placed = 0; attempt < 20 && placed < 4+rand.nextInt(3); attempt++){
-			if (genCellar.generateInWorld(world,rand,getBiome()))++placed;
+			if (genCellar.generateInWorld(world, rand, getBiome()))++placed;
 		}
 		
 		// GOO LAKES
@@ -61,7 +61,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 					
 					int ox = cx*16+rand.nextInt(16),
 						oz = cz*16+rand.nextInt(16),
-						oy = world.getHighestY(ox,oz);
+						oy = world.getHighestY(ox, oz);
 					
 					if (oy > 0){
 						boolean generateObsidian = true;
@@ -69,7 +69,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 						for(int xx = ox-radius; xx <= ox+radius && generateObsidian; ++xx){
 							for(int zz = oz-radius; zz <= oz+radius && generateObsidian; ++zz){
 								if (MathUtil.square(xx-ox)+MathUtil.square(zz-oz) <= radius*radius+1){
-									if (Math.abs(world.getHighestY(xx,zz)-oy) > 2)generateObsidian = false;
+									if (Math.abs(world.getHighestY(xx, zz)-oy) > 2)generateObsidian = false;
 								}
 							}
 						}
@@ -77,9 +77,9 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 						if (generateObsidian){
 							for(int xx = ox-radius; xx <= ox+radius; ++xx){
 								for(int zz = oz-radius; zz <= oz+radius; ++zz){
-									for(int yy = world.getHighestY(xx,zz)+1; yy < oy+height && yy < 128; ++yy){
+									for(int yy = world.getHighestY(xx, zz)+1; yy < oy+height && yy < 128; ++yy){
 										if (MathUtil.square(xx-ox)+MathUtil.square(zz-oz) <= radius*radius+0.5D+rand.nextGaussian()*0.7D){
-											world.setBlock(xx,yy,zz,BlockList.obsidian_falling,0,true);
+											world.setBlock(xx, yy, zz, BlockList.obsidian_falling, 0, true);
 										}
 									}
 								}
@@ -104,15 +104,15 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		for(int attempt = 280+rand.nextInt(42), placed = 14+rand.nextInt(10), xx, yy, zz; attempt > 0 && placed > 0; attempt--){
 			xx = rand.nextInt(ComponentIsland.size-10)+5;
 			zz = rand.nextInt(ComponentIsland.size-10)+5;
-			yy = world.getHighestY(xx,zz);
+			yy = world.getHighestY(xx, zz);
 			
-			if (world.getBlock(xx,yy,zz) == BlockList.end_terrain){
+			if (world.getBlock(xx, yy, zz) == BlockList.end_terrain){
 				for(int obsidianSearch = 0; obsidianSearch < 40; obsidianSearch++){
-					Block block = world.getBlock(xx+rand.nextInt(11)-5,yy,zz+rand.nextInt(11)-5);
+					Block block = world.getBlock(xx+rand.nextInt(11)-5, yy, zz+rand.nextInt(11)-5);
 					
 					if (block == Blocks.obsidian || block == BlockList.obsidian_falling){
 						EntityBlockHomelandCache cache = new EntityBlockHomelandCache(null);
-						cache.setPosition(xx+0.5D,yy+1D,zz+0.5D);
+						cache.setPosition(xx+0.5D, yy+1D, zz+0.5D);
 						world.addEntity(cache);
 						--placed;
 						break;
@@ -129,15 +129,15 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 			
 			HomelandRole role = HomelandRole.getRandomRole(rand);
 			enderman.setHomelandRole(role);
-			map.adjustOrPutValue(role,1,1);
+			map.adjustOrPutValue(role, 1, 1);
 			
 			for(int posAttempt = 0, xx, yy, zz; posAttempt < 30; posAttempt++){
 				xx = rand.nextInt(ComponentIsland.size-40)+20;
 				zz = rand.nextInt(ComponentIsland.size-40)+20;
-				yy = world.getHighestY(xx,zz);
+				yy = world.getHighestY(xx, zz);
 				
-				if (world.getBlock(xx,yy,zz) == topBlock){
-					enderman.setPosition(xx,yy+1,zz);
+				if (world.getBlock(xx, yy, zz) == topBlock){
+					enderman.setPosition(xx, yy+1, zz);
 					world.addEntity(enderman);
 					break;
 				}
@@ -158,7 +158,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 			if (groupId == -1)continue;
 			
 			for(int state = rand.nextBoolean() ? rand.nextInt(1+rand.nextInt(4+rand.nextInt(8))) : 0; state > 0 && size > 0; state--){
-				endermanList.remove(rand.nextInt(size--)).setGroupMember(groupId,OvertakeGroupRole.getRandomMember(rand));
+				endermanList.remove(rand.nextInt(size--)).setGroupMember(groupId, OvertakeGroupRole.getRandomMember(rand));
 			}
 		}
 	}
@@ -172,23 +172,23 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		genCellar.setVariation(EnchantedIslandVariation.LABORATORY);
 		
 		for(int attempt = 0, placed = 0; attempt < 20 && placed < 4+rand.nextInt(3); attempt++){
-			if (genCellar.generateInWorld(world,rand,getBiome()))++placed;
+			if (genCellar.generateInWorld(world, rand, getBiome()))++placed;
 		}
 		
 		// LABORATORY
-		genLaboratory.generateInWorld(world,rand,getBiome());
+		genLaboratory.generateInWorld(world, rand, getBiome());
 		
 		// VIOLET MOSS
 		for(int amount = 30+rand.nextInt(6)+rand.nextInt(8), attempt, yAttempt, xx, yy, zz, tmpY, clumps, placeAttempt, px, py, pz, placed = 0; amount > 0; amount--){
 			for(attempt = 0; attempt < 6; attempt++){
 				xx = rand.nextInt(ComponentIsland.size-30)+15;
 				zz = rand.nextInt(ComponentIsland.size-30)+15;
-				if ((yy = world.getHighestY(xx,zz)) == 0 || world.getBlock(xx,yy,zz) != BlockList.end_terrain)continue;
+				if ((yy = world.getHighestY(xx, zz)) == 0 || world.getBlock(xx, yy, zz) != BlockList.end_terrain)continue;
 				
 				for(yAttempt = 0; yAttempt < 7; yAttempt++){
 					tmpY = yy-rand.nextInt(20);
 					
-					if (tmpY > 0 && world.getBlock(xx,tmpY,zz) == BlockList.end_terrain && world.isAir(xx,tmpY+1,zz)){
+					if (tmpY > 0 && world.getBlock(xx, tmpY, zz) == BlockList.end_terrain && world.isAir(xx, tmpY+1, zz)){
 						yy = tmpY;
 						break;
 					}
@@ -203,8 +203,8 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 						py = yy+rand.nextInt(4);
 						
 						for(yAttempt = 0; yAttempt < 5; yAttempt++){
-							if (world.getBlock(px,py-1,pz) == BlockList.end_terrain && world.isAir(px,py,pz)){
-								world.setBlock(px,py,pz,BlockList.crossed_decoration,rand.nextInt(4) == 0 ? BlockCrossedDecoration.dataVioletMossTall : rand.nextInt(3) == 0 ? BlockCrossedDecoration.dataVioletMossModerate : BlockCrossedDecoration.dataVioletMossShort);
+							if (world.getBlock(px, py-1, pz) == BlockList.end_terrain && world.isAir(px, py, pz)){
+								world.setBlock(px, py, pz, BlockList.crossed_decoration, rand.nextInt(4) == 0 ? BlockCrossedDecoration.dataVioletMossTall : rand.nextInt(3) == 0 ? BlockCrossedDecoration.dataVioletMossModerate : BlockCrossedDecoration.dataVioletMossShort);
 								++placed;
 								break;
 							}

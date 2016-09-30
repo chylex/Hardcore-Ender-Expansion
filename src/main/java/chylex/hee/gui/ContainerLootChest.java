@@ -11,20 +11,20 @@ public class ContainerLootChest extends ContainerChest{
 	private int chestSlots;
 	
 	public ContainerLootChest(InventoryPlayer inventory, InventoryLootChest chest){
-		super(inventory,chest);
+		super(inventory, chest);
 		
 		chestSlots = chest.getSizeInventory();
 		
 		if (!inventory.player.capabilities.isCreativeMode){
 			for(int a = 0, numRows = chest.getSizeInventory()/9; a < numRows; a++){
-				for(int b = 0; b < 9; b++)inventorySlots.set(b+9*a,new SlotReadOnly((Slot)inventorySlots.get(b+9*a)));
+				for(int b = 0; b < 9; b++)inventorySlots.set(b+9*a, new SlotReadOnly((Slot)inventorySlots.get(b+9*a)));
 			}
 		}
 	}
 	
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotId){
-		if (player.capabilities.isCreativeMode)return super.transferStackInSlot(player,slotId);
-		else return ContainerHelper.transferStack(this,this::mergeItemStack,chestSlots,slotId);
+		if (player.capabilities.isCreativeMode)return super.transferStackInSlot(player, slotId);
+		else return ContainerHelper.transferStack(this, this::mergeItemStack, chestSlots, slotId);
 	}
 }

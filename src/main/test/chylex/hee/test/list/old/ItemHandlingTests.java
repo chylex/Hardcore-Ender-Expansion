@@ -17,44 +17,44 @@ public class ItemHandlingTests{
 	
 	{
 		patternTestList.add(new ItemStack(Blocks.dirt));
-		patternTestList.add(new ItemStack(Blocks.dirt,64));
-		patternTestList.add(new ItemStack(Blocks.dirt,1,2));
+		patternTestList.add(new ItemStack(Blocks.dirt, 64));
+		patternTestList.add(new ItemStack(Blocks.dirt, 1, 2));
 		patternTestList.add(new ItemStack(Blocks.grass));
 		patternTestList.add(new ItemStack(ItemList.ethereum));
-		patternTestList.add(new ItemStack(ItemList.ghost_amulet,1,1));
+		patternTestList.add(new ItemStack(ItemList.ghost_amulet, 1, 1));
 		
 		patternTestNbt = new NBTTagCompound();
-		patternTestNbt.setByte("testValue",(byte)1);
+		patternTestNbt.setByte("testValue", (byte)1);
 		patternTestList.get(0).setTagCompound(patternTestNbt);
 	}
 	
 	@UnitTest
 	public void testItemPatternName(){
-		Assert.equal(new ItemPattern().setItemName("","*").retainMatching(patternTestList).size(),6);
-		Assert.equal(new ItemPattern().setItemName("HardcoreEnderExpansion","*").retainMatching(patternTestList).size(),2);
-		Assert.equal(new ItemPattern().setItemName("minecraft","dirt").retainMatching(patternTestList).size(),3);
-		Assert.equal(new ItemPattern().setItemName("minecraft","sand").retainMatching(patternTestList).size(),0);
+		Assert.equal(new ItemPattern().setItemName("", "*").retainMatching(patternTestList).size(), 6);
+		Assert.equal(new ItemPattern().setItemName("HardcoreEnderExpansion", "*").retainMatching(patternTestList).size(), 2);
+		Assert.equal(new ItemPattern().setItemName("minecraft", "dirt").retainMatching(patternTestList).size(), 3);
+		Assert.equal(new ItemPattern().setItemName("minecraft", "sand").retainMatching(patternTestList).size(), 0);
 	}
 
 	@UnitTest
 	public void testItemPatternDamage(){
-		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1 }).retainMatching(patternTestList).size(),1);
-		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1, 2 }).retainMatching(patternTestList).size(),2);
+		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1 }).retainMatching(patternTestList).size(), 1);
+		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1, 2 }).retainMatching(patternTestList).size(), 2);
 	}
 
 	@UnitTest
 	public void testItemPatternNBT(){
-		Assert.equal(new ItemPattern().setNBT((NBTTagCompound)patternTestNbt.copy()).retainMatching(patternTestList).size(),1);
+		Assert.equal(new ItemPattern().setNBT((NBTTagCompound)patternTestNbt.copy()).retainMatching(patternTestList).size(), 1);
 	}
 	
 	@UnitTest
 	public void testItemDamagePair(){
-		ItemDamagePair pair1 = new ItemDamagePair(Items.gunpowder,0);
-		ItemDamagePair pair2 = new ItemDamagePair(Items.gunpowder,-1);
+		ItemDamagePair pair1 = new ItemDamagePair(Items.gunpowder, 0);
+		ItemDamagePair pair2 = new ItemDamagePair(Items.gunpowder, -1);
 		
 		Assert.isTrue(pair1.check(new ItemStack(Items.gunpowder)));
-		Assert.isFalse(pair1.check(new ItemStack(Items.gunpowder,1,1)));
-		Assert.isTrue(pair2.check(new ItemStack(Items.gunpowder,1,1)));
+		Assert.isFalse(pair1.check(new ItemStack(Items.gunpowder, 1, 1)));
+		Assert.isTrue(pair2.check(new ItemStack(Items.gunpowder, 1, 1)));
 		Assert.isFalse(pair1.check(new ItemStack(Items.dye)));
 	}
 }

@@ -37,11 +37,11 @@ public abstract class AbstractBiomeInteraction{
 	}
 	
 	protected final AxisAlignedBB getIslandBoundingBox(){
-		return null; // TODO AxisAlignedBB.getBoundingBox(centerX-ComponentIsland.halfSize,10,centerZ-ComponentIsland.halfSize,centerX+ComponentIsland.halfSize,120,centerZ+ComponentIsland.halfSize);
+		return null; // TODO AxisAlignedBB.getBoundingBox(centerX-ComponentIsland.halfSize, 10, centerZ-ComponentIsland.halfSize, centerX+ComponentIsland.halfSize, 120, centerZ+ComponentIsland.halfSize);
 	}
 	
 	public static final class BiomeInteraction{
-		private static final Map<String,BiomeInteraction> idLookup = new HashMap<>();
+		private static final Map<String, BiomeInteraction> idLookup = new HashMap<>();
 		
 		public static AbstractBiomeInteraction createByIdentifier(String identifier){
 			BiomeInteraction interaction = idLookup.get(identifier);
@@ -58,7 +58,7 @@ public abstract class AbstractBiomeInteraction{
 			this.interactionClass = interactionClass;
 			this.rngSource = rngSource;
 			this.maxInstances = (byte)(maxInstances > 127 ? 127 : maxInstances);
-			idLookup.put(identifier,this);
+			idLookup.put(identifier, this);
 		}
 		
 		public AbstractBiomeInteraction create(){
@@ -67,7 +67,7 @@ public abstract class AbstractBiomeInteraction{
 				interaction.identifier = identifier;
 				return interaction;
 			}catch(InstantiationException|IllegalAccessException e){
-				Log.throwable(e,"Could not create Biome Island Interaction ($0).",interactionClass.getSimpleName());
+				Log.throwable(e, "Could not create Biome Island Interaction ($0).", interactionClass.getSimpleName());
 				return null;
 			}
 		}

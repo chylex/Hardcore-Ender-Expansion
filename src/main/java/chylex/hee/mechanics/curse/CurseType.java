@@ -40,7 +40,7 @@ public enum CurseType{
 			NBTTagCompound nbt = entity.getEntityData();
 			
 			if (!nbt.hasKey("HEE_C0_t")){
-				nbt.setByte("HEE_C0_t",(byte)0);
+				nbt.setByte("HEE_C0_t", (byte)0);
 				return false;
 			}
 			
@@ -50,11 +50,11 @@ public enum CurseType{
 			if (timer == 0){
 				Random rand = entity.getRNG();
 				timer = (byte)(20+rand.nextInt(60));
-				if (curseTeleporter.teleport(entity,rand))hasTeleported = true;
+				if (curseTeleporter.teleport(entity, rand))hasTeleported = true;
 			}
 			else --timer;
 			
-			nbt.setByte("HEE_C0_t",timer);
+			nbt.setByte("HEE_C0_t", timer);
 			return hasTeleported;
 		}
 		
@@ -77,7 +77,7 @@ public enum CurseType{
 				if (target == null)target = creature.getAttackTarget();
 				
 				if (target == null || target instanceof EntityPlayer){
-					EntityLiving newTarget = getMob(creature,16D);
+					EntityLiving newTarget = getMob(creature, 16D);
 					
 					if (newTarget != null){
 						cooldown = 60;
@@ -90,7 +90,7 @@ public enum CurseType{
 				EntityGhast ghast = (EntityGhast)entity;
 				
 				if (ghast.targetedEntity == null || ghast.targetedEntity instanceof EntityPlayer){
-					EntityLiving newTarget = getMob(ghast,64D);
+					EntityLiving newTarget = getMob(ghast, 64D);
 					
 					if (newTarget != null){
 						cooldown = 60;
@@ -100,14 +100,14 @@ public enum CurseType{
 			}
 			else return true;
 			
-			nbt.setByte("HEE_C1_c",cooldown);
+			nbt.setByte("HEE_C1_c", cooldown);
 			return cooldown == 60;
 		}
 		
 		private EntityLiving getMob(EntityLiving me, double dist){
 			List<EntityLiving> mobs = new ArrayList<>();
 			
-			for(EntityLiving entity:EntitySelector.mobs(me.worldObj,me.boundingBox.expand(dist,dist/2,dist))){
+			for(EntityLiving entity:EntitySelector.mobs(me.worldObj, me.boundingBox.expand(dist, dist/2, dist))){
 				if (entity == me || me.getDistanceToEntity(entity) > dist)continue;
 				mobs.add(entity);
 			}
@@ -121,12 +121,12 @@ public enum CurseType{
 	}),
 	
 	TRANQUILITY(2, new ICurseHandler(){
-		private final AttributeModifier noNavigationModifier = EntityAttributes.createModifier("No navigation",Operation.MULTIPLY,0D);
+		private final AttributeModifier noNavigationModifier = EntityAttributes.createModifier("No navigation", Operation.MULTIPLY, 0D);
 		
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
 			if (!(entity instanceof EntityLiving))return true;
 			
-			EntityAttributes.applyModifier(entity,EntityAttributes.followRange,noNavigationModifier);
+			EntityAttributes.applyModifier(entity, EntityAttributes.followRange, noNavigationModifier);
 			
 			if (entity instanceof EntityCreature){
 				EntityCreature creature = (EntityCreature)entity;
@@ -139,7 +139,7 @@ public enum CurseType{
 		}
 		
 		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
-			if (entity instanceof EntityLiving)EntityAttributes.removeModifier(entity,EntityAttributes.followRange,noNavigationModifier);
+			if (entity instanceof EntityLiving)EntityAttributes.removeModifier(entity, EntityAttributes.followRange, noNavigationModifier);
 		}
 	}),
 	
@@ -148,14 +148,14 @@ public enum CurseType{
 			PotionEffect eff = entity.getActivePotionEffect(Potion.moveSlowdown);
 			
 			if (eff == null || eff.getAmplifier() < 1 || eff.getDuration() < 25){
-				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),125,1,true));
+				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 125, 1, true));
 				return true;
 			}
 			else return false;
 		}
 		
 		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
-			entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),125,1,true));
+			entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 125, 1, true));
 		}
 	}),
 	
@@ -164,14 +164,14 @@ public enum CurseType{
 			PotionEffect eff = entity.getActivePotionEffect(Potion.weakness);
 			
 			if (eff == null || eff.getAmplifier() < 1 || eff.getDuration() < 25){
-				entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),125,1,true));
+				entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(), 125, 1, true));
 				return true;
 			}
 			else return false;
 		}
 		
 		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
-			entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),125,1,true));
+			entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(), 125, 1, true));
 		}
 	}),
 	
@@ -180,21 +180,21 @@ public enum CurseType{
 			PotionEffect eff = entity.getActivePotionEffect(Potion.blindness);
 			
 			if (eff == null || eff.getDuration() < 25){
-				entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),125,0,true));
+				entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 125, 0, true));
 				return true;
 			}
 			else return false;
 		}
 		
 		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
-			entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),125,1,true));
+			entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 125, 1, true));
 		}
 	}),
 	
 	DEATH(6, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
 			if (entity.hurtTime == 0){
-				entity.attackEntityFrom(DamageSource.magic,1.5F);
+				entity.attackEntityFrom(DamageSource.magic, 1.5F);
 				return true;
 			}
 			else return false;
@@ -253,7 +253,7 @@ public enum CurseType{
 							living.renderBrokenItemStack(equipment[index]);
 
 							if (equipment[index].getItemDamageForDisplay() >= equipment[index].getMaxDamage()){
-								((EntityLiving)entity).setCurrentItemOrArmor(index,null);
+								((EntityLiving)entity).setCurrentItemOrArmor(index, null);
 							}
 
 							break;
@@ -261,11 +261,11 @@ public enum CurseType{
 					}
 				}
 				
-				nbt.setByte("HEE_C7_t",--timer);
+				nbt.setByte("HEE_C7_t", --timer);
 				return true;
 			}
 			
-			nbt.setByte("HEE_C7_t",timer);
+			nbt.setByte("HEE_C7_t", timer);
 			return false;
 		}
 		
@@ -277,9 +277,9 @@ public enum CurseType{
 	VAMPIRE(8, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
 			if (entity.ticksExisted%20 == 0){
-				if (entity.worldObj.isDaytime() && entity.getBrightness(1F) > 0.5F && entity.worldObj.canBlockSeeTheSky(MathUtil.floor(entity.posX),MathUtil.floor(entity.posY),MathUtil.floor(entity.posZ))){
+				if (entity.worldObj.isDaytime() && entity.getBrightness(1F) > 0.5F && entity.worldObj.canBlockSeeTheSky(MathUtil.floor(entity.posX), MathUtil.floor(entity.posY), MathUtil.floor(entity.posZ))){
 					entity.hurtResistantTime = 0;
-					entity.attackEntityFrom(DamageSource.onFire,1F);
+					entity.attackEntityFrom(DamageSource.onFire, 1F);
 					entity.setFire(8);
 				}
 				
@@ -295,7 +295,7 @@ public enum CurseType{
 	REBOUND(9, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
 			NBTTagCompound nbt = entity.getEntityData();
-			nbt.setLong("HEE_C9_l",entity.worldObj.getTotalWorldTime());
+			nbt.setLong("HEE_C9_l", entity.worldObj.getTotalWorldTime());
 			
 			if (nbt.getBoolean("HEE_C9_a")){
 				nbt.removeTag("HEE_C9_a");
@@ -330,7 +330,7 @@ public enum CurseType{
 						ItemStack is = index < 0 ? player.inventory.armorInventory[4+index] : player.inventory.mainInventory[index];
 						if (is == null)continue;
 						
-						player.func_146097_a(is,false,true);
+						player.func_146097_a(is, false, true);
 						
 						if (index < 0)player.inventory.armorInventory[4+index] = null;
 						else player.inventory.mainInventory[index] = null;
@@ -348,27 +348,27 @@ public enum CurseType{
 					while(!indexes.isEmpty()){
 						int index = indexes.get(rand.nextInt(indexes.size()));
 						indexes.remove(index);
-						if (equipment[index] == null || MathUtil.floatEquals(living.equipmentDropChances[index],0F))continue;
+						if (equipment[index] == null || MathUtil.floatEquals(living.equipmentDropChances[index], 0F))continue;
 						
 						ItemStack is = equipment[index];
 						
 						if (living.equipmentDropChances[index] <= 1F && is.isItemStackDamageable()){
-							int maxDmg = Math.max(is.getMaxDamage()-25,1), dmg = is.getMaxDamage()-rand.nextInt(rand.nextInt(maxDmg)+1);
+							int maxDmg = Math.max(is.getMaxDamage()-25, 1), dmg = is.getMaxDamage()-rand.nextInt(rand.nextInt(maxDmg)+1);
 							if (dmg > maxDmg)dmg = maxDmg;
-							is.setItemDamage(Math.max(dmg,1));
+							is.setItemDamage(Math.max(dmg, 1));
 						}
 						
-						living.entityDropItem(is,0F);
-						living.setCurrentItemOrArmor(index,null);
+						living.entityDropItem(is, 0F);
+						living.setCurrentItemOrArmor(index, null);
 						break;
 					}
 				}
 				
-				nbt.setByte("HEE_C10_t",--timer);
+				nbt.setByte("HEE_C10_t", --timer);
 				return true;
 			}
 			
-			nbt.setByte("HEE_C10_t",timer);
+			nbt.setByte("HEE_C10_t", timer);
 			return false;
 		}
 		
@@ -379,58 +379,58 @@ public enum CurseType{
 	
 	static{
 		TELEPORTATION
-		.setRecipe(Items.ender_pearl,Items.ender_pearl,Items.ender_pearl,Items.ender_pearl)
-		.setUses(EnumCurseUse.BLOCK,22,34).setUses(EnumCurseUse.ENTITY,7,12).setUses(EnumCurseUse.PLAYER,3,6)
+		.setRecipe(Items.ender_pearl, Items.ender_pearl, Items.ender_pearl, Items.ender_pearl)
+		.setUses(EnumCurseUse.BLOCK, 22, 34).setUses(EnumCurseUse.ENTITY, 7, 12).setUses(EnumCurseUse.PLAYER, 3, 6)
 		.setColor1h(290).setColor2h(270);
 		
 		CONFUSION
-		.setRecipe(Items.flint,new ItemStack(Items.dye,1,0),ItemList.instability_orb,Items.blaze_powder)
-		.setUses(EnumCurseUse.BLOCK,11,15).setUses(EnumCurseUse.ENTITY,6,10)
+		.setRecipe(Items.flint, new ItemStack(Items.dye, 1, 0), ItemList.instability_orb, Items.blaze_powder)
+		.setUses(EnumCurseUse.BLOCK, 11, 15).setUses(EnumCurseUse.ENTITY, 6, 10)
 		.setColor1h(180).setColor2h(0);
 		
 		TRANQUILITY
-		.setRecipe(Items.flint,new ItemStack(Items.dye,1,0),Items.string,Items.leather)
-		.setUses(EnumCurseUse.BLOCK,68>>1,96>>1).setUses(EnumCurseUse.ENTITY,150>>1,210>>1)
+		.setRecipe(Items.flint, new ItemStack(Items.dye, 1, 0), Items.string, Items.leather)
+		.setUses(EnumCurseUse.BLOCK, 68>>1, 96>>1).setUses(EnumCurseUse.ENTITY, 150>>1, 210>>1)
 		.setColor1h(180).setColor2h(210);
 		
 		SLOWNESS
-		.setRecipe(Items.sugar,Items.sugar,Items.fermented_spider_eye,Items.fermented_spider_eye)
-		.setUses(EnumCurseUse.BLOCK,35,42).setUses(EnumCurseUse.ENTITY,16,21).setUses(EnumCurseUse.PLAYER,5,8)
+		.setRecipe(Items.sugar, Items.sugar, Items.fermented_spider_eye, Items.fermented_spider_eye)
+		.setUses(EnumCurseUse.BLOCK, 35, 42).setUses(EnumCurseUse.ENTITY, 16, 21).setUses(EnumCurseUse.PLAYER, 5, 8)
 		.setColor1g(50).setColor2h(35);
 		
 		WEAKNESS
-		.setRecipe(Items.blaze_powder,Items.blaze_powder,Items.fermented_spider_eye,Items.fermented_spider_eye)
-		.setUses(EnumCurseUse.BLOCK,35,42).setUses(EnumCurseUse.ENTITY,16,21).setUses(EnumCurseUse.PLAYER,5,8)
+		.setRecipe(Items.blaze_powder, Items.blaze_powder, Items.fermented_spider_eye, Items.fermented_spider_eye)
+		.setUses(EnumCurseUse.BLOCK, 35, 42).setUses(EnumCurseUse.ENTITY, 16, 21).setUses(EnumCurseUse.PLAYER, 5, 8)
 		.setColor1g(50).setColor2h(0);
 		
 		BLINDNESS
-		.setRecipe(Items.flint,Items.fermented_spider_eye,new ItemStack(Items.dye,1,0),new ItemStack(Items.dye,1,0))
-		.setUses(EnumCurseUse.BLOCK,30,39).setUses(EnumCurseUse.ENTITY,12,16).setUses(EnumCurseUse.PLAYER,3,5)
+		.setRecipe(Items.flint, Items.fermented_spider_eye, new ItemStack(Items.dye, 1, 0), new ItemStack(Items.dye, 1, 0))
+		.setUses(EnumCurseUse.BLOCK, 30, 39).setUses(EnumCurseUse.ENTITY, 12, 16).setUses(EnumCurseUse.PLAYER, 3, 5)
 		.setColor1g(50).setColor2h(150);
 		
 		DEATH
-		.setRecipe(Items.blaze_rod,ItemList.ectoplasm,ItemList.silverfish_blood,Items.bone)
-		.setUses(EnumCurseUse.BLOCK,28,36).setUses(EnumCurseUse.ENTITY,12,16).setUses(EnumCurseUse.PLAYER,6,9)
+		.setRecipe(Items.blaze_rod, ItemList.ectoplasm, ItemList.silverfish_blood, Items.bone)
+		.setUses(EnumCurseUse.BLOCK, 28, 36).setUses(EnumCurseUse.ENTITY, 12, 16).setUses(EnumCurseUse.PLAYER, 6, 9)
 		.setColor1g(40).setColor2g(57);
 		
 		DECAY
-		.setRecipe(ItemList.stardust,ItemList.stardust,Items.iron_ingot,ItemList.instability_orb)
-		.setUses(EnumCurseUse.BLOCK,18,25).setUses(EnumCurseUse.ENTITY,14,19).setUses(EnumCurseUse.PLAYER,9,14)
+		.setRecipe(ItemList.stardust, ItemList.stardust, Items.iron_ingot, ItemList.instability_orb)
+		.setUses(EnumCurseUse.BLOCK, 18, 25).setUses(EnumCurseUse.ENTITY, 14, 19).setUses(EnumCurseUse.PLAYER, 9, 14)
 		.setColor1h(46).setColor2g(52);
 		
 		VAMPIRE
-		.setRecipe(Items.glowstone_dust,Items.quartz,ItemList.igneous_rock,ItemList.silverfish_blood)
-		.setUses(EnumCurseUse.BLOCK,15,22).setUses(EnumCurseUse.ENTITY,8,13).setUses(EnumCurseUse.PLAYER,6,9)
+		.setRecipe(Items.glowstone_dust, Items.quartz, ItemList.igneous_rock, ItemList.silverfish_blood)
+		.setUses(EnumCurseUse.BLOCK, 15, 22).setUses(EnumCurseUse.ENTITY, 8, 13).setUses(EnumCurseUse.PLAYER, 6, 9)
 		.setColor1h(55).setColor2h(9);
 		
 		REBOUND
-		.setRecipe(Items.ender_eye,Items.gold_nugget,Items.flint,Items.gold_nugget)
-		.setUses(EnumCurseUse.BLOCK,20,26).setUses(EnumCurseUse.ENTITY,15,22).setUses(EnumCurseUse.PLAYER,12,16)
+		.setRecipe(Items.ender_eye, Items.gold_nugget, Items.flint, Items.gold_nugget)
+		.setUses(EnumCurseUse.BLOCK, 20, 26).setUses(EnumCurseUse.ENTITY, 15, 22).setUses(EnumCurseUse.PLAYER, 12, 16)
 		.setColor1h(0).setColor2h(200);
 		
 		LOSS
-		.setRecipe(ItemList.instability_orb,Items.book,Items.redstone,Items.emerald)
-		.setUses(EnumCurseUse.BLOCK,14,19).setUses(EnumCurseUse.ENTITY,10,12).setUses(EnumCurseUse.PLAYER,8,11)
+		.setRecipe(ItemList.instability_orb, Items.book, Items.redstone, Items.emerald)
+		.setUses(EnumCurseUse.BLOCK, 14, 19).setUses(EnumCurseUse.ENTITY, 10, 12).setUses(EnumCurseUse.PLAYER, 8, 11)
 		.setColor1h(300).setColor2g(50);
 	}
 	
@@ -448,8 +448,8 @@ public enum CurseType{
 		curseTeleporter.onTeleport(ITeleportListener.updatePlayerPosition);
 		
 		curseTeleporter.onTeleport((entity, startPos, rand) -> {
-			PacketPipeline.sendToAllAround(entity,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,startPos.x,startPos.y,startPos.z,entity.posX,entity.posY,entity.posZ));
-			PacketPipeline.sendToAllAround(entity,256D,new C21EffectEntity(FXType.Entity.SIMPLE_TELEPORT_NOSOUND,startPos.x,startPos.y,startPos.z,entity.width,entity.height));
+			PacketPipeline.sendToAllAround(entity, 256D, new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT, startPos.x, startPos.y, startPos.z, entity.posX, entity.posY, entity.posZ));
+			PacketPipeline.sendToAllAround(entity, 256D, new C21EffectEntity(FXType.Entity.SIMPLE_TELEPORT_NOSOUND, startPos.x, startPos.y, startPos.z, entity.width, entity.height));
 		});
 	}
 	
@@ -492,29 +492,29 @@ public enum CurseType{
 	}
 	
 	private CurseType setColor1h(int hue){
-		return setColor1(hue,75,90);
+		return setColor1(hue, 75, 90);
 	}
 	
 	private CurseType setColor1g(int value){
-		return setColor1(0,0,value);
+		return setColor1(0, 0, value);
 	}
 	
 	private CurseType setColor1(int hue, int saturation, int value){
-		float[] rgb = ColorUtil.hsvToRgb(hue/360F,saturation/100F,value/100F);
+		float[] rgb = ColorUtil.hsvToRgb(hue/360F, saturation/100F, value/100F);
 		this.color1 = (MathUtil.floor(rgb[0]*255)<<16)|(MathUtil.floor(rgb[1]*255)<<8)|MathUtil.floor(rgb[2]*255);
 		return this;
 	}
 	
 	private CurseType setColor2h(int hue){
-		return setColor2(hue,75,90);
+		return setColor2(hue, 75, 90);
 	}
 	
 	private CurseType setColor2g(int value){
-		return setColor2(0,0,value);
+		return setColor2(0, 0, value);
 	}
 	
 	private CurseType setColor2(int hue, int saturation, int value){
-		float[] rgb = ColorUtil.hsvToRgb(hue/360F,saturation/100F,value/100F);
+		float[] rgb = ColorUtil.hsvToRgb(hue/360F, saturation/100F, value/100F);
 		this.color2 = (MathUtil.floor(rgb[0]*255)<<16)|(MathUtil.floor(rgb[1]*255)<<8)|MathUtil.floor(rgb[2]*255);
 		return this;
 	}

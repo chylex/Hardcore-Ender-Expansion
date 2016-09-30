@@ -47,13 +47,13 @@ public class ItemTransferenceGem extends ItemAbstractGem{
 	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (super.onItemUse(is,player,world,x,y,z,side,hitX,hitY,hitZ))return true;
+		if (super.onItemUse(is, player, world, x, y, z, side, hitX, hitY, hitZ))return true;
 		
 		if (!world.isRemote && side == 1 && player.isSneaking()){
 			GemData data = new GemData();
-			data.set(player.dimension,x,y,z);
+			data.set(player.dimension, x, y, z);
 			data.saveToItemStack(is);
-			PacketPipeline.sendToAllAround(player.dimension,x,y,z,64D,new C20Effect(FXType.Basic.GEM_LINK,x,y,z));
+			PacketPipeline.sendToAllAround(player.dimension, x, y, z, 64D, new C20Effect(FXType.Basic.GEM_LINK, x, y, z));
 			return true;
 		}
 		
@@ -62,19 +62,19 @@ public class ItemTransferenceGem extends ItemAbstractGem{
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		return (world.isRemote || player.isSneaking()) ? is : tryTeleportEntity(is,player,player);
+		return (world.isRemote || player.isSneaking()) ? is : tryTeleportEntity(is, player, player);
 	}
 	
 	@Override
 	public boolean itemInteractionForEntity(ItemStack is, EntityPlayer player, EntityLivingBase entity){
-		/* TODO if (entity instanceof IBossDisplayData || !EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.BEAST) || player.isSneaking())return false;
-		tryTeleportEntity(is,player,entity);*/
+		/* TODO if (entity instanceof IBossDisplayData || !EnhancementHandler.hasEnhancement(is, TransferenceGemEnhancements.BEAST) || player.isSneaking())return false;
+		tryTeleportEntity(is, player, entity);*/
 		return true;
 	}
 	
 	@Override
 	public void onCreated(ItemStack is, World world, EntityPlayer player){
-		player.addStat(AchievementManager.TRANSFERENCE_GEM,1);
+		player.addStat(AchievementManager.TRANSFERENCE_GEM, 1);
 	}
 	
 	public ItemStack tryTeleportEntity(ItemStack is, EntityPlayer player, Entity entity){
@@ -89,20 +89,20 @@ public class ItemTransferenceGem extends ItemAbstractGem{
 			
 			boolean isLiving = entity instanceof EntityLivingBase;
 			
-			PacketPipeline.sendToAllAround(entity,64D,new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM,entity));
+			PacketPipeline.sendToAllAround(entity, 64D, new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM, entity));
 			
-			useEnergy(is,player);
+			useEnergy(is, player);
 			
-			if (isLiving)((EntityLivingBase)entity).setPositionAndUpdate(gemData.x+0.5D,gemData.y+1.001D,gemData.z+0.5D);
-			entity.setLocationAndAngles(gemData.x+0.5D,gemData.y+1.001D,gemData.z+0.5D,entity.rotationYaw,entity.rotationPitch);
+			if (isLiving)((EntityLivingBase)entity).setPositionAndUpdate(gemData.x+0.5D, gemData.y+1.001D, gemData.z+0.5D);
+			entity.setLocationAndAngles(gemData.x+0.5D, gemData.y+1.001D, gemData.z+0.5D, entity.rotationYaw, entity.rotationPitch);
 			entity.fallDistance = 0F;
 			
 			/* TODO probably remove completely | float percBroken = itemDamage/(float)is.getMaxDamage();
 			if (percBroken > 0.66F && entity.worldObj.rand.nextFloat()*1.4F < percBroken){
-				GemSideEffects.performRandomEffect(entity,percBroken);
+				GemSideEffects.performRandomEffect(entity, percBroken);
 			}*/
 			
-			PacketPipeline.sendToAllAround(entity,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,entity));
+			PacketPipeline.sendToAllAround(entity, 64D, new C20Effect(FXType.Basic.GEM_TELEPORT_TO, entity));
 		}
 		
 		return is;
@@ -120,7 +120,7 @@ public class ItemTransferenceGem extends ItemAbstractGem{
 			}
 		}
 		
-		super.addInformation(is,player,textLines,showAdvancedInfo);
+		super.addInformation(is, player, textLines, showAdvancedInfo);
 	}
 	
 	@Override
@@ -158,7 +158,7 @@ public class ItemTransferenceGem extends ItemAbstractGem{
 		private int dim, x, y, z;
 		
 		private void set(NBTCompound tag){
-			set(tag.hasKey("HED_Gem_Dim") ? tag.getInt("HED_Gem_Dim") : -999,tag.getInt("HED_Gem_X"),tag.getInt("HED_Gem_Y"),tag.getInt("HED_Gem_Z"));
+			set(tag.hasKey("HED_Gem_Dim") ? tag.getInt("HED_Gem_Dim") : -999, tag.getInt("HED_Gem_X"), tag.getInt("HED_Gem_Y"), tag.getInt("HED_Gem_Z"));
 		}
 		
 		private void set(int dimension, int x, int y, int z){
@@ -173,11 +173,11 @@ public class ItemTransferenceGem extends ItemAbstractGem{
 		}
 		
 		public void saveToItemStack(ItemStack is){
-			NBTCompound tag = NBT.item(is,true);
-			tag.setInt("HED_Gem_Dim",dim);
-			tag.setInt("HED_Gem_X",x);
-			tag.setInt("HED_Gem_Y",y);
-			tag.setInt("HED_Gem_Z",z);
+			NBTCompound tag = NBT.item(is, true);
+			tag.setInt("HED_Gem_Dim", dim);
+			tag.setInt("HED_Gem_X", x);
+			tag.setInt("HED_Gem_Y", y);
+			tag.setInt("HED_Gem_Z", z);
 		}
 	}
 }

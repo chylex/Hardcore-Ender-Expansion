@@ -18,8 +18,8 @@ public class ItemExpBottleConsistent extends Item{
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		if (!player.capabilities.isCreativeMode)--is.stackSize;
 		
-		world.playSoundAtEntity(player,"random.bow",0.5F,0.4F/(itemRand.nextFloat()*0.4F+0.8F));
-		if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectileExpBottleConsistent(world,player));
+		world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F/(itemRand.nextFloat()*0.4F+0.8F));
+		if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectileExpBottleConsistent(world, player));
 		
 		return is;
 	}

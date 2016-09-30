@@ -53,7 +53,7 @@ public class CompendiumScrollHandler{
 	public void moveTo(float newY, boolean animate){
 		newY = clampOffset(newY);
 		
-		if (animate)offset.startAnimation(offset.value(),newY,0.5F);
+		if (animate)offset.startAnimation(offset.value(), newY, 0.5F);
 		else offset.set(newY);
 	}
 	
@@ -66,7 +66,7 @@ public class CompendiumScrollHandler{
 			offsetDrag += dragMouseY-mouseY;
 			dragMouseY = mouseY;
 			
-			if (Math.abs(offsetDrag) > Math.abs(offsetDragPeak) || !MathUtil.floatEquals(Math.signum(offsetDrag),Math.signum(offsetDragPeak))){
+			if (Math.abs(offsetDrag) > Math.abs(offsetDragPeak) || !MathUtil.floatEquals(Math.signum(offsetDrag), Math.signum(offsetDragPeak))){
 				offsetDragPeak = offsetDrag;
 			}
 		}
@@ -77,15 +77,15 @@ public class CompendiumScrollHandler{
 			dragMouseY = Integer.MIN_VALUE;
 			
 			if (Math.abs(offsetDrag/getScaleMultiplier()) > 2F && Math.abs(offsetDragPeak/getScaleMultiplier()) > 20F){
-				offsetInertia = (float)Math.pow(Math.abs(offsetDragPeak*getScaleMultiplier()),1.25D)*Math.signum(offsetDragPeak);
+				offsetInertia = (float)Math.pow(Math.abs(offsetDragPeak*getScaleMultiplier()), 1.25D)*Math.signum(offsetDragPeak);
 				offsetDragPeak = 0F;
 			}
 		}
 	}
 	
 	public void onMouseWheel(int value){
-		scrollBy = Math.max(Math.abs(scrollBy),Math.abs(value/2)*getScaleMultiplier())*Math.signum(value);
-		scrollSpeed.startAnimation(scrollSpeed.value(),1F,0F,lastWheelTime == 0L);
+		scrollBy = Math.max(Math.abs(scrollBy), Math.abs(value/2)*getScaleMultiplier())*Math.signum(value);
+		scrollSpeed.startAnimation(scrollSpeed.value(), 1F, 0F, lastWheelTime == 0L);
 		lastWheelTime = System.nanoTime();
 	}
 	
@@ -104,11 +104,11 @@ public class CompendiumScrollHandler{
 		}
 		else if (keyCode == GuiHelper.keyHome){
 			stopScrolling(true);
-			moveTo(Integer.MAX_VALUE,true);
+			moveTo(Integer.MAX_VALUE, true);
 		}
 		else if (keyCode == GuiHelper.keyEnd){
 			stopScrolling(true);
-			moveTo(Integer.MIN_VALUE,true);
+			moveTo(Integer.MIN_VALUE, true);
 		}
 		else return false;
 		
@@ -135,7 +135,7 @@ public class CompendiumScrollHandler{
 	
 	private void startScrolling(float by){
 		scrollBy = by;
-		scrollSpeed.startAnimation(scrollSpeed.value(),1F,0.4F,true);
+		scrollSpeed.startAnimation(scrollSpeed.value(), 1F, 0.4F, true);
 	}
 	
 	private void stopScrolling(boolean force){
@@ -143,7 +143,7 @@ public class CompendiumScrollHandler{
 			scrollBy = 0F;
 			scrollSpeed.set(0F);
 		}
-		else scrollSpeed.startAnimation(scrollSpeed.value(),0F,0.2F,true);
+		else scrollSpeed.startAnimation(scrollSpeed.value(), 0F, 0.2F, true);
 	}
 	
 	private float clampOffset(float newValue){
@@ -158,12 +158,12 @@ public class CompendiumScrollHandler{
 		offset.update(0.05F);
 		scrollSpeed.update(0.05F);
 		
-		if (!MathUtil.floatEquals(scrollBy,0F)){
-			if (MathUtil.floatEquals(scrollSpeed.value(),0F) && !scrollSpeed.isAnimating())scrollBy = 0F;
+		if (!MathUtil.floatEquals(scrollBy, 0F)){
+			if (MathUtil.floatEquals(scrollSpeed.value(), 0F) && !scrollSpeed.isAnimating())scrollBy = 0F;
 			else offset.set(clampOffset(offset.value()+scrollBy*scrollSpeed.value()));
 		}
 		
-		if (!MathUtil.floatEquals(offsetDrag,0F)){
+		if (!MathUtil.floatEquals(offsetDrag, 0F)){
 			offset.set(clampOffset(offset.value()-offsetDrag));
 			offsetDrag = 0F;
 			

@@ -8,7 +8,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockStoneBrickWall extends BlockBasicWall{
 	public BlockStoneBrickWall(){
-		super(Blocks.stonebrick,0);
+		super(Blocks.stonebrick, 0);
 	}
 	
 	@Override

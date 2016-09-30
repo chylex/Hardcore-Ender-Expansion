@@ -35,10 +35,10 @@ public class ItemSpatialDashGem extends ItemAbstractGem{
 		if (!canUse(is))return is;
 		
 		if (!world.isRemote){
-			useEnergy(is,player);
-			world.spawnEntityInWorld(new EntityProjectileSpatialDash(world,player,EnhancementRegistry.getEnhancementList(is)));
+			useEnergy(is, player);
+			world.spawnEntityInWorld(new EntityProjectileSpatialDash(world, player, EnhancementRegistry.getEnhancementList(is)));
 		}
-		else world.playSound(player.posX,player.posY,player.posZ,"hardcoreenderexpansion:player.random.spatialdash",0.8F,0.9F,false);
+		else world.playSound(player.posX, player.posY, player.posZ, "hardcoreenderexpansion:player.random.spatialdash", 0.8F, 0.9F, false);
 		
 		return is;
 	}

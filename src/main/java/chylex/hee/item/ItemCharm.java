@@ -25,7 +25,7 @@ public class ItemCharm extends Item{
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		CharmType type = CharmType.getFromDamage(is.getItemDamage()).getLeft();
-		return "item.charm."+(type == null ? "invalid" : type.name().toLowerCase(Locale.ENGLISH).replaceAll("_",""));
+		return "item.charm."+(type == null ? "invalid" : type.name().toLowerCase(Locale.ENGLISH).replaceAll("_", ""));
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public class ItemCharm extends Item{
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list){
 		for(CharmType charmType:CharmType.values()){
-			for(CharmRecipe charmRecipe:charmType.recipes)list.add(new ItemStack(item,1,charmRecipe.id));
+			for(CharmRecipe charmRecipe:charmType.recipes)list.add(new ItemStack(item, 1, charmRecipe.id));
 		}
 	}
 	

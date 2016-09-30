@@ -41,7 +41,7 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 	public int getHeight(GuiEnderCompendium gui, boolean isUnlocked){
 		boolean origFont = gui.mc.fontRenderer.getUnicodeFlag();
 		gui.mc.fontRenderer.setUnicodeFlag(true);
-		int h = gui.mc.fontRenderer.listFormattedStringToWidth(getString(true),CompendiumPageHandler.innerWidth).size()*gui.mc.fontRenderer.FONT_HEIGHT;
+		int h = gui.mc.fontRenderer.listFormattedStringToWidth(getString(true), CompendiumPageHandler.innerWidth).size()*gui.mc.fontRenderer.FONT_HEIGHT;
 		gui.mc.fontRenderer.setUnicodeFlag(origFont);
 		return h;
 	}
@@ -50,7 +50,7 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 	@SideOnly(Side.CLIENT)
 	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId, boolean isUnlocked){
 		if (isUnlocked){
-			KnowledgeObject<?> obj = getHoveredObject(gui.mc.fontRenderer,mouseX,mouseY,x,y);
+			KnowledgeObject<?> obj = getHoveredObject(gui.mc.fontRenderer, mouseX, mouseY, x, y);
 			
 			if (obj != null){
 				gui.showObject(obj);
@@ -66,18 +66,18 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 	@SideOnly(Side.CLIENT)
 	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		String str = getString(isUnlocked);
-		GuiHelper.renderUnicodeString(str,x+1,y,CompendiumPageHandler.innerWidth,255<<24);
+		GuiHelper.renderUnicodeString(str, x+1, y, CompendiumPageHandler.innerWidth, 255<<24);
 		
 		if (isUnlocked){
-			KnowledgeObject<?> obj = getHoveredObject(gui.mc.fontRenderer,mouseX,mouseY,x,y);
-			if (obj != null)GuiItemRenderHelper.setupTooltip(mouseX,mouseY,obj.getTranslatedTooltip()+"\n"+EnumChatFormatting.DARK_PURPLE+I18n.format("compendium.viewObject"));
+			KnowledgeObject<?> obj = getHoveredObject(gui.mc.fontRenderer, mouseX, mouseY, x, y);
+			if (obj != null)GuiItemRenderHelper.setupTooltip(mouseX, mouseY, obj.getTranslatedTooltip()+"\n"+EnumChatFormatting.DARK_PURPLE+I18n.format("compendium.viewObject"));
 		}
 	}
 	
 	@SideOnly(Side.CLIENT)
 	private String getString(boolean isUnlocked){
 		String content = I18n.format("ec.reg."+globalID);
-		return isUnlocked ? Baconizer.sentence(convertString(content)) : StringUtils.repeat('?',content.length());
+		return isUnlocked ? Baconizer.sentence(convertString(content)) : StringUtils.repeat('?', content.length());
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -91,18 +91,18 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 		StringBuilder build = new StringBuilder(str.length()), tmpBuild = new StringBuilder(16);
 		
 		while(true){
-			if ((index = str.indexOf('$',lastIndex)) == -1)break;
-			build.append(str.substring(lastIndex,index));
+			if ((index = str.indexOf('$', lastIndex)) == -1)break;
+			build.append(str.substring(lastIndex, index));
 			
 			if (index >= str.length()-2){
-				Log.warn("Invalid text formatting, incorrect link start location: $0",str);
+				Log.warn("Invalid text formatting, incorrect link start location: $0", str);
 				break;
 			}
 			
 			type = str.charAt(++index);
 			
 			if (str.charAt(++index) != ':'){
-				Log.warn("Invalid text formatting, expected a colon: $0",str);
+				Log.warn("Invalid text formatting, expected a colon: $0", str);
 				break;
 			}
 			
@@ -119,23 +119,23 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 			
 			if (str.charAt(index) == ':'){
 				lastIndex = ++index;
-				index = str.indexOf('$',lastIndex);
+				index = str.indexOf('$', lastIndex);
 				
 				if (index == -1){
-					Log.warn("Invalid text formatting, display text not terminated: $0",str);
+					Log.warn("Invalid text formatting, display text not terminated: $0", str);
 					break;
 				}
 				
-				parsedObjects.add(getObject(type,tmpBuild.toString()).getRight());
-				build.append(str.substring(lastIndex,index++));
+				parsedObjects.add(getObject(type, tmpBuild.toString()).getRight());
+				build.append(str.substring(lastIndex, index++));
 			}
 			else if (tmpBuild.length() > 0){
-				Pair<String,KnowledgeObject<?>> pair = getObject(type,tmpBuild.toString());
+				Pair<String, KnowledgeObject<?>> pair = getObject(type, tmpBuild.toString());
 				parsedObjects.add(pair.getRight());
 				build.append(pair.getLeft());
 			}
 			else{
-				Log.warn("Invalid text formatting, identifier empty: $0",str);
+				Log.warn("Invalid text formatting, identifier empty: $0", str);
 				break;
 			}
 			
@@ -143,7 +143,7 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 			build.append(EnumChatFormatting.BLACK);
 		}
 		
-		if (parsedObjects.contains(null))Log.warn("Invalid text formatting, unknown object found: $0 $1",str,parsedObjects);
+		if (parsedObjects.contains(null))Log.warn("Invalid text formatting, unknown object found: $0 $1", str, parsedObjects);
 		
 		return parsed = build.append(str.substring(lastIndex)).toString();
 	}
@@ -155,7 +155,7 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 		boolean origFont = fontRenderer.getUnicodeFlag();
 		fontRenderer.setUnicodeFlag(true);
 		
-		List<String> list = fontRenderer.listFormattedStringToWidth(parsed,CompendiumPageHandler.innerWidth);
+		List<String> list = fontRenderer.listFormattedStringToWidth(parsed, CompendiumPageHandler.innerWidth);
 		
 		if (mouseY <= y+list.size()*fontRenderer.FONT_HEIGHT){
 			boolean multiLine = false;
@@ -166,21 +166,21 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 				lineStr = list.get(line);
 				prevIndex = -1;
 				
-				while((index = lineStr.indexOf(linkColor,++prevIndex)) != -1){
+				while((index = lineStr.indexOf(linkColor, ++prevIndex)) != -1){
 					prevIndex = index;
 					
 					if (multiLine)multiLine = false;
 					else ++count;
 					
-					int startX = x+fontRenderer.getStringWidth(lineStr.substring(0,prevIndex = index));
+					int startX = x+fontRenderer.getStringWidth(lineStr.substring(0, prevIndex = index));
 					
-					if ((index = lineStr.indexOf(EnumChatFormatting.BLACK.toString(),index)) == -1){
+					if ((index = lineStr.indexOf(EnumChatFormatting.BLACK.toString(), index)) == -1){
 						index = lineStr.length();
 						multiLine = true;
 					}
 
 					if (mouseY >= y+line*fontRenderer.FONT_HEIGHT && mouseY <= y+(line+1)*fontRenderer.FONT_HEIGHT &&
-						mouseX >= startX && mouseX <= startX+fontRenderer.getStringWidth(lineStr.substring(prevIndex,index))){
+						mouseX >= startX && mouseX <= startX+fontRenderer.getStringWidth(lineStr.substring(prevIndex, index))){
 						fontRenderer.setUnicodeFlag(origFont);
 						return count < parsedObjects.size() ? parsedObjects.get(count) : null;
 					}
@@ -193,7 +193,7 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 	}
 	
 	@SideOnly(Side.CLIENT)
-	private static Pair<String,KnowledgeObject<?>> getObject(char type, String identifier){
+	private static Pair<String, KnowledgeObject<?>> getObject(char type, String identifier){
 		KnowledgeObject<?> obj = null;
 		String text = null;
 		
@@ -206,15 +206,15 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 				int metaIndex = identifier.indexOf('/'), meta = 0;
 				
 				if (metaIndex != -1 && metaIndex+1 < identifier.length()){
-					meta = DragonUtil.tryParse(identifier.substring(metaIndex+1),0);
-					identifier = identifier.substring(0,metaIndex);
+					meta = DragonUtil.tryParse(identifier.substring(metaIndex+1), 0);
+					identifier = identifier.substring(0, metaIndex);
 				}
 				
-				Item item = GameRegistry.findItem(isHEE ? "HardcoreEnderExpansion" : "minecraft",identifier);
+				Item item = GameRegistry.findItem(isHEE ? "HardcoreEnderExpansion" : "minecraft", identifier);
 				
 				if (item != null){
-					text = StatCollector.translateToLocal(item.getUnlocalizedName(new ItemStack(item,1,meta))+".name");
-					obj = KnowledgeObject.fromObject(type == 'b' ? (item instanceof ItemBlock ? new BlockInfo(((ItemBlock)item).field_150939_a,meta) : null) : item);
+					text = StatCollector.translateToLocal(item.getUnlocalizedName(new ItemStack(item, 1, meta))+".name");
+					obj = KnowledgeObject.fromObject(type == 'b' ? (item instanceof ItemBlock ? new BlockInfo(((ItemBlock)item).field_150939_a, meta) : null) : item);
 				}
 				
 				break;
@@ -234,9 +234,9 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 		}
 		
 		if (text == null || obj == null){
-			Log.warn("Invalid object type or identifier: $0:$1",type,identifier);
-			return Pair.<String,KnowledgeObject<?>>of(text == null ? identifier : text,obj);
+			Log.warn("Invalid object type or identifier: $0:$1", type, identifier);
+			return Pair.<String, KnowledgeObject<?>>of(text == null ? identifier : text, obj);
 		}
-		else return Pair.<String,KnowledgeObject<?>>of(text,obj);
+		else return Pair.<String, KnowledgeObject<?>>of(text, obj);
 	}
 }

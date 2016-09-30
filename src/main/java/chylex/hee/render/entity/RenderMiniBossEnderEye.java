@@ -19,13 +19,13 @@ public class RenderMiniBossEnderEye extends RenderLiving{
 	private int statusTick = 0;
 	
 	public RenderMiniBossEnderEye(){
-		super(new ModelEnderEye(),0.75F);
+		super(new ModelEnderEye(), 0.75F);
 	}
 	
 	@Override
 	protected void preRenderCallback(EntityLivingBase entity, float partialTickTime){
-		GL.scale(0.8F,0.8F,0.8F);
-		GL.translate(0F,0.6F,0F);
+		GL.scale(0.8F, 0.8F, 0.8F);
+		GL.translate(0F, 0.6F, 0F);
 	}
 	
 	@Override
@@ -35,10 +35,10 @@ public class RenderMiniBossEnderEye extends RenderLiving{
 		
 		if (statusTick > 0){
 			--statusTick;
-			BossStatus.setBossStatus(eye,true);
+			BossStatus.setBossStatus(eye, true);
 		}
 		
-		super.doRender(entity,x,y,z,yaw,partialTickTime);
+		super.doRender(entity, x, y, z, yaw, partialTickTime);
 	}
 
 	@Override

@@ -24,7 +24,7 @@ public final class GeneratePlants extends GenerateFeature{
 	
 	public GeneratePlants(Block placeOn, Block oreBlock, int oreMeta){
 		this.placeOn = placeOn;
-		this.plantPicker = new BlockInfo(oreBlock,oreMeta);
+		this.plantPicker = new BlockInfo(oreBlock, oreMeta);
 	}
 	
 	public void setPlantGenerator(IPlantGenerator plantGenerator){
@@ -33,18 +33,18 @@ public final class GeneratePlants extends GenerateFeature{
 	
 	@Override
 	public void generateSplit(StructureWorld world, Random rand){
-		generateSplitInternal(world,rand,0);
+		generateSplitInternal(world, rand, 0);
 	}
 
 	@Override
 	public void generateFull(StructureWorld world, Random rand){
-		generateFullInternal(world,rand,0);
+		generateFullInternal(world, rand, 0);
 	}
 
 	@Override
 	protected boolean tryGenerateFeature(StructureWorld world, Random rand, int x, int y, int z){
-		if (world.getBlock(x,y-1,z) == placeOn){
-			plantGenerator.generate(this,world,rand,x,y,z);
+		if (world.getBlock(x, y-1, z) == placeOn){
+			plantGenerator.generate(this, world, rand, x, y, z);
 			return true;
 		}
 		else return false;

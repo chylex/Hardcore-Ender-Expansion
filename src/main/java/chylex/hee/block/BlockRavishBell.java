@@ -25,13 +25,13 @@ public class BlockRavishBell extends BlockFlower{
 	
 	public BlockRavishBell(){
 		super(0);
-		setBlockBounds(0.1F,0F,0.1F,0.9F,0.725F,0.9F);
+		setBlockBounds(0.1F, 0F, 0.1F, 0.9F, 0.725F, 0.9F);
 	}
 
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z){
-		return (world.getFullBlockLightValue(x,y,z) >= 8 || world.canBlockSeeTheSky(x,y,z) || world.provider.dimensionId == 1) &&
-			   (Pos.at(x,y-1,z).getBlock(world).canSustainPlant(world,x,y-1,z,ForgeDirection.UP,this));
+		return (world.getFullBlockLightValue(x, y, z) >= 8 || world.canBlockSeeTheSky(x, y, z) || world.provider.dimensionId == 1) &&
+			   (Pos.at(x, y-1, z).getBlock(world).canSustainPlant(world, x, y-1, z, ForgeDirection.UP, this));
 	}
 	
 	@Override
@@ -53,7 +53,7 @@ public class BlockRavishBell extends BlockFlower{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return meta == -1 ? blockIcon : CollectionUtil.getClamp(iconArray,meta);
+		return meta == -1 ? blockIcon : CollectionUtil.getClamp(iconArray, meta);
 	}
 	
 	@Override

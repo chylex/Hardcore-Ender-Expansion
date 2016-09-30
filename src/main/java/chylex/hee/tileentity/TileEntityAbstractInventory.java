@@ -23,7 +23,7 @@ public abstract class TileEntityAbstractInventory extends TileEntity implements 
 		
 		if (!slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity.isEmpty()){
 			for(int slot:slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity.toArray()){
-				setInventorySlotContents(slot,getStackInSlot(slot));
+				setInventorySlotContents(slot, getStackInSlot(slot));
 			}
 			
 			slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity.clear();
@@ -39,20 +39,20 @@ public abstract class TileEntityAbstractInventory extends TileEntity implements 
 		for(int slot = 0; slot < items.length; ++slot){
 			if (items[slot] != null){
 				NBTTagCompound tag = new NBTTagCompound();
-				tag.setByte("Slot",(byte)slot);
+				tag.setByte("Slot", (byte)slot);
 				itemList.appendTag(items[slot].writeToNBT(tag));
 			}
 		}
 
-		nbt.setTag("Items",itemList);
-		if (hasCustomInventoryName())nbt.setString("CustomName",customName);
+		nbt.setTag("Items", itemList);
+		if (hasCustomInventoryName())nbt.setString("CustomName", customName);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
 
-		NBTTagList itemList = nbt.getTagList("Items",Constants.NBT.TAG_COMPOUND);
+		NBTTagList itemList = nbt.getTagList("Items", Constants.NBT.TAG_COMPOUND);
 		items = new ItemStack[getSizeInventory()];
 
 		for(int a = 0; a < itemList.tagCount(); ++a){
@@ -61,7 +61,7 @@ public abstract class TileEntityAbstractInventory extends TileEntity implements 
 			if (slot >= 0 && slot < items.length)items[slot] = ItemStack.loadItemStackFromNBT(tag);
 		}
 		
-		if (nbt.hasKey("CustomName",Constants.NBT.TAG_STRING))customName = nbt.getString("CustomName");
+		if (nbt.hasKey("CustomName", Constants.NBT.TAG_STRING))customName = nbt.getString("CustomName");
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public abstract class TileEntityAbstractInventory extends TileEntity implements 
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player){
-		return player.getDistanceSq(xCoord+0.5D,yCoord+0.5D,zCoord+0.5D) <= 64D;
+		return player.getDistanceSq(xCoord+0.5D, yCoord+0.5D, zCoord+0.5D) <= 64D;
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public abstract class TileEntityAbstractInventory extends TileEntity implements 
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack is, int side){
-		if (isItemValidForSlot(slot,is)){
+		if (isItemValidForSlot(slot, is)){
 			slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity.add(slot);
 			return true;
 		}

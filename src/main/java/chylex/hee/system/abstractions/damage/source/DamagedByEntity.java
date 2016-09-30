@@ -17,7 +17,7 @@ public class DamagedByEntity extends EntityDamageSource{
 	}
 	
 	public DamagedByEntity(Entity entity){
-		super(getDamageFromEntity(entity),entity);
+		super(getDamageFromEntity(entity), entity);
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class DamagedByEntity extends EntityDamageSource{
 	
 	public static class Indirect extends EntityDamageSourceIndirect{
 		public Indirect(Entity source, Entity indirectSource){
-			super(getDamageFromEntity(source),source,indirectSource);
+			super(getDamageFromEntity(source), source, indirectSource);
 		}
 		
 		@Override

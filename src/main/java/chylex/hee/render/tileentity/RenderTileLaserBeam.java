@@ -19,20 +19,20 @@ public class RenderTileLaserBeam extends TileEntitySpecialRenderer{
 		Tessellator tessellator = Tessellator.instance;
 		bindTexture(beam);
 		
-		GL11.glTexParameterf(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_WRAP_S,10497F);
-		GL11.glTexParameterf(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_WRAP_T,10497F);
+		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497F);
+		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10497F);
 		GL.disableLighting();
 		GL.disableCullFace();
 		GL.disableBlend();
 		GL.enableDepthMask();
-		GL.setBlendFunc(GL.SRC_ALPHA,GL.ONE); // TODO wtf
+		GL.setBlendFunc(GL.SRC_ALPHA, GL.ONE); // TODO wtf
 		
 		float beamAngle = ((TileEntityLaserBeam)tile).getBeamAngle();
 		float f3 = -beamAngle*0.2F-MathHelper.floor_float(-beamAngle*0.1F);
 		double d3 = -beamAngle*2.925D;
 		
 		tessellator.startDrawingQuads();
-		tessellator.setColorRGBA(255,255,255,32);
+		tessellator.setColorRGBA(255, 255, 255, 32);
 		double beamSize = 0.1D;
 		double d5 = 0.5D+Math.cos(d3+2.3562D)*beamSize;
 		double d6 = 0.5D+Math.sin(d3+2.3562D)*beamSize;
@@ -45,50 +45,50 @@ public class RenderTileLaserBeam extends TileEntitySpecialRenderer{
 		double d16 = (-1F+f3);
 		double d17 = (0.5D/beamSize)+d16;
 		
-		tessellator.addVertexWithUV(x+d5,y+1D,z+d6,1D,d17);
-		tessellator.addVertexWithUV(x+d5,y,z+d6,1D,d16);
-		tessellator.addVertexWithUV(x+d7,y,z+d8,0D,d16);
-		tessellator.addVertexWithUV(x+d7,y+1D,z+d8,0D,d17);
-		tessellator.addVertexWithUV(x+d11,y+1D,z+d12,1D,d17);
-		tessellator.addVertexWithUV(x+d11,y,z+d12,1D,d16);
-		tessellator.addVertexWithUV(x+d9,y,z+d10,0D,d16);
-		tessellator.addVertexWithUV(x+d9,y+1D,z+d10,0D,d17);
-		tessellator.addVertexWithUV(x+d7,y+1D,z+d8,1D,d17);
-		tessellator.addVertexWithUV(x+d7,y,z+d8,1D,d16);
-		tessellator.addVertexWithUV(x+d11,y,z+d12,0D,d16);
-		tessellator.addVertexWithUV(x+d11,y+1D,z+d12,0D,d17);
-		tessellator.addVertexWithUV(x+d9,y+1D,z+d10,1D,d17);
-		tessellator.addVertexWithUV(x+d9,y,z+d10,1D,d16);
-		tessellator.addVertexWithUV(x+d5,y,z+d6,0D,d16);
-		tessellator.addVertexWithUV(x+d5,y+1D,z+d6,0D,d17);
+		tessellator.addVertexWithUV(x+d5, y+1D, z+d6, 1D, d17);
+		tessellator.addVertexWithUV(x+d5, y, z+d6, 1D, d16);
+		tessellator.addVertexWithUV(x+d7, y, z+d8, 0D, d16);
+		tessellator.addVertexWithUV(x+d7, y+1D, z+d8, 0D, d17);
+		tessellator.addVertexWithUV(x+d11, y+1D, z+d12, 1D, d17);
+		tessellator.addVertexWithUV(x+d11, y, z+d12, 1D, d16);
+		tessellator.addVertexWithUV(x+d9, y, z+d10, 0D, d16);
+		tessellator.addVertexWithUV(x+d9, y+1D, z+d10, 0D, d17);
+		tessellator.addVertexWithUV(x+d7, y+1D, z+d8, 1D, d17);
+		tessellator.addVertexWithUV(x+d7, y, z+d8, 1D, d16);
+		tessellator.addVertexWithUV(x+d11, y, z+d12, 0D, d16);
+		tessellator.addVertexWithUV(x+d11, y+1D, z+d12, 0D, d17);
+		tessellator.addVertexWithUV(x+d9, y+1D, z+d10, 1D, d17);
+		tessellator.addVertexWithUV(x+d9, y, z+d10, 1D, d16);
+		tessellator.addVertexWithUV(x+d5, y, z+d6, 0D, d16);
+		tessellator.addVertexWithUV(x+d5, y+1D, z+d6, 0D, d17);
 		tessellator.draw();
 		
 		GL.enableBlendAlpha();
 		GL.disableDepthMask();
 		
 		tessellator.startDrawingQuads();
-		tessellator.setColorRGBA(255,255,255,32);
+		tessellator.setColorRGBA(255, 255, 255, 32);
 
 		double d29 = (-1F+f3);
 		double posMin = 0.4D;
 		double posMax = 0.6D;
 		
-		tessellator.addVertexWithUV(x+posMin,y+1D,z+posMin,1D,d29);
-		tessellator.addVertexWithUV(x+posMin,y,z+posMin,1D,d29);
-		tessellator.addVertexWithUV(x+posMax,y,z+posMin,0D,d29);
-		tessellator.addVertexWithUV(x+posMax,y+1D,z+posMin,0D,d29);
-		tessellator.addVertexWithUV(x+posMax,y+1D,z+posMax,1D,d29);
-		tessellator.addVertexWithUV(x+posMax,y,z+posMax,1D,d29);
-		tessellator.addVertexWithUV(x+posMin,y,z+posMax,0D,d29);
-		tessellator.addVertexWithUV(x+posMin,y+1D,z+posMax,0D,d29);
-		tessellator.addVertexWithUV(x+posMax,y+1D,z+posMin,1D,d29);
-		tessellator.addVertexWithUV(x+posMax,y,z+posMin,1D,d29);
-		tessellator.addVertexWithUV(x+posMax,y,z+posMax,0D,d29);
-		tessellator.addVertexWithUV(x+posMax,y+1D,z+posMax,0D,d29);
-		tessellator.addVertexWithUV(x+posMin,y+1D,z+posMax,1D,d29);
-		tessellator.addVertexWithUV(x+posMin,y,z+posMax,1D,d29);
-		tessellator.addVertexWithUV(x+posMin,y,z+posMin,0D,d29);
-		tessellator.addVertexWithUV(x+posMin,y+1D,z+posMin,0D,d29);
+		tessellator.addVertexWithUV(x+posMin, y+1D, z+posMin, 1D, d29);
+		tessellator.addVertexWithUV(x+posMin, y, z+posMin, 1D, d29);
+		tessellator.addVertexWithUV(x+posMax, y, z+posMin, 0D, d29);
+		tessellator.addVertexWithUV(x+posMax, y+1D, z+posMin, 0D, d29);
+		tessellator.addVertexWithUV(x+posMax, y+1D, z+posMax, 1D, d29);
+		tessellator.addVertexWithUV(x+posMax, y, z+posMax, 1D, d29);
+		tessellator.addVertexWithUV(x+posMin, y, z+posMax, 0D, d29);
+		tessellator.addVertexWithUV(x+posMin, y+1D, z+posMax, 0D, d29);
+		tessellator.addVertexWithUV(x+posMax, y+1D, z+posMin, 1D, d29);
+		tessellator.addVertexWithUV(x+posMax, y, z+posMin, 1D, d29);
+		tessellator.addVertexWithUV(x+posMax, y, z+posMax, 0D, d29);
+		tessellator.addVertexWithUV(x+posMax, y+1D, z+posMax, 0D, d29);
+		tessellator.addVertexWithUV(x+posMin, y+1D, z+posMax, 1D, d29);
+		tessellator.addVertexWithUV(x+posMin, y, z+posMax, 1D, d29);
+		tessellator.addVertexWithUV(x+posMin, y, z+posMin, 0D, d29);
+		tessellator.addVertexWithUV(x+posMin, y+1D, z+posMin, 0D, d29);
 		tessellator.draw();
 		
 		GL.enableLighting();

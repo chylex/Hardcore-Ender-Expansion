@@ -16,6 +16,6 @@ public final class LaboratoryElement{
 	
 	@Override
 	public String toString(){
-		return type.name()+" ("+x+","+y+","+z+") ["+Arrays.toString(connected)+"]";
+		return type.name()+" ("+x+", "+y+", "+z+") ["+Arrays.toString(connected)+"]";
 	}
 }

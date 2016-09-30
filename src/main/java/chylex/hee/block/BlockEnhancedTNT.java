@@ -38,56 +38,56 @@ public class BlockEnhancedTNT extends BlockContainer{
 
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
-		super.onBlockAdded(world,x,y,z);
-		if (world.isBlockIndirectlyGettingPowered(x,y,z))world.scheduleBlockUpdate(x,y,z,this,1);
+		super.onBlockAdded(world, x, y, z);
+		if (world.isBlockIndirectlyGettingPowered(x, y, z))world.scheduleBlockUpdate(x, y, z, this, 1);
 	}
 	
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
-		tryIgniteTNT(world,x,y,z,true,null);
-		Pos.at(x,y,z).setAir(world);
+		tryIgniteTNT(world, x, y, z, true, null);
+		Pos.at(x, y, z).setAir(world);
 	}
 
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor){
-		if (world.isBlockIndirectlyGettingPowered(x,y,z)){
-			tryIgniteTNT(world,x,y,z,true,null);
-			Pos.at(x,y,z).setAir(world);
+		if (world.isBlockIndirectlyGettingPowered(x, y, z)){
+			tryIgniteTNT(world, x, y, z, true, null);
+			Pos.at(x, y, z).setAir(world);
 		}
 	}
 
 	@Override
 	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion){
 		if (!world.isRemote){
-			TileEntityEnhancedTNT tile = (TileEntityEnhancedTNT)world.getTileEntity(x,y,z);
+			TileEntityEnhancedTNT tile = (TileEntityEnhancedTNT)world.getTileEntity(x, y, z);
 			
 			if (tile != null){
-				EntityBlockEnhancedTNTPrimed tnt = new EntityBlockEnhancedTNTPrimed(world,x+0.5F,y+0.5F,z+0.5F,explosion.getExplosivePlacedBy(),tile.getEnhancements());
+				EntityBlockEnhancedTNTPrimed tnt = new EntityBlockEnhancedTNTPrimed(world, x+0.5F, y+0.5F, z+0.5F, explosion.getExplosivePlacedBy(), tile.getEnhancements());
 				tnt.fuse = /* TODO tile.getEnhancements().contains(TNTEnhancements.NO_FUSE) ? 1 : */world.rand.nextInt(tnt.fuse/4)+tnt.fuse/8;
 				world.spawnEntityInWorld(tnt);
 			}
 		}
 		
-		super.onBlockExploded(world,x,y,z,explosion);
+		super.onBlockExploded(world, x, y, z, explosion);
 	}
 
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest){
 		boolean exploded = false;
-		if (!player.capabilities.isCreativeMode)exploded = tryIgniteTNT(world,x,y,z,false,null);
-		if (!exploded)Pos.at(x,y,z).castTileEntity(world,TileEntityEnhancedTNT.class).ifPresent(tile -> dropBlockAsItem(world,x,y,z,IEnhanceableTile.createItemStack(tile)));
-		return super.removedByPlayer(world,player,x,y,z,willHarvest);
+		if (!player.capabilities.isCreativeMode)exploded = tryIgniteTNT(world, x, y, z, false, null);
+		if (!exploded)Pos.at(x, y, z).castTileEntity(world, TileEntityEnhancedTNT.class).ifPresent(tile -> dropBlockAsItem(world, x, y, z, IEnhanceableTile.createItemStack(tile)));
+		return super.removedByPlayer(world, player, x, y, z, willHarvest);
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float hitX, float hitY, float hitZ){
 		if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.flint_and_steel){
-			tryIgniteTNT(world,x,y,z,true,player);
-			Pos.at(x,y,z).setAir(world);
-			player.getCurrentEquippedItem().damageItem(1,player);
+			tryIgniteTNT(world, x, y, z, true, player);
+			Pos.at(x, y, z).setAir(world);
+			player.getCurrentEquippedItem().damageItem(1, player);
 			return true;
 		}
-		else return super.onBlockActivated(world,x,y,z,player,meta,hitX,hitY,hitZ);
+		else return super.onBlockActivated(world, x, y, z, player, meta, hitX, hitY, hitZ);
 	}
 
 	@Override
@@ -96,20 +96,20 @@ public class BlockEnhancedTNT extends BlockContainer{
 			EntityArrow arrow = (EntityArrow)entity;
 
 			if (arrow.isBurning()){
-				tryIgniteTNT(world,x,y,z,true,arrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)arrow.shootingEntity : null);
-				Pos.at(x,y,z).setAir(world);
+				tryIgniteTNT(world, x, y, z, true, arrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)arrow.shootingEntity : null);
+				Pos.at(x, y, z).setAir(world);
 			}
 		}
 	}
 	
 	private boolean tryIgniteTNT(World world, int x, int y, int z, boolean ignite, EntityLivingBase igniter){
 		if (!world.isRemote){
-			TileEntityEnhancedTNT tile = (TileEntityEnhancedTNT)world.getTileEntity(x,y,z);
+			TileEntityEnhancedTNT tile = (TileEntityEnhancedTNT)world.getTileEntity(x, y, z);
 			
 			if (tile != null && (ignite/* TODO || tile.getEnhancements().contains(TNTEnhancements.TRAP)*/)){
-				EntityBlockEnhancedTNTPrimed tnt = new EntityBlockEnhancedTNTPrimed(world,x+0.5F,y+0.5F,z+0.5F,igniter,tile.getEnhancements());
+				EntityBlockEnhancedTNTPrimed tnt = new EntityBlockEnhancedTNTPrimed(world, x+0.5F, y+0.5F, z+0.5F, igniter, tile.getEnhancements());
 				world.spawnEntityInWorld(tnt);
-				world.playSoundAtEntity(tnt,"game.tnt.primed",1F,1F);
+				world.playSoundAtEntity(tnt, "game.tnt.primed", 1F, 1F);
 				return true;
 			}
 		}

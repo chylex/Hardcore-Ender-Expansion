@@ -20,7 +20,7 @@ public class ItemSpecialEffects extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int damage){
-		return CollectionUtil.getClamp(iconArray,damage);
+		return CollectionUtil.getClamp(iconArray, damage);
 	}
 	
 	@Override

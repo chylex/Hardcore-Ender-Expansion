@@ -30,9 +30,9 @@ public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack is){
-		super.onBlockPlacedBy(world,x,y,z,entity,is);
+		super.onBlockPlacedBy(world, x, y, z, entity, is);
 		
-		IEnhanceableTile tile = (IEnhanceableTile)world.getTileEntity(x,y,z);
+		IEnhanceableTile tile = (IEnhanceableTile)world.getTileEntity(x, y, z);
 		if (tile != null)tile.getEnhancements().replace(EnhancementRegistry.getEnhancementList(is));
 	}
 	
@@ -41,7 +41,7 @@ public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 		ItemStack held = player.getHeldItem();
 		if (held != null && held.getItem() == ItemList.end_powder)return false;
 		
-		player.openGui(HardcoreEnderExpansion.instance,0,world,x,y,z);
+		player.openGui(HardcoreEnderExpansion.instance, 0, world, x, y, z);
 		return true;
 	}
 	
@@ -62,8 +62,8 @@ public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 	
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block oldBlock, int oldMeta){
-		Pos.at(x,y,z).castTileEntity(world,TileEntityEnhancedBrewingStand.class).ifPresent(tile -> dropBlockAsItem(world,x,y,z,IEnhanceableTile.createItemStack(tile)));
-		super.breakBlock(world,x,y,z,oldBlock,oldMeta);
+		Pos.at(x, y, z).castTileEntity(world, TileEntityEnhancedBrewingStand.class).ifPresent(tile -> dropBlockAsItem(world, x, y, z, IEnhanceableTile.createItemStack(tile)));
+		super.breakBlock(world, x, y, z, oldBlock, oldMeta);
 	}
 	
 	@Override

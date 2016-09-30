@@ -1,7 +1,7 @@
 package chylex.hee.mechanics.charms;
 
 public enum RuneType{
-	POWER(0,"power"), AGILITY(1,"agility"), VIGOR(2,"vigor"), DEFENSE(3,"defense"), MAGIC(4,"magic"), VOID(5,"void");
+	POWER(0, "power"), AGILITY(1, "agility"), VIGOR(2, "vigor"), DEFENSE(3, "defense"), MAGIC(4, "magic"), VOID(5, "void");
 	
 	public static final RuneType[] values = values();
 	

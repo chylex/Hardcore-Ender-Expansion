@@ -33,7 +33,7 @@ import chylex.hee.world.util.BoundingBox;
  */
 public enum EndTerritory{
 	THE_HUB( // 384 blocks
-		size(24), height(128), bottom(0), color(0,0,0), new TerritorySpawnGenerator.Empty(),
+		size(24), height(128), bottom(0), color(0, 0, 0), new TerritorySpawnGenerator.Empty(),
 		TerritoryProperties.defaultProperties, new TerritoryTheHub.Environment(), TerritoryTheHub::new
 	),
 	
@@ -81,15 +81,15 @@ public enum EndTerritory{
 	
 	public BoundingBox createBoundingBox(){
 		final int rad = 8*chunkSize;
-		return new BoundingBox(Pos.at(-rad,0,-rad),Pos.at(rad,255,rad));
+		return new BoundingBox(Pos.at(-rad, 0, -rad), Pos.at(rad, 255, rad));
 	}
 	
 	public StructureWorld createWorld(World world){
-		StructureWorldLazy structureWorld = new StructureWorldLazy(world,8*chunkSize,height,8*chunkSize);
+		StructureWorldLazy structureWorld = new StructureWorldLazy(world, 8*chunkSize, height, 8*chunkSize);
 		
 		if ($debugging){
 			structureWorld.setSendToWatchers();
-			structureWorld.clearArea(Blocks.air,0);
+			structureWorld.clearArea(Blocks.air, 0);
 		}
 		
 		return structureWorld;
@@ -106,55 +106,55 @@ public enum EndTerritory{
 	public ChunkCoordIntPair getStartPoint(int index){
 		int chunkOffX = 0;
 		
-		if ((index/2)%2 == 0)chunkOffX = IntStream.range(0,ordinal()).map(level -> chunksBetween+values[level].chunkSize).sum(); // positive x
-		else chunkOffX = -IntStream.rangeClosed(1,ordinal()).map(level -> chunksBetween+values[level].chunkSize).sum(); // negative x
+		if ((index/2)%2 == 0)chunkOffX = IntStream.range(0, ordinal()).map(level -> chunksBetween+values[level].chunkSize).sum(); // positive x
+		else chunkOffX = -IntStream.rangeClosed(1, ordinal()).map(level -> chunksBetween+values[level].chunkSize).sum(); // negative x
 		
 		int distZ = index/4;
 		if (index%2 != 0)distZ = -distZ-1; // moves odd indexes to negative z
 		
 		int chunkOffZ = distZ*(chunksBetween+chunkSize);
 		
-		return new ChunkCoordIntPair(chunkOffX+chunkOffset,chunkOffZ+chunkOffset);
+		return new ChunkCoordIntPair(chunkOffX+chunkOffset, chunkOffZ+chunkOffset);
 	}
 	
 	public long getHashFromIndex(int index){
 		ChunkCoordIntPair startPoint = getStartPoint(index);
-		return Pos.at(startPoint.chunkXPos*16+chunkSize*8,ordinal(),startPoint.chunkZPos*16+chunkSize*8).toLong();
+		return Pos.at(startPoint.chunkXPos*16+chunkSize*8, ordinal(), startPoint.chunkZPos*16+chunkSize*8).toLong();
 	}
 	
 	public long getHashFromPoint(Pos centerPos){
-		return centerPos.offset(0,ordinal()-centerPos.getY(),0).toLong();
+		return centerPos.offset(0, ordinal()-centerPos.getY(), 0).toLong();
 	}
 	
 	public Pos getStructurePosFromHash(long hash){
 		Pos structurePos = Pos.at(hash);
-		return structurePos.offset(0,bottom-structurePos.getY(),0);
+		return structurePos.offset(0, bottom-structurePos.getY(), 0);
 	}
 	
 	public Pos generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand, EnumSet<? extends Enum<?>> variations, boolean isRare){
 		for(int chunkX = 0; chunkX < chunkSize; chunkX++){
 			for(int chunkZ = 0; chunkZ < chunkSize; chunkZ++){
-				world.getChunkFromChunkCoords(startPoint.chunkXPos+chunkX,startPoint.chunkZPos+chunkZ);
+				world.getChunkFromChunkCoords(startPoint.chunkXPos+chunkX, startPoint.chunkZPos+chunkZ);
 			}
 		}
 		
 		StructureWorld structureWorld = createWorld(world);
-		constructor.construct(this,variations,structureWorld,rand).generate();
+		constructor.construct(this, variations, structureWorld, rand).generate();
 		
 		int startX = 16*startPoint.chunkXPos+structureWorld.getArea().x2;
 		int startZ = 16*startPoint.chunkZPos+structureWorld.getArea().z2;
 		
 		if ($debugging){
-			EntitySelector.any(world,structureWorld.getArea().offset(Pos.at(startX,0,startZ)).toAABB()).stream().filter(e -> !(e instanceof EntityPlayer)).forEach(Entity::setDead);
+			EntitySelector.any(world, structureWorld.getArea().offset(Pos.at(startX, 0, startZ)).toAABB()).stream().filter(e -> !(e instanceof EntityPlayer)).forEach(Entity::setDead);
 		}
 		
-		Pos spawnPos = spawn.createSpawnPoint(structureWorld,rand,this,isRare).offset(startX,bottom,startZ);
-		structureWorld.generateInWorld(world,rand,startX,bottom,startZ);
+		Pos spawnPos = spawn.createSpawnPoint(structureWorld, rand, this, isRare).offset(startX, bottom, startZ);
+		structureWorld.generateInWorld(world, rand, startX, bottom, startZ);
 		return spawnPos;
 	}
 	
 	public Pos generateTerritory(int index, World world, Random rand, EnumSet<? extends Enum<?>> variations, boolean isRare){
-		return generateTerritory(getStartPoint(index),world,rand,variations,isRare);
+		return generateTerritory(getStartPoint(index), world, rand, variations, isRare);
 	}
 	
 	// STATIC FIELDS AND METHODS
@@ -164,13 +164,13 @@ public enum EndTerritory{
 	public static final EndTerritory[] values = values();
 	
 	public static Optional<EndTerritory> getFromHash(long hash){
-		return CollectionUtil.get(values,Pos.at(hash).getY());
+		return CollectionUtil.get(values, Pos.at(hash).getY());
 	}
 	
 	/**
 	 * If you touch this, your pet fish will die.
 	 */
-	public static @Nullable Pair<Pos,EndTerritory> findTerritoryCenter(double posX, double posZ){
+	public static @Nullable Pair<Pos, EndTerritory> findTerritoryCenter(double posX, double posZ){
 		int middleX = chunkOffset*16;
 		
 		for(EndTerritory territory:values){
@@ -182,7 +182,7 @@ public enum EndTerritory{
 				int zStart = posZ >= chunkOffset*16 ? gridSize*((MathUtil.floor(posZ)+gridSize/2-offset)/gridSize)+offset :
 				                                      gridSize*((MathUtil.floor(posZ)-gridSize/2-offset)/gridSize)+offset;
 				
-				return Pair.of(Pos.at(xStart,0,zStart),territory);
+				return Pair.of(Pos.at(xStart, 0, zStart), territory);
 			}
 			
 			middleX += (territory.chunkSize+chunksBetween)*16;
@@ -213,16 +213,16 @@ public enum EndTerritory{
 	 * Values around 1 should show negative effects, eventually trying to kill the entity more violently as the value continues to increase.
 	 */
 	public static double getVoidFactor(Entity entity){
-		Pair<Pos,EndTerritory> info = findTerritoryCenter(entity.posX,entity.posZ);
+		Pair<Pos, EndTerritory> info = findTerritoryCenter(entity.posX, entity.posZ);
 		if (info == null)return 0D;
 		
 		double diffX = Math.abs(info.getKey().getX()-entity.posX);
 		double diffZ = Math.abs(info.getKey().getZ()-entity.posZ);
 		
-		double distXZ = Math.pow(Math.pow(diffX,2.5D)+Math.pow(diffZ,2.5D),0.4D)/((info.getValue().chunkSize+2)*8);
-		double offY = Math.pow(Math.abs(128D-entity.posY)/164D,6D);
+		double distXZ = Math.pow(Math.pow(diffX, 2.5D)+Math.pow(diffZ, 2.5D), 0.4D)/((info.getValue().chunkSize+2)*8);
+		double offY = Math.pow(Math.abs(128D-entity.posY)/164D, 6D);
 		
-		return Math.max(0D,distXZ*3.5D-3D)+Math.max(0D,offY);
+		return Math.max(0D, distXZ*3.5D-3D)+Math.max(0D, offY);
 	}
 	
 	// INITIALIZATION UTILITY METHODS
@@ -240,7 +240,7 @@ public enum EndTerritory{
 	}
 	
 	private static int color(int hue){
-		float[] rgb = ColorUtil.hsvToRgb(hue/360F,0.32F,0.76F);
+		float[] rgb = ColorUtil.hsvToRgb(hue/360F, 0.32F, 0.76F);
 		return (MathUtil.floor(rgb[0]*255F)<<16)|(MathUtil.floor(rgb[1]*255F)<<8)|MathUtil.floor(rgb[2]*255F);
 	}
 	
@@ -258,23 +258,23 @@ public enum EndTerritory{
 			$debugging = true;
 			
 			if (args.length == 0){
-				THE_HUB.generateTerritory(0,world,new Random(world.getSeed()),EmptyEnumSet.get(),false);
+				THE_HUB.generateTerritory(0, world, new Random(world.getSeed()), EmptyEnumSet.get(), false);
 			}
 			else if (args[0].equals("spawn") && args.length >= 3){
-				values[DragonUtil.tryParse(args[1],0)].generateTerritory(DragonUtil.tryParse(args[2],0),world,new Random(world.getSeed()),EmptyEnumSet.get(),false);
+				values[DragonUtil.tryParse(args[1], 0)].generateTerritory(DragonUtil.tryParse(args[2], 0), world, new Random(world.getSeed()), EmptyEnumSet.get(), false);
 			}
 			else if (args[0].equals("seed") && args.length >= 4){
-				values[DragonUtil.tryParse(args[1],0)].generateTerritory(DragonUtil.tryParse(args[2],0),world,new Random(DragonUtil.tryParse(args[3],0)),EmptyEnumSet.get(),false);
+				values[DragonUtil.tryParse(args[1], 0)].generateTerritory(DragonUtil.tryParse(args[2], 0), world, new Random(DragonUtil.tryParse(args[3], 0)), EmptyEnumSet.get(), false);
 			}
 			else if (args[0].equals("loc") && args.length >= 3){
-				EndTerritory territory = values[DragonUtil.tryParse(args[1],0)];
-				ChunkCoordIntPair coords = territory.getStartPoint(DragonUtil.tryParse(args[2],0));
+				EndTerritory territory = values[DragonUtil.tryParse(args[1], 0)];
+				ChunkCoordIntPair coords = territory.getStartPoint(DragonUtil.tryParse(args[2], 0));
 				HardcoreEnderExpansion.notifications.report("Start: "+(coords.chunkXPos*16)+", "+(coords.chunkZPos*16));
 				HardcoreEnderExpansion.notifications.report("Center: "+(coords.chunkXPos*16+territory.chunkSize*8)+", "+(coords.chunkZPos*16+territory.chunkSize*8));
 			}
 			else if (args[0].equals("find") && args.length >= 3){
-				int x = DragonUtil.tryParse(args[1],0), z = DragonUtil.tryParse(args[2],0);
-				Log.reportedDebug("Found: $0",findTerritoryCenter(x,z));
+				int x = DragonUtil.tryParse(args[1], 0), z = DragonUtil.tryParse(args[2], 0);
+				Log.reportedDebug("Found: $0", findTerritoryCenter(x, z));
 			}
 		}
 	};

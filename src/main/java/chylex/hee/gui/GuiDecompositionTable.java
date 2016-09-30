@@ -10,10 +10,10 @@ public class GuiDecompositionTable extends GuiAbstractTable{
 	private static final ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/decomposition_table.png");
 
 	public GuiDecompositionTable(InventoryPlayer inv, TileEntityDecompositionTable tile){
-		super(new ContainerDecompositionTable(inv,tile),tile);
-		setupProgressBar(57,34);
-		setupEnergyIcon(19,37);
-		setupStardustText(34,53);
+		super(new ContainerDecompositionTable(inv, tile), tile);
+		setupProgressBar(57, 34);
+		setupEnergyIcon(19, 37);
+		setupStardustText(34, 53);
 	}
 
 	@Override

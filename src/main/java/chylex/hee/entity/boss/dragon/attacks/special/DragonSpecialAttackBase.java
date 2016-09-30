@@ -38,7 +38,7 @@ public abstract class DragonSpecialAttackBase implements IWeightProvider{
 	}
 	
 	public boolean isPassiveAttackDisabled(byte attackId){
-		return ArrayUtils.contains(disabledPassiveAttacks,attackId);
+		return ArrayUtils.contains(disabledPassiveAttacks, attackId);
 	}
 	
 	public void init(){
@@ -70,7 +70,7 @@ public abstract class DragonSpecialAttackBase implements IWeightProvider{
 				if (player.getHealth() < last)damageDealt += (last-player.getHealth());
 			}
 			
-			lastPlayerHealth.put(id,player.getHealth());
+			lastPlayerHealth.put(id, player.getHealth());
 		}
 	}
 	
@@ -81,7 +81,7 @@ public abstract class DragonSpecialAttackBase implements IWeightProvider{
 	public abstract boolean hasEnded();
 	
 	public int getNextAttackTimer(){
-		return Math.max(140,220+rand.nextInt(140)+((4-getDifficulty())*30)-Math.min(60,dragon.worldObj.playerEntities.size()*10));
+		return Math.max(140, 220+rand.nextInt(140)+((4-getDifficulty())*30)-Math.min(60, dragon.worldObj.playerEntities.size()*10));
 	}
 
 	public float overrideMovementSpeed(){

@@ -32,7 +32,7 @@ public final class ReflectionPublicizer{
 				if (params.length == 1 && EntityPlayer.class.isAssignableFrom(params[0])){
 					method.setAccessible(true);
 					entityLivingBaseGetExperiencePoints = method;
-					Log.debug("ReflectionPublicizer - entityLivingBaseGetExperiencePoints: $0",method.getName());
+					Log.debug("ReflectionPublicizer - entityLivingBaseGetExperiencePoints: $0", method.getName());
 					break;
 				}
 			}
@@ -44,16 +44,16 @@ public final class ReflectionPublicizer{
 		Stopwatch.finish("ReflectionPublicizer");
 	}
 	
-	public static IdentityHashMap<Block,Boolean> f__carriable__EntityEnderman(){
-		return (IdentityHashMap<Block,Boolean>)get(entityEndermanCarriable,null);
+	public static IdentityHashMap<Block, Boolean> f__carriable__EntityEnderman(){
+		return (IdentityHashMap<Block, Boolean>)get(entityEndermanCarriable, null);
 	}
 	
-	public static void f__carriable__EntityEnderman(IdentityHashMap<Block,Boolean> newValue){
-		set(entityEndermanCarriable,null,newValue);
+	public static void f__carriable__EntityEnderman(IdentityHashMap<Block, Boolean> newValue){
+		set(entityEndermanCarriable, null, newValue);
 	}
 	
 	public static int m__getExperiencePoints__EntityLivingBase(EntityLivingBase entity, EntityPlayer attackingPlayer){
-		return (int)invoke(entityLivingBaseGetExperiencePoints,entity,attackingPlayer);
+		return (int)invoke(entityLivingBaseGetExperiencePoints, entity, attackingPlayer);
 	}
 	
 	private static Object get(Field field, Object o){
@@ -67,7 +67,7 @@ public final class ReflectionPublicizer{
 	
 	private static void set(Field field, Object o, Object newValue){
 		try{
-			field.set(o,newValue);
+			field.set(o, newValue);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -75,7 +75,7 @@ public final class ReflectionPublicizer{
 	
 	private static Object invoke(Method method, Object o, Object...params){
 		try{
-			return method.invoke(o,params);
+			return method.invoke(o, params);
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;

@@ -22,7 +22,7 @@ public class ImcOrbHandlers extends ImcHandler{
 		int size = list.size(), damageRemoved = 0;
 		
 		for(Iterator<WeightedItem> iter = list.iterator(); iter.hasNext();){
-			Pair<Integer,Boolean> info = iter.next().runBlacklistPattern(pattern);
+			Pair<Integer, Boolean> info = iter.next().runBlacklistPattern(pattern);
 			
 			if (info.getRight())iter.remove();
 			damageRemoved += info.getLeft();
@@ -31,8 +31,8 @@ public class ImcOrbHandlers extends ImcHandler{
 		size = size-list.size();
 		
 		if (size == 0 && damageRemoved == 0)MessageLogger.logWarn("Did not find any items to remove.");
-		else if (size == 0)MessageLogger.logOk("Removed $0 damage value(s) from items.",damageRemoved);
-		else MessageLogger.logOk("Removed $0 item(s) and $1 damage value(s) in total.",size,damageRemoved);
+		else if (size == 0)MessageLogger.logOk("Removed $0 damage value(s) from items.", damageRemoved);
+		else MessageLogger.logOk("Removed $0 item(s) and $1 damage value(s) in total.", size, damageRemoved);
 		
 		if (list.size() == 0)MessageLogger.logWarn("No items left in the list, falling back to generic chest loot.");
 	};
@@ -52,13 +52,13 @@ public class ImcOrbHandlers extends ImcHandler{
 	
 	@Override
 	public void register(){
-		register("Orb:ItemBlacklist",itemBlacklist,RunEvent.LOADCOMPLETE)
-		.addProp("pattern",ItemPatternValue.any());
+		register("Orb:ItemBlacklist", itemBlacklist, RunEvent.LOADCOMPLETE)
+		.addProp("pattern", ItemPatternValue.any());
 		
-		register("Orb:MobAdd",mobAdd,RunEvent.LOADCOMPLETE)
-		.addProp("id",SpawnEntryValue.livingMobString);
+		register("Orb:MobAdd", mobAdd, RunEvent.LOADCOMPLETE)
+		.addProp("id", SpawnEntryValue.livingMobString);
 		
-		register("Orb:MobRemove",mobRemove,RunEvent.LOADCOMPLETE)
-		.addProp("id",SpawnEntryValue.livingMobString);
+		register("Orb:MobRemove", mobRemove, RunEvent.LOADCOMPLETE)
+		.addProp("id", SpawnEntryValue.livingMobString);
 	}
 }

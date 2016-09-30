@@ -19,12 +19,12 @@ public class RenderBlockTokenHolder extends Render{
 		EntityBlockTokenHolder e = (EntityBlockTokenHolder)entity;
 		
 		GL.pushMatrix();
-		GL.translate(x,y,z);
-		GL.enableBlend(GL.ONE,GL.SRC_ALPHA);
+		GL.translate(x, y, z);
+		GL.enableBlend(GL.ONE, GL.SRC_ALPHA);
 		bindTexture(texture);
 		model.setRotation(e.prevRotation+(e.rotation-e.prevRotation)*partialTickTime);
 		model.setCharge(e.prevCharge+(e.getChargeProgress()-e.prevCharge)*partialTickTime);
-		model.render(entity,0F,0F,0F,0F,0F,0.0625F);
+		model.render(entity, 0F, 0F, 0F, 0F, 0F, 0.0625F);
 		GL.disableBlend();
 		GL.popMatrix();
 	}

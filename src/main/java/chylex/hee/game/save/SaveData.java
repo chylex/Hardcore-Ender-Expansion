@@ -33,12 +33,12 @@ public final class SaveData{
 	
 	public static <T extends PlayerFile> T player(EntityPlayer player, Class<T> cls){
 		checkServerSide();
-		return instance.player.get(player,cls);
+		return instance.player.get(player, cls);
 	}
 	
 	public static <T extends PlayerFile> T player(String playerID, Class<T> cls){
 		checkServerSide();
-		return instance.player.get(playerID,cls);
+		return instance.player.get(playerID, cls);
 	}
 	
 	private static void checkServerSide(){
@@ -75,7 +75,7 @@ public final class SaveData{
 			File root = DimensionManager.getCurrentSaveRootDirectory();
 			if (root == null)throw new IllegalStateException("Could not determine world save directory!");
 			
-			worldSaveDir = new File(root,"hee2");
+			worldSaveDir = new File(root, "hee2");
 			if (!worldSaveDir.exists())worldSaveDir.mkdirs();
 			
 			for(ISaveDataHandler handler:handlers)handler.clear(worldSaveDir);
@@ -94,7 +94,7 @@ public final class SaveData{
 			try(FileInputStream fileStream = new FileInputStream(file)){
 				return NBT.wrap(CompressedStreamTools.readCompressed(fileStream));
 			}catch(IOException ioe){
-				Log.throwable(ioe,"Error reading NBT file - $0",file);
+				Log.throwable(ioe, "Error reading NBT file - $0", file);
 			}
 		}
 		
@@ -103,10 +103,10 @@ public final class SaveData{
 	
 	public static boolean saveFile(File file, NBTCompound nbt){
 		try(FileOutputStream fileStream = new FileOutputStream(file)){
-			CompressedStreamTools.writeCompressed(nbt.getUnderlyingTag(),fileStream);
+			CompressedStreamTools.writeCompressed(nbt.getUnderlyingTag(), fileStream);
 			return true;
 		}catch(Exception ex){
-			Log.throwable(ex,"Error writing NBT file $0",file);
+			Log.throwable(ex, "Error writing NBT file $0", file);
 			return false;
 		}
 	}

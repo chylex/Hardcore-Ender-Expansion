@@ -32,7 +32,7 @@ public class BlockStardustOre extends BlockAbstractOre{
 	
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
-		if (Pos.at(x,y,z).getMetadata(world) == 0)Pos.at(x,y,z).setMetadata(world,world.rand.nextInt(15)+1,3);
+		if (Pos.at(x, y, z).getMetadata(world) == 0)Pos.at(x, y, z).setMetadata(world, world.rand.nextInt(15)+1, 3);
 	}
 	
 	@Override
@@ -47,7 +47,7 @@ public class BlockStardustOre extends BlockAbstractOre{
 	
 	@Override
 	public int getExpDrop(IBlockAccess world, int meta, int fortune){
-		return MathHelper.getRandomIntegerInRange(BlockList.blockRandom,1,6);
+		return MathHelper.getRandomIntegerInRange(BlockList.blockRandom, 1, 6);
 	}
 	
 	@Override
@@ -58,8 +58,8 @@ public class BlockStardustOre extends BlockAbstractOre{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side){
-		int meta = Pos.at(x,y,z).getMetadata(world);
-		if (meta == 0)return Blocks.end_stone.getIcon(world,x,y,z,side);
+		int meta = Pos.at(x, y, z).getMetadata(world);
+		if (meta == 0)return Blocks.end_stone.getIcon(world, x, y, z, side);
 		
 		return iconArray[iconIndexes[side][meta-1]];
 	}
@@ -67,7 +67,7 @@ public class BlockStardustOre extends BlockAbstractOre{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return iconArray[iconIndexes[side][Math.max(0,meta-1)]];
+		return iconArray[iconIndexes[side][Math.max(0, meta-1)]];
 	}
 	
 	@Override

@@ -43,7 +43,7 @@ public class C09SimpleEvent extends AbstractClientPacket{
 		if (type == null)return;
 		
 		switch(type){
-			case ENDER_DEMON_SCREECH: player.worldObj.playSound(player.posX,player.posY+16D,player.posZ,"hardcoreenderexpansion:enderdemon.scream",1.8F,1F,false); break;
+			case ENDER_DEMON_SCREECH: player.worldObj.playSound(player.posX, player.posY+16D, player.posZ, "hardcoreenderexpansion:enderdemon.scream", 1.8F, 1F, false); break;
 			case BACON_COMMAND: Baconizer.runBaconCommand(); break;
 			case CHECK_UPDATES: UpdateNotificationManager.tryRunUpdateCheck(); break;
 			case RESTORE_COMPENDIUM_PAUSE: GuiEnderCompendium.pausesGame = GuiEnderCompendium.wasPaused; break;

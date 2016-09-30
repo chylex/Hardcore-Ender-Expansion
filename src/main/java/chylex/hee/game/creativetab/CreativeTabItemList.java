@@ -40,12 +40,12 @@ public class CreativeTabItemList{
 			if (delegate.type() == Block.class){
 				Block block = (Block)delegate.get();
 				block.setCreativeTab(tab);
-				block.getSubBlocks(Item.getItemFromBlock(block),tab,items);
+				block.getSubBlocks(Item.getItemFromBlock(block), tab, items);
 			}
 			else if (delegate.type() == Item.class){
 				Item item = (Item)delegate.get();
 				item.setCreativeTab(tab);
-				item.getSubItems(item,tab,items);
+				item.getSubItems(item, tab, items);
 			}
 			else throw new IllegalArgumentException("Delegate contains an invalid object: "+delegate.type());
 		}

@@ -44,16 +44,16 @@ public final class EnergyValues{
 	}
 	
 	/*private static void setItemEnergy(Block block, float energyUnits){
-		items.put(new ItemDamagePair(Item.getItemFromBlock(block),-1),unit*energyUnits);
+		items.put(new ItemDamagePair(Item.getItemFromBlock(block), -1), unit*energyUnits);
 	}
 	
 	private static void setItemEnergy(Item item, float energyUnits){
-		items.put(new ItemDamagePair(item,-1),unit*energyUnits);
+		items.put(new ItemDamagePair(item, -1), unit*energyUnits);
 	}*/
 	
 	public static boolean setItemEnergy(ItemDamagePair pair, float energyUnits){
-		if (!MathUtil.floatEquals(getItemEnergy(new ItemStack(pair.item,1,pair.damage == -1 ? 0 : pair.damage)),0F))return false;
-		items.put(pair,unit*energyUnits);
+		if (!MathUtil.floatEquals(getItemEnergy(new ItemStack(pair.item, 1, pair.damage == -1 ? 0 : pair.damage)), 0F))return false;
+		items.put(pair, unit*energyUnits);
 		return true;
 	}
 	

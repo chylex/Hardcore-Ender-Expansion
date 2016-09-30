@@ -22,7 +22,7 @@ public class GuiKnowledgeNote extends GuiScreen{
 	
 	@Override
 	public void initGui(){
-		buttonList.add(new GuiButtonExt(1,width/2-75,height/2+92,150,20,I18n.format("gui.done")));
+		buttonList.add(new GuiButtonExt(1, width/2-75, height/2+92, 150, 20, I18n.format("gui.done")));
 	}
 	
 	@Override
@@ -32,22 +32,22 @@ public class GuiKnowledgeNote extends GuiScreen{
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTickTime){
-		GL.color(1F,1F,1F,1F);
+		GL.color(1F, 1F, 1F, 1F);
 		mc.getTextureManager().bindTexture(CompendiumPageHandler.texPage);
-		drawTexturedModalRect((width-CompendiumPageHandler.pageWidth)/2,(height-CompendiumPageHandler.pageHeight)/2-20,0,0,CompendiumPageHandler.pageWidth,CompendiumPageHandler.pageHeight);
+		drawTexturedModalRect((width-CompendiumPageHandler.pageWidth)/2, (height-CompendiumPageHandler.pageHeight)/2-20, 0, 0, CompendiumPageHandler.pageWidth, CompendiumPageHandler.pageHeight);
 		
-		GuiHelper.renderUnicodeString(translatedText,(width-CompendiumPageHandler.pageWidth)/2+18,(height-CompendiumPageHandler.pageHeight)/2+1,CompendiumPageHandler.innerWidth,255<<24);
+		GuiHelper.renderUnicodeString(translatedText, (width-CompendiumPageHandler.pageWidth)/2+18, (height-CompendiumPageHandler.pageHeight)/2+1, CompendiumPageHandler.innerWidth, 255<<24);
 		
 		if (addedPoints > 0){
 			boolean origFont = fontRendererObj.getUnicodeFlag();
 			fontRendererObj.setUnicodeFlag(true);
 			
-			String text = StringUtils.replaceOnce(I18n.format("compendium.notePoints"),"$",String.valueOf(addedPoints));
-			GuiHelper.renderUnicodeString(text,(width-fontRendererObj.getStringWidth(text))/2,(height/2)+55,CompendiumPageHandler.innerWidth,255<<24|(32<<16)|(32<<8)|32);
+			String text = StringUtils.replaceOnce(I18n.format("compendium.notePoints"), "$", String.valueOf(addedPoints));
+			GuiHelper.renderUnicodeString(text, (width-fontRendererObj.getStringWidth(text))/2, (height/2)+55, CompendiumPageHandler.innerWidth, 255<<24|(32<<16)|(32<<8)|32);
 			
 			fontRendererObj.setUnicodeFlag(origFont);
 		}
 		
-		super.drawScreen(mouseX,mouseY,partialTickTime);
+		super.drawScreen(mouseX, mouseY, partialTickTime);
 	}
 }

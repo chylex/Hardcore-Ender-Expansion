@@ -27,7 +27,7 @@ public class EntityAIWanderRandomly extends EntityAIBase{
 
 	@Override
 	public boolean shouldExecute(){
-		return entity.getRNG().nextFloat() < chance && (this.targetPosition = RandomPositionGenerator.findRandomTarget(entity,10,7)) != null;
+		return entity.getRNG().nextFloat() < chance && (this.targetPosition = RandomPositionGenerator.findRandomTarget(entity, 10, 7)) != null;
 	}
 
 	@Override
@@ -37,6 +37,6 @@ public class EntityAIWanderRandomly extends EntityAIBase{
 
 	@Override
 	public void startExecuting(){
-		entity.getNavigator().tryMoveToXYZ(targetPosition.xCoord,targetPosition.yCoord,targetPosition.zCoord,speed);
+		entity.getNavigator().tryMoveToXYZ(targetPosition.xCoord, targetPosition.yCoord, targetPosition.zCoord, speed);
 	}
 }

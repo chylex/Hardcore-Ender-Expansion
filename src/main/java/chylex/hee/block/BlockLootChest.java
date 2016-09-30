@@ -20,7 +20,7 @@ import chylex.hee.tileentity.TileEntityLootChest;
 public class BlockLootChest extends BlockContainer implements IHaveTooltip{
 	public BlockLootChest(){
 		super(Material.rock);
-		setBlockBounds(0.0625F,0F,0.0625F,0.9375F,0.875F,0.9375F);
+		setBlockBounds(0.0625F, 0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
 	}
 
 	@Override
@@ -54,15 +54,15 @@ public class BlockLootChest extends BlockContainer implements IHaveTooltip{
 			case 3: meta = 4; break;
 		}
 		
-		Pos.at(x,y,z).setMetadata(world,meta,2);
+		Pos.at(x, y, z).setMetadata(world, meta, 2);
 		
-		if (is.hasDisplayName())((TileEntityLootChest)Pos.at(x,y,z).getTileEntity(world)).setCustomInventoryName(is.getDisplayName());
+		if (is.hasDisplayName())((TileEntityLootChest)Pos.at(x, y, z).getTileEntity(world)).setCustomInventoryName(is.getDisplayName());
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
-		if (!world.isRemote && !Pos.at(x,y+1,z).getBlock(world).isNormalCube() && Pos.at(x,y,z).getTileEntity(world) instanceof TileEntityLootChest){
-			player.openGui(HardcoreEnderExpansion.instance,6,world,x,y,z);
+		if (!world.isRemote && !Pos.at(x, y+1, z).getBlock(world).isNormalCube() && Pos.at(x, y, z).getTileEntity(world) instanceof TileEntityLootChest){
+			player.openGui(HardcoreEnderExpansion.instance, 6, world, x, y, z);
 		}
 		
 		return true;

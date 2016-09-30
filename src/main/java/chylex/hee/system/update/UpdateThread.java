@@ -42,7 +42,7 @@ class UpdateThread extends Thread{
 		try{
 			Thread.sleep(3333L);
 			
-			JsonElement root = new JsonParser().parse(IOUtils.toString(new URL(url),StandardCharsets.UTF_8));
+			JsonElement root = new JsonParser().parse(IOUtils.toString(new URL(url), StandardCharsets.UTF_8));
 			
 			List<VersionEntry> versionList = new ArrayList<>();
 			VersionEntry currentVersion = null, newestVersion = null, newestVersionForCurrentMC = null;
@@ -52,19 +52,19 @@ class UpdateThread extends Thread{
 			
 			Log.debug("Detecting HEE updates...");
 			
-			for(Entry<String,JsonElement> entry:root.getAsJsonObject().entrySet()){
+			for(Entry<String, JsonElement> entry:root.getAsJsonObject().entrySet()){
 				if (entry.getKey().charAt(0) == '~'){
 					switch(entry.getKey().substring(1)){
 						case "URL": downloadURL = entry.getValue().getAsString(); break;
 					}
 				}
-				else versionList.add(new VersionEntry(entry.getKey(),entry.getValue().getAsJsonObject()));
+				else versionList.add(new VersionEntry(entry.getKey(), entry.getValue().getAsJsonObject()));
 			}
 			
 			Collections.sort(versionList);
 			
 			for(VersionEntry version:versionList){
-				Log.debug("Reading update data: $0",version.versionIdentifier);
+				Log.debug("Reading update data: $0", version.versionIdentifier);
 
 				if (newestVersion == null)newestVersion = version;
 				
@@ -109,7 +109,7 @@ class UpdateThread extends Thread{
 						.append(" for ").append(EnumChatFormatting.YELLOW).append("MC ").append(mcVersion).append(EnumChatFormatting.RESET)
 						.append(", released ").append(newestVersionForCurrentMC.releaseDate).append(".");
 					
-					int days = DragonUtil.getDayDifference(Calendar.getInstance(),currentVersion.convertReleaseDate());
+					int days = DragonUtil.getDayDifference(Calendar.getInstance(), currentVersion.convertReleaseDate());
 					int months = MathUtil.floor((days+8D)/30D); // ~22 days rounds up to a full month
 					
 					if (months > 0)message.append(" Your version is ").append(months).append(months == 1 ? " month" : " months").append(" old, and you are ");
@@ -134,12 +134,12 @@ class UpdateThread extends Thread{
 			if (message != null){
 				message.append("\n ").append(EnumChatFormatting.GOLD).append("Click to Download: ").append(downloadURL);
 				message.append("\n ").append(EnumChatFormatting.GOLD).append("Notification Settings Command: ").append(EnumChatFormatting.RESET).append("/hee");
-				for(String s:message.toString().split("\n"))HardcoreEnderExpansion.notifications.report(s,true);
+				for(String s:message.toString().split("\n"))HardcoreEnderExpansion.notifications.report(s, true);
 			}
 		}
 		catch(UnknownHostException e){}
 		catch(Exception e){
-			Log.throwable(e,"Error detecting updates!");
+			Log.throwable(e, "Error detecting updates!");
 		}
 	}
 }

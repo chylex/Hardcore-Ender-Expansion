@@ -65,23 +65,23 @@ public final class RecipeList{
 		
 		// Stone Bricks
 		
-		GameRegistry.addShapelessRecipe(new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickMossy),
-			new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickPlain),
+		GameRegistry.addShapelessRecipe(new ItemStack(Blocks.stonebrick, 1, Meta.stoneBrickMossy),
+			new ItemStack(Blocks.stonebrick, 1, Meta.stoneBrickPlain),
 			Blocks.vine
 		);
 		
 		GameRegistryUtil.addSmeltingRecipe(
-			new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickPlain),
-			new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickCracked),
+			new ItemStack(Blocks.stonebrick, 1, Meta.stoneBrickPlain),
+			new ItemStack(Blocks.stonebrick, 1, Meta.stoneBrickCracked),
 			0.1F
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickChiseled),
+		GameRegistry.addShapedRecipe(new ItemStack(Blocks.stonebrick, 1, Meta.stoneBrickChiseled),
 			"S", "S",
-			'S', new ItemStack(Blocks.stone_slab,1,Meta.slabStoneBrickBottom)
+			'S', new ItemStack(Blocks.stone_slab, 1, Meta.slabStoneBrickBottom)
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.stone_brick_wall,6),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.stone_brick_wall, 6),
 			"BBB", "BBB",
 			'B', Blocks.stonebrick
 		);
@@ -89,14 +89,14 @@ public final class RecipeList{
 		// Gloomrock
 		
 		GameRegistryUtil.addSmeltingRecipe(
-			new ItemStack(BlockList.gloomrock,1,BlockGloomrock.State.PLAIN.value),
-			new ItemStack(BlockList.gloomrock,1,BlockGloomrock.State.SMOOTH.value),
+			new ItemStack(BlockList.gloomrock, 1, BlockGloomrock.State.PLAIN.value),
+			new ItemStack(BlockList.gloomrock, 1, BlockGloomrock.State.SMOOTH.value),
 			0.05F
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock,4,BlockGloomrock.State.BRICK.value),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock, 4, BlockGloomrock.State.BRICK.value),
 			"GG", "GG",
-			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.State.SMOOTH.value)
+			'G', new ItemStack(BlockList.gloomrock, 1, BlockGloomrock.State.SMOOTH.value)
 		);
 		
 		Meta.BlockColor[] gloomrockColors = new Meta.BlockColor[]{
@@ -106,43 +106,43 @@ public final class RecipeList{
 		};
 		
 		for(int color = 0; color < gloomrockColors.length; color++){
-			GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock,8,BlockGloomrock.State.firstColor+color),
+			GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock, 8, BlockGloomrock.State.firstColor+color),
 				"GGG", "GDG", "GGG",
-				'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.State.SMOOTH.value),
-				'D', new ItemStack(Items.dye,1,Meta.getDye(gloomrockColors[color]))
+				'G', new ItemStack(BlockList.gloomrock, 1, BlockGloomrock.State.SMOOTH.value),
+				'D', new ItemStack(Items.dye, 1, Meta.getDye(gloomrockColors[color]))
 			);
 		}
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock_smooth_slab,6),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock_smooth_slab, 6),
 			"GGG",
-			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.State.SMOOTH.value)
+			'G', new ItemStack(BlockList.gloomrock, 1, BlockGloomrock.State.SMOOTH.value)
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock_smooth_stairs,4),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock_smooth_stairs, 4),
 			"  G", " GG", "GGG",
-			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.State.SMOOTH.value)
+			'G', new ItemStack(BlockList.gloomrock, 1, BlockGloomrock.State.SMOOTH.value)
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock_brick_slab,6),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock_brick_slab, 6),
 			"GGG",
-			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.State.BRICK.value)
+			'G', new ItemStack(BlockList.gloomrock, 1, BlockGloomrock.State.BRICK.value)
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock_brick_stairs,4),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock_brick_stairs, 4),
 			"  G", " GG", "GGG",
-			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.State.BRICK.value)
+			'G', new ItemStack(BlockList.gloomrock, 1, BlockGloomrock.State.BRICK.value)
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomtorch,8),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomtorch, 8),
 			" D ", "DED", " G ",
 			'D', Items.glowstone_dust,
 			'E', ItemList.ethereum,
-			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.State.SMOOTH.value)
+			'G', new ItemStack(BlockList.gloomrock, 1, BlockGloomrock.State.SMOOTH.value)
 		);
 		
 		// Opaque Decorations
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.dark_loam_slab,6),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.dark_loam_slab, 6),
 			"LLL",
 			'L', BlockList.dark_loam
 		);
@@ -160,10 +160,10 @@ public final class RecipeList{
 			BlockList.ancient_web
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.ethereal_lantern,4),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.ethereal_lantern, 4),
 			"GSG", "SES", "GSG",
 			'G', Items.gold_nugget,
-			'S', new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickChiseled),
+			'S', new ItemStack(Blocks.stonebrick, 1, Meta.stoneBrickChiseled),
 			'E', ItemList.ethereum
 		);
 		
@@ -249,7 +249,7 @@ public final class RecipeList{
 		);
 		
 		for(CurseType curse:CurseType.values()){
-			GameRegistry.addShapedRecipe(new ItemStack(ItemList.curse,8,curse.damage),
+			GameRegistry.addShapedRecipe(new ItemStack(ItemList.curse, 8, curse.damage),
 				"PAP", "DLB", "PCP",
 				'P', ItemList.end_powder,
 				'L', ItemList.living_matter,
@@ -260,8 +260,8 @@ public final class RecipeList{
 			);
 			
 			GameRegistry.addShapelessRecipe(
-				new ItemStack(ItemList.curse,1,curse.damage|0b100000000),
-				new ItemStack(ItemList.curse,1,curse.damage),
+				new ItemStack(ItemList.curse, 1, curse.damage|0b100000000),
+				new ItemStack(ItemList.curse, 1, curse.damage),
 				ItemList.stardust,
 				ItemList.arcane_shard
 			);
@@ -271,7 +271,7 @@ public final class RecipeList{
 			"PLP", "LRL", "PLP",
 			'P', ItemList.end_powder,
 			'L', Items.leather,
-			'R', new ItemStack(ItemList.rune,1,OreDictionary.WILDCARD_VALUE)
+			'R', new ItemStack(ItemList.rune, 1, OreDictionary.WILDCARD_VALUE)
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.obsidian_rod),
@@ -289,22 +289,22 @@ public final class RecipeList{
 			'F', ItemList.obsidian_fragment
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.obsidian_special,1,0),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.obsidian_special, 1, 0),
 			"FFF", "FQF", "FFF",
 			'F', ItemList.obsidian_fragment,
-			'Q', new ItemStack(Blocks.quartz_block,1,0)
+			'Q', new ItemStack(Blocks.quartz_block, 1, 0)
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.obsidian_special,1,1),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.obsidian_special, 1, 1),
 			"FFF", "FQF", "FFF",
 			'F', ItemList.obsidian_fragment,
-			'Q', new ItemStack(Blocks.quartz_block,1,1)
+			'Q', new ItemStack(Blocks.quartz_block, 1, 1)
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.obsidian_special,1,2),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.obsidian_special, 1, 2),
 			"FFF", "FQF", "FFF",
 			'F', ItemList.obsidian_fragment,
-			'Q', new ItemStack(Blocks.quartz_block,1,2)
+			'Q', new ItemStack(Blocks.quartz_block, 1, 2)
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.energy_wand_core),
@@ -319,19 +319,19 @@ public final class RecipeList{
 			'R', ItemList.obsidian_rod
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.ravaged_brick_slab,6),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.ravaged_brick_slab, 6),
 			"XXX",
-			'X', new ItemStack(BlockList.ravaged_brick,1,OreDictionary.WILDCARD_VALUE)
+			'X', new ItemStack(BlockList.ravaged_brick, 1, OreDictionary.WILDCARD_VALUE)
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.ravaged_brick_stairs,4),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.ravaged_brick_stairs, 4),
 			"  X", " XX", "XXX",
-			'X', new ItemStack(BlockList.ravaged_brick,1,OreDictionary.WILDCARD_VALUE)
+			'X', new ItemStack(BlockList.ravaged_brick, 1, OreDictionary.WILDCARD_VALUE)
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.ravaged_brick_fence,6),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.ravaged_brick_fence, 6),
 			"XXX", "XXX",
-			'X', new ItemStack(BlockList.ravaged_brick,1,OreDictionary.WILDCARD_VALUE)
+			'X', new ItemStack(BlockList.ravaged_brick, 1, OreDictionary.WILDCARD_VALUE)
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.spooky_log),
@@ -374,33 +374,33 @@ public final class RecipeList{
 			'X', ItemList.endium_ingot
 		);
 		
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemList.endium_ingot,9),
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemList.endium_ingot, 9),
 			BlockList.endium_block
 		);
 		
 		for(int a = 0; a < 14; a++){
 			GameRegistry.addShapelessRecipe(
-				new ItemStack(Items.dye,2,13),
-				new ItemStack(BlockList.death_flower,1,a)
+				new ItemStack(Items.dye, 2, 13),
+				new ItemStack(BlockList.death_flower, 1, a)
 			);
 		}
 		
 		GameRegistry.addShapelessRecipe(
-			new ItemStack(Items.dye,2,8),
-			new ItemStack(BlockList.death_flower,1,15)
+			new ItemStack(Items.dye, 2, 8),
+			new ItemStack(BlockList.death_flower, 1, 15)
 		);
 		
 		GameRegistry.addShapelessRecipe(
-			new ItemStack(Items.dye,2,14),
-			new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire)
+			new ItemStack(Items.dye, 2, 14),
+			new ItemStack(BlockList.crossed_decoration, 1, BlockCrossedDecoration.dataLilyFire)
 		);
 		
 		GameRegistry.addShapelessRecipe(
-			new ItemStack(Items.ender_eye,1),
-			ItemList.enhanced_ender_pearl,Items.blaze_powder
+			new ItemStack(Items.ender_eye, 1),
+			ItemList.enhanced_ender_pearl, Items.blaze_powder
 		);
 		
-		FurnaceRecipes.smelting().func_151393_a(BlockList.endium_ore,new ItemStack(ItemList.endium_ingot),0.9F);*/
+		FurnaceRecipes.smelting().func_151393_a(BlockList.endium_ore, new ItemStack(ItemList.endium_ingot), 0.9F);*/
 		
 		Stopwatch.finish("RecipeList - addRecipes");
 	}

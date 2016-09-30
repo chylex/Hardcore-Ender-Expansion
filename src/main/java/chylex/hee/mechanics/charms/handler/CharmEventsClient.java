@@ -15,7 +15,7 @@ public final class CharmEventsClient{
 		if (info == null)return ArrayUtils.EMPTY_FLOAT_ARRAY;
 		
 		TFloatArrayList values = new TFloatArrayList(5);
-		for(Pair<CharmType,CharmRecipe> entry:info.charms){
+		for(Pair<CharmType, CharmRecipe> entry:info.charms){
 			float value = entry.getRight().getProp(prop);
 			if (value != -1)values.add(value);
 		}
@@ -37,6 +37,6 @@ public final class CharmEventsClient{
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onBreakSpeed(BreakSpeed e){
 		// HASTE
-		if (e.entity.worldObj.isRemote)e.newSpeed += getPropPercentIncrease("breakspd",e.originalSpeed);
+		if (e.entity.worldObj.isRemote)e.newSpeed += getPropPercentIncrease("breakspd", e.originalSpeed);
 	}
 }

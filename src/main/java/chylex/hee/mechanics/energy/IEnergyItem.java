@@ -16,7 +16,7 @@ public interface IEnergyItem{
 	};
 	
 	default void useEnergy(ItemStack is, EntityLivingBase owner){
-		is.damageItem(getEnergyUsage(is),owner);
+		is.damageItem(getEnergyUsage(is), owner);
 	}
 	
 	int getEnergyUsage(ItemStack is);

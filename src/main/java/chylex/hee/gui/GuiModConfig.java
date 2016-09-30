@@ -8,6 +8,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiModConfig extends GuiConfig{
 	public GuiModConfig(GuiScreen parent){
-		super(parent,ConfigHandler.getGuiConfigElements(),"HardcoreEnderExpansion",false,false,GuiConfig.getAbridgedConfigPath(ConfigHandler.getConfigString()));
+		super(parent, ConfigHandler.getGuiConfigElements(), "HardcoreEnderExpansion", false, false, GuiConfig.getAbridgedConfigPath(ConfigHandler.getConfigString()));
 	}
 }

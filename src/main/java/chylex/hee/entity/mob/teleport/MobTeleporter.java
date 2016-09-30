@@ -22,7 +22,7 @@ public class MobTeleporter<T extends Entity>{
 	}
 	
 	public void setLocationSelector(ITeleportXZ<T> xzSelector, ITeleportY<T> ySelector){
-		this.locationSelector = new TeleportLocation<>(xzSelector,ySelector);
+		this.locationSelector = new TeleportLocation<>(xzSelector, ySelector);
 	}
 	
 	public void addLocationPredicate(ITeleportPredicate<T> locationPredicate){
@@ -39,21 +39,21 @@ public class MobTeleporter<T extends Entity>{
 		Vec oldPos = Vec.pos(entity), oldPosCopy = oldPos.copy();
 		
 		for(int attempt = 0; attempt < attempts; attempt++){
-			Vec newPos = locationSelector.findPosition(entity,oldPosCopy,rand);
-			entity.setPosition(newPos.x,newPos.y,newPos.z);
+			Vec newPos = locationSelector.findPosition(entity, oldPosCopy, rand);
+			entity.setPosition(newPos.x, newPos.y, newPos.z);
 			
-			if (locationPredicates.stream().allMatch(predicate -> predicate.isValid(entity,oldPos,rand))){
+			if (locationPredicates.stream().allMatch(predicate -> predicate.isValid(entity, oldPos, rand))){
 				if (entity.ridingEntity != null){
 					entity.mountEntity(null);
-					entity.setPosition(newPos.x,newPos.y,newPos.z);
+					entity.setPosition(newPos.x, newPos.y, newPos.z);
 				}
 				
-				for(ITeleportListener<T> listener:onTeleport)listener.onTeleport(entity,oldPos,rand);
+				for(ITeleportListener<T> listener:onTeleport)listener.onTeleport(entity, oldPos, rand);
 				return true;
 			}
 		}
 		
-		entity.setPosition(oldPos.x,oldPos.y,oldPos.z);
+		entity.setPosition(oldPos.x, oldPos.y, oldPos.z);
 		return false;
 	}
 }

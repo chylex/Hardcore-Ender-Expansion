@@ -28,14 +28,14 @@ public class BlockSphalerite extends Block implements IBlockSubtypes{
 
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune){
-		if (meta == 1)return CollectionUtil.newList(new ItemStack(BlockList.sphalerite,1,0),new ItemStack(ItemList.stardust,1+world.rand.nextInt(3+MathUtil.ceil(fortune*0.49D)),0));
-		else return super.getDrops(world,x,y,z,meta,fortune);
+		if (meta == 1)return CollectionUtil.newList(new ItemStack(BlockList.sphalerite, 1, 0), new ItemStack(ItemList.stardust, 1+world.rand.nextInt(3+MathUtil.ceil(fortune*0.49D)), 0));
+		else return super.getDrops(world, x, y, z, meta, fortune);
 	}
 	
 	@Override
 	public final void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta){
-		super.harvestBlock(world,player,x,y,z,meta);
-		// TODO if (meta == 1)CausatumUtils.increase(player,CausatumMeters.END_ORE_MINING,4);
+		super.harvestBlock(world, player, x, y, z, meta);
+		// TODO if (meta == 1)CausatumUtils.increase(player, CausatumMeters.END_ORE_MINING, 4);
 	}
 
 	@Override
@@ -50,14 +50,14 @@ public class BlockSphalerite extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		list.add(new ItemStack(item,1,0));
-		list.add(new ItemStack(item,1,1));
+		list.add(new ItemStack(item, 1, 0));
+		list.add(new ItemStack(item, 1, 1));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return CollectionUtil.getClamp(iconArray,meta);
+		return CollectionUtil.getClamp(iconArray, meta);
 	}
 	
 	@Override

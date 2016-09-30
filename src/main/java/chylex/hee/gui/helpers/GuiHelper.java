@@ -27,17 +27,17 @@ public final class GuiHelper{
 	
 	public static void renderLine(int x1, int y1, int x2, int y2, int color){
 		if (x1 == x2 || y1 == y2){
-			Gui.drawRect(x1-1,y1-1,x2+1,y2+1,color);
+			Gui.drawRect(x1-1, y1-1, x2+1, y2+1, color);
 		}
 		else{
-			Vec vec = Vec.xz(x2-x1,y2-y1);
+			Vec vec = Vec.xz(x2-x1, y2-y1);
 			int len = MathUtil.ceil(vec.length());
 			vec = vec.normalized();
 			
 			float x = x1+0.5F, y = y1+0.5F;
 			
 			for(int a = 0; a <= len; a++){
-				Gui.drawRect((int)x-1,(int)y-1,(int)x+1,(int)y+1,color);
+				Gui.drawRect((int)x-1, (int)y-1, (int)x+1, (int)y+1, color);
 				x += vec.x;
 				y += vec.z;
 			}
@@ -55,18 +55,18 @@ public final class GuiHelper{
 			float dist = 0.08F;
 			
 			for(int cycle = 0; cycle < 2; cycle++){
-				GL.translate(-dist,0F,0F);
-				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
-				GL.translate(dist,-dist,0F);
-				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
-				GL.translate(dist,0F,0F);
-				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
-				GL.translate(-dist,dist,0F);
+				GL.translate(-dist, 0F, 0F);
+				fontRenderer.drawSplitString(str, x, y, maxWidth, color);
+				GL.translate(dist, -dist, 0F);
+				fontRenderer.drawSplitString(str, x, y, maxWidth, color);
+				GL.translate(dist, 0F, 0F);
+				fontRenderer.drawSplitString(str, x, y, maxWidth, color);
+				GL.translate(-dist, dist, 0F);
 				
 				dist = -dist;
 			}
 		}
-		else fontRenderer.drawSplitString(str,x,y,maxWidth,color);
+		else fontRenderer.drawSplitString(str, x, y, maxWidth, color);
 		
 		fontRenderer.setUnicodeFlag(origFont);
 	}
@@ -75,16 +75,16 @@ public final class GuiHelper{
 		GL.disableTexture2D();
 		GL.enableBlend();
 		GL.disableAlphaTest();
-		GL.enableBlend(GL.SRC_ALPHA,GL.ONE_MINUS_SRC_ALPHA,1,0);
+		GL.enableBlend(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, 1, 0);
 		GL.setShadeModel(GL.SMOOTH);
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
-		tessellator.setColorRGBA_F((color1>>16&255)/255F,(color1>>8&255)/255F,(color1&255)/255F,(color1>>24&255)/255F);
-		tessellator.addVertex(w,y,zLevel);
-		tessellator.addVertex(x,y,zLevel);
-		tessellator.setColorRGBA_F((color2>>16&255)/255F,(color2>>8&255)/255F,(color2&255)/255F,(color2>>24&255)/255F);
-		tessellator.addVertex(x,h,zLevel);
-		tessellator.addVertex(w,h,zLevel);
+		tessellator.setColorRGBA_F((color1>>16&255)/255F, (color1>>8&255)/255F, (color1&255)/255F, (color1>>24&255)/255F);
+		tessellator.addVertex(w, y, zLevel);
+		tessellator.addVertex(x, y, zLevel);
+		tessellator.setColorRGBA_F((color2>>16&255)/255F, (color2>>8&255)/255F, (color2&255)/255F, (color2>>24&255)/255F);
+		tessellator.addVertex(x, h, zLevel);
+		tessellator.addVertex(w, h, zLevel);
 		tessellator.draw();
 		GL.setShadeModel(GL.FLAT);
 		GL.disableBlend();

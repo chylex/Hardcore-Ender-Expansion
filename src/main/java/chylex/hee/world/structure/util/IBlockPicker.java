@@ -10,7 +10,7 @@ public interface IBlockPicker{
 	}
 	
 	static IBlockPicker basic(final Block block, final int meta){
-		return new BlockInfo(block,meta);
+		return new BlockInfo(block, meta);
 	}
 	
 	BlockInfo pick(Random rand);

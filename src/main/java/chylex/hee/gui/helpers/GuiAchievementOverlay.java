@@ -26,7 +26,7 @@ public class GuiAchievementOverlay{
 	}
 	
 	public void displayTranslated(String title, String description, long millis){
-		displayLiteral(I18n.format(title),I18n.format(description),millis);
+		displayLiteral(I18n.format(title), I18n.format(description), millis);
 	}
 	
 	public void hide(){
@@ -40,7 +40,7 @@ public class GuiAchievementOverlay{
 	
 	private final class FakeAchievement extends Achievement{
 		FakeAchievement(){
-			super("HEE2 Fake Achievement","",0,0,new ItemStack(Blocks.air),null);
+			super("HEE2 Fake Achievement", "", 0, 0, new ItemStack(Blocks.air), null);
 			IScoreObjectiveCriteria.field_96643_a.remove(func_150952_k().func_96636_a()); // OBFUSCATED dummyObjectivesMap getCriteria getStringID
 		}
 		

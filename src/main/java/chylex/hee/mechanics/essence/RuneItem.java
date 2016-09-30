@@ -17,22 +17,22 @@ public class RuneItem{
 	}
 	
 	public RuneItem(final Block block, String soundEffect){
-		this(Item.getItemFromBlock(block),soundEffect);
+		this(Item.getItemFromBlock(block), soundEffect);
 	}
 	
 	public RuneItem(final Block block, final int damage, String soundEffect){
-		this(Item.getItemFromBlock(block),damage,soundEffect);
+		this(Item.getItemFromBlock(block), damage, soundEffect);
 	}
 	
 	public RuneItem(final Item item, String soundEffect){
 		this.selector = is -> is.getItem() == item;
-		this.showedItem = new ItemStack(item,1,0);
+		this.showedItem = new ItemStack(item, 1, 0);
 		this.soundEffect = soundEffect;
 	}
 	
 	public RuneItem(final Item item, final int damage, String soundEffect){
 		this.selector = is -> is.getItem() == item && is.getItemDamage() == damage;
-		this.showedItem = new ItemStack(item,1,damage);
+		this.showedItem = new ItemStack(item, 1, damage);
 		this.soundEffect = soundEffect;
 	}
 	

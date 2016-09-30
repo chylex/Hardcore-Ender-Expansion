@@ -9,7 +9,7 @@ public final class KeyState{
 	private static final TIntObjectHashMap<Boolean> keyMap = new TIntObjectHashMap<>(8);
 	
 	public static void startTracking(int keyCode){
-		keyMap.putIfAbsent(keyCode,Boolean.FALSE);
+		keyMap.putIfAbsent(keyCode, Boolean.FALSE);
 	}
 	
 	public static void stopTracking(int keyCode){
@@ -17,7 +17,7 @@ public final class KeyState{
 	}
 	
 	public static void setState(int keyCode, boolean isHeld){
-		if (keyMap.contains(keyCode))keyMap.put(keyCode,Boolean.valueOf(isHeld));
+		if (keyMap.contains(keyCode))keyMap.put(keyCode, Boolean.valueOf(isHeld));
 	}
 	
 	public static boolean isHeld(int keyCode){
