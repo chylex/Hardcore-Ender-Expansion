@@ -1,4 +1,4 @@
-package chylex.hee.tileentity;
+package chylex.hee.tileentity.base;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;

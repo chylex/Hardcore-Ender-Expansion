@@ -1,4 +1,4 @@
-package chylex.hee.tileentity;
+package chylex.hee.tileentity.base;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;

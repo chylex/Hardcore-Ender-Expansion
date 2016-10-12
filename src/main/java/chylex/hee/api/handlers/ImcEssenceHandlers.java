@@ -1,4 +1,4 @@
-package chylex.hee.api.message.handlers;
+package chylex.hee.api.handlers;
 import java.util.Iterator;
 import net.minecraft.item.ItemStack;
 import chylex.hee.api.message.IMessageHandler;

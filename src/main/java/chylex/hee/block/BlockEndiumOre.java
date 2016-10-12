@@ -1,5 +1,6 @@
 package chylex.hee.block;
 import java.util.Random;
+import chylex.hee.block.base.BlockAbstractOre;
 import net.minecraft.item.Item;
 
 public class BlockEndiumOre extends BlockAbstractOre{

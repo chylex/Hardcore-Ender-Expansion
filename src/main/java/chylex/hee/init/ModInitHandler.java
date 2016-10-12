@@ -10,7 +10,7 @@ public final class ModInitHandler{
 	}
 	
 	public static void finishPreInit(){
-		for(Runnable preInit:afterPreInit)preInit.run();
+		afterPreInit.forEach(Runnable::run);
 		afterPreInit.clear();
 	}
 	

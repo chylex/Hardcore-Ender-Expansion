@@ -1,4 +1,4 @@
-package chylex.hee.item;
+package chylex.hee.item.base;
 import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;

@@ -4,6 +4,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.entity.item.EntityItemIgneousRock;
+import chylex.hee.item.base.ItemAbstractCustomEntity;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.common.IFuelHandler;
 

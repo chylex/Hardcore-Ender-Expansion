@@ -14,7 +14,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.init.ItemList;
-import chylex.hee.item.ItemAbstractPotion;
+import chylex.hee.item.base.ItemAbstractPotion;
 import chylex.hee.system.abstractions.nbt.NBT;
 import chylex.hee.system.abstractions.nbt.NBTList;
 import chylex.hee.system.util.ItemDamagePair;

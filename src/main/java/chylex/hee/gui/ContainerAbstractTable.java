@@ -6,7 +6,7 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.item.ItemStack;
 import chylex.hee.gui.helpers.ContainerHelper;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.tileentity.TileEntityAbstractTable;
+import chylex.hee.tileentity.base.TileEntityAbstractTable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

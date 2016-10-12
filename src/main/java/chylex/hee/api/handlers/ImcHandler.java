@@ -1,4 +1,4 @@
-package chylex.hee.api.message.handlers;
+package chylex.hee.api.handlers;
 import chylex.hee.api.message.IMessageHandler;
 import chylex.hee.api.message.MessagePattern;
 import chylex.hee.api.message.MessageRegistry;
@@ -6,16 +6,16 @@ import chylex.hee.api.message.utils.RunEvent;
 
 public abstract class ImcHandler{
 	public static final void loadHandlers(){
-		ImcHandler[] handlers = new ImcHandler[]{
+		for(ImcHandler handler:new ImcHandler[]{
 			new ImcEssenceHandlers(),
 			new ImcMobHandlers(),
 			new ImcOrbHandlers(),
 			new ImcTableHandlers(),
 			new ImcWorldHandlers(),
 			new ImcSystemHandlers()
-		};
-		
-		for(ImcHandler handler:handlers)handler.register();
+		}){
+			handler.register();
+		}
 	}
 	
 	protected final MessagePattern register(String key, IMessageHandler handler, RunEvent event){

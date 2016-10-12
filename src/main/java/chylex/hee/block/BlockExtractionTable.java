@@ -1,6 +1,7 @@
 package chylex.hee.block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import chylex.hee.block.base.BlockAbstractTable;
 import chylex.hee.tileentity.TileEntityExtractionTable;
 
 public class BlockExtractionTable extends BlockAbstractTable{

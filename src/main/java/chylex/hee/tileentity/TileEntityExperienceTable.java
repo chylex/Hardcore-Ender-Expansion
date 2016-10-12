@@ -11,6 +11,7 @@ import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.tileentity.base.TileEntityAbstractTable;
 
 public class TileEntityExperienceTable extends TileEntityAbstractTable{
 	public static final int slotStardust = 0, slotSubject = 1, slotOutput = 2;

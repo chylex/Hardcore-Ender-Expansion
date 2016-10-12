@@ -8,6 +8,7 @@ import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.ItemUtil;
+import chylex.hee.tileentity.base.TileEntityAbstractTable;
 
 public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 	public static final int slotStardust = 0, slotSubject = 1;

@@ -2,13 +2,11 @@ package chylex.hee.world.end.gen;
 import java.util.EnumSet;
 import java.util.Random;
 import net.minecraft.init.Blocks;
-import chylex.hee.init.BlockList;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.end.EndTerritory;
 import chylex.hee.world.end.TerritoryGenerator;
 import chylex.hee.world.feature.noise.GenerateIslandNoise;
 import chylex.hee.world.feature.noise.GenerateIslandNoiseTame;
-import chylex.hee.world.feature.ores.GenerateOres;
 import chylex.hee.world.structure.StructureWorld;
 
 public class TerritoryForgottenTombs extends TerritoryGenerator{

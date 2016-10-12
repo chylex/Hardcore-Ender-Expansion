@@ -16,8 +16,6 @@ import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockTokenHolder;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
-import chylex.hee.game.save.SaveData;
-import chylex.hee.game.save.types.player.CausatumFile;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
@@ -143,12 +141,12 @@ public class HeeAdminCommand extends BaseCommand{
 		sub.add(new SubCommand("causatum-check", 0, true){
 			@Override
 			void run(ICommandSender sender, String[] args){
-				CausatumFile file = SaveData.player((EntityPlayer)sender, CausatumFile.class);
+				/* TODO CausatumFile file = SaveData.player((EntityPlayer)sender, CausatumFile.class);
 				sendMessage(sender, DARK_PURPLE+"Ender Causatum");
-				// TODO sendMessage(sender, LIGHT_PURPLE+"[TOTAL] "+RESET+file.getTotalLevel(((EntityPlayer)sender)));
+				sendMessage(sender, LIGHT_PURPLE+"[TOTAL] "+RESET+file.getTotalLevel(((EntityPlayer)sender)));
 				
-				// TODO UUID id = ((EntityPlayer)sender).getUniqueID();
-				// TODO for(CausatumMeters meter:CausatumMeters.values())sendMessage(sender, LIGHT_PURPLE+"["+meter.name()+"] "+RESET+file.getLevel(id, meter));
+				UUID id = ((EntityPlayer)sender).getUniqueID();
+				for(CausatumMeters meter:CausatumMeters.values())sendMessage(sender, LIGHT_PURPLE+"["+meter.name()+"] "+RESET+file.getLevel(id, meter));*/
 			}
 		});
 		

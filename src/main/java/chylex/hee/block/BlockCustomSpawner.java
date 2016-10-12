@@ -35,7 +35,7 @@ public class BlockCustomSpawner extends BlockMobSpawner{
 	@Override
 	public final void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta){
 		super.harvestBlock(world, player, x, y, z, meta);
-		int causatum = -1;
+		/* TODO int causatum = -1;
 		
 		switch(meta){
 			case BlockCustomSpawner.metaTowerEnderman: causatum = 10; break;
@@ -44,6 +44,6 @@ public class BlockCustomSpawner extends BlockMobSpawner{
 			case BlockCustomSpawner.metaBlobEnderman: causatum = 25; break;
 		}
 		
-		// TODO if (causatum != -1)CausatumUtils.increase(player, CausatumMeters.END_SPAWNER_MINING, causatum);
+		if (causatum != -1)CausatumUtils.increase(player, CausatumMeters.END_SPAWNER_MINING, causatum);*/
 	}
 }

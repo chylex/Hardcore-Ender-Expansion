@@ -39,7 +39,6 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
-import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -196,7 +195,7 @@ public class HardcoreEnderExpansion{
 	
 	@EventHandler
 	public void onIMC(IMCEvent e){
-		for(IMCMessage message:e.getMessages())HeeIMC.acceptIMC(message);
+		e.getMessages().forEach(HeeIMC::acceptIMC);
 	}
 	
 	@EventHandler

@@ -1,4 +1,5 @@
 package chylex.hee.tileentity;
+import chylex.hee.tileentity.base.TileEntityAbstractSynchronized;
 import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

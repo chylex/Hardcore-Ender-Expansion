@@ -5,7 +5,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import chylex.hee.system.abstractions.GL;
-import chylex.hee.tileentity.TileEntityAbstractTable;
+import chylex.hee.tileentity.base.TileEntityAbstractTable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

@@ -85,7 +85,7 @@ public final class GenerateHubTokenHolder implements ITerritoryFeature{
 				}
 			}
 			
-			Pos entranceTestPos = entrancePosMutable.offset(entranceFacing, 2);
+			entrancePosMutable.offset(entranceFacing, 2);
 			
 			for(int offX = -1; offX <= 1; offX++){
 				for(int offZ = -1; offZ <= 1; offZ++){

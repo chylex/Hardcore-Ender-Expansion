@@ -3,6 +3,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.entity.item.EntityItemInstabilityOrb;
+import chylex.hee.item.base.ItemAbstractCustomEntity;
 
 public class ItemInstabilityOrb extends ItemAbstractCustomEntity{
 	@Override

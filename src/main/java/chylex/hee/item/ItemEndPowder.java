@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.item.EntityItemEndPowder;
+import chylex.hee.item.base.ItemAbstractCustomEntity;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.system.abstractions.Pos;

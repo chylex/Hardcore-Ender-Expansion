@@ -1,4 +1,4 @@
-package chylex.hee.tileentity;
+package chylex.hee.tileentity.base;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +11,7 @@ import net.minecraft.world.ChunkPosition;
 import chylex.hee.mechanics.energy.IEnergyBlock;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.CollectionUtil;
+import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

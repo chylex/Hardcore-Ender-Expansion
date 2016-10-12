@@ -1,4 +1,4 @@
-package chylex.hee.block;
+package chylex.hee.block.base;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -7,9 +7,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.block.BlockCorruptedEnergy;
 import chylex.hee.mechanics.energy.EnergyValues;
 import chylex.hee.system.abstractions.Pos.PosMutable;
-import chylex.hee.tileentity.TileEntityAbstractTable;
+import chylex.hee.tileentity.base.TileEntityAbstractTable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

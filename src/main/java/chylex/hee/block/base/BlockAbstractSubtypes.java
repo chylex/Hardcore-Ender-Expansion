@@ -1,4 +1,4 @@
-package chylex.hee.block;
+package chylex.hee.block.base;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

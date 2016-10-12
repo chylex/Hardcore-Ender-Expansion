@@ -1,14 +1,7 @@
-package chylex.hee.api.message.handlers;
+package chylex.hee.api.handlers;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
-import chylex.hee.api.message.IMessageHandler;
-import chylex.hee.api.message.element.IntValue;
-import chylex.hee.api.message.element.ItemPatternValue;
-import chylex.hee.api.message.element.SpawnEntryValue;
-import chylex.hee.api.message.element.StringValue;
-import chylex.hee.api.message.utils.MessageLogger;
-import chylex.hee.api.message.utils.RunEvent;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.IslandBiomeBurningMountains;
 import chylex.hee.world.structure.island.biome.IslandBiomeEnchantedIsland;
@@ -42,13 +35,12 @@ public final class ImcWorldHandlers extends ImcHandler{
 		biomeNames.put("EnchantedIsland.Laboratory", Pair.of(IslandBiomeBase.enchantedIsland, IslandBiomeEnchantedIsland.LABORATORY));
 	}
 	
-	private static final StringValue lootName = StringValue.function(input -> false); // TODO lootNames.containsKey(input));
+	/*private static final StringValue lootName = StringValue.function(lootNames::containsKey);
 	
 	private static final StringValue biomeName = StringValue.function(biomeNames::containsKey);
 	
-	/*private static final IMessageHandler lootAdd = runner -> {
-		// TODO
-		/*WeightedLootList list = lootNames.get(runner.getString("list"));
+	private static final IMessageHandler lootAdd = runner -> {
+		WeightedLootList list = lootNames.get(runner.getString("list"));
 		LootItemStack toAdd = runner.<LootItemStack>getValue("item");
 		
 		for(LootItemStack item:list){
@@ -59,12 +51,11 @@ public final class ImcWorldHandlers extends ImcHandler{
 		}
 		
 		list.add(toAdd);
-		MessageLogger.logOk("Added 1 item to the list.");*/
-	//};
+		MessageLogger.logOk("Added 1 item to the list.");
+	};
 	
 	private static final IMessageHandler lootRemove = runner -> {
-		// TODO
-		/*WeightedLootList list = lootNames.get(runner.getString("list"));
+		WeightedLootList list = lootNames.get(runner.getString("list"));
 		int limit = runner.getInt("limit");
 		
 		ItemPattern pattern = runner.<ItemPattern>getValue("search");
@@ -84,20 +75,21 @@ public final class ImcWorldHandlers extends ImcHandler{
 		size = size-list.size();
 		
 		if (size == 0)MessageLogger.logWarn("Did not find any items to remove.");
-		else MessageLogger.logOk("Removed $0 item(s).", size);*/
+		else MessageLogger.logOk("Removed $0 item(s).", size);
 	};
 	
 	private static final IMessageHandler biomeMobAdd = runner -> {
 		Pair<IslandBiomeBase, BiomeContentVariation> pair = biomeNames.get(runner.getString("biome"));
-		// TODO pair.getLeft().getSpawnEntries(pair.getRight()).add(runner.<SpawnEntry>getValue("mob"));
+		pair.getLeft().getSpawnEntries(pair.getRight()).add(runner.<SpawnEntry>getValue("mob"));
 		MessageLogger.logOk("Added 1 entry to the list.");
-	};
+	};*/
 	
 	@Override
-	public void register(){// TODO
-		/*register("World:LootAdd", lootAdd, RunEvent.LOADCOMPLETE)
+	public void register(){
+		/* TODO
+		register("World:LootAdd", lootAdd, RunEvent.LOADCOMPLETE)
 		.addProp("list", lootName)
-		.addProp("item", WeightedLootValue.any());*/
+		.addProp("item", WeightedLootValue.any());
 		
 		register("World:LootRemove", lootRemove, RunEvent.LOADCOMPLETE)
 		.addProp("list", lootName)
@@ -106,6 +98,6 @@ public final class ImcWorldHandlers extends ImcHandler{
 		
 		register("World:BiomeMobAdd", biomeMobAdd, RunEvent.LOADCOMPLETE)
 		.addProp("biome", biomeName)
-		.addProp("mob", SpawnEntryValue.any());
+		.addProp("mob", SpawnEntryValue.any());*/
 	}
 }

@@ -3,14 +3,12 @@ import gnu.trove.map.hash.TObjectByteHashMap;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackSummoning extends DragonSpecialAttackBase{
@@ -70,10 +68,10 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 					}
 					
 					for(int a = 0; a < 3+rand.nextInt(getDifficulty()); a++){
-						double x = player.posX+(rand.nextDouble()-0.5D)*13D, z = player.posZ+(rand.nextDouble()-0.5D)*13D;
+						/* TODO double x = player.posX+(rand.nextDouble()-0.5D)*13D, z = player.posZ+(rand.nextDouble()-0.5D)*13D;
 						int y = 1+DragonUtil.getTopBlockY(dragon.worldObj, Blocks.end_stone, MathUtil.floor(x), MathUtil.floor(z), MathUtil.floor(player.posY+8));
 						
-						/* TODO EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(dragon.worldObj);
+						EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(dragon.worldObj);
 						enderman.setPosition(x, y, z);
 						// TODO no longer works enderman.setTarget(player);
 						

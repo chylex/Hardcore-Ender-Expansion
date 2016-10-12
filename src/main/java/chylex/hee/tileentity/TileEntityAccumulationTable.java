@@ -1,7 +1,8 @@
 package chylex.hee.tileentity;
 import net.minecraft.item.ItemStack;
-import chylex.hee.item.ItemAbstractEnergyAcceptor;
+import chylex.hee.item.base.ItemAbstractEnergyAcceptor;
 import chylex.hee.mechanics.energy.EnergyValues;
+import chylex.hee.tileentity.base.TileEntityAbstractTable;
 
 public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	private static final int[] slotsAll = new int[]{ 0 };

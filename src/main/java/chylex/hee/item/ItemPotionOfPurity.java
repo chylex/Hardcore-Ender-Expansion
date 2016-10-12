@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
+import chylex.hee.item.base.ItemAbstractPotion;
 import chylex.hee.mechanics.curse.ICurseCaller;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 

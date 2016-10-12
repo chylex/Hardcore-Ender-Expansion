@@ -132,9 +132,10 @@ public class EntityMobFireGolem extends EntityMob{
 		if (!worldObj.isRemote && source.isExplosion() && teleportCooldown == 0){
 			teleportCooldown = 45;
 
+			/* TODO convert to MobTeleporter
 			Vec3 look = getLookVec();
-			double xx, yy, zz; // TODO convert to MobTeleporter
-			/*BlockPosM tmpPos = BlockPosM.tmp();
+			double xx, yy, zz;
+			BlockPosM tmpPos = BlockPosM.tmp();
 			
 			for(int attempt = 0; attempt < 300; attempt++){
 				xx = posX+look.xCoord*3F+rand.nextDouble()*18D-9D;

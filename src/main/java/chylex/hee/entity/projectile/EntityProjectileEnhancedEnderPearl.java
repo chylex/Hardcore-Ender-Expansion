@@ -31,9 +31,9 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 		this.enhancements = enhancements;
 		
 		if (thrower instanceof EntityPlayer){
-			EntityPlayer player = (EntityPlayer)thrower;
+			/* TODO EntityPlayer player = (EntityPlayer)thrower;
 			
-			/* TODO if (pearlTypes.contains(EnderPearlEnhancements.RIDING)){
+			if (pearlTypes.contains(EnderPearlEnhancements.RIDING)){
 				ride = (EntityPlayer)thrower;
 				
 				for(Object o:world.loadedEntityList){

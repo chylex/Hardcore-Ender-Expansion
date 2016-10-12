@@ -1,4 +1,4 @@
-package chylex.hee.block;
+package chylex.hee.block.base;
 import net.minecraft.block.BlockOre;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;

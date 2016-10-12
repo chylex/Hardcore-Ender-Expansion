@@ -12,6 +12,8 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C10ParticleEnergyTransfer;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.ColorUtil;
+import chylex.hee.tileentity.base.TileEntityAbstractEnergyInventory;
+import chylex.hee.tileentity.base.TileEntityAbstractSynchronized;
 
 public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	private EnergyClusterData data;

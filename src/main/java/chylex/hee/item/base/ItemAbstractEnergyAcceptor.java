@@ -1,4 +1,4 @@
-package chylex.hee.item;
+package chylex.hee.item.base;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

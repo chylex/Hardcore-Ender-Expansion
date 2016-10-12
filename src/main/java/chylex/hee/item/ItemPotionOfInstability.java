@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import chylex.hee.item.base.ItemAbstractPotion;
 import chylex.hee.mechanics.brewing.AbstractPotionData;
 import chylex.hee.mechanics.brewing.PotionTypes;
 import chylex.hee.mechanics.brewing.TimedPotion;

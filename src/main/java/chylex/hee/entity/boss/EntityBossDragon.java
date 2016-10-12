@@ -44,8 +44,6 @@ import chylex.hee.entity.boss.dragon.managers.DragonShotManager;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.game.commands.DebugBoard;
 import chylex.hee.game.commands.HeeDebugCommand;
-import chylex.hee.game.save.SaveData;
-import chylex.hee.game.save.types.global.DragonFile;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
@@ -200,7 +198,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			}
 			
 			if (loadTimer == 0 && !angryStatus && ticksExisted%10 == 0){
-				DragonFile save = SaveData.global(DragonFile.class);
+				// TODO DragonFile save = SaveData.global(DragonFile.class);
 				
 				if (/* TODO save.countCrystals() <= 2 || */attacks.getHealthPercentage() <= 80){
 					setAngry(true);
@@ -249,10 +247,10 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					int perc = attacks.getHealthPercentage();
 					
 					if (perc < 40 && rand.nextInt(500-(50-perc)*8) == 0){
-						int x = (int)posX+rand.nextInt(301)-150, z = (int)posZ+rand.nextInt(301)-150;
+						/* TODO int x = (int)posX+rand.nextInt(301)-150, z = (int)posZ+rand.nextInt(301)-150;
 						int y = 1+DragonUtil.getTopBlockY(worldObj, Blocks.end_stone, x, z);
 						
-						/* TODO EntityMobAngryEnderman buddy = new EntityMobAngryEnderman(worldObj);
+						EntityMobAngryEnderman buddy = new EntityMobAngryEnderman(worldObj);
 						buddy.setPosition(x, y, z);
 						
 						worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(worldObj, x, y, z));

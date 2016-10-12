@@ -22,6 +22,7 @@ import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.player.RespawnFile;
+import chylex.hee.item.base.ItemAbstractEnergyAcceptor;
 import chylex.hee.system.abstractions.nbt.NBT;
 import chylex.hee.system.abstractions.nbt.NBTCompound;
 import chylex.hee.system.util.MathUtil;

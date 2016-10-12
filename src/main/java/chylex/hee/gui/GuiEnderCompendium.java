@@ -26,7 +26,7 @@ import chylex.hee.mechanics.compendium.elements.CompendiumObjectElement;
 import chylex.hee.mechanics.compendium.handlers.CompendiumPageHandler;
 import chylex.hee.mechanics.compendium.handlers.CompendiumScrollHandler;
 import chylex.hee.mechanics.compendium.handlers.CompendiumTabHandler;
-import chylex.hee.packets.AbstractPacket;
+import chylex.hee.packets.IPacket;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.GL;
@@ -324,7 +324,7 @@ public class GuiEnderCompendium extends GuiScreen{
 		return pausesGame;
 	}
 	
-	public static final void sendPacketToServer(AbstractPacket packet){
+	public static final void sendPacketToServer(IPacket packet){
 		if (Minecraft.getMinecraft().isSingleplayer()){
 			wasPaused = pausesGame;
 			pausesGame = false;

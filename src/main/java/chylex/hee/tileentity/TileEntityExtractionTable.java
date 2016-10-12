@@ -4,6 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.energy.EnergyValues;
+import chylex.hee.tileentity.base.TileEntityAbstractTable;
 
 public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	public static final int slotStardust = 0, slotOrb = 1, slotSubject = 2;

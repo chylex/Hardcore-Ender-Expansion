@@ -2,7 +2,7 @@ package chylex.hee.api.message;
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.nbt.NBTTagCompound;
-import chylex.hee.api.message.handlers.ImcHandler;
+import chylex.hee.api.handlers.ImcHandler;
 import chylex.hee.api.message.utils.MessageLogger;
 import chylex.hee.api.message.utils.RunEvent;
 import com.google.common.collect.ImmutableMap;

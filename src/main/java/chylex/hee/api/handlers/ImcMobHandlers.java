@@ -1,4 +1,4 @@
-package chylex.hee.api.message.handlers;
+package chylex.hee.api.handlers;
 import chylex.hee.api.message.IMessageHandler;
 import chylex.hee.api.message.element.SpawnEntryValue;
 import chylex.hee.api.message.utils.MessageLogger;

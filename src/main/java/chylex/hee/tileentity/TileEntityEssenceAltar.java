@@ -30,6 +30,7 @@ import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.nbt.NBT;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.tileentity.base.TileEntityAbstractSynchronized;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
