@@ -6,6 +6,10 @@ import net.minecraft.nbt.NBTTagCompound;
 public final class NBT{
 	private static final NBTCompound dummyTag = new NBTCompound(new NBTTagCompoundDummy());
 	
+	public static NBTCompound dummy(){
+		return dummyTag;
+	}
+	
 	public static NBTCompound wrap(NBTTagCompound tag){
 		return new NBTCompound(tag);
 	}
