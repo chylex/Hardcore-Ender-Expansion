@@ -21,6 +21,10 @@ public class Stack{
 	
 	// Static constructors
 	
+	public static final Stack empty(){
+		return new Stack(null);
+	}
+	
 	public static final Stack of(ItemStack is){
 		return new Stack(is);
 	}
@@ -37,12 +41,20 @@ public class Stack{
 		return new Stack(new ItemStack(blockInfo.block, amount, blockInfo.meta));
 	}
 	
+	public static final Stack of(Block block){
+		return of(block, 0, 1);
+	}
+	
 	public static final Stack of(Block block, int meta){
 		return of(block, meta, 1);
 	}
 	
 	public static final Stack of(Block block, int meta, int amount){
 		return new Stack(new ItemStack(block, amount, meta));
+	}
+	
+	public static final Stack of(Item item){
+		return of(item, 0, 1);
 	}
 	
 	public static final Stack of(Item item, int damage){
